@@ -8,23 +8,23 @@ import net.minecraftforge.common.DimensionManager;
 
 public class BlockHelperCommonProxy {
 
-	public void registerRenderers() {
-	}
+    public void registerRenderers() {
+    }
 
-	public EntityPlayer getPlayer() {
-		return null;
-	}
+    public EntityPlayer getPlayer() {
+        return null;
+    }
 
-	public World getWorld() {
-		return DimensionManager.getWorlds()[0];
-	}
+    public World getWorld() {
+        return DimensionManager.getWorlds()[0];
+    }
 
-	public void load(mod_BlockHelper instance) {
-		mod_BlockHelper.isClient = false;
-		ModLoader.setInGameHook(instance, true, false);
-		NetworkRegistry.instance().registerChannel(instance, mod_BlockHelper.CHANNEL);
-		Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
-		versionCheckThread.start();
-	}
+    public void load(mod_BlockHelper instance) {
+        mod_BlockHelper.isClient = false;
+        ModLoader.setInGameHook(instance, true, false);
+        NetworkRegistry.instance().registerChannel(instance, mod_BlockHelper.CHANNEL);
+        Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
+        versionCheckThread.start();
+    }
 
 }
