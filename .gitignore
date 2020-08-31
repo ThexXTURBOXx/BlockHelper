@@ -10,6 +10,7 @@ cpw/
 ibxm/
 net/
 paulscode/
+argo/
 
 # MC/Forge files #
 fml_at.cfg
@@ -20,3 +21,5 @@ forge_logo.png
 mcp.png
 mcpmod.info
 Start.java
+gk.java
+mod_MinecraftForge.info

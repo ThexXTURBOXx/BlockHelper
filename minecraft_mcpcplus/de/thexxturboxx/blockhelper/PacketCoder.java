@@ -1,12 +1,13 @@
 package de.thexxturboxx.blockhelper;
 
+import forge.DimensionManager;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraft.server.Entity;
+import net.minecraft.server.MovingObjectPosition;
+import net.minecraft.server.Vec3D;
+import net.minecraft.server.World;
 
 class PacketCoder {
 
@@ -18,16 +19,17 @@ class PacketCoder {
             MopType mt = MopType.values()[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = DimensionManager.getProvider(dimId).worldObj;
+                World w = DimensionManager.getWorld(dimId);
                 int entityId = is.readInt();
-                if (w.getEntityByID(entityId) != null)
-                    mop = new MovingObjectPosition(w.getEntityByID(entityId));
+                Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
+                if (entity != null)
+                    mop = new MovingObjectPosition(entity);
                 else
                     mop = null;
                 return new PacketInfo(dimId, mop, mt, entityId);
             } else {
                 mop = new MovingObjectPosition(is.readInt(), is.readInt(), is.readInt(), is.readInt(),
-                        Vec3.createVectorHelper(is.readInt(), is.readInt(), is.readInt()));
+                        Vec3D.a(is.readInt(), is.readInt(), is.readInt()));
                 return new PacketInfo(dimId, mop, mt);
             }
         case 1:
@@ -70,13 +72,13 @@ class PacketCoder {
             if (pi.mt == MopType.ENTITY) {
                 os.writeInt(pi.entityId);
             } else {
-                os.writeInt(pi.mop.blockX);
-                os.writeInt(pi.mop.blockY);
-                os.writeInt(pi.mop.blockZ);
-                os.writeInt(pi.mop.sideHit);
-                os.writeInt((int) pi.mop.hitVec.xCoord);
-                os.writeInt((int) pi.mop.hitVec.yCoord);
-                os.writeInt((int) pi.mop.hitVec.zCoord);
+                os.writeInt(pi.mop.b);
+                os.writeInt(pi.mop.c);
+                os.writeInt(pi.mop.d);
+                os.writeInt(pi.mop.face);
+                os.writeInt((int) pi.mop.pos.a);
+                os.writeInt((int) pi.mop.pos.b);
+                os.writeInt((int) pi.mop.pos.c);
             }
         } else if (mod_BlockHelper.iof(o, "java.lang.String")) {
             os.writeByte(1);
