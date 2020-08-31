@@ -3,7 +3,7 @@ package de.thexxturboxx.blockhelper;
 import java.util.HashMap;
 import java.util.Map;
 
-class PacketClient {
+class PacketClient implements InfoHolder {
 
     public Map<Byte, String> data;
 
@@ -11,10 +11,12 @@ class PacketClient {
         data = new HashMap<Byte, String>();
     }
 
+    @Override
     public PacketClient add(int i, String data) {
         return add((byte) i, data);
     }
 
+    @Override
     public PacketClient add(byte i, String data) {
         this.data.put(i, data);
         return this;
