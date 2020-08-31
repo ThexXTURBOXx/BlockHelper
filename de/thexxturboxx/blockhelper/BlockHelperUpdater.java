@@ -4,15 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
 
 public class BlockHelperUpdater implements Runnable {
 
+    private static final String JSON_URL = "https://raw.githubusercontent.com/ThexXTURBOXx/UpdateJSONs/master/blockhelper.json";
     private static boolean isLatestVersion = true;
     private static String latestVersion = "";
+    private static boolean firstTickUpdater = true;
 
     /**
      * Let the Version Checker run
@@ -20,12 +22,8 @@ public class BlockHelperUpdater implements Runnable {
     @Override
     public void run() {
         InputStream in = null;
-        String jsonUrl = "https://raw.githubusercontent.com/ThexXTURBOXx/UpdateJSONs/master/blockhelper.json";
         try {
-            in = new URL(jsonUrl).openStream();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            System.out.println("Update check for " + mod_BlockHelper.NAME + " failed.");
+            in = new URL(JSON_URL).openStream();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Update check for " + mod_BlockHelper.NAME + " failed.");
@@ -90,6 +88,22 @@ public class BlockHelperUpdater implements Runnable {
             line = readers.readLine();
         }
         return list;
+    }
+
+    static void notifyUpdater(Minecraft mc) {
+        if (firstTickUpdater) {
+            if (!BlockHelperUpdater.isLatestVersion()) {
+                if (BlockHelperUpdater.getLatestVersion().equals(mod_BlockHelper.VERSION)) {
+                    mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §4Update Check failed.");
+                } else {
+                    mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §bNew version available: §c"
+                            + mod_BlockHelper.VERSION + " §6==> §2" + BlockHelperUpdater.getLatestVersion());
+                }
+                firstTickUpdater = false;
+            } else if (!BlockHelperUpdater.getLatestVersionOrEmpty().equals("")) {
+                firstTickUpdater = false;
+            }
+        }
     }
 
 }
