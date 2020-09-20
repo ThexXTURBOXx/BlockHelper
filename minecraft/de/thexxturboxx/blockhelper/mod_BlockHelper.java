@@ -47,6 +47,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     static final String CHANNEL = "BlockHelperInfo";
     public static boolean isClient;
 
+    private boolean isHidden = false;
+
     public static BlockHelperCommonProxy proxy;
 
     public static String getModId() {
@@ -83,7 +85,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public boolean onTickInGame(float time, Minecraft mc) {
         try {
             BlockHelperUpdater.notifyUpdater(mc);
-            if (mc.currentScreen != null)
+            updateKeyState();
+            if (mc.currentScreen != null || isHidden)
                 return true;
             int i = isLookingAtBlock(mc);
             if (i == 0)
@@ -207,6 +210,12 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             e.printStackTrace();
         }
         return true;
+    }
+
+    private void updateKeyState() {
+        if (BlockHelperClientProxy.showHide.isPressed()) {
+            isHidden = !isHidden;
+        }
     }
 
     private int getStringMid(int[] xy, String s, Minecraft mc) {
