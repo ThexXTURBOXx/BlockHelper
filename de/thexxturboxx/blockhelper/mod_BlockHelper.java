@@ -47,6 +47,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     static final String CHANNEL = "BlockHelperInfo";
     public static boolean isClient;
 
+    private boolean isHidden = false;
+
     @SidedProxy(clientSide = PACKAGE + "BlockHelperClientProxy", serverSide = PACKAGE + "BlockHelperCommonProxy")
     public static BlockHelperCommonProxy proxy;
 
@@ -74,7 +76,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         try {
             BlockHelperUpdater.notifyUpdater(mc);
             if (mc.theWorld.isRemote) {
-                if (mc.currentScreen != null)
+                updateKeyState();
+                if (mc.currentScreen != null || isHidden)
                     return true;
                 int i = isLookingAtBlock(mc);
                 if (i == 0)
@@ -218,6 +221,12 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private void updateKeyState() {
+        if (BlockHelperClientProxy.showHide.isPressed()) {
+            isHidden = !isHidden;
+        }
     }
 
     private int getStringMid(int[] xy, String s, Minecraft mc) {
