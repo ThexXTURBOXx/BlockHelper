@@ -18,6 +18,7 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Gui;
 import net.minecraft.src.Item;
@@ -195,8 +196,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 xy = drawBox(mc);
                 currLine = 12;
                 infos.clear();
-                // TODO
-                addInfo(e.getTexture());
+                addInfo(EntityList.getEntityString(e));
                 addInfo(BlockHelperPackets.infosl);
                 drawInfo(xy, mc);
                 break;
