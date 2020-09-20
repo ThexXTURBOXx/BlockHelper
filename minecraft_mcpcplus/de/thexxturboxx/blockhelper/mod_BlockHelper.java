@@ -19,20 +19,17 @@ import net.minecraft.server.EntityLiving;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet250CustomPayload;
-import net.minecraft.server.SidedProxy;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
-    private static final String PACKAGE = "de.thexxturboxx.blockhelper.";
     private static final String MOD_ID = "BlockHelper";
     static final String NAME = "Block Helper";
     static final String VERSION = "0.8.3";
     static final String CHANNEL = "BlockHelperInfo";
     public static boolean isClient;
 
-    @SidedProxy(clientSide = PACKAGE + "BlockHelperClientProxy", serverSide = PACKAGE + "BlockHelperCommonProxy")
     public static BlockHelperCommonProxy proxy;
 
     public static String getModId() {
@@ -51,6 +48,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @Override
     public void load() {
+        proxy = new BlockHelperCommonProxy();
         proxy.load(this);
     }
 
