@@ -1,7 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
 import buildcraft.transport.TileGenericPipe;
-import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import factorization.common.TileEntityCommon;
@@ -36,6 +35,7 @@ import net.minecraft.src.forge.DimensionManager;
 import net.minecraft.src.forge.IConnectionHandler;
 import net.minecraft.src.forge.IPacketHandler;
 import net.minecraft.src.forge.MessageManager;
+import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.NetworkMod;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
@@ -321,13 +321,13 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
-                if (isClient && FMLCommonHandler.instance().getSide().isClient()) {
+                if (isClient && MinecraftForge.isClient()) {
                     try {
                         BlockHelperPackets.setInfo((PacketClient) PacketCoder.decode(is));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else if (FMLCommonHandler.instance().getSide().isServer()) {
+                } else {
                     PacketInfo pi = null;
                     try {
                         pi = (PacketInfo) PacketCoder.decode(is);

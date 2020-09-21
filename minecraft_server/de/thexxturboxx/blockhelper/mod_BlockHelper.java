@@ -28,7 +28,6 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     static final String NAME = "Block Helper";
     static final String VERSION = "0.8.3";
     static final String CHANNEL = "BlockHelperInfo";
-    public static boolean isClient;
 
     public static BlockHelperCommonProxy proxy;
 

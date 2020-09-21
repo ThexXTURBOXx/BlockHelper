@@ -23,3 +23,6 @@ mcpmod.info
 Start.java
 gk.java
 mod_MinecraftForge.info
+
+# IntelliJ IDEA #
+*.iml

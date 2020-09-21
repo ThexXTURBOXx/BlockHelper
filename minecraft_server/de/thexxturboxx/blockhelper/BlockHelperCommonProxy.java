@@ -20,7 +20,6 @@ public class BlockHelperCommonProxy {
     }
 
     public void load(mod_BlockHelper instance) {
-        mod_BlockHelper.isClient = false;
         MinecraftForge.registerConnectionHandler(instance);
         ModLoader.setInGameHook(instance, true, false);
         FMLCommonHandler.instance().registerChannel(ModLoaderModContainer.findContainerFor(instance), mod_BlockHelper.CHANNEL);
