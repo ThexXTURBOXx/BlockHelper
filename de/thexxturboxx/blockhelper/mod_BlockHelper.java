@@ -26,6 +26,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
@@ -198,7 +199,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     xy = drawBox(mc);
                     currLine = 12;
                     infos.clear();
-                    addInfo(e.getEntityName());
+                    String nameEntity = e.getEntityName();
+                    if (e instanceof IMob) {
+                        nameEntity = "§4" + nameEntity;
+                    }
+                    addInfo(nameEntity);
                     addInfo(BlockHelperPackets.infosl);
                     drawInfo(xy, mc);
                     break;
