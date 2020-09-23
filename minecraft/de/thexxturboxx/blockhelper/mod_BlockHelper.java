@@ -21,6 +21,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Gui;
+import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
@@ -204,7 +205,11 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 xy = drawBox(mc);
                 currLine = 12;
                 infos.clear();
-                addInfo(EntityList.getEntityString(e));
+                String nameEntity = EntityList.getEntityString(e);
+                if (e instanceof IMob) {
+                    nameEntity = "§4" + nameEntity;
+                }
+                addInfo(nameEntity);
                 addInfo(BlockHelperPackets.infosl);
                 drawInfo(xy, mc);
                 break;
