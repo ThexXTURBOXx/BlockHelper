@@ -1,7 +1,8 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import buildcraft.api.ILiquidContainer;
+import buildcraft.api.IPowerReceptor;
 import buildcraft.energy.TileEngine;
-import buildcraft.factory.TileMachine;
 import buildcraft.factory.TileTank;
 import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
@@ -35,28 +36,27 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (!loaded) {
             return;
         }
-        if (iof(te, "buildcraft.energy.TileEngine")) {
+        if (iof(te, "buildcraft.api.IPowerReceptor")) {
+            info.add(1, ((IPowerReceptor) te).getPowerProvider().energyStored + " MJ / "
+                    + ((IPowerReceptor) te).getPowerProvider().maxEnergyStored + " MJ");
+        } else if (iof(te, "buildcraft.energy.TileEngine")) {
             if (((TileEngine) te).engine != null) {
-                info.add(1, ((TileEngine) te).engine.energy + " MJ / "
-                        + ((TileEngine) te).engine.maxEnergy + " MJ");
+                info.add(2, ((TileEngine) te).engine.energy + " MJ/t");
             }
-        } else if (iof(te, "buildcraft.factory.TileMachine")) {
-            info.add(1, ((TileMachine) te).getPowerProvider().energyStored + " MJ / "
-                    + ((TileMachine) te).getPowerProvider().maxEnergyStored + " MJ");
-        } else if (iof(te, "buildcraft.factory.TileTank")) {
-            if (((TileTank) te).stored > 0) {
+        } else if (iof(te, "buildcraft.api.ILiquidContainer")) {
+            if (((ILiquidContainer) te).getLiquidQuantity() > 0) {
                 if (CAPACITY) {
-                    info.add(1, ((TileTank) te).stored + " mB / "
-                            + ((TileTank) te).getCapacity() + " mB");
+                    info.add(1, ((ILiquidContainer) te).getLiquidQuantity() + " mB / "
+                            + ((ILiquidContainer) te).getCapacity() + " mB");
                 } else {
-                    info.add(1, ((TileTank) te).stored + " mB / "
-                            + ((TileTank) te).getTankCapacity() + " mB");
+                    info.add(1, ((ILiquidContainer) te).getLiquidQuantity() + " mB / "
+                            + ((ILiquidContainer) te).getTankCapacity() + " mB");
                 }
             } else {
                 if (CAPACITY) {
-                    info.add(1, "0 mB / " + ((TileTank) te).getCapacity() + " mB");
+                    info.add(1, "0 mB / " + ((ILiquidContainer) te).getCapacity() + " mB");
                 } else {
-                    info.add(1, "0 mB / " + ((TileTank) te).getTankCapacity() + " mB");
+                    info.add(1, "0 mB / " + ((ILiquidContainer) te).getTankCapacity() + " mB");
                 }
             }
         }
