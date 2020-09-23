@@ -7,7 +7,6 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
-import net.minecraft.src.forge.DimensionManager;
 
 class PacketCoder {
 
@@ -19,7 +18,7 @@ class PacketCoder {
             MopType mt = MopType.values()[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = DimensionManager.getProvider(dimId).worldObj;
+                World w = mod_BlockHelper.proxy.getWorld();
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)

@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,11 +32,10 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraft.src.forge.DimensionManager;
+import net.minecraft.src.WorldClient;
 import net.minecraft.src.forge.IConnectionHandler;
 import net.minecraft.src.forge.IPacketHandler;
 import net.minecraft.src.forge.MessageManager;
-import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.NetworkMod;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
@@ -45,6 +45,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     static final String NAME = "Block Helper";
     static final String VERSION = "0.8.3";
     static final String CHANNEL = "BlockHelperInfo";
+    static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static boolean isClient;
 
     private boolean isHidden = false;
@@ -106,11 +107,15 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 e1.printStackTrace();
             }
             byte[] fieldData = buffer.toByteArray();
-            Packet250CustomPayload packet = new Packet250CustomPayload();
-            packet.channel = CHANNEL;
-            packet.data = fieldData;
-            packet.length = fieldData.length;
-            ModLoader.sendPacket(packet);
+            if (proxy.getWorld().isRemote) {
+                Packet250CustomPayload packet = new Packet250CustomPayload();
+                packet.channel = CHANNEL;
+                packet.data = fieldData;
+                packet.length = fieldData.length;
+                ModLoader.sendPacket(packet);
+            } else {
+                onPacketData(null, CHANNEL_SSP, fieldData);
+            }
             switch (i) {
             case 1:
                 int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
@@ -321,76 +326,84 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
-                if (isClient && MinecraftForge.isClient()) {
-                    try {
-                        BlockHelperPackets.setInfo((PacketClient) PacketCoder.decode(is));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    PacketInfo pi = null;
-                    try {
-                        pi = (PacketInfo) PacketCoder.decode(is);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    if (pi == null || pi.mop == null)
-                        return;
-                    World w = DimensionManager.getProvider(pi.dimId).worldObj;
-                    if (pi.mt == MopType.ENTITY) {
-                        Entity en = getEntityByID(w, pi.entityId);
-                        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                        DataOutputStream os = new DataOutputStream(buffer);
-                        PacketClient pc = new PacketClient();
-                        if (en != null) {
-                            try {
-                                pc.add((byte) 0, (((EntityLiving) en).getHealth() + " \u2764 / "
-                                        + ((EntityLiving) en).getMaxHealth() + " \u2764"));
-                                PacketCoder.encode(os, pc);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (Throwable e) {
-                                try {
-                                    PacketCoder.encode(os, pc.add((byte) 0, ""));
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
-                                }
-                            }
-                        } else {
+                try {
+                    BlockHelperPackets.setInfo((PacketClient) PacketCoder.decode(is));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (channel.equals(CHANNEL_SSP)) {
+                ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
+                DataInputStream is = new DataInputStream(isRaw);
+                PacketInfo pi = null;
+                try {
+                    pi = (PacketInfo) PacketCoder.decode(is);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                World w = proxy.getWorld();
+                if (pi == null || pi.mop == null || w == null)
+                    return;
+                if (pi.mt == MopType.ENTITY) {
+                    Entity en = getEntityByID(w, pi.entityId);
+                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                    DataOutputStream os = new DataOutputStream(buffer);
+                    PacketClient pc = new PacketClient();
+                    if (en != null) {
+                        try {
+                            pc.add((byte) 0, (((EntityLiving) en).getHealth() + " \u2764 / "
+                                    + ((EntityLiving) en).getMaxHealth() + " \u2764"));
+                            PacketCoder.encode(os, pc);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (Throwable e) {
                             try {
                                 PacketCoder.encode(os, pc.add((byte) 0, ""));
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
                             }
                         }
-                        byte[] fieldData = buffer.toByteArray();
-                        Packet250CustomPayload packet = new Packet250CustomPayload();
-                        packet.channel = CHANNEL;
-                        packet.data = fieldData;
-                        packet.length = fieldData.length;
-                        ModLoader.sendPacket(packet);
-                    } else if (pi.mt == MopType.BLOCK) {
-                        TileEntity te = w.getBlockTileEntity(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
-                        int bId = w.getBlockId(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
-                        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                        DataOutputStream os = new DataOutputStream(buffer);
-                        PacketClient info = new PacketClient();
-                        if (bId > 0) {
-                            int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
-                            Block b = Block.blocksList[bId];
-                            BlockHelperModSupport.addInfo(info, b, bId, meta, te);
-                        }
+                    } else {
                         try {
-                            PacketCoder.encode(os, info);
+                            PacketCoder.encode(os, pc.add((byte) 0, ""));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        byte[] fieldData = buffer.toByteArray();
+                    }
+                    byte[] fieldData = buffer.toByteArray();
+                    if (w.isRemote) {
                         Packet250CustomPayload packet = new Packet250CustomPayload();
                         packet.channel = CHANNEL;
                         packet.data = fieldData;
                         packet.length = fieldData.length;
                         ModLoader.sendPacket(packet);
+                    } else {
+                        onPacketData(null, CHANNEL, fieldData);
+                    }
+                } else if (pi.mt == MopType.BLOCK) {
+                    TileEntity te = w.getBlockTileEntity(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
+                    int bId = w.getBlockId(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
+                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                    DataOutputStream os = new DataOutputStream(buffer);
+                    PacketClient info = new PacketClient();
+                    if (bId > 0) {
+                        int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
+                        Block b = Block.blocksList[bId];
+                        BlockHelperModSupport.addInfo(info, b, bId, meta, te);
+                    }
+                    try {
+                        PacketCoder.encode(os, info);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    byte[] fieldData = buffer.toByteArray();
+                    if (w.isRemote) {
+                        Packet250CustomPayload packet = new Packet250CustomPayload();
+                        packet.channel = CHANNEL;
+                        packet.data = fieldData;
+                        packet.length = fieldData.length;
+                        ModLoader.sendPacket(packet);
+                    } else {
+                        onPacketData(null, CHANNEL, fieldData);
                     }
                 }
             }
@@ -414,9 +427,26 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @SuppressWarnings("unchecked")
     static Entity getEntityByID(World w, int entityId) {
-        for (Entity e : (List<Entity>) w.getLoadedEntityList()) {
-            if (e.entityId == entityId) {
-                return e;
+        List<Entity> list = (List<Entity>) w.getLoadedEntityList();
+        if (list != null) {
+            for (Entity e : list) {
+                if (e.entityId == entityId) {
+                    return e;
+                }
+            }
+        }
+        if (w instanceof WorldClient) {
+            try {
+                Field f = ((WorldClient) w).getClass().getDeclaredField("entityList");
+                f.setAccessible(true);
+                list = (List<Entity>) f.get(w);
+                for (Entity e : list) {
+                    if (e.entityId == entityId) {
+                        return e;
+                    }
+                }
+            } catch (IllegalAccessException ignored) {
+            } catch (NoSuchFieldException ignored) {
             }
         }
         return null;
