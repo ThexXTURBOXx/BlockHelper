@@ -133,7 +133,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     } else if (iof(te, "buildcraft.transport.TileGenericPipe")) {
                         TileGenericPipe pipe = (TileGenericPipe) te;
                         ct = "BuildCraft";
-                        if (pipe.pipe != null && pipe.initialized) {
+                        if (pipe.pipe != null) {
                             is = new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
                         }
                     }
@@ -163,7 +163,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                             if (b != null) {
                                 Item it = Item.itemsList[b.idDropped(meta, rnd, 0)];
                                 ItemStack stack = new ItemStack(it, 1,
-                                        damageDropped(b, mc.theWorld, 1, 1, 1, meta));
+                                        damageDropped(b, mc.theWorld, mop.blockX, mop.blockY, mop.blockZ, meta));
                                 name = it.getItemDisplayName(stack);
                             }
                             if (name.equals(""))
