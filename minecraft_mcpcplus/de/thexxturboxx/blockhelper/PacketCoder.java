@@ -1,6 +1,5 @@
 package de.thexxturboxx.blockhelper;
 
-import forge.DimensionManager;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,7 +18,7 @@ class PacketCoder {
             MopType mt = MopType.values()[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = DimensionManager.getWorld(dimId);
+                World w = mod_BlockHelper.proxy.getWorld();
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)
@@ -29,7 +28,7 @@ class PacketCoder {
                 return new PacketInfo(dimId, mop, mt, entityId);
             } else {
                 mop = new MovingObjectPosition(is.readInt(), is.readInt(), is.readInt(), is.readInt(),
-                        Vec3D.a(is.readInt(), is.readInt(), is.readInt()));
+                        Vec3D.create(is.readInt(), is.readInt(), is.readInt()));
                 return new PacketInfo(dimId, mop, mt);
             }
         case 1:
@@ -41,22 +40,15 @@ class PacketCoder {
             return new String(data);
         case 2:
             PacketClient pc = new PacketClient();
-            for (int i = 0; i <= 32; i++) {
-                if (pc.get(i) == null) {
-                    pc.add(i, "");
-                }
-            }
             short size = is.readShort();
             int c = 0;
-            while (c < size) {
-                byte types = is.readByte();
+            while (c++ < size) {
                 length = is.readShort();
                 data = new char[length];
                 for (int i = 0; i < length; i++) {
                     data[i] = is.readChar();
                 }
-                pc.add(types, new String(data));
-                c++;
+                pc.add(new String(data));
             }
             return pc;
         }
@@ -75,7 +67,7 @@ class PacketCoder {
                 os.writeInt(pi.mop.b);
                 os.writeInt(pi.mop.c);
                 os.writeInt(pi.mop.d);
-                os.writeInt(pi.mop.face);
+                os.writeInt(pi.mop.subHit);
                 os.writeInt((int) pi.mop.pos.a);
                 os.writeInt((int) pi.mop.pos.b);
                 os.writeInt((int) pi.mop.pos.c);
@@ -89,11 +81,9 @@ class PacketCoder {
             os.writeByte(2);
             PacketClient pc = (PacketClient) o;
             os.writeShort(pc.data.size());
-            for (byte b : pc.data.keySet()) {
-                os.writeByte(b);
-                String oa = pc.data.get(b);
-                os.writeShort(oa.length());
-                os.writeChars(oa);
+            for (String s : pc.data) {
+                os.writeShort(s.length());
+                os.writeChars(s);
             }
         }
     }

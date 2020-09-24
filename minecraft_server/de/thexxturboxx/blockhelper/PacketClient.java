@@ -1,24 +1,19 @@
 package de.thexxturboxx.blockhelper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 class PacketClient implements InfoHolder {
 
-    public Map<Byte, String> data;
+    public List<String> data;
 
     PacketClient() {
-        data = new HashMap<Byte, String>();
+        data = new ArrayList<String>();
     }
 
     @Override
-    public PacketClient add(int i, String data) {
-        return add((byte) i, data);
-    }
-
-    @Override
-    public PacketClient add(byte i, String data) {
-        this.data.put(i, data);
+    public PacketClient add(String data) {
+        this.data.add(data);
         return this;
     }
 

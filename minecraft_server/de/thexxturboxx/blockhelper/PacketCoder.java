@@ -7,7 +7,6 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
-import net.minecraft.src.forge.DimensionManager;
 
 class PacketCoder {
 
@@ -19,7 +18,7 @@ class PacketCoder {
             MopType mt = MopType.values()[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = DimensionManager.getWorld(dimId);
+                World w = mod_BlockHelper.proxy.getWorld();
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)
@@ -41,22 +40,15 @@ class PacketCoder {
             return new String(data);
         case 2:
             PacketClient pc = new PacketClient();
-            for (int i = 0; i <= 32; i++) {
-                if (pc.get(i) == null) {
-                    pc.add(i, "");
-                }
-            }
             short size = is.readShort();
             int c = 0;
-            while (c < size) {
-                byte types = is.readByte();
+            while (c++ < size) {
                 length = is.readShort();
                 data = new char[length];
                 for (int i = 0; i < length; i++) {
                     data[i] = is.readChar();
                 }
-                pc.add(types, new String(data));
-                c++;
+                pc.add(new String(data));
             }
             return pc;
         }
@@ -89,11 +81,9 @@ class PacketCoder {
             os.writeByte(2);
             PacketClient pc = (PacketClient) o;
             os.writeShort(pc.data.size());
-            for (byte b : pc.data.keySet()) {
-                os.writeByte(b);
-                String oa = pc.data.get(b);
-                os.writeShort(oa.length());
-                os.writeChars(oa);
+            for (String s : pc.data) {
+                os.writeShort(s.length());
+                os.writeChars(s);
             }
         }
     }

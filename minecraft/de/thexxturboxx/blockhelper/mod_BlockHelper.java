@@ -195,7 +195,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 addInfo(name);
                 addInfo(itemId);
                 addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
-                addInfo(BlockHelperPackets.infosl);
+                addInfo(packetInfos);
                 addInfo((harvestable ? "§a\u2714" : "§4\u2718") + " §r" + harvest);
                 drawInfo(xy, mc);
                 break;
@@ -210,7 +210,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     nameEntity = "§4" + nameEntity;
                 }
                 addInfo(nameEntity);
-                addInfo(BlockHelperPackets.infosl);
+                addInfo(packetInfos);
                 drawInfo(xy, mc);
                 break;
             default:
@@ -273,6 +273,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         }
     }
 
+    private static List<String> packetInfos = new ArrayList<String>();
     private static final List<FormatString> infos = new ArrayList<FormatString>();
 
     private void addInfo(List<String> info) {
@@ -332,7 +333,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
                 try {
-                    BlockHelperPackets.setInfo((PacketClient) PacketCoder.decode(is));
+                    packetInfos = ((PacketClient) PacketCoder.decode(is)).data;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -355,21 +356,21 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     PacketClient pc = new PacketClient();
                     if (en != null) {
                         try {
-                            pc.add((byte) 0, (((EntityLiving) en).getHealth() + " \u2764 / "
-                                    + ((EntityLiving) en).getMaxHealth() + " \u2764"));
+                            pc.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                    + ((EntityLiving) en).getMaxHealth() + " \u2764");
                             PacketCoder.encode(os, pc);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (Throwable e) {
                             try {
-                                PacketCoder.encode(os, pc.add((byte) 0, ""));
+                                PacketCoder.encode(os, pc);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         }
                     } else {
                         try {
-                            PacketCoder.encode(os, pc.add((byte) 0, ""));
+                            PacketCoder.encode(os, pc);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

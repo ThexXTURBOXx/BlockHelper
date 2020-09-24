@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.api;
 
 import de.thexxturboxx.blockhelper.InfoHolder;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.server.Block;
@@ -29,6 +30,16 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
 
     protected boolean iof(Object obj, String clazz) {
         return isLoadedAndInstanceOf(obj, clazz);
+    }
+
+    protected Method getMethod(Object obj, String method) {
+        try {
+            Method m = obj.getClass().getMethod(method);
+            m.setAccessible(true);
+            return m;
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
     }
 
     @Override

@@ -2,61 +2,56 @@ package de.thexxturboxx.blockhelper.integration;
 
 import buildcraft.api.ILiquidContainer;
 import buildcraft.api.IPowerReceptor;
+import buildcraft.api.LiquidSlot;
+import buildcraft.api.PowerProvider;
+import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
-import buildcraft.factory.TileTank;
 import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import net.minecraft.src.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
-    private static boolean loaded = false;
-    private static final boolean CAPACITY;
-
-    static {
-        boolean cap;
-        try {
-            Class.forName("buildcraft.factory.TileTank").getMethod("getCapacity");
-            cap = true;
-            loaded = true;
-        } catch (Throwable t) {
-            try {
-                Class.forName("buildcraft.factory.TileTank").getMethod("getTankCapacity");
-                cap = false;
-                loaded = true;
-            } catch (Throwable t1) {
-                cap = true;
-            }
-        }
-        CAPACITY = cap;
-    }
-
     @Override
     public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
-        if (!loaded) {
-            return;
-        }
-        if (iof(te, "buildcraft.api.IPowerReceptor")) {
-            info.add(1, ((IPowerReceptor) te).getPowerProvider().energyStored + " MJ / "
-                    + ((IPowerReceptor) te).getPowerProvider().maxEnergyStored + " MJ");
-        } else if (iof(te, "buildcraft.energy.TileEngine")) {
-            if (((TileEngine) te).engine != null) {
-                info.add(2, ((TileEngine) te).engine.energy + " MJ/t");
+        if (iof(te, "buildcraft.energy.TileEngine")) {
+            Engine engine = ((TileEngine) te).engine;
+            if (engine != null) {
+                info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
-        } else if (iof(te, "buildcraft.api.ILiquidContainer")) {
-            if (((ILiquidContainer) te).getLiquidQuantity() > 0) {
-                if (CAPACITY) {
-                    info.add(1, ((ILiquidContainer) te).getLiquidQuantity() + " mB / "
-                            + ((ILiquidContainer) te).getCapacity() + " mB");
-                } else {
-                    info.add(1, ((ILiquidContainer) te).getLiquidQuantity() + " mB / "
-                            + ((ILiquidContainer) te).getTankCapacity() + " mB");
+        } else if (iof(te, "buildcraft.api.IPowerReceptor")) {
+            PowerProvider prov = ((IPowerReceptor) te).getPowerProvider();
+            if (prov != null) {
+                info.add(prov.energyStored + " MJ / " + prov.maxEnergyStored + " MJ");
+            }
+        }
+        if (iof(te, "buildcraft.api.ILiquidContainer")) {
+            ILiquidContainer container = ((ILiquidContainer) te);
+            Method m = getMethod(te, "getLiquidSlots");
+            boolean flag = false;
+            if (m != null) {
+                LiquidSlot[] slots;
+                try {
+                    slots = (LiquidSlot[]) m.invoke(te);
+                    for (LiquidSlot slot : slots) {
+                        int quantity = slot.getLiquidQty();
+                        int capacity = Math.max(quantity, slot.getCapacity());
+                        if (capacity > 0 || quantity > 0) {
+                            info.add(quantity + " mB / " + capacity + " mB");
+                        }
+                    }
+                    flag = true;
+                } catch (IllegalAccessException ignored) {
+                } catch (InvocationTargetException ignored) {
                 }
-            } else {
-                if (CAPACITY) {
-                    info.add(1, "0 mB / " + ((ILiquidContainer) te).getCapacity() + " mB");
-                } else {
-                    info.add(1, "0 mB / " + ((ILiquidContainer) te).getTankCapacity() + " mB");
+            }
+            if (!flag) {
+                int quantity = container.getLiquidQuantity();
+                int capacity = Math.max(quantity, container.getCapacity());
+                if (capacity > 0 || quantity > 0) {
+                    info.add(quantity + " mB / " + capacity + " mB");
                 }
             }
         }
