@@ -14,10 +14,10 @@ public class Ic2Integration extends BlockHelperInfoProvider {
     public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
         if (iof(te, "ic2.common.TileEntityElecMachine")) {
             TileEntityElecMachine teem = ((TileEntityElecMachine) te);
-            int input = teem.maxInput;
             int energy = teem.energy;
             int maxEnergy = teem.maxEnergy;
-            int newEnergy = Math.min(maxEnergy, (maxEnergy * energy) / (maxEnergy - input));
+            int input = teem.maxInput;
+            int newEnergy = getRealEnergy(energy, maxEnergy, input);
             info.add(newEnergy + " EU / " + maxEnergy + " EU");
             if (iof(te, "ic2.common.TileEntityMatter")) {
                 info.add("Progress: " + ((TileEntityMatter) te).getProgressAsString());
@@ -30,6 +30,10 @@ public class Ic2Integration extends BlockHelperInfoProvider {
             TileEntityElectricBlock teeb = (TileEntityElectricBlock) te;
             info.add(teeb.energy + " EU / " + teeb.maxStorage + " EU");
         }
+    }
+
+    static int getRealEnergy(int energy, int maxEnergy, int input) {
+        return Math.min(maxEnergy, (maxEnergy * energy) / (maxEnergy - input));
     }
 
 }
