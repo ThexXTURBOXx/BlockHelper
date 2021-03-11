@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.api;
 
 import de.thexxturboxx.blockhelper.InfoHolder;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,32 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             m.setAccessible(true);
             return m;
         } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> T getDeclaredField(Object obj, String field) {
+        try {
+            Field f = obj.getClass().getDeclaredField(field);
+            f.setAccessible(true);
+            return (T) f.get(obj);
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> T getField(Object obj, String field) {
+        try {
+            Field f = obj.getClass().getField(field);
+            f.setAccessible(true);
+            return (T) f.get(obj);
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (NoSuchFieldException e) {
             return null;
         }
     }

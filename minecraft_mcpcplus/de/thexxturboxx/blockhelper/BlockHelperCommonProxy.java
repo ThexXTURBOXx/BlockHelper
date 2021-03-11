@@ -22,7 +22,8 @@ public class BlockHelperCommonProxy {
     public void load(mod_BlockHelper instance) {
         MinecraftForge.registerConnectionHandler(instance);
         ModLoader.setInGameHook(instance, true, false);
-        FMLCommonHandler.instance().registerChannel(ModLoaderModContainer.findContainerFor(instance), mod_BlockHelper.CHANNEL);
+        FMLCommonHandler.instance().registerChannel(ModLoaderModContainer.findContainerFor(instance),
+                mod_BlockHelper.CHANNEL);
         IntegrationRegistrar.init();
         Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
         versionCheckThread.start();

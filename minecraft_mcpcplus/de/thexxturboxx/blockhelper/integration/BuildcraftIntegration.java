@@ -24,7 +24,10 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         } else if (iof(te, "buildcraft.api.IPowerReceptor")) {
             PowerProvider prov = ((IPowerReceptor) te).getPowerProvider();
             if (prov != null) {
-                info.add(prov.energyStored + " MJ / " + prov.maxEnergyStored + " MJ");
+                // For some reason (ClassLoader issue?), we need to use reflection here...
+                float energyStored = getField(prov, "energyStored");
+                float maxEnergyStored = getField(prov, "maxEnergyStored");
+                info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
             }
         }
         if (iof(te, "buildcraft.api.ILiquidContainer")) {
@@ -41,6 +44,8 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                         if (capacity > 0 || quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB");
                         }
+                        // TODO: Read liquid name from bucket from liquid ??? (BC3 uses BuildcraftAPI class)
+                        // Do something here with API.liquids in the near future?
                     }
                     flag = true;
                 } catch (IllegalAccessException ignored) {

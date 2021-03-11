@@ -42,11 +42,15 @@ import net.minecraft.src.forge.NetworkMod;
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
     private static final String MOD_ID = "BlockHelper";
-    private static final Random rnd = new Random();
     static final String NAME = "Block Helper";
     static final String VERSION = "0.8.3";
     static final String CHANNEL = "BlockHelperInfo";
     static final String CHANNEL_SSP = "BlockHelperInfoSSP";
+
+    public static final MopType[] MOP_TYPES = MopType.values();
+
+    private static final Random rnd = new Random();
+
     public static boolean isClient;
 
     private boolean isHidden = false;
@@ -97,12 +101,12 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             DataOutputStream os = new DataOutputStream(buffer);
             try {
-                if (MopType.values()[i] == MopType.ENTITY) {
-                    PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MopType.values()[i],
+                if (MOP_TYPES[i] == MopType.ENTITY) {
+                    PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MOP_TYPES[i],
                             mop.entityHit.entityId));
                 } else {
                     PacketCoder.encode(os,
-                            new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MopType.values()[i]));
+                            new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MOP_TYPES[i]));
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -313,7 +317,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             for (FormatString s : infos) {
                 infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + 12, infoWidth);
             }
-            // infoWidth *= BlockHelperClientProxy.size;
+            infoWidth *= BlockHelperClientProxy.size;
             int minusHalf = (width - infoWidth) / 2;
             int plusHalf = (width + infoWidth) / 2;
             Gui.drawRect(minusHalf + 2, 7, plusHalf - 2, currLine + 5, dark);

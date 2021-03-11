@@ -11,7 +11,8 @@ import net.minecraft.client.Minecraft;
 
 public class BlockHelperUpdater implements Runnable {
 
-    private static final String JSON_URL = "https://raw.githubusercontent.com/ThexXTURBOXx/UpdateJSONs/master/blockhelper.json";
+    private static final String JSON_URL = "https://raw.githubusercontent.com/"
+            + "ThexXTURBOXx/UpdateJSONs/master/blockhelper.json";
     private static boolean isLatestVersion = true;
     private static String latestVersion = "";
     private static boolean firstTickUpdater = true;

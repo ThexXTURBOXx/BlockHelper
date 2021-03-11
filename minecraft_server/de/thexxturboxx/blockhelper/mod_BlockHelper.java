@@ -29,6 +29,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     static final String VERSION = "0.8.3";
     static final String CHANNEL = "BlockHelperInfo";
 
+    public static final MopType[] MOP_TYPES = MopType.values();
+
     public static BlockHelperCommonProxy proxy;
 
     public static String getModId() {

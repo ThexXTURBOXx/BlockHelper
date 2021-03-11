@@ -15,7 +15,7 @@ class PacketCoder {
         switch (type) {
         case 0:
             int dimId = is.readInt();
-            MopType mt = MopType.values()[is.readInt()];
+            MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
                 World w = mod_BlockHelper.proxy.getWorld();
@@ -25,7 +25,7 @@ class PacketCoder {
                     mop = new MovingObjectPosition(entity);
                 else
                     mop = null;
-                return new PacketInfo(dimId, mop, mt, entityId);
+                return new PacketInfo(dimId, mop, MopType.ENTITY, entityId);
             } else {
                 mop = new MovingObjectPosition(is.readInt(), is.readInt(), is.readInt(), is.readInt(),
                         Vec3D.createVectorHelper(is.readInt(), is.readInt(), is.readInt()));

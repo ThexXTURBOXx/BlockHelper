@@ -9,7 +9,8 @@ import net.minecraft.server.TileEntity;
 public class BlockHelperModSupport {
 
     private static final List<BlockHelperBlockProvider> BLOCK_PROVIDERS = new ArrayList<BlockHelperBlockProvider>();
-    private static final List<BlockHelperTileEntityProvider> TE_PROVIDERS = new ArrayList<BlockHelperTileEntityProvider>();
+    private static final List<BlockHelperTileEntityProvider> TE_PROVIDERS =
+            new ArrayList<BlockHelperTileEntityProvider>();
 
     public static void registerInfoProvider(BlockHelperInfoProvider provider) {
         registerBlockProvider(provider);
@@ -26,10 +27,16 @@ public class BlockHelperModSupport {
 
     public static void addInfo(InfoHolder info, Block block, int id, int meta, TileEntity te) {
         for (BlockHelperBlockProvider p : BLOCK_PROVIDERS) {
-            p.addInformation(block, id, meta, info);
+            try {
+                p.addInformation(block, id, meta, info);
+            } catch (Throwable ignored) {
+            }
         }
         for (BlockHelperTileEntityProvider p : TE_PROVIDERS) {
-            p.addInformation(te, id, meta, info);
+            try {
+                p.addInformation(te, id, meta, info);
+            } catch (Throwable ignored) {
+            }
         }
     }
 
