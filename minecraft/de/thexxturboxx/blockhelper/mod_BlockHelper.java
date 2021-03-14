@@ -43,7 +43,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     private static final String MOD_ID = "BlockHelper";
     static final String NAME = "Block Helper";
-    static final String VERSION = "0.8.3";
+    static final String VERSION = "0.9";
     static final String CHANNEL = "BlockHelperInfo";
     static final String CHANNEL_SSP = "BlockHelperInfoSSP";
 
