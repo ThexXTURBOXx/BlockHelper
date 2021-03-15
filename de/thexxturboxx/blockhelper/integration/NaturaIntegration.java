@@ -18,9 +18,9 @@ public class NaturaIntegration extends BlockHelperInfoProvider {
                 } else {
                     grow = grow + "%";
                 }
-                info.add(2, "Growth State: " + grow);
+                info.add("Growth State: " + grow);
             } else {
-                info.add(2, "Growth State: Ripe");
+                info.add("Growth State: Ripe");
             }
         }
     }

@@ -15,7 +15,7 @@ class PacketCoder {
         switch (type) {
         case 0:
             int dimId = is.readInt();
-            MopType mt = MopType.values()[is.readInt()];
+            MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
                 World w = DimensionManager.getProvider(dimId).worldObj;
@@ -24,7 +24,7 @@ class PacketCoder {
                     mop = new MovingObjectPosition(w.getEntityByID(entityId));
                 else
                     mop = null;
-                return new PacketInfo(dimId, mop, mt, entityId);
+                return new PacketInfo(dimId, mop, MopType.ENTITY, entityId);
             } else {
                 mop = new MovingObjectPosition(is.readInt(), is.readInt(), is.readInt(), is.readInt(),
                         Vec3.createVectorHelper(is.readInt(), is.readInt(), is.readInt()));
@@ -39,21 +39,15 @@ class PacketCoder {
             return new String(data);
         case 2:
             PacketClient pc = new PacketClient();
-            for (int i = 0; i <= 32; i++) {
-                if (pc.get(i) == null) {
-                    pc.add(i, "");
-                }
-            }
             short size = is.readShort();
             int c = 0;
-            while (c < size) {
-                byte types = is.readByte();
+            while (c++ < size) {
                 length = is.readShort();
                 data = new char[length];
                 for (int i = 0; i < length; i++) {
                     data[i] = is.readChar();
                 }
-                pc.add(types, new String(data));
+                pc.add(new String(data));
                 c++;
             }
             return pc;
@@ -87,11 +81,9 @@ class PacketCoder {
             os.writeByte(2);
             PacketClient pc = (PacketClient) o;
             os.writeShort(pc.data.size());
-            for (byte b : pc.data.keySet()) {
-                os.writeByte(b);
-                String oa = pc.data.get(b);
-                os.writeShort(oa.length());
-                os.writeChars(oa);
+            for (String s : pc.data) {
+                os.writeShort(s.length());
+                os.writeChars(s);
             }
         }
     }

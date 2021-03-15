@@ -20,11 +20,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             } else {
                 grow = grow + "%";
             }
-            info.add(2, "Growth State: " + grow);
+            info.add("Growth State: " + grow);
         }
 
         if (id == Block.redstoneWire.blockID) {
-            info.add(3, "Strength: " + meta);
+            info.add("Strength: " + meta);
         }
 
         if (id == Block.lever.blockID) {
@@ -32,7 +32,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             if (meta >= 8) {
                 state = "On";
             }
-            info.add(3, "State: " + state);
+            info.add("State: " + state);
         }
     }
 

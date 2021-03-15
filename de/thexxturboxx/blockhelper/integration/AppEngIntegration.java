@@ -10,7 +10,7 @@ public class AppEngIntegration extends BlockHelperInfoProvider {
     @Override
     public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
         if (iof(te, "appeng.me.basetiles.TilePoweredBase")) {
-            info.add(1, ((TilePoweredBase) te).storedPower + " AE / "
+            info.add(((TilePoweredBase) te).storedPower + " AE / "
                     + ((TilePoweredBase) te).maxStoredPower + " AE");
         }
     }
