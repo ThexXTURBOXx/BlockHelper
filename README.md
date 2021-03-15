@@ -9,6 +9,7 @@ A small WAILA alternative for old versions of Minecraft.
 | Mod | 1.2.5 | 1.4.6/1.4.7 | 1.5.2 |
 | ------------- | ------------- | ----- | ----- |
 | Vanilla | ✔ | ✔ | ✔ |
+| Advanced Machines | ✔ | ✔ | ✔ |
 | Applied Energistics | ❌ | ✔ | ✔ |
 | BuildCraft | ✔ | ✔ | ✔ |
 | ChickenChunks | ❌ | ✔ | ✔ |
