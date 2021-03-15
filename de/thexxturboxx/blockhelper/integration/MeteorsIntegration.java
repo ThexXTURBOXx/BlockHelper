@@ -11,7 +11,7 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
     @Override
     public void addInformation(Block b, int id, int meta, InfoHolder info) {
         if (iof(b, "net.meteor.common.BlockMeteorShieldTorch")) {
-            info.add(0, "State: "
+            info.add("State: "
                     + (id == MeteorsMod.torchMeteorShieldActive.blockID ? "Protected" : "Unprotected"));
         }
     }
@@ -20,9 +20,9 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
     public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
         if (iof(te, "net.meteor.common.TileEntityMeteorShield")) {
             if (meta == 0) {
-                info.add(0, "State: Charging");
+                info.add("State: Charging");
             } else {
-                info.add(0, "Radius: " + meta * 4 + "x" + meta * 4 + " Chunks");
+                info.add("Radius: " + meta * 4 + "x" + meta * 4 + " Chunks");
             }
         }
     }

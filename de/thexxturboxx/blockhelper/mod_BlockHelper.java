@@ -44,8 +44,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     private static final String PACKAGE = "de.thexxturboxx.blockhelper.";
     private static final String MOD_ID = "BlockHelper";
     static final String NAME = "Block Helper";
-    static final String VERSION = "0.8.3";
+    static final String VERSION = "0.9";
     static final String CHANNEL = "BlockHelperInfo";
+
+    public static final MopType[] MOP_TYPES = MopType.values();
+
     public static boolean isClient;
 
     private boolean isHidden = false;
@@ -87,12 +90,12 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                 DataOutputStream os = new DataOutputStream(buffer);
                 try {
-                    if (MopType.values()[i] == MopType.ENTITY) {
-                        PacketCoder.encode(os, new PacketInfo(mc.theWorld.provider.dimensionId, mop, MopType.values()[i],
+                    if (MOP_TYPES[i] == MopType.ENTITY) {
+                        PacketCoder.encode(os, new PacketInfo(mc.theWorld.provider.dimensionId, mop, MOP_TYPES[i],
                                 mop.entityHit.entityId));
                     } else {
                         PacketCoder.encode(os,
-                                new PacketInfo(mc.theWorld.provider.dimensionId, mop, MopType.values()[i]));
+                                new PacketInfo(mc.theWorld.provider.dimensionId, mop, MOP_TYPES[i]));
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -200,7 +203,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     addInfo(name);
                     addInfo(itemId);
                     addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
-                    addInfo(BlockHelperPackets.infosl);
+                    addInfo(packetInfos);
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
                     drawInfo(xy, mc);
                     break;
@@ -215,7 +218,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         nameEntity = "§4" + nameEntity;
                     }
                     addInfo(nameEntity);
-                    addInfo(BlockHelperPackets.infosl);
+                    addInfo(packetInfos);
                     drawInfo(xy, mc);
                     break;
                 default:
@@ -266,6 +269,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         }
     }
 
+    private static List<String> packetInfos = new ArrayList<String>();
     private static final List<FormatString> infos = new ArrayList<FormatString>();
 
     private void addInfo(List<String> info) {
@@ -305,7 +309,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
             for (FormatString s : infos) {
                 infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + 12, infoWidth);
             }
-            // infoWidth *= BlockHelperClientProxy.size;
+            infoWidth *= BlockHelperClientProxy.size;
             int minusHalf = (width - infoWidth) / 2;
             int plusHalf = (width + infoWidth) / 2;
             Gui.drawRect(minusHalf + 2, 7, plusHalf - 2, currLine + 5, dark);
@@ -326,7 +330,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 DataInputStream is = new DataInputStream(isRaw);
                 if (isClient && FMLCommonHandler.instance().getEffectiveSide().isClient()) {
                     try {
-                        BlockHelperPackets.setInfo((PacketClient) PacketCoder.decode(is));
+                        packetInfos = ((PacketClient) PacketCoder.decode(is)).data;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -347,21 +351,21 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         PacketClient pc = new PacketClient();
                         if (en != null) {
                             try {
-                                pc.add((byte) 0, (((EntityLiving) en).getHealth() + " ❤ / "
-                                        + ((EntityLiving) en).getMaxHealth() + " ❤"));
+                                pc.add(((EntityLiving) en).getHealth() + " ❤ / "
+                                        + ((EntityLiving) en).getMaxHealth() + " ❤");
                                 PacketCoder.encode(os, pc);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (Throwable e) {
                                 try {
-                                    PacketCoder.encode(os, pc.add((byte) 0, ""));
+                                    PacketCoder.encode(os, pc);
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 }
                             }
                         } else {
                             try {
-                                PacketCoder.encode(os, pc.add((byte) 0, ""));
+                                PacketCoder.encode(os, pc);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
