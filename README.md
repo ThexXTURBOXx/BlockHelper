@@ -8,14 +8,15 @@ A small WAILA alternative for old versions of Minecraft.
 
 | Mod | 1.2.5 | 1.4.6/1.4.7 | 1.5.2 |
 | ------------- | ------------- | ----- | ----- |
-| Vanilla | ? | ? | ? |
-| Applied Energistics | ? | ? | ? |
-| BuildCraft | ? | ? | ? |
-| ChickenChunks | ? | ? | ? |
-| Falling Meteors | ? | ? | ? |
-| Flora & Soma (Natura) | ? | ? | ? |
-| IC� | ? | ? | ? |
-| Thermal Expansion | ? | ? | ? |
+| Vanilla | ✔ | ✔ | ✔ |
+| Advanced Machines | ✔ | ✔ | ✔ |
+| Applied Energistics | ❌ | ✔ | ✔ |
+| BuildCraft | ✔ | ✔ | ✔ |
+| ChickenChunks | ❌ | ✔ | ✔ |
+| Falling Meteors | ❌ | ✔ | ✔ |
+| Flora & Soma (Natura) | ❌ | ✔ | ✔ |
+| IC² | ✔ | ✔ | ✔ |
+| Thermal Expansion | ✔ | ✔ | ✔ |
 
 ## Source Code
 
