@@ -2,9 +2,9 @@ package de.thexxturboxx.blockhelper;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import de.thexxturboxx.blockhelper.integration.IntegrationRegistrar;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ModLoader;
-import net.minecraft.world.World;
+import net.minecraft.src.World;
 import net.minecraftforge.common.DimensionManager;
 
 public class BlockHelperCommonProxy {

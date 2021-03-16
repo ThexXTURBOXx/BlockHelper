@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.api;
 
 import de.thexxturboxx.blockhelper.InfoHolder;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.src.TileEntity;
 
 public interface BlockHelperTileEntityProvider {
 

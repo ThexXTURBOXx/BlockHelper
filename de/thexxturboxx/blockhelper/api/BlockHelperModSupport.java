@@ -3,8 +3,8 @@ package de.thexxturboxx.blockhelper.api;
 import de.thexxturboxx.blockhelper.InfoHolder;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.src.Block;
+import net.minecraft.src.TileEntity;
 
 public class BlockHelperModSupport {
 

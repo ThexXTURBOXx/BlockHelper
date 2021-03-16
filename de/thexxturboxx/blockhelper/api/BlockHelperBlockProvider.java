@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.api;
 
 import de.thexxturboxx.blockhelper.InfoHolder;
-import net.minecraft.block.Block;
+import net.minecraft.src.Block;
 
 public interface BlockHelperBlockProvider {
 

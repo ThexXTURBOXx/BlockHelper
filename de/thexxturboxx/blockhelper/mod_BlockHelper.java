@@ -8,35 +8,34 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
-import factorization.common.TileEntityCommon;
-import ic2.core.Ic2Items;
-import inficraft.microblocks.core.api.multipart.ICoverSystem;
-import inficraft.microblocks.core.api.multipart.IMultipartTile;
+import ic2.common.Ic2Items;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.src.BaseMod;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.Gui;
+import net.minecraft.src.IMob;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
+import net.minecraft.src.WorldClient;
 import net.minecraftforge.common.DimensionManager;
 
 public class mod_BlockHelper extends BaseMod implements IPacketHandler {
@@ -120,9 +119,6 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             is.setItemDamage(4096);
                         } else if (iof(te, "ic2.core.block.wiring.TileEntityCable")) {
                             is = new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, meta);
-                        } else if (iof(te, "factorization.common.TileEntityCommon")) {
-                            ct = "Factorization";
-                            is.setItemDamage(((TileEntityCommon) te).getFactoryType().md);
                         } else if (iof(te, "codechicken.chunkloader.TileChunkLoaderBase")) {
                             ct = "ChickenChunks";
                         } else if (iof(te, "buildcraft.transport.TileGenericPipe")) {
@@ -131,15 +127,6 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             if (pipe.pipe != null && pipe.initialized) {
                                 is = new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
                             }
-                        } else if (iof(te, "inficraft.microblocks.core.api.multipart.IMultipartTile")) {
-                            IMultipartTile te1 = (IMultipartTile) te;
-                            if (mop.subHit >= 0) {
-                                is = te1.pickPart(mop, mop.subHit);
-                            } else {
-                                ICoverSystem ci = te1.getCoverSystem();
-                                is = ci == null ? is : ci.pickPart(mop, -1 - mop.subHit);
-                            }
-                            ct = "InfiMicroblocks";
                         }
                     }
                     Block b = Block.blocksList[id];
@@ -166,19 +153,21 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     currLine = 12;
                     infos.clear();
                     try {
-                        name = is.getDisplayName();
+                        name = is.getItem().getItemDisplayName(is);
                         if (name.equals(""))
                             throw new IllegalArgumentException();
                     } catch (Throwable e) {
                         try {
-                            name = new ItemStack(b).getDisplayName();
+                            ItemStack s = new ItemStack(b);
+                            name = s.getItem().getItemDisplayName(s);
                             if (name.equals(""))
                                 throw new IllegalArgumentException();
                         } catch (Throwable e1) {
                             try {
                                 if (b != null) {
-                                    name = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)], 1,
-                                            b.damageDropped(meta)).getDisplayName();
+                                    ItemStack s = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)], 1,
+                                            damageDropped(b, mc.theWorld, mop.blockX, mop.blockY, mop.blockZ, meta));
+                                    name = s.getItem().getItemDisplayName(s);
                                 }
                                 if (name.equals(""))
                                     throw new IllegalArgumentException();
@@ -323,7 +312,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     }
 
     @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packetGot, Player player) {
+    public void onPacketData(NetworkManager manager, Packet250CustomPayload packetGot, Player player) {
         try {
             if (packetGot.channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(packetGot.data);
@@ -345,7 +334,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         return;
                     World w = DimensionManager.getProvider(pi.dimId).worldObj;
                     if (pi.mt == MopType.ENTITY) {
-                        Entity en = w.getEntityByID(pi.entityId);
+                        Entity en = getEntityByID(w, pi.entityId);
                         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                         DataOutputStream os = new DataOutputStream(buffer);
                         PacketClient pc = new PacketClient();
@@ -408,6 +397,42 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
     static boolean iof(Object obj, String clazz) {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
+    }
+
+    private static int damageDropped(Block b, World w, int x, int y,
+                                     int z, int meta) {
+        List<ItemStack> list = b.getBlockDropped(w, x, y, z, meta, 0);
+        if (!list.isEmpty()) {
+            return list.get(0).getItemDamage();
+        }
+        return 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    static Entity getEntityByID(World w, int entityId) {
+        List<Entity> list = (List<Entity>) w.getLoadedEntityList();
+        if (list != null) {
+            for (Entity e : list) {
+                if (e.entityId == entityId) {
+                    return e;
+                }
+            }
+        }
+        if (w instanceof WorldClient) {
+            try {
+                Field f = ((WorldClient) w).getClass().getDeclaredField("entityList");
+                f.setAccessible(true);
+                list = (List<Entity>) f.get(w);
+                for (Entity e : list) {
+                    if (e.entityId == entityId) {
+                        return e;
+                    }
+                }
+            } catch (IllegalAccessException ignored) {
+            } catch (NoSuchFieldException ignored) {
+            }
+        }
+        return null;
     }
 
 }

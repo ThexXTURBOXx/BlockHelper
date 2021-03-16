@@ -4,8 +4,8 @@ import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockCrops;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 

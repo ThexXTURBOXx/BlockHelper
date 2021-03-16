@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.src.Block;
+import net.minecraft.src.TileEntity;
 
 public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider {
 
@@ -39,6 +39,19 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             m.setAccessible(true);
             return m;
         } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T, U> T getDeclaredField(Class<U> clazz, String field) {
+        try {
+            Field f = clazz.getDeclaredField(field);
+            f.setAccessible(true);
+            return (T) f.get(null);
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (NoSuchFieldException e) {
             return null;
         }
     }
