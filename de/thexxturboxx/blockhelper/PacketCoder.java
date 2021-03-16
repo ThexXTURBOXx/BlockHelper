@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -20,8 +21,9 @@ class PacketCoder {
             if (mt == MopType.ENTITY) {
                 World w = DimensionManager.getProvider(dimId).worldObj;
                 int entityId = is.readInt();
-                if (w.getEntityByID(entityId) != null)
-                    mop = new MovingObjectPosition(w.getEntityByID(entityId));
+                Entity entity = w.getEntityByID(entityId);
+                if (entity != null)
+                    mop = new MovingObjectPosition(entity);
                 else
                     mop = null;
                 return new PacketInfo(dimId, mop, MopType.ENTITY, entityId);
