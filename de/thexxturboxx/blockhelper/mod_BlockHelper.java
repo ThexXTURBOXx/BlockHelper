@@ -166,11 +166,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         }
                     }
 
-                    infoWidth = 0;
-                    int x = drawBox(mc);
-                    currLine = 12;
                     infos.clear();
-
                     String name = BlockHelperModSupport.getName(b, te, id, meta);
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
@@ -230,13 +226,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
                     addAdditionalInfo(packetInfos);
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
+                    int x = drawBox(mc);
                     drawInfo(x, mc);
                     break;
                 case 2:
                     Entity e = mop.entityHit;
-                    infoWidth = 0;
-                    x = drawBox(mc);
-                    currLine = 12;
                     infos.clear();
                     String nameEntity = e.getEntityName();
                     if (e instanceof IMob) {
@@ -244,6 +238,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     }
                     addInfo(nameEntity);
                     addAdditionalInfo(packetInfos);
+                    x = drawBox(mc);
                     drawInfo(x, mc);
                     break;
                 default:
@@ -315,15 +310,15 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         }
     }
 
-    private static int currLine;
-    private static int infoWidth = 0;
+    private static final int PADDING = 12;
     private static final int dark = new Color(17, 2, 16).getRGB();
-    public static int light = new Color(52, 18, 102).getRGB();
+    private static final int light = new Color(52, 18, 102).getRGB();
 
     private void drawInfo(int x, Minecraft mc) {
+        int currLine = PADDING;
         for (FormatString s : infos) {
             mc.fontRenderer.drawString(s.str, getStringMid(x, s.str, mc), currLine, s.color);
-            currLine += 8;
+            currLine += mc.fontRenderer.FONT_HEIGHT;
         }
     }
 
@@ -331,8 +326,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         int width = (int) (res.getScaledWidth() * sizeInv);
         if (BlockHelperClientProxy.mode != 1) {
+            int infoWidth = 0;
+            int currLine = PADDING;
             for (FormatString s : infos) {
-                infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + 12, infoWidth);
+                infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + PADDING, infoWidth);
+                currLine += mc.fontRenderer.FONT_HEIGHT;
             }
             int minusHalf = (width - infoWidth) / 2;
             int plusHalf = (width + infoWidth) / 2;
