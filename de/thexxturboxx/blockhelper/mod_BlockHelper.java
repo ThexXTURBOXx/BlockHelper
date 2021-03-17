@@ -192,7 +192,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     addInfo(name);
                     addInfo(itemId);
                     addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
-                    addInfo(packetInfos);
+                    addAdditionalInfo(packetInfos);
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
                     drawInfo(xy, mc);
                     break;
@@ -207,7 +207,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         nameEntity = "§4" + nameEntity;
                     }
                     addInfo(nameEntity);
-                    addInfo(packetInfos);
+                    addAdditionalInfo(packetInfos);
                     drawInfo(xy, mc);
                     break;
                 default:
@@ -261,9 +261,9 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     private static List<String> packetInfos = new ArrayList<String>();
     private static final List<FormatString> infos = new ArrayList<FormatString>();
 
-    private void addInfo(List<String> info) {
+    private void addAdditionalInfo(List<String> info) {
         for (String s : info) {
-            addInfo(s);
+            addInfo("§7" + s);
         }
     }
 
