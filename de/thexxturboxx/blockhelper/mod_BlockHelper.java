@@ -113,7 +113,6 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                     String itemId = is.itemID + ":" + is.getItemDamage();
                     String ct = null;
-                    String name = "";
                     if (te != null) {
                         if (iof(te, "thermalexpansion.transport.tileentity.TileConduitLiquid")) {
                             is.setItemDamage(4096);
@@ -152,30 +151,51 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     int[] xy = drawBox(mc);
                     currLine = 12;
                     infos.clear();
-                    try {
-                        name = is.getItem().getItemDisplayName(is);
-                        if (name.equals(""))
-                            throw new IllegalArgumentException();
-                    } catch (Throwable e) {
+
+                    String name = BlockHelperModSupport.getName(b, te, id, meta);
+                    name = name == null ? "" : name;
+                    if (name.isEmpty()) {
                         try {
-                            ItemStack s = new ItemStack(b);
-                            name = s.getItem().getItemDisplayName(s);
-                            if (name.equals(""))
+                            name = is.getItem().getItemDisplayName(is);
+                            if (name.isEmpty())
                                 throw new IllegalArgumentException();
-                        } catch (Throwable e1) {
+                        } catch (Throwable e) {
                             try {
-                                if (b != null) {
-                                    ItemStack s = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)], 1,
-                                            damageDropped(b, mc.theWorld, mop.blockX, mop.blockY, mop.blockZ, meta));
-                                    name = s.getItem().getItemDisplayName(s);
-                                }
-                                if (name.equals(""))
+                                ItemStack s = new ItemStack(b);
+                                name = s.getItem().getItemDisplayName(s);
+                                if (name.isEmpty())
                                     throw new IllegalArgumentException();
-                            } catch (Throwable e2) {
-                                name = "Please report this!";
+                            } catch (Throwable e1) {
+                                try {
+                                    if (b != null) {
+                                        ItemStack s = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)],
+                                                1, damageDropped(b, mc.theWorld, mop.blockX, mop.blockY,
+                                                mop.blockZ, meta));
+                                        name = s.getItem().getItemDisplayName(s);
+                                    }
+                                    if (name.isEmpty())
+                                        throw new IllegalArgumentException();
+                                } catch (Throwable e2) {
+                                    try {
+                                        if (b != null) {
+                                            ItemStack s = b.getPickBlock(mop, mc.theWorld,
+                                                    mop.blockX, mop.blockY, mop.blockZ);
+                                            name = s.getItem().getItemDisplayName(s);
+                                        }
+                                        if (name.isEmpty())
+                                            throw new IllegalArgumentException();
+                                    } catch (Throwable e3) {
+                                        if (b != null) {
+                                            name = b.translateBlockName();
+                                        } else {
+                                            name = "Please report this!";
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+
                     String harvest = "Please report this!";
                     boolean harvestable = false;
                     if (b != null) {
@@ -189,6 +209,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             harvest = "Currently not harvestable";
                         }
                     }
+
                     addInfo(name);
                     addInfo(itemId);
                     addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);

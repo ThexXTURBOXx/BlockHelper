@@ -6,21 +6,23 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockStem;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public void addInformation(Block b, int id, int meta, InfoHolder info) {
-        boolean crop = isCrop(b);
-        if (crop) {
+        if (isCrop(b)) {
             double max_stage = getMaxStage(b, id);
-            String grow = ((int) ((meta / max_stage) * 100)) + "";
-            if (grow.equals("100")) {
-                grow = "Mature";
+            int grow = (int) ((meta / max_stage) * 100);
+            String toShow;
+            if (grow >= 100) {
+                toShow = "Mature";
             } else {
-                grow = grow + "%";
+                toShow = grow + "%";
             }
-            info.add("Growth State: " + grow);
+            info.add("Growth State: " + toShow);
         }
 
         if (id == Block.redstoneWire.blockID) {
@@ -38,7 +40,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private double getMaxStage(Block b, int id) {
         try {
-            if (iof(b, "florasoma.crops.blocks.FloraCropBlock")) {
+            if (b instanceof BlockCrops) {
+                return 7;
+            } else if (b instanceof BlockStem) {
+                return 7;
+            } else if (b instanceof BlockNetherStalk) {
                 return 3;
             } else {
                 for (Field field : b.getClass().getFields()) {
@@ -62,11 +68,17 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     }
 
     private boolean isCrop(Block b) {
-        boolean crop = b instanceof BlockCrops;
+        boolean crop = b instanceof BlockCrops
+                || b instanceof BlockNetherStalk
+                || b instanceof BlockStem;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
-                    if (method.getName().equals("getGrowthRate")) {
+                    String name = method.getName();
+                    if (name.equals("getGrowthRate")) {
+                        return true;
+                    }
+                    if (name.equals("getGrowthModifier")) {
                         return true;
                     }
                 }

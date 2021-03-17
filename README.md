@@ -14,7 +14,7 @@ A small WAILA alternative for old versions of Minecraft.
 | BuildCraft | ✔ | ✔ | ✔ | ✔ |
 | ChickenChunks | ❌ | ❌ | ✔ | ✔ |
 | Falling Meteors | ❌ | ❌ | ✔ | ✔ |
-| Flora & Soma (Natura) | ❌ | ❌ | ✔ | ✔ |
+| Flora & Soma (Natura) | ✔ | ❌ | ✔ | ✔ |
 | IC² | ✔ | ✔ | ✔ | ✔ |
 | Thermal Expansion | ✔ | ✔ | ✔ | ✔ |
 
