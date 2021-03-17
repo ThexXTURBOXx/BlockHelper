@@ -8,7 +8,8 @@ import java.util.List;
 import net.minecraft.src.Block;
 import net.minecraft.src.TileEntity;
 
-public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider {
+public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider,
+        BlockHelperNameFixer {
 
     private static final List<String> loadedCache = new ArrayList<String>();
     private static final List<String> loadedCacheFailed = new ArrayList<String>();
@@ -75,6 +76,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
 
     @Override
     public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
+    }
+
+    @Override
+    public String getName(Block block, TileEntity te, int id, int meta) {
+        return null;
     }
 
 }

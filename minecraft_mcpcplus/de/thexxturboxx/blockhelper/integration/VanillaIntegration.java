@@ -6,21 +6,24 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.server.Block;
 import net.minecraft.server.BlockCrops;
+import net.minecraft.server.BlockNetherWart;
+import net.minecraft.server.BlockStem;
+import net.minecraft.server.TileEntity;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public void addInformation(Block b, int id, int meta, InfoHolder info) {
-        boolean crop = isCrop(b);
-        if (crop) {
+        if (isCrop(b)) {
             double max_stage = getMaxStage(b, id);
-            String grow = ((int) ((meta / max_stage) * 100)) + "";
-            if (grow.equals("100")) {
-                grow = "Mature";
+            int grow = (int) ((meta / max_stage) * 100);
+            String toShow;
+            if (grow >= 100) {
+                toShow = "Mature";
             } else {
-                grow += "%";
+                toShow = grow + "%";
             }
-            info.add("Growth State: " + grow);
+            info.add("Growth State: " + toShow);
         }
 
         if (id == Block.REDSTONE_WIRE.id) {
@@ -36,9 +39,24 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
     }
 
+    @Override
+    public String getName(Block block, TileEntity te, int id, int meta) {
+        if (block instanceof BlockStem) {
+            Block drop = getDeclaredField(block, "blockFruit");
+            return drop.getName();
+        }
+        return null;
+    }
+
     private double getMaxStage(Block b, int id) {
         try {
-            if (iof(b, "florasoma.crops.blocks.FloraCropBlock")) {
+            if (iof(b, "flora.FloraCrops")) {
+                return 3;
+            } else if (b instanceof BlockCrops) {
+                return 7;
+            } else if (b instanceof BlockStem) {
+                return 7;
+            } else if (b instanceof BlockNetherWart) {
                 return 3;
             } else {
                 for (Field field : b.getClass().getFields()) {
@@ -62,11 +80,17 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     }
 
     private boolean isCrop(Block b) {
-        boolean crop = b instanceof BlockCrops;
+        boolean crop = b instanceof BlockCrops
+                || b instanceof BlockNetherWart
+                || b instanceof BlockStem;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
-                    if (method.getName().equals("getGrowthRate")) {
+                    String name = method.getName();
+                    if (name.equals("getGrowthRate")) {
+                        return true;
+                    }
+                    if (name.equals("getGrowthModifier")) {
                         return true;
                     }
                 }
