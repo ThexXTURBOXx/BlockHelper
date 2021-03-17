@@ -13,6 +13,7 @@ import org.lwjgl.input.Keyboard;
 public class BlockHelperClientProxy extends BlockHelperCommonProxy {
 
     static double size;
+    static double sizeInv;
     static int mode;
     static KeyBinding showHide;
 
@@ -32,9 +33,14 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         mod_BlockHelper.isClient = true;
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         cfg.load();
-        size = Double.parseDouble(cfg.get("General", "Size", "1.0").value);
+        try {
+            size = Double.parseDouble(cfg.get("General", "Size", "1.0").value);
+        } catch (NumberFormatException e) {
+            size = 1;
+        }
         mode = cfg.get("General", "Mode", 0).getInt(0);
         cfg.save();
+        sizeInv = 1 / size;
         showHide = new KeyBinding("Show/Hide Block Helper", Keyboard.KEY_NUMPAD0);
         ModLoader.registerKey(instance, showHide, false);
     }

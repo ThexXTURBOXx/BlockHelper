@@ -37,6 +37,10 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldClient;
 import net.minecraftforge.common.DimensionManager;
+import org.lwjgl.opengl.GL11;
+
+import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
+import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
 
 public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
@@ -77,6 +81,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     @Override
     public boolean onTickInGame(float time, Minecraft mc) {
         try {
+            GL11.glScaled(size, size, size);
             BlockHelperUpdater.notifyUpdater(mc);
             if (mc.theWorld.isRemote) {
                 updateKeyState();
@@ -147,8 +152,9 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             ct = "Unknown";
                         }
                     }
+
                     infoWidth = 0;
-                    int[] xy = drawBox(mc);
+                    int x = drawBox(mc);
                     currLine = 12;
                     infos.clear();
 
@@ -215,12 +221,12 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
                     addAdditionalInfo(packetInfos);
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
-                    drawInfo(xy, mc);
+                    drawInfo(x, mc);
                     break;
                 case 2:
                     Entity e = mop.entityHit;
                     infoWidth = 0;
-                    xy = drawBox(mc);
+                    x = drawBox(mc);
                     currLine = 12;
                     infos.clear();
                     String nameEntity = e.getEntityName();
@@ -229,7 +235,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     }
                     addInfo(nameEntity);
                     addAdditionalInfo(packetInfos);
-                    drawInfo(xy, mc);
+                    drawInfo(x, mc);
                     break;
                 default:
                     break;
@@ -237,6 +243,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
             }
         } catch (Throwable e) {
             e.printStackTrace();
+        } finally {
+            GL11.glScaled(sizeInv, sizeInv, sizeInv);
         }
         return true;
     }
@@ -247,8 +255,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         }
     }
 
-    private int getStringMid(int[] xy, String s, Minecraft mc) {
-        return xy[0] - mc.fontRenderer.getStringWidth(s) / 2;
+    private int getStringMid(int x, String s, Minecraft mc) {
+        return x - mc.fontRenderer.getStringWidth(s) / 2;
     }
 
     private int isLookingAtBlock(Minecraft mc) {
@@ -303,33 +311,28 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     private static final int dark = new Color(17, 2, 16).getRGB();
     public static int light = new Color(52, 18, 102).getRGB();
 
-    private void drawInfo(int[] xy, Minecraft mc) {
+    private void drawInfo(int x, Minecraft mc) {
         for (FormatString s : infos) {
-            mc.fontRenderer.drawString(s.str, getStringMid(xy, s.str, mc), currLine, s.color);
-            currLine = currLine + 8;
+            mc.fontRenderer.drawString(s.str, getStringMid(x, s.str, mc), currLine, s.color);
+            currLine += 8;
         }
     }
 
-    private int[] drawBox(Minecraft mc) {
-        int[] xy = new int[2];
+    private int drawBox(Minecraft mc) {
         ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
-        int width = res.getScaledWidth();
-        int height = res.getScaledHeight();
+        int width = (int) (res.getScaledWidth() * sizeInv);
         if (BlockHelperClientProxy.mode != 1) {
             for (FormatString s : infos) {
                 infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + 12, infoWidth);
             }
-            infoWidth *= BlockHelperClientProxy.size;
             int minusHalf = (width - infoWidth) / 2;
             int plusHalf = (width + infoWidth) / 2;
             Gui.drawRect(minusHalf + 2, 7, plusHalf - 2, currLine + 5, dark);
             Gui.drawRect(minusHalf + 1, 8, plusHalf - 1, currLine + 4, dark);
             Gui.drawRect(minusHalf + 2, 8, plusHalf - 2, currLine + 4, light);
-            Gui.drawRect(((width - infoWidth) / 2) + 3, 9, ((width + infoWidth) / 2) - 3, currLine + 3, dark);
+            Gui.drawRect(minusHalf + 3, 9, plusHalf - 3, currLine + 3, dark);
         }
-        xy[0] = width / 2;
-        xy[1] = height / 2;
-        return xy;
+        return width / 2;
     }
 
     @Override
