@@ -11,10 +11,12 @@ public class BlockHelperModSupport {
     private static final List<BlockHelperBlockProvider> BLOCK_PROVIDERS = new ArrayList<BlockHelperBlockProvider>();
     private static final List<BlockHelperTileEntityProvider> TE_PROVIDERS =
             new ArrayList<BlockHelperTileEntityProvider>();
+    private static final List<BlockHelperNameFixer> NAME_FIXERS = new ArrayList<BlockHelperNameFixer>();
 
     public static void registerInfoProvider(BlockHelperInfoProvider provider) {
         registerBlockProvider(provider);
         registerTileEntityProvider(provider);
+        registerNameFixer(provider);
     }
 
     public static void registerBlockProvider(BlockHelperBlockProvider provider) {
@@ -23,6 +25,23 @@ public class BlockHelperModSupport {
 
     public static void registerTileEntityProvider(BlockHelperTileEntityProvider provider) {
         TE_PROVIDERS.add(provider);
+    }
+
+    public static void registerNameFixer(BlockHelperNameFixer provider) {
+        NAME_FIXERS.add(provider);
+    }
+
+    public static String getName(Block block, TileEntity te, int id, int meta) {
+        for (BlockHelperNameFixer f : NAME_FIXERS) {
+            try {
+                String name = f.getName(block, te, id, meta);
+                if (name != null && !name.isEmpty()) {
+                    return name;
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+        return null;
     }
 
     public static void addInfo(InfoHolder info, Block block, int id, int meta, TileEntity te) {
