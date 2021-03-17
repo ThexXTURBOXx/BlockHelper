@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 public class BlockHelperClientProxy extends BlockHelperCommonProxy {
 
     static double size;
+    static double sizeInv;
     static int mode;
     static KeyBinding showHide;
 
@@ -37,6 +38,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         }
         mode = cfg.getOrCreateIntProperty("Mode", "General", 0).getInt();
         cfg.save();
+        sizeInv = 1 / size;
         showHide = new KeyBinding("Show/Hide Block Helper", Keyboard.KEY_NUMPAD0);
         ModLoader.registerKey(instance, showHide, false);
     }
