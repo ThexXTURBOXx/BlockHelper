@@ -13,6 +13,7 @@ import org.lwjgl.input.Keyboard;
 public class BlockHelperClientProxy extends BlockHelperCommonProxy {
 
     static double size;
+    static double sizeInv;
     static int mode;
     static KeyBinding showHide;
 
@@ -35,6 +36,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         size = cfg.get("General", "Size", 1D, "Size factor for the tooltip").getDouble(1);
         mode = cfg.get("General", "Mode", 0, "0 = DEFAULT; 1 = LIGHT").getInt(0);
         cfg.save();
+        sizeInv = 1 / size;
         showHide = new KeyBinding("Show/Hide Block Helper", Keyboard.KEY_NUMPAD0);
         ModLoader.registerKey(instance, showHide, false);
     }
