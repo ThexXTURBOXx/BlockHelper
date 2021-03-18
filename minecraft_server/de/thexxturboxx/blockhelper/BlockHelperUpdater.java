@@ -12,9 +12,7 @@ public class BlockHelperUpdater implements Runnable {
 
     private static final String JSON_URL = "https://raw.githubusercontent.com/"
             + "ThexXTURBOXx/UpdateJSONs/master/blockhelper.json";
-    private static boolean isLatestVersion = true;
     private static String latestVersion = "";
-    private static boolean firstTickUpdater = true;
 
     /**
      * Let the Version Checker run
@@ -26,7 +24,7 @@ public class BlockHelperUpdater implements Runnable {
             in = new URL(JSON_URL).openStream();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Update check for " + mod_BlockHelper.NAME + " failed.");
+            mod_BlockHelper.LOGGER.warning("Update check for " + mod_BlockHelper.NAME + " failed.");
         }
         if (in != null) {
             try {
@@ -42,40 +40,15 @@ public class BlockHelperUpdater implements Runnable {
                     }
                 }
                 if (!latestVersion.equalsIgnoreCase(mod_BlockHelper.VERSION)) {
-                    System.out.println("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);
+                    mod_BlockHelper.LOGGER.info("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);
                 } else {
-                    System.out.println("Yay! You have the newest version of " + mod_BlockHelper.NAME + " :)");
+                    mod_BlockHelper.LOGGER.info("Yay! You have the newest version of " + mod_BlockHelper.NAME + " :)");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Update check for " + mod_BlockHelper.NAME + " failed.");
+                mod_BlockHelper.LOGGER.warning("Update check for " + mod_BlockHelper.NAME + " failed.");
             }
         }
-        isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
-    }
-
-    /**
-     * @return whether BlockHelper is up-to-date or not
-     */
-    static boolean isLatestVersion() {
-        return isLatestVersion;
-    }
-
-    /**
-     * @return the latest version available or the current installed version
-     */
-    static String getLatestVersion() {
-        if (latestVersion.equals("")) {
-            latestVersion = mod_BlockHelper.VERSION;
-        }
-        return latestVersion;
-    }
-
-    /**
-     * @return the latest version available or an empty string
-     */
-    static String getLatestVersionOrEmpty() {
-        return latestVersion;
     }
 
     private static List<String> readLines(InputStream input) throws IOException {
@@ -88,22 +61,6 @@ public class BlockHelperUpdater implements Runnable {
             line = readers.readLine();
         }
         return list;
-    }
-
-    static void notifyUpdater() {
-        if (firstTickUpdater) {
-            if (!BlockHelperUpdater.isLatestVersion()) {
-                if (BlockHelperUpdater.getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                    System.out.println("[" + mod_BlockHelper.NAME + "] Update Check failed.");
-                } else {
-                    System.out.println("[" + mod_BlockHelper.NAME + "] New version available: "
-                            + mod_BlockHelper.VERSION + " ==> " + BlockHelperUpdater.getLatestVersion());
-                }
-                firstTickUpdater = false;
-            } else if (!BlockHelperUpdater.getLatestVersionOrEmpty().equals("")) {
-                firstTickUpdater = false;
-            }
-        }
     }
 
 }

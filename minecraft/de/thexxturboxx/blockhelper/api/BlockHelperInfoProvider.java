@@ -1,6 +1,5 @@
 package de.thexxturboxx.blockhelper.api;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

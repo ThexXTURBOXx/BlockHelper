@@ -8,7 +8,11 @@ import net.minecraft.server.MovingObjectPosition;
 import net.minecraft.server.Vec3D;
 import net.minecraft.server.World;
 
-class PacketCoder {
+final class PacketCoder {
+
+    private PacketCoder() {
+        throw new UnsupportedOperationException();
+    }
 
     static Object decode(DataInputStream is) throws IOException {
         byte type = is.readByte();

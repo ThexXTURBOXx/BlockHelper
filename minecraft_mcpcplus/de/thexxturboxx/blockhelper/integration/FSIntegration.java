@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.minecraft.server.Block;
 import net.minecraft.server.MathHelper;
 
@@ -12,13 +12,14 @@ public class FSIntegration extends BlockHelperInfoProvider {
         if (iof(b, "flora.BerryBush")) {
             int newMeta = MathHelper.floor(meta / 4d);
             if (newMeta < 3) {
-                String grow = ((int) ((newMeta / 2d) * 100)) + "";
-                if (grow.equals("100")) {
-                    grow = "Mature";
+                int grow = (int) ((newMeta / 2d) * 100);
+                String toShow;
+                if (grow >= 100) {
+                    toShow = "Mature";
                 } else {
-                    grow = grow + "%";
+                    toShow = grow + "%";
                 }
-                info.add("Growth State: " + grow);
+                info.add("Growth State: " + toShow);
             } else {
                 info.add("Growth State: Ripe");
             }

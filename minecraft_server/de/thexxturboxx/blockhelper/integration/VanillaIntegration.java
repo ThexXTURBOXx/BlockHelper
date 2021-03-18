@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;

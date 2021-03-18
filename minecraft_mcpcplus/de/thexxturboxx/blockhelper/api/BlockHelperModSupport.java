@@ -1,17 +1,20 @@
 package de.thexxturboxx.blockhelper.api;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.server.Block;
 import net.minecraft.server.TileEntity;
 
-public class BlockHelperModSupport {
+public final class BlockHelperModSupport {
 
     private static final List<BlockHelperBlockProvider> BLOCK_PROVIDERS = new ArrayList<BlockHelperBlockProvider>();
     private static final List<BlockHelperTileEntityProvider> TE_PROVIDERS =
             new ArrayList<BlockHelperTileEntityProvider>();
     private static final List<BlockHelperNameFixer> NAME_FIXERS = new ArrayList<BlockHelperNameFixer>();
+
+    private BlockHelperModSupport() {
+        throw new UnsupportedOperationException();
+    }
 
     public static void registerInfoProvider(BlockHelperInfoProvider provider) {
         registerBlockProvider(provider);

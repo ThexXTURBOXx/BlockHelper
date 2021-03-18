@@ -26,3 +26,8 @@ mod_MinecraftForge.info
 
 # IntelliJ IDEA #
 *.iml
+
+# CodeChicken APIs #
+minecraft/codechicken/*
+minecraft_mcpcplus/codechicken/*
+minecraft_server/codechicken/*

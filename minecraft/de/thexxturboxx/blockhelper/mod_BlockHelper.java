@@ -1,8 +1,10 @@
 package de.thexxturboxx.blockhelper;
 
 import buildcraft.transport.TileGenericPipe;
+import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import factorization.common.TileEntityCommon;
 import ic2.common.Ic2Items;
 import java.awt.Color;
@@ -15,6 +17,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -45,17 +48,25 @@ import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
-    private static final String MOD_ID = "BlockHelper";
+    private static final String MOD_ID = "mod_BlockHelper";
     static final String NAME = "Block Helper";
     static final String VERSION = "0.9";
     static final String CHANNEL = "BlockHelperInfo";
     static final String CHANNEL_SSP = "BlockHelperInfoSSP";
+
+    public static final Logger LOGGER = Logger.getLogger(NAME);
+
+    static {
+        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+    }
 
     public static final MopType[] MOP_TYPES = MopType.values();
 
     private static final Random rnd = new Random();
 
     public static boolean isClient;
+
+    private static boolean firstTick = true;
 
     private boolean isHidden = false;
 
@@ -79,6 +90,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public void load() {
         proxy = new BlockHelperClientProxy();
         proxy.load(this);
+        ModIdentifier.load();
     }
 
     @Override
@@ -95,23 +107,29 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public boolean onTickInGame(float time, Minecraft mc) {
         try {
             GL11.glScaled(size, size, size);
-            BlockHelperUpdater.notifyUpdater(mc);
+
+            if (firstTick) {
+                ModIdentifier.firstTick();
+                BlockHelperUpdater.notifyUpdater(mc);
+                firstTick = false;
+            }
+
             updateKeyState();
             if (mc.currentScreen != null || isHidden)
                 return true;
-            int i = isLookingAtBlock(mc);
-            if (i == 0)
+            MopType result = getRayTraceResult(mc);
+            if (result == MopType.AIR)
                 return true;
             MovingObjectPosition mop = mc.objectMouseOver;
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             DataOutputStream os = new DataOutputStream(buffer);
             try {
-                if (MOP_TYPES[i] == MopType.ENTITY) {
-                    PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MOP_TYPES[i],
+                if (result == MopType.ENTITY) {
+                    PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MopType.ENTITY,
                             mop.entityHit.entityId));
                 } else {
                     PacketCoder.encode(os,
-                            new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MOP_TYPES[i]));
+                            new PacketInfo(mc.theWorld.worldProvider.worldType, mop, result));
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -126,27 +144,27 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             } else {
                 onPacketData(null, CHANNEL_SSP, fieldData);
             }
-            switch (i) {
-            case 1:
+            switch (result) {
+            case BLOCK:
                 int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
                 int id = mc.theWorld.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
                 ItemStack is = new ItemStack(Block.blocksList[id], 1, meta);
                 TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                 String itemId = is.itemID + ":" + is.getItemDamage();
-                String ct = null;
+                String mod = null;
                 if (te != null) {
                     if (iof(te, "thermalexpansion.transport.tileentity.TileConduitLiquid")) {
                         is.setItemDamage(4096);
                     } else if (iof(te, "ic2.common.TileEntityCable")) {
                         is = new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, meta);
                     } else if (iof(te, "factorization.common.TileEntityCommon")) {
-                        ct = "Factorization";
+                        mod = "Factorization";
                         is.setItemDamage(((TileEntityCommon) te).getFactoryType().md);
                     } else if (iof(te, "codechicken.chunkloader.TileChunkLoaderBase")) {
-                        ct = "ChickenChunks";
+                        mod = "ChickenChunks";
                     } else if (iof(te, "buildcraft.transport.TileGenericPipe")) {
                         TileGenericPipe pipe = (TileGenericPipe) te;
-                        ct = "BuildCraft";
+                        mod = "BuildCraft";
                         if (pipe.pipe != null) {
                             is = new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
                         }
@@ -155,9 +173,9 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 Block b = Block.blocksList[id];
                 if (is.getItem() == null)
                     return true;
-                if (ct == null) {
-                    ct = "Minecraft";
-                }
+
+                mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
+                mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
                 infos.clear();
                 String name = BlockHelperModSupport.getName(b, te, id, meta);
@@ -210,21 +228,24 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
                 addInfo(name);
                 addInfo(itemId);
-                addInfo("§o" + ct.replaceAll("§.", ""), 0x000000ff);
+                addInfo((harvestable ? "§a\u2714" : "§4\u2718") + " §r§7" + harvest);
                 addAdditionalInfo(packetInfos);
-                addInfo((harvestable ? "§a\u2714" : "§4\u2718") + " §r" + harvest);
+                addInfo("§9§o" + mod);
                 int x = drawBox(mc);
                 drawInfo(x, mc);
                 break;
-            case 2:
+            case ENTITY:
                 Entity e = mop.entityHit;
                 infos.clear();
                 String nameEntity = EntityList.getEntityString(e);
                 if (e instanceof IMob) {
                     nameEntity = "§4" + nameEntity;
                 }
+                mod = ModIdentifier.identifyMod(e);
+                mod = mod == null ? ModIdentifier.MINECRAFT : mod;
                 addInfo(nameEntity);
                 addAdditionalInfo(packetInfos);
+                addInfo("§9§o" + mod);
                 x = drawBox(mc);
                 drawInfo(x, mc);
                 break;
@@ -249,21 +270,21 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         return x - mc.fontRenderer.getStringWidth(s) / 2;
     }
 
-    private int isLookingAtBlock(Minecraft mc) {
+    private MopType getRayTraceResult(Minecraft mc) {
         MovingObjectPosition mop = mc.objectMouseOver;
         if (mop == null)
-            return 0;
+            return MopType.AIR;
         switch (mop.typeOfHit) {
         case ENTITY:
-            return 2;
+            return MopType.ENTITY;
         case TILE:
             Material b = mc.theWorld.getBlockMaterial(mop.blockX, mop.blockY, mop.blockZ);
             if (b != null)
-                return 1;
+                return MopType.BLOCK;
             else
-                return 0;
+                return MopType.AIR;
         default:
-            return 0;
+            return MopType.AIR;
         }
     }
 
@@ -280,18 +301,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public void onDisconnect(NetworkManager network, String message, Object[] args) {
     }
 
-    private static class FormatString {
-        private final String str;
-        private final int color;
-
-        FormatString(String str, int color) {
-            this.str = str;
-            this.color = color;
-        }
-    }
-
     private static List<String> packetInfos = new ArrayList<String>();
-    private static final List<FormatString> infos = new ArrayList<FormatString>();
+    private static final List<String> infos = new ArrayList<String>();
 
     private void addAdditionalInfo(List<String> info) {
         for (String s : info) {
@@ -300,12 +311,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     }
 
     private void addInfo(String info) {
-        addInfo(info, 0xffffffff);
-    }
-
-    private void addInfo(String info, int color) {
-        if (info != null && !info.equals("")) {
-            infos.add(new FormatString(info, color));
+        if (info != null && !info.isEmpty()) {
+            infos.add(info);
         }
     }
 
@@ -315,8 +322,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     private void drawInfo(int x, Minecraft mc) {
         int currLine = PADDING;
-        for (FormatString s : infos) {
-            mc.fontRenderer.drawString(s.str, getStringMid(x, s.str, mc), currLine, s.color);
+        for (String s : infos) {
+            mc.fontRenderer.drawString(s, getStringMid(x, s, mc), currLine, 0xffffffff);
             currLine += mc.fontRenderer.FONT_HEIGHT;
         }
     }
@@ -327,8 +334,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         if (BlockHelperClientProxy.mode != 1) {
             int infoWidth = 0;
             int currLine = PADDING;
-            for (FormatString s : infos) {
-                infoWidth = Math.max(mc.fontRenderer.getStringWidth(s.str) + PADDING, infoWidth);
+            for (String s : infos) {
+                infoWidth = Math.max(mc.fontRenderer.getStringWidth(s) + PADDING, infoWidth);
                 currLine += mc.fontRenderer.FONT_HEIGHT;
             }
             int minusHalf = (width - infoWidth) / 2;

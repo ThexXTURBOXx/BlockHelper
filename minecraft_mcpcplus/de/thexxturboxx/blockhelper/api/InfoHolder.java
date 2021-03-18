@@ -1,4 +1,4 @@
-package de.thexxturboxx.blockhelper;
+package de.thexxturboxx.blockhelper.api;
 
 public interface InfoHolder {
 

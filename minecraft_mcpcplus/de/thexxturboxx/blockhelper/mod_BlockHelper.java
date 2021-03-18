@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import forge.DimensionManager;
@@ -13,6 +14,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 import net.minecraft.server.Block;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityLiving;
@@ -24,10 +26,16 @@ import net.minecraft.server.World;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
-    private static final String MOD_ID = "BlockHelper";
+    private static final String MOD_ID = "mod_BlockHelper";
     static final String NAME = "Block Helper";
     static final String VERSION = "0.9";
     static final String CHANNEL = "BlockHelperInfo";
+
+    public static final Logger LOGGER = Logger.getLogger(NAME);
+
+    static {
+        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+    }
 
     public static final MopType[] MOP_TYPES = MopType.values();
 
