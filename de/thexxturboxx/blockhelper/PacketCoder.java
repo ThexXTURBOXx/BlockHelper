@@ -9,7 +9,11 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
-class PacketCoder {
+final class PacketCoder {
+
+    private PacketCoder() {
+        throw new UnsupportedOperationException();
+    }
 
     static Object decode(DataInputStream is) throws IOException {
         byte type = is.readByte();

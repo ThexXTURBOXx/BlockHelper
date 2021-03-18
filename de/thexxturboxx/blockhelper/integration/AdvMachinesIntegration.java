@@ -1,6 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import ic2.advancedmachines.common.TileEntityBaseMachine;
 import ic2.snyke7.advMachine.TileAdvMachine;

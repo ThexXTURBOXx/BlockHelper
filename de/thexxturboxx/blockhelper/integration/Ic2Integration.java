@@ -1,6 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import ic2.api.IEnergyStorage;
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;

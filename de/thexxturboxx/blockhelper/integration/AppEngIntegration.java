@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
 import appeng.me.basetiles.TilePoweredBase;
-import de.thexxturboxx.blockhelper.InfoHolder;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import net.minecraft.tileentity.TileEntity;
 
