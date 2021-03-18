@@ -2,8 +2,8 @@ package de.thexxturboxx.blockhelper.integration;
 
 import codechicken.chunkloader.TileChunkLoader;
 import codechicken.chunkloader.TileChunkLoaderBase;
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.minecraft.tileentity.TileEntity;
 
 public class CChunksIntegration extends BlockHelperInfoProvider {

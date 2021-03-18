@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.meteor.common.MeteorsMod;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;

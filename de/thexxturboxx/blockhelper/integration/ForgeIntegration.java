@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
 
                     if (tank.getLiquid() != null) {
                         String name = getLiquidName(tank.getLiquid().asItemStack().itemID);
-                        if (name.equals("")) {
+                        if (name.isEmpty()) {
                             info.add("0 mB / " + tank.getCapacity() + " mB");
                         } else {
                             info.add(tank.getLiquid().amount + " mB / "

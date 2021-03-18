@@ -4,8 +4,8 @@ import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.minecraft.tileentity.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {

@@ -2,7 +2,10 @@
 
 A small WAILA alternative for old versions of Minecraft.
 
-## [Download](https://www.curseforge.com/minecraft/mc-mods/block-helper)
+## Download
+[**Download the mod**](https://www.curseforge.com/minecraft/mc-mods/block-helper)
+
+**The versions for 1.3.2 need the [Class Loader Fixer](https://raw.githubusercontent.com/ThexXTURBOXx/BlockHelper/1.3.2/ClassLoaderFixer-1.3.2.zip) installed as a JAR-MOD to correctly display the tooltips.**
 
 ## Mod Compatibility
 
