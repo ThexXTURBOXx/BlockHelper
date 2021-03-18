@@ -1,6 +1,5 @@
 package de.thexxturboxx.blockhelper.api;
 
-import de.thexxturboxx.blockhelper.InfoHolder;
 import de.thexxturboxx.blockhelper.integration.BlockHelperNameFixer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
+import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.ArrayList;
 import java.util.List;
 
