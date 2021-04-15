@@ -86,10 +86,12 @@ public class BlockHelperUpdater implements Runnable {
     static void notifyUpdater(Minecraft mc) {
         if (!BlockHelperUpdater.isLatestVersion()) {
             if (BlockHelperUpdater.getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §4Update Check failed.");
+                mc.thePlayer.addChatMessage("\u00a77[\u00a76" + mod_BlockHelper.NAME + "\u00a77] \u00a74Update Check "
+                        + "failed.");
             } else {
-                mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §bNew version available: §c"
-                        + mod_BlockHelper.VERSION + " §6==> §2" + BlockHelperUpdater.getLatestVersion());
+                mc.thePlayer.addChatMessage("\u00a77[\u00a76" + mod_BlockHelper.NAME + "\u00a77] \u00a7bNew version "
+                        + "available: \u00a7c"
+                        + mod_BlockHelper.VERSION + " \u00a76==> \u00a72" + BlockHelperUpdater.getLatestVersion());
             }
         }
     }

@@ -8,7 +8,6 @@ import net.minecraft.server.Block;
 import net.minecraft.server.BlockCrops;
 import net.minecraft.server.BlockNetherWart;
 import net.minecraft.server.BlockStem;
-import net.minecraft.server.TileEntity;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -37,15 +36,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             }
             info.add("State: " + state);
         }
-    }
-
-    @Override
-    public String getName(Block block, TileEntity te, int id, int meta) {
-        if (block instanceof BlockStem) {
-            Block drop = getDeclaredField(block, "blockFruit");
-            return drop.getName();
-        }
-        return null;
     }
 
     private double getMaxStage(Block b, int id) {

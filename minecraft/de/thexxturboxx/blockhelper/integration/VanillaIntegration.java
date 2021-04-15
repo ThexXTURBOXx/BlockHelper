@@ -45,7 +45,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             Block drop = getDeclaredField(block, "a");
             return drop.translateBlockName();
         }
-        return null;
+        return super.getName(block, te, id, meta);
     }
 
     private double getMaxStage(Block b, int id) {

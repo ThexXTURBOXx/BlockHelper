@@ -1,12 +1,9 @@
 package de.thexxturboxx.blockhelper;
 
-import buildcraft.transport.TileGenericPipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import factorization.common.TileEntityCommon;
-import ic2.common.Ic2Items;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -148,36 +145,20 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             case BLOCK:
                 int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
                 int id = mc.theWorld.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
-                ItemStack is = new ItemStack(Block.blocksList[id], 1, meta);
-                TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                String itemId = is.itemID + ":" + is.getItemDamage();
-                String mod = null;
-                if (te != null) {
-                    if (iof(te, "thermalexpansion.transport.tileentity.TileConduitLiquid")) {
-                        is.setItemDamage(4096);
-                    } else if (iof(te, "ic2.common.TileEntityCable")) {
-                        is = new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, meta);
-                    } else if (iof(te, "factorization.common.TileEntityCommon")) {
-                        mod = "Factorization";
-                        is.setItemDamage(((TileEntityCommon) te).getFactoryType().md);
-                    } else if (iof(te, "codechicken.chunkloader.TileChunkLoaderBase")) {
-                        mod = "ChickenChunks";
-                    } else if (iof(te, "buildcraft.transport.TileGenericPipe")) {
-                        TileGenericPipe pipe = (TileGenericPipe) te;
-                        mod = "BuildCraft";
-                        if (pipe.pipe != null) {
-                            is = new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
-                        }
-                    }
-                }
                 Block b = Block.blocksList[id];
+                TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                ItemStack is = BlockHelperModSupport.getItemStack(b, te, id, meta);
+                if (is == null) {
+                    is = new ItemStack(b, 1, meta);
+                }
+                String itemId = is.itemID + ":" + is.getItemDamage();
                 if (is.getItem() == null)
                     return true;
 
+                String mod = BlockHelperModSupport.getMod(b, te, id, meta);
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                 mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
-                infos.clear();
                 String name = BlockHelperModSupport.getName(b, te, id, meta);
                 name = name == null ? "" : name;
                 if (name.isEmpty()) {
@@ -226,26 +207,27 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     }
                 }
 
+                infos.clear();
                 addInfo(name);
                 addInfo(itemId);
-                addInfo((harvestable ? "§a\u2714" : "§4\u2718") + " §r§7" + harvest);
+                addInfo((harvestable ? "\u00a7a\u2714" : "\u00a74\u2718") + " \u00a7r\u00a77" + harvest);
                 addAdditionalInfo(packetInfos);
-                addInfo("§9§o" + mod);
+                addInfo("\u00a79\u00a7o" + mod);
                 int x = drawBox(mc);
                 drawInfo(x, mc);
                 break;
             case ENTITY:
                 Entity e = mop.entityHit;
-                infos.clear();
                 String nameEntity = EntityList.getEntityString(e);
                 if (e instanceof IMob) {
-                    nameEntity = "§4" + nameEntity;
+                    nameEntity = "\u00a74" + nameEntity;
                 }
                 mod = ModIdentifier.identifyMod(e);
                 mod = mod == null ? ModIdentifier.MINECRAFT : mod;
+                infos.clear();
                 addInfo(nameEntity);
                 addAdditionalInfo(packetInfos);
-                addInfo("§9§o" + mod);
+                addInfo("\u00a79\u00a7o" + mod);
                 x = drawBox(mc);
                 drawInfo(x, mc);
                 break;
@@ -306,7 +288,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     private void addAdditionalInfo(List<String> info) {
         for (String s : info) {
-            addInfo("§7" + s);
+            addInfo("\u00a77" + s);
         }
     }
 

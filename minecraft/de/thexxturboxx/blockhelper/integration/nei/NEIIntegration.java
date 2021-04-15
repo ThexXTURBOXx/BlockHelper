@@ -19,7 +19,7 @@ public class NEIIntegration implements IHandleTooltip {
     public List handleTooltip(GuiContainer guiContainer, List list) {
         String mod = ModIdentifier.identifyMod(guiContainer.getStackMouseOver());
         if (mod != null) {
-            list.add("§9§o" + mod);
+            list.add("\u00a79\u00a7o" + mod);
         }
         return list;
     }
@@ -29,7 +29,7 @@ public class NEIIntegration implements IHandleTooltip {
     public List handleTooltip(ItemStack stack, List list) {
         String mod = ModIdentifier.identifyMod(stack);
         if (mod != null) {
-            list.add("§9§o" + mod);
+            list.add("\u00a79\u00a7o" + mod);
         }
         return list;
     }

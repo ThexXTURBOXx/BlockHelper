@@ -96,9 +96,9 @@ public final class ModIdentifier {
         if (container != null) {
             ModMetadata metadata = container.getMetadata();
             if (metadata != null && metadata.name != null) {
-                return metadata.name.replaceAll("§.", "");
+                return metadata.name.replaceAll("\u00a7.", "");
             }
-            return container.getName().replaceFirst("^mod_", "").replaceAll("§.", "");
+            return container.getName().replaceFirst("^mod_", "").replaceAll("\u00a7.", "");
         }
         return MINECRAFT;
     }
