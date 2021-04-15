@@ -3,8 +3,8 @@ package de.thexxturboxx.blockhelper.api;
 import net.minecraft.src.Block;
 import net.minecraft.src.TileEntity;
 
-public interface BlockHelperNameFixer {
+public interface BlockHelperModFixer {
 
-    String getName(Block block, TileEntity te, int id, int meta);
+    String getMod(Block block, TileEntity te, int id, int meta);
 
 }

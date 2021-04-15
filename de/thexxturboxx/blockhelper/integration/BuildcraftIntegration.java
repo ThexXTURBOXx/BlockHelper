@@ -8,11 +8,15 @@ import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
+import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.src.Block;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
@@ -53,6 +57,25 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 }
             }
         }
+    }
+
+    @Override
+    public String getMod(Block block, TileEntity te, int id, int meta) {
+        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
+            return "BuildCraft";
+        }
+        return super.getMod(block, te, id, meta);
+    }
+
+    @Override
+    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
+        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
+            TileGenericPipe pipe = (TileGenericPipe) te;
+            if (pipe.pipe != null) {
+                return new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
+            }
+        }
+        return super.getItemStack(block, te, id, meta);
     }
 
     private static Map<String, LiquidStack> liquids;

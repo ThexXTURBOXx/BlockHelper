@@ -1,15 +1,15 @@
 package de.thexxturboxx.blockhelper.api;
 
-import de.thexxturboxx.blockhelper.integration.BlockHelperNameFixer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.src.Block;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
 
 public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider,
-        BlockHelperNameFixer {
+        BlockHelperNameFixer, BlockHelperItemStackFixer, BlockHelperModFixer {
 
     private static final List<String> loadedCache = new ArrayList<String>();
     private static final List<String> loadedCacheFailed = new ArrayList<String>();
@@ -93,6 +93,16 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
 
     @Override
     public String getName(Block block, TileEntity te, int id, int meta) {
+        return null;
+    }
+
+    @Override
+    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
+        return null;
+    }
+
+    @Override
+    public String getMod(Block block, TileEntity te, int id, int meta) {
         return null;
     }
 
