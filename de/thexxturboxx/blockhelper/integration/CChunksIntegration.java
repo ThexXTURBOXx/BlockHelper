@@ -4,6 +4,7 @@ import codechicken.chunkloader.TileChunkLoader;
 import codechicken.chunkloader.TileChunkLoaderBase;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 
 public class CChunksIntegration extends BlockHelperInfoProvider {
@@ -19,6 +20,14 @@ public class CChunksIntegration extends BlockHelperInfoProvider {
                 info.add("Shape: " + ((TileChunkLoader) te).shape.toString());
             }
         }
+    }
+
+    @Override
+    public String getMod(Block block, TileEntity te, int id, int meta) {
+        if (iof(te, "codechicken.chunkloader.TileChunkLoaderBase")) {
+            return "ChickenChunks";
+        }
+        return super.getMod(block, te, id, meta);
     }
 
     private String firstUp(String s) {

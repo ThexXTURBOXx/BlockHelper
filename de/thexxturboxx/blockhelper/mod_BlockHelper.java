@@ -1,6 +1,5 @@
 package de.thexxturboxx.blockhelper;
 
-import buildcraft.transport.TileGenericPipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.SidedProxy;
@@ -10,8 +9,6 @@ import cpw.mods.fml.common.network.Player;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import factorization.common.TileEntityCommon;
-import ic2.core.Ic2Items;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -131,41 +128,20 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 case BLOCK:
                     int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
                     int id = mc.theWorld.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
-                    ItemStack is = new ItemStack(Block.blocksList[id], 1, meta);
-                    TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                    String itemId = is.itemID + ":" + is.getItemDamage();
-                    String mod = null;
-                    if (te != null) {
-                        if (iof(te, "thermalexpansion.block.conduit.TileConduitLiquid")) {
-                            is.setItemDamage(4096);
-                        } else if (iof(te, "ic2.core.block.wiring.TileEntityCable")) {
-                            is = new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, meta);
-                        } else if (iof(te, "factorization.common.TileEntityCommon")) {
-                            mod = "Factorization";
-                            is.setItemDamage(((TileEntityCommon) te).getFactoryType().md);
-                        } else if (iof(te, "codechicken.chunkloader.TileChunkLoaderBase")) {
-                            mod = "ChickenChunks";
-                        } else if (iof(te, "buildcraft.transport.TileGenericPipe")) {
-                            TileGenericPipe pipe = (TileGenericPipe) te;
-                            mod = "BuildCraft";
-                            if (pipe.pipe != null && pipe.initialized) {
-                                is = new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
-                            }
-                        }
-                    }
                     Block b = Block.blocksList[id];
-                    if (b != null) {
-                        if (iof(b, "net.meteor.common.block.BlockMeteorShieldTorch")) {
-                            is = new ItemStack(b.idDropped(0, null, 0), 1, meta);
-                        }
+                    TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                    ItemStack is = BlockHelperModSupport.getItemStack(b, te, id, meta);
+                    if (is == null) {
+                        is = new ItemStack(b, 1, meta);
                     }
+                    String itemId = is.itemID + ":" + is.getItemDamage();
                     if (is.getItem() == null)
                         return true;
 
+                    String mod = BlockHelperModSupport.getMod(b, te, id, meta);
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
-                    infos.clear();
                     String name = BlockHelperModSupport.getName(b, te, id, meta);
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
@@ -220,6 +196,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             harvest = "Currently not harvestable";
                         }
                     }
+
+                    infos.clear();
                     addInfo(name);
                     addInfo(itemId);
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r§7" + harvest);
@@ -230,13 +208,13 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     break;
                 case ENTITY:
                     Entity e = mop.entityHit;
-                    infos.clear();
                     String nameEntity = e.getEntityName();
                     if (e instanceof IMob) {
                         nameEntity = "§4" + nameEntity;
                     }
                     mod = ModIdentifier.identifyMod(e);
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
+                    infos.clear();
                     addInfo(nameEntity);
                     addAdditionalInfo(packetInfos);
                     addInfo("§9§o" + mod);

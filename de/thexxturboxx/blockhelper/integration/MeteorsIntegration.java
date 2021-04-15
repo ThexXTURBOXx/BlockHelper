@@ -4,6 +4,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.meteor.common.MeteorsMod;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class MeteorsIntegration extends BlockHelperInfoProvider {
@@ -25,6 +26,14 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
                 info.add("Radius: " + meta * 4 + "x" + meta * 4 + " Chunks");
             }
         }
+    }
+
+    @Override
+    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
+        if (iof(block, "net.meteor.common.block.BlockMeteorShieldTorch")) {
+            return new ItemStack(block.idDropped(0, null, 0), 1, meta);
+        }
+        return super.getItemStack(block, te, id, meta);
     }
 
 }
