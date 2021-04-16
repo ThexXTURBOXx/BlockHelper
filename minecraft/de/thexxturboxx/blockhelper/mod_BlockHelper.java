@@ -350,11 +350,11 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                World w = proxy.getWorld();
+                World w = mod_BlockHelper.proxy.getWorld();
                 if (pi == null || pi.mop == null || w == null)
                     return;
                 if (pi.mt == MopType.ENTITY) {
-                    Entity en = getEntityByID(w, pi.entityId);
+                    Entity en = pi.mop.entityHit;
                     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                     DataOutputStream os = new DataOutputStream(buffer);
                     PacketClient pc = new PacketClient();
@@ -437,6 +437,9 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @SuppressWarnings("unchecked")
     static Entity getEntityByID(World w, int entityId) {
+        if (w == null) {
+            return null;
+        }
         List<Entity> list = (List<Entity>) w.getLoadedEntityList();
         if (list != null) {
             for (Entity e : list) {

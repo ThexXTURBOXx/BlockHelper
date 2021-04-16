@@ -87,7 +87,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     return;
                 World w = DimensionManager.getWorld(pi.dimId);
                 if (pi.mt == MopType.ENTITY) {
-                    Entity en = getEntityByID(w, pi.entityId);
+                    Entity en = pi.mop.entity;
                     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                     DataOutputStream os = new DataOutputStream(buffer);
                     PacketClient pc = new PacketClient();

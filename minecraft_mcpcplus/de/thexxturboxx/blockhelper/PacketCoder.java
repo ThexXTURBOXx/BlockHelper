@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
+import forge.DimensionManager;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ final class PacketCoder {
             MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = mod_BlockHelper.proxy.getWorld();
+                World w = DimensionManager.getWorld(dimId);
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)
