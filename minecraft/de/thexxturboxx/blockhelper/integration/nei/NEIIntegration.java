@@ -5,6 +5,7 @@ import codechicken.nei.IHandleTooltip;
 import java.util.List;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.ModLoader;
 
 public class NEIIntegration implements IHandleTooltip {
 
@@ -17,6 +18,10 @@ public class NEIIntegration implements IHandleTooltip {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List handleTooltip(GuiContainer guiContainer, List list) {
+        if (ModLoader.getMinecraftInstance().thePlayer.inventory.getItemStack() != null) {
+            return list;
+        }
+
         String mod = ModIdentifier.identifyMod(guiContainer.getStackMouseOver());
         if (mod != null) {
             list.add("\u00a79\u00a7o" + mod);
@@ -27,6 +32,10 @@ public class NEIIntegration implements IHandleTooltip {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List handleTooltip(ItemStack stack, List list) {
+        if (ModLoader.getMinecraftInstance().thePlayer.inventory.getItemStack() != null) {
+            return list;
+        }
+
         String mod = ModIdentifier.identifyMod(stack);
         if (mod != null) {
             list.add("\u00a79\u00a7o" + mod);
