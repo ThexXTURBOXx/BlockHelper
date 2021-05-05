@@ -30,11 +30,19 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
         return false;
     }
 
-    protected boolean iof(Object obj, String clazz) {
+    protected static boolean iof(Object obj, String clazz) {
         return isLoadedAndInstanceOf(obj, clazz);
     }
 
-    protected Method getMethod(Object obj, String method) {
+    protected static Class<?> getClass(String clazz) {
+        try {
+            return Class.forName(clazz);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    protected static Method getMethod(Object obj, String method) {
         try {
             Method m = obj.getClass().getMethod(method);
             m.setAccessible(true);
@@ -45,7 +53,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T getDeclaredField(Object obj, String field) {
+    protected static <T> T getDeclaredField(Object obj, String field) {
         try {
             Field f = obj.getClass().getDeclaredField(field);
             f.setAccessible(true);
@@ -58,11 +66,24 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T getField(Object obj, String field) {
+    protected static <T> T getField(Object obj, String field) {
         try {
             Field f = obj.getClass().getField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected static <T> T getStaticField(Class<?> clazz, String field) {
+        try {
+            Field f = clazz.getField(field);
+            f.setAccessible(true);
+            return (T) f.get(null);
         } catch (IllegalAccessException e) {
             return null;
         } catch (NoSuchFieldException e) {

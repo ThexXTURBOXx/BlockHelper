@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.integration.RedPower2Integration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
@@ -151,13 +152,18 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 if (is == null) {
                     is = new ItemStack(b, 1, meta);
                 }
-                String itemId = is.itemID + ":" + is.getItemDamage();
-                if (is.getItem() == null)
-                    return true;
+
+                // Microblocks support here, not in Mod support classes as they need extra data
+                ItemStack microblock = RedPower2Integration.getMicroblock(mc.theWorld, mc.thePlayer, mop, te);
+                is = microblock == null ? is : microblock;
 
                 String mod = BlockHelperModSupport.getMod(b, te, id, meta);
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                 mod = mod == null ? ModIdentifier.MINECRAFT : mod;
+
+                String itemId = is.itemID + ":" + is.getItemDamage();
+                if (is.getItem() == null)
+                    return true;
 
                 String name = BlockHelperModSupport.getName(b, te, id, meta);
                 name = name == null ? "" : name;

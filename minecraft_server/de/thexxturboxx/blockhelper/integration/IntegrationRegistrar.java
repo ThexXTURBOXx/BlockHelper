@@ -13,6 +13,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerTileEntityProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerBlockProvider(new FSIntegration());
         BlockHelperModSupport.registerTileEntityProvider(new Ic2Integration());
+        BlockHelperModSupport.registerBlockProvider(new RedPower2Integration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
     }
 
