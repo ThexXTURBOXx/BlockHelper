@@ -8,6 +8,7 @@ import forge.MinecraftForge;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ModLoader;
 import net.minecraft.server.World;
+import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperCommonProxy {
 

@@ -8,6 +8,7 @@ import net.minecraft.src.ModLoader;
 import net.minecraft.src.World;
 import net.minecraft.src.forge.DimensionManager;
 import net.minecraft.src.forge.MinecraftForge;
+import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperCommonProxy {
 

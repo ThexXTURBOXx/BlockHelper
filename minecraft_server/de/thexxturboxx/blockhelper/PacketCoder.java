@@ -8,14 +8,15 @@ import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
 import net.minecraft.src.forge.DimensionManager;
+import net.minecraft.src.mod_BlockHelper;
 
-final class PacketCoder {
+public final class PacketCoder {
 
     private PacketCoder() {
         throw new UnsupportedOperationException();
     }
 
-    static Object decode(DataInputStream is) throws IOException {
+    public static Object decode(DataInputStream is) throws IOException {
         byte type = is.readByte();
         switch (type) {
         case 0:
@@ -60,7 +61,7 @@ final class PacketCoder {
         return new Object();
     }
 
-    static void encode(DataOutputStream os, Object o) throws IOException {
+    public static void encode(DataOutputStream os, Object o) throws IOException {
         if (mod_BlockHelper.iof(o, "de.thexxturboxx.blockhelper.PacketInfo")) {
             PacketInfo pi = (PacketInfo) o;
             os.writeByte(0);

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperUpdater implements Runnable {
 
@@ -36,14 +37,14 @@ public class BlockHelperUpdater implements Runnable {
     /**
      * @return whether BlockHelper is up-to-date or not
      */
-    static boolean isLatestVersion() {
+    public static boolean isLatestVersion() {
         return isLatestVersion;
     }
 
     /**
      * @return the latest version available or the current installed version
      */
-    static String getLatestVersion() {
+    public static String getLatestVersion() {
         if (latestVersion.isEmpty()) {
             latestVersion = mod_BlockHelper.VERSION;
         }
@@ -70,7 +71,7 @@ public class BlockHelperUpdater implements Runnable {
         }
     }
 
-    static void notifyUpdater(Minecraft mc) {
+    public static void notifyUpdater(Minecraft mc) {
         if (!BlockHelperUpdater.isLatestVersion()) {
             if (BlockHelperUpdater.getLatestVersion().equals(mod_BlockHelper.VERSION)) {
                 mc.thePlayer.addChatMessage("\u00a77[\u00a76" + mod_BlockHelper.NAME + "\u00a77] \u00a74Update Check "

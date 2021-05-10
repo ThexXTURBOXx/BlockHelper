@@ -1,6 +1,11 @@
-package de.thexxturboxx.blockhelper;
+package net.minecraft.src;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
+import de.thexxturboxx.blockhelper.MopType;
+import de.thexxturboxx.blockhelper.PacketClient;
+import de.thexxturboxx.blockhelper.PacketCoder;
+import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import java.io.ByteArrayInputStream;
@@ -27,10 +32,10 @@ import net.minecraft.src.forge.NetworkMod;
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
     private static final String MOD_ID = "mod_BlockHelper";
-    static final String NAME = "Block Helper";
-    static final String VERSION = "1.0.0";
-    static final String MC_VERSION = "1.2.5";
-    static final String CHANNEL = "BlockHelperInfo";
+    public static final String NAME = "Block Helper";
+    public static final String VERSION = "1.0.0";
+    public static final String MC_VERSION = "1.2.5";
+    public static final String CHANNEL = "BlockHelperInfo";
 
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
@@ -148,12 +153,12 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         }
     }
 
-    static boolean iof(Object obj, String clazz) {
+    public static boolean iof(Object obj, String clazz) {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
     @SuppressWarnings("unchecked")
-    static Entity getEntityByID(World w, int entityId) {
+    public static Entity getEntityByID(World w, int entityId) {
         for (Entity e : (List<Entity>) w.loadedEntityList) {
             if (e.entityId == entityId) {
                 return e;

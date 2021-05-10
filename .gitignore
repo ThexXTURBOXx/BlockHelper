@@ -5,10 +5,17 @@
 *.war
 *.ear
 
-# MC/Forge Directories #
+# MC/Forge Directories but NOT Main Mod Class #
 cpw/
 ibxm/
-net/
+**/net/minecraft/*
+**/net/minecraft/src/*
+**/net/minecraft/client/*
+**/net/minecraft/isom/*
+**/net/minecraft/server/*
+**/net/minecraftforge/*
+!**/net/minecraft/src
+!**/mod_BlockHelper.java
 paulscode/
 argo/
 
@@ -28,6 +35,4 @@ mod_MinecraftForge.info
 *.iml
 
 # CodeChicken APIs #
-minecraft/codechicken/*
-minecraft_mcpcplus/codechicken/*
-minecraft_server/codechicken/*
+**/codechicken/*

@@ -3,7 +3,7 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
-import de.thexxturboxx.blockhelper.mod_BlockHelper;
+import net.minecraft.src.mod_BlockHelper;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;

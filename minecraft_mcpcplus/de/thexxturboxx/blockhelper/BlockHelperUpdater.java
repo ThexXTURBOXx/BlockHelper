@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperUpdater implements Runnable {
 
