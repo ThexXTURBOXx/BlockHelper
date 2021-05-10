@@ -1,4 +1,4 @@
-package de.thexxturboxx.blockhelper;
+package net.minecraft.src;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
@@ -6,6 +6,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
+import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
+import de.thexxturboxx.blockhelper.BlockHelperUpdater;
+import de.thexxturboxx.blockhelper.MopType;
+import de.thexxturboxx.blockhelper.PacketClient;
+import de.thexxturboxx.blockhelper.PacketCoder;
+import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
@@ -21,22 +28,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.BaseMod;
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.Gui;
-import net.minecraft.src.IMob;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.NetworkManager;
-import net.minecraft.src.Packet250CustomPayload;
-import net.minecraft.src.ScaledResolution;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldClient;
 import net.minecraftforge.common.DimensionManager;
 import org.lwjgl.opengl.GL11;
 
@@ -47,10 +38,10 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
     private static final String PACKAGE = "de.thexxturboxx.blockhelper.";
     private static final String MOD_ID = "mod_BlockHelper";
-    static final String NAME = "Block Helper";
-    static final String VERSION = "1.0.0";
-    static final String MC_VERSION = "1.3.2";
-    static final String CHANNEL = "BlockHelperInfo";
+    public static final String NAME = "Block Helper";
+    public static final String VERSION = "1.0.0";
+    public static final String MC_VERSION = "1.3.2";
+    public static final String CHANNEL = "BlockHelperInfo";
 
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
@@ -398,7 +389,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         }
     }
 
-    static boolean iof(Object obj, String clazz) {
+    public static boolean iof(Object obj, String clazz) {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
@@ -412,7 +403,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     }
 
     @SuppressWarnings("unchecked")
-    static Entity getEntityByID(World w, int entityId) {
+    public static Entity getEntityByID(World w, int entityId) {
         List<Entity> list = (List<Entity>) w.getLoadedEntityList();
         if (list != null) {
             for (Entity e : list) {

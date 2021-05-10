@@ -7,15 +7,16 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
 
 public class BlockHelperClientProxy extends BlockHelperCommonProxy {
 
-    static double size;
-    static double sizeInv;
-    static int mode;
-    static KeyBinding showHide;
+    public static double size;
+    public static double sizeInv;
+    public static int mode;
+    public static KeyBinding showHide;
 
     @Override
     public EntityPlayer getPlayer() {
