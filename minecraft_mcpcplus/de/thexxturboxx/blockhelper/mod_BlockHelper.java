@@ -28,7 +28,8 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     private static final String MOD_ID = "mod_BlockHelper";
     static final String NAME = "Block Helper";
-    static final String VERSION = "0.9";
+    static final String VERSION = "1.0.0";
+    static final String MC_VERSION = "1.2.5";
     static final String CHANNEL = "BlockHelperInfo";
 
     public static final Logger LOGGER = Logger.getLogger(NAME);
