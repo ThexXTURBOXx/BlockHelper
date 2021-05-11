@@ -1,5 +1,5 @@
 package de.thexxturboxx.blockhelper;
 
-enum MopType {
+public enum MopType {
     AIR, BLOCK, ENTITY
 }

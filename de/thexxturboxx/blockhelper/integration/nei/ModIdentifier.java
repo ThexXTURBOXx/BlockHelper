@@ -6,7 +6,7 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
-import de.thexxturboxx.blockhelper.mod_BlockHelper;
+import net.minecraft.src.mod_BlockHelper;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URI;
