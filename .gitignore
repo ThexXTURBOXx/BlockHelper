@@ -5,11 +5,19 @@
 *.war
 *.ear
 
-# MC/Forge Directories #
+# MC/Forge Directories but NOT Main Mod Class #
 cpw/
 ibxm/
-net/
+**/net/minecraft/*
+**/net/minecraft/src/*
+**/net/minecraft/client/*
+**/net/minecraft/isom/*
+**/net/minecraft/server/*
+**/net/minecraftforge/*
+!**/net/minecraft/src
+!**/mod_BlockHelper.java
 paulscode/
+argo/
 
 # MC/Forge files #
 fml_at.cfg
@@ -20,6 +28,11 @@ forge_logo.png
 mcp.png
 mcpmod.info
 Start.java
+gk.java
+mod_MinecraftForge.info
+
+# IntelliJ IDEA #
+*.iml
 
 # CodeChicken APIs #
-codechicken/*
+**/codechicken/*

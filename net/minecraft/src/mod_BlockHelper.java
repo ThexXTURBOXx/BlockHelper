@@ -1,4 +1,4 @@
-package de.thexxturboxx.blockhelper;
+package net.minecraft.src;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
@@ -6,6 +6,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
+import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
+import de.thexxturboxx.blockhelper.BlockHelperUpdater;
+import de.thexxturboxx.blockhelper.MopType;
+import de.thexxturboxx.blockhelper.PacketClient;
+import de.thexxturboxx.blockhelper.PacketCoder;
+import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
@@ -31,7 +38,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.src.BaseMod;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -45,10 +51,10 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
     private static final String PACKAGE = "de.thexxturboxx.blockhelper.";
     private static final String MOD_ID = "mod_BlockHelper";
-    static final String NAME = "Block Helper";
-    static final String VERSION = "1.0.0";
-    static final String MC_VERSION = "1.5.2";
-    static final String CHANNEL = "BlockHelperInfo";
+    public static final String NAME = "Block Helper";
+    public static final String VERSION = "1.0.0";
+    public static final String MC_VERSION = "1.5.2";
+    public static final String CHANNEL = "BlockHelperInfo";
 
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
@@ -393,7 +399,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         }
     }
 
-    static boolean iof(Object obj, String clazz) {
+    public static boolean iof(Object obj, String clazz) {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 

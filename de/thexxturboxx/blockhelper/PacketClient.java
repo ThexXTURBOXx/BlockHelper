@@ -4,11 +4,11 @@ import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-class PacketClient implements InfoHolder {
+public class PacketClient implements InfoHolder {
 
     public List<String> data;
 
-    PacketClient() {
+    public PacketClient() {
         data = new ArrayList<String>();
     }
 
