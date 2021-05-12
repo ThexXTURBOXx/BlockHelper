@@ -6,23 +6,22 @@ import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
-        if (iof(te, "buildcraft.energy.TileEngine")) {
-            Engine engine = ((TileEngine) te).engine;
+    public void addInformation(BlockHelperState state, InfoHolder info) {
+        if (iof(state.te, "buildcraft.energy.TileEngine")) {
+            Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
                 info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
-        } else if (iof(te, "buildcraft.api.power.IPowerReceptor")) {
-            IPowerProvider prov = ((IPowerReceptor) te).getPowerProvider();
+        } else if (iof(state.te, "buildcraft.api.power.IPowerReceptor")) {
+            IPowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
                 info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
             }
@@ -30,22 +29,22 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public String getMod(Block block, TileEntity te, int id, int meta) {
-        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
+    public String getMod(BlockHelperState state) {
+        if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
             return "BuildCraft";
         }
-        return super.getMod(block, te, id, meta);
+        return super.getMod(state);
     }
 
     @Override
-    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
-        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
-            TileGenericPipe pipe = (TileGenericPipe) te;
+    public ItemStack getItemStack(BlockHelperState state) {
+        if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
+            TileGenericPipe pipe = (TileGenericPipe) state.te;
             if (pipe.pipe != null && pipe.initialized) {
-                return new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
+                return new ItemStack(Item.itemsList[pipe.pipe.itemID], state.te.blockMetadata);
             }
         }
-        return super.getItemStack(block, te, id, meta);
+        return super.getItemStack(state);
     }
 
 }

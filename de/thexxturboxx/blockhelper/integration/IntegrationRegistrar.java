@@ -9,20 +9,19 @@ public final class IntegrationRegistrar {
     }
 
     public static void init() {
-        BlockHelperModSupport.registerTileEntityProvider(new AdvMachinesIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new AppEngIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new BuildcraftIntegration());
+        BlockHelperModSupport.registerBlockProvider(new AdvMachinesIntegration());
+        BlockHelperModSupport.registerBlockProvider(new AppEngIntegration());
+        BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerModFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new CChunksIntegration());
+        BlockHelperModSupport.registerBlockProvider(new CChunksIntegration());
         BlockHelperModSupport.registerModFixer(new CChunksIntegration());
         BlockHelperModSupport.registerItemStackFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerModFixer(new FactorizationIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new ForgeIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new Ic2Integration());
+        BlockHelperModSupport.registerBlockProvider(new ForgeIntegration());
+        BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
         BlockHelperModSupport.registerBlockProvider(new MeteorsIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new MeteorsIntegration());
         BlockHelperModSupport.registerItemStackFixer(new MeteorsIntegration());
         BlockHelperModSupport.registerBlockProvider(new NaturaIntegration());
         BlockHelperModSupport.registerItemStackFixer(new TEIntegration());
