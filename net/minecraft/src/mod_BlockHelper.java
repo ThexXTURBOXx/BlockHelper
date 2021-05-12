@@ -15,6 +15,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import inficraft.microblocks.core.api.multipart.ICoverSystem;
 import inficraft.microblocks.core.api.multipart.IMultipartTile;
@@ -40,7 +41,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.src.BaseMod;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -107,7 +107,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 firstTick = false;
             }
 
-            if (mc.theWorld.isRemote) {
+            World w = mc.theWorld;
+            if (w.isRemote) {
                 updateKeyState();
                 if (mc.currentScreen != null || isHidden)
                     return true;
@@ -119,11 +120,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 DataOutputStream os = new DataOutputStream(buffer);
                 try {
                     if (result == MopType.ENTITY) {
-                        PacketCoder.encode(os, new PacketInfo(mc.theWorld.provider.dimensionId, mop, MopType.ENTITY,
+                        PacketCoder.encode(os, new PacketInfo(w.provider.dimensionId, mop, MopType.ENTITY,
                                 mop.entityHit.entityId));
                     } else {
                         PacketCoder.encode(os,
-                                new PacketInfo(mc.theWorld.provider.dimensionId, mop, result));
+                                new PacketInfo(w.provider.dimensionId, mop, result));
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -136,11 +137,11 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 PacketDispatcher.sendPacketToServer(packet);
                 switch (result) {
                 case BLOCK:
-                    int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-                    int id = mc.theWorld.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
+                    int meta = w.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+                    int id = w.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
                     Block b = Block.blocksList[id];
-                    TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                    ItemStack is = BlockHelperModSupport.getItemStack(b, te, id, meta);
+                    TileEntity te = w.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                    ItemStack is = BlockHelperModSupport.getItemStack(new BlockHelperState(w, b, te, id, meta));
                     if (is == null) {
                         is = new ItemStack(b, 1, meta);
                     }
@@ -148,7 +149,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     if (is.getItem() == null)
                         return true;
 
-                    String mod = BlockHelperModSupport.getMod(b, te, id, meta);
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperState(w, b, te, id, meta));
                     if (te != null) {
                         // Microblocks support here, not in Mod support classes as they need extra data
                         if (iof(te, "inficraft.microblocks.core.api.multipart.IMultipartTile")) {
@@ -165,7 +166,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
-                    String name = BlockHelperModSupport.getName(b, te, id, meta);
+                    String name = BlockHelperModSupport.getName(new BlockHelperState(w, b, te, id, meta));
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
@@ -188,7 +189,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                                 } catch (Throwable e2) {
                                     try {
                                         if (b != null) {
-                                            ItemStack s = b.getPickBlock(mop, mc.theWorld,
+                                            ItemStack s = b.getPickBlock(mop, w,
                                                     mop.blockX, mop.blockY, mop.blockZ);
                                             name = s.getItem().getItemDisplayName(s);
                                         }
@@ -394,7 +395,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         if (id > 0) {
                             int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
                             Block b = Block.blocksList[id];
-                            BlockHelperModSupport.addInfo(info, b, id, meta, te);
+                            BlockHelperModSupport.addInfo(new BlockHelperState(w, b, te, id, meta), info);
                         }
                         try {
                             PacketCoder.encode(os, info);
