@@ -7,7 +7,6 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.RelaunchClassLoader;
-import net.minecraft.src.mod_BlockHelper;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -20,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class ModIdentifier {
 
