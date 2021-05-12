@@ -4,11 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
 
-public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider,
+public class BlockHelperInfoProvider implements BlockHelperBlockProvider,
         BlockHelperNameFixer, BlockHelperItemStackFixer, BlockHelperModFixer {
 
     private static final List<String> loadedCache = new ArrayList<String>();
@@ -92,25 +90,21 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     }
 
     @Override
-    public void addInformation(Block block, int id, int meta, InfoHolder info) {
+    public void addInformation(BlockHelperState state, InfoHolder info) {
     }
 
     @Override
-    public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
-    }
-
-    @Override
-    public String getName(Block block, TileEntity te, int id, int meta) {
+    public String getName(BlockHelperState state) {
         return null;
     }
 
     @Override
-    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
+    public ItemStack getItemStack(BlockHelperState state) {
         return null;
     }
 
     @Override
-    public String getMod(Block block, TileEntity te, int id, int meta) {
+    public String getMod(BlockHelperState state) {
         return null;
     }
 

@@ -3,7 +3,6 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
-import net.minecraft.src.mod_BlockHelper;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -14,6 +13,7 @@ import java.util.Map;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class ModIdentifier {
 

@@ -4,10 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.server.Block;
-import net.minecraft.server.TileEntity;
 
-public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperTileEntityProvider {
+public class BlockHelperInfoProvider implements BlockHelperBlockProvider {
 
     private static final List<String> loadedCache = new ArrayList<String>();
     private static final List<String> loadedCacheFailed = new ArrayList<String>();
@@ -90,11 +88,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     }
 
     @Override
-    public void addInformation(Block block, int id, int meta, InfoHolder info) {
-    }
-
-    @Override
-    public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
+    public void addInformation(BlockHelperState state, InfoHolder info) {
     }
 
 }

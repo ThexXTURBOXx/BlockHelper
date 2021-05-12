@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -15,14 +16,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.NetworkManager;
-import net.minecraft.src.Packet1Login;
-import net.minecraft.src.Packet250CustomPayload;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 import net.minecraft.src.forge.DimensionManager;
 import net.minecraft.src.forge.IConnectionHandler;
 import net.minecraft.src.forge.IPacketHandler;
@@ -133,7 +126,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     if (id > 0) {
                         int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
                         Block b = Block.blocksList[id];
-                        BlockHelperModSupport.addInfo(info, b, id, meta, te);
+                        BlockHelperModSupport.addInfo(new BlockHelperState(w, b, te, id, meta), info);
                     }
                     try {
                         PacketCoder.encode(os, info);

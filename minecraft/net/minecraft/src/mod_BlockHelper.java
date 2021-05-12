@@ -10,6 +10,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.integration.RedPower2Integration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.awt.Color;
@@ -111,6 +112,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             MovingObjectPosition mop = mc.objectMouseOver;
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             DataOutputStream os = new DataOutputStream(buffer);
+            World w = mc.theWorld;
             try {
                 if (result == MopType.ENTITY) {
                     PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MopType.ENTITY,
@@ -134,20 +136,20 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             }
             switch (result) {
             case BLOCK:
-                int meta = mc.theWorld.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-                int id = mc.theWorld.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
+                int meta = w.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+                int id = w.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
                 Block b = Block.blocksList[id];
-                TileEntity te = mc.theWorld.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                ItemStack is = BlockHelperModSupport.getItemStack(b, te, id, meta);
+                TileEntity te = w.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                ItemStack is = BlockHelperModSupport.getItemStack(new BlockHelperState(w, b, te, id, meta));
                 if (is == null) {
                     is = new ItemStack(b, 1, meta);
                 }
 
                 // Microblocks support here, not in Mod support classes as they need extra data
-                ItemStack microblock = RedPower2Integration.getMicroblock(mc.theWorld, mc.thePlayer, mop, te);
+                ItemStack microblock = RedPower2Integration.getMicroblock(w, mc.thePlayer, mop, te);
                 is = microblock == null ? is : microblock;
 
-                String mod = BlockHelperModSupport.getMod(b, te, id, meta);
+                String mod = BlockHelperModSupport.getMod(new BlockHelperState(w, b, te, id, meta));
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                 mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
@@ -155,7 +157,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                 if (is.getItem() == null)
                     return true;
 
-                String name = BlockHelperModSupport.getName(b, te, id, meta);
+                String name = BlockHelperModSupport.getName(new BlockHelperState(w, b, te, id, meta));
                 name = name == null ? "" : name;
                 if (name.isEmpty()) {
                     try {
@@ -173,7 +175,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                                 if (b != null) {
                                     Item it = Item.itemsList[b.idDropped(meta, rnd, 0)];
                                     ItemStack stack = new ItemStack(it, 1,
-                                            damageDropped(b, mc.theWorld, mop.blockX, mop.blockY, mop.blockZ, meta));
+                                            damageDropped(b, w, mop.blockX, mop.blockY, mop.blockZ, meta));
                                     name = it.getItemDisplayName(stack);
                                 }
                                 if (name.isEmpty())
@@ -394,7 +396,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     if (bId > 0) {
                         int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
                         Block b = Block.blocksList[bId];
-                        BlockHelperModSupport.addInfo(info, b, bId, meta, te);
+                        BlockHelperModSupport.addInfo(new BlockHelperState(w, b, te, bId, meta), info);
                     }
                     try {
                         PacketCoder.encode(os, info);

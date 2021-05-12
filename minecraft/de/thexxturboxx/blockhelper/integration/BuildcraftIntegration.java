@@ -8,25 +8,24 @@ import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
-        if (iof(te, "buildcraft.energy.TileEngine")) {
-            Engine engine = ((TileEngine) te).engine;
+    public void addInformation(BlockHelperState state, InfoHolder info) {
+        if (iof(state.te, "buildcraft.energy.TileEngine")) {
+            Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
                 info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
-        } else if (iof(te, "buildcraft.api.IPowerReceptor")) {
-            PowerProvider prov = ((IPowerReceptor) te).getPowerProvider();
+        } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
+            PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
                 // For some reason (ClassLoader issue?), we need to use reflection here...
                 float energyStored = getField(prov, "energyStored");
@@ -34,14 +33,14 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
             }
         }
-        if (iof(te, "buildcraft.api.ILiquidContainer")) {
-            ILiquidContainer container = ((ILiquidContainer) te);
-            Method m = getMethod(te, "getLiquidSlots");
+        if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
+            ILiquidContainer container = ((ILiquidContainer) state.te);
+            Method m = getMethod(state.te, "getLiquidSlots");
             boolean flag = false;
             if (m != null) {
                 LiquidSlot[] slots;
                 try {
-                    slots = (LiquidSlot[]) m.invoke(te);
+                    slots = (LiquidSlot[]) m.invoke(state.te);
                     for (LiquidSlot slot : slots) {
                         int quantity = slot.getLiquidQty();
                         int capacity = Math.max(quantity, slot.getCapacity());
@@ -67,22 +66,22 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public String getMod(Block block, TileEntity te, int id, int meta) {
-        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
+    public String getMod(BlockHelperState state) {
+        if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
             return "BuildCraft";
         }
-        return super.getMod(block, te, id, meta);
+        return super.getMod(state);
     }
 
     @Override
-    public ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
-        if (iof(te, "buildcraft.transport.TileGenericPipe")) {
-            TileGenericPipe pipe = (TileGenericPipe) te;
+    public ItemStack getItemStack(BlockHelperState state) {
+        if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
+            TileGenericPipe pipe = (TileGenericPipe) state.te;
             if (pipe.pipe != null) {
-                return new ItemStack(Item.itemsList[pipe.pipe.itemID], te.blockMetadata);
+                return new ItemStack(Item.itemsList[pipe.pipe.itemID], state.te.blockMetadata);
             }
         }
-        return super.getItemStack(block, te, id, meta);
+        return super.getItemStack(state);
     }
 
 }

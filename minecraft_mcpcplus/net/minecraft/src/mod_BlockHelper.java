@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import forge.DimensionManager;
 import forge.IConnectionHandler;
 import forge.IPacketHandler;
@@ -133,7 +134,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     if (id > 0) {
                         int meta = w.getData(pi.mop.b, pi.mop.c, pi.mop.d);
                         Block b = Block.byId[id];
-                        BlockHelperModSupport.addInfo(info, b, id, meta, te);
+                        BlockHelperModSupport.addInfo(new BlockHelperState(w, b, te, id, meta), info);
                     }
                     try {
                         PacketCoder.encode(os, info);

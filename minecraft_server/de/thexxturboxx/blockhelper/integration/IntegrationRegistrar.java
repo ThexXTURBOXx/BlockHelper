@@ -9,10 +9,10 @@ public final class IntegrationRegistrar {
     }
 
     public static void init() {
-        BlockHelperModSupport.registerTileEntityProvider(new AdvMachinesIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new BuildcraftIntegration());
+        BlockHelperModSupport.registerBlockProvider(new AdvMachinesIntegration());
+        BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerBlockProvider(new FSIntegration());
-        BlockHelperModSupport.registerTileEntityProvider(new Ic2Integration());
+        BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerBlockProvider(new RedPower2Integration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
     }

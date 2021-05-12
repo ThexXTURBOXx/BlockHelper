@@ -2,15 +2,11 @@ package de.thexxturboxx.blockhelper.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
 
 public final class BlockHelperModSupport {
 
     private static final List<BlockHelperBlockProvider> BLOCK_PROVIDERS = new ArrayList<BlockHelperBlockProvider>();
-    private static final List<BlockHelperTileEntityProvider> TE_PROVIDERS =
-            new ArrayList<BlockHelperTileEntityProvider>();
     private static final List<BlockHelperNameFixer> NAME_FIXERS = new ArrayList<BlockHelperNameFixer>();
     private static final List<BlockHelperItemStackFixer> IS_FIXERS = new ArrayList<BlockHelperItemStackFixer>();
     private static final List<BlockHelperModFixer> MOD_FIXERS = new ArrayList<BlockHelperModFixer>();
@@ -21,10 +17,6 @@ public final class BlockHelperModSupport {
 
     public static void registerBlockProvider(BlockHelperBlockProvider provider) {
         BLOCK_PROVIDERS.add(provider);
-    }
-
-    public static void registerTileEntityProvider(BlockHelperTileEntityProvider provider) {
-        TE_PROVIDERS.add(provider);
     }
 
     public static void registerNameFixer(BlockHelperNameFixer provider) {
@@ -39,10 +31,19 @@ public final class BlockHelperModSupport {
         MOD_FIXERS.add(provider);
     }
 
-    public static String getName(Block block, TileEntity te, int id, int meta) {
+    public static void addInfo(BlockHelperState state, InfoHolder info) {
+        for (BlockHelperBlockProvider p : BLOCK_PROVIDERS) {
+            try {
+                p.addInformation(state, info);
+            } catch (Throwable ignored) {
+            }
+        }
+    }
+
+    public static String getName(BlockHelperState state) {
         for (BlockHelperNameFixer f : NAME_FIXERS) {
             try {
-                String name = f.getName(block, te, id, meta);
+                String name = f.getName(state);
                 if (name != null && !name.isEmpty()) {
                     return name;
                 }
@@ -52,25 +53,10 @@ public final class BlockHelperModSupport {
         return null;
     }
 
-    public static void addInfo(InfoHolder info, Block block, int id, int meta, TileEntity te) {
-        for (BlockHelperBlockProvider p : BLOCK_PROVIDERS) {
-            try {
-                p.addInformation(block, id, meta, info);
-            } catch (Throwable ignored) {
-            }
-        }
-        for (BlockHelperTileEntityProvider p : TE_PROVIDERS) {
-            try {
-                p.addInformation(te, id, meta, info);
-            } catch (Throwable ignored) {
-            }
-        }
-    }
-
-    public static ItemStack getItemStack(Block block, TileEntity te, int id, int meta) {
+    public static ItemStack getItemStack(BlockHelperState state) {
         for (BlockHelperItemStackFixer f : IS_FIXERS) {
             try {
-                ItemStack stack = f.getItemStack(block, te, id, meta);
+                ItemStack stack = f.getItemStack(state);
                 if (stack != null) {
                     return stack;
                 }
@@ -80,10 +66,10 @@ public final class BlockHelperModSupport {
         return null;
     }
 
-    public static String getMod(Block block, TileEntity te, int id, int meta) {
+    public static String getMod(BlockHelperState state) {
         for (BlockHelperModFixer f : MOD_FIXERS) {
             try {
-                String mod = f.getMod(block, te, id, meta);
+                String mod = f.getMod(state);
                 if (mod != null && !mod.isEmpty()) {
                     return mod;
                 }

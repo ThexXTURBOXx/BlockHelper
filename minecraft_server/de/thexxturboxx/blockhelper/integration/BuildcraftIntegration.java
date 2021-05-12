@@ -7,22 +7,22 @@ import buildcraft.api.PowerProvider;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
+import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import net.minecraft.src.TileEntity;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(TileEntity te, int id, int meta, InfoHolder info) {
-        if (iof(te, "buildcraft.energy.TileEngine")) {
-            Engine engine = ((TileEngine) te).engine;
+    public void addInformation(BlockHelperState state, InfoHolder info) {
+        if (iof(state.te, "buildcraft.energy.TileEngine")) {
+            Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
                 info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
-        } else if (iof(te, "buildcraft.api.IPowerReceptor")) {
-            PowerProvider prov = ((IPowerReceptor) te).getPowerProvider();
+        } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
+            PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
                 // For some reason (ClassLoader issue?), we need to use reflection here...
                 float energyStored = getField(prov, "energyStored");
@@ -30,14 +30,14 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
             }
         }
-        if (iof(te, "buildcraft.api.ILiquidContainer")) {
-            ILiquidContainer container = ((ILiquidContainer) te);
-            Method m = getMethod(te, "getLiquidSlots");
+        if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
+            ILiquidContainer container = ((ILiquidContainer) state.te);
+            Method m = getMethod(state.te, "getLiquidSlots");
             boolean flag = false;
             if (m != null) {
                 LiquidSlot[] slots;
                 try {
-                    slots = (LiquidSlot[]) m.invoke(te);
+                    slots = (LiquidSlot[]) m.invoke(state.te);
                     for (LiquidSlot slot : slots) {
                         int quantity = slot.getLiquidQty();
                         int capacity = Math.max(quantity, slot.getCapacity());
