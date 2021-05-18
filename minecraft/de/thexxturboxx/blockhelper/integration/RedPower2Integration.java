@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import eloraam.core.CoreLib;
 import eloraam.core.CoverLib;
@@ -21,7 +21,7 @@ import net.minecraft.src.World;
 public class RedPower2Integration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.block, "eloraam.world.BlockCustomCrops")) {
             if (state.meta < 5) {
                 int grow = (int) ((state.meta / 4d) * 100);
@@ -39,7 +39,7 @@ public class RedPower2Integration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public ItemStack getItemStack(BlockHelperState state) {
+    public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.block, "eloraam.world.BlockCustomCrops")) {
             return new ItemStack(BlockHelperInfoProvider.<Item>getStaticField(getClass("RedPowerWorld"), "itemSeeds"));
         }

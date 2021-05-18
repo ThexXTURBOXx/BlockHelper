@@ -6,8 +6,8 @@ import buildcraft.api.LiquidSlot;
 import buildcraft.api.PowerProvider;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {

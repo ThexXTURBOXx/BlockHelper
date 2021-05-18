@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.src.ItemStack;
 
-public class BlockHelperInfoProvider implements BlockHelperBlockProvider,
+public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperEntityProvider,
         BlockHelperNameFixer, BlockHelperItemStackFixer, BlockHelperModFixer {
 
     private static final List<String> loadedCache = new ArrayList<String>();
@@ -90,21 +90,25 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider,
     }
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
     }
 
     @Override
-    public String getName(BlockHelperState state) {
+    public void addInformation(BlockHelperEntityState state, InfoHolder info) {
+    }
+
+    @Override
+    public String getName(BlockHelperBlockState state) {
         return null;
     }
 
     @Override
-    public ItemStack getItemStack(BlockHelperState state) {
+    public ItemStack getItemStack(BlockHelperBlockState state) {
         return null;
     }
 
     @Override
-    public String getMod(BlockHelperState state) {
+    public String getMod(BlockHelperBlockState state) {
         return null;
     }
 

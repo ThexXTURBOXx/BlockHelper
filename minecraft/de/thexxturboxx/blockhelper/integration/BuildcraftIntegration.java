@@ -7,8 +7,8 @@ import buildcraft.api.PowerProvider;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.transport.TileGenericPipe;
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,7 +18,7 @@ import net.minecraft.src.ItemStack;
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
@@ -66,7 +66,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public String getMod(BlockHelperState state) {
+    public String getMod(BlockHelperBlockState state) {
         if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
             return "BuildCraft";
         }
@@ -74,7 +74,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public ItemStack getItemStack(BlockHelperState state) {
+    public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
             TileGenericPipe pipe = (TileGenericPipe) state.te;
             if (pipe.pipe != null) {

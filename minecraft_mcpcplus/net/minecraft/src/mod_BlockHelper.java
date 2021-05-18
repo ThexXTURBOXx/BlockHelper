@@ -6,9 +6,10 @@ import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketClient;
 import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
+import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import forge.DimensionManager;
 import forge.IConnectionHandler;
 import forge.IPacketHandler;
@@ -32,11 +33,12 @@ import net.minecraft.server.World;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
-    private static final String MOD_ID = "mod_BlockHelper";
+    public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
     public static final String MC_VERSION = "1.2.5";
     public static final String CHANNEL = "BlockHelperInfo";
+    public static mod_BlockHelper INSTANCE;
 
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
@@ -64,6 +66,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @Override
     public void load() {
+        INSTANCE = this;
         proxy = new BlockHelperCommonProxy();
         proxy.load(this);
     }
@@ -84,58 +87,42 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
-                PacketInfo pi = null;
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                DataOutputStream os = new DataOutputStream(buffer);
                 try {
-                    pi = (PacketInfo) PacketCoder.decode(is);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                if (pi == null || pi.mop == null)
-                    return;
-                World w = DimensionManager.getWorld(pi.dimId);
-                if (pi.mt == MopType.ENTITY) {
-                    Entity en = pi.mop.entity;
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    DataOutputStream os = new DataOutputStream(buffer);
-                    PacketClient pc = new PacketClient();
-                    if (en != null) {
-                        try {
-                            pc.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                    + ((EntityLiving) en).getMaxHealth() + " \u2764");
-                            PacketCoder.encode(os, pc);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Throwable e) {
+                    PacketInfo pi = null;
+                    try {
+                        pi = (PacketInfo) PacketCoder.decode(is);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (pi == null || pi.mop == null)
+                        return;
+                    World w = DimensionManager.getWorld(pi.dimId);
+                    PacketClient info = new PacketClient();
+                    if (pi.mt == MopType.ENTITY) {
+                        Entity en = pi.mop.entity;
+                        if (en != null) {
                             try {
-                                PacketCoder.encode(os, pc);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                                info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                        + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                            } catch (Throwable ignored) {
                             }
+
+                            BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                        }
+                    } else if (pi.mt == MopType.BLOCK) {
+                        TileEntity te = w.getTileEntity(pi.mop.b, pi.mop.c, pi.mop.d);
+                        int id = w.getTypeId(pi.mop.b, pi.mop.c, pi.mop.d);
+                        if (id > 0) {
+                            int meta = w.getData(pi.mop.b, pi.mop.c, pi.mop.d);
+                            Block b = Block.byId[id];
+                            BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, b, te, id, meta), info);
                         }
                     } else {
-                        try {
-                            PacketCoder.encode(os, pc);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        return;
                     }
-                    byte[] fieldData = buffer.toByteArray();
-                    Packet250CustomPayload packet = new Packet250CustomPayload();
-                    packet.tag = CHANNEL;
-                    packet.data = fieldData;
-                    packet.length = fieldData.length;
-                    manager.queue(packet);
-                } else if (pi.mt == MopType.BLOCK) {
-                    TileEntity te = w.getTileEntity(pi.mop.b, pi.mop.c, pi.mop.d);
-                    int id = w.getTypeId(pi.mop.b, pi.mop.c, pi.mop.d);
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    DataOutputStream os = new DataOutputStream(buffer);
-                    PacketClient info = new PacketClient();
-                    if (id > 0) {
-                        int meta = w.getData(pi.mop.b, pi.mop.c, pi.mop.d);
-                        Block b = Block.byId[id];
-                        BlockHelperModSupport.addInfo(new BlockHelperState(w, b, te, id, meta), info);
-                    }
+
                     try {
                         PacketCoder.encode(os, info);
                     } catch (IOException e) {
@@ -147,6 +134,11 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     packet.data = fieldData;
                     packet.length = fieldData.length;
                     manager.queue(packet);
+                } finally {
+                    os.close();
+                    buffer.close();
+                    is.close();
+                    isRaw.close();
                 }
             }
         } catch (Throwable e) {

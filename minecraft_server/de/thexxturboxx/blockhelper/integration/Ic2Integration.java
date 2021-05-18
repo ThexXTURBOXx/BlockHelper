@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import ic2.api.IEnergyStorage;
 import ic2.common.TileEntityElecMachine;
@@ -11,7 +11,7 @@ import ic2.common.TileEntityMatter;
 public class Ic2Integration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "ic2.common.TileEntityElecMachine")) {
             TileEntityElecMachine teem = ((TileEntityElecMachine) state.te);
             int energy = teem.energy;

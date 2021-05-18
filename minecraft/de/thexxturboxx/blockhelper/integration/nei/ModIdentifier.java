@@ -40,10 +40,11 @@ public final class ModIdentifier {
         try {
             modInfos = new ArrayList<ModInfo>();
             for (ModContainer container : Loader.getModList()) {
+                String uri = formatURI(container.getSource().toURI());
                 if (container.getName().equals("mod_CodeChickenCore")) {
-                    modInfos.add(new ModInfo(formatURI(container.getSource().toURI()), MINECRAFT));
+                    modInfos.add(new ModInfo(uri, MINECRAFT));
                 } else {
-                    modInfos.add(new ModInfo(formatURI(container.getSource().toURI()), getModName(container)));
+                    modInfos.add(new ModInfo(uri, getModName(container)));
                 }
             }
         } catch (Throwable t) {

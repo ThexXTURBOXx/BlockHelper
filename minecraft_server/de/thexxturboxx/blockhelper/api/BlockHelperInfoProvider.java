@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockHelperInfoProvider implements BlockHelperBlockProvider {
+public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockHelperEntityProvider {
 
     private static final List<String> loadedCache = new ArrayList<String>();
     private static final List<String> loadedCacheFailed = new ArrayList<String>();
@@ -88,7 +88,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider {
     }
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
+    }
+
+    @Override
+    public void addInformation(BlockHelperEntityState state, InfoHolder info) {
     }
 
 }

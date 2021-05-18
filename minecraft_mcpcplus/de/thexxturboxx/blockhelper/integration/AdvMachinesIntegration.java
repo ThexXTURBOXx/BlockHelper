@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import ic2.advMachine.TileAdvMachine;
 import ic2.advancedmachines.TileEntityBaseMachine;
@@ -9,7 +9,7 @@ import ic2.advancedmachines.TileEntityBaseMachine;
 public class AdvMachinesIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "ic2.advMachine.TileAdvMachine")) {
             TileAdvMachine tam = ((TileAdvMachine) state.te);
             int energy = tam.energy;

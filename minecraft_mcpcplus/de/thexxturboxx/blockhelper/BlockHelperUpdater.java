@@ -18,6 +18,8 @@ public class BlockHelperUpdater implements Runnable {
     @Override
     public void run() {
         try {
+            // Fix older versions of Java
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             String latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
                 mod_BlockHelper.LOGGER.info("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);

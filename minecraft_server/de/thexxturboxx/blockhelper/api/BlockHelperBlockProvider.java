@@ -2,6 +2,6 @@ package de.thexxturboxx.blockhelper.api;
 
 public interface BlockHelperBlockProvider {
 
-    void addInformation(BlockHelperState state, InfoHolder info);
+    void addInformation(BlockHelperBlockState state, InfoHolder info);
 
 }
