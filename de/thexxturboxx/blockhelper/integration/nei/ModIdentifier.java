@@ -57,10 +57,11 @@ public final class ModIdentifier {
             modInfos = new ArrayList<ModInfo>();
             for (ModContainer container : Loader.instance().getModList()) {
                 if (container.getSource().isFile()) {
+                    String uri = formatURI(container.getSource().toURI());
                     if (container.getName().equals("Minecraft Coder Pack")) {
-                        modInfos.add(new ModInfo(formatURI(container.getSource().toURI()), MINECRAFT));
+                        modInfos.add(new ModInfo(uri, MINECRAFT));
                     } else {
-                        modInfos.add(new ModInfo(formatURI(container.getSource().toURI()), getModName(container)));
+                        modInfos.add(new ModInfo(uri, getModName(container)));
                     }
                 }
             }

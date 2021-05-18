@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import ic2.api.IEnergyStorage;
 import ic2.common.Ic2Items;
@@ -15,7 +15,7 @@ import net.minecraft.src.ItemStack;
 public class Ic2Integration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "ic2.common.TileEntityElecMachine")) {
             TileEntityElecMachine elecMachine = (TileEntityElecMachine) state.te;
             int energy = getRealEnergy(elecMachine.energy, elecMachine.maxEnergy, elecMachine.maxInput);
@@ -37,7 +37,7 @@ public class Ic2Integration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public ItemStack getItemStack(BlockHelperState state) {
+    public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.te, "ic2.common.TileEntityCable")) {
             return new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, state.meta);
         }

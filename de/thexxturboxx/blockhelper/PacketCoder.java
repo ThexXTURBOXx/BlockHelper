@@ -47,15 +47,13 @@ public final class PacketCoder {
         case 2:
             PacketClient pc = new PacketClient();
             short size = is.readShort();
-            int c = 0;
-            while (c++ < size) {
+            for (int c = 0; c < size; c++) {
                 length = is.readShort();
                 data = new char[length];
                 for (int i = 0; i < length; i++) {
                     data[i] = is.readChar();
                 }
                 pc.add(new String(data));
-                c++;
             }
             return pc;
         }
