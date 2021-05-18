@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.meteor.common.MeteorsMod;
 import net.minecraft.item.ItemStack;
@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class MeteorsIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.block, "net.meteor.common.block.BlockMeteorShieldTorch")) {
             info.add("State: "
                     + (state.id == MeteorsMod.torchMeteorShieldActive.blockID ? "Protected" : "Unprotected"));
@@ -24,7 +24,7 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
     }
 
     @Override
-    public ItemStack getItemStack(BlockHelperState state) {
+    public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.block, "net.meteor.common.block.BlockMeteorShieldTorch")) {
             return new ItemStack(state.block.idDropped(0, null, 0), 1, state.meta);
         }

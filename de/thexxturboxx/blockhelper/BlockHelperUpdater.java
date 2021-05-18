@@ -21,6 +21,8 @@ public class BlockHelperUpdater implements Runnable {
     @Override
     public void run() {
         try {
+            // Fix older versions of Java
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
                 mod_BlockHelper.LOGGER.info("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);
@@ -55,13 +57,12 @@ public class BlockHelperUpdater implements Runnable {
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
         try {
-            String line = br.readLine();
-            while (line != null) {
+            String line;
+            while ((line = br.readLine()) != null) {
                 String[] split = line.split(",", 2);
                 if (mod_BlockHelper.MC_VERSION.equals(split[0])) {
                     return split[1];
                 }
-                line = br.readLine();
             }
             throw new IllegalArgumentException("Version not found.");
         } finally {

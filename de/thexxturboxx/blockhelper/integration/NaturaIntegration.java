@@ -1,14 +1,14 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import net.minecraft.util.MathHelper;
 
 public class NaturaIntegration extends BlockHelperInfoProvider {
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.block, "mods.natura.blocks.crops.BerryBush")) {
             int newMeta = MathHelper.floor_double(state.meta / 4d);
             if (newMeta < 3) {

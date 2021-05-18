@@ -4,6 +4,6 @@ import net.minecraft.item.ItemStack;
 
 public interface BlockHelperItemStackFixer {
 
-    ItemStack getItemStack(BlockHelperState state);
+    ItemStack getItemStack(BlockHelperBlockState state);
 
 }
