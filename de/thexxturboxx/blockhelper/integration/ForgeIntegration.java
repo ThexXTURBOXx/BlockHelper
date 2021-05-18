@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import de.thexxturboxx.blockhelper.api.BlockHelperState;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
     public static final ForgeDirection[] DIRECTIONS = ForgeDirection.values();
 
     @Override
-    public void addInformation(BlockHelperState state, InfoHolder info) {
+    public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "net.minecraftforge.liquids.ITankContainer")) {
             ITankContainer container = ((ITankContainer) state.te);
             Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
