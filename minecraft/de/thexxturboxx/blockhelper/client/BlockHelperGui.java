@@ -7,6 +7,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.integration.RedPower2Integration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.awt.Color;
@@ -70,6 +71,7 @@ public class BlockHelperGui {
 
             if (firstTick) {
                 ModIdentifier.firstTick();
+                FixDetector.detectFixes(mc);
                 BlockHelperUpdater.notifyUpdater(mc);
                 firstTick = false;
             }
