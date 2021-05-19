@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
@@ -65,7 +66,8 @@ public class BlockHelperGui {
             GL11.glScaled(size, size, size);
 
             if (firstTick) {
-                ModIdentifier.firstTick(mc);
+                ModIdentifier.firstTick();
+                FixDetector.detectFixes(mc);
                 BlockHelperUpdater.notifyUpdater(mc);
                 firstTick = false;
             }

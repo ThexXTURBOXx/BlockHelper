@@ -6,7 +6,6 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.RelaunchClassLoader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
@@ -43,10 +41,8 @@ public final class ModIdentifier {
     }
 
     @SuppressWarnings("unchecked")
-    public static void firstTick(Minecraft mc) {
+    public static void firstTick() {
         try {
-            detectClassLoaderFixer(mc);
-
             Field f = GameRegistry.class.getDeclaredField("blockRegistry");
             f.setAccessible(true);
             Multimap<ModContainer, BlockProxy> map = (Multimap<ModContainer, BlockProxy>) f.get(null);
@@ -67,22 +63,6 @@ public final class ModIdentifier {
             }
         } catch (Throwable t) {
             t.printStackTrace();
-        }
-    }
-
-    private static void detectClassLoaderFixer(Minecraft mc) {
-        try {
-            if (!RelaunchClassLoader.FIXER_VERSION.equals("1")) {
-                String name = new mod_BlockHelper().getName();
-                mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cPlease update ClassLoaderFixer.");
-                mc.thePlayer.addChatMessage("§cYou can find it here: §chttps://git.io/JmN4h");
-            }
-        } catch (Throwable t) {
-            String name = new mod_BlockHelper().getName();
-            mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cIt is very recommended to");
-            mc.thePlayer.addChatMessage("§cinstall the ClassLoaderFixer jar-mod. You can find it here:");
-            mc.thePlayer.addChatMessage("§chttps://git.io/JmN4h");
-            mc.thePlayer.addChatMessage("§cOtherwise, mod identification might not work correctly.");
         }
     }
 
