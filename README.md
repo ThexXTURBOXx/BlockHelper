@@ -3,9 +3,27 @@
 A small WAILA alternative for old versions of Minecraft.
 
 ## Download
-[**Download the mod**](https://www.curseforge.com/minecraft/mc-mods/block-helper)
 
-**The versions for 1.3.2 need the [Class Loader Fixer](https://raw.githubusercontent.com/ThexXTURBOXx/BlockHelper/1.3.2/ClassLoaderFixer-1.3.2.zip) installed as a JAR-MOD to correctly display the tooltips.**
+[**Download on CurseForge**](https://www.curseforge.com/minecraft/mc-mods/block-helper)
+
+[**Download on Modrinth**](https://modrinth.com/mod/block-helper) (More versions are available here)
+
+### ClassLoaderFixer
+
+Some Minecraft versions have problems identifying the jar locations of other mods. In order to fix this, you have to install the following mod **clientside only** as a **jar-mod** (add it to your minecraft.jar):
+
+| Version | Download |
+| ----- | ----- |
+| 1.3.2 | [Download](https://git.io/JmN4h) |
+
+### FontFixer
+
+Some Minecraft versions have problems calculating String widths or don't support some [Formatting Codes](https://minecraft.fandom.com/wiki/Formatting_codes). In order to fix this, you have to install the following mod **clientside only** as a **jar-mod** (add it to your minecraft.jar):
+
+| Version | Download |
+| ----- | ----- |
+| 1.2.5 | [Download](https://git.io/JsrBl) |
+| 1.3.2 | [Download](https://git.io/JsrBB) |
 
 ## Mod Compatibility
 
@@ -16,9 +34,11 @@ A small WAILA alternative for old versions of Minecraft.
 | Applied Energistics | ❌ | ❌ | ✔ | ✔ |
 | BuildCraft | ✔ | ✔ | ✔ | ✔ |
 | ChickenChunks | ❌ | ❌ | ✔ | ✔ |
+| Factorization | ❌ | ❌ | ✔ | ✔ |
 | Falling Meteors | ❌ | ❌ | ✔ | ✔ |
 | Flora & Soma (Natura) | ✔ | ❌ | ✔ | ✔ |
 | IC² | ✔ | ✔ | ✔ | ✔ |
+| RedPower 2 | ✔ | ❌ | ❌ | ❌ |
 | Thermal Expansion | ✔ | ✔ | ✔ | ✔ |
 
 ## Source Code
