@@ -72,8 +72,12 @@ public final class ModIdentifier {
 
     private static void detectClassLoaderFixer(Minecraft mc) {
         try {
-            RelaunchClassLoader.class.getDeclaredMethod("findCodeSourceConnectionFor", String.class);
-        } catch (NoSuchMethodException e) {
+            if (!RelaunchClassLoader.FIXER_VERSION.equals("1")) {
+                String name = new mod_BlockHelper().getName();
+                mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cPlease update ClassLoaderFixer.");
+                mc.thePlayer.addChatMessage("§cYou can find it here: §chttps://git.io/JmN4h");
+            }
+        } catch (Throwable t) {
             String name = new mod_BlockHelper().getName();
             mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cIt is very recommended to");
             mc.thePlayer.addChatMessage("§cinstall the ClassLoaderFixer jar-mod. You can find it here:");
