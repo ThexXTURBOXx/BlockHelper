@@ -15,6 +15,7 @@ ibxm/
 **/net/minecraft/server/*
 **/net/minecraftforge/*
 !**/net/minecraft/src
+!**/net/minecraft/server
 !**/mod_BlockHelper.java
 paulscode/
 argo/

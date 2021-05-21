@@ -3,23 +3,27 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import net.minecraft.client.Minecraft;
+import net.minecraft.src.BaseMod;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class ModIdentifier {
 
     public static final String MINECRAFT = "Minecraft";
     private static final Map<Object, String> objectToMod = new HashMap<Object, String>();
-    private static List<ModInfo> modInfos;
+    private static Set<ModInfo> modInfos;
 
     private ModIdentifier() {
         throw new UnsupportedOperationException();
@@ -37,18 +41,37 @@ public final class ModIdentifier {
     }
 
     public static void firstTick() {
+        modInfos = new HashSet<ModInfo>();
+        String minecraftUri = new File("./bin/minecraft.jar").getAbsoluteFile().toString();
         try {
-            modInfos = new ArrayList<ModInfo>();
+            minecraftUri = formatURI(Minecraft.class.getProtectionDomain().getCodeSource()
+                    .getLocation().toURI());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        try {
             for (ModContainer container : Loader.getModList()) {
                 String uri = formatURI(container.getSource().toURI());
-                if (container.getName().equals("mod_CodeChickenCore")) {
+                if (uri.contains(minecraftUri)) {
                     modInfos.add(new ModInfo(uri, MINECRAFT));
                 } else {
                     modInfos.add(new ModInfo(uri, getModName(container)));
                 }
             }
         } catch (Throwable t) {
-            t.printStackTrace();
+            try {
+                for (BaseMod mod : ModLoader.getLoadedMods()) {
+                    String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
+                            .getLocation().toURI());
+                    if (uri.contains(minecraftUri)) {
+                        modInfos.add(new ModInfo(uri, MINECRAFT));
+                    } else {
+                        modInfos.add(new ModInfo(uri, formatName(mod.getName())));
+                    }
+                }
+            } catch (Throwable t1) {
+                t1.printStackTrace();
+            }
         }
     }
 
@@ -97,11 +120,15 @@ public final class ModIdentifier {
         if (container != null) {
             ModMetadata metadata = container.getMetadata();
             if (metadata != null && metadata.name != null) {
-                return metadata.name.replaceAll("\u00a7.", "");
+                return formatName(metadata.name);
             }
-            return container.getName().replaceFirst("^mod_", "").replaceAll("\u00a7.", "");
+            return formatName(container.getName());
         }
         return MINECRAFT;
+    }
+
+    private static String formatName(String name) {
+        return name.replaceFirst("^mod_", "").replaceAll("\u00a7.", "");
     }
 
     private static String formatURI(URI uri) {

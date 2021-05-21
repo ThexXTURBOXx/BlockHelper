@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
 import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.MopType;
@@ -40,7 +39,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
     static {
-        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+        LOGGER.setParent(ModLoader.getLogger());
     }
 
     public static final MopType[] MOP_TYPES = MopType.values();
@@ -163,7 +162,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                         packet.channel = CHANNEL;
                         packet.data = fieldData;
                         packet.length = fieldData.length;
-                        ModLoader.sendPacket(packet);
+                        ModLoader.getMinecraftInstance().getSendQueue().addToSendQueue(packet);
                     } else {
                         onPacketData(null, CHANNEL, fieldData);
                     }

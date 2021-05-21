@@ -1,6 +1,5 @@
-package net.minecraft.src;
+package net.minecraft.server;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketClient;
@@ -22,14 +21,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-import net.minecraft.server.Block;
-import net.minecraft.server.Entity;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.NetworkManager;
-import net.minecraft.server.Packet1Login;
-import net.minecraft.server.Packet250CustomPayload;
-import net.minecraft.server.TileEntity;
-import net.minecraft.server.World;
 
 public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
 
@@ -43,7 +34,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
     static {
-        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+        LOGGER.setParent(ModLoader.getLogger());
     }
 
     public static final MopType[] MOP_TYPES = MopType.values();

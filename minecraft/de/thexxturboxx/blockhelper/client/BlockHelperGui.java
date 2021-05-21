@@ -103,7 +103,7 @@ public class BlockHelperGui {
                 packet.channel = mod_BlockHelper.CHANNEL;
                 packet.data = fieldData;
                 packet.length = fieldData.length;
-                ModLoader.sendPacket(packet);
+                ModLoader.getMinecraftInstance().getSendQueue().addToSendQueue(packet);
             } else {
                 mod_BlockHelper.INSTANCE.onPacketData(null, mod_BlockHelper.CHANNEL_SSP, fieldData);
             }

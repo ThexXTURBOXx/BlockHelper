@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketClient;
@@ -35,7 +34,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public static final Logger LOGGER = Logger.getLogger(NAME);
 
     static {
-        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+        LOGGER.setParent(ModLoader.getLogger());
     }
 
     public static final MopType[] MOP_TYPES = MopType.values();
