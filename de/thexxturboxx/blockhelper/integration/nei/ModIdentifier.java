@@ -6,15 +6,17 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.mod_BlockHelper;
@@ -23,7 +25,7 @@ public final class ModIdentifier {
 
     public static final String MINECRAFT = "Minecraft";
     private static final Map<Object, String> objectToMod = new HashMap<Object, String>();
-    private static List<ModInfo> modInfos;
+    private static Set<ModInfo> modInfos;
 
     private ModIdentifier() {
         throw new UnsupportedOperationException();
@@ -42,6 +44,14 @@ public final class ModIdentifier {
 
     @SuppressWarnings("unchecked")
     public static void firstTick() {
+        modInfos = new HashSet<ModInfo>();
+        String minecraftUri = new File("./bin/minecraft.jar").getAbsoluteFile().toString();
+        try {
+            minecraftUri = formatURI(Minecraft.class.getProtectionDomain().getCodeSource()
+                    .getLocation().toURI());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
         try {
             Field f = GameRegistry.class.getDeclaredField("blockRegistry");
             f.setAccessible(true);
@@ -50,11 +60,10 @@ public final class ModIdentifier {
                 objectToMod.put(entry.getValue(), getModName(entry.getKey()));
             }
 
-            modInfos = new ArrayList<ModInfo>();
             for (ModContainer container : Loader.instance().getModList()) {
                 if (container.getSource().isFile()) {
                     String uri = formatURI(container.getSource().toURI());
-                    if (container.getName().equals("Minecraft Coder Pack")) {
+                    if (uri.contains(minecraftUri)) {
                         modInfos.add(new ModInfo(uri, MINECRAFT));
                     } else {
                         modInfos.add(new ModInfo(uri, getModName(container)));
@@ -111,11 +120,15 @@ public final class ModIdentifier {
         if (container != null) {
             ModMetadata metadata = container.getMetadata();
             if (metadata != null && metadata.name != null) {
-                return metadata.name.replaceAll("§.", "");
+                return formatName(metadata.name);
             }
-            return container.getName().replaceFirst("^mod_", "").replaceAll("§.", "");
+            return formatName(container.getName());
         }
         return MINECRAFT;
+    }
+
+    private static String formatName(String name) {
+        return name.replaceFirst("^mod_", "").replaceAll("§.", "");
     }
 
     private static String formatURI(URI uri) {
