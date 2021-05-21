@@ -22,12 +22,12 @@ Some Minecraft versions have problems calculating String widths or don't support
 
 | Version | Download |
 | ----- | ----- |
-| 1.2.5 | [Download](https://git.io/JsrBl) |
+| 1.2.4/1.2.5 | [Download](https://git.io/JsrBl) |
 | 1.3.2 | [Download](https://git.io/JsrBB) |
 
 ## Mod Compatibility
 
-| Mod | 1.2.5 | 1.3.2 | 1.4.6/1.4.7 | 1.5.2 |
+| Mod | 1.2.4/1.2.5 | 1.3.2 | 1.4.6/1.4.7 | 1.5.2 |
 | ----- | ----- | ----- | ----- | ----- |
 | Vanilla | ✔ | ✔ | ✔ | ✔ |
 | Advanced Machines | ✔ | ✔ | ✔ | ✔ |
@@ -44,7 +44,7 @@ Some Minecraft versions have problems calculating String widths or don't support
 ## Source Code
 
 BlockHelper is being developed for:<br>
-[1.2.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.5)<br>
+[1.2.4/1.2.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.5)<br>
 [1.3.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.3.2)<br>
 [1.4.6/1.4.7](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.7)<br>
 [1.5.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2)<br>
