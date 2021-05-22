@@ -8,7 +8,7 @@ import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
-import de.thexxturboxx.blockhelper.integration.RedPower2Integration;
+import de.thexxturboxx.blockhelper.integration.MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
@@ -119,8 +119,11 @@ public class BlockHelperGui {
                 }
 
                 // Microblocks support here, not in Mod support classes as they need extra data
-                ItemStack microblock = RedPower2Integration.getMicroblock(w, mc.thePlayer, mop, te);
-                is = microblock == null ? is : microblock;
+                try {
+                    ItemStack microblock = MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
+                    is = microblock == null ? is : microblock;
+                } catch (Throwable ignored) {
+                }
 
                 String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, b, te, id, meta));
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
