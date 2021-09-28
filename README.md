@@ -38,7 +38,8 @@ Some Minecraft versions have problems calculating String widths or don't support
 | Falling Meteors | ❌ | ❌ | ✔ | ✔ |
 | Flora & Soma (Natura) | ✔ | ❌ | ✔ | ✔ |
 | IC² | ✔ | ✔ | ✔ | ✔ |
-| RedPower 2 | ✔ | ❌ | ❌ | ❌ |
+| InfiCraft | ❌ | ❌ | ✔ | ❌ |
+| RedPower 2 | ✔ | ❌ | ✔ | ❌ |
 | Thermal Expansion | ✔ | ✔ | ✔ | ✔ |
 
 ## Source Code
