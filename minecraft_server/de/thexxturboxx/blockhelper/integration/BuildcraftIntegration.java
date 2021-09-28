@@ -4,6 +4,8 @@ import buildcraft.api.ILiquidContainer;
 import buildcraft.api.IPowerReceptor;
 import buildcraft.api.LiquidSlot;
 import buildcraft.api.PowerProvider;
+import buildcraft.api.liquids.ILiquidTank;
+import buildcraft.api.liquids.LiquidStack;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
@@ -18,16 +20,24 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
-            if (engine != null) {
+            if (engine != null && engine.energy > 0) {
                 info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
         } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
             PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
                 // For some reason (ClassLoader issue?), we need to use reflection here...
-                float energyStored = getField(prov, "energyStored");
-                float maxEnergyStored = getField(prov, "maxEnergyStored");
-                info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                Float energyStored = getField(prov, "energyStored");
+                Float maxEnergyStored = getField(prov, "maxEnergyStored");
+                if (energyStored != null && energyStored > 0) {
+                    info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                }
+            }
+        } else if (iof(state.te, "buildcraft.api.power.IPowerReceptor")) {
+            buildcraft.api.power.IPowerProvider prov =
+                    ((buildcraft.api.power.IPowerReceptor) state.te).getPowerProvider();
+            if (prov != null && prov.getEnergyStored() > 0) {
+                info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
             }
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
@@ -41,7 +51,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                     for (LiquidSlot slot : slots) {
                         int quantity = slot.getLiquidQty();
                         int capacity = Math.max(quantity, slot.getCapacity());
-                        if (capacity > 0 || quantity > 0) {
+                        if (quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB");
                         }
                         // TODO: Read liquid name from bucket from liquid ??? (BC3 uses BuildcraftAPI class)
@@ -55,8 +65,27 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             if (!flag) {
                 int quantity = container.getLiquidQuantity();
                 int capacity = Math.max(quantity, container.getCapacity());
-                if (capacity > 0 || quantity > 0) {
+                if (quantity > 0) {
                     info.add(quantity + " mB / " + capacity + " mB");
+                }
+            }
+        } else if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
+            Method m = getMethod(state.te, "getTanks");
+            if (m != null) {
+                ILiquidTank[] tanks;
+                try {
+                    tanks = (ILiquidTank[]) m.invoke(state.te);
+                    for (ILiquidTank tank : tanks) {
+                        LiquidStack stack = tank.getLiquid();
+                        int quantity = stack == null ? 0 : stack.amount;
+                        int capacity = Math.max(quantity, tank.getCapacity());
+                        if (quantity > 0) {
+                            info.add(quantity + " mB / " + capacity + " mB");
+                        }
+                        // TODO: Read liquid name from bucket from liquid ???
+                    }
+                } catch (IllegalAccessException ignored) {
+                } catch (InvocationTargetException ignored) {
                 }
             }
         }
