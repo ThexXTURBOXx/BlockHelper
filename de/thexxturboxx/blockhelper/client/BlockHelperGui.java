@@ -8,9 +8,9 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.integration.ICMicroblockIntegration;
+import de.thexxturboxx.blockhelper.integration.RP2MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import inficraft.microblocks.core.api.multipart.ICoverSystem;
-import inficraft.microblocks.core.api.multipart.IMultipartTile;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -36,7 +36,6 @@ import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
-import static net.minecraft.src.mod_BlockHelper.iof;
 
 public class BlockHelperGui {
 
@@ -111,26 +110,26 @@ public class BlockHelperGui {
                     if (is == null) {
                         is = new ItemStack(b, 1, meta);
                     }
+
+                    // Microblocks support here, not in Mod support classes as they need extra data
+                    try {
+                        ItemStack microblock = RP2MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
+                        is = microblock == null ? is : microblock;
+                    } catch (Throwable ignored) {
+                    }
+                    try {
+                        ItemStack microblock = ICMicroblockIntegration.getMicroblock(mop, te);
+                        is = microblock == null ? is : microblock;
+                    } catch (Throwable ignored) {
+                    }
+
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, b, te, id, meta));
+                    mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
+                    mod = mod == null ? ModIdentifier.MINECRAFT : mod;
+
                     String itemId = is.itemID + ":" + is.getItemDamage();
                     if (is.getItem() == null)
                         return true;
-
-                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, b, te, id, meta));
-                    if (te != null) {
-                        // Microblocks support here, not in Mod support classes as they need extra data
-                        if (iof(te, "inficraft.microblocks.core.api.multipart.IMultipartTile")) {
-                            IMultipartTile te1 = (IMultipartTile) te;
-                            if (mop.subHit >= 0) {
-                                is = te1.pickPart(mop, mop.subHit);
-                            } else {
-                                ICoverSystem ci = te1.getCoverSystem();
-                                is = ci == null ? is : ci.pickPart(mop, -1 - mop.subHit);
-                            }
-                            mod = "InfiMicroblocks";
-                        }
-                    }
-                    mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
-                    mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
                     String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, b, te, id, meta));
                     name = name == null ? "" : name;
