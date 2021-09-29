@@ -1,8 +1,10 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import buildcraft.factory.TileTank;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -20,36 +22,38 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "net.minecraftforge.liquids.ITankContainer")) {
             ITankContainer container = ((ITankContainer) state.te);
-            Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
-            for (ForgeDirection direction : DIRECTIONS) {
-                for (ILiquidTank tank : container.getTanks(direction)) {
-                    if (tanks.contains(tank)) {
-                        continue;
-                    } else {
-                        tanks.add(tank);
-                    }
-
-                    if (tank.getLiquid() != null) {
-                        String name = getLiquidName(tank.getLiquid().asItemStack().itemID);
-                        if (name.isEmpty()) {
-                            info.add("0 mB / " + tank.getCapacity() + " mB");
-                        } else {
-                            info.add(tank.getLiquid().amount + " mB / "
-                                    + tank.getCapacity() + " mB of " + name);
-                        }
-                    } else {
-                        info.add("0 mB / " + tank.getCapacity() + " mB");
-                    }
+            for (ILiquidTank tank : getTanks(container)) {
+                LiquidStack stack = tank.getLiquid();
+                if (stack != null && stack.amount > 0) {
+                    info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
+                            + formatLiquidName(getLiquidName(stack)));
                 }
             }
         }
     }
 
-    private String getLiquidName(int id) {
+    public static ILiquidTank[] getTanks(ITankContainer container) {
+        if (iof(container, "buildcraft.factory.TileTank")) {
+            return new ILiquidTank[]{((TileTank) container).tank};
+        }
+        Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
+        for (ForgeDirection direction : DIRECTIONS) {
+            Collections.addAll(tanks, container.getTanks(direction));
+        }
+        return tanks.toArray(new ILiquidTank[0]);
+    }
+
+    public static String formatLiquidName(String liquidName) {
+        return liquidName == null || liquidName.trim().isEmpty()
+                ? "" : " of " + liquidName;
+    }
+
+    public static String getLiquidName(LiquidStack liquidStack) {
         Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
         for (String name : map.keySet()) {
-            if (map.get(name).itemID == id)
+            if (map.get(name).isLiquidEqual(liquidStack)) {
                 return name;
+            }
         }
         return "";
     }
