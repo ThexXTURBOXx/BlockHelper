@@ -20,6 +20,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerModFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerBlockProvider(new ForgeIntegration());
         BlockHelperModSupport.registerBlockProvider(new FSIntegration());
+        BlockHelperModSupport.registerItemStackFixer(new GregTechIntegration());
         BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
         BlockHelperModSupport.registerModFixer(new ICMicroblockIntegration());
