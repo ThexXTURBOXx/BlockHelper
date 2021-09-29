@@ -12,11 +12,11 @@ import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+
+import static net.minecraft.src.mod_BlockHelper.getItemDisplayName;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
@@ -35,24 +35,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         }
         if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
             ITankContainer container = ((ITankContainer) state.te);
-            Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
             for (ILiquidTank tank : container.getTanks()) {
-                if (tanks.contains(tank)) {
-                    continue;
-                } else {
-                    tanks.add(tank);
-                }
-
-                if (tank.getLiquid() != null) {
-                    String name = getLiquidName(tank.getLiquid().asItemStack().itemID);
-                    if (name.isEmpty()) {
-                        info.add("0 mB / " + tank.getCapacity() + " mB");
-                    } else {
-                        info.add(tank.getLiquid().amount + " mB / "
-                                + tank.getCapacity() + " mB of " + name);
-                    }
-                } else {
-                    info.add("0 mB / " + tank.getCapacity() + " mB");
+                LiquidStack stack = tank.getLiquid();
+                if (stack != null && stack.amount > 0) {
+                    info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
+                            + formatLiquidName(getBcLiquidName(stack)));
                 }
             }
         }
@@ -77,17 +64,36 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         return super.getItemStack(state);
     }
 
-    private static Map<String, LiquidStack> liquids;
+    private static Map<String, Object> liquids;
 
-    private String getLiquidName(int id) {
-        if (liquids == null) {
-            liquids = getDeclaredField(LiquidDictionary.class, "liquids");
+    public static String formatLiquidName(String liquidName) {
+        return liquidName == null || liquidName.trim().isEmpty()
+                ? "" : " of " + liquidName;
+    }
+
+    public static String getBcLiquidName(Object liquidStack) {
+        try {
+            if (liquids == null) {
+                liquids = getDeclaredField(LiquidDictionary.class, "liquids");
+            }
+            LiquidStack stack = (LiquidStack) liquidStack;
+            for (String name : liquids.keySet()) {
+                try {
+                    LiquidStack stackOfList = (LiquidStack) liquids.get(name);
+                    if (stack.isLiquidEqual(stackOfList)) {
+                        return name;
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable ignored) {
         }
-        for (String name : liquids.keySet()) {
-            if (liquids.get(name).itemID == id)
-                return name;
+        try {
+            ItemStack is = ((LiquidStack) liquidStack).asItemStack();
+            return getItemDisplayName(is);
+        } catch (Throwable ignored) {
         }
-        return "";
+        return null;
     }
 
 }
