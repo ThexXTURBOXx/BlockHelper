@@ -8,10 +8,10 @@ import buildcraft.api.liquids.ILiquidTank;
 import buildcraft.api.liquids.LiquidStack;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
+import buildcraft.factory.TilePump;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import net.minecraft.src.ItemStack;
 
@@ -24,14 +24,17 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
-                info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
+                Object energyStored = getField(engine, "energy");
+                Object maxEnergyStored = getField(engine, "maxEnergy");
+                if (energyStored != null) {
+                    info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                }
             }
         } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
             PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
-                // For some reason (ClassLoader issue?), we need to use reflection here...
-                Float energyStored = getField(prov, "energyStored");
-                Float maxEnergyStored = getField(prov, "maxEnergyStored");
+                Object energyStored = getField(prov, "energyStored");
+                Object maxEnergyStored = getField(prov, "maxEnergyStored");
                 if (energyStored != null) {
                     info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
                 }
@@ -55,12 +58,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                         int capacity = Math.max(quantity, slot.getCapacity());
                         if (quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB"
-                                    + formatLiquidName(getBc2LiquidName(slot)));
+                                    + formatLiquidName(getBcLiquidName(slot)));
                         }
                     }
                     flag = true;
-                } catch (IllegalAccessException ignored) {
-                } catch (InvocationTargetException ignored) {
+                } catch (Throwable ignored) {
                 }
             }
             if (!flag) {
@@ -68,7 +70,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 int capacity = Math.max(quantity, container.getCapacity());
                 if (quantity > 0) {
                     info.add(quantity + " mB / " + capacity + " mB"
-                            + formatLiquidName(getBc2LiquidName(container)));
+                            + formatLiquidName(getBcLiquidName(container)));
                 }
             }
         } else if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
@@ -82,13 +84,17 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                         int capacity = Math.max(quantity, tank.getCapacity());
                         if (quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB"
-                                    + formatLiquidName(getBc3LiquidName(stack)));
+                                    + formatLiquidName(getBcLiquidName(stack)));
                         }
                     }
-                } catch (IllegalAccessException ignored) {
-                } catch (InvocationTargetException ignored) {
+                } catch (Throwable ignored) {
                 }
             }
+        }
+        if (iof(state.te, "buildcraft.factory.TilePump")) {
+            TilePump pump = (TilePump) state.te;
+            info.add(pump.internalLiquid + " mB / 1000 mB"
+                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
         }
     }
 
@@ -97,25 +103,26 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 ? "" : " of " + liquidName;
     }
 
-    public static String getBc2LiquidName(Object liquidSlotOrContainer) {
+    public static String getBcLiquidName(Object liquid) {
         try {
-            LiquidSlot slot = (LiquidSlot) liquidSlotOrContainer;
+            LiquidSlot slot = (LiquidSlot) liquid;
             ItemStack is = new ItemStack(slot.getLiquidId(), 1, 0);
             return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
         try {
-            ILiquidContainer container = (ILiquidContainer) liquidSlotOrContainer;
+            ILiquidContainer container = (ILiquidContainer) liquid;
             ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);
             return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
-        return null;
-    }
-
-    public static String getBc3LiquidName(Object liquidStack) {
         try {
-            ItemStack is = ((LiquidStack) liquidStack).asItemStack();
+            ItemStack is = ((LiquidStack) liquid).asItemStack();
+            return getItemDisplayName(is);
+        } catch (Throwable ignored) {
+        }
+        try {
+            ItemStack is = new ItemStack((Integer) liquid, 1, 0);
             return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
