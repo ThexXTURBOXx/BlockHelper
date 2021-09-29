@@ -108,7 +108,11 @@ public class BlockHelperGui {
                     TileEntity te = w.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                     ItemStack is = BlockHelperModSupport.getItemStack(new BlockHelperBlockState(w, b, te, id, meta));
                     if (is == null) {
-                        is = new ItemStack(b, 1, meta);
+                        if (b == null) {
+                            is = new ItemStack(id, 1, meta);
+                        } else {
+                            is = new ItemStack(b, 1, meta);
+                        }
                     }
                     String itemId = is.itemID + ":" + is.getItemDamage();
                     if (is.getItem() == null)
