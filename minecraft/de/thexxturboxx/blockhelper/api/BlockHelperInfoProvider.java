@@ -50,6 +50,16 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
         }
     }
 
+    protected static Method getStaticMethod(Class<?> clazz, String method) {
+        try {
+            Method m = clazz.getMethod(method);
+            m.setAccessible(true);
+            return m;
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     protected static <T> T getDeclaredField(Object obj, String field) {
         try {
