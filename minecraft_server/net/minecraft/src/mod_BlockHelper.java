@@ -151,6 +151,12 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         return null;
     }
 
+    public static String getItemDisplayName(ItemStack stack) {
+        String var2 = stack.getItem().getItemNameIS(stack);
+        return StringTranslate.getInstance().translateKey(
+                var2 == null ? "" : (StatCollector.translateToLocal(var2) + ".name")).trim();
+    }
+
     @Override
     public void onConnect(NetworkManager network) {
     }
@@ -165,4 +171,3 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     }
 
 }
-

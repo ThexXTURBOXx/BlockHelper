@@ -11,6 +11,9 @@ import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import net.minecraft.server.ItemStack;
+
+import static net.minecraft.server.mod_BlockHelper.getItemDisplayName;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
@@ -25,9 +28,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
                 // For some reason (ClassLoader issue?), we need to use reflection here...
-                float energyStored = getField(prov, "energyStored");
-                float maxEnergyStored = getField(prov, "maxEnergyStored");
-                info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                Float energyStored = getField(prov, "energyStored");
+                Float maxEnergyStored = getField(prov, "maxEnergyStored");
+                if (energyStored != null) {
+                    info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                }
             }
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
@@ -35,17 +40,15 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             Method m = getMethod(state.te, "getLiquidSlots");
             boolean flag = false;
             if (m != null) {
-                LiquidSlot[] slots;
                 try {
-                    slots = (LiquidSlot[]) m.invoke(state.te);
+                    LiquidSlot[] slots = (LiquidSlot[]) m.invoke(state.te);
                     for (LiquidSlot slot : slots) {
                         int quantity = slot.getLiquidQty();
                         int capacity = Math.max(quantity, slot.getCapacity());
-                        if (capacity > 0 || quantity > 0) {
-                            info.add(quantity + " mB / " + capacity + " mB");
+                        if (quantity > 0) {
+                            info.add(quantity + " mB / " + capacity + " mB"
+                                    + formatLiquidName(getBc2LiquidName(slot)));
                         }
-                        // TODO: Read liquid name from bucket from liquid ??? (BC3 uses BuildcraftAPI class)
-                        // Do something here with API.liquids in the near future?
                     }
                     flag = true;
                 } catch (IllegalAccessException ignored) {
@@ -55,11 +58,33 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             if (!flag) {
                 int quantity = container.getLiquidQuantity();
                 int capacity = Math.max(quantity, container.getCapacity());
-                if (capacity > 0 || quantity > 0) {
-                    info.add(quantity + " mB / " + capacity + " mB");
+                if (quantity > 0) {
+                    info.add(quantity + " mB / " + capacity + " mB"
+                            + formatLiquidName(getBc2LiquidName(container)));
                 }
             }
         }
+    }
+
+    public static String formatLiquidName(String liquidName) {
+        return liquidName == null || liquidName.trim().isEmpty()
+                ? "" : " of " + liquidName;
+    }
+
+    public static String getBc2LiquidName(Object liquidSlotOrContainer) {
+        try {
+            LiquidSlot slot = (LiquidSlot) liquidSlotOrContainer;
+            ItemStack is = new ItemStack(slot.getLiquidId(), 1, 0);
+            return getItemDisplayName(is);
+        } catch (Throwable ignored) {
+        }
+        try {
+            ILiquidContainer container = (ILiquidContainer) liquidSlotOrContainer;
+            ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);
+            return getItemDisplayName(is);
+        } catch (Throwable ignored) {
+        }
+        return null;
     }
 
 }
