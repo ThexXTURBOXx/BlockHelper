@@ -8,6 +8,7 @@ import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
+import buildcraft.factory.TilePump;
 import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
@@ -43,6 +44,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 }
             }
         }
+        if (iof(state.te, "buildcraft.factory.TilePump")) {
+            TilePump pump = (TilePump) state.te;
+            info.add(pump.internalLiquid + " mB / 1000 mB"
+                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
+        }
     }
 
     @Override
@@ -71,12 +77,12 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 ? "" : " of " + liquidName;
     }
 
-    public static String getBcLiquidName(Object liquidStack) {
+    public static String getBcLiquidName(Object liquid) {
         try {
             if (liquids == null) {
                 liquids = getDeclaredField(LiquidDictionary.class, "liquids");
             }
-            LiquidStack stack = (LiquidStack) liquidStack;
+            LiquidStack stack = (LiquidStack) liquid;
             for (String name : liquids.keySet()) {
                 try {
                     LiquidStack stackOfList = (LiquidStack) liquids.get(name);
@@ -89,7 +95,12 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         } catch (Throwable ignored) {
         }
         try {
-            ItemStack is = ((LiquidStack) liquidStack).asItemStack();
+            ItemStack is = ((LiquidStack) liquid).asItemStack();
+            return getItemDisplayName(is);
+        } catch (Throwable ignored) {
+        }
+        try {
+            ItemStack is = new ItemStack((Integer) liquid, 1, 0);
             return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
