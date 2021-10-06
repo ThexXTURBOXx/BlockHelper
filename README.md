@@ -37,6 +37,7 @@ Some Minecraft versions have problems calculating String widths or don't support
 | Factorization | ❌ | ❌ | ✔ | ✔ |
 | Falling Meteors | ❌ | ❌ | ✔ | ✔ |
 | Flora & Soma (Natura) | ✔ | ❌ | ✔ | ✔ |
+| Forestry | ✔ | ✔ | ✔ | ✔ |
 | GregTech | ✔ | ✔ | ✔ | ✔ |
 | IC² | ✔ | ✔ | ✔ | ✔ |
 | InfiCraft | ❌ | ❌ | ✔ | ❌ |
