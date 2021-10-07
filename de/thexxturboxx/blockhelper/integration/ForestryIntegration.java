@@ -14,7 +14,9 @@ public class ForestryIntegration extends BlockHelperInfoProvider {
             TileMachine machine = (TileMachine) state.te;
             if (iof(machine.machine, "forestry.energy.gadgets.MachineGenerator")) {
                 MachineGenerator generator = (MachineGenerator) machine.machine;
-                info.add(generator.energyStored + " EU / " + generator.energyMax + " EU");
+                if (generator.energyMax != 0) {
+                    info.add(generator.energyStored + " EU / " + generator.energyMax + " EU");
+                }
             }
         }
     }

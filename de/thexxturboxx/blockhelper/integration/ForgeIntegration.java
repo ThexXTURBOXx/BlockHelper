@@ -21,10 +21,10 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "net.minecraftforge.liquids.ITankContainer")) {
-            ITankContainer container = ((ITankContainer) state.te);
+            ITankContainer container = (ITankContainer) state.te;
             for (ILiquidTank tank : getTanks(container)) {
                 LiquidStack stack = tank.getLiquid();
-                if (stack != null && stack.amount > 0) {
+                if (tank.getCapacity() != 0 && stack != null && stack.amount > 0) {
                     info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
                             + formatLiquidName(getLiquidName(stack)));
                 }
