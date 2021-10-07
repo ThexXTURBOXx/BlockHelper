@@ -25,20 +25,20 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
-            if (engine != null) {
+            if (engine != null && engine.maxEnergy != 0) {
                 info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
         } else if (iof(state.te, "buildcraft.api.power.IPowerReceptor")) {
             IPowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
-            if (prov != null) {
+            if (prov != null && prov.getMaxEnergyStored() != 0) {
                 info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
             }
         }
         if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
-            ITankContainer container = ((ITankContainer) state.te);
+            ITankContainer container = (ITankContainer) state.te;
             for (ILiquidTank tank : container.getTanks()) {
                 LiquidStack stack = tank.getLiquid();
-                if (stack != null && stack.amount > 0) {
+                if (tank.getCapacity() != 0 && stack != null && stack.amount > 0) {
                     info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
                             + formatLiquidName(getBcLiquidName(stack)));
                 }

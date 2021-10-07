@@ -19,20 +19,28 @@ public class Ic2Integration extends BlockHelperInfoProvider {
         if (iof(state.te, "ic2.common.TileEntityElecMachine")) {
             TileEntityElecMachine elecMachine = (TileEntityElecMachine) state.te;
             int energy = getRealEnergy(elecMachine.energy, elecMachine.maxEnergy, elecMachine.maxInput);
-            info.add(energy + " EU / " + elecMachine.maxEnergy + " EU");
+            if (elecMachine.maxEnergy != 0) {
+                info.add(energy + " EU / " + elecMachine.maxEnergy + " EU");
+            }
             if (iof(state.te, "ic2.common.TileEntityMatter")) {
                 info.add("Progress: " + ((TileEntityMatter) state.te).getProgressAsString());
             }
         }
         if (iof(state.te, "ic2.api.IEnergyStorage")) {
             IEnergyStorage storage = (IEnergyStorage) state.te;
-            info.add(storage.getStored() + " EU / " + storage.getCapacity() + " EU");
+            if (storage.getCapacity() != 0) {
+                info.add(storage.getStored() + " EU / " + storage.getCapacity() + " EU");
+            }
         } else if (iof(state.te, "ic2.common.TileEntityBaseGenerator")) {
             TileEntityBaseGenerator generator = (TileEntityBaseGenerator) state.te;
-            info.add(generator.storage + " EU / " + generator.maxStorage + " EU");
+            if (generator.maxStorage != 0) {
+                info.add(generator.storage + " EU / " + generator.maxStorage + " EU");
+            }
         } else if (iof(state.te, "ic2.common.TileEntityElectricBlock")) {
             TileEntityElectricBlock electricBlock = (TileEntityElectricBlock) state.te;
-            info.add(electricBlock.energy + " EU / " + electricBlock.maxStorage + " EU");
+            if (electricBlock.maxStorage != 0) {
+                info.add(electricBlock.energy + " EU / " + electricBlock.maxStorage + " EU");
+            }
         }
     }
 
