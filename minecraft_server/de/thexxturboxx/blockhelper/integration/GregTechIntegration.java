@@ -15,7 +15,9 @@ public class GregTechIntegration extends BlockHelperInfoProvider {
                 Class<?> modLightningrod = getClass("mod_Lightningrod");
                 Object instance = getStaticMethod(modLightningrod, "getInstance").invoke(null);
                 Integer maxEnergy = getField(instance, "mLightningStrikeEnergy");
-                info.add(telr.mStoredEnergy + " EU / " + maxEnergy + " EU");
+                if (maxEnergy != null && maxEnergy != 0) {
+                    info.add(telr.mStoredEnergy + " EU / " + maxEnergy + " EU");
+                }
             } catch (Throwable ignored) {
             }
         }

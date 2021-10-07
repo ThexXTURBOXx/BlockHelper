@@ -22,24 +22,24 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
-                Object energyStored = getField(engine, "energy");
-                Object maxEnergyStored = getField(engine, "maxEnergy");
-                if (energyStored != null) {
-                    info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                Number energyStored = getField(engine, "energy");
+                Number maxEnergy = getField(engine, "maxEnergy");
+                if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
+                    info.add(energyStored + " MJ / " + maxEnergy + " MJ");
                 }
             }
         } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
             PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
-                Object energyStored = getField(prov, "energyStored");
-                Object maxEnergyStored = getField(prov, "maxEnergyStored");
-                if (energyStored != null) {
-                    info.add(energyStored + " MJ / " + maxEnergyStored + " MJ");
+                Number energyStored = getField(prov, "energyStored");
+                Number maxEnergy = getField(prov, "maxEnergyStored");
+                if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
+                    info.add(energyStored + " MJ / " + maxEnergy + " MJ");
                 }
             }
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
-            ILiquidContainer container = ((ILiquidContainer) state.te);
+            ILiquidContainer container = (ILiquidContainer) state.te;
             Method m = getMethod(state.te, "getLiquidSlots");
             boolean flag = false;
             if (m != null) {
@@ -48,7 +48,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                     for (LiquidSlot slot : slots) {
                         int quantity = slot.getLiquidQty();
                         int capacity = Math.max(quantity, slot.getCapacity());
-                        if (quantity > 0) {
+                        if (capacity != 0 && quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB"
                                     + formatLiquidName(getBcLiquidName(slot)));
                         }
@@ -60,7 +60,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             if (!flag) {
                 int quantity = container.getLiquidQuantity();
                 int capacity = Math.max(quantity, container.getCapacity());
-                if (quantity > 0) {
+                if (capacity != 0 && quantity > 0) {
                     info.add(quantity + " mB / " + capacity + " mB"
                             + formatLiquidName(getBcLiquidName(container)));
                 }
