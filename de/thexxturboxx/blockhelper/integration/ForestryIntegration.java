@@ -11,7 +11,9 @@ public class ForestryIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "forestry.energy.gadgets.MachineGenerator")) {
             MachineGenerator generator = (MachineGenerator) state.te;
-            info.add(generator.energyStored + " EU / " + generator.energyMax + " EU");
+            if (generator.energyMax != 0) {
+                info.add(generator.energyStored + " EU / " + generator.energyMax + " EU");
+            }
         }
     }
 
