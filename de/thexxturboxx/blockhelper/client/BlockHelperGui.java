@@ -45,6 +45,8 @@ public class BlockHelperGui {
 
     public static final int LIGHT = new Color(52, 18, 102).getRGB();
 
+    private static final Random rnd = new Random();
+
     private static BlockHelperGui instance;
 
     private final List<String> infos;
@@ -102,10 +104,13 @@ public class BlockHelperGui {
                 PacketDispatcher.sendPacketToServer(packet);
                 switch (result) {
                 case BLOCK:
-                    int meta = w.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-                    int id = w.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
+                    int x = mop.blockX;
+                    int y = mop.blockY;
+                    int z = mop.blockZ;
+                    int meta = w.getBlockMetadata(x, y, z);
+                    int id = w.getBlockId(x, y, z);
                     Block b = Block.blocksList[id];
-                    TileEntity te = w.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                    TileEntity te = w.getBlockTileEntity(x, y, z);
                     ItemStack is = BlockHelperModSupport.getItemStack(
                             new BlockHelperBlockState(w, mop, b, te, id, meta));
                     if (is == null) {
@@ -133,8 +138,15 @@ public class BlockHelperGui {
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
                     String itemId = is.itemID + ":" + is.getItemDamage();
-                    if (is.getItem() == null)
+                    if (is.getItem() == null && b != null) {
+                        is = b.getPickBlock(mop, w, x, y, z);
+                    }
+                    if ((is == null || is.getItem() == null) && b != null) {
+                        is = new ItemStack(b.idDropped(meta, rnd, id), 1, b.damageDropped(meta));
+                    }
+                    if (is.getItem() == null) {
                         return true;
+                    }
 
                     String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
                     name = name == null ? "" : name;
@@ -159,8 +171,7 @@ public class BlockHelperGui {
                                 } catch (Throwable e2) {
                                     try {
                                         if (b != null) {
-                                            ItemStack s = b.getPickBlock(mop, w,
-                                                    mop.blockX, mop.blockY, mop.blockZ);
+                                            ItemStack s = b.getPickBlock(mop, w, x, y, z);
                                             name = s.getItem().getItemDisplayName(s);
                                         }
                                         if (name.isEmpty())
@@ -180,9 +191,7 @@ public class BlockHelperGui {
                     String harvest = "Please report this!";
                     boolean harvestable = false;
                     if (b != null) {
-                        float hardness = b.getBlockHardness(mod_BlockHelper.proxy.getWorld(),
-                                mop.blockX, mop.blockY, mop.blockZ);
-                        if (hardness == -1.0F || hardness == -1.0D || hardness == -1) {
+                        if (b.getBlockHardness(mod_BlockHelper.proxy.getWorld(), x, y, z) < 0.0F) {
                             harvest = "Unbreakable";
                         } else if (b.canHarvestBlock(mod_BlockHelper.proxy.getPlayer(), meta)) {
                             harvestable = true;
@@ -198,8 +207,8 @@ public class BlockHelperGui {
                     addInfo((harvestable ? "§a✔" : "§4✘") + " §r§7" + harvest);
                     addAdditionalInfo(packetInfos);
                     addInfo("§9§o" + mod);
-                    int x = drawBox(mc);
-                    drawInfo(x, mc);
+                    int xBox = drawBox(mc);
+                    drawInfo(xBox, mc);
                     break;
                 case ENTITY:
                     Entity e = mop.entityHit;
@@ -213,8 +222,8 @@ public class BlockHelperGui {
                     addInfo(nameEntity);
                     addAdditionalInfo(packetInfos);
                     addInfo("§9§o" + mod);
-                    x = drawBox(mc);
-                    drawInfo(x, mc);
+                    xBox = drawBox(mc);
+                    drawInfo(xBox, mc);
                     break;
                 default:
                     break;
