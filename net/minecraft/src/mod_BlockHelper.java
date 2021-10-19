@@ -121,10 +121,13 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                                 BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
                             }
                         } else if (pi.mt == MopType.BLOCK) {
-                            TileEntity te = w.getBlockTileEntity(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
-                            int id = w.getBlockId(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
+                            int x = pi.mop.blockX;
+                            int y = pi.mop.blockY;
+                            int z = pi.mop.blockZ;
+                            TileEntity te = w.getBlockTileEntity(x, y, z);
+                            int id = w.getBlockId(x, y, z);
                             if (id > 0) {
-                                int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
+                                int meta = w.getBlockMetadata(x, y, z);
                                 Block b = Block.blocksList[id];
                                 BlockHelperModSupport.addInfo(
                                         new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
@@ -162,4 +165,3 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     }
 
 }
-
