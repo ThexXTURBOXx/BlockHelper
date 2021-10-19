@@ -106,7 +106,8 @@ public class BlockHelperGui {
                     int id = w.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
                     Block b = Block.blocksList[id];
                     TileEntity te = w.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                    ItemStack is = BlockHelperModSupport.getItemStack(new BlockHelperBlockState(w, b, te, id, meta));
+                    ItemStack is = BlockHelperModSupport.getItemStack(
+                            new BlockHelperBlockState(w, mop, b, te, id, meta));
                     if (is == null) {
                         if (b == null) {
                             is = new ItemStack(id, 1, meta);
@@ -127,7 +128,7 @@ public class BlockHelperGui {
                     } catch (Throwable ignored) {
                     }
 
-                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, b, te, id, meta));
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
@@ -135,7 +136,7 @@ public class BlockHelperGui {
                     if (is.getItem() == null)
                         return true;
 
-                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, b, te, id, meta));
+                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {

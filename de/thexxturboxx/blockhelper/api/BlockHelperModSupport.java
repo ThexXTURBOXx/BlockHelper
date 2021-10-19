@@ -93,4 +93,17 @@ public final class BlockHelperModSupport {
         return null;
     }
 
+    public static String getMod(Object object) {
+        for (BlockHelperModFixer f : MOD_FIXERS) {
+            try {
+                String mod = f.getMod(object);
+                if (mod != null && !mod.isEmpty()) {
+                    return mod;
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+        return null;
+    }
+
 }
