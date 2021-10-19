@@ -116,11 +116,11 @@ public class BlockHelperGui {
                     if (is.getItem() == null)
                         return true;
 
-                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, b, te, id, meta));
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
-                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, b, te, id, meta));
+                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
