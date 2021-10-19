@@ -121,7 +121,8 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                             if (id > 0) {
                                 int meta = w.getBlockMetadata(pi.mop.blockX, pi.mop.blockY, pi.mop.blockZ);
                                 Block b = Block.blocksList[id];
-                                BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, b, te, id, meta), info);
+                                BlockHelperModSupport.addInfo(
+                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
                             }
                         } else {
                             return;
