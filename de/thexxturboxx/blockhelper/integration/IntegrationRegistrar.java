@@ -23,6 +23,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerItemStackFixer(new GregTechIntegration());
         BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
+        BlockHelperModSupport.registerModFixer(new ImmibisIntegration());
         BlockHelperModSupport.registerBlockProvider(new MeteorsIntegration());
         BlockHelperModSupport.registerItemStackFixer(new MeteorsIntegration());
         BlockHelperModSupport.registerBlockProvider(new NaturaIntegration());
