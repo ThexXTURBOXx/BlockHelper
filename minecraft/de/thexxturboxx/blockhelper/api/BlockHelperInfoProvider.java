@@ -122,4 +122,9 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
         return null;
     }
 
+    @Override
+    public String getMod(Object object) {
+        return null;
+    }
+
 }

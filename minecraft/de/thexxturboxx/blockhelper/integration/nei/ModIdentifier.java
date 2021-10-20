@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
+import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -101,7 +102,11 @@ public final class ModIdentifier {
     }
 
     private static String lookupMod(Object object) {
-        String mod = null;
+        String mod = BlockHelperModSupport.getMod(object);
+        if (mod != null) {
+            return mod;
+        }
+
         try {
             String modFile = formatURI(object.getClass().getProtectionDomain().getCodeSource()
                     .getLocation().toURI());

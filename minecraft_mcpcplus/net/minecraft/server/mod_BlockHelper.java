@@ -108,7 +108,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                         if (id > 0) {
                             int meta = w.getData(pi.mop.b, pi.mop.c, pi.mop.d);
                             Block b = Block.byId[id];
-                            BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, b, te, id, meta), info);
+                            BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
                         }
                     } else {
                         return;
