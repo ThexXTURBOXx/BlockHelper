@@ -1,10 +1,8 @@
 package de.thexxturboxx.blockhelper;
 
 import java.io.File;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.World;
 import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
@@ -16,18 +14,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
-    public static int font;
     public static KeyBinding showHide;
-
-    @Override
-    public EntityPlayer getPlayer() {
-        return ModLoader.getMinecraftInstance().thePlayer;
-    }
-
-    @Override
-    public World getWorld() {
-        return ModLoader.getMinecraftInstance().theWorld;
-    }
 
     @Override
     public void load(mod_BlockHelper instance) {

@@ -93,7 +93,7 @@ public class BlockHelperGui {
                 e1.printStackTrace();
             }
             byte[] fieldData = buffer.toByteArray();
-            if (mod_BlockHelper.proxy.getWorld().isRemote) {
+            if (w.isRemote) {
                 Packet250CustomPayload packet = new Packet250CustomPayload();
                 packet.channel = mod_BlockHelper.CHANNEL;
                 packet.data = fieldData;
@@ -178,7 +178,7 @@ public class BlockHelperGui {
                 if (b != null) {
                     if (b.getHardness(meta) < 0.0F) {
                         harvest = "Unbreakable";
-                    } else if (b.canHarvestBlock(mod_BlockHelper.proxy.getPlayer(), meta)) {
+                    } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
                         harvestable = true;
                         harvest = "Currently harvestable";
                     } else {

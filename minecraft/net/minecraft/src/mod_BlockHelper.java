@@ -124,9 +124,10 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    World w = mod_BlockHelper.proxy.getWorld();
-                    if (pi == null || pi.mop == null || w == null)
+                    if (pi == null || pi.mop == null)
                         return;
+
+                    World w = ModLoader.getMinecraftInstance().theWorld;
                     PacketClient info = new PacketClient();
                     if (pi.mt == MopType.ENTITY) {
                         Entity en = pi.mop.entityHit;

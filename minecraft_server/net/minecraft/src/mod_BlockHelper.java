@@ -89,6 +89,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     }
                     if (pi == null || pi.mop == null)
                         return;
+
                     World w = DimensionManager.getWorld(pi.dimId);
                     PacketClient info = new PacketClient();
                     if (pi.mt == MopType.ENTITY) {

@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.src.Entity;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
@@ -23,7 +24,7 @@ public final class PacketCoder {
             MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = mod_BlockHelper.proxy.getWorld();
+                World w = ModLoader.getMinecraftInstance().theWorld;
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)
