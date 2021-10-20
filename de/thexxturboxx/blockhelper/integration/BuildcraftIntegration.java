@@ -80,7 +80,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     public static String getBcLiquidName(Object liquid) {
         try {
             if (liquids == null) {
-                liquids = getDeclaredField(LiquidDictionary.class, "liquids");
+                liquids = getDeclaredField(LiquidDictionary.class, null, "liquids");
             }
             LiquidStack stack = (LiquidStack) liquid;
             for (String name : liquids.keySet()) {
