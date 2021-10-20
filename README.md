@@ -40,7 +40,9 @@ Some Minecraft versions have problems calculating String widths or don't support
 | Forestry | ✔ | ✔ | ✔ | ✔ |
 | GregTech | ✔ | ✔ | ✔ | ✔ |
 | IC² | ✔ | ✔ | ✔ | ✔ |
+| Immibis's Microblocks | ❌ | ❌ | ✔ | ✔ |
 | InfiCraft | ❌ | ❌ | ✔ | ❌ |
+| Pam's Mods | ✔ | ❌ | ✔ | ✔ |
 | RedPower 2 | ✔ | ❌ | ✔ | ❌ |
 | Thermal Expansion | ✔ | ✔ | ✔ | ✔ |
 
