@@ -103,10 +103,13 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                             BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
                         }
                     } else if (pi.mt == MopType.BLOCK) {
-                        TileEntity te = w.getTileEntity(pi.mop.b, pi.mop.c, pi.mop.d);
-                        int id = w.getTypeId(pi.mop.b, pi.mop.c, pi.mop.d);
+                        int x = pi.mop.b;
+                        int y = pi.mop.c;
+                        int z = pi.mop.d;
+                        TileEntity te = w.getTileEntity(x, y, z);
+                        int id = w.getTypeId(x, y, z);
                         if (id > 0) {
-                            int meta = w.getData(pi.mop.b, pi.mop.c, pi.mop.d);
+                            int meta = w.getData(x, y, z);
                             Block b = Block.byId[id];
                             BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
                         }
