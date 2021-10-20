@@ -11,8 +11,8 @@ public class AdvMachinesIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "mods.immibis.am2.TileAM2Base")) {
             TileAM2Base tam = (TileAM2Base) state.te;
-            Integer stored = getDeclaredField(tam, "storedEnergy");
-            Integer max = getDeclaredField(TileAM2Base.class, "MAX_STORAGE");
+            Integer stored = getDeclaredField(TileAM2Base.class, tam, "storedEnergy");
+            Integer max = getDeclaredField(TileAM2Base.class, null, "MAX_STORAGE");
             if (max != null && max != 0) {
                 info.add(stored + " EU / " + max + " EU");
             }
