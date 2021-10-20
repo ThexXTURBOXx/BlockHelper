@@ -2,11 +2,8 @@ package de.thexxturboxx.blockhelper;
 
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import java.io.File;
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
@@ -18,18 +15,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
-    public static int font;
     public static KeyBinding showHide;
-
-    @Override
-    public EntityPlayer getPlayer() {
-        return Minecraft.getMinecraft().thePlayer;
-    }
-
-    @Override
-    public World getWorld() {
-        return Minecraft.getMinecraft().theWorld;
-    }
 
     @Override
     public void load(mod_BlockHelper instance) {

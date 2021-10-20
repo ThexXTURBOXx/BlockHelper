@@ -175,9 +175,9 @@ public class BlockHelperGui {
                     String harvest = "Please report this!";
                     boolean harvestable = false;
                     if (b != null) {
-                        if (b.getBlockHardness(mod_BlockHelper.proxy.getWorld(), x, y, z) < 0.0F) {
+                        if (b.getBlockHardness(w, x, y, z) < 0.0F) {
                             harvest = "Unbreakable";
-                        } else if (b.canHarvestBlock(mod_BlockHelper.proxy.getPlayer(), meta)) {
+                        } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
                             harvestable = true;
                             harvest = "Currently harvestable";
                         } else {
