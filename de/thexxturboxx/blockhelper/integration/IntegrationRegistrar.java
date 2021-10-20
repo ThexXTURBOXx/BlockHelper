@@ -28,6 +28,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerModFixer(new ImmibisIntegration());
         BlockHelperModSupport.registerBlockProvider(new MeteorsIntegration());
         BlockHelperModSupport.registerItemStackFixer(new MeteorsIntegration());
+        BlockHelperModSupport.registerItemStackFixer(new PamIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
     }
 
