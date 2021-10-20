@@ -42,7 +42,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     @Override
     public String getName(BlockHelperBlockState state) {
         if (state.block instanceof BlockStem) {
-            Block drop = getDeclaredField(state.block, "a");
+            Block drop = getDeclaredField(BlockStem.class, state.block, "a");
             return drop.translateBlockName();
         }
         return super.getName(state);

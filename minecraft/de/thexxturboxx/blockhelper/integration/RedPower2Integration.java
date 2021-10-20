@@ -29,7 +29,7 @@ public class RedPower2Integration extends BlockHelperInfoProvider {
     @Override
     public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.block, "eloraam.world.BlockCustomCrops")) {
-            return new ItemStack(BlockHelperInfoProvider.<Item>getStaticField(getClass("RedPowerWorld"), "itemSeeds"));
+            return new ItemStack(BlockHelperInfoProvider.<Item>getField(getClass("RedPowerWorld"), null, "itemSeeds"));
         }
         return super.getItemStack(state);
     }

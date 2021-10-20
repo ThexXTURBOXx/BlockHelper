@@ -9,22 +9,22 @@ public class PamIntegration extends BlockHelperInfoProvider {
     @Override
     public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.te, "TileEntityPamCrop")) {
-            int[] seedDrops = getDeclaredField(state.te, "SeedDrops");
-            Integer cropID = getDeclaredField(state.te, "CropID");
+            int[] seedDrops = getDeclaredField(getClass("TileEntityPamCrop"), state.te, "SeedDrops");
+            Integer cropID = getDeclaredField(getClass("TileEntityPamCrop"), state.te, "CropID");
             if (seedDrops != null && cropID != null) {
                 return new ItemStack(seedDrops[cropID], 1, 0);
             }
         }
         if (iof(state.te, "TileEntityPamSimpleCrop")) {
-            int[] seedDrops = getDeclaredField(state.te, "SeedDrops");
-            Integer cropID = getDeclaredField(state.te, "SimpleCropID");
+            int[] seedDrops = getDeclaredField(getClass("TileEntityPamSimpleCrop"), state.te, "SeedDrops");
+            Integer cropID = getDeclaredField(getClass("TileEntityPamSimpleCrop"), state.te, "SimpleCropID");
             if (seedDrops != null && cropID != null) {
                 return new ItemStack(seedDrops[cropID], 1, 0);
             }
         }
         if (iof(state.te, "TileEntityPamFlowerCrop")) {
-            int[] seedDrops = getDeclaredField(state.te, "SeedDrops");
-            Integer cropID = getDeclaredField(state.te, "FlowerCropID");
+            int[] seedDrops = getDeclaredField(getClass("TileEntityPamFlowerCrop"), state.te, "SeedDrops");
+            Integer cropID = getDeclaredField(getClass("TileEntityPamFlowerCrop"), state.te, "FlowerCropID");
             if (seedDrops != null && cropID != null) {
                 return new ItemStack(seedDrops[cropID], 1, cropID > 13 ? 0 : cropID);
             }

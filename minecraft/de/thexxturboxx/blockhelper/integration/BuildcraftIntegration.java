@@ -5,6 +5,7 @@ import buildcraft.api.IPowerReceptor;
 import buildcraft.api.LiquidSlot;
 import buildcraft.api.PowerProvider;
 import buildcraft.api.liquids.ILiquidTank;
+import buildcraft.api.liquids.ITankContainer;
 import buildcraft.api.liquids.LiquidStack;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
@@ -24,8 +25,8 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null) {
-                Number energyStored = getField(engine, "energy");
-                Number maxEnergy = getField(engine, "maxEnergy");
+                Number energyStored = getField(Engine.class, engine, "energy");
+                Number maxEnergy = getField(Engine.class, engine, "maxEnergy");
                 if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
                     info.add(energyStored + " MJ / " + maxEnergy + " MJ");
                 }
@@ -33,8 +34,8 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
             PowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null) {
-                Number energyStored = getField(prov, "energyStored");
-                Number maxEnergy = getField(prov, "maxEnergyStored");
+                Number energyStored = getField(PowerProvider.class, prov, "energyStored");
+                Number maxEnergy = getField(PowerProvider.class, prov, "maxEnergyStored");
                 if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
                     info.add(energyStored + " MJ / " + maxEnergy + " MJ");
                 }
@@ -48,7 +49,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
             ILiquidContainer container = (ILiquidContainer) state.te;
-            Method m = getMethod(state.te, "getLiquidSlots");
+            Method m = getMethod(ILiquidContainer.class, "getLiquidSlots");
             boolean flag = false;
             if (m != null) {
                 try {
@@ -74,7 +75,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 }
             }
         } else if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
-            Method m = getMethod(state.te, "getTanks");
+            Method m = getMethod(ITankContainer.class, "getTanks");
             if (m != null) {
                 try {
                     ILiquidTank[] tanks = (ILiquidTank[]) m.invoke(state.te);

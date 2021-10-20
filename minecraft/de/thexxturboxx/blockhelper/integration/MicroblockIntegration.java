@@ -46,7 +46,7 @@ public final class MicroblockIntegration extends BlockHelperInfoProvider {
                         return getCover(tlo, pos.subHit);
                     } else if (tl instanceof TileTube || tl instanceof TilePipe) {
                         if (pos.subHit == 29) {
-                            Block bm = getStaticField(getClass("RedPowerBase"), "blockMicro");
+                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
                             return new ItemStack(bm.blockID, 1, tl.getExtendedID() << 8);
                         }
                         return getCover(tl, pos.subHit);
@@ -60,13 +60,13 @@ public final class MicroblockIntegration extends BlockHelperInfoProvider {
                             if (tw.getExtendedID() == 5) {
                                 td += 512;
                             }
-                            Block bm = getStaticField(getClass("RedPowerBase"), "blockMicro");
+                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
                             return new ItemStack(bm.blockID, 1, td);
                         } else {
                             if ((tw.ConSides & 1 << pos.subHit) <= 0) {
                                 return getCover(tl, pos.subHit);
                             }
-                            Block bm = getStaticField(getClass("RedPowerBase"), "blockMicro");
+                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
                             return new ItemStack(bm.blockID, 1, tw.getExtendedID() * 256 + tw.Metadata);
                         }
                     } else {
