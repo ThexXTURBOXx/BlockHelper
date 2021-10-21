@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -160,7 +161,7 @@ public class BlockHelperGui {
                                         if (b != null) {
                                             name = b.getLocalizedName();
                                         } else {
-                                            name = "Please report this!";
+                                            name = I18n.format("please_report");
                                         }
                                     }
                                 }
@@ -168,23 +169,21 @@ public class BlockHelperGui {
                         }
                     }
 
-                    String harvest = "Please report this!";
-                    boolean harvestable = false;
+                    String harvest = I18n.format("please_report");
                     if (b != null) {
                         if (b.getBlockHardness(w, x, y, z) < 0.0F) {
-                            harvest = "Unbreakable";
+                            harvest = I18n.format("unbreakable");
                         } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
-                            harvestable = true;
-                            harvest = "Currently harvestable";
+                            harvest = I18n.format("harvestable");
                         } else {
-                            harvest = "Currently not harvestable";
+                            harvest = I18n.format("not_harvestable");
                         }
                     }
 
                     infos.clear();
                     addInfo(name);
                     addInfo(itemId);
-                    addInfo((harvestable ? "§a✔" : "§4✘") + " §r§7" + harvest);
+                    addInfo(harvest);
                     addAdditionalInfo(packetInfos);
                     addInfo("§9§o" + mod);
                     int xBox = drawBox(mc);

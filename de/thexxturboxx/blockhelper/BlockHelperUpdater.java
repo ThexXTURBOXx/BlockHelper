@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +26,14 @@ public class BlockHelperUpdater implements Runnable {
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
-                mod_BlockHelper.LOGGER.info("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);
+                mod_BlockHelper.LOGGER.info(I18n.format("newer_version_available", mod_BlockHelper.NAME,
+                        latestVersion));
             } else {
-                mod_BlockHelper.LOGGER.info("Yay! You have the newest version of " + mod_BlockHelper.NAME + " :)");
+                mod_BlockHelper.LOGGER.info(I18n.format("newest_version_installed", mod_BlockHelper.NAME));
             }
         } catch (Throwable t) {
             t.printStackTrace();
-            mod_BlockHelper.LOGGER.warning("Update check for " + mod_BlockHelper.NAME + " failed.");
+            mod_BlockHelper.LOGGER.warning(I18n.format("update_check_failed", mod_BlockHelper.NAME));
         }
         isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
     }
@@ -73,12 +75,12 @@ public class BlockHelperUpdater implements Runnable {
     }
 
     public static void notifyUpdater(Minecraft mc) {
-        if (!BlockHelperUpdater.isLatestVersion()) {
-            if (BlockHelperUpdater.getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §4Update Check failed.");
+        if (!isLatestVersion()) {
+            if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {
+                mc.thePlayer.addChatMessage(I18n.format("update_check_failed_chat", mod_BlockHelper.NAME));
             } else {
-                mc.thePlayer.addChatMessage("§7[§6" + mod_BlockHelper.NAME + "§7] §bNew version available: §c"
-                        + mod_BlockHelper.VERSION + " §6==> §2" + BlockHelperUpdater.getLatestVersion());
+                mc.thePlayer.addChatMessage(I18n.format("newer_version_available_chat", mod_BlockHelper.NAME,
+                        mod_BlockHelper.VERSION, getLatestVersion()));
             }
         }
     }

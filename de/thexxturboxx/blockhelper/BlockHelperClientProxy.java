@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper;
 
 import cpw.mods.fml.relauncher.FMLInjectionData;
+import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.File;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.src.ModLoader;
@@ -21,6 +22,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public void load(mod_BlockHelper instance) {
         super.load(instance);
         mod_BlockHelper.isClient = true;
+        ModIdentifier.load();
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         cfg.load();
         size = cfg.get("General", "Size", 1D, "Size factor for the tooltip").getDouble(1);
@@ -32,7 +34,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
                 "cc28007f", "Border Color Hex Code 2").getString(), 16);
         cfg.save();
         sizeInv = 1 / size;
-        showHide = new KeyBinding("Show/Hide Block Helper", Keyboard.KEY_NUMPAD0);
+        showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
         ModLoader.registerKey(instance, showHide, false);
     }
 

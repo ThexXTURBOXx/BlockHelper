@@ -4,6 +4,7 @@ import buildcraft.factory.TileTank;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
 
     public static String formatLiquidName(String liquidName) {
         return liquidName == null || liquidName.trim().isEmpty()
-                ? "" : " of " + liquidName;
+                ? "" : I18n.format("liquid_format", "", liquidName);
     }
 
     public static String getLiquidName(LiquidStack liquidStack) {

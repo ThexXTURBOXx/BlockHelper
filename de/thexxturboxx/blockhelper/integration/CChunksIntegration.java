@@ -5,18 +5,18 @@ import codechicken.chunkloader.TileChunkLoaderBase;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 
 public class CChunksIntegration extends BlockHelperInfoProvider {
 
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "codechicken.chunkloader.TileChunkLoaderBase")) {
-            info.add("Owner: " + ((TileChunkLoaderBase) state.te).getOwner());
-            info.add("Active: " + firstUp(Boolean.toString(((TileChunkLoaderBase) state.te).active)));
+            info.add(I18n.format("owner_format", ((TileChunkLoaderBase) state.te).getOwner()));
+            info.add(I18n.format("active_format", I18n.format(((TileChunkLoaderBase) state.te).active)));
             if (iof(state.te, "codechicken.chunkloader.TileChunkLoader")) {
-                int radius = ((TileChunkLoader) state.te).radius;
-                info.add("Radius: " + radius);
-                info.add("Shape: " + ((TileChunkLoader) state.te).shape.toString());
+                info.add(I18n.format("radius_format", ((TileChunkLoader) state.te).radius));
+                info.add(I18n.format("shape_format", ((TileChunkLoader) state.te).shape.toString()));
             }
         }
     }
@@ -27,10 +27,6 @@ public class CChunksIntegration extends BlockHelperInfoProvider {
             return "ChickenChunks";
         }
         return super.getMod(state);
-    }
-
-    private String firstUp(String s) {
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
 }

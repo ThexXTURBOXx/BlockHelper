@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.integration;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
@@ -25,13 +26,13 @@ public class NaturaIntegration extends BlockHelperInfoProvider {
                 int grow = (int) ((newMeta / 2d) * 100);
                 String toShow;
                 if (grow >= 100) {
-                    toShow = "Mature";
+                    toShow = I18n.format("mature");
                 } else {
                     toShow = grow + "%";
                 }
-                info.add("Growth State: " + toShow);
+                info.add(I18n.format("growth_state_format", toShow));
             } else {
-                info.add("Growth State: Ripe");
+                info.add(I18n.format("growth_state_format", I18n.format("ripe")));
             }
         }
     }
