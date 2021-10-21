@@ -16,7 +16,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
-import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -69,7 +68,6 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     public void load() {
         INSTANCE = this;
         proxy.load(this);
-        ModIdentifier.load();
     }
 
     @Override
