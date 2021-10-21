@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
@@ -166,30 +167,28 @@ public class BlockHelperGui {
                                 if (b != null) {
                                     name = b.translateBlockName();
                                 } else {
-                                    name = "Please report this!";
+                                    name = I18n.format("please_report");
                                 }
                             }
                         }
                     }
                 }
 
-                String harvest = "Please report this!";
-                boolean harvestable = false;
+                String harvest = I18n.format("please_report");
                 if (b != null) {
                     if (b.getHardness(meta) < 0.0F) {
-                        harvest = "Unbreakable";
+                        harvest = I18n.format("unbreakable");
                     } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
-                        harvestable = true;
-                        harvest = "Currently harvestable";
+                        harvest = I18n.format("harvestable");
                     } else {
-                        harvest = "Currently not harvestable";
+                        harvest = I18n.format("not_harvestable");
                     }
                 }
 
                 infos.clear();
                 addInfo(name);
                 addInfo(itemId);
-                addInfo((harvestable ? "\u00a7a\u2714" : "\u00a74\u2718") + " \u00a7r\u00a77" + harvest);
+                addInfo(harvest);
                 addAdditionalInfo(packetInfos);
                 addInfo("\u00a79\u00a7o" + mod);
                 int xBox = drawBox(mc);

@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,13 +23,14 @@ public class BlockHelperUpdater implements Runnable {
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             String latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
-                mod_BlockHelper.LOGGER.info("Newer version of " + mod_BlockHelper.NAME + " available: " + latestVersion);
+                mod_BlockHelper.LOGGER.info(I18n.format("newer_version_available", mod_BlockHelper.NAME,
+                        latestVersion));
             } else {
-                mod_BlockHelper.LOGGER.info("Yay! You have the newest version of " + mod_BlockHelper.NAME + " :)");
+                mod_BlockHelper.LOGGER.info(I18n.format("newest_version_installed", mod_BlockHelper.NAME));
             }
         } catch (Throwable t) {
             t.printStackTrace();
-            mod_BlockHelper.LOGGER.warning("Update check for " + mod_BlockHelper.NAME + " failed.");
+            mod_BlockHelper.LOGGER.warning(I18n.format("update_check_failed", mod_BlockHelper.NAME));
         }
     }
 

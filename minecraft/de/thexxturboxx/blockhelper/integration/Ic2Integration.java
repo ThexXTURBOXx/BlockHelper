@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.integration;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import ic2.api.IEnergyStorage;
 import ic2.common.Ic2Items;
 import ic2.common.TileEntityElecMachine;
@@ -25,7 +26,7 @@ public class Ic2Integration extends BlockHelperInfoProvider {
                 info.add(newEnergy + " EU / " + maxEnergy + " EU");
             }
             if (iof(state.te, "ic2.common.TileEntityMatter")) {
-                info.add("Progress: " + ((TileEntityMatter) state.te).getProgressAsString());
+                info.add(I18n.format("progress_format", ((TileEntityMatter) state.te).getProgressAsString()));
             }
         }
         if (iof(state.te, "ic2.api.IEnergyStorage")) {

@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.integration;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.server.Block;
@@ -19,23 +20,20 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             int grow = (int) ((state.meta / max_stage) * 100);
             String toShow;
             if (grow >= 100) {
-                toShow = "Mature";
+                toShow = I18n.format("mature");
             } else {
                 toShow = grow + "%";
             }
-            info.add("Growth State: " + toShow);
+            info.add(I18n.format("growth_state_format", toShow));
         }
 
         if (state.id == Block.REDSTONE_WIRE.id) {
-            info.add("Strength: " + state.meta);
+            info.add(I18n.format("strength_format", state.meta));
         }
 
         if (state.id == Block.LEVER.id) {
-            String leverState = "Off";
-            if (state.meta >= 8) {
-                leverState = "On";
-            }
-            info.add("State: " + leverState);
+            String leverState = I18n.format(state.meta >= 8 ? "on" : "off");
+            info.add(I18n.format("state_format", leverState));
         }
     }
 

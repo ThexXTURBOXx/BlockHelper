@@ -11,7 +11,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
-import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -44,8 +43,6 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     public static final MopType[] MOP_TYPES = MopType.values();
 
-    public static boolean isClient;
-
     public static BlockHelperCommonProxy proxy;
 
     public static String getModId() {
@@ -67,7 +64,6 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         INSTANCE = this;
         proxy = new BlockHelperClientProxy();
         proxy.load(this);
-        ModIdentifier.load();
     }
 
     @Override
