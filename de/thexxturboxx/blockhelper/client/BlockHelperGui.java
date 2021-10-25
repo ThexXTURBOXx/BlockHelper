@@ -10,9 +10,11 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
+import de.thexxturboxx.blockhelper.mod_BlockHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +28,6 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -114,7 +115,7 @@ public class BlockHelperGui {
                             is = new ItemStack(b, 1, meta);
                         }
                     }
-                    String itemId = is.itemID + ":" + is.getItemDamage();
+                    String itemId = is.itemID + ":" + getItemDamage(is);
                     if (is.getItem() == null && b != null) {
                         is = b.getPickBlock(mop, w, x, y, z);
                     }
@@ -337,6 +338,28 @@ public class BlockHelperGui {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    private static Field damageField;
+
+    // This is needed for <=1.5.1 compatability
+    public static int getItemDamage(ItemStack is) {
+        try {
+            return is.getItemDamage();
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            if (damageField == null) {
+                damageField = ItemStack.class.getDeclaredField("field_77991_e"); // itemDamage field
+                damageField.setAccessible(true);
+            }
+            return (int) (Integer) damageField.get(is);
+        } catch (Throwable ignored) {
+        }
+
+        // If all else fails
+        return 0;
     }
 
 }

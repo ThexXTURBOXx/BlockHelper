@@ -4,7 +4,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.IntegrationRegistrar;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperCommonProxy {
 

@@ -5,7 +5,6 @@ import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.File;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
 

@@ -1,4 +1,4 @@
-package net.minecraft.src;
+package de.thexxturboxx.blockhelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
@@ -6,11 +6,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
-import de.thexxturboxx.blockhelper.MopType;
-import de.thexxturboxx.blockhelper.PacketClient;
-import de.thexxturboxx.blockhelper.PacketCoder;
-import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
@@ -28,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.src.BaseMod;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;

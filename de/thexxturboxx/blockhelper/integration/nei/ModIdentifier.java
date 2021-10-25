@@ -20,7 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.mod_BlockHelper;
+import de.thexxturboxx.blockhelper.mod_BlockHelper;
 
 public final class ModIdentifier {
 
