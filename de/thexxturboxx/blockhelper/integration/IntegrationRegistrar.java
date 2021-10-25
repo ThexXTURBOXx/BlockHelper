@@ -10,7 +10,6 @@ public final class IntegrationRegistrar {
 
     public static void init() {
         BlockHelperModSupport.registerBlockProvider(new AdvMachinesIntegration());
-        BlockHelperModSupport.registerBlockProvider(new AppEngIntegration());
         BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerModFixer(new BuildcraftIntegration());
@@ -24,11 +23,10 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerItemStackFixer(new GregTechIntegration());
         BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
-        BlockHelperModSupport.registerModFixer(new ICMicroblockIntegration());
-        BlockHelperModSupport.registerModFixer(new ImmibisIntegration());
         BlockHelperModSupport.registerBlockProvider(new MeteorsIntegration());
         BlockHelperModSupport.registerItemStackFixer(new MeteorsIntegration());
         BlockHelperModSupport.registerItemStackFixer(new PamIntegration());
+        BlockHelperModSupport.registerItemStackFixer(new TEIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
     }
 

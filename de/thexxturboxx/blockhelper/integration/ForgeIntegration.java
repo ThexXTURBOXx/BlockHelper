@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -56,6 +57,13 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
                 return name;
             }
         }
+
+        try {
+            ItemStack stack = liquidStack.asItemStack();
+            return stack.getItem().getLocalItemName(stack);
+        } catch (Throwable ignored) {
+        }
+
         return "";
     }
 

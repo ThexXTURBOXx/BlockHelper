@@ -8,9 +8,8 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
-import de.thexxturboxx.blockhelper.integration.ICMicroblockIntegration;
-import de.thexxturboxx.blockhelper.integration.RP2MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -66,6 +65,7 @@ public class BlockHelperGui {
 
             if (firstTick) {
                 ModIdentifier.firstTick();
+                FixDetector.detectFixes(mc);
                 BlockHelperUpdater.notifyUpdater(mc);
                 firstTick = false;
             }
@@ -115,18 +115,6 @@ public class BlockHelperGui {
                         } else {
                             is = new ItemStack(b, 1, meta);
                         }
-                    }
-
-                    // Microblocks support here, not in Mod support classes as they need extra data
-                    try {
-                        ItemStack microblock = RP2MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
-                        is = microblock == null ? is : microblock;
-                    } catch (Throwable ignored) {
-                    }
-                    try {
-                        ItemStack microblock = ICMicroblockIntegration.getMicroblock(mop, te);
-                        is = microblock == null ? is : microblock;
-                    } catch (Throwable ignored) {
                     }
 
                     String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));

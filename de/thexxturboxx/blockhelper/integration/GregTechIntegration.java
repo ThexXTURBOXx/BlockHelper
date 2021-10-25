@@ -11,7 +11,7 @@ public class GregTechIntegration extends BlockHelperInfoProvider {
     public ItemStack getItemStack(BlockHelperBlockState state) {
         if (iof(state.te, "gregtechmod.api.BaseMetaTileEntity")) {
             BaseMetaTileEntity bmte = (BaseMetaTileEntity) state.te;
-            return new ItemStack(state.id, 1, bmte.getMetaTileID());
+            return new ItemStack(state.id, 1, bmte.mID);
         }
         return super.getItemStack(state);
     }

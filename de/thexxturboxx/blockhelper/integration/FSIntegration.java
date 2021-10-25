@@ -10,7 +10,7 @@ public class FSIntegration extends BlockHelperInfoProvider {
 
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
-        if (iof(state.block, "florasoma.crops.blocks.BerryBush")) {
+        if (iof(state.block, "florasoma.berries.BerryBush")) {
             int newMeta = MathHelper.floor_double(state.meta / 4d);
             if (newMeta < 3) {
                 int grow = (int) ((newMeta / 2d) * 100);

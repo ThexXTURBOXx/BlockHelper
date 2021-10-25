@@ -39,7 +39,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private double getMaxStage(Block b, int id) {
         try {
-            if (iof(b, "florasoma.crops.blocks.FloraCropBlock")) {
+            if (iof(b, "florasoma.crops.FloraCropBlock")) {
                 return 3;
             } else if (b instanceof BlockCrops) {
                 return 7;
