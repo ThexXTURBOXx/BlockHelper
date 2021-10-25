@@ -25,13 +25,24 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         ModIdentifier.load();
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         cfg.load();
-        size = cfg.get("General", "Size", 1D, "Size factor for the tooltip").getDouble(1);
-        background = parseUnsignedInt(cfg.get("General", "BackgroundColor",
-                "cc100010", "Background Color Hex Code").value, 16);
-        gradient1 = parseUnsignedInt(cfg.get("General", "BorderColor1",
-                "cc5000ff", "Border Color Hex Code 1").value, 16);
-        gradient2 = parseUnsignedInt(cfg.get("General", "BorderColor2",
-                "cc28007f", "Border Color Hex Code 2").value, 16);
+        try {
+            size = cfg.get("General", "Size", 1D, "Size factor for the tooltip").getDouble(1);
+            background = parseUnsignedInt(cfg.get("General", "BackgroundColor",
+                    "cc100010", "Background Color Hex Code").value, 16);
+            gradient1 = parseUnsignedInt(cfg.get("General", "BorderColor1",
+                    "cc5000ff", "Border Color Hex Code 1").value, 16);
+            gradient2 = parseUnsignedInt(cfg.get("General", "BorderColor2",
+                    "cc28007f", "Border Color Hex Code 2").value, 16);
+        } catch (NoSuchMethodError ignored) {
+            // 1.4.4 compatibility
+            size = Double.parseDouble(cfg.get("General", "Size", "1.0").value);
+            background = parseUnsignedInt(cfg.get("General", "BackgroundColor",
+                    "cc100010").value, 16);
+            gradient1 = parseUnsignedInt(cfg.get("General", "BorderColor1",
+                    "cc5000ff").value, 16);
+            gradient2 = parseUnsignedInt(cfg.get("General", "BorderColor2",
+                    "cc28007f").value, 16);
+        }
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
