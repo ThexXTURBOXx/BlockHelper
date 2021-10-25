@@ -20,7 +20,8 @@ public class NaturaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
-        if (iof(state.block, "mods.natura.blocks.crops.BerryBush")) {
+        if (iof(state.block, "mods.natura.blocks.crops.BerryBush")
+                || iof(state.block, "mods.natura.blocks.crops.NetherBerryBush")) {
             int newMeta = MathHelper.floor_double(state.meta / 4d);
             if (newMeta < 3) {
                 int grow = (int) ((newMeta / 2d) * 100);
