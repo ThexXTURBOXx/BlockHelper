@@ -15,13 +15,13 @@ public final class FixDetector {
             if (!RelaunchClassLoader.FIXER_VERSION.equals("1")) {
                 String name = new mod_BlockHelper().getName();
                 mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cPlease update ClassLoaderFixer.");
-                mc.thePlayer.addChatMessage("§cYou can find it here: §chttps://git.io/Jiljq");
+                mc.thePlayer.addChatMessage("§cYou can find it here: §chttps://git.io/Ji8ZJ");
             }
         } catch (Throwable t) {
             String name = new mod_BlockHelper().getName();
             mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cIt is very recommended to");
             mc.thePlayer.addChatMessage("§cinstall the ClassLoaderFixer jar-mod. You can find it here:");
-            mc.thePlayer.addChatMessage("§chttps://git.io/Jiljq");
+            mc.thePlayer.addChatMessage("§chttps://git.io/Ji8ZJ");
             mc.thePlayer.addChatMessage("§cOtherwise, mod identification might not work correctly.");
         }
     }

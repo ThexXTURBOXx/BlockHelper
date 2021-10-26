@@ -20,7 +20,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.mod_BlockHelper;
 
 public final class ModIdentifier {
 
@@ -33,14 +32,6 @@ public final class ModIdentifier {
     }
 
     public static void load() {
-        try {
-            Class.forName("codechicken.nei.forge.GuiContainerManager");
-            Class.forName("codechicken.nei.forge.IContainerTooltipHandler");
-            NEIIntegration.register();
-            mod_BlockHelper.LOGGER.info("NotEnoughItems loaded, Item Tooltips enabled.");
-        } catch (Throwable t) {
-            mod_BlockHelper.LOGGER.warning("NotEnoughItems not loaded, Item Tooltips disabled.");
-        }
     }
 
     @SuppressWarnings("unchecked")
