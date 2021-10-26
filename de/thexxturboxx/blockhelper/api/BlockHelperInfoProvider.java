@@ -2,7 +2,7 @@ package de.thexxturboxx.blockhelper.api;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 /**
  * Adapter class providing useful helper functions when extending BlockHelper's integration functionalities.

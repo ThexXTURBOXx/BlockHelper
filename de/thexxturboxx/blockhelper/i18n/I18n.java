@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.StatCollector;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraft.util.StatCollector;
 
 public final class I18n {
 

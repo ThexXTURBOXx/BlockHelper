@@ -3,7 +3,7 @@ package de.thexxturboxx.blockhelper.integration;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import gregtechmod.api.BaseMetaTileEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 public class GregTechIntegration extends BlockHelperInfoProvider {
 

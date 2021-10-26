@@ -6,10 +6,10 @@ import de.thexxturboxx.blockhelper.api.InfoHolder;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockNetherStalk;
-import net.minecraft.block.BlockStem;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockStem;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -39,9 +39,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private double getMaxStage(Block b, int id) {
         try {
-            if (iof(b, "florasoma.crops.FloraCropBlock")) {
-                return 3;
-            } else if (b instanceof BlockCrops) {
+            if (b instanceof BlockCrops) {
                 return 7;
             } else if (b instanceof BlockStem) {
                 return 7;

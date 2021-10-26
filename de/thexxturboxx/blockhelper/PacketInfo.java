@@ -1,6 +1,6 @@
 package de.thexxturboxx.blockhelper;
 
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.src.MovingObjectPosition;
 
 public class PacketInfo {
 

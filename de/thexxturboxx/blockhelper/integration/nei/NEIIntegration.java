@@ -3,8 +3,8 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.forge.IContainerTooltipHandler;
 import java.util.List;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.GuiContainer;
+import net.minecraft.src.ItemStack;
 
 public class NEIIntegration implements IContainerTooltipHandler {
 

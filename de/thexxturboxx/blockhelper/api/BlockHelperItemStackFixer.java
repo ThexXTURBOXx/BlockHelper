@@ -1,6 +1,6 @@
 package de.thexxturboxx.blockhelper.api;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 /**
  * Provides functionality for fixing incorrect {@link ItemStack}s based on a block's current state.

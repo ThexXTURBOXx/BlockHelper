@@ -17,20 +17,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.IMob;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.Tessellator;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
@@ -136,19 +136,19 @@ public class BlockHelperGui {
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
-                            name = is.getDisplayName();
+                            name = is.func_82833_r();
                             if (name.isEmpty())
                                 throw new IllegalArgumentException();
                         } catch (Throwable e) {
                             try {
-                                name = new ItemStack(b).getDisplayName();
+                                name = new ItemStack(b).func_82833_r();
                                 if (name.isEmpty())
                                     throw new IllegalArgumentException();
                             } catch (Throwable e1) {
                                 try {
                                     if (b != null) {
                                         name = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)], 1,
-                                                b.damageDropped(meta)).getDisplayName();
+                                                b.damageDropped(meta)).func_82833_r();
                                     }
                                     if (name.isEmpty())
                                         throw new IllegalArgumentException();

@@ -1,15 +1,22 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import buildcraft.api.liquids.ILiquidTank;
+import buildcraft.api.liquids.ITankContainer;
+import buildcraft.api.liquids.LiquidDictionary;
+import buildcraft.api.liquids.LiquidStack;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
+import buildcraft.factory.TilePump;
 import buildcraft.transport.TileGenericPipe;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import de.thexxturboxx.blockhelper.i18n.I18n;
+import java.util.Map;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
@@ -25,6 +32,21 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             if (prov != null && prov.getMaxEnergyStored() != 0) {
                 info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
             }
+        }
+        if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
+            ITankContainer container = (ITankContainer) state.te;
+            for (ILiquidTank tank : container.getTanks()) {
+                LiquidStack stack = tank.getLiquid();
+                if (tank.getCapacity() != 0 && stack != null && stack.amount > 0) {
+                    info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
+                            + formatLiquidName(getBcLiquidName(stack)));
+                }
+            }
+        }
+        if (iof(state.te, "buildcraft.factory.TilePump")) {
+            TilePump pump = (TilePump) state.te;
+            info.add(pump.internalLiquid + " mB / 1000 mB"
+                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
         }
     }
 
@@ -45,6 +67,43 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             return "BuildCraft";
         }
         return super.getMod(state);
+    }
+
+    private static Map<String, Object> liquids;
+
+    public static String formatLiquidName(String liquidName) {
+        return liquidName == null || liquidName.trim().isEmpty()
+                ? "" : I18n.format("liquid_format", "", liquidName);
+    }
+
+    public static String getBcLiquidName(Object liquid) {
+        try {
+            if (liquids == null) {
+                liquids = getDeclaredField(LiquidDictionary.class, null, "liquids");
+            }
+            LiquidStack stack = (LiquidStack) liquid;
+            for (String name : liquids.keySet()) {
+                try {
+                    LiquidStack stackOfList = (LiquidStack) liquids.get(name);
+                    if (stack.isLiquidEqual(stackOfList)) {
+                        return name;
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        try {
+            ItemStack is = ((LiquidStack) liquid).asItemStack();
+            return is.func_82833_r();
+        } catch (Throwable ignored) {
+        }
+        try {
+            ItemStack is = new ItemStack((Integer) liquid, 1, 0);
+            return is.func_82833_r();
+        } catch (Throwable ignored) {
+        }
+        return null;
     }
 
 }

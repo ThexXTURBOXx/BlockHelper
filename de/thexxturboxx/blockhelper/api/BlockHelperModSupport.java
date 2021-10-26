@@ -2,7 +2,7 @@ package de.thexxturboxx.blockhelper.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 /**
  * Adds functionality for registering information providers to BlockHelper.
@@ -174,7 +174,7 @@ public final class BlockHelperModSupport {
     /**
      * Searches all currently registered {@link BlockHelperModFixer}s for a correct mod name.
      *
-     * @param object The current object, most likely an instance of {@link net.minecraft.item.Item}.
+     * @param object The current object, most likely an instance of {@link net.minecraft.src.Item}.
      */
     public static String getMod(Object object) {
         for (BlockHelperModFixer f : MOD_FIXERS) {

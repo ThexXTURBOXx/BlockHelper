@@ -10,8 +10,8 @@ import ic2.common.TileEntityBaseGenerator;
 import ic2.common.TileEntityElecMachine;
 import ic2.common.TileEntityElectricBlock;
 import ic2.common.TileEntityMatter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 
 public class Ic2Integration extends BlockHelperInfoProvider {
 

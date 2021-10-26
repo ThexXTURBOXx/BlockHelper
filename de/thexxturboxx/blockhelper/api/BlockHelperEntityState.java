@@ -1,7 +1,7 @@
 package de.thexxturboxx.blockhelper.api;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.src.Entity;
+import net.minecraft.src.World;
 
 /**
  * Contains information about an entity to inspect.
