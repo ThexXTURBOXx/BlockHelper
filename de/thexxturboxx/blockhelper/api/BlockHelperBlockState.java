@@ -1,9 +1,9 @@
 package de.thexxturboxx.blockhelper.api;
 
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
+import net.minecraft.src.Block;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
 
 /**
  * Contains information about a block to inspect.

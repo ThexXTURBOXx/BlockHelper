@@ -22,14 +22,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.logging.Logger;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
 public class mod_BlockHelper extends BaseMod implements IPacketHandler {
@@ -38,7 +31,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.4.5";
+    public static final String MC_VERSION = "1.4.3";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
