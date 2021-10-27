@@ -3,9 +3,11 @@ package de.thexxturboxx.blockhelper.i18n;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-import net.minecraft.server.LocaleI18n;
-import net.minecraft.server.ModLoader;
+import net.minecraft.server.LocaleLanguage;
 import net.minecraft.server.mod_BlockHelper;
 
 public final class I18n {
@@ -13,6 +15,8 @@ public final class I18n {
     private static final String PREFIX = "blockhelper.";
 
     private static final String[] LANGUAGES = {"en_US", "de_DE"};
+
+    private static final Map<String, Properties> TRANSLATIONS = new HashMap<String, Properties>();
 
     private I18n() {
         throw new UnsupportedOperationException();
@@ -36,10 +40,7 @@ public final class I18n {
             reader = new InputStreamReader(stream, "UTF-8");
             Properties props = new Properties();
             props.load(reader);
-            for (String key : props.stringPropertyNames()) {
-                ModLoader.addLocalization(key, lang, props.getProperty(key));
-            }
-
+            TRANSLATIONS.put(lang, props);
         } catch (Throwable t) {
             mod_BlockHelper.LOGGER.severe("Error loading language " + lang + ".");
             t.printStackTrace();
@@ -59,8 +60,20 @@ public final class I18n {
         }
     }
 
+    private static Field currentLanguage;
+
     public static String format(String key, Object... args) {
-        return LocaleI18n.get(PREFIX + key, args);
+        try {
+            if (currentLanguage == null) {
+                currentLanguage = LocaleLanguage.class.getDeclaredField("d");
+                currentLanguage.setAccessible(true);
+            }
+            String language = (String) currentLanguage.get(LocaleLanguage.a());
+            language = language == null || TRANSLATIONS.get(language) == null ? LANGUAGES[0] : language;
+            return String.format(TRANSLATIONS.get(language).getProperty(PREFIX + key), args);
+        } catch (Throwable ignored) {
+        }
+        return key;
     }
 
 }

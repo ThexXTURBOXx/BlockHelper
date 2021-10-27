@@ -4,7 +4,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import ic2.advMachine.TileAdvMachine;
-import ic2.advancedmachines.TileEntityBaseMachine;
+import net.minecraft.server.ic2.advancedmachines.TileEntityBaseMachine;
 
 public class AdvMachinesIntegration extends BlockHelperInfoProvider {
 
@@ -18,7 +18,7 @@ public class AdvMachinesIntegration extends BlockHelperInfoProvider {
             int newEnergy = Ic2Integration.getRealEnergy(energy, maxEnergy, input);
             info.add(newEnergy + " EU / " + maxEnergy + " EU");
         }
-        if (iof(state.te, "ic2.advancedmachines.TileEntityBaseMachine")) {
+        if (iof(state.te, "net.minecraft.server.ic2.advancedmachines.TileEntityBaseMachine")) {
             TileEntityBaseMachine tebm = (TileEntityBaseMachine) state.te;
             int energy = tebm.energy;
             int maxEnergy = tebm.maxEnergy;

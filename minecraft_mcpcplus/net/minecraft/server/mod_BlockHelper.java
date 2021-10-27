@@ -10,10 +10,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import forge.DimensionManager;
-import forge.IConnectionHandler;
-import forge.IPacketHandler;
-import forge.MessageManager;
-import forge.NetworkMod;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -22,12 +18,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
+public class mod_BlockHelper extends BaseModMp {
 
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.2.5";
+    public static final String MC_VERSION = "1.2.3";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -63,18 +59,10 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     }
 
     @Override
-    public boolean clientSideRequired() {
-        return true;
-    }
-
-    @Override
-    public boolean serverSideRequired() {
-        return false;
-    }
-
-    @Override
-    public void onPacketData(NetworkManager manager, String channel, byte[] data) {
+    public void handlePacket(Packet230ModLoader packetML, EntityPlayer player) {
         try {
+            String channel = packetML.dataString[0];
+            byte[] data = packetML.dataString[1].getBytes();
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -123,12 +111,10 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    byte[] fieldData = buffer.toByteArray();
-                    Packet250CustomPayload packet = new Packet250CustomPayload();
-                    packet.tag = CHANNEL;
-                    packet.data = fieldData;
-                    packet.length = fieldData.length;
-                    manager.queue(packet);
+                    Packet230ModLoader packet = new Packet230ModLoader();
+                    packet.modId = getId();
+                    packet.dataString = new String[]{CHANNEL, buffer.toString()};
+                    ModLoaderMp.sendPacketTo(this, player, packet);
                 } finally {
                     os.close();
                     buffer.close();
@@ -158,19 +144,6 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     public static String getItemDisplayName(ItemStack stack) {
         String var2 = stack.getItem().a(stack);
         return LocaleLanguage.a().b(var2 == null ? "" : (LocaleI18n.get(var2) + ".name")).trim();
-    }
-
-    @Override
-    public void onConnect(NetworkManager network) {
-    }
-
-    @Override
-    public void onLogin(NetworkManager network, Packet1Login login) {
-        MessageManager.getInstance().registerChannel(network, this, CHANNEL);
-    }
-
-    @Override
-    public void onDisconnect(NetworkManager network, String message, Object[] args) {
     }
 
 }

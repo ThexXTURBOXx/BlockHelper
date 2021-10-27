@@ -15,23 +15,6 @@ public class PamIntegration extends BlockHelperInfoProvider {
                 return new ItemStack(seedDrops[cropID], 1, 0);
             }
         }
-        if (iof(state.te, "TileEntityPamSimpleCrop")) {
-            int[] seedDrops = getDeclaredField(getClass("TileEntityPamSimpleCrop"), state.te, "SeedDrops");
-            Integer cropID = getDeclaredField(getClass("TileEntityPamSimpleCrop"), state.te, "SimpleCropID");
-            if (seedDrops != null && cropID != null) {
-                return new ItemStack(seedDrops[cropID], 1, 0);
-            }
-        }
-        if (iof(state.te, "TileEntityPamFlowerCrop")) {
-            int[] seedDrops = getDeclaredField(getClass("TileEntityPamFlowerCrop"), state.te, "SeedDrops");
-            Integer cropID = getDeclaredField(getClass("TileEntityPamFlowerCrop"), state.te, "FlowerCropID");
-            if (seedDrops != null && cropID != null) {
-                return new ItemStack(seedDrops[cropID], 1, cropID > 13 ? 0 : cropID);
-            }
-        }
-        if (iof(state.block, "BlockPamCactusFruitCrop")) {
-            return new ItemStack(state.block.idDropped(7, null, 0), 1, 0);
-        }
         return super.getItemStack(state);
     }
 

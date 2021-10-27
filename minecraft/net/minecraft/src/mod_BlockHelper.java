@@ -20,17 +20,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.forge.IConnectionHandler;
-import net.minecraft.src.forge.IPacketHandler;
-import net.minecraft.src.forge.MessageManager;
-import net.minecraft.src.forge.NetworkMod;
 
-public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, IPacketHandler {
+public class mod_BlockHelper extends BaseModMp {
 
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.2.5";
+    public static final String MC_VERSION = "1.2.3";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -67,36 +63,15 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
     }
 
     @Override
-    public boolean clientSideRequired() {
-        return true;
-    }
-
-    @Override
-    public boolean serverSideRequired() {
-        return false;
-    }
-
-    @Override
     public boolean onTickInGame(float time, Minecraft mc) {
         return BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
     @Override
-    public void onConnect(NetworkManager network) {
-    }
-
-    @Override
-    public void onLogin(NetworkManager network, Packet1Login login) {
-        MessageManager.getInstance().registerChannel(network, this, CHANNEL);
-    }
-
-    @Override
-    public void onDisconnect(NetworkManager network, String message, Object[] args) {
-    }
-
-    @Override
-    public void onPacketData(NetworkManager network, String channel, byte[] data) {
+    public void handlePacket(Packet230ModLoader packetML) {
         try {
+            String channel = packetML.dataString[0];
+            byte[] data = packetML.dataString[1].getBytes();
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -156,15 +131,13 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    byte[] fieldData = buffer.toByteArray();
+                    Packet230ModLoader packet = new Packet230ModLoader();
+                    packet.modId = getId();
+                    packet.dataString = new String[]{CHANNEL, buffer.toString()};
                     if (w.isRemote) {
-                        Packet250CustomPayload packet = new Packet250CustomPayload();
-                        packet.channel = CHANNEL;
-                        packet.data = fieldData;
-                        packet.length = fieldData.length;
-                        ModLoader.getMinecraftInstance().getSendQueue().addToSendQueue(packet);
+                        ModLoaderMp.sendPacket(this, packet);
                     } else {
-                        onPacketData(null, CHANNEL, fieldData);
+                        handlePacket(packet);
                     }
                 } finally {
                     os.close();

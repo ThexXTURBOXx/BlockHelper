@@ -5,7 +5,6 @@ import eloraam.core.CoreLib;
 import eloraam.core.CoverLib;
 import eloraam.core.TileCoverable;
 import eloraam.logic.TileLogic;
-import eloraam.machine.TilePipe;
 import eloraam.machine.TileTube;
 import eloraam.wiring.TileWiring;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public final class MicroblockIntegration extends BlockHelperInfoProvider {
                         TileLogic tlo = (TileLogic) tl;
                         if (pos.subHit == tlo.Rotation >> 2) {
                             if (tlo.Cover != 255) {
-                                return new ItemStack(tlo.getBlockID(), 1, tlo.getExtendedID() * 256 + tlo.SubId);
+                                return new ItemStack(tlo.getBlockID(), 1, tlo.getExtendedID());
                             } else {
                                 ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
                                 tlo.addHarvestContents(stacks);
@@ -44,7 +43,7 @@ public final class MicroblockIntegration extends BlockHelperInfoProvider {
                             }
                         }
                         return getCover(tlo, pos.subHit);
-                    } else if (tl instanceof TileTube || tl instanceof TilePipe) {
+                    } else if (tl instanceof TileTube) {
                         if (pos.subHit == 29) {
                             Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
                             return new ItemStack(bm.blockID, 1, tl.getExtendedID() << 8);

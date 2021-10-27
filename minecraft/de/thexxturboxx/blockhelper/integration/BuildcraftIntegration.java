@@ -4,9 +4,6 @@ import buildcraft.api.ILiquidContainer;
 import buildcraft.api.IPowerReceptor;
 import buildcraft.api.LiquidSlot;
 import buildcraft.api.PowerProvider;
-import buildcraft.api.liquids.ILiquidTank;
-import buildcraft.api.liquids.ITankContainer;
-import buildcraft.api.liquids.LiquidStack;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.factory.TilePump;
@@ -41,12 +38,6 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                     info.add(energyStored + " MJ / " + maxEnergy + " MJ");
                 }
             }
-        } else if (iof(state.te, "buildcraft.api.power.IPowerReceptor")) {
-            buildcraft.api.power.IPowerProvider prov =
-                    ((buildcraft.api.power.IPowerReceptor) state.te).getPowerProvider();
-            if (prov != null && prov.getMaxEnergyStored() != 0) {
-                info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
-            }
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
             ILiquidContainer container = (ILiquidContainer) state.te;
@@ -73,23 +64,6 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 if (capacity != 0 && quantity > 0) {
                     info.add(quantity + " mB / " + capacity + " mB"
                             + formatLiquidName(getBcLiquidName(container)));
-                }
-            }
-        } else if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
-            Method m = getMethod(ITankContainer.class, "getTanks");
-            if (m != null) {
-                try {
-                    ILiquidTank[] tanks = (ILiquidTank[]) m.invoke(state.te);
-                    for (ILiquidTank tank : tanks) {
-                        LiquidStack stack = tank.getLiquid();
-                        int quantity = stack == null ? 0 : stack.amount;
-                        int capacity = Math.max(quantity, tank.getCapacity());
-                        if (capacity != 0 && quantity > 0) {
-                            info.add(quantity + " mB / " + capacity + " mB"
-                                    + formatLiquidName(getBcLiquidName(stack)));
-                        }
-                    }
-                } catch (Throwable ignored) {
                 }
             }
         }
@@ -134,11 +108,6 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         try {
             ILiquidContainer container = (ILiquidContainer) liquid;
             ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);
-            return is.getItem().getItemDisplayName(is);
-        } catch (Throwable ignored) {
-        }
-        try {
-            ItemStack is = ((LiquidStack) liquid).asItemStack();
             return is.getItem().getItemDisplayName(is);
         } catch (Throwable ignored) {
         }

@@ -25,9 +25,9 @@ import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.ModLoaderMp;
 import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.Packet230ModLoader;
 import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
@@ -93,15 +93,14 @@ public class BlockHelperGui {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            byte[] fieldData = buffer.toByteArray();
+            Packet230ModLoader packet = new Packet230ModLoader();
+            packet.modId = mod_BlockHelper.INSTANCE.getId();
             if (w.isRemote) {
-                Packet250CustomPayload packet = new Packet250CustomPayload();
-                packet.channel = mod_BlockHelper.CHANNEL;
-                packet.data = fieldData;
-                packet.length = fieldData.length;
-                ModLoader.getMinecraftInstance().getSendQueue().addToSendQueue(packet);
+                packet.dataString = new String[]{mod_BlockHelper.CHANNEL, buffer.toString()};
+                ModLoaderMp.sendPacket(mod_BlockHelper.INSTANCE, packet);
             } else {
-                mod_BlockHelper.INSTANCE.onPacketData(null, mod_BlockHelper.CHANNEL_SSP, fieldData);
+                packet.dataString = new String[]{mod_BlockHelper.CHANNEL_SSP, buffer.toString()};
+                mod_BlockHelper.INSTANCE.handlePacket(packet);
             }
             switch (result) {
             case BLOCK:
