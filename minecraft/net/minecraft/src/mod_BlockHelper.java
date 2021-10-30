@@ -26,7 +26,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.2.3";
+    public static final String MC_VERSION = "1.1";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -63,15 +63,15 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public boolean onTickInGame(float time, Minecraft mc) {
+    public boolean OnTickInGame(float time, Minecraft mc) {
         return BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
     @Override
-    public void handlePacket(Packet230ModLoader packetML) {
+    public void HandlePacket(Packet230ModLoader packetML) {
         try {
             String channel = packetML.dataString[0];
-            byte[] data = packetML.dataString[1].getBytes();
+            byte[] data = packetML.dataString[1].getBytes("ISO-8859-1");
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -104,7 +104,7 @@ public class mod_BlockHelper extends BaseModMp {
                         Entity en = pi.mop.entityHit;
                         if (en != null) {
                             try {
-                                info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                info.add(((EntityLiving) en).getEntityHealth() + " \u2764 / "
                                         + ((EntityLiving) en).getMaxHealth() + " \u2764");
                             } catch (Throwable ignored) {
                             }
@@ -133,11 +133,11 @@ public class mod_BlockHelper extends BaseModMp {
                     }
                     Packet230ModLoader packet = new Packet230ModLoader();
                     packet.modId = getId();
-                    packet.dataString = new String[]{CHANNEL, buffer.toString()};
+                    packet.dataString = new String[]{CHANNEL, buffer.toString("ISO-8859-1")};
                     if (w.isRemote) {
-                        ModLoaderMp.sendPacket(this, packet);
+                        ModLoaderMp.SendPacket(this, packet);
                     } else {
-                        handlePacket(packet);
+                        HandlePacket(packet);
                     }
                 } finally {
                     os.close();

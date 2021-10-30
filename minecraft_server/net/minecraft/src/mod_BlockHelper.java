@@ -16,14 +16,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-import net.minecraft.src.forge.DimensionManager;
 
 public class mod_BlockHelper extends BaseModMp {
 
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.2.3";
+    public static final String MC_VERSION = "1.1";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -59,10 +58,10 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void handlePacket(Packet230ModLoader packetML, EntityPlayerMP player) {
+    public void HandlePacket(Packet230ModLoader packetML, EntityPlayerMP player) {
         try {
             String channel = packetML.dataString[0];
-            byte[] data = packetML.dataString[1].getBytes();
+            byte[] data = packetML.dataString[1].getBytes("ISO-8859-1");
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -78,13 +77,13 @@ public class mod_BlockHelper extends BaseModMp {
                     if (pi == null || pi.mop == null)
                         return;
 
-                    World w = DimensionManager.getWorld(pi.dimId);
+                    World w = ModLoader.getMinecraftServerInstance().getWorldManager(pi.dimId);
                     PacketClient info = new PacketClient();
                     if (pi.mt == MopType.ENTITY) {
                         Entity en = pi.mop.entityHit;
                         if (en != null) {
                             try {
-                                info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                info.add(((EntityLiving) en).getEntityHealth() + " \u2764 / "
                                         + ((EntityLiving) en).getMaxHealth() + " \u2764");
                             } catch (Throwable ignored) {
                             }
@@ -113,8 +112,8 @@ public class mod_BlockHelper extends BaseModMp {
                     }
                     Packet230ModLoader packet = new Packet230ModLoader();
                     packet.modId = getId();
-                    packet.dataString = new String[]{CHANNEL, buffer.toString()};
-                    ModLoaderMp.sendPacketTo(this, player, packet);
+                    packet.dataString = new String[]{CHANNEL, buffer.toString("ISO-8859-1")};
+                    ModLoaderMp.SendPacketTo(this, player, packet);
                 } finally {
                     os.close();
                     buffer.close();

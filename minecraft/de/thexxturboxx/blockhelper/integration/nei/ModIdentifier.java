@@ -16,7 +16,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_BlockHelper;
 
 public final class ModIdentifier {
 
@@ -29,14 +28,6 @@ public final class ModIdentifier {
     }
 
     public static void load() {
-        try {
-            Class.forName("codechicken.nei.API");
-            Class.forName("codechicken.nei.IHandleTooltip");
-            NEIIntegration.register();
-            mod_BlockHelper.LOGGER.info("NotEnoughItems loaded, Item Tooltips enabled.");
-        } catch (Throwable t) {
-            mod_BlockHelper.LOGGER.warning("NotEnoughItems not loaded, Item Tooltips disabled.");
-        }
     }
 
     @SuppressWarnings("unchecked")

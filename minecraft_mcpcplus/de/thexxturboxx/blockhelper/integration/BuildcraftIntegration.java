@@ -2,7 +2,6 @@ package de.thexxturboxx.blockhelper.integration;
 
 import buildcraft.api.ILiquidContainer;
 import buildcraft.api.IPowerReceptor;
-import buildcraft.api.LiquidSlot;
 import buildcraft.api.PowerProvider;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
@@ -11,7 +10,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import de.thexxturboxx.blockhelper.i18n.I18n;
-import java.lang.reflect.Method;
 import net.minecraft.server.ItemStack;
 
 import static net.minecraft.server.mod_BlockHelper.getItemDisplayName;
@@ -41,30 +39,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         }
         if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
             ILiquidContainer container = (ILiquidContainer) state.te;
-            Method m = getMethod(ILiquidContainer.class, "getLiquidSlots");
-            boolean flag = false;
-            if (m != null) {
-                try {
-                    LiquidSlot[] slots = (LiquidSlot[]) m.invoke(state.te);
-                    for (LiquidSlot slot : slots) {
-                        int quantity = slot.getLiquidQty();
-                        int capacity = Math.max(quantity, slot.getCapacity());
-                        if (capacity != 0 && quantity > 0) {
-                            info.add(quantity + " mB / " + capacity + " mB"
-                                    + formatLiquidName(getBcLiquidName(slot)));
-                        }
-                    }
-                    flag = true;
-                } catch (Throwable ignored) {
-                }
-            }
-            if (!flag) {
-                int quantity = container.getLiquidQuantity();
-                int capacity = Math.max(quantity, container.getCapacity());
-                if (capacity != 0 && quantity > 0) {
-                    info.add(quantity + " mB / " + capacity + " mB"
-                            + formatLiquidName(getBcLiquidName(container)));
-                }
+            int quantity = container.getLiquidQuantity();
+            int capacity = Math.max(quantity, container.getCapacity());
+            if (capacity != 0 && quantity > 0) {
+                info.add(quantity + " mB / " + capacity + " mB"
+                        + formatLiquidName(getBcLiquidName(container)));
             }
         }
         if (iof(state.te, "buildcraft.factory.TilePump")) {
@@ -80,12 +59,6 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     public static String getBcLiquidName(Object liquid) {
-        try {
-            LiquidSlot slot = (LiquidSlot) liquid;
-            ItemStack is = new ItemStack(slot.getLiquidId(), 1, 0);
-            return getItemDisplayName(is);
-        } catch (Throwable ignored) {
-        }
         try {
             ILiquidContainer container = (ILiquidContainer) liquid;
             ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);

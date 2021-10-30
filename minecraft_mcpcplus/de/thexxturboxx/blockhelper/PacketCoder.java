@@ -1,10 +1,10 @@
 package de.thexxturboxx.blockhelper;
 
-import forge.DimensionManager;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.server.Entity;
+import net.minecraft.server.ModLoader;
 import net.minecraft.server.MovingObjectPosition;
 import net.minecraft.server.Vec3D;
 import net.minecraft.server.World;
@@ -24,7 +24,7 @@ public final class PacketCoder {
             MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = DimensionManager.getWorld(dimId);
+                World w = ModLoader.getMinecraftServerInstance().getWorldServer(dimId);
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)
@@ -73,9 +73,9 @@ public final class PacketCoder {
                 os.writeInt(pi.mop.c);
                 os.writeInt(pi.mop.d);
                 os.writeInt(pi.mop.subHit);
-                os.writeInt((int) pi.mop.pos.a);
-                os.writeInt((int) pi.mop.pos.b);
-                os.writeInt((int) pi.mop.pos.c);
+                os.writeInt((int) pi.mop.f.a);
+                os.writeInt((int) pi.mop.f.b);
+                os.writeInt((int) pi.mop.f.c);
             }
         } else if (mod_BlockHelper.iof(o, "java.lang.String")) {
             os.writeByte(1);
