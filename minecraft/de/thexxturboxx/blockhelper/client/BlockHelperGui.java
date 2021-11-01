@@ -95,7 +95,7 @@ public class BlockHelperGui {
             }
             Packet230ModLoader packet = new Packet230ModLoader();
             packet.modId = mod_BlockHelper.INSTANCE.getId();
-            if (w.isRemote) {
+            if (w.multiplayerWorld) {
                 packet.dataString = new String[]{mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1")};
                 ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, packet);
             } else {

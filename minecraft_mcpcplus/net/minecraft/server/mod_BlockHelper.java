@@ -22,7 +22,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "1.1";
+    public static final String MC_VERSION = "1.0";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -41,17 +41,12 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public String getVersion() {
+    public String Version() {
         return VERSION;
     }
 
     @Override
-    public void load() {
+    public void ModsLoaded() {
         INSTANCE = this;
         proxy = new BlockHelperCommonProxy();
         proxy.load(this);
@@ -142,7 +137,7 @@ public class mod_BlockHelper extends BaseModMp {
 
     public static String getItemDisplayName(ItemStack stack) {
         String var2 = stack.getItem().a(stack);
-        return LocaleLanguage.a().b(var2 == null ? "" : (LocaleI18n.get(var2) + ".name")).trim();
+        return LocaleLanguage.a().a(var2 == null ? "" : (LocaleI18n.a(var2) + ".name")).trim();
     }
 
 }
