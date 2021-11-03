@@ -47,7 +47,7 @@ public final class ModIdentifier {
                 if (uri.contains(minecraftUri)) {
                     modInfos.add(new ModInfo(uri, MINECRAFT));
                 } else {
-                    modInfos.add(new ModInfo(uri, formatName(mod.getName())));
+                    modInfos.add(new ModInfo(uri, formatName(mod.getClass().getSimpleName())));
                 }
             }
         } catch (Throwable t) {
@@ -60,7 +60,7 @@ public final class ModIdentifier {
             object = ((ItemStack) object).getItem();
         }
         if (object instanceof ItemBlock) {
-            object = Block.blocksList[((ItemBlock) object).getBlockID()];
+            object = Block.blocksList[((ItemBlock) object).func_35435_b()];
         }
         if (object == null) {
             return null;

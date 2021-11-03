@@ -16,6 +16,8 @@ import java.lang.reflect.Method;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 
+import static net.minecraft.src.mod_BlockHelper.getItemDisplayName;
+
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     @Override
@@ -87,7 +89,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.transport.TileGenericPipe")) {
             TileGenericPipe pipe = (TileGenericPipe) state.te;
             if (pipe.pipe != null) {
-                return new ItemStack(Item.itemsList[pipe.pipe.itemID], state.te.blockMetadata);
+                return new ItemStack(Item.itemsList[pipe.pipe.itemID], state.te.getBlockMetadata());
             }
         }
         return super.getItemStack(state);
@@ -102,18 +104,18 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         try {
             LiquidSlot slot = (LiquidSlot) liquid;
             ItemStack is = new ItemStack(slot.getLiquidId(), 1, 0);
-            return is.getItem().getItemDisplayName(is);
+            return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
         try {
             ILiquidContainer container = (ILiquidContainer) liquid;
             ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);
-            return is.getItem().getItemDisplayName(is);
+            return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
         try {
             ItemStack is = new ItemStack((Integer) liquid, 1, 0);
-            return is.getItem().getItemDisplayName(is);
+            return getItemDisplayName(is);
         } catch (Throwable ignored) {
         }
         return null;

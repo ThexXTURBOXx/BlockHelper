@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
+import net.minecraft.src.FontRenderer;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -37,6 +38,8 @@ import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
+import static net.minecraft.src.mod_BlockHelper.damageDropped;
+import static net.minecraft.src.mod_BlockHelper.getItemDisplayName;
 
 public class BlockHelperGui {
 
@@ -133,7 +136,7 @@ public class BlockHelperGui {
 
                 String itemId = is.itemID + ":" + is.getItemDamage();
                 if (is.getItem() == null && b != null) {
-                    is = new ItemStack(b.idDropped(meta, rnd, id), 1, meta);
+                    is = new ItemStack(b.idDropped(meta, rnd), 1, meta);
                 }
                 if (is.getItem() == null) {
                     return true;
@@ -143,22 +146,21 @@ public class BlockHelperGui {
                 name = name == null ? "" : name;
                 if (name.isEmpty()) {
                     try {
-                        name = is.getItem().getItemDisplayName(is);
+                        name = getItemDisplayName(is);
                         if (name.isEmpty())
                             throw new IllegalArgumentException();
                     } catch (Throwable e) {
                         try {
                             ItemStack isNew = new ItemStack(b);
-                            name = isNew.getItem().getItemDisplayName(isNew);
+                            name = getItemDisplayName(isNew);
                             if (name.isEmpty())
                                 throw new IllegalArgumentException();
                         } catch (Throwable e1) {
                             try {
                                 if (b != null) {
-                                    Item it = Item.itemsList[b.idDropped(meta, rnd, 0)];
-                                    ItemStack stack = new ItemStack(it, 1,
-                                            mod_BlockHelper.damageDropped(b, w, x, y, z, meta));
-                                    name = it.getItemDisplayName(stack);
+                                    Item it = Item.itemsList[b.idDropped(meta, rnd)];
+                                    ItemStack stack = new ItemStack(it, 1, damageDropped(b, w, x, y, z, meta));
+                                    name = getItemDisplayName(stack);
                                 }
                                 if (name.isEmpty())
                                     throw new IllegalArgumentException();
@@ -220,7 +222,7 @@ public class BlockHelperGui {
     }
 
     private void updateKeyState() {
-        if (BlockHelperClientProxy.showHide.isPressed()) {
+        if (BlockHelperClientProxy.showHide.func_35962_c()) {
             isHidden = !isHidden;
         }
     }
@@ -263,7 +265,7 @@ public class BlockHelperGui {
         int currLine = PADDING;
         for (String s : infos) {
             mc.fontRenderer.drawString(s, getStringMid(x, s, mc), currLine, 0xffffffff);
-            currLine += mc.fontRenderer.FONT_HEIGHT;
+            currLine += getFontHeight(mc.fontRenderer);
         }
     }
 
@@ -274,7 +276,7 @@ public class BlockHelperGui {
         int currLine = PADDING;
         for (String s : infos) {
             infoWidth = Math.max(mc.fontRenderer.getStringWidth(s) + PADDING, infoWidth);
-            currLine += mc.fontRenderer.FONT_HEIGHT;
+            currLine += getFontHeight(mc.fontRenderer);
         }
         int minusHalf = (width - infoWidth) / 2;
         int plusHalf = (width + infoWidth) / 2;
@@ -340,6 +342,14 @@ public class BlockHelperGui {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    private static int getFontHeight(FontRenderer fontRenderer) {
+        try {
+            return fontRenderer.FONT_HEIGHT;
+        } catch (Throwable ignored) {
+        }
+        return 8;
     }
 
 }
