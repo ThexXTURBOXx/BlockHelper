@@ -22,7 +22,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "b1.8.1";
+    public static final String MC_VERSION = "b1.7.3";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -135,7 +135,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     public static String getItemDisplayName(ItemStack stack) {
-        String var2 = stack.getItem().a(stack);
+        String var2 = stack.getItem().a();
         return StatisticStorage.a().a(var2 == null ? "" : (StatisticCollector.a(var2) + ".name")).trim();
     }
 

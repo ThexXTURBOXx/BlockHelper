@@ -72,6 +72,15 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
                 return true;
         } catch (Throwable ignored) {
         }
+
+        // BetaLoader
+        try {
+            Class<?> c = Class.forName("net.minecraft." + clazz);
+            if (c.isInstance(obj))
+                return true;
+        } catch (Throwable ignored) {
+        }
+
         return false;
     }
 
@@ -96,7 +105,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     protected static Class<?> getClass(String clazz) {
         try {
             return Class.forName(clazz);
-        } catch (ClassNotFoundException e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -110,11 +119,14 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
     protected static Method getDeclaredMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
+        if (clazz == null) {
+            return null;
+        }
         try {
             Method m = clazz.getDeclaredMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (NoSuchMethodException e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -128,11 +140,14 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
     protected static Method getMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
+        if (clazz == null) {
+            return null;
+        }
         try {
             Method m = clazz.getMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (NoSuchMethodException e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -148,13 +163,14 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      */
     @SuppressWarnings("unchecked")
     protected static <T> T getDeclaredField(Class<?> clazz, Object obj, String field) {
+        if (clazz == null) {
+            return null;
+        }
         try {
             Field f = clazz.getDeclaredField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (NoSuchFieldException e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -170,13 +186,14 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      */
     @SuppressWarnings("unchecked")
     protected static <T> T getField(Class<?> clazz, Object obj, String field) {
+        if (clazz == null) {
+            return null;
+        }
         try {
             Field f = clazz.getField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (NoSuchFieldException e) {
+        } catch (Throwable e) {
             return null;
         }
     }

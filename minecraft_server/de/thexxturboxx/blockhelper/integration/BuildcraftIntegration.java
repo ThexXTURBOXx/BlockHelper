@@ -1,8 +1,8 @@
 package de.thexxturboxx.blockhelper.integration;
 
-import buildcraft.api.ILiquidContainer;
 import buildcraft.api.IPowerReceptor;
 import buildcraft.api.PowerProvider;
+import buildcraft.core.ILiquidContainer;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.factory.TilePump;
@@ -37,7 +37,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 }
             }
         }
-        if (iof(state.te, "buildcraft.api.ILiquidContainer")) {
+        if (iof(state.te, "buildcraft.core.ILiquidContainer")) {
             ILiquidContainer container = (ILiquidContainer) state.te;
             int quantity = container.getLiquidQuantity();
             int capacity = Math.max(quantity, container.getCapacity());
@@ -49,7 +49,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.factory.TilePump")) {
             TilePump pump = (TilePump) state.te;
             info.add(pump.internalLiquid + " mB / 1000 mB"
-                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
+                    + formatLiquidName(getBcLiquidName(pump)));
         }
     }
 
@@ -59,12 +59,6 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
     }
 
     public static String getBcLiquidName(Object liquid) {
-        try {
-            ILiquidContainer container = (ILiquidContainer) liquid;
-            ItemStack is = new ItemStack(container.getLiquidId(), 1, 0);
-            return getItemDisplayName(is);
-        } catch (Throwable ignored) {
-        }
         try {
             ItemStack is = new ItemStack((Integer) liquid, 1, 0);
             return getItemDisplayName(is);

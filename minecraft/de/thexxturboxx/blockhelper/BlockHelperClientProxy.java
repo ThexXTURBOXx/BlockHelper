@@ -1,10 +1,7 @@
 package de.thexxturboxx.blockhelper;
 
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import java.io.File;
-import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 
@@ -15,25 +12,19 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
-    public static KeyBinding showHide;
+    public static BlockHelperKeyBinding showHide;
 
     @Override
     public void load(mod_BlockHelper instance) {
         super.load(instance);
         ModLoader.SetInGameHook(instance, true, false);
         ModIdentifier.load();
-        Configuration cfg = new Configuration(new File("config/BlockHelper.cfg"));
-        cfg.load();
-        size = Double.parseDouble(cfg.getOrCreateProperty("Size", Configuration.GENERAL_PROPERTY, "1.0").value);
-        background = parseUnsignedInt(cfg.getOrCreateProperty("BackgroundColor", Configuration.GENERAL_PROPERTY,
-                "cc100010").value, 16);
-        gradient1 = parseUnsignedInt(cfg.getOrCreateProperty("BorderColor1", Configuration.GENERAL_PROPERTY,
-                "cc5000ff").value, 16);
-        gradient2 = parseUnsignedInt(cfg.getOrCreateProperty("BorderColor2", Configuration.GENERAL_PROPERTY,
-                "cc28007f").value, 16);
-        cfg.save();
+        size = Double.parseDouble(mod_BlockHelper.sizeStr);
+        background = parseUnsignedInt(mod_BlockHelper.backgroundStr, 16);
+        gradient1 = parseUnsignedInt(mod_BlockHelper.gradient1Str, 16);
+        gradient2 = parseUnsignedInt(mod_BlockHelper.gradient2Str, 16);
         sizeInv = 1 / size;
-        showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
+        showHide = new BlockHelperKeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
         ModLoader.RegisterKey(instance, showHide, false);
     }
 

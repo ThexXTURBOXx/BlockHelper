@@ -1,19 +1,18 @@
 package de.thexxturboxx.blockhelper.integration;
 
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
-import eloraam.core.CoreLib;
+import eloraam.core.BlockMultipart;
 import eloraam.core.CoverLib;
 import eloraam.core.TileCoverable;
-import eloraam.logic.TileLogic;
-import eloraam.machine.TileTube;
+import eloraam.intred.TileLogic;
 import eloraam.wiring.TileWiring;
-import java.util.ArrayList;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
+import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
 
 public final class MicroblockIntegration extends BlockHelperInfoProvider {
@@ -22,59 +21,47 @@ public final class MicroblockIntegration extends BlockHelperInfoProvider {
         throw new UnsupportedOperationException();
     }
 
-    public static ItemStack getMicroblock(World w, EntityPlayer p, MovingObjectPosition mop, TileEntity te) {
-        if (iof(te, "eloraam.core.TileCoverable")) {
-            MovingObjectPosition pos = CoreLib.retraceBlock(w, p, mop.blockX, mop.blockY, mop.blockZ);
+    public static ItemStack getMicroblock(World w, EntityPlayer p, MovingObjectPosition mop, TileEntity tl, Block b) {
+        if (iof(tl, "eloraam.core.TileCoverable") && iof(b, "eloraam.core.BlockMultipart")) {
+            MovingObjectPosition pos = retraceBlock(w, p, mop.blockX, mop.blockY, mop.blockZ, (BlockMultipart) b);
             if (pos != null && pos.typeOfHit == EnumMovingObjectType.TILE) {
-                TileCoverable tl = (TileCoverable) CoreLib.getTileEntity(w, mop.blockX, mop.blockY, mop.blockZ,
-                        TileCoverable.class);
-                if (tl != null) {
-                    if (tl instanceof TileLogic) {
-                        TileLogic tlo = (TileLogic) tl;
-                        if (pos.subHit == tlo.Rotation >> 2) {
-                            if (tlo.Cover != 255) {
-                                return new ItemStack(tlo.getBlockID(), 1, tlo.getExtendedID());
-                            } else {
-                                ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-                                tlo.addHarvestContents(stacks);
-                                if (!stacks.isEmpty()) {
-                                    return stacks.get(0);
-                                }
-                            }
-                        }
-                        return getCover(tlo, pos.subHit);
-                    } else if (tl instanceof TileTube) {
-                        if (pos.subHit == 29) {
-                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
-                            return new ItemStack(bm.blockID, 1, tl.getExtendedID() << 8);
-                        }
-                        return getCover(tl, pos.subHit);
-                    } else if (tl instanceof TileWiring) {
-                        TileWiring tw = (TileWiring) tl;
-                        if (pos.subHit == 29 && (tw.ConSides & 64) > 0) {
-                            int td = 16384 + tw.CenterPost;
-                            if (tw.getExtendedID() == 3) {
-                                td += 256;
-                            }
-                            if (tw.getExtendedID() == 5) {
-                                td += 512;
-                            }
-                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
-                            return new ItemStack(bm.blockID, 1, td);
-                        } else {
-                            if ((tw.ConSides & 1 << pos.subHit) <= 0) {
-                                return getCover(tl, pos.subHit);
-                            }
-                            Block bm = getField(getClass("RedPowerBase"), null, "blockMicro");
-                            return new ItemStack(bm.blockID, 1, tw.getExtendedID() * 256 + tw.Metadata);
-                        }
-                    } else {
-                        return getCover(tl, pos.subHit);
+                if (tl instanceof TileLogic) {
+                    TileLogic tlo = (TileLogic) tl;
+                    if (pos.subHit == tlo.Rotation >> 2) {
+                        return new ItemStack(tlo.getBlockID(), 1, tlo.getExtendedID());
                     }
+                    return getCover(tlo, pos.subHit);
+                } else if (tl instanceof TileWiring) {
+                    TileWiring tw = (TileWiring) tl;
+                    if (pos.subHit == 26 && (tw.ConSides & 64) > 0) {
+                        int td = 8192 + tw.CenterPost;
+                        if (tw.getExtendedID() == 3) {
+                            td += 256;
+                        }
+                        Block bm = getField(getClass("RedPowerWiring"), null, "blockWiring");
+                        return new ItemStack(bm.blockID, 1, td);
+                    } else {
+                        if ((tw.ConSides & 1 << pos.subHit) <= 0) {
+                            return getCover(tl, pos.subHit);
+                        }
+                        Block bm = getField(getClass("RedPowerWiring"), null, "blockWiring");
+                        return new ItemStack(bm.blockID, 1, tw.getExtendedID() * 256 + tw.Metadata);
+                    }
+                } else {
+                    return getCover(tl, pos.subHit);
                 }
             }
         }
         return null;
+    }
+
+    // Copied from BlockMultipart#harvestBlock
+    private static MovingObjectPosition retraceBlock(World world, EntityPlayer player, int x, int y, int z,
+                                                     BlockMultipart bm) {
+        Vec3D org = Vec3D.createVector(player.posX, player.posY + 1.62D - (double) player.yOffset, player.posZ);
+        Vec3D vec = player.getLook(1.0F);
+        Vec3D end = org.addVector(vec.xCoord * 5.0D, vec.yCoord * 5.0D, vec.zCoord * 5.0D);
+        return bm.a(world, x, y, z, org, end);
     }
 
     // Copied from TileCoverable#onHarvestPart

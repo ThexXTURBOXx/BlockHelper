@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.integration.nei;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public final class ModIdentifier {
     public static final String MINECRAFT = "Minecraft";
     private static final Map<Object, String> objectToMod = new HashMap<Object, String>();
     private static Set<ModInfo> modInfos;
+
+    private static Field blockIdField;
 
     private ModIdentifier() {
         throw new UnsupportedOperationException();
@@ -60,7 +63,14 @@ public final class ModIdentifier {
             object = ((ItemStack) object).getItem();
         }
         if (object instanceof ItemBlock) {
-            object = Block.blocksList[((ItemBlock) object).func_35435_b()];
+            try {
+                if (blockIdField == null) {
+                    blockIdField = ItemBlock.class.getDeclaredField("a");
+                    blockIdField.setAccessible(true);
+                }
+                object = Block.blocksList[(Integer) blockIdField.get(object)];
+            } catch (Throwable ignored) {
+            }
         }
         if (object == null) {
             return null;

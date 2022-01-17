@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
-import net.minecraft.src.BlockStem;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -40,8 +39,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         try {
             if (b instanceof BlockCrops) {
                 return 7;
-            } else if (b instanceof BlockStem) {
-                return 7;
             } else {
                 for (Field field : b.getClass().getFields()) {
                     if (containsIgnoreCase(field.getName(), "max")
@@ -64,8 +61,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     }
 
     private boolean isCrop(Block b) {
-        boolean crop = b instanceof BlockCrops
-                || b instanceof BlockStem;
+        boolean crop = b instanceof BlockCrops;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {

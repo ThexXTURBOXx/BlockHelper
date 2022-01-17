@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
@@ -26,7 +26,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.0.0";
-    public static final String MC_VERSION = "b1.8.1";
+    public static final String MC_VERSION = "b1.7.3";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -40,6 +40,17 @@ public class mod_BlockHelper extends BaseModMp {
     public static final MopType[] MOP_TYPES = MopType.values();
 
     public static BlockHelperCommonProxy proxy;
+
+    // Configuration entries start
+    @MLProp(name = "Size")
+    public static String sizeStr = "1.0";
+    @MLProp(name = "BackgroundColor")
+    public static String backgroundStr = "cc100010";
+    @MLProp(name = "BorderColor1")
+    public static String gradient1Str = "cc5000ff";
+    @MLProp(name = "BorderColor2")
+    public static String gradient2Str = "cc28007f";
+    // Configuration entries end
 
     public static String getModId() {
         return MOD_ID;
@@ -58,7 +69,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public boolean OnTickInGame(float time, Minecraft mc) {
+    public boolean OnTickInGame(Minecraft mc) {
         return BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
@@ -149,13 +160,8 @@ public class mod_BlockHelper extends BaseModMp {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
-    public static int damageDropped(Block b, World w, int x, int y,
-                                    int z, int meta) {
-        List<ItemStack> list = b.getBlockDropped(w, x, y, z, meta);
-        if (!list.isEmpty()) {
-            return list.get(0).getItemDamage();
-        }
-        return 0;
+    public static int damageDropped(Block b, int meta) {
+        return b.damageDropped(meta);
     }
 
     @SuppressWarnings("unchecked")
@@ -172,18 +178,7 @@ public class mod_BlockHelper extends BaseModMp {
             }
         }
         if (w instanceof WorldClient) {
-            try {
-                Field f = ((WorldClient) w).getClass().getDeclaredField("entityList");
-                f.setAccessible(true);
-                list = (List<Entity>) f.get(w);
-                for (Entity e : list) {
-                    if (e.entityId == entityId) {
-                        return e;
-                    }
-                }
-            } catch (IllegalAccessException ignored) {
-            } catch (NoSuchFieldException ignored) {
-            }
+            return ((WorldClient) w).func_709_b(entityId);
         }
         return null;
     }

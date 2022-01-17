@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.client;
 
 import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
+import de.thexxturboxx.blockhelper.BlockHelperKeyBinding;
 import de.thexxturboxx.blockhelper.BlockHelperUpdater;
 import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketCoder;
@@ -15,12 +16,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
@@ -33,11 +36,13 @@ import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.src.forge.ForgeHooks;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
+import static net.minecraft.src.mod_BlockHelper.CHANNEL_SSP;
 import static net.minecraft.src.mod_BlockHelper.damageDropped;
 import static net.minecraft.src.mod_BlockHelper.getItemDisplayName;
 
@@ -125,7 +130,7 @@ public class BlockHelperGui {
 
                 // Microblocks support here, not in Mod support classes as they need extra data
                 try {
-                    ItemStack microblock = MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
+                    ItemStack microblock = MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te, b);
                     is = microblock == null ? is : microblock;
                 } catch (Throwable ignored) {
                 }
@@ -159,7 +164,7 @@ public class BlockHelperGui {
                             try {
                                 if (b != null) {
                                     Item it = Item.itemsList[b.idDropped(meta, rnd)];
-                                    ItemStack stack = new ItemStack(it, 1, damageDropped(b, w, x, y, z, meta));
+                                    ItemStack stack = new ItemStack(it, 1, damageDropped(b, meta));
                                     name = getItemDisplayName(stack);
                                 }
                                 if (name.isEmpty())
@@ -179,7 +184,7 @@ public class BlockHelperGui {
                 if (b != null) {
                     if (b.getHardness(meta) < 0.0F) {
                         harvest = I18n.format("unbreakable");
-                    } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
+                    } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
                         harvest = I18n.format("harvestable");
                     } else {
                         harvest = I18n.format("not_harvestable");
@@ -222,7 +227,8 @@ public class BlockHelperGui {
     }
 
     private void updateKeyState() {
-        if (BlockHelperClientProxy.showHide.func_35962_c()) {
+        BlockHelperKeyBinding.onTick();
+        if (BlockHelperClientProxy.showHide.isClicked()) {
             isHidden = !isHidden;
         }
     }
@@ -350,6 +356,20 @@ public class BlockHelperGui {
         } catch (Throwable ignored) {
         }
         return 8;
+    }
+
+    private static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+        try {
+            return ForgeHooks.canHarvestBlock(b, player, meta);
+        } catch (Throwable ignored) {
+        }
+
+        if (b.blockMaterial.getIsHarvestable())
+            return true;
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (stack == null)
+            return false;
+        return stack.canHarvestBlock(b);
     }
 
 }
