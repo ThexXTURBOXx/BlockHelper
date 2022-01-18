@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
@@ -157,37 +156,27 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
-    public static int damageDropped(Block b, World w, int x, int y,
-                                    int z, int meta) {
-        List<ItemStack> list = b.getBlockDropped(w, x, y, z, meta, 0);
-        if (!list.isEmpty()) {
-            return list.get(0).getItemDamage();
-        }
-        return 0;
+    public static int damageDropped(Block b, int meta) {
+        return b.damageDropped(meta);
     }
 
     @SuppressWarnings("unchecked")
     public static Entity getEntityByID(World w, int entityId) {
+        if (w == null) {
+            return null;
+        }
+        if (w instanceof WorldClient) {
+            Entity e = ((WorldClient) w).getEntityByID(entityId);
+            if (e != null) {
+                return e;
+            }
+        }
         List<Entity> list = (List<Entity>) w.loadedEntityList;
         if (list != null) {
             for (Entity e : list) {
                 if (e.entityId == entityId) {
                     return e;
                 }
-            }
-        }
-        if (w instanceof WorldClient) {
-            try {
-                Field f = ((WorldClient) w).getClass().getDeclaredField("entityList");
-                f.setAccessible(true);
-                list = (List<Entity>) f.get(w);
-                for (Entity e : list) {
-                    if (e.entityId == entityId) {
-                        return e;
-                    }
-                }
-            } catch (IllegalAccessException ignored) {
-            } catch (NoSuchFieldException ignored) {
             }
         }
         return null;

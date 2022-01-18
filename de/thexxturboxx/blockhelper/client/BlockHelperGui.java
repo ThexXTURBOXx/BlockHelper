@@ -46,7 +46,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
@@ -148,7 +148,7 @@ public class BlockHelperGui {
                                 try {
                                     if (b != null) {
                                         ItemStack s = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)],
-                                                1, mod_BlockHelper.damageDropped(b, w, x, y, z, meta));
+                                                1, mod_BlockHelper.damageDropped(b, meta));
                                         name = s.getItem().getItemDisplayName(s);
                                     }
                                     if (name.isEmpty())

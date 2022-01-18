@@ -60,7 +60,11 @@ public final class ModIdentifier {
             for (Map.Entry<ModContainer, BlockProxy> entry : map.entries()) {
                 objectToMod.put(entry.getValue(), getModName(entry.getKey()));
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
 
+        try {
             for (ModContainer container : Loader.instance().getModList()) {
                 if (container.getSource().isFile()) {
                     String uri = formatURI(container.getSource().toURI());
