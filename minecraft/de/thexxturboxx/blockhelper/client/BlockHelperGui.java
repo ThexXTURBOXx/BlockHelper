@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -48,7 +49,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
@@ -96,10 +97,10 @@ public class BlockHelperGui {
             Packet230ModLoader packet = new Packet230ModLoader();
             packet.modId = mod_BlockHelper.INSTANCE.getId();
             if (w.isRemote) {
-                packet.dataString = new String[]{mod_BlockHelper.CHANNEL, buffer.toString()};
+                packet.dataString = new String[]{mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1")};
                 ModLoaderMp.sendPacket(mod_BlockHelper.INSTANCE, packet);
             } else {
-                packet.dataString = new String[]{mod_BlockHelper.CHANNEL_SSP, buffer.toString()};
+                packet.dataString = new String[]{mod_BlockHelper.CHANNEL_SSP, buffer.toString("ISO-8859-1")};
                 mod_BlockHelper.INSTANCE.handlePacket(packet);
             }
             switch (result) {
@@ -157,7 +158,7 @@ public class BlockHelperGui {
                                 if (b != null) {
                                     Item it = Item.itemsList[b.idDropped(meta, rnd, 0)];
                                     ItemStack stack = new ItemStack(it, 1,
-                                            mod_BlockHelper.damageDropped(b, w, x, y, z, meta));
+                                            mod_BlockHelper.damageDropped(b, meta));
                                     name = it.getItemDisplayName(stack);
                                 }
                                 if (name.isEmpty())
@@ -175,9 +176,9 @@ public class BlockHelperGui {
 
                 String harvest = I18n.format("please_report");
                 if (b != null) {
-                    if (b.getHardness(meta) < 0.0F) {
+                    if (getHardness(b, meta) < 0.0F) {
                         harvest = I18n.format("unbreakable");
-                    } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
+                    } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
                         harvest = I18n.format("harvestable");
                     } else {
                         harvest = I18n.format("not_harvestable");
@@ -340,6 +341,28 @@ public class BlockHelperGui {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    private static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+        try {
+            return b.canHarvestBlock(player, meta);
+        } catch (Throwable ignored) {
+        }
+
+        if (b.blockMaterial.isHarvestable())
+            return true;
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (stack == null)
+            return false;
+        return stack.canHarvestBlock(b);
+    }
+
+    private static float getHardness(Block b, int meta) {
+        try {
+            return b.getHardness(meta);
+        } catch (Throwable ignored) {
+        }
+        return b.getHardness();
     }
 
 }

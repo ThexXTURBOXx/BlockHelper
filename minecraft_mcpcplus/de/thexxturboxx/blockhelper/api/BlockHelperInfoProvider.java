@@ -62,7 +62,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     protected static Class<?> getClass(String clazz) {
         try {
             return Class.forName(clazz);
-        } catch (ClassNotFoundException e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -80,7 +80,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             Method m = clazz.getDeclaredMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (NoSuchMethodException e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -98,7 +98,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             Method m = clazz.getMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (NoSuchMethodException e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -118,9 +118,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             Field f = clazz.getDeclaredField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (NoSuchFieldException e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -140,9 +138,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
             Field f = clazz.getField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (NoSuchFieldException e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }

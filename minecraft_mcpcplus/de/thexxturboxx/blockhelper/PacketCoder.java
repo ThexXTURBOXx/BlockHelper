@@ -34,7 +34,7 @@ public final class PacketCoder {
                 return new PacketInfo(dimId, mop, MopType.ENTITY, entityId);
             } else {
                 mop = new MovingObjectPosition(is.readInt(), is.readInt(), is.readInt(), is.readInt(),
-                        Vec3D.create(is.readInt(), is.readInt(), is.readInt()));
+                        Vec3D.create(is.readDouble(), is.readDouble(), is.readDouble()));
                 return new PacketInfo(dimId, mop, mt);
             }
         case 1:
@@ -61,7 +61,7 @@ public final class PacketCoder {
     }
 
     public static void encode(DataOutputStream os, Object o) throws IOException {
-        if (mod_BlockHelper.iof(o, "de.thexxturboxx.blockhelper.PacketInfo")) {
+        if (o instanceof PacketInfo) {
             PacketInfo pi = (PacketInfo) o;
             os.writeByte(0);
             os.writeInt(pi.dimId);
@@ -73,18 +73,18 @@ public final class PacketCoder {
                 os.writeInt(pi.mop.c);
                 os.writeInt(pi.mop.d);
                 os.writeInt(pi.mop.subHit);
-                os.writeInt((int) pi.mop.pos.a);
-                os.writeInt((int) pi.mop.pos.b);
-                os.writeInt((int) pi.mop.pos.c);
+                os.writeDouble(pi.mop.pos.a);
+                os.writeDouble(pi.mop.pos.b);
+                os.writeDouble(pi.mop.pos.c);
             }
-        } else if (mod_BlockHelper.iof(o, "java.lang.String")) {
-            os.writeByte(1);
+        } else if (o instanceof String) {
             String oa = (String) o;
+            os.writeByte(1);
             os.writeShort(oa.length());
             os.writeChars(oa);
-        } else if (mod_BlockHelper.iof(o, "de.thexxturboxx.blockhelper.PacketClient")) {
-            os.writeByte(2);
+        } else if (o instanceof PacketClient) {
             PacketClient pc = (PacketClient) o;
+            os.writeByte(2);
             os.writeShort(pc.data.size());
             for (String s : pc.data) {
                 os.writeShort(s.length());

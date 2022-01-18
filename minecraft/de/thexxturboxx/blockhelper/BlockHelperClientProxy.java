@@ -1,10 +1,8 @@
 package de.thexxturboxx.blockhelper;
 
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import java.io.File;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 
@@ -20,14 +18,12 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     @Override
     public void load(mod_BlockHelper instance) {
         super.load(instance);
+        ModLoader.setInGameHook(instance, true, false);
         ModIdentifier.load();
-        Configuration cfg = new Configuration(new File("config/BlockHelper.cfg"));
-        cfg.load();
-        size = Double.parseDouble(cfg.getOrCreateProperty("General", "Size", "1.0").value);
-        background = parseUnsignedInt(cfg.getOrCreateProperty("General", "BackgroundColor", "cc100010").value, 16);
-        gradient1 = parseUnsignedInt(cfg.getOrCreateProperty("General", "BorderColor1", "cc5000ff").value, 16);
-        gradient2 = parseUnsignedInt(cfg.getOrCreateProperty("General", "BorderColor2", "cc28007f").value, 16);
-        cfg.save();
+        size = Double.parseDouble(mod_BlockHelper.sizeStr);
+        background = parseUnsignedInt(mod_BlockHelper.backgroundStr, 16);
+        gradient1 = parseUnsignedInt(mod_BlockHelper.gradient1Str, 16);
+        gradient2 = parseUnsignedInt(mod_BlockHelper.gradient2Str, 16);
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
         ModLoader.registerKey(instance, showHide, false);

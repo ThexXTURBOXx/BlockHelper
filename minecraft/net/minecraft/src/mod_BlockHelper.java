@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
@@ -40,6 +39,17 @@ public class mod_BlockHelper extends BaseModMp {
     public static final MopType[] MOP_TYPES = MopType.values();
 
     public static BlockHelperCommonProxy proxy;
+
+    // Configuration entries start
+    @MLProp(name = "Size")
+    public static String sizeStr = "1.0";
+    @MLProp(name = "BackgroundColor")
+    public static String backgroundStr = "cc100010";
+    @MLProp(name = "BorderColor1")
+    public static String gradient1Str = "cc5000ff";
+    @MLProp(name = "BorderColor2")
+    public static String gradient2Str = "cc28007f";
+    // Configuration entries end
 
     public static String getModId() {
         return MOD_ID;
@@ -71,7 +81,7 @@ public class mod_BlockHelper extends BaseModMp {
     public void handlePacket(Packet230ModLoader packetML) {
         try {
             String channel = packetML.dataString[0];
-            byte[] data = packetML.dataString[1].getBytes();
+            byte[] data = packetML.dataString[1].getBytes("ISO-8859-1");
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -133,7 +143,7 @@ public class mod_BlockHelper extends BaseModMp {
                     }
                     Packet230ModLoader packet = new Packet230ModLoader();
                     packet.modId = getId();
-                    packet.dataString = new String[]{CHANNEL, buffer.toString()};
+                    packet.dataString = new String[]{CHANNEL, buffer.toString("ISO-8859-1")};
                     if (w.isRemote) {
                         ModLoaderMp.sendPacket(this, packet);
                     } else {
@@ -155,13 +165,8 @@ public class mod_BlockHelper extends BaseModMp {
         return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
-    public static int damageDropped(Block b, World w, int x, int y,
-                                    int z, int meta) {
-        List<ItemStack> list = b.getBlockDropped(w, x, y, z, meta, 0);
-        if (!list.isEmpty()) {
-            return list.get(0).getItemDamage();
-        }
-        return 0;
+    public static int damageDropped(Block b, int meta) {
+        return b.damageDropped(meta);
     }
 
     @SuppressWarnings("unchecked")
@@ -169,26 +174,18 @@ public class mod_BlockHelper extends BaseModMp {
         if (w == null) {
             return null;
         }
+        if (w instanceof WorldClient) {
+            Entity e = ((WorldClient) w).getEntityByID(entityId);
+            if (e != null) {
+                return e;
+            }
+        }
         List<Entity> list = (List<Entity>) w.getLoadedEntityList();
         if (list != null) {
             for (Entity e : list) {
                 if (e.entityId == entityId) {
                     return e;
                 }
-            }
-        }
-        if (w instanceof WorldClient) {
-            try {
-                Field f = ((WorldClient) w).getClass().getDeclaredField("entityList");
-                f.setAccessible(true);
-                list = (List<Entity>) f.get(w);
-                for (Entity e : list) {
-                    if (e.entityId == entityId) {
-                        return e;
-                    }
-                }
-            } catch (IllegalAccessException ignored) {
-            } catch (NoSuchFieldException ignored) {
             }
         }
         return null;
