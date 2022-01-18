@@ -13,15 +13,14 @@ public final class FixDetector {
     public static void detectFixes(Minecraft mc) {
         try {
             if (!RelaunchClassLoader.FIXER_VERSION.equals("1")) {
-                String name = new mod_BlockHelper().getName();
+                String name = mod_BlockHelper.NAME;
                 mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cPlease update ClassLoaderFixer.");
-                mc.thePlayer.addChatMessage("§cYou can find it here: §chttps://git.io/Ji8ZJ");
+                mc.thePlayer.addChatMessage("§cYou can find it on Modrinth.");
             }
         } catch (Throwable t) {
-            String name = new mod_BlockHelper().getName();
+            String name = mod_BlockHelper.NAME;
             mc.thePlayer.addChatMessage("§7[§6" + name + "§7] §cIt is very recommended to");
-            mc.thePlayer.addChatMessage("§cinstall the ClassLoaderFixer jar-mod. You can find it here:");
-            mc.thePlayer.addChatMessage("§chttps://git.io/Ji8ZJ");
+            mc.thePlayer.addChatMessage("§cinstall the ClassLoaderFixer jar-mod. You can find it on Modrinth.");
             mc.thePlayer.addChatMessage("§cOtherwise, mod identification might not work correctly.");
         }
     }
