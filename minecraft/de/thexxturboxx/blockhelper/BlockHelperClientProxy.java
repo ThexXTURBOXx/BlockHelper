@@ -20,6 +20,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     @Override
     public void load(mod_BlockHelper instance) {
         super.load(instance);
+        ModLoader.setInGameHook(instance, true, false);
         ModIdentifier.load();
         Configuration cfg = new Configuration(new File("config/BlockHelper.cfg"));
         cfg.load();

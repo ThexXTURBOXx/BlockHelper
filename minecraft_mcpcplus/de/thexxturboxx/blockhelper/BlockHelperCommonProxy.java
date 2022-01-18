@@ -11,7 +11,6 @@ public class BlockHelperCommonProxy {
     public void load(mod_BlockHelper instance) {
         I18n.init();
         MinecraftForge.registerConnectionHandler(instance);
-        ModLoader.setInGameHook(instance, true, false);
         try {
             ModLoader.registerPacketChannel(instance, mod_BlockHelper.CHANNEL);
         } catch (Throwable ignored) {

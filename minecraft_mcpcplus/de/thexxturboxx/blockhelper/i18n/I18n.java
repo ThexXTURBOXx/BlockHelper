@@ -63,4 +63,8 @@ public final class I18n {
         return LocaleI18n.get(PREFIX + key, args);
     }
 
+    public static String format(boolean b) {
+        return format(b ? "true" : "false");
+    }
+
 }

@@ -63,4 +63,8 @@ public final class I18n {
         return StatCollector.translateToLocalFormatted(PREFIX + key, args);
     }
 
+    public static String format(boolean b) {
+        return format(b ? "true" : "false");
+    }
+
 }
