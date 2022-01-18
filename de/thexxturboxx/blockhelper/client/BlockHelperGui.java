@@ -46,7 +46,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
