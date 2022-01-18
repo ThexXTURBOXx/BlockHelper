@@ -17,14 +17,10 @@ public final class I18n {
     }
 
     public static void init() {
-        loadLanguage("en_US");
-    }
-
-    public static void loadLanguage(String lang) {
         InputStream stream = null;
         InputStreamReader reader = null;
         try {
-            stream = I18n.class.getResourceAsStream("/de/thexxturboxx/blockhelper/i18n/" + lang + ".properties");
+            stream = I18n.class.getResourceAsStream("/de/thexxturboxx/blockhelper/i18n/en_US.properties");
             if (stream == null) {
                 throw new IOException("Couldn't load language file.");
             }
@@ -32,7 +28,7 @@ public final class I18n {
             reader = new InputStreamReader(stream, "UTF-8");
             TRANSLATIONS.load(reader);
         } catch (Throwable t) {
-            mod_BlockHelper.LOGGER.severe("Error loading language " + lang + ".");
+            mod_BlockHelper.LOGGER.severe("Error loading language files.");
             t.printStackTrace();
         } finally {
             if (stream != null) {
@@ -56,6 +52,10 @@ public final class I18n {
         } catch (Throwable ignored) {
         }
         return key;
+    }
+
+    public static String format(boolean b) {
+        return format(b ? "true" : "false");
     }
 
 }

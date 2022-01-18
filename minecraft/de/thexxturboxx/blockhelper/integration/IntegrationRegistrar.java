@@ -9,6 +9,7 @@ public final class IntegrationRegistrar {
     }
 
     public static void init() {
+        BlockHelperModSupport.registerBlockProvider(new AdvMachinesIntegration());
         BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerModFixer(new BuildcraftIntegration());

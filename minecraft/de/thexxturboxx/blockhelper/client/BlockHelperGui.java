@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
@@ -51,7 +52,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
@@ -159,7 +160,7 @@ public class BlockHelperGui {
                             try {
                                 if (b != null) {
                                     Item it = Item.itemsList[b.idDropped(meta, rnd)];
-                                    ItemStack stack = new ItemStack(it, 1, damageDropped(b, w, x, y, z, meta));
+                                    ItemStack stack = new ItemStack(it, 1, damageDropped(b, meta));
                                     name = getItemDisplayName(stack);
                                 }
                                 if (name.isEmpty())
@@ -177,9 +178,9 @@ public class BlockHelperGui {
 
                 String harvest = I18n.format("please_report");
                 if (b != null) {
-                    if (b.getHardness(meta) < 0.0F) {
+                    if (getHardness(b, meta) < 0.0F) {
                         harvest = I18n.format("unbreakable");
-                    } else if (b.canHarvestBlock(mc.thePlayer, meta)) {
+                    } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
                         harvest = I18n.format("harvestable");
                     } else {
                         harvest = I18n.format("not_harvestable");
@@ -349,7 +350,29 @@ public class BlockHelperGui {
             return fontRenderer.FONT_HEIGHT;
         } catch (Throwable ignored) {
         }
-        return 8;
+        return 9;
+    }
+
+    private static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+        try {
+            return b.canHarvestBlock(player, meta);
+        } catch (Throwable ignored) {
+        }
+
+        if (b.blockMaterial.getIsHarvestable())
+            return true;
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (stack == null)
+            return false;
+        return stack.canHarvestBlock(b);
+    }
+
+    private static float getHardness(Block b, int meta) {
+        try {
+            return b.getHardness(meta);
+        } catch (Throwable ignored) {
+        }
+        return b.getHardness();
     }
 
 }
