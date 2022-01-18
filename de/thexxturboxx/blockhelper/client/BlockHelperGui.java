@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import de.thexxturboxx.blockhelper.mod_BlockHelper;
@@ -46,7 +47,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
@@ -65,6 +66,7 @@ public class BlockHelperGui {
 
             if (firstTick) {
                 ModIdentifier.firstTick();
+                FixDetector.detectFixes(mc);
                 BlockHelperUpdater.notifyUpdater(mc);
                 firstTick = false;
             }

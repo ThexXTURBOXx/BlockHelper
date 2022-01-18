@@ -7,6 +7,7 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.mod_BlockHelper;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -20,7 +21,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import de.thexxturboxx.blockhelper.mod_BlockHelper;
 
 public final class ModIdentifier {
 
@@ -60,7 +60,11 @@ public final class ModIdentifier {
             for (Map.Entry<ModContainer, BlockProxy> entry : map.entries()) {
                 objectToMod.put(entry.getValue(), getModName(entry.getKey()));
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
 
+        try {
             for (ModContainer container : Loader.instance().getModList()) {
                 if (container.getSource().isFile()) {
                     String uri = formatURI(container.getSource().toURI());

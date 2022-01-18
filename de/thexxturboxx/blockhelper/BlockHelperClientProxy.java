@@ -21,6 +21,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public void load(mod_BlockHelper instance) {
         super.load(instance);
         mod_BlockHelper.isClient = true;
+        ModLoader.setInGameHook(instance, true, false);
         ModIdentifier.load();
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         cfg.load();
