@@ -8,7 +8,6 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
-import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
 import java.io.ByteArrayInputStream;
@@ -16,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
@@ -169,6 +167,12 @@ public class mod_BlockHelper extends BaseModMp {
         if (w == null) {
             return null;
         }
+        if (w instanceof WorldClient) {
+            Entity e = ((WorldClient) w).func_709_b(entityId);
+            if (e != null) {
+                return e;
+            }
+        }
         List<Entity> list = (List<Entity>) w.getLoadedEntityList();
         if (list != null) {
             for (Entity e : list) {
@@ -176,9 +180,6 @@ public class mod_BlockHelper extends BaseModMp {
                     return e;
                 }
             }
-        }
-        if (w instanceof WorldClient) {
-            return ((WorldClient) w).func_709_b(entityId);
         }
         return null;
     }

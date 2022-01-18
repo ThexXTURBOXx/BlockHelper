@@ -71,7 +71,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     protected static Class<?> getClass(String clazz) {
         try {
             return Class.forName(clazz);
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -85,14 +85,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
     protected static Method getDeclaredMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
-        if (clazz == null) {
-            return null;
-        }
         try {
             Method m = clazz.getDeclaredMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -106,14 +103,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
     protected static Method getMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
-        if (clazz == null) {
-            return null;
-        }
         try {
             Method m = clazz.getMethod(method, parameterTypes);
             m.setAccessible(true);
             return m;
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -129,14 +123,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      */
     @SuppressWarnings("unchecked")
     protected static <T> T getDeclaredField(Class<?> clazz, Object obj, String field) {
-        if (clazz == null) {
-            return null;
-        }
         try {
             Field f = clazz.getDeclaredField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }
@@ -152,14 +143,11 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      */
     @SuppressWarnings("unchecked")
     protected static <T> T getField(Class<?> clazz, Object obj, String field) {
-        if (clazz == null) {
-            return null;
-        }
         try {
             Field f = clazz.getField(field);
             f.setAccessible(true);
             return (T) f.get(obj);
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return null;
         }
     }

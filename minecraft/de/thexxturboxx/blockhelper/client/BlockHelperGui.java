@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
@@ -36,13 +35,11 @@ import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraft.src.forge.ForgeHooks;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.sizeInv;
-import static net.minecraft.src.mod_BlockHelper.CHANNEL_SSP;
 import static net.minecraft.src.mod_BlockHelper.damageDropped;
 import static net.minecraft.src.mod_BlockHelper.getItemDisplayName;
 
@@ -56,7 +53,7 @@ public class BlockHelperGui {
 
     private final List<String> infos;
 
-    private List<String> packetInfos;
+    private volatile List<String> packetInfos;
 
     private boolean firstTick;
 
@@ -182,7 +179,7 @@ public class BlockHelperGui {
 
                 String harvest = I18n.format("please_report");
                 if (b != null) {
-                    if (b.getHardness(meta) < 0.0F) {
+                    if (getHardness(b, meta) < 0.0F) {
                         harvest = I18n.format("unbreakable");
                     } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
                         harvest = I18n.format("harvestable");
@@ -355,12 +352,12 @@ public class BlockHelperGui {
             return fontRenderer.FONT_HEIGHT;
         } catch (Throwable ignored) {
         }
-        return 8;
+        return 9;
     }
 
     private static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
         try {
-            return ForgeHooks.canHarvestBlock(b, player, meta);
+            return b.canHarvestBlock(player, meta);
         } catch (Throwable ignored) {
         }
 
@@ -370,6 +367,14 @@ public class BlockHelperGui {
         if (stack == null)
             return false;
         return stack.canHarvestBlock(b);
+    }
+
+    private static float getHardness(Block b, int meta) {
+        try {
+            return b.getHardness(meta);
+        } catch (Throwable ignored) {
+        }
+        return b.getHardness();
     }
 
 }
