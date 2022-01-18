@@ -76,4 +76,8 @@ public final class I18n {
         return key;
     }
 
+    public static String format(boolean b) {
+        return format(b ? "true" : "false");
+    }
+
 }
