@@ -31,11 +31,14 @@ import net.minecraft.src.Material;
 import net.minecraft.src.ModLoaderMp;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Packet230ModLoader;
+import net.minecraft.src.RenderHelper;
+import net.minecraft.src.RenderItem;
 import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
+import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
 import static de.thexxturboxx.blockhelper.BlockHelperClientProxy.size;
@@ -59,6 +62,8 @@ public class BlockHelperGui {
 
     private boolean isHidden;
 
+    private static final RenderItem RENDER_ITEM = new RenderItem();
+
     private BlockHelperGui() {
         this.infos = new ArrayList<String>();
         this.packetInfos = new ArrayList<String>();
@@ -68,6 +73,7 @@ public class BlockHelperGui {
 
     public boolean onTickInGame(Minecraft mc) {
         try {
+            GL11.glPushMatrix();
             GL11.glScaled(size, size, size);
 
             if (firstTick) {
@@ -189,13 +195,13 @@ public class BlockHelperGui {
                 }
 
                 infos.clear();
-                addInfo(name);
-                addInfo(itemId);
+                addInfo(name + " (" + itemId + ")");
                 addInfo(harvest);
                 addAdditionalInfo(packetInfos);
                 addInfo("\u00a79\u00a7o" + mod);
-                int xBox = drawBox(mc);
-                drawInfo(xBox, mc);
+                int xBox = drawBox(mc, 22);
+                int yBox = drawInfo(xBox, mc, 22);
+                renderItem(mc, is, xBox + 3, (yBox + PADDING) / 2 - 8);
                 break;
             case ENTITY:
                 Entity e = mop.entityHit;
@@ -209,8 +215,8 @@ public class BlockHelperGui {
                 addInfo(nameEntity);
                 addAdditionalInfo(packetInfos);
                 addInfo("\u00a79\u00a7o" + mod);
-                xBox = drawBox(mc);
-                drawInfo(xBox, mc);
+                xBox = drawBox(mc, 0);
+                drawInfo(xBox, mc, 3);
                 break;
             default:
                 break;
@@ -218,7 +224,7 @@ public class BlockHelperGui {
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {
-            GL11.glScaled(sizeInv, sizeInv, sizeInv);
+            GL11.glPopMatrix();
         }
         return true;
     }
@@ -228,10 +234,6 @@ public class BlockHelperGui {
         if (BlockHelperClientProxy.showHide.isClicked()) {
             isHidden = !isHidden;
         }
-    }
-
-    private int getStringMid(int x, String s, Minecraft mc) {
-        return x - mc.fontRenderer.getStringWidth(s) / 2;
     }
 
     private MopType getRayTraceResult(Minecraft mc) {
@@ -264,15 +266,16 @@ public class BlockHelperGui {
         }
     }
 
-    private void drawInfo(int x, Minecraft mc) {
+    private int drawInfo(int x, Minecraft mc, int leftPadding) {
         int currLine = PADDING;
         for (String s : infos) {
-            mc.fontRenderer.drawString(s, getStringMid(x, s, mc), currLine, 0xffffffff);
+            mc.fontRenderer.drawString(s, x + leftPadding, currLine, 0xffffffff);
             currLine += getFontHeight(mc.fontRenderer);
         }
+        return currLine;
     }
 
-    private int drawBox(Minecraft mc) {
+    private int drawBox(Minecraft mc, int showcaseSize) {
         ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         int width = (int) (res.getScaledWidth() * sizeInv);
         int infoWidth = 0;
@@ -281,6 +284,8 @@ public class BlockHelperGui {
             infoWidth = Math.max(mc.fontRenderer.getStringWidth(s) + PADDING, infoWidth);
             currLine += getFontHeight(mc.fontRenderer);
         }
+        infoWidth += showcaseSize;
+        currLine = Math.max(currLine, showcaseSize);
         int minusHalf = (width - infoWidth) / 2;
         int plusHalf = (width + infoWidth) / 2;
 
@@ -303,7 +308,7 @@ public class BlockHelperGui {
         drawGradientRect(minusHalf + 3, 8, plusHalf - 3, 9, grad1, grad1); // Top
         drawGradientRect(minusHalf + 3, currLine + 3, plusHalf - 3, currLine + 4, grad2, grad2); // Bottom
 
-        return width / 2;
+        return minusHalf + 3;
     }
 
     public void setData(List<String> packetInfos) {
@@ -347,7 +352,21 @@ public class BlockHelperGui {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    private static int getFontHeight(FontRenderer fontRenderer) {
+    public static void renderItem(Minecraft mc, ItemStack is, int x, int y) {
+        GL11.glPushMatrix();
+        GL11.glRotatef(120.0f, 1.0f, 0.0f, 0.0f);
+        RenderHelper.enableStandardItemLighting();
+        GL11.glPopMatrix();
+        GL11.glPushMatrix();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+        RENDER_ITEM.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, is, x, y);
+        GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+        RenderHelper.disableStandardItemLighting();
+        GL11.glPopMatrix();
+    }
+
+    public static int getFontHeight(FontRenderer fontRenderer) {
         try {
             return fontRenderer.FONT_HEIGHT;
         } catch (Throwable ignored) {
@@ -355,7 +374,7 @@ public class BlockHelperGui {
         return 9;
     }
 
-    private static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+    public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
         try {
             return b.canHarvestBlock(player, meta);
         } catch (Throwable ignored) {
@@ -369,7 +388,7 @@ public class BlockHelperGui {
         return stack.canHarvestBlock(b);
     }
 
-    private static float getHardness(Block b, int meta) {
+    public static float getHardness(Block b, int meta) {
         try {
             return b.getHardness(meta);
         } catch (Throwable ignored) {

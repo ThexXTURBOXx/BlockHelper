@@ -154,10 +154,6 @@ public class mod_BlockHelper extends BaseModMp {
         }
     }
 
-    public static boolean iof(Object obj, String clazz) {
-        return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
-    }
-
     public static int damageDropped(Block b, int meta) {
         return b.damageDropped(meta);
     }
