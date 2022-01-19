@@ -49,7 +49,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return Whether the given object is instance of the given class.
      * @see #isLoadedAndInstanceOf(Object, String)
      */
-    protected static boolean iof(Object obj, String clazz) {
+    public static boolean iof(Object obj, String clazz) {
         return isLoadedAndInstanceOf(obj, clazz);
     }
 
@@ -59,7 +59,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @param clazz The fully-qualified class name to search for.
      * @return The searched {@link Class} or {@code null} if the search failed.
      */
-    protected static Class<?> getClass(String clazz) {
+    public static Class<?> getClass(String clazz) {
         try {
             return Class.forName(clazz);
         } catch (Throwable ignored) {
@@ -75,7 +75,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @param parameterTypes The parameter types of the searched method.
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
-    protected static Method getDeclaredMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
+    public static Method getDeclaredMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
         try {
             Method m = clazz.getDeclaredMethod(method, parameterTypes);
             m.setAccessible(true);
@@ -93,7 +93,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @param parameterTypes The parameter types of the searched method.
      * @return The searched {@link Method} or {@code null} if the search failed.
      */
-    protected static Method getMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
+    public static Method getMethod(Class<?> clazz, String method, Class<?>... parameterTypes) {
         try {
             Method m = clazz.getMethod(method, parameterTypes);
             m.setAccessible(true);
@@ -113,7 +113,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched field's value or {@code null} if the search failed.
      */
     @SuppressWarnings("unchecked")
-    protected static <T> T getDeclaredField(Class<?> clazz, Object obj, String field) {
+    public static <T> T getDeclaredField(Class<?> clazz, Object obj, String field) {
         try {
             Field f = clazz.getDeclaredField(field);
             f.setAccessible(true);
@@ -133,7 +133,7 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
      * @return The searched field's value or {@code null} if the search failed.
      */
     @SuppressWarnings("unchecked")
-    protected static <T> T getField(Class<?> clazz, Object obj, String field) {
+    public static <T> T getField(Class<?> clazz, Object obj, String field) {
         try {
             Field f = clazz.getField(field);
             f.setAccessible(true);
