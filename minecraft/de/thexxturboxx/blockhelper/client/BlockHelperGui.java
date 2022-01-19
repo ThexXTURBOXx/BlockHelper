@@ -28,6 +28,7 @@ import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
+import net.minecraft.src.MathHelper;
 import net.minecraft.src.ModLoaderMp;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Packet230ModLoader;
@@ -50,7 +51,9 @@ public class BlockHelperGui {
 
     public static final int PADDING = 12;
 
-    private static final Random rnd = new Random();
+    private static final Random RND = new Random();
+
+    private static final RenderItem RENDER_ITEM = new RenderItem();
 
     private static BlockHelperGui instance;
 
@@ -61,8 +64,6 @@ public class BlockHelperGui {
     private boolean firstTick;
 
     private boolean isHidden;
-
-    private static final RenderItem RENDER_ITEM = new RenderItem();
 
     private BlockHelperGui() {
         this.infos = new ArrayList<String>();
@@ -144,7 +145,7 @@ public class BlockHelperGui {
 
                 String itemId = is.itemID + ":" + is.getItemDamage();
                 if (is.getItem() == null && b != null) {
-                    is = new ItemStack(b.idDropped(meta, rnd), 1, meta);
+                    is = new ItemStack(b.idDropped(meta, RND), 1, meta);
                 }
                 if (is.getItem() == null) {
                     return true;
@@ -166,7 +167,7 @@ public class BlockHelperGui {
                         } catch (Throwable e1) {
                             try {
                                 if (b != null) {
-                                    Item it = Item.itemsList[b.idDropped(meta, rnd)];
+                                    Item it = Item.itemsList[b.idDropped(meta, RND)];
                                     ItemStack stack = new ItemStack(it, 1, damageDropped(b, meta));
                                     name = getItemDisplayName(stack);
                                 }
@@ -194,9 +195,16 @@ public class BlockHelperGui {
                     }
                 }
 
+                String breakProgression = null;
+                if (mc.renderGlobal.damagePartialTime > 0) {
+                    String progress = MathHelper.floor_float(100 * mc.renderGlobal.damagePartialTime) + "%";
+                    breakProgression = I18n.format("break_progression", progress);
+                }
+
                 infos.clear();
                 addInfo(name + " (" + itemId + ")");
                 addInfo(harvest);
+                addInfo(breakProgression);
                 addAdditionalInfo(packetInfos);
                 addInfo("\u00a79\u00a7o" + mod);
                 int xBox = drawBox(mc, 22);
