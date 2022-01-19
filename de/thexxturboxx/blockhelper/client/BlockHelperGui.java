@@ -7,6 +7,7 @@ import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
+import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
@@ -23,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -32,6 +34,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.EXTRescaleNormal;
@@ -44,7 +47,9 @@ public class BlockHelperGui {
 
     public static final int PADDING = 12;
 
-    private static final Random rnd = new Random();
+    private static final Random RND = new Random();
+
+    private static final RenderItem RENDER_ITEM = new RenderItem();
 
     private static BlockHelperGui instance;
 
@@ -55,8 +60,6 @@ public class BlockHelperGui {
     private boolean firstTick;
 
     private boolean isHidden;
-
-    private static final RenderItem RENDER_ITEM = new RenderItem();
 
     private BlockHelperGui() {
         this.infos = new ArrayList<String>();
@@ -128,7 +131,7 @@ public class BlockHelperGui {
                         is = b.getPickBlock(mop, w, x, y, z);
                     }
                     if ((is == null || is.getItem() == null) && b != null) {
-                        is = new ItemStack(b.idDropped(meta, rnd, id), 1, b.damageDropped(meta));
+                        is = new ItemStack(b.idDropped(meta, RND, id), 1, b.damageDropped(meta));
                     }
                     if (is.getItem() == null) {
                         return true;
@@ -189,9 +192,18 @@ public class BlockHelperGui {
                         }
                     }
 
+                    String breakProgression = null;
+                    Float curBlockDamage = BlockHelperInfoProvider.getDeclaredField(
+                            PlayerControllerMP.class, mc.playerController, "field_78770_f");
+                    if (curBlockDamage != null && curBlockDamage > 0) {
+                        String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
+                        breakProgression = I18n.format("break_progression", progress);
+                    }
+
                     infos.clear();
                     addInfo(name + " (" + itemId + ")");
                     addInfo(harvest);
+                    addInfo(breakProgression);
                     addAdditionalInfo(packetInfos);
                     addInfo("§9§o" + mod);
                     int xBox = drawBox(mc, 22);
