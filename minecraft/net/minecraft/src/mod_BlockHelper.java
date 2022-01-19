@@ -8,7 +8,6 @@ import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
-import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
 import java.io.ByteArrayInputStream;
@@ -175,10 +174,6 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean iof(Object obj, String clazz) {
-        return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
     public static int damageDropped(Block b, int meta) {
