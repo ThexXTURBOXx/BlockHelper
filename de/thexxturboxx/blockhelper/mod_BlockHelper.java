@@ -8,7 +8,6 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
-import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
 import java.io.ByteArrayInputStream;
@@ -152,10 +151,6 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean iof(Object obj, String clazz) {
-        return BlockHelperInfoProvider.isLoadedAndInstanceOf(obj, clazz);
     }
 
 }
