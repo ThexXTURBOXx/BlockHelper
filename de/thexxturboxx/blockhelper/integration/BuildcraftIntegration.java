@@ -27,12 +27,12 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         if (iof(state.te, "buildcraft.energy.TileEngine")) {
             Engine engine = ((TileEngine) state.te).engine;
             if (engine != null && engine.maxEnergy != 0) {
-                info.add(engine.energy + " MJ / " + engine.maxEnergy + " MJ");
+                info.add((int) engine.energy + " MJ / " + engine.maxEnergy + " MJ");
             }
         } else if (iof(state.te, "buildcraft.api.power.IPowerReceptor")) {
             IPowerProvider prov = ((IPowerReceptor) state.te).getPowerProvider();
             if (prov != null && prov.getMaxEnergyStored() != 0) {
-                info.add(prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
+                info.add((int) prov.getEnergyStored() + " MJ / " + prov.getMaxEnergyStored() + " MJ");
             }
         }
         if (iof(state.te, "buildcraft.api.liquids.ITankContainer")) {
