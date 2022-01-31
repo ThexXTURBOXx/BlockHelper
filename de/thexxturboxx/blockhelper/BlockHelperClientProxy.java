@@ -16,6 +16,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
+    public static boolean fixerNotify;
     public static KeyBinding showHide;
 
     @Override
@@ -33,6 +34,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
                 "cc5000ff").value, 16);
         gradient2 = parseUnsignedInt(cfg.get("General", "BorderColor2",
                 "cc28007f").value, 16);
+        fixerNotify = cfg.get("General", "NotifyAboutFixers", true).getBoolean(true);
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
