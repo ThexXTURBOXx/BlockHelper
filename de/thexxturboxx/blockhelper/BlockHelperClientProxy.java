@@ -16,6 +16,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
+    public static boolean fixerNotify;
     public static KeyBinding showHide;
 
     @Override
@@ -34,6 +35,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
                     "cc5000ff", "Border Color Hex Code 1").value, 16);
             gradient2 = parseUnsignedInt(cfg.get("General", "BorderColor2",
                     "cc28007f", "Border Color Hex Code 2").value, 16);
+            fixerNotify = cfg.get("General", "NotifyAboutFixers", true).getBoolean(true);
         } catch (NoSuchMethodError ignored) {
             // 1.4.4 compatibility
             size = Double.parseDouble(cfg.get("General", "Size", "1.0").value);
