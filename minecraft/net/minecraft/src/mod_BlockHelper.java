@@ -48,6 +48,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String gradient1Str = "cc5000ff";
     @MLProp(name = "BorderColor2")
     public static String gradient2Str = "cc28007f";
+    @MLProp(name = "NotifyAboutFixers")
+    public static String fixerNotifyStr = "true";
     // Configuration entries end
 
     public static String getModId() {
