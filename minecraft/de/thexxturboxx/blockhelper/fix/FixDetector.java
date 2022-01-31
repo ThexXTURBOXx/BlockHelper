@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.fix;
 
+import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
 import de.thexxturboxx.blockhelper.FontFixer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -12,6 +13,10 @@ public final class FixDetector {
     }
 
     public static void detectFixes(Minecraft mc) {
+        if (!BlockHelperClientProxy.fixerNotify) {
+            return;
+        }
+
         try {
             if (!FontRenderer.FIXER_VERSION.equals("1")) {
                 String name = mod_BlockHelper.NAME;
