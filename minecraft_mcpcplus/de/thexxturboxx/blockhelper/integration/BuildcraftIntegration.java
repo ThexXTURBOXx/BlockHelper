@@ -26,7 +26,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 Number energyStored = getField(Engine.class, engine, "energy");
                 Number maxEnergy = getField(Engine.class, engine, "maxEnergy");
                 if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
-                    info.add(energyStored + " MJ / " + maxEnergy + " MJ");
+                    info.add(energyStored.intValue() + " MJ / " + maxEnergy.intValue() + " MJ");
                 }
             }
         } else if (iof(state.te, "buildcraft.api.IPowerReceptor")) {
@@ -35,7 +35,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 Number energyStored = getField(PowerProvider.class, prov, "energyStored");
                 Number maxEnergy = getField(PowerProvider.class, prov, "maxEnergyStored");
                 if (energyStored != null && maxEnergy != null && maxEnergy.doubleValue() != 0) {
-                    info.add(energyStored + " MJ / " + maxEnergy + " MJ");
+                    info.add(energyStored.intValue() + " MJ / " + maxEnergy.intValue() + " MJ");
                 }
             }
         }

@@ -15,6 +15,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int background;
     public static int gradient1;
     public static int gradient2;
+    public static boolean fixerNotify;
     public static KeyBinding showHide;
 
     @Override
@@ -28,6 +29,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         background = parseUnsignedInt(cfg.getOrCreateProperty("General", "BackgroundColor", "cc100010").value, 16);
         gradient1 = parseUnsignedInt(cfg.getOrCreateProperty("General", "BorderColor1", "cc5000ff").value, 16);
         gradient2 = parseUnsignedInt(cfg.getOrCreateProperty("General", "BorderColor2", "cc28007f").value, 16);
+        fixerNotify = parseBooleanTrueDefault(cfg.getOrCreateProperty("General", "NotifyAboutFixers", "true").value);
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
@@ -69,6 +71,10 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         } else {
             throw new NumberFormatException("For input string: \"" + s + "\"");
         }
+    }
+
+    public static boolean parseBooleanTrueDefault(String val) {
+        return !("false".equalsIgnoreCase(val) || "0".equals(val));
     }
 
 }
