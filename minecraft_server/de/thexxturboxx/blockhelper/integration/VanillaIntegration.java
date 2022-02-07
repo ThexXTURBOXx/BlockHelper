@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -33,6 +34,15 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             String leverState = I18n.format(state.meta >= 8 ? "on" : "off");
             info.add(I18n.format("state_format", leverState));
         }
+
+        if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
+            info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
+        }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.vanillaIntegration;
     }
 
     private double getMaxStage(Block b, int id) {

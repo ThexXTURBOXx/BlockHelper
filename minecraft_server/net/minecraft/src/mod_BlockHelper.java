@@ -35,6 +35,15 @@ public class mod_BlockHelper extends BaseModMp {
 
     public static BlockHelperCommonProxy proxy;
 
+    // Configuration entries start
+    @MLProp(name = "ShowHealth")
+    public static String showHealthStr = "true";
+    @MLProp(name = "BuildCraftIntegration")
+    public static String bcIntegrationStr = "true";
+    @MLProp(name = "VanillaIntegration")
+    public static String vanillaIntegrationStr = "true";
+    // Configuration entries end
+
     public static String getModId() {
         return MOD_ID;
     }
@@ -76,9 +85,11 @@ public class mod_BlockHelper extends BaseModMp {
                     if (pi.mt == MopType.ENTITY) {
                         Entity en = pi.mop.entityHit;
                         if (en != null) {
-                            try {
-                                info.add(((EntityLiving) en).health + " \u2764");
-                            } catch (Throwable ignored) {
+                            if (BlockHelperCommonProxy.showHealth) {
+                                try {
+                                    info.add(((EntityLiving) en).health + " \u2764");
+                                } catch (Throwable ignored) {
+                                }
                             }
 
                             BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
