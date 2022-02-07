@@ -3,7 +3,7 @@ package de.thexxturboxx.blockhelper.api;
 /**
  * Provides functionality for adding additional information about an entity.
  */
-public interface BlockHelperEntityProvider {
+public interface BlockHelperEntityProvider extends Switchable {
 
     /**
      * Adds information about a given entity in its current {@link BlockHelperEntityState} to the given

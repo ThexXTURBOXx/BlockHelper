@@ -51,9 +51,11 @@ public final class BlockHelperModSupport {
      */
     public static void addInfo(BlockHelperBlockState state, InfoHolder info) {
         for (BlockHelperBlockProvider p : BLOCK_PROVIDERS) {
-            try {
-                p.addInformation(state, info);
-            } catch (Throwable ignored) {
+            if (p.isEnabled()) {
+                try {
+                    p.addInformation(state, info);
+                } catch (Throwable ignored) {
+                }
             }
         }
     }
@@ -67,9 +69,11 @@ public final class BlockHelperModSupport {
      */
     public static void addInfo(BlockHelperEntityState state, InfoHolder info) {
         for (BlockHelperEntityProvider p : ENTITY_PROVIDERS) {
-            try {
-                p.addInformation(state, info);
-            } catch (Throwable ignored) {
+            if (p.isEnabled()) {
+                try {
+                    p.addInformation(state, info);
+                } catch (Throwable ignored) {
+                }
             }
         }
     }

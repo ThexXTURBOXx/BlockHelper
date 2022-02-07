@@ -86,7 +86,7 @@ public final class PacketCoder {
             PacketClient pc = (PacketClient) o;
             os.writeByte(2);
             os.writeShort(pc.data.size());
-            for (String s : pc.data) {
+            for (String s : pc) {
                 os.writeShort(s.length());
                 os.writeChars(s);
             }
