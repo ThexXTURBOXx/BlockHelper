@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -35,6 +36,10 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             String leverState = I18n.format(state.meta >= 8 ? "on" : "off");
             info.add(I18n.format("state_format", leverState));
         }
+
+        if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
+            info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
+        }
     }
 
     @Override
@@ -43,7 +48,46 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             Block drop = getDeclaredField(BlockStem.class, state.block, "a");
             return drop.translateBlockName();
         }
+
+        if (state.id == Block.pistonExtension.blockID) {
+            return I18n.format("piston_head");
+        }
+
+        if (state.id == Block.pistonMoving.blockID) {
+            return I18n.format("moving_piston");
+        }
+
+        if (state.id == Block.silverfish.blockID) {
+            switch (state.meta) {
+            case 0:
+                return I18n.format("stone_monster_egg");
+            case 1:
+                return I18n.format("cobblestone_monster_egg");
+            case 2:
+                return I18n.format("stone_brick_monster_egg");
+            case 3:
+                return I18n.format("mossy_stone_brick_monster_egg");
+            case 4:
+                return I18n.format("cracked_stone_brick_monster_egg");
+            case 5:
+                return I18n.format("chiseled_stone_brick_monster_egg");
+            }
+        }
+
+        if (state.id == Block.endPortal.blockID) {
+            return I18n.format("end_portal");
+        }
+
+        if (state.id == Block.endPortalFrame.blockID) {
+            return I18n.format("end_portal_frame");
+        }
+
         return super.getName(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.vanillaIntegration;
     }
 
     private double getMaxStage(Block b, int id) {
