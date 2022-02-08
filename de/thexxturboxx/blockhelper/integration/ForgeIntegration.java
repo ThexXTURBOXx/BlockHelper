@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
 import buildcraft.factory.TileTank;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -65,6 +66,11 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
         }
 
         return "";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.forgeIntegration;
     }
 
 }

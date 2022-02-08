@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import factorization.common.TileEntityCommon;
@@ -21,6 +22,11 @@ public class FactorizationIntegration extends BlockHelperInfoProvider {
             return "Factorization";
         }
         return super.getMod(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.factorizationIntegration;
     }
 
 }

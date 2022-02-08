@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -50,6 +51,11 @@ public class Ic2Integration extends BlockHelperInfoProvider {
             return new ItemStack(Item.itemsList[Ic2Items.copperCableItem.itemID], 1, state.meta);
         }
         return super.getItemStack(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.ic2Integration;
     }
 
 }
