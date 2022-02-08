@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -15,6 +16,11 @@ public class ForestryIntegration extends BlockHelperInfoProvider {
                 info.add(generator.energyStored + " EU / " + generator.energyMax + " EU");
             }
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.forestryIntegration;
     }
 
 }

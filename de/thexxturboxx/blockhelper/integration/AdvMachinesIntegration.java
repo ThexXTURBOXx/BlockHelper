@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -17,6 +18,11 @@ public class AdvMachinesIntegration extends BlockHelperInfoProvider {
                 info.add(stored + " EU / " + max + " EU");
             }
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.advMachinesIntegration;
     }
 
 }

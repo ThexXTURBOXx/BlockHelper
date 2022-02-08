@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -31,6 +32,11 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
             return new ItemStack(state.block.idDropped(0, null, 0), 1, state.meta);
         }
         return super.getItemStack(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.meteorsIntegration;
     }
 
 }

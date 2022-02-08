@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,11 @@ public class PamIntegration extends BlockHelperInfoProvider {
                     state.block.damageDropped(7));
         }
         return super.getItemStack(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.pamIntegration;
     }
 
 }

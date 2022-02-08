@@ -2,6 +2,7 @@ package de.thexxturboxx.blockhelper.integration;
 
 import appeng.api.me.tiles.IMEPowerStorage;
 import appeng.me.basetiles.TilePoweredBase;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -25,6 +26,11 @@ public class AppEngIntegration extends BlockHelperInfoProvider {
                 info.add(stored + " AE / " + max + " AE");
             }
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.appEngIntegration;
     }
 
 }
