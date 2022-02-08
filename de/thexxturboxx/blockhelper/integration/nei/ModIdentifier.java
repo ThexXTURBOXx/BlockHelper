@@ -57,13 +57,17 @@ public final class ModIdentifier {
 
         try {
             for (ModContainer container : Loader.instance().getModList()) {
-                if (container.getSource().isFile()) {
-                    String uri = formatURI(container.getSource().toURI());
-                    if (uri.contains(minecraftUri)) {
-                        modInfos.add(new ModInfo(uri, MINECRAFT));
-                    } else {
-                        modInfos.add(new ModInfo(uri, getModName(container)));
+                try {
+                    if (container.getSource().isFile()) {
+                        String uri = formatURI(container.getSource().toURI());
+                        if (uri.contains(minecraftUri)) {
+                            modInfos.add(new ModInfo(uri, MINECRAFT));
+                        } else {
+                            modInfos.add(new ModInfo(uri, getModName(container)));
+                        }
                     }
+                } catch (Throwable t) {
+                    t.printStackTrace();
                 }
             }
         } catch (Throwable t) {
