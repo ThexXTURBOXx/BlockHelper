@@ -20,6 +20,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new TEIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
+        BlockHelperModSupport.registerNameFixer(new VanillaIntegration());
     }
 
 }
