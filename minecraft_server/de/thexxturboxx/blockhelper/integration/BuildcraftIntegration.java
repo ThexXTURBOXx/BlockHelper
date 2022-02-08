@@ -10,6 +10,7 @@ import buildcraft.api.liquids.LiquidStack;
 import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.factory.TilePump;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -98,6 +99,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             info.add(pump.internalLiquid + " mB / 1000 mB"
                     + formatLiquidName(getBcLiquidName(pump.liquidId)));
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.bcIntegration;
     }
 
     public static String formatLiquidName(String liquidName) {

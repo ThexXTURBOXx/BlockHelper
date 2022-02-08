@@ -94,10 +94,12 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     if (pi.mt == MopType.ENTITY) {
                         Entity en = pi.mop.entity;
                         if (en != null) {
-                            try {
-                                info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                        + ((EntityLiving) en).getMaxHealth() + " \u2764");
-                            } catch (Throwable ignored) {
+                            if (BlockHelperCommonProxy.showHealth) {
+                                try {
+                                    info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                            + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                } catch (Throwable ignored) {
+                                }
                             }
 
                             BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);

@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -37,6 +38,11 @@ public class Ic2Integration extends BlockHelperInfoProvider {
                 info.add(teeb.energy + " EU / " + teeb.maxStorage + " EU");
             }
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.ic2Integration;
     }
 
     static int getRealEnergy(int energy, int maxEnergy, int input) {

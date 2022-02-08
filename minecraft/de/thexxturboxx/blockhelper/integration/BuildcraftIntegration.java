@@ -11,6 +11,7 @@ import buildcraft.energy.Engine;
 import buildcraft.energy.TileEngine;
 import buildcraft.factory.TilePump;
 import buildcraft.transport.TileGenericPipe;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -117,6 +118,11 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
             }
         }
         return super.getItemStack(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.bcIntegration;
     }
 
     public static String formatLiquidName(String liquidName) {

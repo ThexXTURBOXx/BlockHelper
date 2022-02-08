@@ -52,22 +52,30 @@ public final class ModIdentifier {
         }
         try {
             for (ModContainer container : Loader.getModList()) {
-                String uri = formatURI(container.getSource().toURI());
-                if (uri.contains(minecraftUri)) {
-                    modInfos.add(new ModInfo(uri, MINECRAFT));
-                } else {
-                    modInfos.add(new ModInfo(uri, getModName(container)));
+                try {
+                    String uri = formatURI(container.getSource().toURI());
+                    if (uri.contains(minecraftUri)) {
+                        modInfos.add(new ModInfo(uri, MINECRAFT));
+                    } else {
+                        modInfos.add(new ModInfo(uri, getModName(container)));
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
                 }
             }
         } catch (Throwable t) {
             try {
                 for (BaseMod mod : ModLoader.getLoadedMods()) {
-                    String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
-                            .getLocation().toURI());
-                    if (uri.contains(minecraftUri)) {
-                        modInfos.add(new ModInfo(uri, MINECRAFT));
-                    } else {
-                        modInfos.add(new ModInfo(uri, formatName(mod.getName())));
+                    try {
+                        String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
+                                .getLocation().toURI());
+                        if (uri.contains(minecraftUri)) {
+                            modInfos.add(new ModInfo(uri, MINECRAFT));
+                        } else {
+                            modInfos.add(new ModInfo(uri, formatName(mod.getName())));
+                        }
+                    } catch (Throwable t1) {
+                        t1.printStackTrace();
                     }
                 }
             } catch (Throwable t1) {
@@ -112,13 +120,13 @@ public final class ModIdentifier {
                     .getLocation().toURI());
             for (ModInfo modInfo : modInfos) {
                 if (modFile.contains(modInfo.uri)) {
-                    mod = modInfo.name;
-                    break;
+                    return modInfo.name;
                 }
             }
         } catch (Throwable ignored) {
         }
-        return mod;
+
+        return null;
     }
 
     private static String getModName(ModContainer container) {
@@ -146,6 +154,7 @@ public final class ModIdentifier {
     }
 
     private static class ModInfo {
+
         private final String uri;
         private final String name;
 
@@ -153,6 +162,7 @@ public final class ModIdentifier {
             this.uri = uri;
             this.name = name;
         }
+
     }
 
 }
