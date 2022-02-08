@@ -3,7 +3,7 @@ package de.thexxturboxx.blockhelper.api;
 /**
  * Provides functionality for adding additional information about a block.
  */
-public interface BlockHelperBlockProvider {
+public interface BlockHelperBlockProvider extends Switchable {
 
     /**
      * Adds information about a given block in its current {@link BlockHelperBlockState} to the given

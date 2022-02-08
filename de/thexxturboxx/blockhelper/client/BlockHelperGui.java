@@ -215,14 +215,25 @@ public class BlockHelperGui {
                     }
 
                     infos.clear();
-                    addInfo(name + " (" + itemId + ")");
-                    addInfo(harvest);
-                    addInfo(breakProgression);
+                    addInfo(name + (BlockHelperClientProxy.showItemId ? " (" + itemId + ")" : ""));
+                    if (BlockHelperClientProxy.showHarvest) {
+                        addInfo(harvest);
+                    }
+                    if (BlockHelperClientProxy.showBreakProg) {
+                        addInfo(breakProgression);
+                    }
                     addAdditionalInfo(packetInfos);
-                    addInfo("§9§o" + mod);
-                    int xBox = drawBox(mc, 22);
-                    int yBox = drawInfo(xBox, mc, 22);
-                    renderItem(mc, is, xBox + 3, (yBox + PADDING) / 2 - 8);
+                    if (BlockHelperClientProxy.showMod) {
+                        addInfo("§9§o" + mod);
+                    }
+                    if (BlockHelperClientProxy.showBlock) {
+                        int xBox = drawBox(mc, 22);
+                        int yBox = drawInfo(xBox, mc, 22);
+                        renderItem(mc, is, xBox + 3, (yBox + PADDING) / 2 - 8);
+                    } else {
+                        int xBox = drawBox(mc, 0);
+                        drawInfo(xBox, mc, 3);
+                    }
                     break;
                 case ENTITY:
                     Entity e = mop.entityHit;
@@ -235,8 +246,10 @@ public class BlockHelperGui {
                     infos.clear();
                     addInfo(nameEntity);
                     addAdditionalInfo(packetInfos);
-                    addInfo("§9§o" + mod);
-                    xBox = drawBox(mc, 0);
+                    if (BlockHelperClientProxy.showMod) {
+                        addInfo("§9§o" + mod);
+                    }
+                    int xBox = drawBox(mc, 0);
                     drawInfo(xBox, mc, 3);
                     break;
                 default:

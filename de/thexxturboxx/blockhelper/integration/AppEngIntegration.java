@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
 import appeng.me.basetiles.TilePoweredBase;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -15,6 +16,11 @@ public class AppEngIntegration extends BlockHelperInfoProvider {
                 info.add(tpb.storedPower + " AE / " + tpb.maxStoredPower + " AE");
             }
         }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.appEngIntegration;
     }
 
 }

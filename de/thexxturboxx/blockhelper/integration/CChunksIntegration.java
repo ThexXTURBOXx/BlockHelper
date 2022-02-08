@@ -2,6 +2,7 @@ package de.thexxturboxx.blockhelper.integration;
 
 import codechicken.chunkloader.TileChunkLoader;
 import codechicken.chunkloader.TileChunkLoaderBase;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import de.thexxturboxx.blockhelper.api.InfoHolder;
@@ -27,6 +28,11 @@ public class CChunksIntegration extends BlockHelperInfoProvider {
             return "ChickenChunks";
         }
         return super.getMod(state);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.ccIntegration;
     }
 
 }

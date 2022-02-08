@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.integration;
 
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import inficraft.microblocks.core.api.multipart.ICoverSystem;
 import inficraft.microblocks.core.api.multipart.IMultipartTile;
@@ -14,6 +15,11 @@ public class ICMicroblockIntegration extends BlockHelperInfoProvider {
             return "InfiMicroblocks";
         }
         return null;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return BlockHelperCommonProxy.icmbIntegration;
     }
 
     public static ItemStack getMicroblock(MovingObjectPosition mop, TileEntity te) {

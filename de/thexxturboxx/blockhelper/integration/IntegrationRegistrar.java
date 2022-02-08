@@ -31,6 +31,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerItemStackFixer(new PamIntegration());
         BlockHelperModSupport.registerItemStackFixer(new TEIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
+        BlockHelperModSupport.registerNameFixer(new VanillaIntegration());
     }
 
 }
