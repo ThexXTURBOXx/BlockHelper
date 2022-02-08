@@ -14,6 +14,11 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static int gradient1;
     public static int gradient2;
     public static boolean fixerNotify;
+    public static boolean showItemId;
+    public static boolean showHarvest;
+    public static boolean showBreakProg;
+    public static boolean showMod;
+    public static boolean showBlock;
     public static KeyBinding showHide;
 
     @Override
@@ -26,50 +31,14 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         gradient1 = parseUnsignedInt(mod_BlockHelper.gradient1Str, 16);
         gradient2 = parseUnsignedInt(mod_BlockHelper.gradient2Str, 16);
         fixerNotify = parseBooleanTrueDefault(mod_BlockHelper.fixerNotifyStr);
+        showItemId = parseBooleanTrueDefault(mod_BlockHelper.showItemIdStr);
+        showHarvest = parseBooleanTrueDefault(mod_BlockHelper.showHarvestStr);
+        showBreakProg = parseBooleanTrueDefault(mod_BlockHelper.showBreakProgStr);
+        showMod = parseBooleanTrueDefault(mod_BlockHelper.showModStr);
+        showBlock = parseBooleanTrueDefault(mod_BlockHelper.renderBlockStr);
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
         ModLoader.RegisterKey(instance, showHide, false);
-    }
-
-    /**
-     * This method is copied from JDK 8, because it isn't available in JDK 7 or less.
-     *
-     * @param s     The string to parse.
-     * @param radix The radix to parse with.
-     * @return The parsed unsigned integer.
-     * @throws NumberFormatException Some parsing error occurred.
-     */
-    public static int parseUnsignedInt(String s, int radix) throws NumberFormatException {
-        if (s == null) {
-            throw new NumberFormatException("null");
-        }
-
-        int len = s.length();
-        if (len > 0) {
-            char firstChar = s.charAt(0);
-            if (firstChar == '-') {
-                throw new NumberFormatException(String.format("Illegal leading minus sign "
-                        + "on unsigned string %s.", s));
-            } else {
-                if (len <= 5 || (radix == 10 && len <= 9)) {
-                    return Integer.parseInt(s, radix);
-                } else {
-                    long ell = Long.parseLong(s, radix);
-                    if ((ell & 0xffffffff00000000L) == 0) {
-                        return (int) ell;
-                    } else {
-                        throw new NumberFormatException(String.format("String value %s exceeds "
-                                + "range of unsigned int.", s));
-                    }
-                }
-            }
-        } else {
-            throw new NumberFormatException("For input string: \"" + s + "\"");
-        }
-    }
-
-    public static boolean parseBooleanTrueDefault(String val) {
-        return !("false".equalsIgnoreCase(val) || "0".equals(val));
     }
 
 }
