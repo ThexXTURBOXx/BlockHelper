@@ -57,6 +57,14 @@ public class BlockHelperInfoProvider implements BlockHelperBlockProvider, BlockH
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
      * Checks if the given class is currently loaded and the given object is instance of that class.
      *
      * @param obj   The object to check if it is an instance of a class.
