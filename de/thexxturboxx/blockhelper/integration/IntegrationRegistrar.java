@@ -18,6 +18,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerItemStackFixer(new Ic2Integration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
+        BlockHelperModSupport.registerNameFixer(new VanillaIntegration());
     }
 
 }

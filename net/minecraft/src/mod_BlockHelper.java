@@ -103,10 +103,12 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         if (pi.mt == MopType.ENTITY) {
                             Entity en = getEntityByID(w, pi.entityId);
                             if (en != null) {
-                                try {
-                                    info.add(((EntityLiving) en).getHealth() + " ❤ / "
-                                            + ((EntityLiving) en).getMaxHealth() + " ❤");
-                                } catch (Throwable ignored) {
+                                if (BlockHelperCommonProxy.showHealth) {
+                                    try {
+                                        info.add(((EntityLiving) en).getHealth() + " ❤ / "
+                                                + ((EntityLiving) en).getMaxHealth() + " ❤");
+                                    } catch (Throwable ignored) {
+                                    }
                                 }
 
                                 BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
