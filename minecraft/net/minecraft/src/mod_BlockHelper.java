@@ -50,6 +50,36 @@ public class mod_BlockHelper extends BaseModMp {
     public static String gradient2Str = "cc28007f";
     @MLProp(name = "NotifyAboutFixers")
     public static String fixerNotifyStr = "true";
+    @MLProp(name = "ShowItemID")
+    public static String showItemIdStr = "true";
+    @MLProp(name = "ShowHarvestability")
+    public static String showHarvestStr = "true";
+    @MLProp(name = "ShowBreakProgression")
+    public static String showBreakProgStr = "true";
+    @MLProp(name = "ShowMod")
+    public static String showModStr = "true";
+    @MLProp(name = "ShowHealth")
+    public static String showHealthStr = "true";
+    @MLProp(name = "ShowBlockInHud")
+    public static String renderBlockStr = "true";
+    @MLProp(name = "AdvMachinesIntegration")
+    public static String advMachinesIntegrationStr = "true";
+    @MLProp(name = "BuildCraftIntegration")
+    public static String bcIntegrationStr = "true";
+    @MLProp(name = "FloraSomaIntegration")
+    public static String floraSomaIntegrationStr = "true";
+    @MLProp(name = "ForestryIntegration")
+    public static String forestryIntegrationStr = "true";
+    @MLProp(name = "Ic2Integration")
+    public static String ic2IntegrationStr = "true";
+    @MLProp(name = "NEIIntegration")
+    public static String neiIntegrationStr = "true";
+    @MLProp(name = "PamIntegration")
+    public static String pamIntegrationStr = "true";
+    @MLProp(name = "RedPower2Integration")
+    public static String redPower2IntegrationStr = "true";
+    @MLProp(name = "VanillaIntegration")
+    public static String vanillaIntegrationStr = "true";
     // Configuration entries end
 
     public static String getModId() {
@@ -114,10 +144,12 @@ public class mod_BlockHelper extends BaseModMp {
                     if (pi.mt == MopType.ENTITY) {
                         Entity en = pi.mop.entityHit;
                         if (en != null) {
-                            try {
-                                info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                        + ((EntityLiving) en).getMaxHealth() + " \u2764");
-                            } catch (Throwable ignored) {
+                            if (BlockHelperCommonProxy.showHealth) {
+                                try {
+                                    info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                            + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                } catch (Throwable ignored) {
+                                }
                             }
 
                             BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);

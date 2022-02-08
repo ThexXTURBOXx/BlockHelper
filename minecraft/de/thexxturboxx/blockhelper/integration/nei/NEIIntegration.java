@@ -2,6 +2,7 @@ package de.thexxturboxx.blockhelper.integration.nei;
 
 import codechicken.nei.API;
 import codechicken.nei.IHandleTooltip;
+import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
 import java.util.List;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
@@ -11,7 +12,8 @@ public class NEIIntegration implements IHandleTooltip {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List handleTooltip(ItemStack stack, List list) {
-        if (ModLoader.getMinecraftInstance().thePlayer.inventory.getItemStack() != null) {
+        if (!BlockHelperCommonProxy.neiIntegration ||
+                ModLoader.getMinecraftInstance().thePlayer.inventory.getItemStack() != null) {
             return list;
         }
 

@@ -2,9 +2,10 @@ package de.thexxturboxx.blockhelper;
 
 import de.thexxturboxx.blockhelper.api.InfoHolder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class PacketClient implements InfoHolder {
+public class PacketClient implements InfoHolder, Iterable<String> {
 
     public List<String> data;
 
@@ -19,15 +20,16 @@ public class PacketClient implements InfoHolder {
     }
 
     public String get(int type) {
-        return get((byte) type);
-    }
-
-    public String get(byte type) {
         return data.get(type);
     }
 
     public boolean isEmpty() {
         return data.isEmpty();
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return data.iterator();
     }
 
 }
