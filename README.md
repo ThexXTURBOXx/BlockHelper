@@ -1,4 +1,4 @@
-# BlockHelper
+# Block Helper
 
 A small WAILA alternative for old versions of Minecraft.
 
@@ -8,48 +8,49 @@ A small WAILA alternative for old versions of Minecraft.
 
 [**Download on Modrinth**](https://modrinth.com/mod/block-helper) (More versions are available here)
 
-### ClassLoaderFixer
+### Fixers
 
-Some Minecraft versions have problems identifying the jar locations of other mods. In order to fix this, you have to install the following mod **clientside only** as a **jar-mod** (add it to your minecraft.jar):
+Some Minecraft versions have bugs. That's normal. In order to fix some of them, you can install the following fixers:
 
-| Version | Download |
-| ----- | ----- |
-| 1.3.2 | [Download](https://git.io/JmN4h) |
-
-### FontFixer
-
-Some Minecraft versions have problems calculating String widths or don't support some [Formatting Codes](https://minecraft.fandom.com/wiki/Formatting_codes). In order to fix this, you have to install the following mod **clientside only** as a **jar-mod** (add it to your minecraft.jar):
-
-| Version | Download |
-| ----- | ----- |
-| 1.2.4/1.2.5 | [Download](https://git.io/JsrBl) |
-| 1.3.2 | [Download](https://git.io/JsrBB) |
+- [Class Loader Fixer](https://modrinth.com/mod/class-loader-fixer)
+- [Font Fixer](https://modrinth.com/mod/font-fixer)
 
 ## Mod Compatibility
 
-| Mod | 1.2.4/1.2.5 | 1.3.2 | 1.4.6/1.4.7 | 1.5.2 |
-| ----- | ----- | ----- | ----- | ----- |
-| Vanilla | ✔ | ✔ | ✔ | ✔ |
-| Advanced Machines | ✔ | ✔ | ✔ | ✔ |
-| Applied Energistics | ❌ | ❌ | ✔ | ✔ |
-| BuildCraft | ✔ | ✔ | ✔ | ✔ |
-| ChickenChunks | ❌ | ❌ | ✔ | ✔ |
-| Factorization | ❌ | ❌ | ✔ | ✔ |
-| Falling Meteors | ❌ | ❌ | ✔ | ✔ |
-| Flora & Soma (Natura) | ✔ | ❌ | ✔ | ✔ |
-| Forestry | ✔ | ✔ | ✔ | ✔ |
-| GregTech | ✔ | ✔ | ✔ | ✔ |
-| IC² | ✔ | ✔ | ✔ | ✔ |
-| Immibis's Microblocks | ❌ | ❌ | ✔ | ✔ |
-| InfiCraft | ❌ | ❌ | ✔ | ❌ |
-| Pam's Mods | ✔ | ❌ | ✔ | ✔ |
-| RedPower 2 | ✔ | ❌ | ✔ | ❌ |
-| Thermal Expansion | ✔ | ✔ | ✔ | ✔ |
+| Mod                   | b1.7.3 | b1.8.1 | 1.0 | 1.1 | 1.2.3 | 1.2.4/1.2.5 | 1.3.2 | 1.4 | 1.4.1/1.4.2 | 1.4.3 | 1.4.4/1.4.5 | 1.4.6/1.4.7 | 1.5.x |
+|-----------------------|:------:|:------:|:---:|:---:|:-----:|:-----------:|:-----:|:---:|:-----------:|:-----:|:-----------:|:-----------:|:-----:|
+| Vanilla               |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ✔  |      ✔      |   ✔   |      ✔      |      ✔      |   ✔   |
+| Advanced Machines     |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Applied Energistics   |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ✔   |
+| BuildCraft            |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| ChickenChunks         |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Factorization         |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ❌   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Falling Meteors       |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Flora & Soma / Natura |   ❌    |   ❌    |  ❌  |  ✔  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Forestry              |   ❌    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
+| GregTech              |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| IC²                   |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Immibis's Microblocks |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ✔   |
+| InfiCraft             |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ❌   |
+| NEI                   |   ❌    |   ❌    |  ❌  |  ❌  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Pam's Mods            |   ❌    |   ❌    |  ❌  |  ❌  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Red Power             |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ❌   |
+| Thermal Expansion     |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+
 
 ## Source Code
 
 BlockHelper is being developed for:<br>
+[b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)<br>
+[b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)<br>
+[1.0](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.0)<br>
+[1.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.1)<br>
+[1.2.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.3)<br>
 [1.2.4/1.2.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.5)<br>
 [1.3.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.3.2)<br>
+[1.4](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4)<br>
+[1.4.1/1.4.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.2)<br>
+[1.4.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.3)<br>
+[1.4.4/1.4.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.5)<br>
 [1.4.6/1.4.7](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.7)<br>
-[1.5.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2)<br>
+[1.5.x](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2)<br>
