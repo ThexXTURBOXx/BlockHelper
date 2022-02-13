@@ -1,9 +1,9 @@
 package de.thexxturboxx.blockhelper;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.IntegrationRegistrar;
 import java.io.File;
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.forge.MinecraftForge;
@@ -33,7 +33,7 @@ public class BlockHelperCommonProxy {
         IntegrationRegistrar.init();
         Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
         versionCheckThread.start();
-        cfg = new Configuration(new File(FMLCommonHandler.instance().getMinecraftRootDirectory(), "config/BlockHelper.cfg"));
+        cfg = new Configuration(new File(Minecraft.getMinecraftDir(), "config/BlockHelper.cfg"));
         cfg.load();
         showHealth = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowHealth", "General", "true").value);
         advMachinesIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("AdvMachinesIntegration", "General", "true").value);

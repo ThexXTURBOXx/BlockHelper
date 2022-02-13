@@ -1,10 +1,8 @@
 package de.thexxturboxx.blockhelper;
 
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
-import java.io.File;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 
