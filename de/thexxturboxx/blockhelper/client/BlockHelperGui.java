@@ -387,17 +387,20 @@ public class BlockHelperGui {
     }
 
     public static void renderItem(Minecraft mc, ItemStack is, int x, int y) {
-        GL11.glPushMatrix();
-        GL11.glRotatef(120.0f, 1.0f, 0.0f, 0.0f);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glPopMatrix();
-        GL11.glPushMatrix();
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
-        RENDER_ITEM.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, is, x, y);
-        GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glPopMatrix();
+        try {
+            GL11.glPushMatrix();
+            GL11.glRotatef(120.0f, 1.0f, 0.0f, 0.0f);
+            RenderHelper.enableStandardItemLighting();
+            GL11.glPopMatrix();
+            GL11.glPushMatrix();
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+            RENDER_ITEM.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, is, x, y);
+            GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+            RenderHelper.disableStandardItemLighting();
+            GL11.glPopMatrix();
+        } catch (Throwable ignored) {
+        }
     }
 
 }
