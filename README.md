@@ -1,6 +1,6 @@
 # Block Helper
 
-A small WAILA alternative for old versions of Minecraft.
+A simple WAILA alternative for old versions of Minecraft, even featuring an API!
 
 ## Download
 
@@ -14,6 +14,16 @@ Some Minecraft versions have bugs. That's normal. In order to fix some of them, 
 
 - [Class Loader Fixer](https://modrinth.com/mod/class-loader-fixer)
 - [Font Fixer](https://modrinth.com/mod/font-fixer)
+
+## Installation
+
+### ModLoaderMP (<=1.2.3) / Forge (all versions)
+
+Just drop the mod into the `mods` folder. Done! :)
+
+### Cursed Fabric b1.7.3
+
+Drop the mod into the `mods` folder and install [BetaLoader](https://github.com/paulevsGitch/BetaLoader).
 
 ## Mod Compatibility
 
