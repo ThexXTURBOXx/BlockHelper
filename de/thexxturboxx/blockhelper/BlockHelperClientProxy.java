@@ -19,6 +19,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static boolean showBreakProg;
     public static boolean showMod;
     public static boolean showBlock;
+    public static boolean shouldHideFromDebug;
     public static KeyBinding showHide;
 
     @Override
@@ -47,6 +48,8 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
                     "Shows the mod of the current block in the HUD").getBoolean(true);
             showBlock = cfg.get("General", "ShowBlockInHud", true,
                     "Renders the current block in the HUD").getBoolean(true);
+            shouldHideFromDebug = cfg.get("General", "ShouldHideFromDebug", true,
+                    "Hides the HUD if the debug screen (F3) is shown").getBoolean(true);
         } catch (NoSuchMethodError ignored) {
             // 1.4.4 compatibility
             size = Double.parseDouble(cfg.get("General", "Size", "1.0").value);
@@ -62,6 +65,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
             showBreakProg = cfg.get("General", "ShowBreakProgression", true).getBoolean(true);
             showMod = cfg.get("General", "ShowMod", true).getBoolean(true);
             showBlock = cfg.get("General", "ShowBlockInHud", true).getBoolean(true);
+            shouldHideFromDebug = cfg.get("General", "ShouldHideFromDebug", true).getBoolean(true);
         }
         cfg.save();
         sizeInv = 1 / size;
