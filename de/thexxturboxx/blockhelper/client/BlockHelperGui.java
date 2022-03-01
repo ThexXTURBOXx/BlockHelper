@@ -21,6 +21,7 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.GuiChat;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -80,9 +81,14 @@ public class BlockHelperGui {
             }
 
             World w = mc.theWorld;
-            if (w.isRemote) {
+            if (w != null && w.isRemote) {
                 updateKeyState();
-                if (mc.currentScreen != null || isHidden || !Minecraft.isGuiEnabled())
+                if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
+                        || isHidden // Key bind allows Block Helper to be hidden
+                        || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                        || !Minecraft.isGuiEnabled() // Cinema mode
+                        || (mc.gameSettings.keyBindPlayerList.pressed // Together with next line fix player list
+                        && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1)))
                     return true;
                 MopType result = getRayTraceResult(mc);
                 if (result == MopType.AIR)
