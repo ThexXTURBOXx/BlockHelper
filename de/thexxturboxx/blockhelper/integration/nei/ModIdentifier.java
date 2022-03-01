@@ -1,15 +1,12 @@
 package de.thexxturboxx.blockhelper.integration.nei;
 
-import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.registry.BlockProxy;
-import cpw.mods.fml.common.registry.GameRegistry;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
+import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -34,16 +31,18 @@ public final class ModIdentifier {
     public static void load() {
     }
 
-    @SuppressWarnings("unchecked")
     public static void firstTick() {
         modInfos = new HashSet<ModInfo>();
-        String minecraftUri = new File("./bin/minecraft.jar").getAbsoluteFile().toString();
+        String minecraftUri = new File("bin/minecraft.jar").getAbsoluteFile().toString();
         try {
             minecraftUri = formatURI(Minecraft.class.getProtectionDomain().getCodeSource()
                     .getLocation().toURI());
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        modInfos.add(new ModInfo(minecraftUri, MINECRAFT));
+
+        /* This does not work as nicely as the other approach
         try {
             Field f = GameRegistry.class.getDeclaredField("blockRegistry");
             f.setAccessible(true);
@@ -53,18 +52,21 @@ public final class ModIdentifier {
             }
         } catch (Throwable t) {
             t.printStackTrace();
-        }
+        }*/
 
         try {
+            containerLoop:
             for (ModContainer container : Loader.instance().getModList()) {
                 try {
-                    if (container.getSource().isFile()) {
-                        String uri = formatURI(container.getSource().toURI());
-                        if (uri.contains(minecraftUri)) {
-                            modInfos.add(new ModInfo(uri, MINECRAFT));
-                        } else {
-                            modInfos.add(new ModInfo(uri, getModName(container)));
+                    File source = container.getSource();
+                    if (source.isFile()) {
+                        String uri = formatURI(source.toURI());
+                        for (ModInfo info : modInfos) {
+                            if (info.uri.equals(uri)) {
+                                continue containerLoop;
+                            }
                         }
+                        modInfos.add(new ModInfo(uri, getModName(container)));
                     }
                 } catch (Throwable t) {
                     t.printStackTrace();
@@ -137,6 +139,12 @@ public final class ModIdentifier {
 
     private static String formatURI(URI uri) {
         String uriStr = uri.toString();
+        try {
+            JarURLConnection connection = (JarURLConnection) uri.toURL().openConnection();
+            uriStr = connection.getJarFileURL().toURI().toString();
+        } catch (Throwable ignored) {
+        }
+
         try {
             uriStr = URLDecoder.decode(uriStr, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {

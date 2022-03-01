@@ -19,6 +19,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static boolean showBreakProg;
     public static boolean showMod;
     public static boolean showBlock;
+    public static boolean shouldHideFromDebug;
     public static KeyBinding showHide;
 
     @Override
@@ -37,6 +38,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         showBreakProg = cfg.get("General", "ShowBreakProgression", true).getBoolean(true);
         showMod = cfg.get("General", "ShowMod", true).getBoolean(true);
         showBlock = cfg.get("General", "ShowBlockInHud", true).getBoolean(true);
+        shouldHideFromDebug = cfg.get("General", "ShouldHideFromDebug", true).getBoolean(true);
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
