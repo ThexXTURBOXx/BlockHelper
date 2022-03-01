@@ -4,6 +4,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.IPacketHandler;
+import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import de.thexxturboxx.blockhelper.BlockHelperCommonProxy;
@@ -15,6 +16,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -31,6 +33,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
+import static net.minecraft.src.mod_BlockHelper.CHANNEL;
+
+@NetworkMod(channels = {CHANNEL}, packetHandler = mod_BlockHelper.class)
 public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
     public static final String PACKAGE = "de.thexxturboxx.blockhelper.";
@@ -98,41 +103,44 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         PacketInfo pi = null;
                         try {
                             pi = (PacketInfo) PacketCoder.decode(is);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        } catch (IOException ignored) {
                         }
-                        if (pi == null || pi.mop == null)
-                            return;
 
-                        World w = DimensionManager.getProvider(pi.dimId).worldObj;
                         PacketClient info = new PacketClient();
-                        if (pi.mt == MopType.ENTITY) {
-                            Entity en = w.getEntityByID(pi.entityId);
-                            if (en != null) {
-                                if (BlockHelperCommonProxy.showHealth) {
-                                    try {
-                                        info.add(((EntityLiving) en).getHealth() + " ❤ / "
-                                                + ((EntityLiving) en).getMaxHealth() + " ❤");
-                                    } catch (Throwable ignored) {
-                                    }
-                                }
 
-                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
-                            }
-                        } else if (pi.mt == MopType.BLOCK) {
-                            int x = pi.mop.blockX;
-                            int y = pi.mop.blockY;
-                            int z = pi.mop.blockZ;
-                            TileEntity te = w.getBlockTileEntity(x, y, z);
-                            int id = w.getBlockId(x, y, z);
-                            if (id > 0) {
-                                int meta = w.getBlockMetadata(x, y, z);
-                                Block b = Block.blocksList[id];
-                                BlockHelperModSupport.addInfo(
-                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                        if (pi != null && pi.mop != null) {
+                            World w = DimensionManager.getProvider(pi.dimId).worldObj;
+                            if (pi.mt == MopType.ENTITY) {
+                                Entity en = w.getEntityByID(pi.entityId);
+                                if (en != null) {
+                                    if (BlockHelperCommonProxy.showHealth) {
+                                        try {
+                                            info.add(((EntityLiving) en).getHealth() + " ❤ / "
+                                                    + ((EntityLiving) en).getMaxHealth() + " ❤");
+                                        } catch (Throwable ignored) {
+                                        }
+                                    }
+
+                                    BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                                }
+                            } else if (pi.mt == MopType.BLOCK) {
+                                int x = pi.mop.blockX;
+                                int y = pi.mop.blockY;
+                                int z = pi.mop.blockZ;
+                                TileEntity te = w.getBlockTileEntity(x, y, z);
+                                int id = w.getBlockId(x, y, z);
+                                if (id > 0) {
+                                    int meta = w.getBlockMetadata(x, y, z);
+                                    Block b = Block.blocksList[id];
+                                    BlockHelperModSupport.addInfo(
+                                            new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                                }
+                            } else {
+                                return;
                             }
                         } else {
-                            return;
+                            info.add(I18n.format("server_side_error"));
+                            info.add(I18n.format("version_mismatch"));
                         }
 
                         try {
@@ -140,6 +148,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
                         byte[] fieldData = buffer.toByteArray();
                         Packet250CustomPayload packet = new Packet250CustomPayload();
                         packet.channel = CHANNEL;

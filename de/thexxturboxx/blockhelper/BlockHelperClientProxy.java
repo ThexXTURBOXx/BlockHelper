@@ -19,6 +19,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static boolean showBreakProg;
     public static boolean showMod;
     public static boolean showBlock;
+    public static boolean shouldHideFromDebug;
     public static KeyBinding showHide;
 
     @Override
@@ -46,6 +47,8 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
                 "Shows the mod of the current block in the HUD").getBoolean(true);
         showBlock = cfg.get("General", "ShowBlockInHud", true,
                 "Renders the current block in the HUD").getBoolean(true);
+        shouldHideFromDebug = cfg.get("General", "ShouldHideFromDebug", true,
+                "Hides the HUD if the debug screen (F3) is shown").getBoolean(true);
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
