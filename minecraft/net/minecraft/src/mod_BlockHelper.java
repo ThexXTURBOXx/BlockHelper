@@ -10,6 +10,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.client.BlockHelperGui;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -80,6 +81,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String redPower2IntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
+    @MLProp(name = "ShouldHideFromDebug")
+    public static String shouldHideFromDebugStr = "true";
     // Configuration entries end
 
     public static String getModId() {
@@ -133,40 +136,44 @@ public class mod_BlockHelper extends BaseModMp {
                     PacketInfo pi = null;
                     try {
                         pi = (PacketInfo) PacketCoder.decode(is);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (IOException ignored) {
                     }
-                    if (pi == null || pi.mop == null)
-                        return;
 
                     World w = ModLoader.getMinecraftInstance().theWorld;
                     PacketClient info = new PacketClient();
-                    if (pi.mt == MopType.ENTITY) {
-                        Entity en = pi.mop.entityHit;
-                        if (en != null) {
-                            if (BlockHelperCommonProxy.showHealth) {
-                                try {
-                                    info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                            + ((EntityLiving) en).getMaxHealth() + " \u2764");
-                                } catch (Throwable ignored) {
-                                }
-                            }
 
-                            BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
-                        }
-                    } else if (pi.mt == MopType.BLOCK) {
-                        int x = pi.mop.blockX;
-                        int y = pi.mop.blockY;
-                        int z = pi.mop.blockZ;
-                        TileEntity te = w.getBlockTileEntity(x, y, z);
-                        int id = w.getBlockId(x, y, z);
-                        if (id > 0) {
-                            int meta = w.getBlockMetadata(x, y, z);
-                            Block b = Block.blocksList[id];
-                            BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                    if (pi != null && pi.mop != null) {
+                        if (pi.mt == MopType.ENTITY) {
+                            Entity en = pi.mop.entityHit;
+                            if (en != null) {
+                                if (BlockHelperCommonProxy.showHealth) {
+                                    try {
+                                        info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                    } catch (Throwable ignored) {
+                                    }
+                                }
+
+                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                            }
+                        } else if (pi.mt == MopType.BLOCK) {
+                            int x = pi.mop.blockX;
+                            int y = pi.mop.blockY;
+                            int z = pi.mop.blockZ;
+                            TileEntity te = w.getBlockTileEntity(x, y, z);
+                            int id = w.getBlockId(x, y, z);
+                            if (id > 0) {
+                                int meta = w.getBlockMetadata(x, y, z);
+                                Block b = Block.blocksList[id];
+                                BlockHelperModSupport.addInfo(
+                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                            }
+                        } else {
+                            return;
                         }
                     } else {
-                        return;
+                        info.add(I18n.format("server_side_error"));
+                        info.add(I18n.format("version_mismatch"));
                     }
 
                     try {
@@ -203,11 +210,14 @@ public class mod_BlockHelper extends BaseModMp {
         if (w == null) {
             return null;
         }
-        if (w instanceof WorldClient) {
-            Entity e = ((WorldClient) w).getEntityByID(entityId);
-            if (e != null) {
-                return e;
+        try {
+            if (w instanceof WorldClient) {
+                Entity e = ((WorldClient) w).getEntityByID(entityId);
+                if (e != null) {
+                    return e;
+                }
             }
+        } catch (Throwable ignored) {
         }
         List<Entity> list = (List<Entity>) w.getLoadedEntityList();
         if (list != null) {

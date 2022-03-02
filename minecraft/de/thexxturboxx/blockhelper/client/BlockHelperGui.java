@@ -20,8 +20,10 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.GuiChat;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -81,7 +83,13 @@ public class BlockHelperGui {
             }
 
             updateKeyState();
-            if (mc.currentScreen != null || isHidden || !Minecraft.isGuiEnabled())
+
+            if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
+                    || isHidden // Key bind allows Block Helper to be hidden
+                    || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                    || !Minecraft.isGuiEnabled() // Cinema mode
+                    || (mc.thePlayer instanceof EntityClientPlayerMP // Together with next line fix player list
+                    && mc.gameSettings.keyBindPlayerList.pressed))
                 return true;
             MopType result = getRayTraceResult(mc);
             if (result == MopType.AIR)
@@ -92,11 +100,11 @@ public class BlockHelperGui {
             World w = mc.theWorld;
             try {
                 if (result == MopType.ENTITY) {
-                    PacketCoder.encode(os, new PacketInfo(mc.theWorld.worldProvider.worldType, mop, MopType.ENTITY,
+                    PacketCoder.encode(os, new PacketInfo(w.worldProvider.worldType, mop, MopType.ENTITY,
                             mop.entityHit.entityId));
                 } else {
                     PacketCoder.encode(os,
-                            new PacketInfo(mc.theWorld.worldProvider.worldType, mop, result));
+                            new PacketInfo(w.worldProvider.worldType, mop, result));
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
