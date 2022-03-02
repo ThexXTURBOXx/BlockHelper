@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.PacketInfo;
 import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperEntityState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
+import de.thexxturboxx.blockhelper.i18n.I18n;
 import forge.DimensionManager;
 import forge.IConnectionHandler;
 import forge.IPacketHandler;
@@ -63,7 +64,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @Override
     public boolean clientSideRequired() {
-        return true;
+        return false;
     }
 
     @Override
@@ -83,40 +84,44 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                     PacketInfo pi = null;
                     try {
                         pi = (PacketInfo) PacketCoder.decode(is);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (IOException ignored) {
                     }
-                    if (pi == null || pi.mop == null)
-                        return;
 
-                    World w = DimensionManager.getWorld(pi.dimId);
                     PacketClient info = new PacketClient();
-                    if (pi.mt == MopType.ENTITY) {
-                        Entity en = pi.mop.entity;
-                        if (en != null) {
-                            if (BlockHelperCommonProxy.showHealth) {
-                                try {
-                                    info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                            + ((EntityLiving) en).getMaxHealth() + " \u2764");
-                                } catch (Throwable ignored) {
-                                }
-                            }
 
-                            BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
-                        }
-                    } else if (pi.mt == MopType.BLOCK) {
-                        int x = pi.mop.b;
-                        int y = pi.mop.c;
-                        int z = pi.mop.d;
-                        TileEntity te = w.getTileEntity(x, y, z);
-                        int id = w.getTypeId(x, y, z);
-                        if (id > 0) {
-                            int meta = w.getData(x, y, z);
-                            Block b = Block.byId[id];
-                            BlockHelperModSupport.addInfo(new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                    if (pi != null && pi.mop != null) {
+                        World w = DimensionManager.getWorld(pi.dimId);
+                        if (pi.mt == MopType.ENTITY) {
+                            Entity en = pi.mop.entity;
+                            if (en != null) {
+                                if (BlockHelperCommonProxy.showHealth) {
+                                    try {
+                                        info.add(((EntityLiving) en).getHealth() + " \u2764 / "
+                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                    } catch (Throwable ignored) {
+                                    }
+                                }
+
+                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                            }
+                        } else if (pi.mt == MopType.BLOCK) {
+                            int x = pi.mop.b;
+                            int y = pi.mop.c;
+                            int z = pi.mop.d;
+                            TileEntity te = w.getTileEntity(x, y, z);
+                            int id = w.getTypeId(x, y, z);
+                            if (id > 0) {
+                                int meta = w.getData(x, y, z);
+                                Block b = Block.byId[id];
+                                BlockHelperModSupport.addInfo(
+                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                            }
+                        } else {
+                            return;
                         }
                     } else {
-                        return;
+                        info.add(I18n.format("server_side_error"));
+                        info.add(I18n.format("version_mismatch"));
                     }
 
                     try {
@@ -144,9 +149,24 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @SuppressWarnings("unchecked")
     public static Entity getEntityByID(World w, int entityId) {
-        for (Entity e : (List<Entity>) w.entityList) {
-            if (e.id == entityId) {
-                return e;
+        if (w == null) {
+            return null;
+        }
+        try {
+            if (w instanceof WorldServer) {
+                Entity e = ((WorldServer) w).getEntity(entityId);
+                if (e != null) {
+                    return e;
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        List<Entity> list = (List<Entity>) w.entityList;
+        if (list != null) {
+            for (Entity e : list) {
+                if (e.id == entityId) {
+                    return e;
+                }
             }
         }
         return null;

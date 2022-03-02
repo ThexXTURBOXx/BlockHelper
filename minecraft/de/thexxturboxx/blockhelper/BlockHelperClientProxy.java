@@ -19,6 +19,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static boolean showBreakProg;
     public static boolean showMod;
     public static boolean showBlock;
+    public static boolean shouldHideFromDebug;
     public static KeyBinding showHide;
 
     @Override
@@ -33,9 +34,12 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         fixerNotify = parseBooleanTrueDefault(cfg.getOrCreateProperty("NotifyAboutFixers", "General", "true").value);
         showItemId = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowItemID", "General", "true").value);
         showHarvest = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowHarvestability", "General", "true").value);
-        showBreakProg = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowBreakProgression", "General", "true").value);
+        showBreakProg =
+                parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowBreakProgression", "General", "true").value);
         showMod = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowMod", "General", "true").value);
         showBlock = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowBlockInHud", "General", "true").value);
+        shouldHideFromDebug = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShouldHideFromDebug", "General",
+                "true").value);
         cfg.save();
         sizeInv = 1 / size;
         showHide = new KeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
