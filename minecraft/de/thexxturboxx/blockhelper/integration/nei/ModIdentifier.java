@@ -5,6 +5,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -45,23 +46,27 @@ public final class ModIdentifier {
     @SuppressWarnings("unchecked")
     public static void firstTick() {
         modInfos = new HashSet<ModInfo>();
-        String minecraftUri = new File("./bin/minecraft.jar").getAbsoluteFile().toString();
+        String minecraftUri = new File("bin/minecraft.jar").getAbsoluteFile().toString();
         try {
             minecraftUri = formatURI(Minecraft.class.getProtectionDomain().getCodeSource()
                     .getLocation().toURI());
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        modInfos.add(new ModInfo(minecraftUri, MINECRAFT));
+
         try {
+            baseModLoop:
             for (BaseMod mod : (List<BaseMod>) ModLoader.getLoadedMods()) {
                 try {
                     String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
                             .getLocation().toURI());
-                    if (uri.contains(minecraftUri)) {
-                        modInfos.add(new ModInfo(uri, MINECRAFT));
-                    } else {
-                        modInfos.add(new ModInfo(uri, formatName(mod.getClass().getSimpleName())));
+                    for (ModInfo info : modInfos) {
+                        if (info.uri.equals(uri)) {
+                            continue baseModLoop;
+                        }
                     }
+                    modInfos.add(new ModInfo(uri, formatName(mod.getClass().getSimpleName())));
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
@@ -159,6 +164,12 @@ public final class ModIdentifier {
 
     private static String formatURI(URI uri) {
         String uriStr = uri.toString();
+        try {
+            JarURLConnection connection = (JarURLConnection) uri.toURL().openConnection();
+            uriStr = connection.getJarFileURL().toURI().toString();
+        } catch (Throwable ignored) {
+        }
+
         try {
             uriStr = URLDecoder.decode(uriStr, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {

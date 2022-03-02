@@ -18,6 +18,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     public static boolean showBreakProg;
     public static boolean showMod;
     public static boolean showBlock;
+    public static boolean shouldHideFromDebug;
     public static BlockHelperKeyBinding showHide;
 
     @Override
@@ -35,6 +36,7 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
         showBreakProg = parseBooleanTrueDefault(mod_BlockHelper.showBreakProgStr);
         showMod = parseBooleanTrueDefault(mod_BlockHelper.showModStr);
         showBlock = parseBooleanTrueDefault(mod_BlockHelper.renderBlockStr);
+        shouldHideFromDebug = parseBooleanTrueDefault(mod_BlockHelper.shouldHideFromDebugStr);
         sizeInv = 1 / size;
         showHide = new BlockHelperKeyBinding("blockhelper.key_show_hide", Keyboard.KEY_NUMPAD0);
         ModLoader.RegisterKey(instance, showHide, false);
