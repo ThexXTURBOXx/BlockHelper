@@ -10,6 +10,8 @@ import java.lang.reflect.Method;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
 import net.minecraft.src.BlockStem;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.mod_BlockHelper;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -58,6 +60,14 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
             return I18n.format("redstone_repeater");
+        }
+
+        if (state.id == Block.stairSingle.blockID) {
+            return mod_BlockHelper.getItemDisplayName(new ItemStack(state.id, 1, state.meta & ~0x8));
+        }
+
+        if (state.id == Block.stairDouble.blockID) {
+            return mod_BlockHelper.getItemDisplayName(new ItemStack(Block.stairSingle, 1, state.meta));
         }
 
         if (state.id == Block.field_35289_bm.blockID) {
