@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockNetherStalk;
 import net.minecraft.block.BlockStem;
+import net.minecraft.item.ItemStack;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -50,6 +51,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.pistonMoving.blockID) {
             return I18n.format("moving_piston");
+        }
+
+        if (state.id == Block.woodSingleSlab.blockID || state.id == Block.stoneSingleSlab.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta & ~0x8);
+            return is.getDisplayName();
         }
 
         if (state.id == Block.endPortal.blockID) {
