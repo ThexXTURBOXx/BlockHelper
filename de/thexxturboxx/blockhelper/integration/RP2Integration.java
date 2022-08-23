@@ -1,6 +1,7 @@
 package de.thexxturboxx.blockhelper.integration;
 
 import com.eloraam.redpower.RedPowerBase;
+import com.eloraam.redpower.RedPowerWorld;
 import com.eloraam.redpower.core.CoreLib;
 import com.eloraam.redpower.core.CoverLib;
 import com.eloraam.redpower.core.TileCoverable;
@@ -9,20 +10,27 @@ import com.eloraam.redpower.logic.TileLogic;
 import com.eloraam.redpower.machine.TilePipe;
 import com.eloraam.redpower.machine.TileTube;
 import com.eloraam.redpower.wiring.TileWiring;
+import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public final class RP2MicroblockIntegration extends BlockHelperInfoProvider {
+public class RP2Integration extends BlockHelperInfoProvider {
 
-    private RP2MicroblockIntegration() {
-        throw new UnsupportedOperationException();
+    @Override
+    public ItemStack getItemStack(BlockHelperBlockState state) {
+        if (iof(state.block, "com.eloraam.redpower.world.BlockCustomCrops")) {
+            return new ItemStack(
+                    BlockHelperInfoProvider.<Integer>getField(Item.class, RedPowerWorld.itemSeeds, "cj"), 1, 0);
+        }
+        return super.getItemStack(state);
     }
 
     public static ItemStack getMicroblock(World w, EntityPlayer p, MovingObjectPosition mop, TileEntity te) {
