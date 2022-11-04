@@ -23,29 +23,32 @@ Just drop the mod into the `mods` folder. Done! :)
 
 ### Cursed Fabric b1.7.3
 
-Drop the mod into the `mods` folder and install [BetaLoader](https://github.com/paulevsGitch/BetaLoader).
+Drop the mod into the `mods` folder and install [Apron](https://github.com/BetterThanUpdates/Apron),
+[Fabricated Forge](https://github.com/arthurbambou/Fabricated-Legacy-Forge),
+or [BetaLoader](https://github.com/paulevsGitch/BetaLoader).
 
 ## Mod Compatibility
 
-| Mod                   | b1.7.3 | b1.8.1 | 1.0 | 1.1 | 1.2.3 | 1.2.4/1.2.5 | 1.3.2 | 1.4 | 1.4.1/1.4.2 | 1.4.3 | 1.4.4/1.4.5 | 1.4.6/1.4.7 | 1.5.x |
-|-----------------------|:------:|:------:|:---:|:---:|:-----:|:-----------:|:-----:|:---:|:-----------:|:-----:|:-----------:|:-----------:|:-----:|
-| Vanilla               |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ✔  |      ✔      |   ✔   |      ✔      |      ✔      |   ✔   |
-| Advanced Machines     |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Applied Energistics   |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ✔   |
-| BuildCraft            |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| ChickenChunks         |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Factorization         |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ❌   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Falling Meteors       |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Flora & Soma / Natura |   ❌    |   ❌    |  ❌  |  ✔  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Forestry              |   ❌    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
-| GregTech              |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| IC²                   |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Immibis's Microblocks |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ✔   |
-| InfiCraft             |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ❌      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ❌   |
-| NEI                   |   ❌    |   ❌    |  ❌  |  ❌  |   ✔   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Pam's Mods            |   ❌    |   ❌    |  ❌  |  ❌  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ✔      |      ✔      |   ✔   |
-| Red Power             |   ✔    |   ✔    |  ✔  |  ✔  |   ✔   |      ✔      |   ❌   |  ❌  |      ❌      |   ❌   |      ❌      |      ✔      |   ❌   |
-| Thermal Expansion     |   ❌    |   ❌    |  ❌  |  ❌  |   ❌   |      ✔      |   ✔   |  ❌  |      ✔      |   ❌   |      ✔      |      ✔      |   ✔   |
+| Mod | b1.7.3 | b1.8.1 | 1.0 | 1.1 | 1.2.3 | 1.2.4/1.2.5 | 1.3.2 | 1.4 | 1.4.1/1.4.2 | 1.4.3 | 1.4.4/1.4.5 | 1.4.6/1.4.7 | 1.5.x |
+| ------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| Vanilla | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| Advanced Machines | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Applied Energistics | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
+| BuildCraft | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| ChickenChunks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Factorization | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Falling Meteors | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Flora & Soma / Natura | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Forestry | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| GregTech | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| IC² | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Immibis's Microblocks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
+| InfiCraft | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
+| NEI | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Pam's Mods | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Railcraft | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Red Power | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
+| Thermal Expansion | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
 
 
 ## Source Code
