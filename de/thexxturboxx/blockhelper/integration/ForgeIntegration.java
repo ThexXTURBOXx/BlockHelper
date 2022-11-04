@@ -51,8 +51,17 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
                 ? "" : I18n.format("liquid_format", "", liquidName);
     }
 
+    public static Map<String, LiquidStack> getLiquids() {
+        try {
+            return LiquidDictionary.getLiquids();
+        } catch (Throwable ignored) {
+            // Fix 1.4.4
+            return getDeclaredField(LiquidDictionary.class, null, "liquids");
+        }
+    }
+
     public static String getLiquidName(LiquidStack liquidStack) {
-        Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
+        Map<String, LiquidStack> map = getLiquids();
         for (String name : map.keySet()) {
             if (map.get(name).isLiquidEqual(liquidStack)) {
                 return name;
