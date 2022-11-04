@@ -38,6 +38,9 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
         if (iof(container, "buildcraft.factory.TileTank")) {
             return new ILiquidTank[]{((TileTank) container).tank};
         }
+        if (iof(container, "mods.railcraft.common.blocks.machine.alpha.TileCokeOven")) {
+            return container.getTanks(ForgeDirection.UNKNOWN);
+        }
         Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
         for (ForgeDirection direction : DIRECTIONS) {
             Collections.addAll(tanks, container.getTanks(direction));
