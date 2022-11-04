@@ -21,11 +21,11 @@ Some Minecraft versions have bugs. That's normal. In order to fix some of them, 
 
 Just drop the mod into the `mods` folder. Done! :)
 
-### Cursed Fabric b1.7.3
+### Fabric
 
-Drop the mod into the `mods` folder and install [Apron](https://github.com/BetterThanUpdates/Apron),
-[Fabricated Forge](https://github.com/arthurbambou/Fabricated-Legacy-Forge),
-or [BetaLoader](https://github.com/paulevsGitch/BetaLoader).
+Drop the mod into the `mods` folder and install [Apron](https://github.com/BetterThanUpdates/Apron) (for b1.7.3),
+[Fabricated Forge](https://github.com/arthurbambou/Fabricated-Legacy-Forge) (for 1.3.2+),
+or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3).
 
 ## Mod Compatibility
 
