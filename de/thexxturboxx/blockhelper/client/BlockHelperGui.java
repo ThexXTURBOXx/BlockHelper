@@ -12,7 +12,7 @@ import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
 import de.thexxturboxx.blockhelper.integration.ICMicroblockIntegration;
-import de.thexxturboxx.blockhelper.integration.RP2Integration;
+import de.thexxturboxx.blockhelper.integration.RP2MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -136,7 +136,7 @@ public class BlockHelperGui {
 
                     // Microblocks support here, not in Mod support classes as they need extra data
                     try {
-                        ItemStack microblock = RP2Integration.getMicroblock(w, mc.thePlayer, mop, te);
+                        ItemStack microblock = RP2MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
                         is = microblock == null ? is : microblock;
                     } catch (Throwable ignored) {
                     }
