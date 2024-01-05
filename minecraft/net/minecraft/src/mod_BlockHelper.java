@@ -137,7 +137,7 @@ public class mod_BlockHelper extends BaseModMp {
                                 if (BlockHelperCommonProxy.showHealth) {
                                     try {
                                         info.add(((EntityLiving) en).getEntityHealth() + " \u2764 / "
-                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                                 + ((EntityLiving) en).getMaxHealth() + " \u2764");
                                     } catch (Throwable ignored) {
                                     }
                                 }
