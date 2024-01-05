@@ -3,6 +3,7 @@ package de.thexxturboxx.blockhelper.client;
 import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
 import de.thexxturboxx.blockhelper.BlockHelperKeyBinding;
 import de.thexxturboxx.blockhelper.BlockHelperUpdater;
+import de.thexxturboxx.blockhelper.ConstantRandom;
 import de.thexxturboxx.blockhelper.MopType;
 import de.thexxturboxx.blockhelper.PacketCoder;
 import de.thexxturboxx.blockhelper.PacketInfo;
@@ -52,7 +53,7 @@ public class BlockHelperGui {
 
     public static final int PADDING = 12;
 
-    private static final Random RND = new Random();
+    private static final Random RND = new ConstantRandom();
 
     private static final RenderItem RENDER_ITEM = new RenderItem();
 
@@ -88,9 +89,9 @@ public class BlockHelperGui {
             updateKeyState();
 
             if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
-                    || isHidden // Key bind allows Block Helper to be hidden
-                    || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                    || !Minecraft.isGuiEnabled()) // Cinema mode
+                || isHidden // Key bind allows Block Helper to be hidden
+                || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                || !Minecraft.isGuiEnabled()) // Cinema mode
                 return true;
             MopType result = getRayTraceResult(mc);
             if (result == MopType.AIR)
