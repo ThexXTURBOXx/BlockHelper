@@ -1,5 +1,6 @@
 package de.thexxturboxx.blockhelper.i18n;
 
+import de.thexxturboxx.blockhelper.api.BlockHelperInfoProvider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,9 +24,16 @@ public final class I18n {
     }
 
     public static void init() {
+        String currentLang = BlockHelperInfoProvider.getDeclaredField(
+                StringTranslate.class, StringTranslate.getInstance(), "d");
+        String langToReload = LANGUAGES[0];
         for (String lang : LANGUAGES) {
             loadLanguage(lang);
+            if (lang.equals(currentLang)) langToReload = lang;
         }
+        // Load translations again in current language in order to fix
+        // stupid bug in Forge, reported through Discord...
+        loadLanguage(langToReload);
     }
 
     public static void loadLanguage(String lang) {
