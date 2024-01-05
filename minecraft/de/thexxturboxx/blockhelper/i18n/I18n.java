@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.StatCollector;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class I18n {
@@ -19,9 +20,15 @@ public final class I18n {
     }
 
     public static void init() {
+        String currentLang = StringTranslate.getInstance().getCurrentLanguage();
+        String langToReload = LANGUAGES[0];
         for (String lang : LANGUAGES) {
             loadLanguage(lang);
+            if (lang.equals(currentLang)) langToReload = lang;
         }
+        // Load translations again in current language in order to fix
+        // stupid bug in Forge, reported through Discord...
+        loadLanguage(langToReload);
     }
 
     public static void loadLanguage(String lang) {

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import net.minecraft.server.LocaleI18n;
+import net.minecraft.server.LocaleLanguage;
 import net.minecraft.server.ModLoader;
 import net.minecraft.server.mod_BlockHelper;
 
@@ -19,9 +20,15 @@ public final class I18n {
     }
 
     public static void init() {
+        String currentLang = LocaleLanguage.a().getCurrentLanguage();
+        String langToReload = LANGUAGES[0];
         for (String lang : LANGUAGES) {
             loadLanguage(lang);
+            if (lang.equals(currentLang)) langToReload = lang;
         }
+        // Load translations again in current language in order to fix
+        // stupid bug in Forge, reported through Discord...
+        loadLanguage(langToReload);
     }
 
     public static void loadLanguage(String lang) {
