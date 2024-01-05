@@ -24,7 +24,6 @@ import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.modificationstation.stationapi.api.registry.BlockRegistry;
-import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 
 public final class ModIdentifier {
@@ -137,16 +136,26 @@ public final class ModIdentifier {
         }
 
         try {
-            Identifier id = null;
-            if (object instanceof Block) {
-                id = BlockRegistry.INSTANCE.getIdentifier((Block) object);
-            } else if (object instanceof Item) {
-                id = ItemRegistry.INSTANCE.getIdentifier((Item) object);
+            ModMetadata metadata = null;
+            try {
+                // Older StationAPI
+                if (object instanceof Block) {
+                    metadata = BlockRegistry.INSTANCE.getIdentifier((Block) object).modID.getMetadata();
+                } else if (object instanceof Item) {
+                    metadata = ItemRegistry.INSTANCE.getIdentifier((Item) object).modID.getMetadata();
+                }
+            } catch (Throwable ignored) {
+                // StationAPI 2.0-alpha.1(.1)
+                if (object instanceof Block) {
+                    metadata = BlockRegistry.INSTANCE.getId(object).getNamespace().getMetadata();
+                } else if (object instanceof Item) {
+                    metadata = ItemRegistry.INSTANCE.getId(object).getNamespace().getMetadata();
+                }
             }
-            if (id == null) {
+            if (metadata == null) {
                 return MINECRAFT;
             }
-            String idStr = id.modID.getMetadata().getId();
+            String idStr = metadata.getId();
             for (ModInfo modInfo : modInfos) {
                 if (modInfo.namespace != null && modInfo.namespace.equals(idStr)) {
                     return modInfo.name;
