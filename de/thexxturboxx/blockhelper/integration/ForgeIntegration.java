@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringTranslate;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -29,7 +30,7 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
                 LiquidStack stack = tank.getLiquid();
                 if (tank.getCapacity() != 0 && stack != null && stack.amount > 0) {
                     info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
-                            + formatLiquidName(getLiquidName(stack)));
+                             + formatLiquidName(state.translator, getLiquidName(stack)));
                 }
             }
         }
@@ -46,9 +47,9 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
         return tanks.toArray(new ILiquidTank[0]);
     }
 
-    public static String formatLiquidName(String liquidName) {
+    public static String formatLiquidName(StringTranslate translator, String liquidName) {
         return liquidName == null || liquidName.trim().isEmpty()
-                ? "" : I18n.format("liquid_format", "", liquidName);
+                ? "" : I18n.format(translator, "liquid_format", "", liquidName);
     }
 
     public static Map<String, LiquidStack> getLiquids() {

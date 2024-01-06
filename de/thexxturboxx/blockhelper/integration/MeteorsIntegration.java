@@ -13,15 +13,17 @@ public class MeteorsIntegration extends BlockHelperInfoProvider {
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.block, "net.meteor.common.BlockMeteorShieldTorch")) {
-            info.add(I18n.format("state_format", I18n.format(state.id == MeteorsMod.torchMeteorShieldActive.blockID
-                    ? "protected" : "unprotected")));
+            info.add(I18n.format(state.translator, "state_format", I18n.format(state.translator,
+                    state.id == MeteorsMod.torchMeteorShieldActive.blockID ? "protected" : "unprotected")));
         }
         if (iof(state.te, "net.meteor.common.TileEntityMeteorShield")) {
             if (state.meta == 0) {
-                info.add(I18n.format("state_format", I18n.format("charging")));
+                info.add(I18n.format(state.translator, "state_format",
+                        I18n.format(state.translator, "charging")));
             } else {
                 String size = state.meta * 4 + "x" + state.meta * 4;
-                info.add(I18n.format("radius_format", I18n.format("chunks_format", size)));
+                info.add(I18n.format(state.translator, "radius_format",
+                        I18n.format(state.translator, "chunks_format", size)));
             }
         }
     }

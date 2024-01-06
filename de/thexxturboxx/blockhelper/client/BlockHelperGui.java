@@ -37,6 +37,7 @@ import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
@@ -85,10 +86,10 @@ public class BlockHelperGui {
             if (w != null && w.isRemote) {
                 updateKeyState();
                 if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
-                        || isHidden // Key bind allows Block Helper to be hidden
-                        || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                        || !Minecraft.isGuiEnabled() // Cinema mode
-                        || (mc.gameSettings.keyBindPlayerList.pressed // Together with next line fix player list
+                    || isHidden // Key bind allows Block Helper to be hidden
+                    || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                    || !Minecraft.isGuiEnabled() // Cinema mode
+                    || (mc.gameSettings.keyBindPlayerList.pressed // Together with next line fix player list
                         && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1)))
                     return true;
                 MopType result = getRayTraceResult(mc);
@@ -114,6 +115,7 @@ public class BlockHelperGui {
                 packet.data = fieldData;
                 packet.length = fieldData.length;
                 PacketDispatcher.sendPacketToServer(packet);
+                StringTranslate translator = StringTranslate.getInstance();
                 switch (result) {
                 case BLOCK:
                     int x = mop.blockX;
@@ -124,7 +126,7 @@ public class BlockHelperGui {
                     Block b = Block.blocksList[id];
                     TileEntity te = w.getBlockTileEntity(x, y, z);
                     ItemStack is = BlockHelperModSupport.getItemStack(
-                            new BlockHelperBlockState(w, mop, b, te, id, meta));
+                            new BlockHelperBlockState(translator, w, mop, b, te, id, meta));
                     if (is == null) {
                         if (b == null) {
                             is = new ItemStack(id, 1, meta);
@@ -133,7 +135,8 @@ public class BlockHelperGui {
                         }
                     }
 
-                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(translator,
+                            w, mop, b, te, id, meta));
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
@@ -148,7 +151,8 @@ public class BlockHelperGui {
                         return true;
                     }
 
-                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(translator,
+                            w, mop, b, te, id, meta));
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
