@@ -151,19 +151,19 @@ public class BlockHelperGui {
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
-                            name = is.func_82833_r();
+                            name = is.getDisplayName();
                             if (name.isEmpty())
                                 throw new IllegalArgumentException();
                         } catch (Throwable e) {
                             try {
-                                name = new ItemStack(b).func_82833_r();
+                                name = new ItemStack(b).getDisplayName();
                                 if (name.isEmpty())
                                     throw new IllegalArgumentException();
                             } catch (Throwable e1) {
                                 try {
                                     if (b != null) {
                                         name = new ItemStack(Item.itemsList[b.idDropped(meta, new Random(), 0)], 1,
-                                                b.damageDropped(meta)).func_82833_r();
+                                                b.damageDropped(meta)).getDisplayName();
                                     }
                                     if (name.isEmpty())
                                         throw new IllegalArgumentException();

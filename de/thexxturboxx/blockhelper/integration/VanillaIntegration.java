@@ -55,7 +55,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.woodSingleSlab.blockID || state.id == Block.stoneSingleSlab.blockID) {
             ItemStack is = new ItemStack(state.id, 1, state.meta & ~0x8);
-            return is.func_82833_r();
+            return is.getDisplayName();
         }
 
         if (state.id == Block.endPortal.blockID) {

@@ -101,12 +101,12 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         }
         try {
             ItemStack is = ((LiquidStack) liquid).asItemStack();
-            return is.func_82833_r();
+            return is.getDisplayName();
         } catch (Throwable ignored) {
         }
         try {
             ItemStack is = new ItemStack((Integer) liquid, 1, 0);
-            return is.func_82833_r();
+            return is.getDisplayName();
         } catch (Throwable ignored) {
         }
         return null;
