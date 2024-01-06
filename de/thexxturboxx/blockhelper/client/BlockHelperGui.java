@@ -33,6 +33,7 @@ import net.minecraft.src.PlayerControllerMP;
 import net.minecraft.src.RenderHelper;
 import net.minecraft.src.RenderItem;
 import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -114,6 +115,7 @@ public class BlockHelperGui {
                 packet.length = fieldData.length;
                 // PacketDispatcher.sendPacketToServer(packet); has a bad bug in older Forge versions!!!
                 mc.thePlayer.sendQueue.addToSendQueue(packet);
+                StringTranslate translator = StringTranslate.getInstance();
                 switch (result) {
                 case BLOCK:
                     int x = mop.blockX;
@@ -124,7 +126,7 @@ public class BlockHelperGui {
                     Block b = Block.blocksList[id];
                     TileEntity te = w.getBlockTileEntity(x, y, z);
                     ItemStack is = BlockHelperModSupport.getItemStack(
-                            new BlockHelperBlockState(w, mop, b, te, id, meta));
+                            new BlockHelperBlockState(translator, w, mop, b, te, id, meta));
                     if (is == null) {
                         if (b == null) {
                             is = new ItemStack(id, 1, meta);
@@ -143,11 +145,13 @@ public class BlockHelperGui {
                         return true;
                     }
 
-                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                    String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(translator,
+                            w, mop, b, te, id, meta));
                     mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                     mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
-                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                    String name = BlockHelperModSupport.getName(new BlockHelperBlockState(translator,
+                            w, mop, b, te, id, meta));
                     name = name == null ? "" : name;
                     if (name.isEmpty()) {
                         try {
