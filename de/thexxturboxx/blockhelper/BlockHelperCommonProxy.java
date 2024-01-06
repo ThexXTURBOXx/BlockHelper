@@ -26,16 +26,18 @@ public class BlockHelperCommonProxy {
         IntegrationRegistrar.init();
         Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
         versionCheckThread.start();
+        // Use deprecated config methods here to support older Forge versions
         cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         cfg.load();
-        showHealth = cfg.get("General", "ShowHealth", true).getBoolean(true);
-        advMachinesIntegration = cfg.get("General", "AdvMachinesIntegration", true).getBoolean(true);
-        bcIntegration = cfg.get("General", "BuildCraftIntegration", true).getBoolean(true);
-        forestryIntegration = cfg.get("General", "ForestryIntegration", true).getBoolean(true);
-        gregTechIntegration = cfg.get("General", "GregTechIntegration", true).getBoolean(true);
-        ic2Integration = cfg.get("General", "Ic2Integration", true).getBoolean(true);
-        neiIntegration = cfg.get("General", "NEIIntegration", true).getBoolean(true);
-        vanillaIntegration = cfg.get("General", "VanillaIntegration", true).getBoolean(true);
+        showHealth = cfg.getOrCreateBooleanProperty("General", "ShowHealth", true).getBoolean(true);
+        advMachinesIntegration =
+                cfg.getOrCreateBooleanProperty("General", "AdvMachinesIntegration", true).getBoolean(true);
+        bcIntegration = cfg.getOrCreateBooleanProperty("General", "BuildCraftIntegration", true).getBoolean(true);
+        forestryIntegration = cfg.getOrCreateBooleanProperty("General", "ForestryIntegration", true).getBoolean(true);
+        gregTechIntegration = cfg.getOrCreateBooleanProperty("General", "GregTechIntegration", true).getBoolean(true);
+        ic2Integration = cfg.getOrCreateBooleanProperty("General", "Ic2Integration", true).getBoolean(true);
+        neiIntegration = cfg.getOrCreateBooleanProperty("General", "NEIIntegration", true).getBoolean(true);
+        vanillaIntegration = cfg.getOrCreateBooleanProperty("General", "VanillaIntegration", true).getBoolean(true);
         cfg.save();
     }
 

@@ -1,6 +1,5 @@
 package de.thexxturboxx.blockhelper.client;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import de.thexxturboxx.blockhelper.BlockHelperClientProxy;
 import de.thexxturboxx.blockhelper.BlockHelperUpdater;
 import de.thexxturboxx.blockhelper.MopType;
@@ -84,10 +83,10 @@ public class BlockHelperGui {
             if (w != null && w.isRemote) {
                 updateKeyState();
                 if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
-                        || isHidden // Key bind allows Block Helper to be hidden
-                        || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                        || !Minecraft.isGuiEnabled() // Cinema mode
-                        || (mc.gameSettings.keyBindPlayerList.pressed // Together with next line fix player list
+                    || isHidden // Key bind allows Block Helper to be hidden
+                    || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                    || !Minecraft.isGuiEnabled() // Cinema mode
+                    || (mc.gameSettings.keyBindPlayerList.pressed // Together with next line fix player list
                         && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1)))
                     return true;
                 MopType result = getRayTraceResult(mc);
@@ -112,7 +111,8 @@ public class BlockHelperGui {
                 packet.channel = mod_BlockHelper.CHANNEL;
                 packet.data = fieldData;
                 packet.length = fieldData.length;
-                PacketDispatcher.sendPacketToServer(packet);
+                // PacketDispatcher.sendPacketToServer(packet); has a bad bug in older Forge versions!!!
+                mc.thePlayer.sendQueue.addToSendQueue(packet);
                 switch (result) {
                 case BLOCK:
                     int x = mop.blockX;

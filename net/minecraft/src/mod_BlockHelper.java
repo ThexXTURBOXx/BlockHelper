@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -87,13 +87,13 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                 DataOutputStream os = new DataOutputStream(buffer);
                 try {
-                    if (isClient && FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                    if (isClient && getEffectiveSide().isClient()) {
                         try {
                             BlockHelperGui.getInstance().setData(((PacketClient) PacketCoder.decode(is)).data);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    } else if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+                    } else if (getEffectiveSide().isServer()) {
                         PacketInfo pi = null;
                         try {
                             pi = (PacketInfo) PacketCoder.decode(is);
@@ -110,7 +110,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                                     if (BlockHelperCommonProxy.showHealth) {
                                         try {
                                             info.add(((EntityLiving) en).getHealth() + " ❤ / "
-                                                    + ((EntityLiving) en).getMaxHealth() + " ❤");
+                                                     + ((EntityLiving) en).getMaxHealth() + " ❤");
                                         } catch (Throwable ignored) {
                                         }
                                     }
@@ -204,6 +204,15 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
         String var2 = stack.getItem().getItemNameIS(stack);
         return StringTranslate.getInstance().translateKey(
                 var2 == null ? "" : (StatCollector.translateToLocal(var2) + ".name")).trim();
+    }
+
+    // Replacement for FMLCommonHandler.instance().getEffectiveSide(), workaround for older Forge versions
+    public Side getEffectiveSide() {
+        Thread thr = Thread.currentThread();
+        if ((thr instanceof ThreadServerApplication) || (thr instanceof ServerListenThread)) {
+            return Side.SERVER;
+        }
+        return Side.CLIENT;
     }
 
 }
