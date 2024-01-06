@@ -84,10 +84,10 @@ public class BlockHelperGui {
             updateKeyState();
 
             if ((mc.currentScreen != null && !mc.ingameGUI.isChatOpen()) // No open screen, except chat
-                    || isHidden // Key bind allows Block Helper to be hidden
-                    || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                    || !Minecraft.isGuiEnabled() // Cinema mode
-                    || (mc.thePlayer instanceof EntityClientPlayerMP // Together with next line fix player list
+                || isHidden // Key bind allows Block Helper to be hidden
+                || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                || !Minecraft.isGuiEnabled() // Cinema mode
+                || (mc.thePlayer instanceof EntityClientPlayerMP // Together with next line fix player list
                     && mc.gameSettings.keyBindPlayerList.pressed))
                 return true;
             MopType result = getRayTraceResult(mc);
