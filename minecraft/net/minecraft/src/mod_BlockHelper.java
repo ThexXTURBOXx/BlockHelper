@@ -77,6 +77,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
 
     @Override
     public boolean onTickInGame(float time, Minecraft mc) {
+        if (mc.theWorld == null || mc.thePlayer == null) return true;
         return BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
@@ -129,7 +130,7 @@ public class mod_BlockHelper extends NetworkMod implements IConnectionHandler, I
                                 if (BlockHelperCommonProxy.showHealth) {
                                     try {
                                         info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                                 + ((EntityLiving) en).getMaxHealth() + " \u2764");
                                     } catch (Throwable ignored) {
                                     }
                                 }
