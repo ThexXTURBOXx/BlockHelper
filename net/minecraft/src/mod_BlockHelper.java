@@ -27,9 +27,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -109,6 +111,10 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
                         PacketClient info = new PacketClient();
 
+                        StringTranslate translator = player instanceof EntityPlayer
+                                ? ((EntityPlayer) player).getTranslator()
+                                : StringTranslate.getInstance();
+
                         if (pi != null && pi.mop != null) {
                             World w = DimensionManager.getProvider(pi.dimId).worldObj;
                             if (pi.mt == MopType.ENTITY) {
@@ -117,12 +123,12 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                                     if (BlockHelperCommonProxy.showHealth) {
                                         try {
                                             info.add(((EntityLiving) en).getHealth() + " ❤ / "
-                                                    + ((EntityLiving) en).getMaxHealth() + " ❤");
+                                                     + ((EntityLiving) en).getMaxHealth() + " ❤");
                                         } catch (Throwable ignored) {
                                         }
                                     }
 
-                                    BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                                    BlockHelperModSupport.addInfo(new BlockHelperEntityState(translator, w, en), info);
                                 }
                             } else if (pi.mt == MopType.BLOCK) {
                                 int x = pi.mop.blockX;
@@ -134,14 +140,14 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
                                     int meta = w.getBlockMetadata(x, y, z);
                                     Block b = Block.blocksList[id];
                                     BlockHelperModSupport.addInfo(
-                                            new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                                            new BlockHelperBlockState(translator, w, pi.mop, b, te, id, meta), info);
                                 }
                             } else {
                                 return;
                             }
                         } else {
-                            info.add(I18n.format("server_side_error"));
-                            info.add(I18n.format("version_mismatch"));
+                            info.add(I18n.format(translator, "server_side_error"));
+                            info.add(I18n.format(translator, "version_mismatch"));
                         }
 
                         try {

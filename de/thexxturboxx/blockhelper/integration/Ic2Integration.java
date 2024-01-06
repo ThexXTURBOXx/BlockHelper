@@ -24,7 +24,8 @@ public class Ic2Integration extends BlockHelperInfoProvider {
                 info.add(elecMachine.energy + " EU / " + elecMachine.maxEnergy + " EU");
             }
             if (iof(state.te, "ic2.core.block.machine.tileentity.TileEntityMatter")) {
-                info.add(I18n.format("progress_format", ((TileEntityMatter) state.te).getProgressAsString()));
+                info.add(I18n.format(state.translator, "progress_format",
+                        ((TileEntityMatter) state.te).getProgressAsString()));
             }
         }
         if (iof(state.te, "ic2.api.IEnergyStorage")) {
