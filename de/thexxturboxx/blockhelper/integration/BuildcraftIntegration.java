@@ -18,6 +18,7 @@ import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.util.Map;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.StringTranslate;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
@@ -40,14 +41,14 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 LiquidStack stack = tank.getLiquid();
                 if (tank.getCapacity() != 0 && stack != null && stack.amount > 0) {
                     info.add(stack.amount + " mB / " + tank.getCapacity() + " mB"
-                            + formatLiquidName(getBcLiquidName(stack)));
+                             + formatLiquidName(state.translator, getBcLiquidName(stack)));
                 }
             }
         }
         if (iof(state.te, "buildcraft.factory.TilePump")) {
             TilePump pump = (TilePump) state.te;
             info.add(pump.internalLiquid + " mB / 1000 mB"
-                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
+                     + formatLiquidName(state.translator, getBcLiquidName(pump.liquidId)));
         }
     }
 
@@ -77,9 +78,9 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
     private static Map<String, Object> liquids;
 
-    public static String formatLiquidName(String liquidName) {
+    public static String formatLiquidName(StringTranslate translator, String liquidName) {
         return liquidName == null || liquidName.trim().isEmpty()
-                ? "" : I18n.format("liquid_format", "", liquidName);
+                ? "" : I18n.format(translator, "liquid_format", "", liquidName);
     }
 
     public static String getBcLiquidName(Object liquid) {
