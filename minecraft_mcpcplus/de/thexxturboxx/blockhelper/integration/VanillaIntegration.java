@@ -11,8 +11,17 @@ import net.minecraft.server.Block;
 import net.minecraft.server.BlockCrops;
 import net.minecraft.server.BlockNetherWart;
 import net.minecraft.server.BlockStem;
+import net.minecraft.server.Item;
+import net.minecraft.server.ItemRecord;
+import net.minecraft.server.Material;
+import net.minecraft.server.TileEntityMobSpawner;
+import net.minecraft.server.TileEntityNote;
+import net.minecraft.server.TileEntityRecordPlayer;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
+
+    private static final String[] NOTES = {"F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B",
+            "C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F"};
 
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
@@ -40,6 +49,35 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         if (state.id == Block.DIODE_OFF.id || state.id == Block.DIODE_ON.id) {
             info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
         }
+
+        if (state.id == Block.NOTE_BLOCK.id) {
+            TileEntityNote te = (TileEntityNote) state.te;
+            info.add(I18n.format("note", NOTES[te.note % 12] + (te.note / 12 + 1)));
+
+            Material m = state.world.getMaterial(state.mop.b, state.mop.c - 1, state.mop.d);
+            String instrument = "piano";
+            if (m == Material.STONE) {
+                instrument = "bass_drum";
+            } else if (m == Material.SAND) {
+                instrument = "snare_drum";
+            } else if (m == Material.SHATTERABLE) {
+                instrument = "clicks_sticks";
+            } else if (m == Material.WOOD) {
+                instrument = "bass_guitar";
+            }
+            info.add(I18n.format("instrument", I18n.format(instrument)));
+        }
+
+        if (state.id == Block.JUKEBOX.id) {
+            TileEntityRecordPlayer te = (TileEntityRecordPlayer) state.te;
+            if (te.record != 0)
+                info.add(I18n.format("record", "C418 - " + ((ItemRecord) Item.byId[te.record]).a));
+        }
+
+        if (state.id == Block.MOB_SPAWNER.id) {
+            TileEntityMobSpawner te = (TileEntityMobSpawner) state.te;
+            info.add(I18n.format("mob", te.mobName));
+        }
     }
 
     @Override
@@ -60,14 +98,14 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             } else {
                 for (Field field : b.getClass().getFields()) {
                     if (containsIgnoreCase(field.getName(), "max")
-                            && containsIgnoreCase(field.getName(), "stage")) {
+                        && containsIgnoreCase(field.getName(), "stage")) {
                         field.setAccessible(true);
                         return field.getInt(Block.byId[id]);
                     }
                 }
                 for (Field field : b.getClass().getDeclaredFields()) {
                     if (containsIgnoreCase(field.getName(), "max")
-                            && containsIgnoreCase(field.getName(), "stage")) {
+                        && containsIgnoreCase(field.getName(), "stage")) {
                         field.setAccessible(true);
                         return field.getInt(Block.byId[id]);
                     }
@@ -80,8 +118,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private boolean isCrop(Block b) {
         boolean crop = b instanceof BlockCrops
-                || b instanceof BlockNetherWart
-                || b instanceof BlockStem;
+                       || b instanceof BlockNetherWart
+                       || b instanceof BlockStem;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
