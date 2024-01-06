@@ -74,6 +74,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
 
     @Override
     public boolean onTickInGame(float time, Minecraft mc) {
+        if (mc.theWorld == null || mc.thePlayer == null) return true;
         return BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
