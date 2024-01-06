@@ -13,11 +13,12 @@ public class CChunksIntegration extends BlockHelperInfoProvider {
     @Override
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (iof(state.te, "codechicken.chunkloader.TileChunkLoaderBase")) {
-            info.add(I18n.format("owner_format", ((TileChunkLoaderBase) state.te).getOwner()));
-            info.add(I18n.format("active_format", I18n.format(((TileChunkLoaderBase) state.te).active)));
+            info.add(I18n.format(state.translator, "owner_format", ((TileChunkLoaderBase) state.te).getOwner()));
+            info.add(I18n.format(state.translator, "active_format",
+                    I18n.format(state.translator, ((TileChunkLoaderBase) state.te).active)));
             if (iof(state.te, "codechicken.chunkloader.TileChunkLoader")) {
-                info.add(I18n.format("radius_format", ((TileChunkLoader) state.te).radius));
-                info.add(I18n.format("shape_format", ((TileChunkLoader) state.te).shape.toString()));
+                info.add(I18n.format(state.translator, "radius_format", ((TileChunkLoader) state.te).radius));
+                info.add(I18n.format(state.translator, "shape_format", ((TileChunkLoader) state.te).shape.toString()));
             }
         }
     }
