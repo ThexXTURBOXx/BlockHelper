@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.StatCollector;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class I18n {
@@ -50,16 +52,21 @@ public final class I18n {
         }
     }
 
-    public static String format(String key, Object... args) {
-        try {
-            return String.format(TRANSLATIONS.getProperty(PREFIX + key), args);
-        } catch (Throwable ignored) {
-        }
-        return key;
+    public static String format(boolean b) {
+        return format(null, b);
     }
 
-    public static String format(boolean b) {
-        return format(b ? "true" : "false");
+    public static String format(StringTranslate translator, boolean b) {
+        return format(translator, b ? "true" : "false");
+    }
+
+    public static String format(String key, Object... args) {
+        return format(null, key, args);
+    }
+
+    public static String format(StringTranslate translator, String key, Object... args) {
+        if (translator == null) return StatCollector.translateToLocalFormatted(PREFIX + key, args);
+        return translator.translateKeyFormat(PREFIX + key, args);
     }
 
 }

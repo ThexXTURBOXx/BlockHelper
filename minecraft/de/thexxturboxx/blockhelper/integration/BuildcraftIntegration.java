@@ -16,6 +16,7 @@ import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.lang.reflect.Method;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.StringTranslate;
 
 public class BuildcraftIntegration extends BlockHelperInfoProvider {
 
@@ -52,7 +53,7 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                         int capacity = Math.max(quantity, slot.getCapacity());
                         if (capacity != 0 && quantity > 0) {
                             info.add(quantity + " mB / " + capacity + " mB"
-                                    + formatLiquidName(getBcLiquidName(slot)));
+                                     + formatLiquidName(state.translator, getBcLiquidName(slot)));
                         }
                     }
                     flag = true;
@@ -64,14 +65,14 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
                 int capacity = Math.max(quantity, container.getCapacity());
                 if (capacity != 0 && quantity > 0) {
                     info.add(quantity + " mB / " + capacity + " mB"
-                            + formatLiquidName(getBcLiquidName(container)));
+                             + formatLiquidName(state.translator, getBcLiquidName(container)));
                 }
             }
         }
         if (iof(state.te, "buildcraft.factory.TilePump")) {
             TilePump pump = (TilePump) state.te;
             info.add(pump.internalLiquid + " mB / 1000 mB"
-                    + formatLiquidName(getBcLiquidName(pump.liquidId)));
+                     + formatLiquidName(state.translator, getBcLiquidName(pump.liquidId)));
         }
     }
 
@@ -99,9 +100,9 @@ public class BuildcraftIntegration extends BlockHelperInfoProvider {
         return BlockHelperCommonProxy.bcIntegration;
     }
 
-    public static String formatLiquidName(String liquidName) {
+    public static String formatLiquidName(StringTranslate translator, String liquidName) {
         return liquidName == null || liquidName.trim().isEmpty()
-                ? "" : I18n.format("liquid_format", "", liquidName);
+                ? "" : I18n.format(translator, "liquid_format", "", liquidName);
     }
 
     public static String getBcLiquidName(Object liquid) {

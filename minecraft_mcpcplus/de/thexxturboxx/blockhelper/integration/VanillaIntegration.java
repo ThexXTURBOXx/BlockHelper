@@ -30,29 +30,29 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             int grow = (int) ((state.meta / max_stage) * 100);
             String toShow;
             if (grow >= 100) {
-                toShow = I18n.format("mature");
+                toShow = I18n.format(state.translator, "mature");
             } else {
                 toShow = grow + "%";
             }
-            info.add(I18n.format("growth_state_format", toShow));
+            info.add(I18n.format(state.translator, "growth_state_format", toShow));
         }
 
         if (state.id == Block.REDSTONE_WIRE.id) {
-            info.add(I18n.format("strength_format", state.meta));
+            info.add(I18n.format(state.translator, "strength_format", state.meta));
         }
 
         if (state.id == Block.LEVER.id) {
-            String leverState = I18n.format(state.meta >= 8 ? "on" : "off");
-            info.add(I18n.format("state_format", leverState));
+            String leverState = I18n.format(state.translator, state.meta >= 8 ? "on" : "off");
+            info.add(I18n.format(state.translator, "state_format", leverState));
         }
 
         if (state.id == Block.DIODE_OFF.id || state.id == Block.DIODE_ON.id) {
-            info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
+            info.add(I18n.format(state.translator, "delay", ((state.meta & 0xc) >> 2) + 1));
         }
 
         if (state.id == Block.NOTE_BLOCK.id) {
             TileEntityNote te = (TileEntityNote) state.te;
-            info.add(I18n.format("note", NOTES[te.note % 12] + (te.note / 12 + 1)));
+            info.add(I18n.format(state.translator, "note", NOTES[te.note % 12] + (te.note / 12 + 1)));
 
             Material m = state.world.getMaterial(state.mop.b, state.mop.c - 1, state.mop.d);
             String instrument = "piano";
@@ -65,18 +65,18 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             } else if (m == Material.WOOD) {
                 instrument = "bass_guitar";
             }
-            info.add(I18n.format("instrument", I18n.format(instrument)));
+            info.add(I18n.format(state.translator, "instrument", I18n.format(state.translator, instrument)));
         }
 
         if (state.id == Block.JUKEBOX.id) {
             TileEntityRecordPlayer te = (TileEntityRecordPlayer) state.te;
             if (te.a != 0)
-                info.add(I18n.format("record", "C418 - " + ((ItemRecord) Item.byId[te.a]).a));
+                info.add(I18n.format(state.translator, "record", "C418 - " + ((ItemRecord) Item.byId[te.a]).a));
         }
 
         if (state.id == Block.MOB_SPAWNER.id) {
             TileEntityMobSpawner te = (TileEntityMobSpawner) state.te;
-            info.add(I18n.format("mob", te.mobName));
+            info.add(I18n.format(state.translator, "mob", te.mobName));
         }
     }
 

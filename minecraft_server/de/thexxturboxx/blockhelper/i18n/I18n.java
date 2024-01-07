@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
+import net.minecraft.src.ModLoader;
+import net.minecraft.src.StatCollector;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class I18n {
@@ -27,6 +30,9 @@ public final class I18n {
 
             reader = new InputStreamReader(stream, "UTF-8");
             TRANSLATIONS.load(reader);
+            for (String key : TRANSLATIONS.stringPropertyNames()) {
+                addLocalization(key, TRANSLATIONS.getProperty(key));
+            }
         } catch (Throwable t) {
             mod_BlockHelper.LOGGER.severe("Error loading language files.");
             t.printStackTrace();
@@ -46,16 +52,42 @@ public final class I18n {
         }
     }
 
-    public static String format(String key, Object... args) {
+    private static Properties translateTable;
+
+    static {
         try {
-            return String.format(TRANSLATIONS.getProperty(PREFIX + key), args);
-        } catch (Throwable ignored) {
+            translateTable = (Properties) ModLoader.getPrivateValue(
+                    StringTranslate.class, StringTranslate.getInstance(), 1);
+        } catch (SecurityException e) {
+            ModLoader.getLogger().throwing("I18n", "<clinit>", e);
+            ModLoader.ThrowException("Exception occurred in BlockHelper", e);
+        } catch (NoSuchFieldException e) {
+            ModLoader.getLogger().throwing("I18n", "<clinit>", e);
+            ModLoader.ThrowException("Exception occurred in BlockHelper", e);
         }
-        return key;
+    }
+
+    private static void addLocalization(String key, String value) {
+        if (translateTable != null) {
+            translateTable.put(key, value);
+        }
     }
 
     public static String format(boolean b) {
-        return format(b ? "true" : "false");
+        return format(null, b);
+    }
+
+    public static String format(StringTranslate translator, boolean b) {
+        return format(translator, b ? "true" : "false");
+    }
+
+    public static String format(String key, Object... args) {
+        return format(null, key, args);
+    }
+
+    public static String format(StringTranslate translator, String key, Object... args) {
+        if (translator == null) return StatCollector.translateToLocalFormatted(PREFIX + key, args);
+        return translator.translateKeyFormat(PREFIX + key, args);
     }
 
 }
