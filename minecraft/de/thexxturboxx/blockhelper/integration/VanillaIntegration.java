@@ -100,10 +100,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             return I18n.format("redstone_repeater");
         }
 
-        if (state.id == Block.stairSingle.blockID) {
-            return mod_BlockHelper.getItemDisplayName(new ItemStack(state.id, 1, state.meta & ~0x8));
-        }
-
         if (state.id == Block.stairDouble.blockID) {
             return mod_BlockHelper.getItemDisplayName(new ItemStack(Block.stairSingle, 1, state.meta));
         }
