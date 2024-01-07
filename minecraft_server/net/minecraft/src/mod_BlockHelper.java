@@ -80,6 +80,8 @@ public class mod_BlockHelper extends BaseModMp {
 
                     PacketClient info = new PacketClient();
 
+                    StringTranslate translator = StringTranslate.getInstance();
+
                     if (pi != null && pi.mop != null) {
                         World w = ModLoader.getMinecraftServerInstance().getWorldManager(pi.dimId);
                         if (pi.mt == MopType.ENTITY) {
@@ -92,7 +94,7 @@ public class mod_BlockHelper extends BaseModMp {
                                     }
                                 }
 
-                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(translator, w, en), info);
                             }
                         } else if (pi.mt == MopType.BLOCK) {
                             int x = pi.mop.blockX;
@@ -104,14 +106,14 @@ public class mod_BlockHelper extends BaseModMp {
                                 int meta = w.getBlockMetadata(x, y, z);
                                 Block b = Block.blocksList[id];
                                 BlockHelperModSupport.addInfo(
-                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                                        new BlockHelperBlockState(translator, w, pi.mop, b, te, id, meta), info);
                             }
                         } else {
                             return;
                         }
                     } else {
-                        info.add(I18n.format("server_side_error"));
-                        info.add(I18n.format("version_mismatch"));
+                        info.add(I18n.format(translator, "server_side_error"));
+                        info.add(I18n.format(translator, "version_mismatch"));
                     }
 
                     try {
