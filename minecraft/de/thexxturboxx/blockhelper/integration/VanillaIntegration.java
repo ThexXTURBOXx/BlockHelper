@@ -31,29 +31,29 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             int grow = (int) ((state.meta / max_stage) * 100);
             String toShow;
             if (grow >= 100) {
-                toShow = I18n.format("mature");
+                toShow = I18n.format(state.translator, "mature");
             } else {
                 toShow = grow + "%";
             }
-            info.add(I18n.format("growth_state_format", toShow));
+            info.add(I18n.format(state.translator, "growth_state_format", toShow));
         }
 
         if (state.id == Block.redstoneWire.blockID) {
-            info.add(I18n.format("strength_format", state.meta));
+            info.add(I18n.format(state.translator, "strength_format", state.meta));
         }
 
         if (state.id == Block.lever.blockID) {
-            String leverState = I18n.format(state.meta >= 8 ? "on" : "off");
-            info.add(I18n.format("state_format", leverState));
+            String leverState = I18n.format(state.translator, state.meta >= 8 ? "on" : "off");
+            info.add(I18n.format(state.translator, "state_format", leverState));
         }
 
         if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
-            info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
+            info.add(I18n.format(state.translator, "delay", ((state.meta & 0xc) >> 2) + 1));
         }
 
         if (state.id == Block.music.blockID) {
             TileEntityNote te = (TileEntityNote) state.te;
-            info.add(I18n.format("note", NOTES[te.note % 12] + (te.note / 12 + 1)));
+            info.add(I18n.format(state.translator, "note", NOTES[te.note % 12] + (te.note / 12 + 1)));
 
             Material m = state.world.getBlockMaterial(state.mop.blockX, state.mop.blockY - 1, state.mop.blockZ);
             String instrument = "piano";
@@ -66,18 +66,19 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             } else if (m == Material.wood) {
                 instrument = "bass_guitar";
             }
-            info.add(I18n.format("instrument", I18n.format(instrument)));
+            info.add(I18n.format(state.translator, "instrument", I18n.format(state.translator, instrument)));
         }
 
         if (state.id == Block.jukebox.blockID) {
             TileEntityRecordPlayer te = (TileEntityRecordPlayer) state.te;
             if (te.record != 0)
-                info.add(I18n.format("record", "C418 - " + ((ItemRecord) Item.itemsList[te.record]).recordName));
+                info.add(I18n.format(state.translator, "record",
+                        "C418 - " + ((ItemRecord) Item.itemsList[te.record]).recordName));
         }
 
         if (state.id == Block.mobSpawner.blockID) {
             TileEntityMobSpawner te = (TileEntityMobSpawner) state.te;
-            info.add(I18n.format("mob", te.getMobID()));
+            info.add(I18n.format(state.translator, "mob", te.getMobID()));
         }
     }
 
@@ -89,11 +90,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
 
         if (state.id == Block.pistonExtension.blockID) {
-            return I18n.format("piston_head");
+            return I18n.format(state.translator, "piston_head");
         }
 
         if (state.id == Block.pistonMoving.blockID) {
-            return I18n.format("moving_piston");
+            return I18n.format(state.translator, "moving_piston");
         }
 
         if (state.id == Block.stairSingle.blockID || state.id == Block.stairDouble.blockID) {
@@ -102,28 +103,20 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
 
         if (state.id == Block.silverfish.blockID) {
-            switch (state.meta) {
-            case 0:
-                return I18n.format("stone_monster_egg");
-            case 1:
-                return I18n.format("cobblestone_monster_egg");
-            case 2:
-                return I18n.format("stone_brick_monster_egg");
-            case 3:
-                return I18n.format("mossy_stone_brick_monster_egg");
-            case 4:
-                return I18n.format("cracked_stone_brick_monster_egg");
-            case 5:
-                return I18n.format("chiseled_stone_brick_monster_egg");
-            }
+            if (state.meta == 1)
+                return I18n.format(state.translator, "cobblestone_monster_egg");
+            else if (state.meta == 2)
+                return I18n.format(state.translator, "stone_brick_monster_egg");
+            else
+                return I18n.format(state.translator, "stone_monster_egg");
         }
 
         if (state.id == Block.endPortal.blockID) {
-            return I18n.format("end_portal");
+            return I18n.format(state.translator, "end_portal");
         }
 
         if (state.id == Block.endPortalFrame.blockID) {
-            return I18n.format("end_portal_frame");
+            return I18n.format(state.translator, "end_portal_frame");
         }
 
         return super.getName(state);

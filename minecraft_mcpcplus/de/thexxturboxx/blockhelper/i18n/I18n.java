@@ -66,12 +66,21 @@ public final class I18n {
         }
     }
 
-    public static String format(String key, Object... args) {
-        return LocaleI18n.get(PREFIX + key, args);
+    public static String format(boolean b) {
+        return format(null, b);
     }
 
-    public static String format(boolean b) {
-        return format(b ? "true" : "false");
+    public static String format(LocaleLanguage translator, boolean b) {
+        return format(translator, b ? "true" : "false");
+    }
+
+    public static String format(String key, Object... args) {
+        return format(null, key, args);
+    }
+
+    public static String format(LocaleLanguage translator, String key, Object... args) {
+        if (translator == null) return LocaleI18n.get(PREFIX + key, args);
+        return translator.a(PREFIX + key, args);
     }
 
 }

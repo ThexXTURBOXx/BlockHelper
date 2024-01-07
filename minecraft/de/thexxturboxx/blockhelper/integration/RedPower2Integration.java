@@ -17,13 +17,13 @@ public class RedPower2Integration extends BlockHelperInfoProvider {
                 int grow = (int) ((state.meta / 4d) * 100);
                 String toShow;
                 if (grow >= 100) {
-                    toShow = I18n.format("mature");
+                    toShow = I18n.format(state.translator, "mature");
                 } else {
                     toShow = grow + "%";
                 }
-                info.add(I18n.format("growth_state_format", toShow));
+                info.add(I18n.format(state.translator, "growth_state_format", toShow));
             } else {
-                info.add(I18n.format("growth_state_format", I18n.format("ripe")));
+                info.add(I18n.format(state.translator, "growth_state_format", I18n.format(state.translator, "ripe")));
             }
         }
     }
