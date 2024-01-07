@@ -8,6 +8,7 @@ import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockCocoa;
 import net.minecraft.src.BlockCrops;
 import net.minecraft.src.BlockNetherStalk;
 import net.minecraft.src.BlockStem;
@@ -28,12 +29,15 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (isCrop(state.block)) {
             double max_stage = getMaxStage(state.block, state.id);
-            int grow = (int) ((state.meta / max_stage) * 100);
+            int growStage = state.meta;
+            if (state.block instanceof BlockCocoa)
+                growStage = BlockCocoa.func_72219_c(state.meta);
+            int growPercentage = (int) ((growStage / max_stage) * 100);
             String toShow;
-            if (grow >= 100) {
+            if (growPercentage >= 100) {
                 toShow = I18n.format(state.translator, "mature");
             } else {
-                toShow = grow + "%";
+                toShow = growPercentage + "%";
             }
             info.add(I18n.format(state.translator, "growth_state_format", toShow));
         }
@@ -78,7 +82,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.mobSpawner.blockID) {
             TileEntityMobSpawner te = (TileEntityMobSpawner) state.te;
-            info.add(I18n.format(state.translator, "mob", getDeclaredField(TileEntityMobSpawner.class, te, "i")));
+            info.add(I18n.format(state.translator, "mob", getDeclaredField(TileEntityMobSpawner.class, te, "d")));
         }
     }
 
@@ -92,8 +96,14 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             return I18n.format(state.translator, "moving_piston");
         }
 
-        if (state.id == Block.woodSingleSlab.blockID || state.id == Block.stoneSingleSlab.blockID) {
-            ItemStack is = new ItemStack(state.id, 1, state.meta & ~0x8);
+        if (state.id == Block.sapling.blockID || state.id == Block.leaves.blockID || state.id == Block.wood.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta & 3);
+            return is.getItem().getItemDisplayName(is);
+        }
+
+        if (state.id == Block.woodSingleSlab.blockID || state.id == Block.woodDoubleSlab.blockID
+            || state.id == Block.stoneSingleSlab.blockID || state.id == Block.stoneDoubleSlab.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta & 7);
             return is.getItem().getItemDisplayName(is);
         }
 
@@ -117,6 +127,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
                 return 7;
             } else if (b instanceof BlockNetherStalk) {
                 return 3;
+            } else if (b instanceof BlockCocoa) {
+                return 2;
             } else {
                 for (Field field : b.getClass().getFields()) {
                     if (containsIgnoreCase(field.getName(), "max")
@@ -141,7 +153,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     private boolean isCrop(Block b) {
         boolean crop = b instanceof BlockCrops
                        || b instanceof BlockNetherStalk
-                       || b instanceof BlockStem;
+                       || b instanceof BlockStem
+                       || b instanceof BlockCocoa;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
