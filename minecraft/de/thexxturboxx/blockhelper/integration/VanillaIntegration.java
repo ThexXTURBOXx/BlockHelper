@@ -96,8 +96,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             return I18n.format("moving_piston");
         }
 
-        if (state.id == Block.stairSingle.blockID) {
-            ItemStack is = new ItemStack(state.id, 1, state.meta & ~0x8);
+        if (state.id == Block.stairDouble.blockID) {
+            ItemStack is = new ItemStack(Block.stairSingle, 1, state.meta);
             return is.getItem().getItemDisplayName(is);
         }
 
