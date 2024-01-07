@@ -7,7 +7,6 @@ import net.minecraft.src.mod_BlockHelper;
 public class BlockHelperCommonProxy {
 
     public static boolean showHealth;
-    public static boolean bcIntegration;
     public static boolean vanillaIntegration;
 
     public void load(mod_BlockHelper instance) {
@@ -16,7 +15,6 @@ public class BlockHelperCommonProxy {
         Thread versionCheckThread = new Thread(new BlockHelperUpdater(), "Block Helper Version Check");
         versionCheckThread.start();
         showHealth = parseBooleanTrueDefault(mod_BlockHelper.showHealthStr);
-        bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.bcIntegrationStr);
         vanillaIntegration = parseBooleanTrueDefault(mod_BlockHelper.vanillaIntegrationStr);
     }
 

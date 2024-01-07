@@ -91,14 +91,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             return I18n.format(state.translator, "tall_grass");
         }
 
-        if (state.id == Block.pistonExtension.blockID) {
-            return I18n.format(state.translator, "piston_head");
-        }
-
-        if (state.id == Block.pistonMoving.blockID) {
-            return I18n.format(state.translator, "moving_piston");
-        }
-
         if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
             return I18n.format(state.translator, "redstone_repeater");
         }

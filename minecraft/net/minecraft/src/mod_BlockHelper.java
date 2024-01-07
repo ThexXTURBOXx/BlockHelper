@@ -25,7 +25,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.2.0-pre1";
-    public static final String MC_VERSION = "b1.7.3";
+    public static final String MC_VERSION = "b1.6.6";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -63,10 +63,6 @@ public class mod_BlockHelper extends BaseModMp {
     public static String showHealthStr = "true";
     @MLProp(name = "ShowBlockInHud")
     public static String renderBlockStr = "true";
-    @MLProp(name = "BuildCraftIntegration")
-    public static String bcIntegrationStr = "true";
-    @MLProp(name = "Ic2Integration")
-    public static String ic2IntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
     @MLProp(name = "ShouldHideFromDebug")
@@ -90,9 +86,9 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public boolean OnTickInGame(Minecraft mc) {
-        if (mc.theWorld == null || mc.thePlayer == null) return true;
-        return BlockHelperGui.getInstance().onTickInGame(mc);
+    public void OnTickInGame(Minecraft mc) {
+        if (mc.theWorld == null || mc.thePlayer == null) return;
+        BlockHelperGui.getInstance().onTickInGame(mc);
     }
 
     @Override
@@ -219,6 +215,10 @@ public class mod_BlockHelper extends BaseModMp {
         String var2 = stack.getItem().getItemNameIS(stack);
         return StringTranslate.getInstance().translateKey(
                 var2 == null ? "" : (StatCollector.translateToLocal(var2) + ".name")).trim();
+    }
+
+    public static float getHardness(Block b) {
+        return b.blockHardness;
     }
 
 }

@@ -11,7 +11,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
-import de.thexxturboxx.blockhelper.integration.MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -23,7 +22,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.IMob;
@@ -75,7 +73,7 @@ public class BlockHelperGui {
         this.isHidden = false;
     }
 
-    public boolean onTickInGame(Minecraft mc) {
+    public void onTickInGame(Minecraft mc) {
         try {
             GL11.glPushMatrix();
             GL11.glScaled(size, size, size);
@@ -93,10 +91,10 @@ public class BlockHelperGui {
                 || isHidden // Key bind allows Block Helper to be hidden
                 || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
                 || !Minecraft.isGuiEnabled()) // Cinema mode
-                return true;
+                return;
             MopType result = getRayTraceResult(mc);
             if (result == MopType.AIR)
-                return true;
+                return;
             MovingObjectPosition mop = mc.objectMouseOver;
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             DataOutputStream os = new DataOutputStream(buffer);
@@ -141,13 +139,6 @@ public class BlockHelperGui {
                     }
                 }
 
-                // Microblocks support here, not in Mod support classes as they need extra data
-                try {
-                    ItemStack microblock = MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te, b);
-                    is = microblock == null ? is : microblock;
-                } catch (Throwable ignored) {
-                }
-
                 String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(translator,
                         w, mop, b, te, id, meta));
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
@@ -158,7 +149,7 @@ public class BlockHelperGui {
                     is = new ItemStack(b.idDropped(meta, RND), 1, meta);
                 }
                 if (is.getItem() == null) {
-                    return true;
+                    return;
                 }
 
                 String name = BlockHelperModSupport.getName(new BlockHelperBlockState(translator,
@@ -197,9 +188,9 @@ public class BlockHelperGui {
 
                 String harvest = I18n.format("please_report");
                 if (b != null) {
-                    if (getHardness(b, meta) < 0.0F) {
+                    if (mod_BlockHelper.getHardness(b) < 0.0F) {
                         harvest = I18n.format("unbreakable");
-                    } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
+                    } else if (mc.thePlayer.canHarvestBlock(b)) {
                         harvest = I18n.format("harvestable");
                     } else {
                         harvest = I18n.format("not_harvestable");
@@ -258,7 +249,6 @@ public class BlockHelperGui {
         } finally {
             GL11.glPopMatrix();
         }
-        return true;
     }
 
     private void updateKeyState() {
@@ -407,28 +397,6 @@ public class BlockHelperGui {
         } catch (Throwable ignored) {
         }
         return 9;
-    }
-
-    public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
-        try {
-            return b.canHarvestBlock(player, meta);
-        } catch (Throwable ignored) {
-        }
-
-        if (b.blockMaterial.getIsHarvestable())
-            return true;
-        ItemStack stack = player.inventory.getCurrentItem();
-        if (stack == null)
-            return false;
-        return stack.canHarvestBlock(b);
-    }
-
-    public static float getHardness(Block b, int meta) {
-        try {
-            return b.getHardness(meta);
-        } catch (Throwable ignored) {
-        }
-        return b.getHardness();
     }
 
 }
