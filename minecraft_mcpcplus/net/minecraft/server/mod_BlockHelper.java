@@ -95,6 +95,8 @@ public class mod_BlockHelper extends BaseModMp {
 
                     PacketClient info = new PacketClient();
 
+                    LocaleLanguage translator = LocaleLanguage.a();
+
                     if (pi != null && pi.mop != null) {
                         World w = ModLoader.getMinecraftServerInstance().getWorldServer(pi.dimId);
                         if (pi.mt == MopType.ENTITY) {
@@ -103,12 +105,12 @@ public class mod_BlockHelper extends BaseModMp {
                                 if (BlockHelperCommonProxy.showHealth) {
                                     try {
                                         info.add(((EntityLiving) en).getHealth() + " \u2764 / "
-                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                                 + ((EntityLiving) en).getMaxHealth() + " \u2764");
                                     } catch (Throwable ignored) {
                                     }
                                 }
 
-                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(w, en), info);
+                                BlockHelperModSupport.addInfo(new BlockHelperEntityState(translator, w, en), info);
                             }
                         } else if (pi.mt == MopType.BLOCK) {
                             int x = pi.mop.b;
@@ -120,14 +122,14 @@ public class mod_BlockHelper extends BaseModMp {
                                 int meta = w.getData(x, y, z);
                                 Block b = Block.byId[id];
                                 BlockHelperModSupport.addInfo(
-                                        new BlockHelperBlockState(w, pi.mop, b, te, id, meta), info);
+                                        new BlockHelperBlockState(translator, w, pi.mop, b, te, id, meta), info);
                             }
                         } else {
                             return;
                         }
                     } else {
-                        info.add(I18n.format("server_side_error"));
-                        info.add(I18n.format("version_mismatch"));
+                        info.add(I18n.format(translator, "server_side_error"));
+                        info.add(I18n.format(translator, "version_mismatch"));
                     }
 
                     try {

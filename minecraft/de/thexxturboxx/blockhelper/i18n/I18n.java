@@ -3,10 +3,9 @@ package de.thexxturboxx.blockhelper.i18n;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
+import net.minecraft.src.ModLoader;
+import net.minecraft.src.StatCollector;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -16,13 +15,22 @@ public final class I18n {
 
     private static final String[] LANGUAGES = {"en_US", "de_DE"};
 
-    private static final Map<String, Properties> TRANSLATIONS = new HashMap<String, Properties>();
-
     private I18n() {
         throw new UnsupportedOperationException();
     }
 
     public static void init() {
+        try {
+            translateTable = (Properties) ModLoader.getPrivateValue(
+                    StringTranslate.class, StringTranslate.getInstance(), 1);
+        } catch (SecurityException e) {
+            ModLoader.getLogger().throwing("I18n", "<clinit>", e);
+            ModLoader.ThrowException("Exception occurred in BlockHelper", e);
+        } catch (NoSuchFieldException e) {
+            ModLoader.getLogger().throwing("I18n", "<clinit>", e);
+            ModLoader.ThrowException("Exception occurred in BlockHelper", e);
+        }
+
         String currentLang = StringTranslate.getInstance().func_44024_c();
         String langToReload = LANGUAGES[0];
         for (String lang : LANGUAGES) {
@@ -32,6 +40,17 @@ public final class I18n {
         // Load translations again in current language in order to fix
         // stupid bug in Forge, reported through Discord...
         loadLanguage(langToReload);
+    }
+
+    private static String lastLanguage = StringTranslate.getInstance().func_44024_c();
+    private static Properties translateTable;
+
+    public static void update() {
+        String newLang = StringTranslate.getInstance().func_44024_c();
+        if (!lastLanguage.equals(newLang)) {
+            lastLanguage = newLang;
+            init();
+        }
     }
 
     public static void loadLanguage(String lang) {
@@ -46,7 +65,9 @@ public final class I18n {
             reader = new InputStreamReader(stream, "UTF-8");
             Properties props = new Properties();
             props.load(reader);
-            TRANSLATIONS.put(lang, props);
+            for (String key : props.stringPropertyNames()) {
+                addLocalization(key, props.getProperty(key));
+            }
         } catch (Throwable t) {
             mod_BlockHelper.LOGGER.severe("Error loading language " + lang + ".");
             t.printStackTrace();
@@ -66,24 +87,28 @@ public final class I18n {
         }
     }
 
-    private static Field currentLanguage;
-
-    public static String format(String key, Object... args) {
-        try {
-            if (currentLanguage == null) {
-                currentLanguage = StringTranslate.class.getDeclaredField("d");
-                currentLanguage.setAccessible(true);
-            }
-            String language = (String) currentLanguage.get(StringTranslate.getInstance());
-            language = language == null || TRANSLATIONS.get(language) == null ? LANGUAGES[0] : language;
-            return String.format(TRANSLATIONS.get(language).getProperty(PREFIX + key), args);
-        } catch (Throwable ignored) {
+    private static void addLocalization(String key, String value) {
+        ModLoader.AddLocalization(key, value);
+        if (translateTable != null) {
+            translateTable.put(key, value);
         }
-        return key;
     }
 
     public static String format(boolean b) {
-        return format(b ? "true" : "false");
+        return format(null, b);
+    }
+
+    public static String format(StringTranslate translator, boolean b) {
+        return format(translator, b ? "true" : "false");
+    }
+
+    public static String format(String key, Object... args) {
+        return format(null, key, args);
+    }
+
+    public static String format(StringTranslate translator, String key, Object... args) {
+        if (translator == null) return StatCollector.translateToLocalFormatted(PREFIX + key, args);
+        return translator.translateKeyFormat(PREFIX + key, args);
     }
 
 }
