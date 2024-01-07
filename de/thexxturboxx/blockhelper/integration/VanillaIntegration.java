@@ -8,7 +8,9 @@ import de.thexxturboxx.blockhelper.i18n.I18n;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockCocoa;
 import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockFlowerPot;
 import net.minecraft.src.BlockNetherStalk;
 import net.minecraft.src.BlockStem;
 import net.minecraft.src.Item;
@@ -18,6 +20,7 @@ import net.minecraft.src.Material;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityNote;
 import net.minecraft.src.TileEntityRecordPlayer;
+import net.minecraft.src.TileEntitySkull;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -28,14 +31,32 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     public void addInformation(BlockHelperBlockState state, InfoHolder info) {
         if (isCrop(state.block)) {
             double max_stage = getMaxStage(state.block, state.id);
-            int grow = (int) ((state.meta / max_stage) * 100);
+            int growStage = state.meta;
+            if (state.block instanceof BlockCocoa)
+                growStage = BlockCocoa.func_72219_c(state.meta);
+            int growPercentage = (int) ((growStage / max_stage) * 100);
             String toShow;
-            if (grow >= 100) {
+            if (growPercentage >= 100) {
                 toShow = I18n.format(state.translator, "mature");
             } else {
-                toShow = grow + "%";
+                toShow = growPercentage + "%";
             }
             info.add(I18n.format(state.translator, "growth_state_format", toShow));
+        }
+
+        if (state.id == Block.flowerPot.blockID) {
+            ItemStack flower = BlockFlowerPot.getPlantForMeta(state.meta);
+            if (flower != null)
+                info.add(I18n.format(state.translator, "flower", flower.getDisplayName()));
+        }
+
+        if (state.te instanceof TileEntitySkull) {
+            TileEntitySkull te = (TileEntitySkull) state.te;
+            if (te.func_82117_a() == 3) {
+                String playerName = te.func_82120_c();
+                if (playerName != null && !playerName.isEmpty())
+                    info.add(I18n.format(state.translator, "head_owner", playerName));
+            }
         }
 
         if (state.id == Block.redstoneWire.blockID) {
@@ -78,12 +99,17 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.mobSpawner.blockID) {
             TileEntityMobSpawner te = (TileEntityMobSpawner) state.te;
-            info.add(I18n.format(state.translator, "mob", getDeclaredField(TileEntityMobSpawner.class, te, "i")));
+            info.add(I18n.format(state.translator, "mob", getDeclaredField(TileEntityMobSpawner.class, te, "d")));
         }
     }
 
     @Override
     public String getName(BlockHelperBlockState state) {
+        if (state.id == Block.anvil.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta >> 2);
+            return is.getDisplayName();
+        }
+
         if (state.id == Block.pistonExtension.blockID) {
             return I18n.format(state.translator, "piston_head");
         }
@@ -92,8 +118,14 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             return I18n.format(state.translator, "moving_piston");
         }
 
-        if (state.id == Block.woodSingleSlab.blockID || state.id == Block.stoneSingleSlab.blockID) {
-            ItemStack is = new ItemStack(state.id, 1, state.meta & ~0x8);
+        if (state.id == Block.sapling.blockID || state.id == Block.leaves.blockID || state.id == Block.wood.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta & 3);
+            return is.getDisplayName();
+        }
+
+        if (state.id == Block.woodSingleSlab.blockID || state.id == Block.woodDoubleSlab.blockID
+            || state.id == Block.stoneSingleSlab.blockID || state.id == Block.stoneDoubleSlab.blockID) {
+            ItemStack is = new ItemStack(state.id, 1, state.meta & 7);
             return is.getDisplayName();
         }
 
@@ -102,6 +134,17 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
 
         return super.getName(state);
+    }
+
+    @Override
+    public ItemStack getItemStack(BlockHelperBlockState state) {
+        if (state.id == Block.skull.blockID) {
+            int skullType = ((TileEntitySkull) state.te).func_82117_a();
+            skullType = skullType <= 4 ? skullType : 0;
+            return new ItemStack(Item.skull, 1, skullType);
+        }
+
+        return super.getItemStack(state);
     }
 
     @Override
@@ -117,6 +160,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
                 return 7;
             } else if (b instanceof BlockNetherStalk) {
                 return 3;
+            } else if (b instanceof BlockCocoa) {
+                return 2;
             } else {
                 for (Field field : b.getClass().getFields()) {
                     if (containsIgnoreCase(field.getName(), "max")
@@ -141,7 +186,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
     private boolean isCrop(Block b) {
         boolean crop = b instanceof BlockCrops
                        || b instanceof BlockNetherStalk
-                       || b instanceof BlockStem;
+                       || b instanceof BlockStem
+                       || b instanceof BlockCocoa;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
