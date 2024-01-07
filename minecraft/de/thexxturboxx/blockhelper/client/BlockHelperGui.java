@@ -37,6 +37,7 @@ import net.minecraft.src.Packet230ModLoader;
 import net.minecraft.src.RenderHelper;
 import net.minecraft.src.RenderItem;
 import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -122,6 +123,7 @@ public class BlockHelperGui {
                 packet.dataString = new String[]{mod_BlockHelper.CHANNEL_SSP, buffer.toString("ISO-8859-1")};
                 mod_BlockHelper.INSTANCE.HandlePacket(packet);
             }
+            StringTranslate translator = StringTranslate.getInstance();
             switch (result) {
             case BLOCK:
                 int x = mop.blockX;
@@ -131,7 +133,8 @@ public class BlockHelperGui {
                 int id = w.getBlockId(x, y, z);
                 Block b = Block.blocksList[id];
                 TileEntity te = w.getBlockTileEntity(x, y, z);
-                ItemStack is = BlockHelperModSupport.getItemStack(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                ItemStack is = BlockHelperModSupport.getItemStack(
+                        new BlockHelperBlockState(translator, w, mop, b, te, id, meta));
                 if (is == null) {
                     if (b == null) {
                         is = new ItemStack(id, 1, meta);
@@ -147,7 +150,8 @@ public class BlockHelperGui {
                 } catch (Throwable ignored) {
                 }
 
-                String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(translator,
+                        w, mop, b, te, id, meta));
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
                 mod = mod == null ? ModIdentifier.MINECRAFT : mod;
 
@@ -159,7 +163,8 @@ public class BlockHelperGui {
                     return true;
                 }
 
-                String name = BlockHelperModSupport.getName(new BlockHelperBlockState(w, mop, b, te, id, meta));
+                String name = BlockHelperModSupport.getName(new BlockHelperBlockState(translator,
+                        w, mop, b, te, id, meta));
                 name = name == null ? "" : name;
                 if (name.isEmpty()) {
                     try {
