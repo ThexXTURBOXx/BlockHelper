@@ -93,4 +93,38 @@ public final class PacketCoder {
         }
     }
 
+    // The next two functions are needed for old MLMP implementations (fixed in 1.1v2).
+    // They have a terrible bug where some data does not get read completely.
+    // However, that only affects the dataString within Packet230ModLoader.
+    // Hence, we can use dataInt without any problems.
+
+    public static int[] toIntArray(String... strings) {
+        int totalLength = 1;
+        for (String s : strings)
+            totalLength += s.length() + 1;
+
+        int[] ret = new int[totalLength];
+        int idx = 0;
+        ret[idx++] = strings.length;
+        for (String s : strings) {
+            ret[idx++] = s.length();
+            for (int i = 0; i < s.length(); ++i)
+                ret[idx++] = s.charAt(i);
+        }
+        return ret;
+    }
+
+    public static String[] toStrings(int... ints) {
+        int idx = 0;
+        String[] ret = new String[ints[idx++]];
+        for (int i = 0; i < ret.length; ++i) {
+            int len = ints[idx++];
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < len; ++j)
+                str.append((char) ints[idx++]);
+            ret[i] = str.toString();
+        }
+        return ret;
+    }
+
 }
