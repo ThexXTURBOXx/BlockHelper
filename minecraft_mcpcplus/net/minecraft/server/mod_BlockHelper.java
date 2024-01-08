@@ -70,8 +70,9 @@ public class mod_BlockHelper extends BaseModMp {
     @Override
     public void HandlePacket(Packet230ModLoader packetML, EntityPlayer player) {
         try {
-            String channel = packetML.dataString[0];
-            byte[] data = packetML.dataString[1].getBytes("ISO-8859-1");
+            String[] dataString = PacketCoder.toStrings(packetML.dataInt);
+            String channel = dataString[0];
+            byte[] data = dataString[1].getBytes("ISO-8859-1");
             if (channel.equals(CHANNEL)) {
                 ByteArrayInputStream isRaw = new ByteArrayInputStream(data);
                 DataInputStream is = new DataInputStream(isRaw);
@@ -130,7 +131,7 @@ public class mod_BlockHelper extends BaseModMp {
                     }
                     Packet230ModLoader packet = new Packet230ModLoader();
                     packet.modId = getId();
-                    packet.dataString = new String[]{CHANNEL, buffer.toString("ISO-8859-1")};
+                    packet.dataInt = PacketCoder.toIntArray(CHANNEL, buffer.toString("ISO-8859-1"));
                     ModLoaderMp.SendPacketTo(this, player, packet);
                 } finally {
                     os.close();
