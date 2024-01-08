@@ -117,10 +117,10 @@ public class BlockHelperGui {
             Packet230ModLoader packet = new Packet230ModLoader();
             packet.modId = mod_BlockHelper.INSTANCE.getId();
             if (w.multiplayerWorld) {
-                packet.dataString = new String[]{mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1")};
+                packet.dataInt = PacketCoder.toIntArray(mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1"));
                 ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, packet);
             } else {
-                packet.dataString = new String[]{mod_BlockHelper.CHANNEL_SSP, buffer.toString("ISO-8859-1")};
+                packet.dataInt = PacketCoder.toIntArray(mod_BlockHelper.CHANNEL_SSP, buffer.toString("ISO-8859-1"));
                 mod_BlockHelper.INSTANCE.HandlePacket(packet);
             }
             StringTranslate translator = StringTranslate.getInstance();
