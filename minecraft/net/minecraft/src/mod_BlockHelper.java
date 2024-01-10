@@ -67,6 +67,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String bcIntegrationStr = "true";
     @MLProp(name = "Ic2Integration")
     public static String ic2IntegrationStr = "true";
+    @MLProp(name = "IcIntegration")
+    public static String icIntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
     @MLProp(name = "ShouldHideFromDebug")

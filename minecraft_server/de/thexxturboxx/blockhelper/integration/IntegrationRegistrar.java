@@ -10,6 +10,7 @@ public final class IntegrationRegistrar {
 
     public static void init() {
         BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
+        BlockHelperModSupport.registerBlockProvider(new IcIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
     }
 

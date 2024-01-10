@@ -8,6 +8,7 @@ public class BlockHelperCommonProxy {
 
     public static boolean showHealth;
     public static boolean bcIntegration;
+    public static boolean icIntegration;
     public static boolean vanillaIntegration;
 
     public void load(mod_BlockHelper instance) {
@@ -17,6 +18,7 @@ public class BlockHelperCommonProxy {
         versionCheckThread.start();
         showHealth = parseBooleanTrueDefault(mod_BlockHelper.showHealthStr);
         bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.bcIntegrationStr);
+        icIntegration = parseBooleanTrueDefault(mod_BlockHelper.icIntegrationStr);
         vanillaIntegration = parseBooleanTrueDefault(mod_BlockHelper.vanillaIntegrationStr);
     }
 

@@ -9,6 +9,7 @@ public class BlockHelperCommonProxy {
     public static boolean showHealth;
     public static boolean bcIntegration;
     public static boolean ic2Integration;
+    public static boolean icIntegration;
     public static boolean vanillaIntegration;
 
     public void load(mod_BlockHelper instance) {
@@ -19,6 +20,7 @@ public class BlockHelperCommonProxy {
         showHealth = parseBooleanTrueDefault(mod_BlockHelper.showHealthStr);
         bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.bcIntegrationStr);
         ic2Integration = parseBooleanTrueDefault(mod_BlockHelper.ic2IntegrationStr);
+        icIntegration = parseBooleanTrueDefault(mod_BlockHelper.icIntegrationStr);
         vanillaIntegration = parseBooleanTrueDefault(mod_BlockHelper.vanillaIntegrationStr);
     }
 

@@ -41,6 +41,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String showHealthStr = "true";
     @MLProp(name = "BuildCraftIntegration")
     public static String bcIntegrationStr = "true";
+    @MLProp(name = "IcIntegration")
+    public static String icIntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
     // Configuration entries end
