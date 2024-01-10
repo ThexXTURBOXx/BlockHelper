@@ -63,6 +63,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String showHealthStr = "true";
     @MLProp(name = "ShowBlockInHud")
     public static String renderBlockStr = "true";
+    @MLProp(name = "IcIntegration")
+    public static String icIntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
     @MLProp(name = "ShouldHideFromDebug")

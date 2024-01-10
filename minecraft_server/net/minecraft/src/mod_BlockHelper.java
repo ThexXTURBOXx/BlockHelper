@@ -39,6 +39,8 @@ public class mod_BlockHelper extends BaseModMp {
     // Configuration entries start
     @MLProp(name = "ShowHealth")
     public static String showHealthStr = "true";
+    @MLProp(name = "IcIntegration")
+    public static String icIntegrationStr = "true";
     @MLProp(name = "VanillaIntegration")
     public static String vanillaIntegrationStr = "true";
     // Configuration entries end
