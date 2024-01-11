@@ -27,6 +27,7 @@ public class BlockHelperCommonProxy {
     public static boolean meteorsIntegration;
     public static boolean neiIntegration;
     public static boolean pamIntegration;
+    public static boolean projectZuluIntegration;
     public static boolean teIntegration;
     public static boolean vanillaIntegration;
 
@@ -70,6 +71,8 @@ public class BlockHelperCommonProxy {
                 "Shows the mod of the currently highlighted item in all GUIs").getBoolean(true);
         pamIntegration = cfg.get("General", "PamIntegration", true,
                 "Shows extra info about blocks from Pam's mods").getBoolean(true);
+        projectZuluIntegration = cfg.get("General", "ProjectZuluIntegration", true,
+                "Shows extra info about blocks from the Project Zulu mod").getBoolean(true);
         teIntegration = cfg.get("General", "ThermalExpansionIntegration", true,
                 "Shows extra info about blocks from the Thermal Expansion mod").getBoolean(true);
         vanillaIntegration = cfg.get("General", "VanillaIntegration", true,
@@ -95,7 +98,7 @@ public class BlockHelperCommonProxy {
             char firstChar = s.charAt(0);
             if (firstChar == '-') {
                 throw new NumberFormatException(String.format("Illegal leading minus sign "
-                        + "on unsigned string %s.", s));
+                                                              + "on unsigned string %s.", s));
             } else {
                 if (len <= 5 || (radix == 10 && len <= 9)) {
                     return Integer.parseInt(s, radix);
@@ -105,7 +108,7 @@ public class BlockHelperCommonProxy {
                         return (int) ell;
                     } else {
                         throw new NumberFormatException(String.format("String value %s exceeds "
-                                + "range of unsigned int.", s));
+                                                                      + "range of unsigned int.", s));
                     }
                 }
             }
