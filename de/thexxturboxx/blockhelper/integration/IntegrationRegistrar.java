@@ -29,6 +29,8 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerBlockProvider(new NaturaIntegration());
         BlockHelperModSupport.registerItemStackFixer(new NaturaIntegration());
         BlockHelperModSupport.registerItemStackFixer(new PamIntegration());
+        BlockHelperModSupport.registerBlockProvider(new ProjectZuluIntegration());
+        BlockHelperModSupport.registerItemStackFixer(new ProjectZuluIntegration());
         BlockHelperModSupport.registerItemStackFixer(new TEIntegration());
         BlockHelperModSupport.registerBlockProvider(new VanillaIntegration());
         BlockHelperModSupport.registerNameFixer(new VanillaIntegration());
