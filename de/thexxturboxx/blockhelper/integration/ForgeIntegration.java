@@ -40,6 +40,9 @@ public class ForgeIntegration extends BlockHelperInfoProvider {
         if (iof(container, "buildcraft.factory.TileTank")) {
             return new ILiquidTank[]{((TileTank) container).tank};
         }
+        if (iof(container, "ic2.common.TileEntityGeoGenerator")) {
+            return container.getTanks(ForgeDirection.UNKNOWN);
+        }
         Set<ILiquidTank> tanks = new HashSet<ILiquidTank>();
         for (ForgeDirection direction : DIRECTIONS) {
             Collections.addAll(tanks, container.getTanks(direction));
