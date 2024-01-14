@@ -43,7 +43,7 @@ public class mod_BlockHelper extends BaseMod implements IPacketHandler {
     public static final String PACKAGE = "de.thexxturboxx.blockhelper.";
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
-    public static final String VERSION = "1.2.0-pre1";
+    public static final String VERSION = "1.2.0-pre2";
     public static final String MC_VERSION = "1.4.5";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
