@@ -58,6 +58,7 @@ public class mod_BlockHelper extends BaseModMp {
 
     @Override
     public void ModsLoaded() {
+        super.ModsLoaded();
         INSTANCE = this;
         proxy = new BlockHelperCommonProxy();
         proxy.load(this);
