@@ -17,6 +17,8 @@ ibxm/
 !**/net/minecraft/src
 !**/net/minecraft/server
 !**/mod_BlockHelper.java
+!minecraft_bukkit/net/minecraft/server/MLProp.java
+!minecraft_server/net/minecraft/src/MLProp.java
 paulscode/
 argo/
 

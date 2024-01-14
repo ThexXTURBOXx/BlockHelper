@@ -24,7 +24,7 @@ public final class PacketCoder {
             MopType mt = mod_BlockHelper.MOP_TYPES[is.readInt()];
             MovingObjectPosition mop;
             if (mt == MopType.ENTITY) {
-                World w = ModLoader.getMinecraftServerInstance().getWorldManager(dimId);
+                World w = ModLoader.getMinecraftServerInstance().worldMngr;
                 int entityId = is.readInt();
                 Entity entity = mod_BlockHelper.getEntityByID(w, entityId);
                 if (entity != null)

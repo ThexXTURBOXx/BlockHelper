@@ -177,7 +177,7 @@ public class BlockHelperGui {
                                     throw new IllegalArgumentException();
                             } catch (Throwable e2) {
                                 if (b != null) {
-                                    name = b.translateBlockName();
+                                    name = b.func_25016_i();
                                 } else {
                                     name = I18n.format("please_report");
                                 }
@@ -198,8 +198,8 @@ public class BlockHelperGui {
                 }
 
                 String breakProgression = null;
-                if (mc.renderGlobal.damagePartialTime > 0) {
-                    String progress = MathHelper.floor_float(100 * mc.renderGlobal.damagePartialTime) + "%";
+                if (mc.renderGlobal.field_1450_i > 0) {
+                    String progress = MathHelper.floor_float(100 * mc.renderGlobal.field_1450_i) + "%";
                     breakProgression = I18n.format("break_progression", progress);
                 }
 

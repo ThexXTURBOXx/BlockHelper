@@ -14,7 +14,6 @@ import net.minecraft.src.ItemRecord;
 import net.minecraft.src.Material;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityNote;
-import net.minecraft.src.TileEntityRecordPlayer;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
 
@@ -67,10 +66,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
 
         if (state.id == Block.jukebox.blockID) {
-            TileEntityRecordPlayer te = (TileEntityRecordPlayer) state.te;
-            if (te.field_28009_a != 0)
+            if (state.meta != 0) {
+                ItemRecord record = (ItemRecord) Item.itemsList[(Item.record13.shiftedIndex + state.meta) - 1];
                 info.add(I18n.format(state.translator, "record",
-                        "C418 - " + ((ItemRecord) Item.itemsList[te.field_28009_a]).recordName));
+                        "C418 - " + getDeclaredField(ItemRecord.class, record, "a")));
+            }
         }
 
         if (state.id == Block.mobSpawner.blockID) {

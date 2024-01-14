@@ -57,7 +57,7 @@ public final class I18n {
     static {
         try {
             translateTable = (Properties) ModLoader.getPrivateValue(
-                    StringTranslate.class, StringTranslate.getInstance(), 1);
+                    StringTranslate.class, StringTranslate.func_25079_a(), 1);
         } catch (SecurityException e) {
             ModLoader.getLogger().throwing("I18n", "<clinit>", e);
             ModLoader.ThrowException("Exception occurred in BlockHelper", e);
@@ -86,8 +86,8 @@ public final class I18n {
     }
 
     public static String format(StringTranslate translator, String key, Object... args) {
-        if (translator == null) return StatCollector.translateToLocalFormatted(PREFIX + key, args);
-        return translator.translateKeyFormat(PREFIX + key, args);
+        if (translator == null) return StatCollector.func_25135_a(PREFIX + key, args);
+        return translator.func_25078_a(PREFIX + key, args);
     }
 
 }

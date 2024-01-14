@@ -15,7 +15,6 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityNote;
-import net.minecraft.src.TileEntityRecordPlayer;
 import net.minecraft.src.mod_BlockHelper;
 
 public class VanillaIntegration extends BlockHelperInfoProvider {
@@ -69,10 +68,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
         }
 
         if (state.id == Block.jukebox.blockID) {
-            TileEntityRecordPlayer te = (TileEntityRecordPlayer) state.te;
-            if (te.record != 0)
+            if (state.meta != 0) {
+                ItemRecord record = (ItemRecord) Item.itemsList[(Item.record13.shiftedIndex + state.meta) - 1];
                 info.add(I18n.format(state.translator, "record",
-                        "C418 - " + ((ItemRecord) Item.itemsList[te.record]).recordName));
+                        "C418 - " + getDeclaredField(ItemRecord.class, record, "a")));
+            }
         }
 
         if (state.id == Block.mobSpawner.blockID) {
@@ -83,14 +83,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public String getName(BlockHelperBlockState state) {
-        if (state.id == Block.deadBush.blockID) {
-            return I18n.format(state.translator, "dead_bush");
-        }
-
-        if (state.id == Block.tallGrass.blockID) {
-            return I18n.format(state.translator, "tall_grass");
-        }
-
         if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
             return I18n.format(state.translator, "redstone_repeater");
         }

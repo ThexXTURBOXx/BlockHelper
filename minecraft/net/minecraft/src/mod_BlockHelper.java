@@ -25,7 +25,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.2.0-pre1";
-    public static final String MC_VERSION = "b1.6.6";
+    public static final String MC_VERSION = "b1.5_01";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -82,6 +82,7 @@ public class mod_BlockHelper extends BaseModMp {
 
     @Override
     public void ModsLoaded() {
+        super.ModsLoaded();
         INSTANCE = this;
         proxy = new BlockHelperClientProxy();
         proxy.load(this);
