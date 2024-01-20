@@ -34,7 +34,7 @@ public class IcIntegration extends BlockHelperInfoProvider {
             Integer matterCost = getDeclaredField(state.te.getClass(), state.te, "matterCost");
             if (matterGeneration != null && matterCost != null) {
                 int p = (int) (100f * matterGeneration / matterCost);
-                info.add(I18n.format(state.translator, "progress_format", Math.min(p, 100) + "%"));
+                info.add(I18n.format("progress_format", Math.min(p, 100) + "%"));
             }
         }
     }

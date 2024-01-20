@@ -90,7 +90,7 @@ public class BlockHelperGui {
             if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
                 || isHidden // Key bind allows Block Helper to be hidden
                 || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                || !Minecraft.isGuiEnabled()) // Cinema mode
+                || !Minecraft.func_22006_t()) // Cinema mode
                 return;
             MopType result = getRayTraceResult(mc);
             if (result == MopType.AIR)
@@ -177,7 +177,7 @@ public class BlockHelperGui {
                                     throw new IllegalArgumentException();
                             } catch (Throwable e2) {
                                 if (b != null) {
-                                    name = b.func_25016_i();
+                                    name = translator.translateNamedKey(b.getBlockName());
                                 } else {
                                     name = I18n.format("please_report");
                                 }
@@ -298,7 +298,7 @@ public class BlockHelperGui {
     }
 
     private int drawBox(Minecraft mc, int showcaseSize) {
-        ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        ScaledResolution res = new ScaledResolution(mc.displayWidth, mc.displayHeight);
         int width = (int) (res.getScaledWidth() * sizeInv);
         int infoWidth = 0;
         int currLine = PADDING;

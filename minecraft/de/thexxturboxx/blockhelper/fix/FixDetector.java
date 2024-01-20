@@ -19,14 +19,14 @@ public final class FixDetector {
         try {
             if (!FontRenderer.FIXER_VERSION.equals("1")) {
                 String name = mod_BlockHelper.NAME;
-                mc.thePlayer.addChatMessage("\u00a77[\u00a76" + name + "\u00a77] \u00a7cPlease update FontFixer.");
-                mc.thePlayer.addChatMessage("\u00a7cYou can find it on Modrinth.");
+                mc.thePlayer.func_22055_b("\u00a77[\u00a76" + name + "\u00a77] \u00a7cPlease update FontFixer.");
+                mc.thePlayer.func_22055_b("\u00a7cYou can find it on Modrinth.");
             }
         } catch (Throwable t) {
             String name = mod_BlockHelper.NAME;
-            mc.thePlayer.addChatMessage("\u00a77[\u00a76" + name + "\u00a77] \u00a7cIt is very recommended to");
-            mc.thePlayer.addChatMessage("\u00a7cinstall the FontFixer jar-mod. You can find it on Modrinth.");
-            mc.thePlayer.addChatMessage("\u00a7cOtherwise, some texts may not be rendered correctly.");
+            mc.thePlayer.func_22055_b("\u00a77[\u00a76" + name + "\u00a77] \u00a7cIt is very recommended to");
+            mc.thePlayer.func_22055_b("\u00a7cinstall the FontFixer jar-mod. You can find it on Modrinth.");
+            mc.thePlayer.func_22055_b("\u00a7cOtherwise, some texts may not be rendered correctly.");
         }
     }
 

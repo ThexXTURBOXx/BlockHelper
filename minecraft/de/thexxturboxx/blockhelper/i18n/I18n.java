@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.StatCollector;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -65,7 +64,7 @@ public final class I18n {
     }
 
     public static String format(StringTranslate translator, String key, Object... args) {
-        if (translator == null) return StatCollector.func_25199_a(PREFIX + key, args);
+        if (translator == null) return StringTranslate.getInstance().translateKeyFormat(PREFIX + key, args);
         return translator.translateKeyFormat(PREFIX + key, args);
     }
 

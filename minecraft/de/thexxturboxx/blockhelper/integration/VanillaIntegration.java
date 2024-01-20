@@ -45,7 +45,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             info.add(I18n.format(state.translator, "state_format", leverState));
         }
 
-        if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
+        if (state.id == Block.field_22021_bh.blockID || state.id == Block.field_22020_bi.blockID) {
             info.add(I18n.format(state.translator, "delay", ((state.meta & 0xc) >> 2) + 1));
         }
 
@@ -83,7 +83,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public String getName(BlockHelperBlockState state) {
-        if (state.id == Block.redstoneRepeaterIdle.blockID || state.id == Block.redstoneRepeaterActive.blockID) {
+        if (state.id == Block.field_22021_bh.blockID || state.id == Block.field_22020_bi.blockID) {
             return I18n.format(state.translator, "redstone_repeater");
         }
 

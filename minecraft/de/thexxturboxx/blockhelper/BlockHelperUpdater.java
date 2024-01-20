@@ -77,9 +77,9 @@ public class BlockHelperUpdater implements Runnable {
     public static void notifyUpdater(Minecraft mc) {
         if (!isLatestVersion()) {
             if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage(I18n.format("update_check_failed_chat", mod_BlockHelper.NAME));
+                mc.thePlayer.func_22055_b(I18n.format("update_check_failed_chat", mod_BlockHelper.NAME));
             } else {
-                mc.thePlayer.addChatMessage(I18n.format("newer_version_available_chat", mod_BlockHelper.NAME,
+                mc.thePlayer.func_22055_b(I18n.format("newer_version_available_chat", mod_BlockHelper.NAME,
                         mod_BlockHelper.VERSION, getLatestVersion()));
             }
         }

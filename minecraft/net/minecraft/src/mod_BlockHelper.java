@@ -238,8 +238,7 @@ public class mod_BlockHelper extends BaseModMp {
 
     public static String getItemDisplayName(ItemStack stack) {
         String var2 = stack.getItem().getItemNameIS(stack);
-        return StringTranslate.getInstance().translateKey(
-                var2 == null ? "" : (StatCollector.func_25200_a(var2) + ".name")).trim();
+        return StringTranslate.getInstance().translateNamedKey(var2 == null ? "" : var2).trim();
     }
 
     public static float getHardness(Block b) {
