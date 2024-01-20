@@ -65,7 +65,7 @@ public final class I18n {
     }
 
     public static String format(StringTranslate translator, String key, Object... args) {
-        if (translator == null) return StatCollector.translateToLocalFormatted(PREFIX + key, args);
+        if (translator == null) return StatCollector.func_25199_a(PREFIX + key, args);
         return translator.translateKeyFormat(PREFIX + key, args);
     }
 

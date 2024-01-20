@@ -28,7 +28,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.2.0-pre2";
-    public static final String MC_VERSION = "b1.5_01";
+    public static final String MC_VERSION = "b1.4_01";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -84,7 +84,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void HandlePacket(Packet230ModLoader packetML, EntityPlayerMP player) {
+    public void HandlePacket(Packet200ModLoader packetML, EntityPlayerMP player) {
         try {
             String[] dataString = PacketCoder.toStrings(packetML.dataInt);
             String channel = dataString[0];
@@ -144,7 +144,7 @@ public class mod_BlockHelper extends BaseModMp {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Packet230ModLoader packet = new Packet230ModLoader();
+                    Packet200ModLoader packet = new Packet200ModLoader();
                     packet.modId = getId();
                     packet.dataInt = PacketCoder.toIntArray(CHANNEL, buffer.toString("ISO-8859-1"));
                     ModLoaderMp.SendPacketTo(this, player, packet);

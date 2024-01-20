@@ -24,14 +24,14 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
-import net.minecraft.src.IMob;
+import net.minecraft.src.IMobs;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.ModLoaderMp;
 import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Packet230ModLoader;
+import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.RenderHelper;
 import net.minecraft.src.RenderItem;
 import net.minecraft.src.ScaledResolution;
@@ -110,7 +110,7 @@ public class BlockHelperGui {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            Packet230ModLoader packet = new Packet230ModLoader();
+            Packet200ModLoader packet = new Packet200ModLoader();
             packet.modId = mod_BlockHelper.INSTANCE.getId();
             if (w.multiplayerWorld) {
                 packet.dataInt = PacketCoder.toIntArray(mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1"));
@@ -227,7 +227,7 @@ public class BlockHelperGui {
             case ENTITY:
                 Entity e = mop.entityHit;
                 String nameEntity = EntityList.getEntityString(e);
-                if (e instanceof IMob) {
+                if (e instanceof IMobs) {
                     nameEntity = "\u00a74" + nameEntity;
                 }
                 mod = ModIdentifier.identifyMod(e);

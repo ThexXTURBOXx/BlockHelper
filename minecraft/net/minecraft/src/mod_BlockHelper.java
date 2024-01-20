@@ -15,8 +15,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
 
@@ -25,7 +31,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.2.0-pre2";
-    public static final String MC_VERSION = "b1.5_01";
+    public static final String MC_VERSION = "b1.4_01";
     public static final String CHANNEL = "BlockHelperInfo";
     public static final String CHANNEL_SSP = "BlockHelperInfoSSP";
     public static mod_BlockHelper INSTANCE;
@@ -71,6 +77,21 @@ public class mod_BlockHelper extends BaseModMp {
     public static String shouldHideFromDebugStr = "true";
     // Configuration entries end
 
+    static {
+        try {
+            setupProperties(mod_BlockHelper.class);
+        } catch (IllegalAccessException e) {
+            LOGGER.throwing(NAME, "setupProperties", e);
+            ModLoader.ThrowException(NAME, e);
+        } catch (IOException e) {
+            LOGGER.throwing(NAME, "setupProperties", e);
+            ModLoader.ThrowException(NAME, e);
+        } catch (URISyntaxException e) {
+            LOGGER.throwing(NAME, "setupProperties", e);
+            ModLoader.ThrowException(NAME, e);
+        }
+    }
+
     public static String getModId() {
         return MOD_ID;
     }
@@ -95,7 +116,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void HandlePacket(Packet230ModLoader packetML) {
+    public void HandlePacket(Packet200ModLoader packetML) {
         try {
             String[] dataString = PacketCoder.toStrings(packetML.dataInt);
             String channel = dataString[0];
@@ -166,7 +187,7 @@ public class mod_BlockHelper extends BaseModMp {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Packet230ModLoader packet = new Packet230ModLoader();
+                    Packet200ModLoader packet = new Packet200ModLoader();
                     packet.modId = getId();
                     packet.dataInt = PacketCoder.toIntArray(CHANNEL, buffer.toString("ISO-8859-1"));
                     if (w.multiplayerWorld) {
@@ -218,11 +239,89 @@ public class mod_BlockHelper extends BaseModMp {
     public static String getItemDisplayName(ItemStack stack) {
         String var2 = stack.getItem().getItemNameIS(stack);
         return StringTranslate.getInstance().translateKey(
-                var2 == null ? "" : (StatCollector.translateToLocal(var2) + ".name")).trim();
+                var2 == null ? "" : (StatCollector.func_25200_a(var2) + ".name")).trim();
     }
 
     public static float getHardness(Block b) {
         return b.blockHardness;
+    }
+
+    private static void setupProperties(Class<? extends BaseMod> class1)
+            throws IllegalArgumentException, IllegalAccessException, IOException, SecurityException,
+            URISyntaxException {
+        File cfgdir = new File(Minecraft.getMinecraftDir(), "/config/");
+        cfgdir.mkdir();
+        Properties properties = new Properties();
+        File file = new File(cfgdir, class1.getName() + ".cfg");
+        if (file.exists() && file.canRead()) {
+            properties.load(new FileInputStream(file));
+        }
+        StringBuilder stringbuilder = new StringBuilder();
+        Field[] afield;
+        int j = (afield = class1.getFields()).length;
+        for (int i = 0; i < j; i++) {
+            Field field = afield[i];
+            if ((field.getModifiers() & 8) == 0 || !field.isAnnotationPresent(MLProp.class)) {
+                continue;
+            }
+            Class<?> class2 = field.getType();
+            MLProp mlprop = (MLProp) field.getAnnotation(MLProp.class);
+            String s = !mlprop.name().isEmpty() ? mlprop.name() : field.getName();
+            Object obj = field.get(null);
+            StringBuilder stringbuilder1 = new StringBuilder();
+            if (mlprop.min() != Double.NEGATIVE_INFINITY) {
+                stringbuilder1.append(String.format(",>=%.1f", mlprop.min()));
+            }
+            if (mlprop.max() != Double.POSITIVE_INFINITY) {
+                stringbuilder1.append(String.format(",<=%.1f", mlprop.max()));
+            }
+            StringBuilder stringbuilder2 = new StringBuilder();
+            if (!mlprop.info().isEmpty()) {
+                stringbuilder2.append(" -- ");
+                stringbuilder2.append(mlprop.info());
+            }
+            stringbuilder.append(String.format("%s (%s:%s%s)%s\n", s, class2.getName(), obj, stringbuilder1,
+                    stringbuilder2));
+            if (properties.containsKey(s)) {
+                String s1 = properties.getProperty(s);
+                Object obj1 = null;
+                if (class2.isAssignableFrom(String.class)) {
+                    obj1 = s1;
+                } else if (class2.isAssignableFrom(Integer.TYPE)) {
+                    obj1 = Integer.parseInt(s1);
+                } else if (class2.isAssignableFrom(Short.TYPE)) {
+                    obj1 = Short.parseShort(s1);
+                } else if (class2.isAssignableFrom(Byte.TYPE)) {
+                    obj1 = Byte.parseByte(s1);
+                } else if (class2.isAssignableFrom(Boolean.TYPE)) {
+                    obj1 = Boolean.parseBoolean(s1);
+                } else if (class2.isAssignableFrom(Float.TYPE)) {
+                    obj1 = Float.parseFloat(s1);
+                } else if (class2.isAssignableFrom(Double.TYPE)) {
+                    obj1 = Double.parseDouble(s1);
+                }
+                if (obj1 == null) {
+                    continue;
+                }
+                if (obj1 instanceof Number) {
+                    double d = ((Number) obj1).doubleValue();
+                    if (mlprop.min() != Double.NEGATIVE_INFINITY && d < mlprop.min() || mlprop.max() != Double.POSITIVE_INFINITY && d > mlprop.max()) {
+                        continue;
+                    }
+                }
+                LOGGER.finer(s + " set to " + obj1);
+                if (!obj1.equals(obj)) {
+                    field.set(null, obj1);
+                }
+            } else {
+                LOGGER.finer(s + " not in config, using default: " + obj);
+                properties.setProperty(s, obj.toString());
+            }
+        }
+
+        if (!properties.isEmpty() && (file.exists() || file.createNewFile()) && file.canWrite()) {
+            properties.store(new FileOutputStream(file), stringbuilder.toString());
+        }
     }
 
 }
