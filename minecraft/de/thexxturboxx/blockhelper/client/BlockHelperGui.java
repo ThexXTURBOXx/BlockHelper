@@ -29,7 +29,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.ModLoaderMp;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.RenderHelper;
@@ -40,6 +40,7 @@ import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
@@ -89,8 +90,8 @@ public class BlockHelperGui {
 
             if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) // No open screen, except chat
                 || isHidden // Key bind allows Block Helper to be hidden
-                || (mc.gameSettings.showDebugInfo && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
-                || !Minecraft.func_22006_t()) // Cinema mode
+                || (Keyboard.isKeyDown(Keyboard.KEY_F3) && BlockHelperClientProxy.shouldHideFromDebug) // F3 screen
+                || Keyboard.isKeyDown(Keyboard.KEY_F1)) // Cinema mode
                 return;
             MopType result = getRayTraceResult(mc);
             if (result == MopType.AIR)
@@ -114,7 +115,7 @@ public class BlockHelperGui {
             packet.modId = mod_BlockHelper.INSTANCE.getId();
             if (w.multiplayerWorld) {
                 packet.dataInt = PacketCoder.toIntArray(mod_BlockHelper.CHANNEL, buffer.toString("ISO-8859-1"));
-                ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, packet);
+                ModLoader.SendPacket(mod_BlockHelper.INSTANCE, packet);
             } else {
                 packet.dataInt = PacketCoder.toIntArray(mod_BlockHelper.CHANNEL_SSP, buffer.toString("ISO-8859-1"));
                 mod_BlockHelper.INSTANCE.HandlePacket(packet);

@@ -45,10 +45,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             info.add(I18n.format(state.translator, "state_format", leverState));
         }
 
-        if (state.id == Block.field_22021_bh.blockID || state.id == Block.field_22020_bi.blockID) {
-            info.add(I18n.format(state.translator, "delay", ((state.meta & 0xc) >> 2) + 1));
-        }
-
         if (state.id == Block.musicBlock.blockID) {
             TileEntityNote te = (TileEntityNote) state.te;
             info.add(I18n.format(state.translator, "note", NOTES[te.note % 12] + (te.note / 12 + 1)));
@@ -83,10 +79,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     @Override
     public String getName(BlockHelperBlockState state) {
-        if (state.id == Block.field_22021_bh.blockID || state.id == Block.field_22020_bi.blockID) {
-            return I18n.format(state.translator, "redstone_repeater");
-        }
-
         if (state.id == Block.stairDouble.blockID) {
             return mod_BlockHelper.getItemDisplayName(new ItemStack(Block.stairSingle, 1, Math.min(state.meta, 3)));
         }

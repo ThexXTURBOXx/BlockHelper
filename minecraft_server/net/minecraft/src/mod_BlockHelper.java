@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class mod_BlockHelper extends BaseModMp {
+public class mod_BlockHelper extends BaseMod {
 
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
@@ -145,7 +145,7 @@ public class mod_BlockHelper extends BaseModMp {
                     Packet200ModLoader packet = new Packet200ModLoader();
                     packet.modId = getId();
                     packet.dataInt = PacketCoder.toIntArray(CHANNEL, buffer.toString("ISO-8859-1"));
-                    ModLoaderMp.SendPacketTo(this, player, packet);
+                    ModLoader.SendPacketTo(this, player, packet);
                 } finally {
                     os.close();
                     buffer.close();

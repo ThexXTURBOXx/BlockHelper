@@ -43,10 +43,6 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
             info.add(I18n.format("state_format", leverState));
         }
 
-        if (state.id == Block.field_22011_bh.blockID || state.id == Block.field_22010_bi.blockID) {
-            info.add(I18n.format("delay", ((state.meta & 0xc) >> 2) + 1));
-        }
-
         if (state.id == Block.musicBlock.blockID) {
             TileEntityNote te = (TileEntityNote) state.te;
             info.add(I18n.format("note", NOTES[te.note % 12] + (te.note / 12 + 1)));

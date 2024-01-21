@@ -24,7 +24,6 @@ public class BlockHelperClientProxy extends BlockHelperCommonProxy {
     @Override
     public void load(mod_BlockHelper instance) {
         super.load(instance);
-        ModLoader.SetInGameHook(instance, true, false);
         ModIdentifier.load();
         size = Double.parseDouble(mod_BlockHelper.sizeStr);
         background = parseUnsignedInt(mod_BlockHelper.backgroundStr, 16);

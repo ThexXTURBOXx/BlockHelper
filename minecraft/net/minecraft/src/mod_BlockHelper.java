@@ -26,7 +26,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import net.minecraft.client.Minecraft;
 
-public class mod_BlockHelper extends BaseModMp {
+public class mod_BlockHelper extends BaseMod {
 
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
@@ -110,7 +110,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void OnTickInGame(Minecraft mc) {
+    public void OSDHook(Minecraft mc, boolean guiOpen) {
         if (mc.theWorld == null || mc.thePlayer == null) return;
         BlockHelperGui.getInstance().onTickInGame(mc);
     }
@@ -191,7 +191,7 @@ public class mod_BlockHelper extends BaseModMp {
                     packet.modId = getId();
                     packet.dataInt = PacketCoder.toIntArray(CHANNEL, buffer.toString("ISO-8859-1"));
                     if (w.multiplayerWorld) {
-                        ModLoaderMp.SendPacket(this, packet);
+                        ModLoader.SendPacket(this, packet);
                     } else {
                         HandlePacket(packet);
                     }
