@@ -22,7 +22,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
     public static final String VERSION = "1.2.0-pre2";
-    public static final String MC_VERSION = "1.0";
+    public static final String MC_VERSION = "b1.9-pre5";
     public static final String CHANNEL = "BlockHelperInfo";
     public static mod_BlockHelper INSTANCE;
 
@@ -97,8 +97,8 @@ public class mod_BlockHelper extends BaseModMp {
                             if (en != null) {
                                 if (BlockHelperCommonProxy.showHealth) {
                                     try {
-                                        info.add(((EntityLiving) en).getEntityHealth() + " \u2764 / "
-                                                + ((EntityLiving) en).getMaxHealth() + " \u2764");
+                                        info.add(((EntityLiving) en).func_40097_ai() + " \u2764 / "
+                                                 + ((EntityLiving) en).func_40095_c() + " \u2764");
                                     } catch (Throwable ignored) {
                                     }
                                 }
@@ -172,7 +172,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     public static String getItemDisplayName(ItemStack stack) {
-        String var2 = stack.getItem().getItemNameIS(stack);
+        String var2 = stack.getItem().func_35407_a(stack);
         return StringTranslate.getInstance().translateKey(
                 var2 == null ? "" : (StatCollector.translateToLocal(var2) + ".name")).trim();
     }

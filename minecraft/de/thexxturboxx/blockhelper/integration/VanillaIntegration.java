@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
-import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockNetherBrick;
 import net.minecraft.src.BlockStem;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemRecord;
@@ -99,7 +99,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
         if (state.id == Block.stairDouble.blockID) {
             ItemStack is = new ItemStack(Block.stairSingle, 1, state.meta);
-            return is.getItem().getItemDisplayName(is);
+            return is.getItem().func_40397_d(is);
         }
 
         if (state.id == Block.silverfish.blockID) {
@@ -111,11 +111,11 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
                 return I18n.format(state.translator, "stone_monster_egg");
         }
 
-        if (state.id == Block.endPortal.blockID) {
+        if (state.id == Block.field_40209_bI.blockID) {
             return I18n.format(state.translator, "end_portal");
         }
 
-        if (state.id == Block.endPortalFrame.blockID) {
+        if (state.id == Block.field_40202_bJ.blockID) {
             return I18n.format(state.translator, "end_portal_frame");
         }
 
@@ -133,7 +133,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
                 return 7;
             } else if (b instanceof BlockStem) {
                 return 7;
-            } else if (b instanceof BlockNetherStalk) {
+            } else if (b instanceof BlockNetherBrick) {
+                // Badly translated class name
                 return 3;
             } else {
                 for (Field field : b.getClass().getFields()) {
@@ -158,7 +159,7 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private boolean isCrop(Block b) {
         boolean crop = b instanceof BlockCrops
-                       || b instanceof BlockNetherStalk
+                       || b instanceof BlockNetherBrick
                        || b instanceof BlockStem;
         if (!crop) {
             try {

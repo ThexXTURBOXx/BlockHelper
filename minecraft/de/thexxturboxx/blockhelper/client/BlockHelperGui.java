@@ -10,7 +10,6 @@ import de.thexxturboxx.blockhelper.api.BlockHelperBlockState;
 import de.thexxturboxx.blockhelper.api.BlockHelperModSupport;
 import de.thexxturboxx.blockhelper.fix.FixDetector;
 import de.thexxturboxx.blockhelper.i18n.I18n;
-import de.thexxturboxx.blockhelper.integration.MicroblockIntegration;
 import de.thexxturboxx.blockhelper.integration.nei.ModIdentifier;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -24,6 +23,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
@@ -140,13 +140,6 @@ public class BlockHelperGui {
                     }
                 }
 
-                // Microblocks support here, not in Mod support classes as they need extra data
-                try {
-                    ItemStack microblock = MicroblockIntegration.getMicroblock(w, mc.thePlayer, mop, te);
-                    is = microblock == null ? is : microblock;
-                } catch (Throwable ignored) {
-                }
-
                 String mod = BlockHelperModSupport.getMod(new BlockHelperBlockState(translator,
                         w, mop, b, te, id, meta));
                 mod = mod == null ? ModIdentifier.identifyMod(b) : mod;
@@ -165,13 +158,13 @@ public class BlockHelperGui {
                 name = name == null ? "" : name;
                 if (name.isEmpty()) {
                     try {
-                        name = is.getItem().getItemDisplayName(is);
+                        name = is.getItem().func_40397_d(is);
                         if (name.isEmpty())
                             throw new IllegalArgumentException();
                     } catch (Throwable e) {
                         try {
                             ItemStack isNew = new ItemStack(b);
-                            name = isNew.getItem().getItemDisplayName(isNew);
+                            name = isNew.getItem().func_40397_d(isNew);
                             if (name.isEmpty())
                                 throw new IllegalArgumentException();
                         } catch (Throwable e1) {
@@ -180,7 +173,7 @@ public class BlockHelperGui {
                                     Item it = Item.itemsList[b.idDropped(meta, RND, 0)];
                                     ItemStack stack = new ItemStack(it, 1,
                                             mod_BlockHelper.damageDropped(b, meta));
-                                    name = it.getItemDisplayName(stack);
+                                    name = it.func_40397_d(stack);
                                 }
                                 if (name.isEmpty())
                                     throw new IllegalArgumentException();
@@ -197,9 +190,9 @@ public class BlockHelperGui {
 
                 String harvest = I18n.format("please_report");
                 if (b != null) {
-                    if (getHardness(b, meta) < 0.0F) {
+                    if (b.getHardness() < 0.0F) {
                         harvest = I18n.format("unbreakable");
-                    } else if (canHarvestBlock(b, mc.thePlayer, meta)) {
+                    } else if (canHarvestBlock(b, mc.thePlayer)) {
                         harvest = I18n.format("harvestable");
                     } else {
                         harvest = I18n.format("not_harvestable");
@@ -301,7 +294,7 @@ public class BlockHelperGui {
         int currLine = PADDING;
         for (String s : infos) {
             mc.fontRenderer.drawString(s, x + leftPadding, currLine, 0xffffffff);
-            currLine += mc.fontRenderer.FONT_HEIGHT;
+            currLine += getFontHeight(mc.fontRenderer);
         }
         return currLine;
     }
@@ -313,7 +306,7 @@ public class BlockHelperGui {
         int currLine = PADDING;
         for (String s : infos) {
             infoWidth = Math.max(mc.fontRenderer.getStringWidth(s) + PADDING, infoWidth);
-            currLine += mc.fontRenderer.FONT_HEIGHT;
+            currLine += getFontHeight(mc.fontRenderer);
         }
         infoWidth += showcaseSize;
         currLine = Math.max(currLine, showcaseSize);
@@ -400,9 +393,17 @@ public class BlockHelperGui {
         }
     }
 
-    public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+    public static int getFontHeight(FontRenderer fontRenderer) {
         try {
-            return b.canHarvestBlock(player, meta);
+            return fontRenderer.FONT_HEIGHT;
+        } catch (Throwable ignored) {
+        }
+        return 9;
+    }
+
+    public static boolean canHarvestBlock(Block b, EntityPlayer player) {
+        try {
+            return player.canHarvestBlock(b);
         } catch (Throwable ignored) {
         }
 
@@ -412,14 +413,6 @@ public class BlockHelperGui {
         if (stack == null)
             return false;
         return stack.canHarvestBlock(b);
-    }
-
-    public static float getHardness(Block b, int meta) {
-        try {
-            return b.getHardness(meta);
-        } catch (Throwable ignored) {
-        }
-        return b.getHardness();
     }
 
 }

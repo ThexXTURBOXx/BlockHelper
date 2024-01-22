@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
-import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockNetherBrick;
 import net.minecraft.src.BlockStem;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemRecord;
@@ -92,7 +92,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
                 return 7;
             } else if (b instanceof BlockStem) {
                 return 7;
-            } else if (b instanceof BlockNetherStalk) {
+            } else if (b instanceof BlockNetherBrick) {
+                // Badly translated class name
                 return 3;
             } else {
                 for (Field field : b.getClass().getFields()) {
@@ -117,8 +118,8 @@ public class VanillaIntegration extends BlockHelperInfoProvider {
 
     private boolean isCrop(Block b) {
         boolean crop = b instanceof BlockCrops
-                || b instanceof BlockNetherStalk
-                || b instanceof BlockStem;
+                       || b instanceof BlockNetherBrick
+                       || b instanceof BlockStem;
         if (!crop) {
             try {
                 for (Method method : b.getClass().getDeclaredMethods()) {
