@@ -29,37 +29,41 @@ or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3).
 
 ## Mod Compatibility
 
-| Mod | b1.5/b1.5_01 | b1.6.5/b1.6.6 | b1.7.2/b1.7.3 | b1.8.1 | 1.0/1.0.1 | 1.1 | 1.2.3 | 1.2.4/1.2.5 | 1.3.1/1.3.2 | 1.4 | 1.4.1/1.4.2 | 1.4.3 | 1.4.4/1.4.5 | 1.4.6/1.4.7 | 1.5.x |
-| ------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-| Vanilla | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| Advanced Machines | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| Applied Energistics | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
-| BuildCraft | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| ChickenChunks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| Factorization | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| Falling Meteors | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| Flora & Soma / Natura | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| Forestry | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| GregTech | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| IndustrialCraft | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| IC² | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| Immibis's Microblocks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
-| InfiCraft | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
-| NEI | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| Pam's Mods | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| Project Zulu | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
-| Railcraft | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
-| Red Power | ❌ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
-| Thermal Expansion | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Mod | b1.2_02 | b1.3_01 | b1.4_01 | b1.5/b1.5_01 | b1.6.5/b1.6.6 | b1.7.2/b1.7.3 | b1.8.1 | b1.9p5 | 1.0/1.0.1 | 1.1 | 1.2.3 | 1.2.4/1.2.5 | 1.3.1/1.3.2 | 1.4 | 1.4.1/1.4.2 | 1.4.3 | 1.4.4/1.4.5 | 1.4.6/1.4.7 | 1.5.x |
+| ------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| Vanilla | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| Advanced Machines | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Applied Energistics | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
+| BuildCraft | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| ChickenChunks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Factorization | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Falling Meteors | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Flora & Soma / Natura | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Forestry | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| GregTech | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| IndustrialCraft | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| IC² | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Immibis's Microblocks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ |
+| InfiCraft | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
+| NEI | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Pam's Mods | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Project Zulu | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ✔ |
+| Railcraft | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
+| Red Power | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ✔ | ✔ | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ❌ |
+| Thermal Expansion | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔ | ✔ | ❌ | ✔ | ❌ | ✔ | ✔ | ✔ |
 
 
 ## Source Code
 
 BlockHelper is being developed for:<br>
+[b1.2_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.2_02)<br>
+[b1.3_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.3_01)<br>
+[b1.4_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.4_01)<br>
 [b1.5/b1.5_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.5_01)<br>
 [b1.6.5/b1.6.6](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.6.6)<br>
 [b1.7.2/b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)<br>
 [b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)<br>
+[b1.9p5](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.9p5)<br>
 [1.0/1.0.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.0)<br>
 [1.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.1)<br>
 [1.2.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.3)<br>
