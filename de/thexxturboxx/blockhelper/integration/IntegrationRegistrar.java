@@ -13,6 +13,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerModFixer(new BuildcraftIntegration());
+        BlockHelperModSupport.registerBlockProvider(new EEIntegration());
         BlockHelperModSupport.registerItemStackFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerModFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerItemStackFixer(new GregTechIntegration());

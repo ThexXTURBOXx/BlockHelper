@@ -14,6 +14,7 @@ public class BlockHelperCommonProxy {
     public static boolean showHealth;
     public static boolean advMachinesIntegration;
     public static boolean bcIntegration;
+    public static boolean eeIntegration;
     public static boolean factorizationIntegration;
     public static boolean gregTechIntegration;
     public static boolean ic2Integration;
@@ -32,6 +33,7 @@ public class BlockHelperCommonProxy {
         showHealth = cfg.get("General", "ShowHealth", true).getBoolean(true);
         advMachinesIntegration = cfg.get("General", "AdvMachinesIntegration", true).getBoolean(true);
         bcIntegration = cfg.get("General", "BuildCraftIntegration", true).getBoolean(true);
+        eeIntegration = cfg.get("General", "EEIntegration", true).getBoolean(true);
         factorizationIntegration = cfg.get("General", "FactorizationIntegration", true).getBoolean(true);
         gregTechIntegration = cfg.get("General", "GregTechIntegration", true).getBoolean(true);
         ic2Integration = cfg.get("General", "Ic2Integration", true).getBoolean(true);
