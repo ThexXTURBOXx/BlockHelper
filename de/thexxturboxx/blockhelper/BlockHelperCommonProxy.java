@@ -15,6 +15,7 @@ public class BlockHelperCommonProxy {
     public static boolean appEngIntegration;
     public static boolean bcIntegration;
     public static boolean ccIntegration;
+    public static boolean eeIntegration;
     public static boolean factorizationIntegration;
     public static boolean forestryIntegration;
     public static boolean forgeIntegration;
@@ -47,6 +48,8 @@ public class BlockHelperCommonProxy {
                 "Shows extra info about blocks from the BuildCraft mod").getBoolean(true);
         ccIntegration = cfg.get("General", "ChickenChunksIntegration", true,
                 "Shows extra info about blocks from the ChickenChunks mod").getBoolean(true);
+        eeIntegration = cfg.get("General", "EEIntegration", true,
+                "Shows extra info about blocks from the EE mod and shows EMC values").getBoolean(true);
         factorizationIntegration = cfg.get("General", "FactorizationIntegration", true,
                 "Shows extra info about blocks from the Factorization mod").getBoolean(true);
         forestryIntegration = cfg.get("General", "ForestryIntegration", true,

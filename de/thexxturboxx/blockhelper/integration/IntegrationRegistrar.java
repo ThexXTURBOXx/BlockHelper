@@ -16,6 +16,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerBlockProvider(new CChunksIntegration());
         BlockHelperModSupport.registerModFixer(new CChunksIntegration());
+        BlockHelperModSupport.registerBlockProvider(new EEIntegration());
         BlockHelperModSupport.registerItemStackFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerModFixer(new FactorizationIntegration());
         BlockHelperModSupport.registerBlockProvider(new ForestryIntegration());
