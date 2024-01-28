@@ -16,6 +16,7 @@ public class BlockHelperCommonProxy {
     public static boolean showHealth;
     public static boolean advMachinesIntegration;
     public static boolean bcIntegration;
+    public static boolean eeIntegration;
     public static boolean floraSomaIntegration;
     public static boolean forestryIntegration;
     public static boolean gregTechIntegration;
@@ -38,6 +39,7 @@ public class BlockHelperCommonProxy {
         showHealth = parseBooleanTrueDefault(cfg.getOrCreateProperty("ShowHealth", "General", "true").value);
         advMachinesIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("AdvMachinesIntegration", "General", "true").value);
         bcIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("BuildCraftIntegration", "General", "true").value);
+        eeIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("EEIntegration", "General", "true").value);
         floraSomaIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("FloraSomaIntegration", "General", "true").value);
         forestryIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("ForestryIntegration", "General", "true").value);
         gregTechIntegration = parseBooleanTrueDefault(cfg.getOrCreateProperty("GregTechIntegration", "General", "true").value);
