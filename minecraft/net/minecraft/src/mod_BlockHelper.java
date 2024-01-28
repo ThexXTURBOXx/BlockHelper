@@ -67,6 +67,8 @@ public class mod_BlockHelper extends BaseModMp {
     public static String advMachinesIntegrationStr = "true";
     @MLProp(name = "BuildCraftIntegration")
     public static String bcIntegrationStr = "true";
+    @MLProp(name = "EEIntegration")
+    public static String eeIntegrationStr = "true";
     @MLProp(name = "FloraSomaIntegration")
     public static String floraSomaIntegrationStr = "true";
     @MLProp(name = "ForestryIntegration")
