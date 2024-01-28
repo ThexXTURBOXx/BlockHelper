@@ -8,6 +8,7 @@ public class BlockHelperCommonProxy {
 
     public static boolean showHealth;
     public static boolean bcIntegration;
+    public static boolean eeIntegration;
     public static boolean forestryIntegration;
     public static boolean ic2Integration;
     public static boolean redPower2Integration;
@@ -20,6 +21,7 @@ public class BlockHelperCommonProxy {
         versionCheckThread.start();
         showHealth = parseBooleanTrueDefault(mod_BlockHelper.showHealthStr);
         bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.bcIntegrationStr);
+        bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.eeIntegrationStr);
         forestryIntegration = parseBooleanTrueDefault(mod_BlockHelper.forestryIntegrationStr);
         ic2Integration = parseBooleanTrueDefault(mod_BlockHelper.ic2IntegrationStr);
         redPower2Integration = parseBooleanTrueDefault(mod_BlockHelper.redPower2IntegrationStr);

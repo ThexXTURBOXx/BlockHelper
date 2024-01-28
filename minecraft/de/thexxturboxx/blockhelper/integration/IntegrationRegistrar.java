@@ -12,6 +12,7 @@ public final class IntegrationRegistrar {
         BlockHelperModSupport.registerBlockProvider(new BuildcraftIntegration());
         BlockHelperModSupport.registerItemStackFixer(new BuildcraftIntegration());
         BlockHelperModSupport.registerModFixer(new BuildcraftIntegration());
+        BlockHelperModSupport.registerBlockProvider(new EEIntegration());
         BlockHelperModSupport.registerBlockProvider(new ForestryIntegration());
         BlockHelperModSupport.registerBlockProvider(new Ic2Integration());
         BlockHelperModSupport.registerBlockProvider(new RedPower2Integration());
