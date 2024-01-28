@@ -9,6 +9,7 @@ public class BlockHelperCommonProxy {
     public static boolean showHealth;
     public static boolean advMachinesIntegration;
     public static boolean bcIntegration;
+    public static boolean eeIntegration;
     public static boolean floraSomaIntegration;
     public static boolean forestryIntegration;
     public static boolean ic2Integration;
@@ -25,6 +26,7 @@ public class BlockHelperCommonProxy {
         showHealth = parseBooleanTrueDefault(mod_BlockHelper.showHealthStr);
         advMachinesIntegration = parseBooleanTrueDefault(mod_BlockHelper.advMachinesIntegrationStr);
         bcIntegration = parseBooleanTrueDefault(mod_BlockHelper.bcIntegrationStr);
+        eeIntegration = parseBooleanTrueDefault(mod_BlockHelper.eeIntegrationStr);
         floraSomaIntegration = parseBooleanTrueDefault(mod_BlockHelper.floraSomaIntegrationStr);
         forestryIntegration = parseBooleanTrueDefault(mod_BlockHelper.forestryIntegrationStr);
         ic2Integration = parseBooleanTrueDefault(mod_BlockHelper.ic2IntegrationStr);
