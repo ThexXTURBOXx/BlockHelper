@@ -1,6 +1,7 @@
 package mcp.mobius.waila.server;
 
 import cpw.mods.fml.common.Loader;
+import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
@@ -38,6 +39,7 @@ public class ProxyServer {
 
 	public void registerMods(){
 
+		HUDHandlerEntities.register();
 		HUDHandlerVanilla.register();
 		HUDHandlerFurnace.register();
 

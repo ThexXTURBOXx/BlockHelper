@@ -6,7 +6,6 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -16,9 +15,6 @@ import mcp.mobius.waila.api.IWailaEntityProvider;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
-
-	public static int nhearts = 20;
-	public static float maxhpfortext = 40.0f;
 
 	@Override
 	public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
@@ -37,25 +33,6 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-		if (!config.getConfig("general.showhp")) return currenttip;
-
-		if (entity instanceof EntityLiving){
-			EntityLiving living = (EntityLiving) entity;
-			String hptip = "";
-
-			nhearts = nhearts <= 0 ? 20 : nhearts;
-
-			float  health = living.getHealth() / 2.0f;
-			float  maxhp  = living.getMaxHealth() / 2.0f;
-
-			if (living.getMaxHealth() > maxhpfortext)
-				currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", living.getHealth(), living.getMaxHealth()));
-
-			else{
-				currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
-			}
-		}
-
 		return currenttip;
 	}
 

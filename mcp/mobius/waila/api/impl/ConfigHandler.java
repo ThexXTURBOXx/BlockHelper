@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.Configuration;

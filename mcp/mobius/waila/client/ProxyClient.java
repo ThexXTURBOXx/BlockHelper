@@ -27,6 +27,8 @@ public class ProxyClient extends ProxyServer {
 
 	@Override
 	public void registerHandlers(){
+		super.registerHandlers();
+
 		LangUtil.instance.addLangDirFromJar(LangUtil.instance.hostFile(ProxyClient.class), "/assets/waila/lang");
 
 		minecraftiaFont = FontLoader.createFont("/assets/waila/fonts/Minecraftia.ttf", 14, true);
@@ -45,13 +47,11 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
 
 		//ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 
 		ModuleRegistrar.instance().addConfig("General", "general.showents");
-		ModuleRegistrar.instance().addConfig("General", "general.showhp");
 		ModuleRegistrar.instance().addConfig("General", "general.showcrop");
 
 		ModuleRegistrar.instance().registerTooltipRenderer("waila.health",    new TTRenderHealth());
