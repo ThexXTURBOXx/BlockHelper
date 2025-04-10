@@ -2,7 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.gui.truetyper.FontHelper;
@@ -16,7 +16,7 @@ public class TTRenderTrueTyper implements IWailaTooltipRenderer{
 
 	public TTRenderTrueTyper(String data){
 		this.data = data;
-		this.size = new Dimension(DisplayUtil.getDisplayWidth(data), data.equals("") ? 0 : (int)((TrueTypeFont) mod_Waila.proxy.getFont()).getHeight() / 2);
+		this.size = new Dimension(DisplayUtil.getDisplayWidth(data), data.equals("") ? 0 : (int)((TrueTypeFont) mod_BlockHelper.proxy.getFont()).getHeight() / 2);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class TTRenderTrueTyper implements IWailaTooltipRenderer{
 
 	@Override
 	public void draw(String[] params, IWailaCommonAccessor accessor) {
-		FontHelper.drawString(data, 0f, 0f, (TrueTypeFont) mod_Waila.proxy.getFont(), 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+		FontHelper.drawString(data, 0f, 0f, (TrueTypeFont) mod_BlockHelper.proxy.getFont(), 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 }

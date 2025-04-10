@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.magicalcrops;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class MagicalCropsModule {
@@ -12,16 +12,16 @@ public class MagicalCropsModule {
 	public static void register(){
 		try{
 			Class MagicalCrops = Class.forName("magicalcrops.mod_sCrops");
-			mod_Waila.log.log(Level.INFO, "MagicalCrops mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "MagicalCrops mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[MagicalCrops] MagicalCrops mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[MagicalCrops] MagicalCrops mod not found.");
 			return;
 		}
 
 		try{
 			BlockMagicalCrops = Class.forName("magicalcrops.BlockMagicalCrops");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[MagicalCrops] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[MagicalCrops] Class not found. " + e);
 			return;
 		}
 

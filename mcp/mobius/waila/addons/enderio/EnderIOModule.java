@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class EnderIOModule {
@@ -21,9 +21,9 @@ public class EnderIOModule {
 	public static void register(){
 		try{
 			Class ModClass = Class.forName("crazypants.enderio.EnderIO");
-			mod_Waila.log.log(Level.INFO, "EnderIO mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "EnderIO mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[EnderIO] EnderIO mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[EnderIO] EnderIO mod not found.");
 			return;
 		}
 
@@ -39,16 +39,16 @@ public class EnderIOModule {
 			TileTesseract = Class.forName("crazypants.enderio.machine.hypercube.TileHyperCube");
 
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
 			return;
 //		} catch (NoSuchFieldException e){
 //			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
 //			return;
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
 			return;
 		}
 

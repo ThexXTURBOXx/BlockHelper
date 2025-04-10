@@ -9,17 +9,16 @@ import java.io.DataInputStream;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
 public class WailaPacketHandler implements IPacketHandler {
 
-    public static final String CHANNEL = "Waila";
-
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player){
         try{
-            if (packet.channel.equals(CHANNEL)) {
+            if (packet.channel.equals(mod_BlockHelper.CHANNEL)) {
                 DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
                 byte header = getHeader(inputStream);
 
@@ -84,7 +83,7 @@ public class WailaPacketHandler implements IPacketHandler {
         } catch (Exception e) {
             // TODO(NICO)
         }
-        mlPacket.channel = CHANNEL;
+        mlPacket.channel = mod_BlockHelper.CHANNEL;
         mlPacket.data    = bos.toByteArray();
         mlPacket.length  = bos.size();
         return mlPacket;

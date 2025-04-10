@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.ic2;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class IC2Module {
@@ -30,7 +30,7 @@ public class IC2Module {
 			ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks." + e);
 		}
 	}
 

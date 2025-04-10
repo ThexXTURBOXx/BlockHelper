@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.thermaldynamics;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import java.util.logging.Level;
 
@@ -20,7 +20,7 @@ public class ThermalDynamicsModule {
             ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerDuct(), TileFluidDuct);
 
         } catch (Exception e){
-            mod_Waila.log.log(Level.WARNING, "[Thermal Dynamics] Error while loading FluidDuct hooks." + e);
+            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Dynamics] Error while loading FluidDuct hooks." + e);
         }
 
         // XXX : We register the IBlockInfo interface

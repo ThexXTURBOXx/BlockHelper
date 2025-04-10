@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -220,7 +220,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		if (!this.tooltipRenderers.containsKey(name))
 			this.tooltipRenderers.put(name, renderer);
 		else
-			mod_Waila.log.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
+			mod_BlockHelper.log.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
 	}
 
 	/* PROVIDER GETTERS */

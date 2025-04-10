@@ -9,7 +9,7 @@ import java.util.List;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -70,7 +70,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		try{
 			tank = ((ILiquidTank[])BCModule.TileTank_getTanks.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), ForgeDirection.UNKNOWN))[0];
 		} catch (Exception e){
-			mod_Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
+			mod_BlockHelper.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 			return null;
 		}
 		return tank;

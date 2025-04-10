@@ -1,16 +1,12 @@
 package mcp.mobius.waila.client;
 
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
-
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import java.util.EnumSet;
-import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.src.ModLoader;
-import net.minecraftforge.event.ForgeSubscribe;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.common.Loader;
@@ -29,7 +25,7 @@ public class ConfigKeyHandler implements ITickHandler {
     public static KeyBinding key_recipe;
     public static KeyBinding key_usage;
 
-	public static void init(mod_Waila mod) {
+	public static void init(mod_BlockHelper mod) {
 		ModLoader.registerKey(mod, key_cfg    = new KeyBinding(Constants.BIND_WAILA_CFG,     Keyboard.KEY_NUMPAD0), false);
         ModLoader.registerKey(mod, key_show   = new KeyBinding(Constants.BIND_WAILA_SHOW,    Keyboard.KEY_NUMPAD1), false);
         ModLoader.registerKey(mod, key_liquid = new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2), false);

@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.projectred;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ProjectRedModule {
@@ -10,9 +10,9 @@ public class ProjectRedModule {
 	public static void register(){
 		try{
 			Class ModClass = Class.forName("mrtjp.projectred.ProjectRedIntegration");
-			mod_Waila.log.log(Level.INFO, "ProjectRed|Integration mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "ProjectRed|Integration mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
 			return;
 		}
 

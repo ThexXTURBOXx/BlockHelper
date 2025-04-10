@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class RailcraftModule {
@@ -16,9 +16,9 @@ public class RailcraftModule {
 	public static void register(){
 		try{
 			Class ModRailcraft = Class.forName("mods.railcraft.common.core.Railcraft");
-			mod_Waila.log.log(Level.INFO, "Railcraft mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "Railcraft mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
 			return;
 		}
 
@@ -29,10 +29,10 @@ public class RailcraftModule {
 			//StandardTank = Class.forName("mods.railcraft.common.fluids.tanks.StandardTank");
 
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Railcraft] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[Railcraft] Method not found." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Method not found." + e);
 			return;
 		}
 

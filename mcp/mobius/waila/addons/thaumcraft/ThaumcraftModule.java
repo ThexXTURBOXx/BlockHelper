@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThaumcraftModule {
@@ -67,10 +67,10 @@ public class ThaumcraftModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
 
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
 			return;
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
 			return;
 		}
 

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ETBModule {
@@ -29,9 +29,9 @@ public class ETBModule {
 	public static void register(){
 		try{
 			Class ModClass = Class.forName("emasher.sockets.TileSocket");
-			mod_Waila.log.log(Level.INFO, "Engineer Toolbox mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "Engineer Toolbox mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Engineer Toolbox] Engineer Toolbox mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[Engineer Toolbox] Engineer Toolbox mod not found.");
 			return;
 		}
 
@@ -63,16 +63,16 @@ public class ETBModule {
 
 
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Engineer Toolbox] Class not found. " + e);
 			return;
 //		} catch (NoSuchMethodException e){
 //			Waila.log.log(Level.WARNING, "[Engineer Toolbox] Method not found." + e);
 //			return;
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Field not found." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Engineer Toolbox] Field not found." + e);
 			return;
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Unhandled exception." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Engineer Toolbox] Unhandled exception." + e);
 			return;
 		}
 

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.cbcore.LangUtil;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
@@ -39,7 +39,7 @@ public class ProxyClient extends ProxyServer {
 			try{
 				Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
 			} catch (Exception e){
-				mod_Waila.log.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
+				mod_BlockHelper.log.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
 			}
 		}
 

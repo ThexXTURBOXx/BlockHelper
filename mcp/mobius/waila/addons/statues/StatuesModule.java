@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class StatuesModule {
@@ -15,9 +15,9 @@ public class StatuesModule {
 	public static void register(){
 		try{
 			Class Statues = Class.forName("info.jbcs.minecraft.statues.Statues");
-			mod_Waila.log.log(Level.INFO, "Statues mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "Statues mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Statues] Statues mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[Statues] Statues mod not found.");
 			return;
 		}
 
@@ -25,10 +25,10 @@ public class StatuesModule {
 			TileEntityStatue = Class.forName("info.jbcs.minecraft.statues.TileEntityStatue");
 			skinName = TileEntityStatue.getDeclaredField("skinName");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Statues] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Statues] Class not found. " + e);
 			return;
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[Statues] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Statues] Class not found. " + e);
 			return;
 		}
 

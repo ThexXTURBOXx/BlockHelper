@@ -2,7 +2,7 @@ package mcp.mobius.waila.server;
 
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.carpenters.CarpentersModule;
@@ -126,21 +126,21 @@ public class ProxyServer {
 		String methodName = splitName[splitName.length-1];
 		String className  = method.substring(0, method.length()-methodName.length()-1);
 
-		mod_Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+		mod_BlockHelper.log.info(String.format("Trying to reflect %s %s", className, methodName));
 
 		try{
 			Class  reflectClass  = Class.forName(className);
 			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
 			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
 
-			mod_Waila.log.info(String.format("Success in registering %s", modname));
+			mod_BlockHelper.log.info(String.format("Success in registering %s", modname));
 
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.warning(String.format("Could not find class %s", className));
+			mod_BlockHelper.log.warning(String.format("Could not find class %s", className));
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.warning(String.format("Could not find method %s", methodName));
+			mod_BlockHelper.log.warning(String.format("Could not find method %s", methodName));
 		} catch (Exception e){
-			mod_Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
+			mod_BlockHelper.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
 		}
 	}
 

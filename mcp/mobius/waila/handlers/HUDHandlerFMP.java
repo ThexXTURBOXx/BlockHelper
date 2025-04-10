@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -104,10 +104,10 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		try{
 			BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[FMP] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[FMP] Class not found. " + e);
 			return;
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[FMP] Unhandled exception." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[FMP] Unhandled exception." + e);
 			return;
 		}
 
@@ -116,7 +116,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
 		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerFMP(), BlockMultipart);
 
-		mod_Waila.log.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
+		mod_BlockHelper.log.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
 
 	}
 }

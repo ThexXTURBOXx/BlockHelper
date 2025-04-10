@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class BCModule {
@@ -36,7 +36,7 @@ public class BCModule {
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[BC] Error while loading Tank hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[BC] Error while loading Tank hooks." + e);
 		}
 
 		try{
@@ -51,7 +51,7 @@ public class BCModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerBCEnergy(), IPowerReceptor);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[BC] Error while loading Energy hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[BC] Error while loading Energy hooks." + e);
 		}
 
 	}

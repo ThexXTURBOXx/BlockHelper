@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
@@ -92,7 +92,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 
 	@Override
 	public boolean getConfig(String key, boolean defvalue){
-		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
+		if (this.serverconfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent)
 			return false;
 
 		if (this.forcedConfigs.containsKey(key))

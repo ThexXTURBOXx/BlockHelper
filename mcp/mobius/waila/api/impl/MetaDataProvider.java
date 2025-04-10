@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -67,7 +67,7 @@ public class MetaDataProvider{
 	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()){
+		if (accessor.getTileEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()){
 			accessor.resetTimer();
 			HashSet<String> keys = new HashSet<String>();
 
@@ -80,7 +80,7 @@ public class MetaDataProvider{
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
 				WailaPacketHandler.sendPacketToServer(new Packet0x01TERequest(accessor.getTileEntity(), keys));
 
-		} else if (accessor.getTileEntity() != null && !mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
+		} else if (accessor.getTileEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
 
 			try{
 				NBTTagCompound tag = new NBTTagCompound();
@@ -173,7 +173,7 @@ public class MetaDataProvider{
 
 	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 
-		if (accessor.getEntity() != null && mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
+		if (accessor.getEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)){
 			accessor.resetTimer();
 			HashSet<String> keys = new HashSet<String>();
 
@@ -183,7 +183,7 @@ public class MetaDataProvider{
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
 				WailaPacketHandler.sendPacketToServer(new Packet0x03EntRequest(accessor.getEntity(), keys));
 
-		} else if (accessor.getEntity() != null && !mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+		} else if (accessor.getEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)) {
 
 			try{
 				NBTTagCompound tag = new NBTTagCompound();

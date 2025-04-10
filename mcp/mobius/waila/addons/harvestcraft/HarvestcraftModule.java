@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.harvestcraft;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class HarvestcraftModule {
@@ -12,16 +12,16 @@ public class HarvestcraftModule {
 	public static void register(){
 		try{
 			Class PamHarvestCraft = Class.forName("assets.pamharvestcraft.PamHarvestCraft");
-			mod_Waila.log.log(Level.INFO, "PamHarvestCraft mod found.");
+			mod_BlockHelper.log.log(Level.INFO, "PamHarvestCraft mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[PamHarvestCraft] PamHarvestCraft mod not found.");
+			mod_BlockHelper.log.log(Level.INFO, "[PamHarvestCraft] PamHarvestCraft mod not found.");
 			return;
 		}
 
 		try{
 			TileEntityPamCrop = Class.forName("assets.pamharvestcraft.TileEntityPamCrop");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[PamHarvestCraft] Class not found. " + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[PamHarvestCraft] Class not found. " + e);
 			return;
 		}
 

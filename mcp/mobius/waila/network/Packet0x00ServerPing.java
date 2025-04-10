@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.HashMap;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.ConfigCategory;
 import mcp.mobius.waila.api.impl.ConfigHandler;
@@ -50,11 +50,11 @@ public class Packet0x00ServerPing implements IWailaPacket {
 
 	@Override
 	public void handle(Player player) {
-		mod_Waila.log.info("Received server authentication packet. Remote sync will be activated");
-		mod_Waila.instance.serverPresent = true;
+		mod_BlockHelper.log.info("Received server authentication packet. Remote sync will be activated");
+		mod_BlockHelper.INSTANCE.serverPresent = true;
 
 		for (String key : forcedKeys.keySet())
-			mod_Waila.log.info(String.format("Received forced key config %s : %s", key, forcedKeys.get(key)));
+			mod_BlockHelper.log.info(String.format("Received forced key config %s : %s", key, forcedKeys.get(key)));
 
 		ConfigHandler.instance().forcedConfigs = forcedKeys;
 	}

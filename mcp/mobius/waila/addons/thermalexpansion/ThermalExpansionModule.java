@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraftforge.common.ForgeDirection;
 import java.util.logging.Level;
@@ -76,7 +76,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyInfo);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks." + e);
 		}
 
 		// XXX : We register the energy cell
@@ -90,7 +90,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerEnergyCell(), TileEnergyCell);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
 		}
 
 		// XXX : We register the Tank interface
@@ -109,7 +109,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTank(), TileTank);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks." + e);
 		}
 
 		// XXX : We register the Tesseract interface
@@ -125,7 +125,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTesseract(), TileTesseract);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
 		}
 
 		// XXX : We register the ISecureTile interface
@@ -141,7 +141,7 @@ public class ThermalExpansionModule {
 			//ModuleRegistrar.instance().registerSyncedNBTKey("Access", ISecureTile);
 
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
+			mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
 		}
 
         // XXX : We register the Cache interface
@@ -157,7 +157,7 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerCache(), TileCache);
 
         } catch (Exception e){
-            mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
         }
 
         // XXX : We register the IBlockInfo interface

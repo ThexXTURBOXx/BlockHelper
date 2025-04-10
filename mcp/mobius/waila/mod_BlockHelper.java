@@ -1,6 +1,5 @@
 package mcp.mobius.waila;
 
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -34,27 +33,42 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.commands.CommandDumpHandlers;
 
-@NetworkMod(channels = {"Waila"}, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
-public class mod_Waila extends BaseMod {
-    // The instance of your mod that Forge uses.
-	public static mod_Waila instance;
+@NetworkMod(channels = {mod_BlockHelper.CHANNEL}, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
+public class mod_BlockHelper extends BaseMod {
 
-	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
+	public static final String PACKAGE = "mcp.mobius.waila.";
+	public static final String MOD_ID = "mod_BlockHelper";
+	public static final String NAME = "Block Helper";
+	public static final String VERSION = "1.2.0";
+	public static final String MC_VERSION = "1.5.2";
+	public static final String CHANNEL = "BlockHelper";
+	public static mod_BlockHelper INSTANCE;
+
+	@SidedProxy(clientSide=PACKAGE+"client.ProxyClient", serverSide=PACKAGE+"server.ProxyServer")
 	public static ProxyServer proxy;
-	public static Logger log = Logger.getLogger("Waila");
+	public static Logger log = Logger.getLogger(NAME);
 	static {
 		log.setParent(FMLLog.getLogger());
 	}
 	public boolean serverPresent = false;
 
+	public static String getModId(){
+		return MOD_ID;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	@Override
 	public String getVersion() {
-		return "TODO";
+		return VERSION;
 	}
 
 	@Override
 	public void load() {
-		instance = this;
+		INSTANCE = this;
 
 		// PRE INIT
 		Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
@@ -127,13 +141,6 @@ public class mod_Waila extends BaseMod {
 		// LOAD COMPLETE
 		proxy.registerMods();
 		proxy.registerIMCs();
-
-    	/*
-    	String[] ores = OreDictionary.getOreNames();
-    	for (String s : ores)
-    		for (ItemStack stack : OreDictionary.getOres(s))
-    			System.out.printf("%s : %s\n", s, stack);
-    	*/
 	}
 
 	@Mod.IMCCallback
@@ -145,15 +152,15 @@ public class mod_Waila extends BaseMod {
 			if (imcMessage.key.equalsIgnoreCase("addconfig")){
 				String[] params = imcMessage.getStringValue().split("\\$\\$");
 				if (params.length != 3){
-					mod_Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+					mod_BlockHelper.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
 					continue;
 				}
-				mod_Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+				mod_BlockHelper.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
 				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
 			}
 
 			if (imcMessage.key.equalsIgnoreCase("register")){
-				mod_Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+				mod_BlockHelper.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
 				ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
 			}
 		}
