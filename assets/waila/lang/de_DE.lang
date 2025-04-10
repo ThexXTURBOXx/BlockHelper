@@ -47,6 +47,7 @@ hud.msg.in=In
 hud.msg.power=Energie
 hud.msg.storage=Speicher
 hud.msg.stored=Gespeichert
+hud.msg.production=Produktion
 hud.msg.any=Jegliches
 hud.msg.mode=Modus
 hud.msg.maxpower=Max Energie

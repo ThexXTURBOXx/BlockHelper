@@ -2,6 +2,9 @@ package mcp.mobius.waila.server;
 
 import cpw.mods.fml.common.Loader;
 import java.lang.reflect.Method;
+import mcp.mobius.waila.addons.advmachines.AdvMachinesModule;
+import mcp.mobius.waila.addons.advsolars.AdvSolarsModule;
+import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
@@ -31,6 +34,15 @@ public class ProxyServer {
         HUDHandlerEntities.register();
         HUDHandlerVanilla.register();
         HUDHandlerFurnace.register();
+
+        /* ADVANCED MACHINES */
+        AdvMachinesModule.register();
+
+        /* ADVANCED SOLAR PANELS */
+        AdvSolarsModule.register();
+
+        /* APPLIED ENERGISTICS */
+        AppEngModule.register();
 
         /* BUILDCRAFT */
         BCModule.register();
