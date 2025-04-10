@@ -52,18 +52,15 @@ public class HUDHandlerBCEnergy implements IWailaDataProvider {
 		try{
 			Float energy = -1f;
 			Integer maxsto = -1;
-			System.err.println(te.getClass());
 			if (BCModule.IPowerReceptor.isInstance(te)){
-				System.err.println("isinst");
 				Object prov = BCModule.IPowerReceptor_getPowerProvider.invoke(te);
 				if (prov != null) {
-					System.err.println("nonnull");
 					energy = (Float) BCModule.IPowerProvider_getEnergyStored.invoke(prov);
 					maxsto = (Integer) BCModule.IPowerProvider_getMaxEnergyStored.invoke(prov);
 				}
 			}
 
-			tag.setFloat("Energy",     energy);
+			tag.setInteger("Energy",     Math.round(energy));
 			tag.setInteger("MaxStorage", maxsto);
 
 		} catch (Exception e){

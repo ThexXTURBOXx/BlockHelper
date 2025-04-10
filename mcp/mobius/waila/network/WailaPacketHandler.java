@@ -1,6 +1,5 @@
 package mcp.mobius.waila.network;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -17,8 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.io.IOException;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.DimensionManager;
 
 public class WailaPacketHandler implements IPacketHandler {
@@ -41,18 +38,7 @@ public class WailaPacketHandler implements IPacketHandler {
                 }
 
                 else if (header == 0x01){
-                    Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
-                    MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-                    TileEntity entity = DimensionManager.getWorld(castedPacket.worldID).getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-                    if (entity != null){
-                        try{
-                            NBTTagCompound tag = new NBTTagCompound();
-                            entity.writeToNBT(tag);
-                            PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
-                        }catch(Throwable e){
-                            WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-                        }
-                    }
+                    Packet0x01TERequest.handle(packet, player);
                 }
                 else if (header == 0x02){
                     Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
@@ -61,7 +47,6 @@ public class WailaPacketHandler implements IPacketHandler {
 
                 else if (header == 0x03){
                     Packet0x03EntRequest castedPacket = new Packet0x03EntRequest(packet);
-                    MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
                     Entity entity = DimensionManager.getWorld(castedPacket.worldID).getEntityByID(castedPacket.id);
                     if (entity != null){
                         try{
