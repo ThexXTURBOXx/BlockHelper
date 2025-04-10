@@ -3,6 +3,10 @@ package mcp.mobius.waila.network;
 import cpw.mods.fml.common.network.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -16,135 +20,135 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
 public class Packet0x01TERequest implements IWailaPacket {
 
-	private static Field classToNameMap;
+    private static Field classToNameMap;
 
-	static{
-		try{
-			classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
-			classToNameMap.setAccessible(true);
-		} catch (Exception e){
+    static {
+        try {
+            classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
+            classToNameMap.setAccessible(true);
+        } catch (Exception e) {
 
-			try{
-				classToNameMap = TileEntity.class.getDeclaredField("field_70323_b");
-				classToNameMap.setAccessible(true);
-			} catch (Exception f){
-				throw new RuntimeException(f);
-			}
+            try {
+                classToNameMap = TileEntity.class.getDeclaredField("field_70323_b");
+                classToNameMap.setAccessible(true);
+            } catch (Exception f) {
+                throw new RuntimeException(f);
+            }
 
-		}
-	}
-
-	public int dim;
-	public int posX;
-	public int posY;
-	public int posZ;
-	public HashSet<String> keys = new HashSet<String> ();
-
-	public Packet0x01TERequest(){}
-
-	public Packet0x01TERequest(TileEntity ent, HashSet<String> keys){
-		this.dim  = ent.getWorldObj().provider.dimensionId;
-		this.posX = ent.xCoord;
-		this.posY = ent.yCoord;
-		this.posZ = ent.zCoord;
-		this.keys = keys;
-	}
-
-	@Override
-	public void encode(DataOutputStream target) throws Exception {
-		target.writeInt(dim);
-		target.writeInt(posX);
-		target.writeInt(posY);
-		target.writeInt(posZ);
-		target.writeInt(this.keys.size());
-
-		for (String key : keys)
-			Packet.writeString(key, target);
-	}
-
-	@Override
-	public void decode(DataInputStream dat) {
-		try{
-			dim  = dat.readInt();
-			posX = dat.readInt();
-			posY = dat.readInt();
-			posZ = dat.readInt();
-
-			int nkeys = dat.readInt();
-
-			for (int i = 0; i < nkeys; i++)
-				this.keys.add(Packet.readString(dat, 250));
-
-		}catch (Exception e){
-			WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
-		}
-	}
-
-	@Override
-	public void handle(Player player) {
-        World           world  = DimensionManager.getWorld(dim);
-        TileEntity      entity = world.getBlockTileEntity(posX, posY, posZ);
-        Block           block  = Block.blocksList[world.getBlockId(posX, posY, posZ)];
-
-        if (entity != null){
-        	try{
-        		NBTTagCompound tag  = new NBTTagCompound();
-        		boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
-        		boolean hasNBTEnt   = ModuleRegistrar.instance().hasNBTProviders(entity);
-
-        		if (hasNBTBlock || hasNBTEnt){
-        			tag.setInteger("x", posX);
-            		tag.setInteger("y", posY);
-            		tag.setInteger("z", posZ);
-            		tag.setString ("id", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
-
-            		for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(block).values()){
-	        			for (IWailaDataProvider provider : providersList){
-	        				try{
-	        					tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
-	        				} catch (AbstractMethodError ame){
-	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
-	        				} catch (NoSuchMethodError nsm){
-	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
-	        				}
-	        			}
-            		}
-
-
-            		for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(entity).values()){
-	        			for (IWailaDataProvider provider : providersList){
-	        				try{
-	        					tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
-	        				} catch (AbstractMethodError ame){
-	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
-	        				} catch (NoSuchMethodError nsm){
-	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
-	        				}
-	        			}
-            		}
-
-        		} else {
-        			entity.writeToNBT(tag);
-        			tag = NBTUtil.createTag(tag, keys);
-        		}
-
-    			tag.setInteger("WailaX", posX);
-        		tag.setInteger("WailaY", posY);
-        		tag.setInteger("WailaZ", posZ);
-        		tag.setString ("WailaID", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
-
-				WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
-        	}catch(Throwable e){
-        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-        	}
         }
-	}
+    }
+
+    public int dim;
+    public int posX;
+    public int posY;
+    public int posZ;
+    public HashSet<String> keys = new HashSet<String>();
+
+    public Packet0x01TERequest() {
+    }
+
+    public Packet0x01TERequest(TileEntity ent, HashSet<String> keys) {
+        this.dim = ent.getWorldObj().provider.dimensionId;
+        this.posX = ent.xCoord;
+        this.posY = ent.yCoord;
+        this.posZ = ent.zCoord;
+        this.keys = keys;
+    }
+
+    @Override
+    public void encode(DataOutputStream target) throws Exception {
+        target.writeInt(dim);
+        target.writeInt(posX);
+        target.writeInt(posY);
+        target.writeInt(posZ);
+        target.writeInt(this.keys.size());
+
+        for (String key : keys)
+            Packet.writeString(key, target);
+    }
+
+    @Override
+    public void decode(DataInputStream dat) {
+        try {
+            dim = dat.readInt();
+            posX = dat.readInt();
+            posY = dat.readInt();
+            posZ = dat.readInt();
+
+            int nkeys = dat.readInt();
+
+            for (int i = 0; i < nkeys; i++)
+                this.keys.add(Packet.readString(dat, 250));
+
+        } catch (Exception e) {
+            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        }
+    }
+
+    @Override
+    public void handle(Player player) {
+        World world = DimensionManager.getWorld(dim);
+        TileEntity entity = world.getBlockTileEntity(posX, posY, posZ);
+        Block block = Block.blocksList[world.getBlockId(posX, posY, posZ)];
+
+        if (entity != null) {
+            try {
+                NBTTagCompound tag = new NBTTagCompound();
+                boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
+                boolean hasNBTEnt = ModuleRegistrar.instance().hasNBTProviders(entity);
+
+                if (hasNBTBlock || hasNBTEnt) {
+                    tag.setInteger("x", posX);
+                    tag.setInteger("y", posY);
+                    tag.setInteger("z", posZ);
+                    tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
+
+                    for (List<IWailaDataProvider> providersList :
+                            ModuleRegistrar.instance().getNBTProviders(block).values()) {
+                        for (IWailaDataProvider provider : providersList) {
+                            try {
+                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
+                                        posZ);
+                            } catch (AbstractMethodError ame) {
+                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                            } catch (NoSuchMethodError nsm) {
+                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                            }
+                        }
+                    }
+
+
+                    for (List<IWailaDataProvider> providersList :
+                            ModuleRegistrar.instance().getNBTProviders(entity).values()) {
+                        for (IWailaDataProvider provider : providersList) {
+                            try {
+                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
+                                        posZ);
+                            } catch (AbstractMethodError ame) {
+                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                            } catch (NoSuchMethodError nsm) {
+                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                            }
+                        }
+                    }
+
+                } else {
+                    entity.writeToNBT(tag);
+                    tag = NBTUtil.createTag(tag, keys);
+                }
+
+                tag.setInteger("WailaX", posX);
+                tag.setInteger("WailaY", posY);
+                tag.setInteger("WailaZ", posZ);
+                tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
+
+                WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
+            } catch (Throwable e) {
+                WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+            }
+        }
+    }
 
 }

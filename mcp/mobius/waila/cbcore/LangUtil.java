@@ -126,7 +126,8 @@ public class LangUtil {
                 ZipEntry entry = entries.nextElement();
                 final String name = entry.getName();
                 if (!entry.isDirectory() && name.startsWith(dir) && name.endsWith(".lang")) {
-                    this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.')));
+                    this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1,
+                            name.lastIndexOf('.')));
                 }
             }
             zf.close();

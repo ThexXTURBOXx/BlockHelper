@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.logging.Level;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.client.Minecraft;
@@ -35,9 +36,8 @@ public class BlockHelperUpdater implements Runnable {
                         mod_BlockHelper.NAME));
             }
         } catch (Throwable t) {
-            t.printStackTrace();
-            mod_BlockHelper.log.warning(LangUtil.translateG("waila.update_check_failed",
-                    mod_BlockHelper.NAME));
+            mod_BlockHelper.log.log(Level.WARNING, LangUtil.translateG("waila.update_check_failed",
+                    mod_BlockHelper.NAME), t);
         }
         isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
     }

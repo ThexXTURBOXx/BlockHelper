@@ -10,31 +10,32 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Packet0x04EntNBTData implements IWailaPacket {
 
-	NBTTagCompound tag;
+    NBTTagCompound tag;
 
-	public Packet0x04EntNBTData(){}
+    public Packet0x04EntNBTData() {
+    }
 
-	public Packet0x04EntNBTData(NBTTagCompound tag){
-		this.tag = tag;
-	}
+    public Packet0x04EntNBTData(NBTTagCompound tag) {
+        this.tag = tag;
+    }
 
-	@Override
-	public void encode(DataOutputStream target) throws Exception {
-		NBTUtil.writeNBTTagCompound(tag, target);
-	}
+    @Override
+    public void encode(DataOutputStream target) throws Exception {
+        NBTUtil.writeNBTTagCompound(tag, target);
+    }
 
-	@Override
-	public void decode(DataInputStream dat) {
-		try{
-			this.tag = NBTUtil.readNBTTagCompound(dat);
-		} catch (Exception e){
-    		WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
-		}
-	}
+    @Override
+    public void decode(DataInputStream dat) {
+        try {
+            this.tag = NBTUtil.readNBTTagCompound(dat);
+        } catch (Exception e) {
+            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        }
+    }
 
-	@Override
-	public void handle(Player player) {
-		DataAccessorCommon.instance.setNBTData(tag);
-	}
+    @Override
+    public void handle(Player player) {
+        DataAccessorCommon.instance.setNBTData(tag);
+    }
 
 }

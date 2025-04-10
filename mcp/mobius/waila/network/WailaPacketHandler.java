@@ -6,7 +6,6 @@ import cpw.mods.fml.common.network.Player;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -16,8 +15,8 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 public class WailaPacketHandler implements IPacketHandler {
 
     @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player){
-        try{
+    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+        try {
             if (packet.channel.equals(mod_BlockHelper.CHANNEL)) {
                 DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
                 byte header = getHeader(inputStream);
@@ -31,7 +30,7 @@ public class WailaPacketHandler implements IPacketHandler {
 
                 inputStream.close();
             }
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
     }
 
@@ -44,15 +43,15 @@ public class WailaPacketHandler implements IPacketHandler {
     }
 
     public static IWailaPacket getWailaPacket(byte header) {
-        if (header == 0x00){
+        if (header == 0x00) {
             return new Packet0x00ServerPing();
-        } else if (header == 0x01){
+        } else if (header == 0x01) {
             return new Packet0x01TERequest();
-        } else if (header == 0x02){
+        } else if (header == 0x02) {
             return new Packet0x02TENBTData();
-        } else if (header == 0x03){
+        } else if (header == 0x03) {
             return new Packet0x03EntRequest();
-        } else if (header == 0x04){
+        } else if (header == 0x04) {
             return new Packet0x04EntNBTData();
         }
         return null;
@@ -61,13 +60,13 @@ public class WailaPacketHandler implements IPacketHandler {
     public static byte getPacketId(IWailaPacket packet) {
         if (packet instanceof Packet0x00ServerPing) {
             return 0x00;
-        } else if (packet instanceof Packet0x01TERequest){
+        } else if (packet instanceof Packet0x01TERequest) {
             return 0x01;
-        } else if (packet instanceof Packet0x02TENBTData){
+        } else if (packet instanceof Packet0x02TENBTData) {
             return 0x02;
-        } else if (packet instanceof Packet0x03EntRequest){
+        } else if (packet instanceof Packet0x03EntRequest) {
             return 0x03;
-        } else if (packet instanceof Packet0x04EntNBTData){
+        } else if (packet instanceof Packet0x04EntNBTData) {
             return 0x04;
         }
         return -1;
@@ -75,7 +74,7 @@ public class WailaPacketHandler implements IPacketHandler {
 
     public static Packet250CustomPayload wrapMLPacket(IWailaPacket packet) {
         Packet250CustomPayload mlPacket = new Packet250CustomPayload();
-        ByteArrayOutputStream bos     = new ByteArrayOutputStream();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(bos);
         try {
             outputStream.writeByte(getPacketId(packet));
@@ -84,16 +83,16 @@ public class WailaPacketHandler implements IPacketHandler {
             // TODO(NICO)
         }
         mlPacket.channel = mod_BlockHelper.CHANNEL;
-        mlPacket.data    = bos.toByteArray();
-        mlPacket.length  = bos.size();
+        mlPacket.data = bos.toByteArray();
+        mlPacket.length = bos.size();
         return mlPacket;
     }
 
-    public static void sendPacketToPlayer(IWailaPacket packet, Player player){
+    public static void sendPacketToPlayer(IWailaPacket packet, Player player) {
         PacketDispatcher.sendPacketToPlayer(wrapMLPacket(packet), player);
     }
 
-    public static void sendPacketToServer(IWailaPacket packet){
+    public static void sendPacketToServer(IWailaPacket packet) {
         PacketDispatcher.sendPacketToServer(wrapMLPacket(packet));
     }
 

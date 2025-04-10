@@ -3,6 +3,8 @@ package mcp.mobius.waila.network;
 import cpw.mods.fml.common.network.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.HashSet;
+import java.util.List;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -15,82 +17,81 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
-import java.util.HashSet;
-import java.util.List;
-
 public class Packet0x03EntRequest implements IWailaPacket {
 
-	public int dim;
-	public int id;
-	public HashSet<String> keys = new HashSet<String> ();
+    public int dim;
+    public int id;
+    public HashSet<String> keys = new HashSet<String>();
 
-	public Packet0x03EntRequest(){}
+    public Packet0x03EntRequest() {
+    }
 
-	public Packet0x03EntRequest(Entity ent, HashSet<String> keys){
-		this.dim  = ent.worldObj.provider.dimensionId;
-		this.id   = ent.entityId;
-		this.keys = keys;
-	}
+    public Packet0x03EntRequest(Entity ent, HashSet<String> keys) {
+        this.dim = ent.worldObj.provider.dimensionId;
+        this.id = ent.entityId;
+        this.keys = keys;
+    }
 
-	@Override
-	public void encode(DataOutputStream target) throws Exception {
-		target.writeInt(dim);
-		target.writeInt(id);
-		target.writeInt(this.keys.size());
+    @Override
+    public void encode(DataOutputStream target) throws Exception {
+        target.writeInt(dim);
+        target.writeInt(id);
+        target.writeInt(this.keys.size());
 
-		for (String key : keys)
-			Packet.writeString(key, target);
-	}
+        for (String key : keys)
+            Packet.writeString(key, target);
+    }
 
-	@Override
-	public void decode(DataInputStream dat) {
-		try{
-			dim  = dat.readInt();
-			id   = dat.readInt();
+    @Override
+    public void decode(DataInputStream dat) {
+        try {
+            dim = dat.readInt();
+            id = dat.readInt();
 
 
-			int nkeys = dat.readInt();
+            int nkeys = dat.readInt();
 
-			for (int i = 0; i < nkeys; i++)
-				this.keys.add(Packet.readString(dat, 250));
+            for (int i = 0; i < nkeys; i++)
+                this.keys.add(Packet.readString(dat, 250));
 
-		}catch (Exception e){
-			WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
-		}
-	}
-
-	@Override
-	public void handle(Player player) {
-        World           world  = DimensionManager.getWorld(dim);
-        Entity          entity = world.getEntityByID(id);
-
-        if (entity != null){
-        	try{
-        		NBTTagCompound tag = new NBTTagCompound();
-
-        		if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)){
-        			for (List<IWailaEntityProvider> providersList : ModuleRegistrar.instance().getNBTEntityProviders(entity).values()){
-	        			for (IWailaEntityProvider provider : providersList){
-	        				try{
-	        					tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world);
-	        				} catch (AbstractMethodError ame){
-	        					tag = AccessHelper.getNBTData(provider, entity, tag);
-	        				}
-	        			}
-        			}
-
-        		} else {
-            		entity.writeToNBT(tag);
-            		tag = NBTUtil.createTag(tag, keys);
-        		}
-
-        		tag.setInteger("WailaEntityID", entity.entityId);
-
-				WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
-        	}catch(Throwable e){
-        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-        	}
+        } catch (Exception e) {
+            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
         }
-	}
+    }
+
+    @Override
+    public void handle(Player player) {
+        World world = DimensionManager.getWorld(dim);
+        Entity entity = world.getEntityByID(id);
+
+        if (entity != null) {
+            try {
+                NBTTagCompound tag = new NBTTagCompound();
+
+                if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)) {
+                    for (List<IWailaEntityProvider> providersList :
+                            ModuleRegistrar.instance().getNBTEntityProviders(entity).values()) {
+                        for (IWailaEntityProvider provider : providersList) {
+                            try {
+                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world);
+                            } catch (AbstractMethodError ame) {
+                                tag = AccessHelper.getNBTData(provider, entity, tag);
+                            }
+                        }
+                    }
+
+                } else {
+                    entity.writeToNBT(tag);
+                    tag = NBTUtil.createTag(tag, keys);
+                }
+
+                tag.setInteger("WailaEntityID", entity.entityId);
+
+                WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
+            } catch (Throwable e) {
+                WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+            }
+        }
+    }
 
 }

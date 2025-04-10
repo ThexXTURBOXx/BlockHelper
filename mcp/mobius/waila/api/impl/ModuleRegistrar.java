@@ -1,14 +1,11 @@
 package mcp.mobius.waila.api.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -18,163 +15,173 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 
 public class ModuleRegistrar implements IWailaRegistrar {
 
-	private static ModuleRegistrar instance = null;
+    private static ModuleRegistrar instance = null;
 
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> headBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> NBTDataProviders    = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
+    public Map<Class<?>, List<IWailaDataProvider>> headBlockProviders =
+            new LinkedHashMap<Class<?>, List<IWailaDataProvider>>();
+    public Map<Class<?>, List<IWailaDataProvider>> bodyBlockProviders =
+            new LinkedHashMap<Class<?>, List<IWailaDataProvider>>();
+    public Map<Class<?>, List<IWailaDataProvider>> tailBlockProviders =
+            new LinkedHashMap<Class<?>, List<IWailaDataProvider>>();
+    public Map<Class<?>, List<IWailaDataProvider>> stackBlockProviders =
+            new LinkedHashMap<Class<?>, List<IWailaDataProvider>>();
+    public Map<Class<?>, List<IWailaDataProvider>> NBTDataProviders =
+            new LinkedHashMap<Class<?>, List<IWailaDataProvider>>();
 
-	public LinkedHashMap<Class, ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();
+    public Map<Class<?>, List<IWailaBlockDecorator>> blockClassDecorators =
+            new LinkedHashMap<Class<?>, List<IWailaBlockDecorator>>();
 
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> overrideEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> NBTEntityProviders       = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+    public Map<Class<?>, List<IWailaEntityProvider>> headEntityProviders =
+            new LinkedHashMap<Class<?>, List<IWailaEntityProvider>>();
+    public Map<Class<?>, List<IWailaEntityProvider>> bodyEntityProviders =
+            new LinkedHashMap<Class<?>, List<IWailaEntityProvider>>();
+    public Map<Class<?>, List<IWailaEntityProvider>> tailEntityProviders =
+            new LinkedHashMap<Class<?>, List<IWailaEntityProvider>>();
+    public Map<Class<?>, List<IWailaEntityProvider>> overrideEntityProviders =
+            new LinkedHashMap<Class<?>, List<IWailaEntityProvider>>();
+    public Map<Class<?>, List<IWailaEntityProvider>> NBTEntityProviders =
+            new LinkedHashMap<Class<?>, List<IWailaEntityProvider>>();
 
-	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> headFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
-	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> bodyFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
-	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> tailFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
+    public Map<String, List<IWailaFMPProvider>> headFMPProviders =
+            new LinkedHashMap<String, List<IWailaFMPProvider>>();
+    public Map<String, List<IWailaFMPProvider>> bodyFMPProviders =
+            new LinkedHashMap<String, List<IWailaFMPProvider>>();
+    public Map<String, List<IWailaFMPProvider>> tailFMPProviders =
+            new LinkedHashMap<String, List<IWailaFMPProvider>>();
 
-	public LinkedHashMap<String, ArrayList<IWailaFMPDecorator>> FMPClassDecorators = new LinkedHashMap<String, ArrayList<IWailaFMPDecorator>>();
+    public Map<String, List<IWailaFMPDecorator>> FMPClassDecorators =
+            new LinkedHashMap<String, List<IWailaFMPDecorator>>();
 
-	public LinkedHashMap<Class, HashSet<String>> syncedNBTKeys = new LinkedHashMap<Class, HashSet<String>>();
+    public Map<String, Map<String, Map<String, String>>> wikiDescriptions =
+            new LinkedHashMap<String, Map<String, Map<String, String>>>();
+    public Map<Class<?>, List<IWailaSummaryProvider>> summaryProviders =
+            new LinkedHashMap<Class<?>, List<IWailaSummaryProvider>>();
 
-	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
-	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
+    public Map<String, IWailaTooltipRenderer> tooltipRenderers = new LinkedHashMap<String,
+            IWailaTooltipRenderer>();
 
-	public LinkedHashMap<String, String> IMCRequests = new LinkedHashMap<String, String>();
+    private ModuleRegistrar() {
+        instance = this;
+    }
 
-	public LinkedHashMap<String, IWailaTooltipRenderer> tooltipRenderers = new LinkedHashMap<String, IWailaTooltipRenderer>();
+    public static ModuleRegistrar instance() {
+        if (ModuleRegistrar.instance == null)
+            ModuleRegistrar.instance = new ModuleRegistrar();
+        return ModuleRegistrar.instance;
+    }
 
-	private ModuleRegistrar() {
-		instance = this;
-	}
+    /* CONFIG HANDLING */
+    @Override
+    public void addConfig(String modname, String key, String configname) {
+        this.addConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
+    }
 
-	public static ModuleRegistrar instance(){
-		if (ModuleRegistrar.instance == null)
-			ModuleRegistrar.instance = new ModuleRegistrar();
-		return ModuleRegistrar.instance;
-	}
+    @Override
+    public void addConfigRemote(String modname, String key, String configname) {
+        this.addConfigRemote(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
+    }
 
-	/* IMC HANDLING */
-	public void addIMCRequest(String method, String modname){
-		this.IMCRequests.put(method, modname);
-	}
+    @Override
+    public void addConfig(String modname, String key) {
+        this.addConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
+    }
 
-	/* CONFIG HANDLING */
-	@Override
-	public void addConfig(String modname, String key, String configname) {
-		this.addConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
-	}
+    @Override
+    public void addConfigRemote(String modname, String key) {
+        this.addConfigRemote(modname, key, Constants.CFG_DEFAULT_VALUE);
+    }
 
-	@Override
-	public void addConfigRemote(String modname, String key, String configname) {
-		this.addConfigRemote(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
-	}
+    @Override
+    public void addConfig(String modname, String key, String configname, boolean defvalue) {
+        ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
+    }
 
-	@Override
-	public void addConfig(String modname, String key) {
-		this.addConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
-	}
+    @Override
+    public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
+        ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
+    }
 
-	@Override
-	public void addConfigRemote(String modname, String key) {
-		this.addConfigRemote(modname, key, Constants.CFG_DEFAULT_VALUE);
-	}
+    @Override
+    public void addConfig(String modname, String key, boolean defvalue) {
+        ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
+    }
 
-	@Override
-	public void addConfig(String modname, String key, String configname, boolean defvalue) {
-		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
-	}
-
-	@Override
-	public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
-		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
-	}
-
-	@Override
-	public void addConfig(String modname, String key, boolean defvalue) {
-		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
-	}
-
-	@Override
-	public void addConfigRemote(String modname, String key, boolean defvalue) {
-		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
-	}
+    @Override
+    public void addConfigRemote(String modname, String key, boolean defvalue) {
+        ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
+    }
 
 
-	/* REGISTRATION METHODS */
-	@Override
-	public void registerHeadProvider(IWailaDataProvider dataProvider, Class block) {
-		this.registerProvider(dataProvider, block, this.headBlockProviders);
-	}
+    /* REGISTRATION METHODS */
+    @Override
+    public void registerHeadProvider(IWailaDataProvider dataProvider, Class<?> block) {
+        this.registerProvider(dataProvider, block, this.headBlockProviders);
+    }
 
-	@Override
-	public void registerBodyProvider(IWailaDataProvider dataProvider, Class block) {
-		this.registerProvider(dataProvider, block, this.bodyBlockProviders);
-	}
+    @Override
+    public void registerBodyProvider(IWailaDataProvider dataProvider, Class<?> block) {
+        this.registerProvider(dataProvider, block, this.bodyBlockProviders);
+    }
 
-	@Override
-	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
-		this.registerProvider(dataProvider, block, this.tailBlockProviders);
-	}
+    @Override
+    public void registerTailProvider(IWailaDataProvider dataProvider, Class<?> block) {
+        this.registerProvider(dataProvider, block, this.tailBlockProviders);
+    }
 
-	@Override
-	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
-		this.registerProvider(dataProvider, block, this.stackBlockProviders);
-	}
+    @Override
+    public void registerStackProvider(IWailaDataProvider dataProvider, Class<?> block) {
+        this.registerProvider(dataProvider, block, this.stackBlockProviders);
+    }
 
-	@Override
-	public void registerNBTProvider(IWailaDataProvider dataProvider, Class entity) {
-		this.registerProvider(dataProvider, entity, this.NBTDataProviders);
-	}
+    @Override
+    public void registerNBTProvider(IWailaDataProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.NBTDataProviders);
+    }
 
-	@Override
-	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
-		this.registerProvider(dataProvider, entity, this.headEntityProviders);
-	}
+    @Override
+    public void registerHeadProvider(IWailaEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.headEntityProviders);
+    }
 
-	@Override
-	public void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity) {
-		this.registerProvider(dataProvider, entity, this.bodyEntityProviders);
-	}
+    @Override
+    public void registerBodyProvider(IWailaEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.bodyEntityProviders);
+    }
 
-	@Override
-	public void registerTailProvider(IWailaEntityProvider dataProvider, Class entity) {
-		this.registerProvider(dataProvider, entity, this.tailEntityProviders);
-	}
+    @Override
+    public void registerTailProvider(IWailaEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.tailEntityProviders);
+    }
 
-	@Override
-	public void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity) {
-		this.registerProvider(dataProvider, entity, this.NBTEntityProviders);
-	}
+    @Override
+    public void registerNBTProvider(IWailaEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.NBTEntityProviders);
+    }
 
-	@Override
-	public void registerHeadProvider(IWailaFMPProvider dataProvider, String name) {
-		this.registerProvider(dataProvider, name, this.headFMPProviders);
-	}
+    @Override
+    public void registerHeadProvider(IWailaFMPProvider dataProvider, String name) {
+        this.registerProvider(dataProvider, name, this.headFMPProviders);
+    }
 
-	@Override
-	public void registerBodyProvider(IWailaFMPProvider dataProvider, String name) {
-		this.registerProvider(dataProvider, name, this.bodyFMPProviders);
-	}
+    @Override
+    public void registerBodyProvider(IWailaFMPProvider dataProvider, String name) {
+        this.registerProvider(dataProvider, name, this.bodyFMPProviders);
+    }
 
-	@Override
-	public void registerTailProvider(IWailaFMPProvider dataProvider, String name) {
-		this.registerProvider(dataProvider, name, this.tailFMPProviders);
-	}
+    @Override
+    public void registerTailProvider(IWailaFMPProvider dataProvider, String name) {
+        this.registerProvider(dataProvider, name, this.tailFMPProviders);
+    }
 
-	@Override
-	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
-		this.registerProvider(dataProvider, entity, this.overrideEntityProviders);
-	}
+    @Override
+    public void registerOverrideEntityProvider(IWailaEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.overrideEntityProviders);
+    }
 
 	/*
 	@Override
@@ -183,232 +190,209 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}
 	*/
 
-	@Override
-	public void registerDecorator(IWailaBlockDecorator decorator, Class block) {
-		this.registerProvider(decorator, block, this.blockClassDecorators);
-	}
+    @Override
+    public void registerDecorator(IWailaBlockDecorator decorator, Class<?> block) {
+        this.registerProvider(decorator, block, this.blockClassDecorators);
+    }
 
-	@Override
-	public void registerDecorator(IWailaFMPDecorator decorator, String name) {
-		this.registerProvider(decorator, name, this.FMPClassDecorators);
-	}
+    @Override
+    public void registerDecorator(IWailaFMPDecorator decorator, String name) {
+        this.registerProvider(decorator, name, this.FMPClassDecorators);
+    }
 
-	private <T, V> void registerProvider(T dataProvider, V clazz, LinkedHashMap<V, ArrayList<T>> target) {
-		if (clazz == null || dataProvider == null)
-			throw new RuntimeException(String.format("Trying to register a null provider or null block ! Please check the stacktrace to know what was the original registration method. [Provider : %s, Target : %s]", dataProvider.getClass().getName(), clazz));
+    private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
+        if (clazz == null || dataProvider == null)
+            throw new RuntimeException(String.format("Trying to register a null provider or null block ! Please check"
+                                                     + " the stacktrace to know what was the original registration "
+                                                     + "method. [Provider : %s, Target : %s]",
+                    dataProvider.getClass().getName(), clazz));
 
-		if (!target.containsKey(clazz))
-			target.put(clazz, new ArrayList<T>());
+        if (!target.containsKey(clazz))
+            target.put(clazz, new ArrayList<T>());
 
-		ArrayList<T> providers =target.get(clazz);
-		if (providers.contains(dataProvider)) return;
+        List<T> providers = target.get(clazz);
+        if (providers.contains(dataProvider)) return;
 
-		target.get(clazz).add(dataProvider);
-	}
+        target.get(clazz).add(dataProvider);
+    }
 
-	@Deprecated
-	@Override
-	public void registerSyncedNBTKey(String key, Class target){
-		if (!this.syncedNBTKeys.containsKey(target))
-			this.syncedNBTKeys.put(target, new HashSet<String>());
+    @Override
+    public void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer) {
+        if (!this.tooltipRenderers.containsKey(name))
+            this.tooltipRenderers.put(name, renderer);
+        else
+            mod_BlockHelper.log.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new "
+                                                      + "renderer.", name, renderer.getClass().getName()));
+    }
 
-		this.syncedNBTKeys.get(target).add(key);
-	}
+    /* PROVIDER GETTERS */
 
-	@Override
-	public void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer){
-		if (!this.tooltipRenderers.containsKey(name))
-			this.tooltipRenderers.put(name, renderer);
-		else
-			mod_BlockHelper.log.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
-	}
+    public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {
+        return getProviders(block, this.headBlockProviders);
+    }
 
-	/* PROVIDER GETTERS */
+    public Map<Integer, List<IWailaDataProvider>> getBodyProviders(Object block) {
+        return getProviders(block, this.bodyBlockProviders);
+    }
 
-	public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {
-		return getProviders(block, this.headBlockProviders);
-	}
+    public Map<Integer, List<IWailaDataProvider>> getTailProviders(Object block) {
+        return getProviders(block, this.tailBlockProviders);
+    }
 
-	public Map<Integer, List<IWailaDataProvider>> getBodyProviders(Object block) {
-		return getProviders(block, this.bodyBlockProviders);
-	}
+    public Map<Integer, List<IWailaDataProvider>> getStackProviders(Object block) {
+        return getProviders(block, this.stackBlockProviders);
+    }
 
-	public Map<Integer, List<IWailaDataProvider>> getTailProviders(Object block) {
-		return getProviders(block, this.tailBlockProviders);
-	}
+    public Map<Integer, List<IWailaDataProvider>> getNBTProviders(Object block) {
+        return getProviders(block, this.NBTDataProviders);
+    }
 
-	public Map<Integer, List<IWailaDataProvider>> getStackProviders(Object block) {
-		return getProviders(block, this.stackBlockProviders);
-	}
+    public Map<Integer, List<IWailaEntityProvider>> getHeadEntityProviders(Object entity) {
+        return getProviders(entity, this.headEntityProviders);
+    }
 
-	public Map<Integer, List<IWailaDataProvider>> getNBTProviders(Object block) {
-		return getProviders(block, this.NBTDataProviders);
-	}
+    public Map<Integer, List<IWailaEntityProvider>> getBodyEntityProviders(Object entity) {
+        return getProviders(entity, this.bodyEntityProviders);
+    }
 
-	public Map<Integer, List<IWailaEntityProvider>> getHeadEntityProviders(Object entity) {
-		return getProviders(entity, this.headEntityProviders);
-	}
+    public Map<Integer, List<IWailaEntityProvider>> getTailEntityProviders(Object entity) {
+        return getProviders(entity, this.tailEntityProviders);
+    }
 
-	public Map<Integer, List<IWailaEntityProvider>> getBodyEntityProviders(Object entity) {
-		return getProviders(entity, this.bodyEntityProviders);
-	}
+    public Map<Integer, List<IWailaEntityProvider>> getOverrideEntityProviders(Object entity) {
+        return getProviders(entity, this.overrideEntityProviders);
+    }
 
-	public Map<Integer, List<IWailaEntityProvider>> getTailEntityProviders(Object entity) {
-		return getProviders(entity, this.tailEntityProviders);
-	}
+    public Map<Integer, List<IWailaEntityProvider>> getNBTEntityProviders(Object entity) {
+        return getProviders(entity, this.NBTEntityProviders);
+    }
 
-	public Map<Integer, List<IWailaEntityProvider>> getOverrideEntityProviders(Object entity) {
-		return getProviders(entity, this.overrideEntityProviders);
-	}
+    public Map<Integer, List<IWailaFMPProvider>> getHeadFMPProviders(String name) {
+        return getProviders(name, this.headFMPProviders);
+    }
 
-	public Map<Integer, List<IWailaEntityProvider>> getNBTEntityProviders(Object entity) {
-		return getProviders(entity, this.NBTEntityProviders);
-	}
+    public Map<Integer, List<IWailaFMPProvider>> getBodyFMPProviders(String name) {
+        return getProviders(name, this.bodyFMPProviders);
+    }
 
-	public Map<Integer, List<IWailaFMPProvider>> getHeadFMPProviders(String name) {
-		return getProviders(name, this.headFMPProviders);
-	}
+    public Map<Integer, List<IWailaFMPProvider>> getTailFMPProviders(String name) {
+        return getProviders(name, this.tailFMPProviders);
+    }
 
-	public Map<Integer, List<IWailaFMPProvider>> getBodyFMPProviders(String name) {
-		return getProviders(name, this.bodyFMPProviders);
-	}
+    public Map<Integer, List<IWailaSummaryProvider>> getSummaryProvider(Object item) {
+        return getProviders(item, this.summaryProviders);
+    }
 
-	public Map<Integer, List<IWailaFMPProvider>> getTailFMPProviders(String name) {
-		return getProviders(name, this.tailFMPProviders);
-	}
+    public Map<Integer, List<IWailaBlockDecorator>> getBlockDecorators(Object block) {
+        return getProviders(block, this.blockClassDecorators);
+    }
 
-	public Map<Integer, List<IWailaSummaryProvider>> getSummaryProvider(Object item){
-		return getProviders(item, this.summaryProviders);
-	}
+    public Map<Integer, List<IWailaFMPDecorator>> getFMPDecorators(String name) {
+        return getProviders(name, this.FMPClassDecorators);
+    }
 
-	public Map<Integer, List<IWailaBlockDecorator>> getBlockDecorators(Object block){
-		return getProviders(block, this.blockClassDecorators);
-	}
+    public IWailaTooltipRenderer getTooltipRenderer(String name) {
+        return this.tooltipRenderers.get(name);
+    }
 
-	public Map<Integer, List<IWailaFMPDecorator>> getFMPDecorators(String name){
-		return getProviders(name, this.FMPClassDecorators);
-	}
+    private <T> Map<Integer, List<T>> getProviders(Object obj, Map<Class<?>, List<T>> target) {
+        Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
+        Integer index = 0;
 
-	public IWailaTooltipRenderer getTooltipRenderer(String name){
-		return this.tooltipRenderers.get(name);
-	}
+        for (Class<?> clazz : target.keySet()) {
+            if (clazz.isInstance(obj))
+                returnList.put(index, target.get(clazz));
 
-	private <T> Map<Integer, List<T>> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
-		Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
-		Integer index = 0;
+            index++;
+        }
 
-		for (Class clazz : target.keySet()){
-			if (clazz.isInstance(obj))
-				returnList.put(index, target.get(clazz));
+        return returnList;
+    }
 
-			index++;
-		}
+    private <T> Map<Integer, List<T>> getProviders(String name, Map<String, List<T>> target) {
+        Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
+        returnList.put(0, target.get(name));
+        return returnList;
+    }
 
-		return returnList;
-	}
+    /* HAS METHODS */
 
-	private <T> Map<Integer, List<T>> getProviders(String name, LinkedHashMap<String, ArrayList<T>> target){
-		Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
-		returnList.put(0, target.get(name));
-		return returnList;
-	}
+    public boolean hasStackProviders(Object block) {
+        return hasProviders(block, this.stackBlockProviders);
+    }
 
-	@Deprecated
-	public HashSet<String> getSyncedNBTKeys(Object target){
-		HashSet<String> returnList = new HashSet<String>();
-		for (Class clazz : this.syncedNBTKeys.keySet())
-			if (clazz.isInstance(target))
-				returnList.addAll(this.syncedNBTKeys.get(clazz));
+    public boolean hasHeadProviders(Object block) {
+        return hasProviders(block, this.headBlockProviders);
+    }
 
-		return returnList;
-	}
+    public boolean hasBodyProviders(Object block) {
+        return hasProviders(block, this.bodyBlockProviders);
+    }
 
-	/* HAS METHODS */
+    public boolean hasTailProviders(Object block) {
+        return hasProviders(block, this.tailBlockProviders);
+    }
 
-	public boolean hasStackProviders(Object block){
-		return hasProviders(block, this.stackBlockProviders);
-	}
+    public boolean hasNBTProviders(Object block) {
+        return hasProviders(block, this.NBTDataProviders);
+    }
 
-	public boolean hasHeadProviders(Object block){
-		return hasProviders(block, this.headBlockProviders);
-	}
+    public boolean hasHeadEntityProviders(Object entity) {
+        return hasProviders(entity, this.headEntityProviders);
+    }
 
-	public boolean hasBodyProviders(Object block){
-		return hasProviders(block, this.bodyBlockProviders);
-	}
+    public boolean hasBodyEntityProviders(Object entity) {
+        return hasProviders(entity, this.bodyEntityProviders);
+    }
 
-	public boolean hasTailProviders(Object block){
-		return hasProviders(block, this.tailBlockProviders);
-	}
+    public boolean hasTailEntityProviders(Object entity) {
+        return hasProviders(entity, this.tailEntityProviders);
+    }
 
-	public boolean hasNBTProviders(Object block){
-		return hasProviders(block, this.NBTDataProviders);
-	}
+    public boolean hasOverrideEntityProviders(Object entity) {
+        return hasProviders(entity, this.overrideEntityProviders);
+    }
 
-	public boolean hasHeadEntityProviders(Object entity){
-		return hasProviders(entity, this.headEntityProviders);
-	}
+    public boolean hasNBTEntityProviders(Object entity) {
+        return hasProviders(entity, this.NBTEntityProviders);
+    }
 
-	public boolean hasBodyEntityProviders(Object entity){
-		return hasProviders(entity, this.bodyEntityProviders);
-	}
+    public boolean hasHeadFMPProviders(String name) {
+        return hasProviders(name, this.headFMPProviders);
+    }
 
-	public boolean hasTailEntityProviders(Object entity){
-		return hasProviders(entity, this.tailEntityProviders);
-	}
+    public boolean hasBodyFMPProviders(String name) {
+        return hasProviders(name, this.bodyFMPProviders);
+    }
 
-	public boolean hasOverrideEntityProviders(Object entity){
-		return hasProviders(entity, this.overrideEntityProviders);
-	}
+    public boolean hasTailFMPProviders(String name) {
+        return hasProviders(name, this.tailFMPProviders);
+    }
 
-	public boolean hasNBTEntityProviders(Object entity){
-		return hasProviders(entity, this.NBTEntityProviders);
-	}
+    public boolean hasBlockDecorator(Object block) {
+        return hasProviders(block, this.blockClassDecorators);
+    }
 
-	public boolean hasHeadFMPProviders(String name){
-		return hasProviders(name, this.headFMPProviders);
-	}
+    public boolean hasFMPDecorator(String name) {
+        return hasProviders(name, this.FMPClassDecorators);
+    }
 
-	public boolean hasBodyFMPProviders(String name){
-		return hasProviders(name, this.bodyFMPProviders);
-	}
+    private <T> boolean hasProviders(Object obj, Map<Class<?>, List<T>> target) {
+        for (Class<?> clazz : target.keySet())
+            if (clazz.isInstance(obj))
+                return true;
+        return false;
+    }
 
-	public boolean hasTailFMPProviders(String name){
-		return hasProviders(name, this.tailFMPProviders);
-	}
+    private <T> boolean hasProviders(String name, Map<String, List<T>> target) {
+        return target.containsKey(name);
+    }
 
-	public boolean hasBlockDecorator(Object block){
-		return hasProviders(block, this.blockClassDecorators);
-	}
+    public boolean hasSummaryProvider(Class<?> item) {
+        return this.summaryProviders.containsKey(item);
+    }
 
-	public boolean hasFMPDecorator(String name){
-		return hasProviders(name, this.FMPClassDecorators);
-	}
-
-	private <T> boolean hasProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
-		for (Class clazz : target.keySet())
-			if (clazz.isInstance(obj))
-				return true;
-		return false;
-	}
-
-	private <T> boolean hasProviders(String name, LinkedHashMap<String, ArrayList<T>> target){
-		return target.containsKey(name);
-	}
-
-	public boolean hasSummaryProvider(Class item){
-		return this.summaryProviders.containsKey(item);
-	}
-
-	@Deprecated
-	public boolean hasSyncedNBTKeys(Object target){
-		for (Class clazz : this.syncedNBTKeys.keySet())
-			if (clazz.isInstance(target))
-				return true;
-		return false;
-	}
-
-	/* ----------------- */
+    /* ----------------- */
 	/*
 	@Override
 	public void registerDocTextFile(String filename) {
@@ -462,47 +446,47 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}
 	*/
 
-	public boolean hasDocTextModID(String modid){
-		return this.wikiDescriptions.containsKey(modid);
-	}
+    public boolean hasDocTextModID(String modid) {
+        return this.wikiDescriptions.containsKey(modid);
+    }
 
-	public boolean hasDocTextItem(String modid, String item){
-		if (this.hasDocTextModID(modid))
-			return this.wikiDescriptions.get(modid).containsKey(item);
-		return false;
-	}
+    public boolean hasDocTextItem(String modid, String item) {
+        if (this.hasDocTextModID(modid))
+            return this.wikiDescriptions.get(modid).containsKey(item);
+        return false;
+    }
 
-	public boolean hasDocTextMeta(String modid, String item, String meta){
-		if (this.hasDocTextItem(modid, item))
-			return this.wikiDescriptions.get(modid).get(item).containsKey(meta);
-		return false;
-	}
+    public boolean hasDocTextMeta(String modid, String item, String meta) {
+        if (this.hasDocTextItem(modid, item))
+            return this.wikiDescriptions.get(modid).get(item).containsKey(meta);
+        return false;
+    }
 
-	public LinkedHashMap<String, String> getDocText(String modid, String name){
-		return this.wikiDescriptions.get(modid).get(name);
-	}
+    public Map<String, String> getDocText(String modid, String name) {
+        return this.wikiDescriptions.get(modid).get(name);
+    }
 
-	public String getDocText(String modid, String name, String meta){
-		return this.wikiDescriptions.get(modid).get(name).get(meta);
-	}
+    public String getDocText(String modid, String name, String meta) {
+        return this.wikiDescriptions.get(modid).get(name).get(meta);
+    }
 
-	public boolean hasDocTextSpecificMeta(String modid, String name, String meta){
-		for (String s : this.getDocText(modid, name).keySet())
-			if (s.equals(meta))
-				return true;
-		return false;
-	}
+    public boolean hasDocTextSpecificMeta(String modid, String name, String meta) {
+        for (String s : this.getDocText(modid, name).keySet())
+            if (s.equals(meta))
+                return true;
+        return false;
+    }
 
-	public String getDoxTextWildcardMatch(String modid, String name){
-		Set<String> keys = this.wikiDescriptions.get(modid).keySet();
-		for (String s : keys){
-			String regexed = s;
-			regexed = regexed.replace(".", "\\.");
-			regexed = regexed.replace("*", ".*");
+    public String getDoxTextWildcardMatch(String modid, String name) {
+        Set<String> keys = this.wikiDescriptions.get(modid).keySet();
+        for (String s : keys) {
+            String regexed = s;
+            regexed = regexed.replace(".", "\\.");
+            regexed = regexed.replace("*", ".*");
 
-			if (name.matches(s))
-				return s;
-		}
-		return null;
-	}
+            if (name.matches(s))
+                return s;
+        }
+        return null;
+    }
 }

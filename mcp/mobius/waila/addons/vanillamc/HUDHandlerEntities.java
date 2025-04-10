@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.vanillamc;
 
-import java.util.List;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -10,7 +10,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import static mcp.mobius.waila.api.SpecialChars.*;
+
+import static mcp.mobius.waila.api.SpecialChars.GRAY;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
+import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
@@ -23,27 +26,31 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     }
 
     @Override
-    public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
+                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
+                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (config.getConfig("general.showhp"))
-            if (entity instanceof EntityLiving){
+            if (entity instanceof EntityLiving) {
                 nhearts = nhearts <= 0 ? 20 : nhearts;
 
                 NBTTagCompound tag = accessor.getNBTData();
-                float  health = accessor.getNBTInteger(tag, "Health");
-                float  maxhp  = accessor.getNBTInteger(tag, "MaxHealth");
-                float  healthHearts = health / 2.0f;
-                float  maxhpHearts  = maxhp / 2.0f;
+                float health = accessor.getNBTInteger(tag, "Health");
+                float maxhp = accessor.getNBTInteger(tag, "MaxHealth");
+                float healthHearts = health / 2.0f;
+                float maxhpHearts = maxhp / 2.0f;
 
                 if (maxhp > maxhpfortext)
-                    currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", health, maxhp));
+                    currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", health,
+                            maxhp));
 
-                else{
-                    currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(healthHearts), String.valueOf(maxhpHearts)));
+                else {
+                    currenttip.add(getRenderString("waila.health", String.valueOf(nhearts),
+                            String.valueOf(healthHearts), String.valueOf(maxhpHearts)));
                 }
             }
 
@@ -51,7 +58,8 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     }
 
     @Override
-    public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
+                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
@@ -64,7 +72,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
         return tag;
     }
 
-    public static void register(){
+    public static void register() {
         ModuleRegistrar.instance().addConfigRemote("VanillaMC", "general.showhp");
 
         IWailaEntityProvider provider = new HUDHandlerEntities();

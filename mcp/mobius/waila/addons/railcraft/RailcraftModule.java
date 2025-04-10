@@ -1,44 +1,44 @@
 package mcp.mobius.waila.addons.railcraft;
 
 import java.lang.reflect.Method;
-
 import java.util.logging.Level;
-
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.mod_BlockHelper;
 
 public class RailcraftModule {
-	public static Class  TileTankBase = null;
-	public static Class  ITankTile = null;
-	public static Method ITankTile_getTank = null;
-	//public static Class  StandardTank = null;
 
-	public static void register(){
-		try{
-			Class ModRailcraft = Class.forName("mods.railcraft.common.core.Railcraft");
-			mod_BlockHelper.log.log(Level.INFO, "Railcraft mod found.");
-		} catch (ClassNotFoundException e){
-			mod_BlockHelper.log.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
-			return;
-		}
+    public static Class<?> TileTankBase = null;
+    public static Class<?> ITankTile = null;
+    public static Method ITankTile_getTank = null;
+    //public static Class  StandardTank = null;
 
-		try{
-			TileTankBase = Class.forName("mods.railcraft.common.blocks.machine.beta.TileTankBase");
-			ITankTile    = Class.forName("mods.railcraft.common.blocks.machine.ITankTile");
-			ITankTile_getTank = ITankTile.getMethod("getTank");
-			//StandardTank = Class.forName("mods.railcraft.common.fluids.tanks.StandardTank");
+    public static void register() {
+        try {
+            Class<?> ModRailcraft = Class.forName("mods.railcraft.common.core.Railcraft");
+            mod_BlockHelper.log.log(Level.INFO, "Railcraft mod found.");
+        } catch (ClassNotFoundException e) {
+            mod_BlockHelper.log.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
+            return;
+        }
 
-		} catch (ClassNotFoundException e){
-			mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Class not found. " + e);
-			return;
-		} catch (NoSuchMethodException e){
-			mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Method not found." + e);
-			return;
-		}
+        try {
+            TileTankBase = Class.forName("mods.railcraft.common.blocks.machine.beta.TileTankBase");
+            ITankTile = Class.forName("mods.railcraft.common.blocks.machine.ITankTile");
+            ITankTile_getTank = ITankTile.getMethod("getTank");
+            //StandardTank = Class.forName("mods.railcraft.common.fluids.tanks.StandardTank");
 
-		ModuleRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(),  TileTankBase);
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(),  TileTankBase);
-		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTank(), TileTankBase);
-	}
+        } catch (ClassNotFoundException e) {
+            mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Class not found. " + e);
+            return;
+        } catch (NoSuchMethodException e) {
+            mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Method not found." + e);
+            return;
+        }
+
+        ModuleRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");
+        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTankBase);
+        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTankBase);
+        ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTankBase);
+    }
+
 }
