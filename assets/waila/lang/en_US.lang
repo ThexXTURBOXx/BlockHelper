@@ -149,3 +149,12 @@ option.general.showcrop=Show crop growth
 option.thaumcraft.aspects=Show aspects
 
 nei.options.keys.showenchant=Show enchanting values
+
+waila.newer_version_available=Newer version of %s available: %s
+waila.newest_version_installed=Yay! You have the newest version of %s :)
+waila.update_check_failed=Update check for %s failed.
+waila.newer_version_available_chat=§7[§6%s§7] §bNew version available: §c%s §6==> §2%s
+waila.update_check_failed_chat=§7[§6%s§7] §4Update Check failed.
+
+entity.Cat.name=Cat
+entity.ItemFrame.name=Item Frame

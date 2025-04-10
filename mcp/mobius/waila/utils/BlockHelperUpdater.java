@@ -28,14 +28,16 @@ public class BlockHelperUpdater implements Runnable {
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
-                mod_BlockHelper.log.info(LangUtil.translateG("newer_version_available", mod_BlockHelper.NAME,
-                        latestVersion));
+                mod_BlockHelper.log.info(LangUtil.translateG("waila.newer_version_available",
+                        mod_BlockHelper.NAME, latestVersion));
             } else {
-                mod_BlockHelper.log.info(LangUtil.translateG("newest_version_installed", mod_BlockHelper.NAME));
+                mod_BlockHelper.log.info(LangUtil.translateG("waila.newest_version_installed",
+                        mod_BlockHelper.NAME));
             }
         } catch (Throwable t) {
             t.printStackTrace();
-            mod_BlockHelper.log.warning(LangUtil.translateG("update_check_failed", mod_BlockHelper.NAME));
+            mod_BlockHelper.log.warning(LangUtil.translateG("waila.update_check_failed",
+                    mod_BlockHelper.NAME));
         }
         isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
     }
@@ -80,10 +82,11 @@ public class BlockHelperUpdater implements Runnable {
         if (!notify) return;
         if (!isLatestVersion()) {
             if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage(LangUtil.translateG("update_check_failed_chat", mod_BlockHelper.NAME));
+                mc.thePlayer.addChatMessage(LangUtil.translateG("waila.update_check_failed_chat",
+                        mod_BlockHelper.NAME));
             } else {
-                mc.thePlayer.addChatMessage(LangUtil.translateG("newer_version_available_chat", mod_BlockHelper.NAME,
-                        mod_BlockHelper.VERSION, getLatestVersion()));
+                mc.thePlayer.addChatMessage(LangUtil.translateG("waila.newer_version_available_chat",
+                        mod_BlockHelper.NAME, mod_BlockHelper.VERSION, getLatestVersion()));
             }
         }
     }

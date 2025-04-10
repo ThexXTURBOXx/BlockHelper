@@ -5,7 +5,10 @@ import java.util.List;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -23,10 +26,17 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-		try{
-			currenttip.add(WHITE + entity.getTranslatedEntityName());
-		} catch (Exception e){
-			currenttip.add(WHITE + "Unknown");
+		if (entity instanceof EntityItemFrame
+			|| (entity instanceof EntityOcelot
+				&& !((EntityOcelot) entity).func_94056_bM()
+				&& ((EntityOcelot) entity).isTamed())) {
+			currenttip.add(WHITE + LangUtil.translateG(entity.getTranslatedEntityName()));
+		} else {
+			try{
+				currenttip.add(WHITE + entity.getTranslatedEntityName());
+			} catch (Exception e){
+				currenttip.add(WHITE + "Unknown");
+			}
 		}
 		return currenttip;
 	}

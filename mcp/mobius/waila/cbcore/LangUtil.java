@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -60,23 +61,17 @@ public class LangUtil {
     public void addLangFile(final InputStream resource, final String lang) throws IOException {
         final LanguageRegistry reg = LanguageRegistry.instance();
         final BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
-        while (true) {
-            final String read = reader.readLine();
-            if (read == null) {
-                break;
-            }
-            final int equalIndex = read.indexOf(61);
-            if (equalIndex == -1) {
-                continue;
-            }
-            String key = read.substring(0, equalIndex);
-            final String value = read.substring(equalIndex + 1);
+        Properties prop = new Properties();
+        prop.load(reader);
+        reader.close();
+        for (String key : prop.stringPropertyNames()) {
+            if (key == null) continue;
+            final String value = prop.getProperty(key);
             if (this.prefix != null) {
-                key = String.valueOf(this.prefix) + "." + key;
+                key = this.prefix + "." + key;
             }
             reg.addStringLocalization(key, lang, value);
         }
-        reader.close();
     }
 
     public void addLangDirectory(final File host, final String dir) {

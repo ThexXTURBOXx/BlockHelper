@@ -143,6 +143,18 @@ option.carpenters.hide=Getarnte Blöcke verdecken
 option.stevescarts.showall=Zeige Daten
 option.stevescarts.colorblind=Farbenblind-Modus
 option.stevescarts.shifttoggle=Schleichend Umschalten
+option.general.showents=Zeige Objekte
 option.general.showhp=Zeige Gesundheit von Lebewesen
 option.general.showcrop=Zeige Pflanzenwachstum
 option.thaumcraft.aspects=Zeige Aspekte
+
+nei.options.keys.showenchant=Zeige Verzauberungswerte
+
+waila.newer_version_available=Neuere Version von %s verfügbar: %s
+waila.newest_version_installed=Juhu! Du hast die neueste Version von %s :)
+waila.update_check_failed=Update-Prüfung für %s fehlgeschlagen.
+waila.newer_version_available_chat=§7[§6%s§7] §bNeuere Version verfügbar: §c%s §6==> §2%s
+waila.update_check_failed_chat=§7[§6%s§7] §4Update-Prüfung fehlgeschlagen.
+
+entity.Cat.name=Katze
+entity.ItemFrame.name=Gegenstandsrahmen
