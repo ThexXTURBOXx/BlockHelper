@@ -31,9 +31,9 @@ public class HUDHandlerTEGenerator implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		try{
-			double storage    = accessor.getNBTData().getDouble("storage");
+			short  storage    = accessor.getNBTData().getShort("storage");
 			int    production = accessor.getNBTData().getInteger("production");
-			long   maxStorage = accessor.getNBTData().getLong("maxStorage");
+			short  maxStorage = accessor.getNBTData().getShort("maxStorage");
 
 			String storedStr  = LangUtil.translateG("hud.msg.stored");
 			String outputStr  = LangUtil.translateG("hud.msg.output");
@@ -64,19 +64,19 @@ public class HUDHandlerTEGenerator implements IWailaDataProvider {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag,	World world, int x, int y, int z) {
 
 		try{
-			double storage    = -1;
-			long   production = -1;
-			long   maxStorage = -1;
+			short storage    = -1;
+			int   production = -1;
+			short maxStorage = -1;
 
 			if (IC2Module.TileBaseGenerator.isInstance(te)){
-				storage    = IC2Module.TileBaseGenerator_storage.getDouble(te);
-				production = (long)IC2Module.TileBaseGenerator_production.getInt(te);
-				maxStorage = (long)IC2Module.TileBaseGenerator_maxStorage.getShort(te);
+				storage    = IC2Module.TileBaseGenerator_storage.getShort(te);
+				production = IC2Module.TileBaseGenerator_production.getInt(te);
+				maxStorage = IC2Module.TileBaseGenerator_maxStorage.getShort(te);
 			}
 
-			tag.setDouble ("storage",    storage);
-			tag.setLong   ("production", production);
-			tag.setLong   ("maxStorage", maxStorage);
+			tag.setShort  ("storage",    storage);
+			tag.setInteger("production", production);
+			tag.setShort  ("maxStorage", maxStorage);
 
 		} catch (Exception e){
 			throw new RuntimeException(e);
