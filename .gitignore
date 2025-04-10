@@ -38,9 +38,6 @@ mod_MinecraftForge.info
 # CodeChicken APIs #
 **/codechicken
 
-# IC² #
-**/ic2
-
 # Fabric #
 **/net/fabricmc
 **/net/modificationstation
