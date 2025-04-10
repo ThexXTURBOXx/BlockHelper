@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api.impl;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.network.Packet0x01TERequest;
 import mcp.mobius.waila.network.Packet0x03EntRequest;
+import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -78,7 +78,7 @@ public class MetaDataProvider{
 				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getTileEntity()));
 
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
-				PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
+				WailaPacketHandler.sendPacketToServer(new Packet0x01TERequest(accessor.getTileEntity(), keys));
 
 		} else if (accessor.getTileEntity() != null && !mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
 
@@ -181,7 +181,7 @@ public class MetaDataProvider{
 				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getEntity()));
 
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
-				PacketDispatcher.sendPacketToServer(Packet0x03EntRequest.create(world, accessor.getEntity(), keys));
+				WailaPacketHandler.sendPacketToServer(new Packet0x03EntRequest(accessor.getEntity(), keys));
 
 		} else if (accessor.getEntity() != null && !mod_Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 

@@ -175,7 +175,7 @@ public class DisplayUtil {
 	}
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
-    	Minecraft.getMinecraft().renderEngine.bindTexture("/gui/gui.png");
+    	Minecraft.getMinecraft().renderEngine.bindTexture("/gui/icons.png");
 
     	if (icon == null)
     		return;

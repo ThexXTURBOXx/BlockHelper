@@ -1,42 +1,40 @@
 package mcp.mobius.waila.network;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import cpw.mods.fml.common.network.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
-
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.utils.NBTUtil;
-import net.minecraft.nbt.CompressedStreamTools;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet250CustomPayload;
 
-public class Packet0x02TENBTData {
-	public byte header;
-	public NBTTagCompound tag;
+public class Packet0x02TENBTData implements IWailaPacket {
 
-	public Packet0x02TENBTData(Packet250CustomPayload packet){
-		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+	NBTTagCompound tag;
+
+	public Packet0x02TENBTData(){}
+
+	public Packet0x02TENBTData(NBTTagCompound tag){
+		this.tag = tag;
+	}
+
+	@Override
+	public void encode(DataOutputStream target) throws Exception {
+		NBTUtil.writeNBTTagCompound(tag, target);
+	}
+
+	@Override
+	public void decode(DataInputStream dat) {
 		try{
-			this.header  = inputStream.readByte();
-			this.tag     = NBTUtil.readNBTTagCompound(inputStream);
-		} catch (IOException e){}		
-	}	
-	
-	public static Packet250CustomPayload create(NBTTagCompound tag){
-		Packet250CustomPayload packet = new Packet250CustomPayload();
-		ByteArrayOutputStream bos     = new ByteArrayOutputStream(1 + 4 + 4 + 4 + 4);
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		
-		try{
-			outputStream.writeByte(0x02);
-			NBTUtil.writeNBTTagCompound(tag, outputStream);
-		}catch(IOException e){}
-		
-		packet.channel = "Waila";
-		packet.data    = bos.toByteArray();
-		packet.length  = bos.size();
-		
-		return packet;
-	}	
+			this.tag     = NBTUtil.readNBTTagCompound(dat);
+		} catch (Exception e){
+    		WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+		}
+	}
+
+	@Override
+	public void handle(Player player) {
+		DataAccessorCommon.instance.setNBTData(tag);
+	}
+
 }

@@ -45,13 +45,13 @@ public class SpecialChars {
 	public static String RENDER      = WailaStyle + WailaRenderer +"a";
 
 	public static final Pattern patternMinecraft = Pattern.compile("(?i)"  + MCStyle + "[0-9A-FK-OR]");
-	public static final Pattern patternWaila     = Pattern.compile("(?i)(" + WailaStyle + "(..))");
-	public static final Pattern patternRender    = Pattern.compile("(?i)(" + RENDER + "\\{([^,}]*),?([^}]*)})");
+	public static final Pattern patternWaila     = Pattern.compile("(?i)" + WailaStyle + "(..)");
+	public static final Pattern patternRender    = Pattern.compile("(?i)" + RENDER + "\\{([^,}]*),?([^}]*)}");
 	public static final Pattern patternTab       = Pattern.compile("(?i)"  + TAB);
 	public static final Pattern patternRight     = Pattern.compile("(?i)"  + ALIGNRIGHT);
 	public static final Pattern patternCenter    = Pattern.compile("(?i)"  + ALIGNCENTER);
-	public static final Pattern patternIcon      = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "([0-9a-z]))");
-	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)}|[^" + WailaStyle + "]+)");
+	public static final Pattern patternIcon      = Pattern.compile("(?i)" + WailaStyle + WailaIcon + "([0-9a-z])");
+	public static final Pattern patternLineSplit = Pattern.compile("(?i)" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)}|[^" + WailaStyle + "]+");
 
 	/**
 	 * Helper method to get a proper RENDER string. Just put the name of the renderer and the params in, and it will give back a directly usable String for the tooltip.

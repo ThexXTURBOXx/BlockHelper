@@ -6,14 +6,13 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.IConnectionHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class WailaConnectionHandler implements IConnectionHandler {
 
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		PacketDispatcher.sendPacketToPlayer(Packet0x00ServerPing.create(), player);
+		WailaPacketHandler.sendPacketToPlayer(new Packet0x00ServerPing(), player);
 	}
 
 	@Override
