@@ -150,7 +150,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,       true);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,       true);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,     false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,   false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,   true);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,    true);
 
 		OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
@@ -166,8 +166,8 @@ public class ConfigHandler implements IWailaConfigHandler {
 		HUDHandlerEntities.nhearts      = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
 		HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 
-		BlockHelperUpdater.notify = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true).getBoolean(true);
-		FixDetector.notify = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true).getBoolean(true);
+		BlockHelperUpdater.notify = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
+		FixDetector.notify = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
 
 		config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules.\nServer side, it is used to enforce keys client side using the next section.");
 		config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the client is using the configuration set in the 'module' section above.\nThis is useful for enforcing false to 'cheating' keys like silverfish.");

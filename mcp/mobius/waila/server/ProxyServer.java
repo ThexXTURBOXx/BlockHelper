@@ -3,25 +3,14 @@ package mcp.mobius.waila.server;
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.mod_BlockHelper;
-import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
-import mcp.mobius.waila.addons.carpenters.CarpentersModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
-import mcp.mobius.waila.addons.etb.ETBModule;
-import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
-import mcp.mobius.waila.addons.magicalcrops.MagicalCropsModule;
-import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
 import mcp.mobius.waila.addons.railcraft.RailcraftModule;
-import mcp.mobius.waila.addons.statues.StatuesModule;
-import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
-import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
-import mcp.mobius.waila.addons.thermaldynamics.ThermalDynamicsModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
-import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IWailaRegistrar;
@@ -49,62 +38,23 @@ public class ProxyServer {
 		/* INDUSTRIALCRAFT2 */
 		IC2Module.register();
 
-		/*Thaumcraft*/
-		ThaumcraftModule.register();
-
 		/*EnderStorage*/
 		EnderStorageModule.register();
 
 		/*Gravestone*/
 		GravestoneModule.register();
 
-		/*Twilight forest*/
-		TwilightForestModule.register();
-
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
-
-		/* Thermal Dynamics */
-		ThermalDynamicsModule.register();
-
-		/* ETB */
-		ETBModule.register();
-
-		/* EnderIO */
-		//EnderIOModule.register();
 
 		/* ProjectRed API */
 		ProjectRedModule.register();
 
-		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();
-
-		/* OpenBlocks */
-		OpenBlocksModule.register();
-
 		/* Railcraft */
 		RailcraftModule.register();
 
-		/* Steve's Carts */
-		StevesCartsModule.register();
-
-		/* Secret Rooms */
-		//SecretRoomsModule.register();
-
-		/* Carpenter's Blocks */
-		CarpentersModule.register();
-
 		/* Pam's HarvestCraft */
 		HarvestcraftModule.register();
-
-		/* Magical crops */
-		MagicalCropsModule.register();
-
-		/* Statues */
-		StatuesModule.register();
-
-		/* Agriculture */
-		AgricultureModule.register();
 
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
@@ -131,7 +81,7 @@ public class ProxyServer {
 		try{
 			Class  reflectClass  = Class.forName(className);
 			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
-			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
+			reflectMethod.invoke(null, ModuleRegistrar.instance());
 
 			mod_BlockHelper.log.info(String.format("Success in registering %s", modname));
 

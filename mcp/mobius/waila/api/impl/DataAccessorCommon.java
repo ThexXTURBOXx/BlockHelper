@@ -25,7 +25,6 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	public Vec3 renderingvec = null;
 	public Block block;
 	public int blockID;
-	public String blockResource;
 	public int metadata;
 	public TileEntity tileEntity;
 	public Entity entity;
@@ -51,7 +50,6 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			this.block      = Block.blocksList[this.blockID];
 			this.tileEntity = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 			this.entity     = null;
-			this.blockResource = this.block.getUnlocalizedName();
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 
 		} else if (this.mop.typeOfHit == EnumMovingObjectType.ENTITY){
@@ -187,11 +185,6 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 
 	public void resetTimer(){
 		this.timeLastUpdate = System.currentTimeMillis();
-	}
-
-	@Override
-	public String getBlockQualifiedName() {
-		return this.blockResource;
 	}
 
 }

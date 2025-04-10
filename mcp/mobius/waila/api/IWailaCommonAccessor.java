@@ -23,7 +23,6 @@ public interface IWailaCommonAccessor {
 	EntityPlayer 		 getPlayer();
 	Block        		 getBlock();
 	int          		 getBlockID();
-	String               getBlockQualifiedName();
 	int          		 getMetadata();
 	TileEntity           getTileEntity();
 	Entity               getEntity();
