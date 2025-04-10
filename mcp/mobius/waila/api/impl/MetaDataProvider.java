@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import mcp.mobius.waila.mod_BlockHelper;
-import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
@@ -19,7 +18,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -39,14 +37,6 @@ public class MetaDataProvider{
 	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
-
-		if (IWailaBlock.class.isInstance(block)){
-			try{
-				return ((IWailaBlock)block).getWailaStack(accessor, ConfigHandler.instance());
-			}catch (Throwable e){
-				WailaExceptionHandler.handleErr(e, block.getClass().toString(), null);
-			}
-		}
 
 		if(ModuleRegistrar.instance().hasStackProviders(block)){
 			for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()){
@@ -89,29 +79,6 @@ public class MetaDataProvider{
 			} catch (Exception e){
 				WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
 			}
-		}
-
-		/* Interface IWailaBlock */
-		if (IWailaBlock.class.isInstance(block)){
-			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-			if (layout == Layout.HEADER)
-				try{
-					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}
-			else if (layout == Layout.BODY)
-				try{
-					return ((IWailaBlock)block).getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}
-			else if (layout == Layout.FOOTER)
-				try{
-					return ((IWailaBlock)block).getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}
 		}
 
 		headBlockProviders.clear();

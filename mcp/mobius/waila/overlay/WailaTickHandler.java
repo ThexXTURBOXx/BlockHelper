@@ -5,6 +5,8 @@ import cpw.mods.fml.common.TickType;
 import java.util.EnumSet;
 import java.util.List;
 
+import mcp.mobius.waila.utils.BlockHelperUpdater;
+import mcp.mobius.waila.utils.FixDetector;
 import net.minecraft.block.Block;
 import net.minecraft.util.EnumMovingObjectType;
 
@@ -27,6 +29,7 @@ public class WailaTickHandler implements ITickHandler {
 
     //public static LangUtil lang = LangUtil.loadLangDir("waila");
 
+	private boolean firstTick = true;
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
 	private List<String> currenttip      = new TipList<String, String>();
@@ -57,6 +60,12 @@ public class WailaTickHandler implements ITickHandler {
 		}
 
 		if (!type.contains(TickType.CLIENT)) return;
+
+		if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
+			FixDetector.detectFixes(mc);
+			BlockHelperUpdater.notifyUpdater(mc);
+			firstTick = false;
+		}
 
 		World world                 = mc.theWorld;
 		EntityPlayer player         = mc.thePlayer;

@@ -9,7 +9,9 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
@@ -163,6 +165,9 @@ public class ConfigHandler implements IWailaConfigHandler {
 
 		HUDHandlerEntities.nhearts      = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
 		HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
+
+		BlockHelperUpdater.notify = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true).getBoolean(true);
+		FixDetector.notify = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true).getBoolean(true);
 
 		config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules.\nServer side, it is used to enforce keys client side using the next section.");
 		config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the client is using the configuration set in the 'module' section above.\nThis is useful for enforcing false to 'cheating' keys like silverfish.");

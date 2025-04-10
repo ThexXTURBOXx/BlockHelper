@@ -19,6 +19,7 @@ import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.src.BaseMod;
 import net.minecraft.src.ModLoader;
@@ -39,7 +40,7 @@ public class mod_BlockHelper extends BaseMod {
 	public static final String PACKAGE = "mcp.mobius.waila.";
 	public static final String MOD_ID = "mod_BlockHelper";
 	public static final String NAME = "Block Helper";
-	public static final String VERSION = "1.2.0";
+	public static final String VERSION = "2.0.0-pre1";
 	public static final String MC_VERSION = "1.5.2";
 	public static final String CHANNEL = "BlockHelper";
 	public static mod_BlockHelper INSTANCE;
@@ -69,6 +70,8 @@ public class mod_BlockHelper extends BaseMod {
 	@Override
 	public void load() {
 		INSTANCE = this;
+
+		new Thread(new BlockHelperUpdater(), "Block Helper Version Check").start();
 
 		// PRE INIT
 		Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
