@@ -1,0 +1,46 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# MC/Forge Directories but NOT Main Mod Class #
+cpw/
+ibxm/
+**/net/minecraft/*
+**/net/minecraft/src/*
+**/net/minecraft/client/*
+**/net/minecraft/isom/*
+**/net/minecraft/server/*
+**/net/minecraftforge/*
+!**/net/minecraft/src
+!**/net/minecraft/server
+!**/mod_BlockHelper.java
+paulscode/
+argo/
+
+# MC/Forge files #
+fml_at.cfg
+fml_marker.cfg
+fmlversion.properties
+forge_at.cfg
+forge_logo.png
+mcp.png
+mcpmod.info
+Start.java
+gk.java
+mod_MinecraftForge.info
+
+# IntelliJ IDEA #
+*.iml
+
+# CodeChicken APIs #
+**/codechicken
+
+# IC² #
+**/ic2
+
+# Fabric #
+**/net/fabricmc
+**/net/modificationstation
