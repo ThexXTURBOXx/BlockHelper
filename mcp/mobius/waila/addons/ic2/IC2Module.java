@@ -27,8 +27,8 @@ public class IC2Module {
             ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
             ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
         }
     }
 

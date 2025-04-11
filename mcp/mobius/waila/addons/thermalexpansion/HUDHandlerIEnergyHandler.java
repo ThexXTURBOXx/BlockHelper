@@ -38,8 +38,8 @@ public class HUDHandlerIEnergyHandler implements IDataProvider {
             if ((maxEnergy != 0) && currenttip.getEntries("RFEnergyStorage").isEmpty()) {
                 currenttip.add(String.format("%d / %d RF", energy, maxEnergy), "RFEnergyStorage");
             }
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
         return currenttip;
@@ -75,8 +75,8 @@ public class HUDHandlerIEnergyHandler implements IDataProvider {
             tag.setInteger("Energy", energy);
             tag.setInteger("MaxStorage", maxsto);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
 
         return tag;

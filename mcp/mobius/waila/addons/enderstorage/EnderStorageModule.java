@@ -19,9 +19,9 @@ public class EnderStorageModule {
     public static void register() {
         try {
             Class<?> EnderStorage = Class.forName("codechicken.enderstorage.EnderStorage");
-            mod_BlockHelper.log.log(Level.INFO, "EnderStorage mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "EnderStorage mod found.");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
             return;
         }
 
@@ -36,16 +36,16 @@ public class EnderStorageModule {
             TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
 
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found. ", e);
             return;
         } catch (NoSuchMethodException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Method not found.", e);
             return;
         } catch (NoSuchFieldException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Field not found.", e);
             return;
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Unhandled exception.", t);
             return;
         }
 

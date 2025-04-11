@@ -76,8 +76,8 @@ public class DisplayUtil {
         try {
             renderItem.renderItemAndEffectIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
-        } catch (Exception e) {
-            WailaExceptionHandler.handleErr(e, "renderStack | " + stack, null);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, "renderStack | " + stack, null);
         }
         GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
         enable2DRender();

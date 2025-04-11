@@ -54,9 +54,9 @@ public class DecoratorRenderer {
                         decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor,
                                 ConfigHandler.instance());
                         GL11.glPopMatrix();
-                    } catch (Throwable e) {
+                    } catch (Throwable t) {
                         GL11.glPopMatrix();
-                        WailaExceptionHandler.handleErr(e, decorator.getClass().toString(), null);
+                        WailaExceptionHandler.handleErr(t, decorator.getClass().toString(), null);
                     }
             }
         }

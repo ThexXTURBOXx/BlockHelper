@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.Entity;
@@ -54,8 +53,8 @@ public class Packet0x03EntRequest implements IWailaPacket {
             for (int i = 0; i < nkeys; i++)
                 this.keys.add(Packet.readString(dat, 250));
 
-        } catch (Exception e) {
-            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
         }
     }
 
@@ -75,7 +74,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world);
                             } catch (AbstractMethodError ame) {
-                                tag = AccessHelper.getNBTData(provider, entity, tag);
+                                tag = NBTUtil.getNBTData(provider, entity, tag);
                             }
                         }
                     }
@@ -88,8 +87,8 @@ public class Packet0x03EntRequest implements IWailaPacket {
                 tag.setInteger("WailaEntityID", entity.entityId);
 
                 WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
             }
         }
     }

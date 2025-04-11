@@ -36,8 +36,8 @@ public class BCModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[BC] Error while loading Energy hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC] Error while loading Energy hooks.", t);
         }
 
     }

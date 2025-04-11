@@ -13,8 +13,8 @@ public class ForgeModule {
             ModuleRegistrar.instance().addConfig("Forge", "forge.tanktype");
             ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerForgeTanks(), ITankContainer.class);
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerForgeTanks(), ITankContainer.class);
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Forge] Error while loading Tank hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Forge] Error while loading Tank hooks.", t);
         }
 
     }

@@ -12,11 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class ModIdentification {
+public final class ModIdentification {
 
     public static Map<String, String> modSource_Name = new HashMap<String, String>();
     public static Map<String, String> modSource_ID = new HashMap<String, String>();
     public static Map<Integer, String> itemMap = new HashMap<Integer, String>();
+
+    private ModIdentification() {
+        throw new UnsupportedOperationException();
+    }
 
     public static void init() {
 
@@ -112,4 +116,5 @@ public class ModIdentification {
 
         return null;
     }
+
 }

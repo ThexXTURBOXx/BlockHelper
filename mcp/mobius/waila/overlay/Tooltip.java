@@ -71,8 +71,8 @@ public class Tooltip {
             Dimension dim = new Dimension(0, 0);
             try {
                 dim = this.renderer.getSize(this.params, accessor);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".getSize()", null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, this.renderer.getClass().getName() + ".getSize()", null);
             }
             return dim;
         }
@@ -81,8 +81,8 @@ public class Tooltip {
             GL11.glPushMatrix();
             try {
                 this.renderer.draw(this.params, accessor, this.pos.x + x, this.pos.y + y);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".draw()", null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, this.renderer.getClass().getName() + ".draw()", null);
             }
             GL11.glPopMatrix();
         }

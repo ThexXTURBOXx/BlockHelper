@@ -37,7 +37,7 @@ public class HUDHandlerEntities implements IEntityProvider {
         } else {
             try {
                 currenttip.add(WHITE + entity.getTranslatedEntityName());
-            } catch (Exception e) {
+            } catch (Throwable t) {
                 currenttip.add(WHITE + "Unknown");
             }
         }
@@ -55,7 +55,7 @@ public class HUDHandlerEntities implements IEntityProvider {
                                                     IEntityAccessor accessor, IConfigHandler config) {
         try {
             currenttip.add(BLUE + ITALIC + getEntityMod(entity));
-        } catch (Exception e) {
+        } catch (Throwable t) {
             currenttip.add(BLUE + ITALIC + "Unknown");
         }
         return currenttip;

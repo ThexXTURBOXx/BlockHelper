@@ -25,8 +25,8 @@ public class AdvMachinesModule {
 
             ModuleRegistrar.instance().addConfigRemote("Advanced Machines", "advmachines.storage");
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
         }
     }
 

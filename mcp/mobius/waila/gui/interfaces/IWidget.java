@@ -5,7 +5,7 @@ import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import org.lwjgl.util.Point;
 
 public interface IWidget {
-    // Should all the coordinates, sizes, etc be % or absolute values ?
+    // Should all the coordinates, sizes, etc. be % or absolute values ?
     // Should we allow 2 methods for an absolute referencing (screen pos) and relative one (parent pos) ?
 
     IWidget getParent();

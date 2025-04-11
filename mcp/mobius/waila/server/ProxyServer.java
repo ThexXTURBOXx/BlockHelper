@@ -89,22 +89,21 @@ public class ProxyServer {
         String methodName = splitName[splitName.length - 1];
         String className = method.substring(0, method.length() - methodName.length() - 1);
 
-        mod_BlockHelper.log.info(String.format("Trying to reflect %s %s", className, methodName));
+        mod_BlockHelper.LOG.info(String.format("Trying to reflect %s %s", className, methodName));
 
         try {
             Class<?> reflectClass = Class.forName(className);
             Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IRegistrar.class);
             reflectMethod.invoke(null, ModuleRegistrar.instance());
 
-            mod_BlockHelper.log.info(String.format("Success in registering %s", modname));
+            mod_BlockHelper.LOG.info(String.format("Success in registering %s", modname));
 
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.warning(String.format("Could not find class %s", className));
+            mod_BlockHelper.LOG.warning(String.format("Could not find class %s", className));
         } catch (NoSuchMethodException e) {
-            mod_BlockHelper.log.warning(String.format("Could not find method %s", methodName));
-        } catch (Exception e) {
-            mod_BlockHelper.log.warning(String.format("Exception while trying to access the method : %s",
-                    e));
+            mod_BlockHelper.LOG.warning(String.format("Could not find method %s", methodName));
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.warning(String.format("Exception while trying to access the method : %s", t));
         }
     }
 

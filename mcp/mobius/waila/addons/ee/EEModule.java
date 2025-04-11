@@ -25,8 +25,8 @@ public class EEModule {
             ModuleRegistrar.instance().addConfig("Equivalent Exchange", "ee.emc");
 
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEE(), Block.class);
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[EE] Error while loading EMC hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EE] Error while loading EMC hooks.", t);
         }
 
     }

@@ -3,7 +3,12 @@ package mcp.mobius.waila.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IEntityProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
@@ -12,8 +17,14 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class NBTUtil {
+public final class NBTUtil {
+
+    private NBTUtil() {
+        throw new UnsupportedOperationException();
+    }
 
     public static NBTBase getTag(String key, NBTTagCompound tag) {
         String[] path = key.split("\\.");
@@ -107,6 +118,19 @@ public class NBTUtil {
             return (int) Math.round(tag.getDouble(keyname));
 
         return 0;
+    }
+
+    public static NBTTagCompound getNBTData(IDataProvider provider, TileEntity entity, NBTTagCompound tag,
+                                            World world, int x, int y, int z) throws NoSuchMethodException,
+            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class,
+                World.class, int.class, int.class, int.class);
+        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag, world, x, y, z);
+    }
+
+    public static NBTTagCompound getNBTData(IEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
+        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag);
     }
 
 }

@@ -65,8 +65,8 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks.", t);
         }
 
         // XXX : We register the energy cell
@@ -79,8 +79,8 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
         }
 
         // XXX : We register the Tank interface
@@ -98,8 +98,8 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTank);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
         }
 
         // XXX : We register the Tesseract interface
@@ -114,8 +114,8 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTesseract(), TileTesseract);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
         }
 
         // XXX : We register the Cache interface
@@ -130,8 +130,8 @@ public class ThermalExpansionModule {
             ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCache(), TileCache);
             ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerCache(), TileCache);
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
         }
     }
 

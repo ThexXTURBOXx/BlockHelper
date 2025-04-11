@@ -113,10 +113,10 @@ public class HUDHandlerFMP implements IDataProvider {
         try {
             BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[FMP] Class not found. " + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
             return;
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[FMP] Unhandled exception." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
             return;
         }
 
@@ -125,7 +125,7 @@ public class HUDHandlerFMP implements IDataProvider {
         ModuleRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
         ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerFMP(), BlockMultipart);
 
-        mod_BlockHelper.log.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
+        mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
 
     }
 }

@@ -207,7 +207,7 @@ public class ModuleRegistrar implements IRegistrar {
         if (!this.tooltipRenderers.containsKey(name))
             this.tooltipRenderers.put(name, renderer);
         else
-            mod_BlockHelper.log.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new "
+            mod_BlockHelper.LOG.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new "
                                                       + "renderer.", name, renderer.getClass().getName()));
     }
 

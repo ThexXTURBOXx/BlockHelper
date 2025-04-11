@@ -43,8 +43,8 @@ public class HUDHandlerTank implements IDataProvider {
 
             currenttip.set(0, name);
 
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
         return currenttip;
@@ -66,8 +66,8 @@ public class HUDHandlerTank implements IDataProvider {
             else
                 currenttip.add(String.format("0 / %d mB", tank.getCapacity()));
 
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
         return currenttip;

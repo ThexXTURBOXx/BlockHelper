@@ -46,7 +46,7 @@ public class LayoutCanvas extends LayoutBase {
 
     @Override
     public void handleMouseInput() {
-        // Here we are going to generate the require mouse events we will pass down to all the other widgets
+        // Here we are going to generate the required mouse events we will pass down to all the other widgets
         // This is more or less where the magic happens. If you want mouse support for a widget, it should be
         // attached to a canvas like this one, or any inheriting one.
 

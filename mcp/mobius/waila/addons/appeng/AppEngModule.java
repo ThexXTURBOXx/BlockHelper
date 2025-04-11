@@ -23,8 +23,8 @@ public class AppEngModule {
 
             ModuleRegistrar.instance().addConfigRemote("Applied Energistics", "appeng.storage");
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
         }
     }
 

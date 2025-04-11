@@ -28,8 +28,8 @@ public class Packet0x04EntNBTData implements IWailaPacket {
     public void decode(DataInputStream dat) {
         try {
             this.tag = NBTUtil.readNBTTagCompound(dat);
-        } catch (Exception e) {
-            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
         }
     }
 

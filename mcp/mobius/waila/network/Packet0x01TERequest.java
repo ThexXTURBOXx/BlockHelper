@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -28,7 +27,7 @@ public class Packet0x01TERequest implements IWailaPacket {
         try {
             classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
             classToNameMap.setAccessible(true);
-        } catch (Exception e) {
+        } catch (Throwable t) {
 
             try {
                 classToNameMap = TileEntity.class.getDeclaredField("field_70323_b");
@@ -82,8 +81,8 @@ public class Packet0x01TERequest implements IWailaPacket {
             for (int i = 0; i < nkeys; i++)
                 this.keys.add(Packet.readString(dat, 250));
 
-        } catch (Exception e) {
-            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
         }
     }
 
@@ -112,9 +111,9 @@ public class Packet0x01TERequest implements IWailaPacket {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
                                         posZ);
                             } catch (AbstractMethodError ame) {
-                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
                             } catch (NoSuchMethodError nsm) {
-                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
                             }
                         }
                     }
@@ -127,9 +126,9 @@ public class Packet0x01TERequest implements IWailaPacket {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
                                         posZ);
                             } catch (AbstractMethodError ame) {
-                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
                             } catch (NoSuchMethodError nsm) {
-                                tag = AccessHelper.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
                             }
                         }
                     }
@@ -145,8 +144,8 @@ public class Packet0x01TERequest implements IWailaPacket {
                 tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
                 WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
             }
         }
     }

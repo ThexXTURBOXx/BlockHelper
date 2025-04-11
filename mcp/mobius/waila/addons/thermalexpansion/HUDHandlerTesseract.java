@@ -105,8 +105,8 @@ public class HUDHandlerTesseract implements IDataProvider {
             tag.setByte("Item.Mode", modeItem);
             tag.setByte("Fluid.Mode", modeFluid);
             tag.setByte("Energy.Mode", modeEnergy);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
         return tag;
     }

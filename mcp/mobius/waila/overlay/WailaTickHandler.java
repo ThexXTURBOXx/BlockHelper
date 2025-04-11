@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.cbcore.Layout;
-import mcp.mobius.waila.utils.BlockHelperUpdater;
+import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import net.minecraft.block.Block;
@@ -63,7 +63,7 @@ public class WailaTickHandler implements ITickHandler {
 
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
             FixDetector.detectFixes(mc);
-            BlockHelperUpdater.notifyUpdater(mc);
+            mod_BlockHelper.UPDATER.notifyUpdater(mc);
             firstTick = false;
         }
 

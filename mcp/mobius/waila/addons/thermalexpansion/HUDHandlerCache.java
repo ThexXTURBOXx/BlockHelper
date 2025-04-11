@@ -44,8 +44,8 @@ public class HUDHandlerCache implements IDataProvider {
                 name += " " + LangUtil.translateG("hud.msg.empty");
 
             currenttip.set(0, name);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
 
         return currenttip;

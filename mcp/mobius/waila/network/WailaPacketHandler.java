@@ -79,7 +79,7 @@ public class WailaPacketHandler implements IPacketHandler {
         try {
             outputStream.writeByte(getPacketId(packet));
             packet.encode(outputStream);
-        } catch (Exception e) {
+        } catch (Throwable t) {
             // TODO(NICO)
         }
         mlPacket.channel = mod_BlockHelper.CHANNEL;

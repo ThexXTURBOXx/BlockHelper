@@ -53,7 +53,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
             this.entity = null;
             try {
                 this.stack = new ItemStack(this.block, 1, this.metadata);
-            } catch (Exception e) {
+            } catch (Throwable ignored) {
             }
 
         } else if (this.mop.typeOfHit == EnumMovingObjectType.ENTITY) {
@@ -130,7 +130,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
             NBTTagCompound tag = new NBTTagCompound();
             try {
                 this.tileEntity.writeToNBT(tag);
-            } catch (Exception e) {
+            } catch (Throwable ignored) {
             }
             return tag;
         }

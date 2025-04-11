@@ -27,8 +27,8 @@ public class AdvSolarsModule {
 
             ModuleRegistrar.instance().addConfigRemote("Advanced Solar Panels", "advsolars.storage");
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
 
         try {
@@ -42,8 +42,8 @@ public class AdvSolarsModule {
 
             ModuleRegistrar.instance().addConfigRemote("Advanced Solar Panels", "advsolars.qproduction");
 
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
     }
 

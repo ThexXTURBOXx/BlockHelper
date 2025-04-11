@@ -41,10 +41,10 @@ public class DecoratorFMP implements IBlockDecorator {
         try {
             BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[FMP] Class not found. " + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
             return;
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[FMP] Unhandled exception." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
             return;
         }
 

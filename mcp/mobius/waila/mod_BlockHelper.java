@@ -35,14 +35,15 @@ public class mod_BlockHelper extends BaseMod {
     public static final String VERSION = "2.0.0-pre1";
     public static final String MC_VERSION = "1.5.2";
     public static final String CHANNEL = "BlockHelper";
+    public static final Logger LOG = Logger.getLogger(NAME);
+    public static final BlockHelperUpdater UPDATER = new BlockHelperUpdater();
     public static mod_BlockHelper INSTANCE;
-
     @SidedProxy(clientSide = PACKAGE + "client.ProxyClient", serverSide = PACKAGE + "server.ProxyServer")
     public static ProxyServer proxy;
-    public static Logger log = Logger.getLogger(NAME);
+    public static boolean DEV_MODE = false;
 
     static {
-        log.setParent(FMLLog.getLogger());
+        LOG.setParent(FMLLog.getLogger());
     }
 
     public boolean serverPresent = false;
@@ -65,7 +66,7 @@ public class mod_BlockHelper extends BaseMod {
     public void load() {
         INSTANCE = this;
 
-        new Thread(new BlockHelperUpdater(), "Block Helper Version Check").start();
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         // PRE INIT
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
@@ -84,42 +85,7 @@ public class mod_BlockHelper extends BaseMod {
         proxy.registerHandlers();
         ModIdentification.init();
 
-    	/*
-        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
-
-	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
-	        	String orig  = I18n.getString(key);
-	        	if (orig.equals(key))
-	        		orig = LanguageRegistry.instance().getStringLocalization(key);
-	        	if (orig.equals(key))
-	        		orig = LangUtil.translateG(key);
-	        	if (orig.isEmpty())
-	        		orig = key;
-
-	        	String modif;
-	        	if (orig.startsWith("[") || orig.contains(":"))
-	        		modif = orig;
-	        	else{
-	        		String id = ModIdentification.keyhandlerStrings.get(key);
-
-	        		if (id.contains("."))
-	        			id = id.split("\\.")[0];
-
-	        		if (id.length() > 10)
-	        			id = id.substring(0, 11);
-
-	        		if (id.isEmpty())
-	        			id = "????";
-
-	        		modif = String.format("[%s] %s", id, orig);
-	        	}
-
-	        	LanguageRegistry.instance().addStringLocalization(key, modif);
-	        }
-        }
-        */
-
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+        if (DEV_MODE) {
             ModLoader.addCommand(new CommandDumpHandlers());
         }
     }

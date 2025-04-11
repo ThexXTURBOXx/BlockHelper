@@ -40,8 +40,8 @@ public class HUDHandlerEE implements IDataProvider {
                     }
                 }
             }
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
         return currenttip;

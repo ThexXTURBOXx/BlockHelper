@@ -44,8 +44,8 @@ public class HUDHandlerTEGenerator implements IDataProvider {
                     currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r AE", storedStr,
                             TAB + ALIGNRIGHT, Math.min(storage, maxStorage), maxStorage));
             }
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
         return currenttip;
@@ -71,8 +71,8 @@ public class HUDHandlerTEGenerator implements IDataProvider {
 
             tag.setInteger("storage", Math.round(storage));
             tag.setInteger("maxStorage", Math.round(maxStorage));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
 
         return tag;

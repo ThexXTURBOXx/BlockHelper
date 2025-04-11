@@ -61,8 +61,8 @@ public class HUDHandlerStorage implements IDataProvider {
                     currenttip.add(String.format("%s/%s/%s", colors[freqRight], colors[freqCenter], colors[freqLeft]));
 
 
-            } catch (Exception e) {
-                currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(),
+            } catch (Throwable t) {
+                currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(),
                         currenttip);
             }
         }

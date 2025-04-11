@@ -42,19 +42,19 @@ public class Packet0x00ServerPing implements IWailaPacket {
             for (int i = 0; i < nkeys; i++) {
                 this.forcedKeys.put(Packet.readString(dat, 255), dat.readBoolean());
             }
-        } catch (Exception e) {
-            WailaExceptionHandler.handleErr(e, this.getClass().toString(), null);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
         }
 
     }
 
     @Override
     public void handle(Player player) {
-        mod_BlockHelper.log.info("Received server authentication packet. Remote sync will be activated");
+        mod_BlockHelper.LOG.info("Received server authentication packet. Remote sync will be activated");
         mod_BlockHelper.INSTANCE.serverPresent = true;
 
         for (String key : forcedKeys.keySet())
-            mod_BlockHelper.log.info(String.format("Received forced key config %s : %s", key, forcedKeys.get(key)));
+            mod_BlockHelper.LOG.info(String.format("Received forced key config %s : %s", key, forcedKeys.get(key)));
 
         ConfigHandler.instance().forcedConfigs = forcedKeys;
     }

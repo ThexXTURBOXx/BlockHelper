@@ -15,9 +15,9 @@ public class RailcraftModule {
     public static void register() {
         try {
             Class<?> ModRailcraft = Class.forName("mods.railcraft.common.core.Railcraft");
-            mod_BlockHelper.log.log(Level.INFO, "Railcraft mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "Railcraft mod found.");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[Railcraft] Railcraft mod not found.");
             return;
         }
 
@@ -28,10 +28,10 @@ public class RailcraftModule {
             //StandardTank = Class.forName("mods.railcraft.common.fluids.tanks.StandardTank");
 
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Class not found. " + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Railcraft] Class not found. ", e);
             return;
         } catch (NoSuchMethodException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Railcraft] Method not found." + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Railcraft] Method not found.", e);
             return;
         }
 

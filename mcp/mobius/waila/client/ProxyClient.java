@@ -29,8 +29,8 @@ public class ProxyClient extends ProxyServer {
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {
                 Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
-            } catch (Exception e) {
-                mod_BlockHelper.log.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
+            } catch (Throwable t) {
+                mod_BlockHelper.LOG.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
             }
         }
 

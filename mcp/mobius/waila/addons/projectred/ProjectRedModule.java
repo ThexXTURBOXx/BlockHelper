@@ -9,9 +9,9 @@ public class ProjectRedModule {
     public static void register() {
         try {
             Class<?> ModClass = Class.forName("mrtjp.projectred.ProjectRedIntegration");
-            mod_BlockHelper.log.log(Level.INFO, "ProjectRed|Integration mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "ProjectRed|Integration mod found.");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
             return;
         }
 

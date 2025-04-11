@@ -39,8 +39,8 @@ public class HUDHandlerTank implements IDataProvider {
 
             currenttip.set(0, name);
 
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
         return currenttip;
     }
@@ -73,8 +73,8 @@ public class HUDHandlerTank implements IDataProvider {
             }
 
 
-        } catch (Exception e) {
-            currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
+        } catch (Throwable t) {
+            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
 
 
@@ -93,8 +93,8 @@ public class HUDHandlerTank implements IDataProvider {
         try {
             int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
             tag.setInteger("Amount", amount);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
         return tag;
     }

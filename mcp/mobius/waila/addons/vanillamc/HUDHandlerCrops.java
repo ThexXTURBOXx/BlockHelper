@@ -133,8 +133,8 @@ public class HUDHandlerCrops implements IDataProvider {
         try {
             Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
             MAX_STAGES.put(CropBlock, 3);
-        } catch (Exception e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[Natura] Error while loading crop hooks." + e);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading crop hooks.", t);
         }
     }
 

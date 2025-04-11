@@ -10,7 +10,6 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
-import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
@@ -180,8 +179,10 @@ public class ConfigHandler implements IConfigHandler {
         HUDHandlerEntities.maxhpfortext =
                 config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 
-        BlockHelperUpdater.notify = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
+        mod_BlockHelper.UPDATER.notify = getConfig(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
+        mod_BlockHelper.DEV_MODE = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
 
         config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules"
                                                                   + ".\nServer side, it is used to enforce keys client"

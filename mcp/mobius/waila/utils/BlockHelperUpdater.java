@@ -12,12 +12,12 @@ import net.minecraft.client.Minecraft;
 
 public class BlockHelperUpdater implements Runnable {
 
-    public static boolean notify = false;
-
     private static final String JSON_URL = "https://raw.githubusercontent.com/"
                                            + "ThexXTURBOXx/UpdateJSONs/master/block-helper.csv";
-    private static boolean isLatestVersion = true;
-    private static String latestVersion = "";
+
+    public boolean notify = false;
+    private boolean isLatestVersion = true;
+    private String latestVersion = "";
 
     /**
      * Let the Version Checker run
@@ -29,14 +29,14 @@ public class BlockHelperUpdater implements Runnable {
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
             if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
-                mod_BlockHelper.log.info(LangUtil.translateG("waila.newer_version_available",
+                mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newer_version_available",
                         mod_BlockHelper.NAME, latestVersion));
             } else {
-                mod_BlockHelper.log.info(LangUtil.translateG("waila.newest_version_installed",
+                mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newest_version_installed",
                         mod_BlockHelper.NAME));
             }
         } catch (Throwable t) {
-            mod_BlockHelper.log.log(Level.WARNING, LangUtil.translateG("waila.update_check_failed",
+            mod_BlockHelper.LOG.log(Level.WARNING, LangUtil.translateG("waila.update_check_failed",
                     mod_BlockHelper.NAME), t);
         }
         isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
@@ -45,21 +45,21 @@ public class BlockHelperUpdater implements Runnable {
     /**
      * @return whether BlockHelper is up-to-date or not
      */
-    public static boolean isLatestVersion() {
+    public boolean isLatestVersion() {
         return isLatestVersion;
     }
 
     /**
      * @return the latest version available or the current installed version
      */
-    public static String getLatestVersion() {
+    public String getLatestVersion() {
         if (latestVersion.isEmpty()) {
             latestVersion = mod_BlockHelper.VERSION;
         }
         return latestVersion;
     }
 
-    private static String getLatestModVersion(InputStream is) throws IOException {
+    private String getLatestModVersion(InputStream is) throws IOException {
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
         try {
@@ -78,7 +78,7 @@ public class BlockHelperUpdater implements Runnable {
         }
     }
 
-    public static void notifyUpdater(Minecraft mc) {
+    public void notifyUpdater(Minecraft mc) {
         if (!notify) return;
         if (!isLatestVersion()) {
             if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {

@@ -11,16 +11,16 @@ public class HarvestcraftModule {
     public static void register() {
         try {
             Class<?> PamHarvestCraft = Class.forName("assets.pamharvestcraft.PamHarvestCraft");
-            mod_BlockHelper.log.log(Level.INFO, "PamHarvestCraft mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "PamHarvestCraft mod found.");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.INFO, "[PamHarvestCraft] PamHarvestCraft mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] PamHarvestCraft mod not found.");
             return;
         }
 
         try {
             TileEntityPamCrop = Class.forName("assets.pamharvestcraft.TileEntityPamCrop");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.log.log(Level.WARNING, "[PamHarvestCraft] Class not found. " + e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[PamHarvestCraft] Class not found. ", e);
             return;
         }
 

@@ -52,8 +52,8 @@ public class MetaDataProvider {
                         ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
                         if (retval != null)
                             return retval;
-                    } catch (Throwable e) {
-                        WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), null);
+                    } catch (Throwable t) {
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), null);
                     }
                 }
             }
@@ -78,8 +78,8 @@ public class MetaDataProvider {
                 NBTTagCompound tag = new NBTTagCompound();
                 accessor.getTileEntity().writeToNBT(tag);
                 accessor.setNBTData(tag);
-            } catch (Exception e) {
-                WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
             }
         }
 
@@ -115,8 +115,8 @@ public class MetaDataProvider {
                     try {
                         currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
 
@@ -126,8 +126,8 @@ public class MetaDataProvider {
                     try {
                         currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
         if (layout == Layout.FOOTER)
@@ -136,8 +136,8 @@ public class MetaDataProvider {
                     try {
                         currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
         return currenttip;
@@ -158,8 +158,8 @@ public class MetaDataProvider {
                 NBTTagCompound tag = new NBTTagCompound();
                 accessor.getEntity().writeToNBT(tag);
                 accessor.remoteNbt = tag;
-            } catch (Exception e) {
-                WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
             }
         }
 
@@ -183,8 +183,8 @@ public class MetaDataProvider {
                 for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaHead(entity, currenttip, accessor, ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
 
@@ -193,8 +193,8 @@ public class MetaDataProvider {
                 for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaBody(entity, currenttip, accessor, ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
 
@@ -203,8 +203,8 @@ public class MetaDataProvider {
                 for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaTail(entity, currenttip, accessor, ConfigHandler.instance());
-                    } catch (Throwable e) {
-                        currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+                    } catch (Throwable t) {
+                        currenttip = WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
             }
 
