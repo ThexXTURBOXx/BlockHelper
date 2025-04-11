@@ -13,21 +13,23 @@ public class TTRenderStack implements IWailaTooltipRenderer {
 
     @Override
     public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
-        return new Dimension(16, 16);
+        return new Dimension(18, 18);
     }
 
     @Override
     public void draw(String[] params, IWailaCommonAccessor accessor) {
         int type = Integer.parseInt(params[0]); //0 for block, 1 for item
-        int id = Integer.parseInt(params[1]); //ID
+        int id = Integer.parseInt(params[1]);
         int amount = Integer.parseInt(params[2]);
         int meta = Integer.parseInt(params[3]);
 
         ItemStack stack = null;
-        if (type == 0)
-            stack = new ItemStack(Block.blocksList[id], amount, meta);
-        if (type == 1)
-            stack = new ItemStack(Item.itemsList[id], amount, meta);
+        if (id > 0) {
+            if (type == 0)
+                stack = new ItemStack(Block.blocksList[id], amount, meta);
+            else if (type == 1)
+                stack = new ItemStack(Item.itemsList[id], amount, meta);
+        }
 
         RenderHelper.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(0, 0, stack);

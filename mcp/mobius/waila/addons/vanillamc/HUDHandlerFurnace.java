@@ -6,8 +6,10 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -30,35 +32,35 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                                                     IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        int cookTime = accessor.getNBTData().getShort("CookTime");
-        NBTTagList tag = accessor.getNBTData().getTagList("Items");
+        if (accessor.getBlockID() == Block.furnaceBurning.blockID) {
+            int cookTime = accessor.getNBTData().getShort("CookTime");
+            NBTTagList tag = accessor.getNBTData().getTagList("Items");
 
-        String renderStr = "";
-        {
-            ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound) tag.tagAt(0));
-            String id = stack.getItem().itemID + "";
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", id, String.valueOf(stack.stackSize),
-                    String.valueOf(stack.getItemDamage()));
+            ItemStack[] inv = new ItemStack[3];
+            for (int i = 0; i < tag.tagCount(); ++i) {
+                NBTBase subtagBase = tag.tagAt(i);
+                if (!(subtagBase instanceof NBTTagCompound)) continue;
+                NBTTagCompound subtag = (NBTTagCompound) subtagBase;
+                ItemStack stack = ItemStack.loadItemStackFromNBT(subtag);
+                inv[subtag.getByte("Slot")] = stack;
+            }
+
+            String renderStr = (inv[0] == null ? "" : getItemRenderString(inv[0]))
+                               + (inv[1] == null ? "" : getItemRenderString(inv[1]))
+                               + SpecialChars.getRenderString("waila.progress", cookTime + "", "200")
+                               + getItemRenderString(inv[2]);
+
+            currenttip.add(renderStr);
         }
-        {
-            ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound) tag.tagAt(1));
-            String id = stack.getItem().itemID + "";
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", id, String.valueOf(stack.stackSize),
-                    String.valueOf(stack.getItemDamage()));
-        }
-
-        renderStr += SpecialChars.getRenderString("waila.progress", String.valueOf(cookTime), String.valueOf(200));
-
-        {
-            ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound) tag.tagAt(2));
-            String id = stack.getItem().itemID + "";
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", id, String.valueOf(stack.stackSize),
-                    String.valueOf(stack.getItemDamage()));
-        }
-
-        currenttip.add(renderStr);
 
         return currenttip;
+    }
+
+    private static String getItemRenderString(ItemStack stack) {
+        boolean empty = stack == null;
+        String id = (empty ? 0 : stack.getItem().itemID) + "";
+        return SpecialChars.getRenderString("waila.stack",
+                "1", id, (empty ? 1 : stack.stackSize) + "", (empty ? 0 : stack.getItemDamage()) + "");
     }
 
     @Override

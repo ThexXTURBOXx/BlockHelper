@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
@@ -68,14 +69,17 @@ public class DisplayUtil {
     }
 
     public static void renderStack(int x, int y, ItemStack stack) {
+        if (stack == null) return;
         enable3DRender();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
         try {
             renderItem.renderItemAndEffectIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
         } catch (Exception e) {
-            String stackStr = stack != null ? stack.toString() : "NullStack";
-            WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
+            WailaExceptionHandler.handleErr(e, "renderStack | " + stack, null);
         }
+        GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
         enable2DRender();
     }
 

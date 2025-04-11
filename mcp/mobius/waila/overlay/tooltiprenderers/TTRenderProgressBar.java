@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 public class TTRenderProgressBar implements IWailaTooltipRenderer {
 
     Minecraft mc = Minecraft.getMinecraft();
-    String texture = "assets/waila/textures/sprites.png";
+    String texture = "/assets/waila/textures/sprites.png";
 
     @Override
     public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {

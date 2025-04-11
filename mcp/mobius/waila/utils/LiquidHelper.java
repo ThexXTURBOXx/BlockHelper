@@ -1,10 +1,31 @@
 package mcp.mobius.waila.utils;
 
 import java.util.Map;
+import java.util.logging.Level;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.mod_BlockHelper;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.liquids.ILiquidTank;
+import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
 
-public class LiquidHelper {
+public final class LiquidHelper {
+
+    private LiquidHelper() {
+        throw new UnsupportedOperationException();
+    }
+
+    public static ILiquidTank getTank(IWailaDataAccessor accessor) {
+        try {
+            ILiquidTank[] tanks = ((ITankContainer) accessor.getTileEntity()).getTanks(ForgeDirection.UNKNOWN);
+            return tanks.length > 0 ? tanks[0] : null;
+        } catch (Exception e) {
+            mod_BlockHelper.log.log(Level.SEVERE,
+                    "[Forge] Unhandled exception trying to access a tank for display!\n", e);
+            return null;
+        }
+    }
 
     public static String getLiquidName(LiquidStack liquidStack) {
         Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
@@ -12,15 +33,10 @@ public class LiquidHelper {
             if (name == null) continue;
             LiquidStack stack = map.get(name);
             if (stack != null && stack.isLiquidEqual(liquidStack)) {
-                return firstCharacterUppercase(name);
+                return StringUtils.firstCharacterUppercase(name);
             }
         }
         return "Unknown";
-    }
-
-    private static String firstCharacterUppercase(String str) {
-        if (str == null) return null;
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
 }

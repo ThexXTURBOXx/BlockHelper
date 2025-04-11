@@ -23,8 +23,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block crops = Block.crops;
     static Block melonStem = Block.melonStem;
     static Block pumpkinStem = Block.pumpkinStem;
-    static Block carrot = Block.carrot;
-    static Block potato = Block.potato;
     static Block lever = Block.lever;
     static Block repeaterIdle = Block.redstoneRepeaterIdle;
     static Block repeaterActv = Block.redstoneRepeaterActive;
@@ -32,8 +30,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block comparatorAct = Block.redstoneComparatorActive;
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
-    static Block cocoa = Block.cocoaPlant;
-    static Block netherwart = Block.netherStalk;
     static Block silverfish = Block.silverfish;
     static Block leave = Block.leaves;
     static Block log = Block.wood;
@@ -118,40 +114,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                                                     IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Block block = accessor.getBlock();
-        /* Crops */
-        boolean iscrop = crops.getClass().isInstance(block);    //Done to cover all inheriting mods
-        if (config.getConfig("general.showcrop"))
-            if (iscrop || block == melonStem || block == pumpkinStem || block == carrot || block == potato) {
-                float growthValue = (accessor.getMetadata() / 7.0F) * 100.0F;
-                if (growthValue < 100.0)
-                    currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-                else
-                    currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"),
-                            LangUtil.translateG("hud.msg.mature")));
-                return currenttip;
-            }
-
-        if (block == cocoa && config.getConfig("general.showcrop")) {
-
-            float growthValue = ((accessor.getMetadata() >> 2) / 2.0F) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG(
-                        "hud.msg.mature")));
-            return currenttip;
-        }
-
-        if (block == netherwart && config.getConfig("general.showcrop")) {
-            float growthValue = (accessor.getMetadata() / 3.0F) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG(
-                        "hud.msg.mature")));
-            return currenttip;
-        }
-
         if (config.getConfig("vanilla.leverstate"))
             if (block == lever) {
                 String redstoneOn = (accessor.getMetadata() & 8) == 0 ? LangUtil.translateG("hud.msg.off") :
@@ -241,11 +203,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         ModuleRegistrar.instance().registerHeadProvider(provider, melonStem.getClass());
         ModuleRegistrar.instance().registerHeadProvider(provider, pumpkinStem.getClass());
 
-        ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
-        ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());
-        ModuleRegistrar.instance().registerBodyProvider(provider, pumpkinStem.getClass());
-        //ModuleRegistrar.instance().registerBodyProvider(provider, carrot.getClass());
-        //ModuleRegistrar.instance().registerBodyProvider(provider, potato.getClass());
         ModuleRegistrar.instance().registerBodyProvider(provider, lever.getClass());
         ModuleRegistrar.instance().registerBodyProvider(provider, repeaterIdle.getClass());
         ModuleRegistrar.instance().registerBodyProvider(provider, repeaterActv.getClass());
@@ -254,15 +211,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         ModuleRegistrar.instance().registerHeadProvider(provider, redstone.getClass());
         ModuleRegistrar.instance().registerBodyProvider(provider, redstone.getClass());
         ModuleRegistrar.instance().registerBodyProvider(provider, jukebox.getClass());
-        ModuleRegistrar.instance().registerBodyProvider(provider, cocoa.getClass());
-        ModuleRegistrar.instance().registerBodyProvider(provider, netherwart.getClass());
 
         ModuleRegistrar.instance().registerNBTProvider(provider, mobSpawner.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, crops.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, melonStem.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, pumpkinStem.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, carrot.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, potato.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, lever.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, repeaterIdle.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, repeaterActv.getClass());
@@ -270,8 +220,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         ModuleRegistrar.instance().registerNBTProvider(provider, comparatorAct.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, redstone.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, jukebox.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, cocoa.getClass());
-        ModuleRegistrar.instance().registerNBTProvider(provider, netherwart.getClass());
         ModuleRegistrar.instance().registerNBTProvider(provider, silverfish.getClass());
 
         //ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);
