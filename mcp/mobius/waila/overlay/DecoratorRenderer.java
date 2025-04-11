@@ -3,7 +3,7 @@ package mcp.mobius.waila.overlay;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
-import mcp.mobius.waila.api.IWailaBlockDecorator;
+import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -46,9 +46,9 @@ public class DecoratorRenderer {
         GL11.glDepthMask(false);
 
         if (ModuleRegistrar.instance().hasBlockDecorator(block)) {
-            for (List<IWailaBlockDecorator> decoratorsList :
+            for (List<IBlockDecorator> decoratorsList :
                     ModuleRegistrar.instance().getBlockDecorators(block).values()) {
-                for (IWailaBlockDecorator decorator : decoratorsList)
+                for (IBlockDecorator decorator : decoratorsList)
                     try {
                         GL11.glPushMatrix();
                         decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor,

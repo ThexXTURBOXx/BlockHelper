@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.vanillamc;
 
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 
-public class HUDHandlerVanilla implements IWailaDataProvider {
+public class HUDHandlerVanilla implements IDataProvider {
 
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
@@ -36,7 +36,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block quartz = Block.blockNetherQuartz;
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
         Block block = accessor.getBlock();
 
         if (block == silverfish && config.getConfig("vanilla.silverfish")) {
@@ -83,7 +83,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         Block block = accessor.getBlock();
 
         /* Mob spawner handler */
@@ -112,7 +112,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         Block block = accessor.getBlock();
         if (config.getConfig("vanilla.leverstate"))
             if (block == lever) {
@@ -167,7 +167,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
@@ -188,7 +188,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.silverfish");
         ModuleRegistrar.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");
 
-        IWailaDataProvider provider = new HUDHandlerVanilla();
+        IDataProvider provider = new HUDHandlerVanilla();
 
         ModuleRegistrar.instance().registerStackProvider(provider, silverfish.getClass());
         ModuleRegistrar.instance().registerStackProvider(provider, redstone.getClass());

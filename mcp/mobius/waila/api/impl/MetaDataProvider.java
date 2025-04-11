@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.network.Packet0x01TERequest;
@@ -23,19 +23,19 @@ import net.minecraft.world.World;
 
 public class MetaDataProvider {
 
-    private final Map<Integer, List<IWailaDataProvider>> headBlockProviders = new TreeMap<Integer,
-            List<IWailaDataProvider>>();
-    private final Map<Integer, List<IWailaDataProvider>> bodyBlockProviders = new TreeMap<Integer,
-            List<IWailaDataProvider>>();
-    private final Map<Integer, List<IWailaDataProvider>> tailBlockProviders = new TreeMap<Integer,
-            List<IWailaDataProvider>>();
+    private final Map<Integer, List<IDataProvider>> headBlockProviders = new TreeMap<Integer,
+            List<IDataProvider>>();
+    private final Map<Integer, List<IDataProvider>> bodyBlockProviders = new TreeMap<Integer,
+            List<IDataProvider>>();
+    private final Map<Integer, List<IDataProvider>> tailBlockProviders = new TreeMap<Integer,
+            List<IDataProvider>>();
 
-    private final Map<Integer, List<IWailaEntityProvider>> headEntityProviders = new TreeMap<Integer,
-            List<IWailaEntityProvider>>();
-    private final Map<Integer, List<IWailaEntityProvider>> bodyEntityProviders = new TreeMap<Integer,
-            List<IWailaEntityProvider>>();
-    private final Map<Integer, List<IWailaEntityProvider>> tailEntityProviders = new TreeMap<Integer,
-            List<IWailaEntityProvider>>();
+    private final Map<Integer, List<IEntityProvider>> headEntityProviders = new TreeMap<Integer,
+            List<IEntityProvider>>();
+    private final Map<Integer, List<IEntityProvider>> bodyEntityProviders = new TreeMap<Integer,
+            List<IEntityProvider>>();
+    private final Map<Integer, List<IEntityProvider>> tailEntityProviders = new TreeMap<Integer,
+            List<IEntityProvider>>();
 
     private final Class<?> prevBlock = null;
     private final Class<?> prevTile = null;
@@ -46,8 +46,8 @@ public class MetaDataProvider {
         int blockID = accessor.getBlockID();
 
         if (ModuleRegistrar.instance().hasStackProviders(block)) {
-            for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()) {
-                for (IWailaDataProvider dataProvider : providerList) {
+            for (List<IDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()) {
+                for (IDataProvider dataProvider : providerList) {
                     try {
                         ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
                         if (retval != null)
@@ -110,8 +110,8 @@ public class MetaDataProvider {
 
         /* Apply all collected providers */
         if (layout == Layout.HEADER)
-            for (List<IWailaDataProvider> providersList : headBlockProviders.values()) {
-                for (IWailaDataProvider dataProvider : providersList)
+            for (List<IDataProvider> providersList : headBlockProviders.values()) {
+                for (IDataProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
@@ -121,8 +121,8 @@ public class MetaDataProvider {
             }
 
         if (layout == Layout.BODY)
-            for (List<IWailaDataProvider> providersList : bodyBlockProviders.values()) {
-                for (IWailaDataProvider dataProvider : providersList)
+            for (List<IDataProvider> providersList : bodyBlockProviders.values()) {
+                for (IDataProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
@@ -131,8 +131,8 @@ public class MetaDataProvider {
                     }
             }
         if (layout == Layout.FOOTER)
-            for (List<IWailaDataProvider> providersList : tailBlockProviders.values()) {
-                for (IWailaDataProvider dataProvider : providersList)
+            for (List<IDataProvider> providersList : tailBlockProviders.values()) {
+                for (IDataProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor,
                                 ConfigHandler.instance());
@@ -179,8 +179,8 @@ public class MetaDataProvider {
 
         /* Apply all collected providers */
         if (layout == Layout.HEADER)
-            for (List<IWailaEntityProvider> providersList : headEntityProviders.values()) {
-                for (IWailaEntityProvider dataProvider : providersList)
+            for (List<IEntityProvider> providersList : headEntityProviders.values()) {
+                for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaHead(entity, currenttip, accessor, ConfigHandler.instance());
                     } catch (Throwable e) {
@@ -189,8 +189,8 @@ public class MetaDataProvider {
             }
 
         if (layout == Layout.BODY)
-            for (List<IWailaEntityProvider> providersList : bodyEntityProviders.values()) {
-                for (IWailaEntityProvider dataProvider : providersList)
+            for (List<IEntityProvider> providersList : bodyEntityProviders.values()) {
+                for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaBody(entity, currenttip, accessor, ConfigHandler.instance());
                     } catch (Throwable e) {
@@ -199,8 +199,8 @@ public class MetaDataProvider {
             }
 
         if (layout == Layout.FOOTER)
-            for (List<IWailaEntityProvider> providersList : tailEntityProviders.values()) {
-                for (IWailaEntityProvider dataProvider : providersList)
+            for (List<IEntityProvider> providersList : tailEntityProviders.values()) {
+                for (IEntityProvider dataProvider : providersList)
                     try {
                         currenttip = dataProvider.getWailaTail(entity, currenttip, accessor, ConfigHandler.instance());
                     } catch (Throwable e) {

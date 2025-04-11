@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -112,9 +112,9 @@ public class RayTracing {
             return null;
 
         if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
-            for (List<IWailaEntityProvider> listProviders :
+            for (List<IEntityProvider> listProviders :
                     ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()) {
-                for (IWailaEntityProvider provider : listProviders) {
+                for (IEntityProvider provider : listProviders) {
                     ents.add(provider.getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
                 }
             }
@@ -143,9 +143,9 @@ public class RayTracing {
         if (mouseoverBlock == null) return items;
 
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {
-            for (List<IWailaDataProvider> providersList :
+            for (List<IDataProvider> providersList :
                     ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
-                for (IWailaDataProvider provider : providersList) {
+                for (IDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance,
                             ConfigHandler.instance());
                     if (providerStack != null) {
@@ -160,10 +160,10 @@ public class RayTracing {
         }
 
         if (tileEntity != null && ModuleRegistrar.instance().hasStackProviders(tileEntity)) {
-            for (List<IWailaDataProvider> providersList :
+            for (List<IDataProvider> providersList :
                     ModuleRegistrar.instance().getStackProviders(tileEntity).values()) {
 
-                for (IWailaDataProvider provider : providersList) {
+                for (IDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance,
                             ConfigHandler.instance());
                     if (providerStack != null) {

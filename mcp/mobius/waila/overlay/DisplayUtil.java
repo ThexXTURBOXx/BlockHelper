@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -36,7 +36,7 @@ public class DisplayUtil {
 
         Matcher renderMatcher = patternRender.matcher(s);
         while (renderMatcher.find()) {
-            IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
+            ITooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
             if (renderer != null)
                 width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.instance).width;
         }

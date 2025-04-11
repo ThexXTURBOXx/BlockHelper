@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.projectred;
 
+import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaFMPAccessor;
-import mcp.mobius.waila.api.IWailaFMPProvider;
+import mcp.mobius.waila.api.IFMPAccessor;
+import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;
 
@@ -12,17 +12,17 @@ import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDFMPGateLogic implements IWailaFMPProvider {
+public class HUDFMPGateLogic implements IFMPProvider {
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaFMPAccessor accessor, IWailaConfigHandler config) {
+                                                    IFMPAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaFMPAccessor accessor, IWailaConfigHandler config) {
+                                                    IFMPAccessor accessor, IConfigHandler config) {
         if (!config.getConfig("pr.showdata")) return currenttip;
 
         int orient = 0;
@@ -83,7 +83,7 @@ public class HUDFMPGateLogic implements IWailaFMPProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaFMPAccessor accessor, IWailaConfigHandler config) {
+                                                    IFMPAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 

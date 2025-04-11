@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.forge;
 
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.LiquidHelper;
@@ -15,16 +15,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
 
-public class HUDHandlerForgeTanks implements IWailaDataProvider {
+public class HUDHandlerForgeTanks implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         ILiquidTank tank = LiquidHelper.getTank(accessor);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int capacity = tank != null ? tank.getCapacity() : 0;
@@ -43,7 +43,7 @@ public class HUDHandlerForgeTanks implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         ILiquidTank tank = LiquidHelper.getTank(accessor);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int liquidAmount = stack != null ? stack.amount : 0;
@@ -57,7 +57,7 @@ public class HUDHandlerForgeTanks implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 

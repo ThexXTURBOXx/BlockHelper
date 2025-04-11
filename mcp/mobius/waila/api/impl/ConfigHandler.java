@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
-import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
@@ -16,7 +16,7 @@ import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
-public class ConfigHandler implements IWailaConfigHandler {
+public class ConfigHandler implements IConfigHandler {
 
     /* SINGLETON */
     private static ConfigHandler _instance = null;

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
  * @author ProfMobius
  */
 
-public interface IWailaFMPAccessor {
+public interface IFMPAccessor {
     World getWorld();
 
     EntityPlayer getPlayer();

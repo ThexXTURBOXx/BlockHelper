@@ -18,7 +18,7 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerCrops;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
-import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
@@ -93,7 +93,7 @@ public class ProxyServer {
 
         try {
             Class<?> reflectClass = Class.forName(className);
-            Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
+            Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IRegistrar.class);
             reflectMethod.invoke(null, ModuleRegistrar.instance());
 
             mod_BlockHelper.log.info(String.format("Success in registering %s", modname));

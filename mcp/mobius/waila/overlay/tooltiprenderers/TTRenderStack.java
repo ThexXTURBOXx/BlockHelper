@@ -1,23 +1,23 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class TTRenderStack implements IWailaTooltipRenderer {
+public class TTRenderStack implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
+    public Dimension getSize(String[] params, ICommonAccessor accessor) {
         return new Dimension(18, 18);
     }
 
     @Override
-    public void draw(String[] params, IWailaCommonAccessor accessor) {
+    public void draw(String[] params, ICommonAccessor accessor, int x, int y) {
         int type = Integer.parseInt(params[0]); //0 for block, 1 for item
         int id = Integer.parseInt(params[1]);
         int amount = Integer.parseInt(params[2]);
@@ -32,7 +32,7 @@ public class TTRenderStack implements IWailaTooltipRenderer {
         }
 
         RenderHelper.enableGUIStandardItemLighting();
-        DisplayUtil.renderStack(0, 0, stack);
+        DisplayUtil.renderStack(x, y, stack);
         RenderHelper.disableStandardItemLighting();
     }
 

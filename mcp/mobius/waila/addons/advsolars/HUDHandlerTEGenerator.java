@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.advsolars;
 
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -16,22 +16,22 @@ import net.minecraft.world.World;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 
-public class HUDHandlerTEGenerator implements IWailaDataProvider {
+public class HUDHandlerTEGenerator implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         try {
             int storage = accessor.getNBTData().getInteger("storage");
             int maxStorage = accessor.getNBTData().getInteger("maxStorage");
@@ -68,7 +68,7 @@ public class HUDHandlerTEGenerator implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 

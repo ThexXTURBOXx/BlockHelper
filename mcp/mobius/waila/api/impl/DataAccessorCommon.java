@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.impl;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -17,7 +17,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAccessor, IWailaEntityAccessor {
+public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEntityAccessor {
 
     public World world;
     public EntityPlayer player;

@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.HashSet;
 import java.util.List;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
@@ -69,9 +69,9 @@ public class Packet0x03EntRequest implements IWailaPacket {
                 NBTTagCompound tag = new NBTTagCompound();
 
                 if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)) {
-                    for (List<IWailaEntityProvider> providersList :
+                    for (List<IEntityProvider> providersList :
                             ModuleRegistrar.instance().getNBTEntityProviders(entity).values()) {
-                        for (IWailaEntityProvider provider : providersList) {
+                        for (IEntityProvider provider : providersList) {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world);
                             } catch (AbstractMethodError ame) {

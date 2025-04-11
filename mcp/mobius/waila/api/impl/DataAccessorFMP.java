@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api.impl;
 
-import mcp.mobius.waila.api.IWailaFMPAccessor;
+import mcp.mobius.waila.api.IFMPAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,7 +9,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class DataAccessorFMP implements IWailaFMPAccessor {
+public class DataAccessorFMP implements IFMPAccessor {
 
     String id;
     World world;

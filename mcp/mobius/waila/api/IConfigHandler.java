@@ -10,11 +10,11 @@ import java.util.Set;
  *
  * @author ProfMobius
  */
-public interface IWailaConfigHandler {
+public interface IConfigHandler {
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
-     * @return
+     * @return The module names
      */
     Set<String> getModuleNames();
 
@@ -22,7 +22,7 @@ public interface IWailaConfigHandler {
      * Returns all the currently available options for a given module
      *
      * @param modName Module name
-     * @return
+     * @return The config options
      */
     Map<String, String> getConfigKeys(String modName);
 

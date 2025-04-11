@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.util.MathHelper;
@@ -11,10 +11,10 @@ import net.minecraft.util.MathHelper;
  * Custom renderer for health bars.
  * Syntax : {waila.health, nheartperline, health, maxhealth}
  */
-public class TTRenderHealth implements IWailaTooltipRenderer {
+public class TTRenderHealth implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
+    public Dimension getSize(String[] params, ICommonAccessor accessor) {
         float maxhearts = Float.parseFloat(params[0]);
         float maxhealth = Float.parseFloat(params[2]);
 
@@ -25,7 +25,7 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
     }
 
     @Override
-    public void draw(String[] params, IWailaCommonAccessor accessor) {
+    public void draw(String[] params, ICommonAccessor accessor, int x, int y) {
         float maxhearts = Float.parseFloat(params[0]);
         float health = Float.parseFloat(params[1]);
         float maxhealth = Float.parseFloat(params[2]);
@@ -33,8 +33,8 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
         int nhearts = MathHelper.ceiling_float_int(maxhealth);
         int heartsPerLine = (int) (Math.min(maxhearts, Math.ceil(maxhealth)));
 
-        int offsetX = 0;
-        int offsetY = 0;
+        int offsetX = x;
+        int offsetY = y;
 
         for (int iheart = 1; iheart <= nhearts; iheart++) {
 
@@ -56,7 +56,7 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
 
             if (iheart % heartsPerLine == 0) {
                 offsetY += 10;
-                offsetX = 0;
+                offsetX = x;
             }
 
         }

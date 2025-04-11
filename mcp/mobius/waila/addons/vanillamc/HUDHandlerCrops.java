@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -24,24 +24,24 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerCrops implements IWailaDataProvider {
+public class HUDHandlerCrops implements IDataProvider {
 
     public static final Map<Class<?>, Integer> MAX_STAGES = new HashMap<Class<?>, Integer>();
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         Block block = accessor.getBlock();
         /* Crops */
         if (config.getConfig("general.showcrop") && isCrop(block)) {
@@ -115,7 +115,7 @@ public class HUDHandlerCrops implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
@@ -126,7 +126,7 @@ public class HUDHandlerCrops implements IWailaDataProvider {
     }
 
     public static void register() {
-        IWailaDataProvider provider = new HUDHandlerCrops();
+        IDataProvider provider = new HUDHandlerCrops();
 
         ModuleRegistrar.instance().registerBodyProvider(provider, Block.class);
 

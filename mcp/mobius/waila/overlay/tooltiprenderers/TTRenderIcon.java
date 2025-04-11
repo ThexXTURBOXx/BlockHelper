@@ -1,15 +1,15 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 
 import static mcp.mobius.waila.api.SpecialChars.WailaIcon;
 import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
 
-public class TTRenderIcon implements IWailaTooltipRenderer {
+public class TTRenderIcon implements ITooltipRenderer {
 
     final String type;
     final int IconSize = 8;
@@ -19,13 +19,13 @@ public class TTRenderIcon implements IWailaTooltipRenderer {
     }
 
     @Override
-    public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
+    public Dimension getSize(String[] params, ICommonAccessor accessor) {
         return new Dimension(IconSize, IconSize);
     }
 
     @Override
-    public void draw(String[] params, IWailaCommonAccessor accessor) {
-        DisplayUtil.renderIcon(0, 0, IconSize, IconSize, IconUI.bySymbol(WailaStyle + WailaIcon + type));
+    public void draw(String[] params, ICommonAccessor accessor, int x, int y) {
+        DisplayUtil.renderIcon(x, y, IconSize, IconSize, IconUI.bySymbol(WailaStyle + WailaIcon + type));
     }
 
 }

@@ -2,7 +2,7 @@ package mcp.mobius.waila.utils;
 
 import java.util.Map;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
@@ -16,7 +16,7 @@ public final class LiquidHelper {
         throw new UnsupportedOperationException();
     }
 
-    public static ILiquidTank getTank(IWailaDataAccessor accessor) {
+    public static ILiquidTank getTank(IDataAccessor accessor) {
         try {
             ILiquidTank[] tanks = ((ITankContainer) accessor.getTileEntity()).getTanks(ForgeDirection.UNKNOWN);
             return tanks.length > 0 ? tanks[0] : null;

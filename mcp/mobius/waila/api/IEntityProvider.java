@@ -6,29 +6,29 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 /**
- * Callback class interface used to provide Entity tooltip informations to Waila.<br>
+ * Callback class interface used to provide Entity tooltip information to Waila.<br>
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
- * registered to Waila via the {@link IWailaRegistrar} instance provided in the original registration callback method
- * (cf. {@link IWailaRegistrar} documentation for more information).
+ * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
+ * (cf. {@link IRegistrar} documentation for more information).
  *
  * @author ProfMobius
  */
-public interface IWailaEntityProvider {
+public interface IEntityProvider {
 
     /**
      * Callback used to override the default Waila lookup system.</br>
      * Will be used if the implementing class is registered via
-     * {@link IWailaRegistrar#registerOverrideEntityProvider}.</br>
+     * {@link IRegistrar#registerOverrideEntityProvider}.</br>
      *
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      * @return null if override is not required, an Entity otherwise.
      */
-    Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config);
+    Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -40,11 +40,11 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                             IWailaEntityAccessor accessor, IWailaConfigHandler config);
+                                             IEntityAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerBodyProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -56,11 +56,11 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                             IWailaEntityAccessor accessor, IWailaConfigHandler config);
+                                             IEntityAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerTailProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -72,11 +72,11 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                             IWailaEntityAccessor accessor, IWailaConfigHandler config);
+                                             IEntityAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider} server
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerNBTProvider} server
      * and client side.</br>
      * You are supposed to always return the modified input NBTTagCompound tag.</br>
      *

@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
@@ -105,9 +105,9 @@ public class Packet0x01TERequest implements IWailaPacket {
                     tag.setInteger("z", posZ);
                     tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
-                    for (List<IWailaDataProvider> providersList :
+                    for (List<IDataProvider> providersList :
                             ModuleRegistrar.instance().getNBTProviders(block).values()) {
-                        for (IWailaDataProvider provider : providersList) {
+                        for (IDataProvider provider : providersList) {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
                                         posZ);
@@ -120,9 +120,9 @@ public class Packet0x01TERequest implements IWailaPacket {
                     }
 
 
-                    for (List<IWailaDataProvider> providersList :
+                    for (List<IDataProvider> providersList :
                             ModuleRegistrar.instance().getNBTProviders(entity).values()) {
-                        for (IWailaDataProvider provider : providersList) {
+                        for (IDataProvider provider : providersList) {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
                                         posZ);

@@ -2,10 +2,10 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.IWailaBlockDecorator;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaFMPDecorator;
+import mcp.mobius.waila.api.IBlockDecorator;
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -14,10 +14,10 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class DecoratorFMP implements IWailaBlockDecorator {
+public class DecoratorFMP implements IBlockDecorator {
 
     @Override
-    public void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IConfigHandler config) {
         NBTTagList list = accessor.getNBTData().getTagList("parts");
         for (int i = 0; i < list.tagCount(); i++) {
             NBTBase subtagBase = list.tagAt(i);
@@ -29,8 +29,8 @@ public class DecoratorFMP implements IWailaBlockDecorator {
                 DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame());
 
-                for (List<IWailaFMPDecorator> providersList : ModuleRegistrar.instance().getFMPDecorators(id).values())
-                    for (IWailaFMPDecorator provider : providersList)
+                for (List<IFMPDecorator> providersList : ModuleRegistrar.instance().getFMPDecorators(id).values())
+                    for (IFMPDecorator provider : providersList)
                         provider.decorateBlock(itemStack, DataAccessorFMP.instance, config);
             }
         }

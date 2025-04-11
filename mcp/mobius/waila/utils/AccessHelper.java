@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -117,7 +117,7 @@ public class AccessHelper {
         }
     }
 
-    public static NBTTagCompound getNBTData(IWailaDataProvider provider, TileEntity entity, NBTTagCompound tag,
+    public static NBTTagCompound getNBTData(IDataProvider provider, TileEntity entity, NBTTagCompound tag,
                                             World world, int x, int y, int z) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class,
@@ -125,7 +125,7 @@ public class AccessHelper {
         return (NBTTagCompound) getNBTData.invoke(provider, entity, tag, world, x, y, z);
     }
 
-    public static NBTTagCompound getNBTData(IWailaEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static NBTTagCompound getNBTData(IEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
         return (NBTTagCompound) getNBTData.invoke(provider, entity, tag);
     }

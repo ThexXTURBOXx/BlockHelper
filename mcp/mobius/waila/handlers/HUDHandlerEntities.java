@@ -3,10 +3,10 @@ package mcp.mobius.waila.handlers;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -19,16 +19,16 @@ import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerEntities implements IWailaEntityProvider {
+public class HUDHandlerEntities implements IEntityProvider {
 
     @Override
-    public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         if (entity instanceof EntityItemFrame
             || (entity instanceof EntityOcelot
                 && !((EntityOcelot) entity).func_94056_bM()
@@ -46,13 +46,13 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     @Override
     public ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         try {
             currenttip.add(BLUE + ITALIC + getEntityMod(entity));
         } catch (Exception e) {

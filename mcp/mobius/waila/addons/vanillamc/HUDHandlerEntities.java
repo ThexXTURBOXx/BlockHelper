@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.vanillamc;
 
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
-import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,25 +15,25 @@ import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
-public class HUDHandlerEntities implements IWailaEntityProvider {
+public class HUDHandlerEntities implements IEntityProvider {
 
     public static int nhearts = 20;
     public static float maxhpfortext = 40.0f;
 
     @Override
-    public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         if (config.getConfig("general.showhp"))
             if (entity instanceof EntityLiving) {
                 nhearts = nhearts <= 0 ? 20 : nhearts;
@@ -59,7 +59,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+                                                    IEntityAccessor accessor, IConfigHandler config) {
         return currenttip;
     }
 
@@ -75,7 +75,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     public static void register() {
         ModuleRegistrar.instance().addConfigRemote("VanillaMC", "general.showhp");
 
-        IWailaEntityProvider provider = new HUDHandlerEntities();
+        IEntityProvider provider = new HUDHandlerEntities();
 
         ModuleRegistrar.instance().registerBodyProvider(provider, Entity.class);
 

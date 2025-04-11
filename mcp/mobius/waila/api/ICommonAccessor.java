@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,13 +15,10 @@ import net.minecraftforge.common.ForgeDirection;
  * The Accessor is used to get some basic data out of the game without having to request direct access to the game
  * engine.<br>
  * It will also return things that are unmodified by the overriding systems (like getWailaStack).<br>
- * An instance of this interface is passed to most of Waila Block/TileEntity callbacks.
- *
- * @author ProfMobius
+ * Common accessor for both Entity and Block/TileEntity.<br>
+ * Available data depends on what it is called upon (i.e. getEntity() will return null if looking at a block, etc.).<br>
  */
-
-public interface IWailaDataAccessor {
-
+public interface ICommonAccessor {
     World getWorld();
 
     EntityPlayer getPlayer();
@@ -32,6 +30,8 @@ public interface IWailaDataAccessor {
     int getMetadata();
 
     TileEntity getTileEntity();
+
+    Entity getEntity();
 
     MovingObjectPosition getPosition();
 

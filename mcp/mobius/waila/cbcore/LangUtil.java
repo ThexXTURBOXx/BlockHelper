@@ -16,6 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class LangUtil {
+
     public static LangUtil instance;
     public String prefix;
 
@@ -152,4 +153,5 @@ public class LangUtil {
             throw new RuntimeException(e);
         }
     }
+
 }

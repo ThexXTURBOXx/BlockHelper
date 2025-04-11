@@ -3,17 +3,17 @@ package mcp.mobius.waila.api;
 import net.minecraft.item.ItemStack;
 
 /**
- * Callback class interface used to provide FMP tooltip informations to Waila.<br>
+ * Callback class interface used to provide FMP tooltip information to Waila.<br>
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
- * registered to Waila via the {@link IWailaRegistrar} instance provided in the original registration callback method
- * (cf. {@link IWailaRegistrar} documentation for more information).
+ * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
+ * (cf. {@link IRegistrar} documentation for more information).
  *
  * @author ProfMobius
  */
-public interface IWailaFMPProvider {
+public interface IFMPProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -25,11 +25,11 @@ public interface IWailaFMPProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IWailaFMPAccessor accessor, IWailaConfigHandler config);
+                                             IFMPAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerBodyProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -41,11 +41,11 @@ public interface IWailaFMPProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IWailaFMPAccessor accessor, IWailaConfigHandler config);
+                                             IFMPAccessor accessor, IConfigHandler config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client
+     * Will be used if the implementing class is registered via {@link IRegistrar#registerTailProvider} client
      * side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
@@ -57,5 +57,5 @@ public interface IWailaFMPProvider {
      * @return Modified input currenttip
      */
     ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IWailaFMPAccessor accessor, IWailaConfigHandler config);
+                                             IFMPAccessor accessor, IConfigHandler config);
 }

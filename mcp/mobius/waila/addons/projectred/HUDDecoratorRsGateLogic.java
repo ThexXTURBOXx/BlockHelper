@@ -1,14 +1,14 @@
 package mcp.mobius.waila.addons.projectred;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaFMPAccessor;
-import mcp.mobius.waila.api.IWailaFMPDecorator;
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IFMPAccessor;
+import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 
-public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
+public class HUDDecoratorRsGateLogic implements IFMPDecorator {
 
     static byte[][] IOARRAY = {
             {1, 1, 2, 1} /* OR    */, {1, 1, 2, 1} /* NOR   */, {1, 2, 2, 2} /* NOT    */, {1, 1, 2, 1} /* AND      */,
@@ -30,7 +30,7 @@ public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
     static String[] IONAMES = {"", "IN", "OUT", "SWAP", "IN_A", "IN_B", "LOCK", "IO", "POS", "NEG", "BUS", "A", "B"};
 
     @Override
-    public void decorateBlock(ItemStack itemStack, IWailaFMPAccessor accessor, IWailaConfigHandler config) {
+    public void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IConfigHandler config) {
 
         if (!config.getConfig("pr.showio")) return;
 

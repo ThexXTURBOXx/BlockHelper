@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -45,21 +45,21 @@ public class Tooltip {
     boolean hasIcon = false;
     ItemStack stack;
 
-    IWailaCommonAccessor accessor = DataAccessorCommon.instance;
+    ICommonAccessor accessor = DataAccessorCommon.instance;
 
     /// //////////////////////////////////Renderable///////////////////////////////////////
     private static class Renderable {
-        final IWailaTooltipRenderer renderer;
+        final ITooltipRenderer renderer;
         final Point pos;
         final String[] params;
 
-        public Renderable(IWailaTooltipRenderer renderer, Point pos, String[] params) {
+        public Renderable(ITooltipRenderer renderer, Point pos, String[] params) {
             this.renderer = renderer;
             this.pos = pos;
             this.params = params;
         }
 
-        public Renderable(IWailaTooltipRenderer renderer, Point pos) {
+        public Renderable(ITooltipRenderer renderer, Point pos) {
             this(renderer, pos, new String[]{});
         }
 
@@ -67,7 +67,7 @@ public class Tooltip {
             return this.pos;
         }
 
-        public Dimension getSize(IWailaCommonAccessor accessor) {
+        public Dimension getSize(ICommonAccessor accessor) {
             Dimension dim = new Dimension(0, 0);
             try {
                 dim = this.renderer.getSize(this.params, accessor);
@@ -77,11 +77,10 @@ public class Tooltip {
             return dim;
         }
 
-        public void draw(IWailaCommonAccessor accessor, int x, int y) {
+        public void draw(ICommonAccessor accessor, int x, int y) {
             GL11.glPushMatrix();
-            GL11.glTranslatef(x + this.pos.x, y + this.pos.y, 0);
             try {
-                this.renderer.draw(this.params, accessor);
+                this.renderer.draw(this.params, accessor, this.pos.x + x, this.pos.y + y);
             } catch (Throwable e) {
                 WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".draw()", null);
             }
@@ -163,7 +162,7 @@ public class Tooltip {
                     if (renderMatcher.find()) {
                         String renderName = renderMatcher.group(1);
 
-                        IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
+                        ITooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
                         if (renderer != null) {
                             renderable = new Renderable(renderer, new Point(offsetX, offsetY),
                                     renderMatcher.group(2).split(","));

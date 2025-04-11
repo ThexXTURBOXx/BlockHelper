@@ -19,7 +19,6 @@ public class MouseEvent {
     public EventType type;
     public int button = -1;
 
-
     public MouseEvent(IWidget widget) {
         this.srcwidget = widget;
         this.timestamp = System.nanoTime();
@@ -27,15 +26,9 @@ public class MouseEvent {
         this.mc = Minecraft.getMinecraft();
 
         this.x = (double) Mouse.getEventX() * (double) this.srcwidget.getSize().getX() / (double) this.mc.displayWidth;
-        this.y =
-                (double) this.srcwidget.getSize().getY() - (double) Mouse.getEventY() * (double) this.srcwidget.getSize().getY() / (double) this.mc.displayHeight - 1.0;
+        this.y = (double) this.srcwidget.getSize().getY() -
+                 (double) Mouse.getEventY() * (double) this.srcwidget.getSize().getY() / (double) this.mc.displayHeight - 1.0;
 
-        //this.x = Mouse.getEventX();
-        //this.y = Mouse.getEventY();
-
-        //System.out.printf("%s %s\n", this.x, this.y);
-
-        //this.z = Mouse.getEventDWheel();
         this.z = Mouse.getDWheel();
 
         for (int i = 0; i < buttonCount; i++)
@@ -45,9 +38,8 @@ public class MouseEvent {
     }
 
     public String toString() {
-        StringBuilder retstring = new StringBuilder(String.format("MOUSE %s :  [%s] [ %.2f %.2f %d ] [", this.type,
-                this.timestamp, this.x,
-                this.y, this.z));
+        StringBuilder retstring = new StringBuilder(String.format("MOUSE %s :  [%s] [ %.2f %.2f %d ] [",
+                this.type, this.timestamp, this.x, this.y, this.z));
         if (buttonCount < 5)
             for (int i = 0; i < buttonCount; i++)
                 retstring.append(String.format(" %s ", this.buttonState[i]));
@@ -99,4 +91,5 @@ public class MouseEvent {
 
         return this.type;
     }
+
 }

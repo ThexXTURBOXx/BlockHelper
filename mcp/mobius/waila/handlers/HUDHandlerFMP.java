@@ -2,11 +2,11 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 import java.util.logging.Level;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaFMPProvider;
+import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -18,16 +18,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerFMP implements IWailaDataProvider {
+public class HUDHandlerFMP implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
         return null;
     }
 
     @Override
     public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         NBTTagList list = accessor.getNBTData().getTagList("parts");
         for (int i = 0; i < list.tagCount(); i++) {
             NBTBase subtagBase = list.tagAt(i);
@@ -39,9 +39,9 @@ public class HUDHandlerFMP implements IWailaDataProvider {
                 DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
-                for (List<IWailaFMPProvider> providersList :
+                for (List<IFMPProvider> providersList :
                         ModuleRegistrar.instance().getHeadFMPProviders(id).values()) {
-                    for (IWailaFMPProvider provider : providersList)
+                    for (IFMPProvider provider : providersList)
                         currenttip = provider.getWailaHead(itemStack, currenttip, DataAccessorFMP.instance, config);
                 }
             }
@@ -52,7 +52,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         NBTTagList list = accessor.getNBTData().getTagList("parts");
         for (int i = 0; i < list.tagCount(); i++) {
             NBTBase subtagBase = list.tagAt(i);
@@ -64,9 +64,9 @@ public class HUDHandlerFMP implements IWailaDataProvider {
                 DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
-                for (List<IWailaFMPProvider> providersList :
+                for (List<IFMPProvider> providersList :
                         ModuleRegistrar.instance().getBodyFMPProviders(id).values()) {
-                    for (IWailaFMPProvider provider : providersList)
+                    for (IFMPProvider provider : providersList)
                         currenttip = provider.getWailaBody(itemStack, currenttip, DataAccessorFMP.instance, config);
                 }
             }
@@ -77,7 +77,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 
     @Override
     public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IWailaDataAccessor accessor, IWailaConfigHandler config) {
+                                                    IDataAccessor accessor, IConfigHandler config) {
         NBTTagList list = accessor.getNBTData().getTagList("parts");
         for (int i = 0; i < list.tagCount(); i++) {
             NBTBase subtagBase = list.tagAt(i);
@@ -89,9 +89,9 @@ public class HUDHandlerFMP implements IWailaDataProvider {
                 DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
-                for (List<IWailaFMPProvider> providersList :
+                for (List<IFMPProvider> providersList :
                         ModuleRegistrar.instance().getTailFMPProviders(id).values()) {
-                    for (IWailaFMPProvider provider : providersList)
+                    for (IFMPProvider provider : providersList)
                         currenttip = provider.getWailaTail(itemStack, currenttip, DataAccessorFMP.instance, config);
                 }
             }
