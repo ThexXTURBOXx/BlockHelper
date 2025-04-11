@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.projectred;
 
-import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IFMPAccessor;
 import mcp.mobius.waila.api.IFMPDecorator;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;

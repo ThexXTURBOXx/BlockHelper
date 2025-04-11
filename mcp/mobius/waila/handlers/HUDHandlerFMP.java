@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -35,14 +35,14 @@ public class HUDHandlerFMP implements IDataProvider {
             NBTTagCompound subtag = (NBTTagCompound) subtagBase;
             String id = subtag.getString("id");
 
-            if (ModuleRegistrar.instance().hasHeadFMPProviders(id)) {
-                DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
+            if (WailaRegistrar.instance().hasHeadFMPProviders(id)) {
+                DataAccessorFMP.INSTANCE.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
                 for (List<IFMPProvider> providersList :
-                        ModuleRegistrar.instance().getHeadFMPProviders(id).values()) {
+                        WailaRegistrar.instance().getHeadFMPProviders(id).values()) {
                     for (IFMPProvider provider : providersList)
-                        provider.modifyHead(itemStack, currenttip, DataAccessorFMP.instance, config);
+                        provider.modifyHead(itemStack, currenttip, DataAccessorFMP.INSTANCE, config);
                 }
             }
         }
@@ -58,14 +58,14 @@ public class HUDHandlerFMP implements IDataProvider {
             NBTTagCompound subtag = (NBTTagCompound) subtagBase;
             String id = subtag.getString("id");
 
-            if (ModuleRegistrar.instance().hasBodyFMPProviders(id)) {
-                DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
+            if (WailaRegistrar.instance().hasBodyFMPProviders(id)) {
+                DataAccessorFMP.INSTANCE.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
                 for (List<IFMPProvider> providersList :
-                        ModuleRegistrar.instance().getBodyFMPProviders(id).values()) {
+                        WailaRegistrar.instance().getBodyFMPProviders(id).values()) {
                     for (IFMPProvider provider : providersList)
-                        provider.modifyBody(itemStack, currenttip, DataAccessorFMP.instance, config);
+                        provider.modifyBody(itemStack, currenttip, DataAccessorFMP.INSTANCE, config);
                 }
             }
         }
@@ -81,14 +81,14 @@ public class HUDHandlerFMP implements IDataProvider {
             NBTTagCompound subtag = (NBTTagCompound) subtagBase;
             String id = subtag.getString("id");
 
-            if (ModuleRegistrar.instance().hasTailFMPProviders(id)) {
-                DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
+            if (WailaRegistrar.instance().hasTailFMPProviders(id)) {
+                DataAccessorFMP.INSTANCE.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id);
 
                 for (List<IFMPProvider> providersList :
-                        ModuleRegistrar.instance().getTailFMPProviders(id).values()) {
+                        WailaRegistrar.instance().getTailFMPProviders(id).values()) {
                     for (IFMPProvider provider : providersList)
-                        provider.modifyTail(itemStack, currenttip, DataAccessorFMP.instance, config);
+                        provider.modifyTail(itemStack, currenttip, DataAccessorFMP.INSTANCE, config);
                 }
             }
         }
@@ -114,10 +114,10 @@ public class HUDHandlerFMP implements IDataProvider {
             return;
         }
 
-        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerFMP(), BlockMultipart);
-        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerFMP(), BlockMultipart);
-        ModuleRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
-        ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerFMP(), BlockMultipart);
+        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerFMP(), BlockMultipart);
+        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerFMP(), BlockMultipart);
+        WailaRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
+        WailaRegistrar.instance().registerNBTProvider(new HUDHandlerFMP(), BlockMultipart);
 
         mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
 

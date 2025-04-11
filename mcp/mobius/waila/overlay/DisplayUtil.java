@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderEngine;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -36,9 +37,9 @@ public class DisplayUtil {
 
         Matcher renderMatcher = patternRender.matcher(s);
         while (renderMatcher.find()) {
-            ITooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
+            ITooltipRenderer renderer = WailaRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
             if (renderer != null)
-                width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.instance).width;
+                width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.INSTANCE).width;
         }
 
         Matcher iconMatcher = patternIcon.matcher(s);
@@ -71,6 +72,7 @@ public class DisplayUtil {
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
         enable3DRender();
+        RenderHelper.enableGUIStandardItemLighting();
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
         try {
@@ -80,6 +82,7 @@ public class DisplayUtil {
             WailaExceptionHandler.handleErr(t, "renderStack | " + stack, null);
         }
         GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+        RenderHelper.disableStandardItemLighting();
         enable2DRender();
     }
 

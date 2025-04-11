@@ -4,9 +4,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -26,7 +26,7 @@ public class DecoratorRenderer {
 
         double partialTicks = event.partialTicks;
 
-        DataAccessorCommon accessor = DataAccessorCommon.instance;
+        DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         EntityLiving viewEntity = Minecraft.getMinecraft().renderViewEntity;
@@ -37,7 +37,7 @@ public class DecoratorRenderer {
 
         Block block = accessor.getBlock();
 
-        if (!ModuleRegistrar.instance().hasBlockDecorator(block)) return;
+        if (!WailaRegistrar.instance().hasBlockDecorator(block)) return;
 
         GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -45,9 +45,9 @@ public class DecoratorRenderer {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);
 
-        if (ModuleRegistrar.instance().hasBlockDecorator(block)) {
+        if (WailaRegistrar.instance().hasBlockDecorator(block)) {
             for (List<IBlockDecorator> decoratorsList :
-                    ModuleRegistrar.instance().getBlockDecorators(block).values()) {
+                    WailaRegistrar.instance().getBlockDecorators(block).values()) {
                 for (IBlockDecorator decorator : decoratorsList)
                     try {
                         GL11.glPushMatrix();

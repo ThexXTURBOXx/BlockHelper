@@ -33,14 +33,14 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
     public double partialFrame;
     public ItemStack stack;
 
-    public static DataAccessorCommon instance = new DataAccessorCommon();
+    public static final DataAccessorCommon INSTANCE = new DataAccessorCommon();
 
     public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
         this.set(_world, _player, _mop, null, 0.0);
     }
 
     public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, EntityLiving viewEntity,
-					double partialTicks) {
+                    double partialTicks) {
         this.world = _world;
         this.player = _player;
         this.mop = _mop;

@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.ee;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 
@@ -22,9 +22,9 @@ public class EEModule {
             EMCEntry = Class.forName("com.pahimar.ee3.emc.EMCEntry");
             EMCEntry_getCost = EMCEntry.getMethod("getCost");
 
-            ModuleRegistrar.instance().addConfig("Equivalent Exchange", "ee.emc");
+            WailaRegistrar.instance().addConfig("Equivalent Exchange", "ee.emc");
 
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEE(), Block.class);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEE(), Block.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EE] Error while loading EMC hooks.", t);
         }

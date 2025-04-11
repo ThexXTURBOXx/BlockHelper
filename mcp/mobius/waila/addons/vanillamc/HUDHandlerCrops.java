@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.StringUtils;
@@ -124,7 +124,7 @@ public class HUDHandlerCrops implements IDataProvider {
     public static void register() {
         IDataProvider provider = new HUDHandlerCrops();
 
-        ModuleRegistrar.instance().registerBodyProvider(provider, Block.class);
+        WailaRegistrar.instance().registerBodyProvider(provider, Block.class);
 
         try {
             Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");

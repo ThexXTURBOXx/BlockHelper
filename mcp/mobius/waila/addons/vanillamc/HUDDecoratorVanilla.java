@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.vanillamc;
 
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;

@@ -3,11 +3,11 @@ package mcp.mobius.waila.handlers;
 import java.util.List;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IFMPDecorator;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -25,13 +25,13 @@ public class DecoratorFMP implements IBlockDecorator {
             NBTTagCompound subtag = (NBTTagCompound) subtagBase;
             String id = subtag.getString("id");
 
-            if (ModuleRegistrar.instance().hasFMPDecorator(id)) {
-                DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
+            if (WailaRegistrar.instance().hasFMPDecorator(id)) {
+                DataAccessorFMP.INSTANCE.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame());
 
-                for (List<IFMPDecorator> providersList : ModuleRegistrar.instance().getFMPDecorators(id).values())
+                for (List<IFMPDecorator> providersList : WailaRegistrar.instance().getFMPDecorators(id).values())
                     for (IFMPDecorator provider : providersList)
-                        provider.decorateBlock(itemStack, DataAccessorFMP.instance, config);
+                        provider.decorateBlock(itemStack, DataAccessorFMP.INSTANCE, config);
             }
         }
     }
@@ -48,7 +48,7 @@ public class DecoratorFMP implements IBlockDecorator {
             return;
         }
 
-        ModuleRegistrar.instance().registerDecorator(new DecoratorFMP(), BlockMultipart);
+        WailaRegistrar.instance().registerDecorator(new DecoratorFMP(), BlockMultipart);
     }
 
 }

@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.buildcraft;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class BCModule {
@@ -32,9 +32,9 @@ public class BCModule {
             IPowerProvider_getEnergyStored = IPowerProvider.getMethod("getEnergyStored");
             IPowerProvider_getMaxEnergyStored = IPowerProvider.getMethod("getMaxEnergyStored");
 
-            ModuleRegistrar.instance().addConfigRemote("Buildcraft", "bcapi.storage");
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
+            WailaRegistrar.instance().addConfigRemote("Buildcraft", "bcapi.storage");
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC] Error while loading Energy hooks.", t);

@@ -10,7 +10,7 @@ import java.util.Set;
 import mcp.mobius.waila.api.ITaggedList;
 
 public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
-    Map<E, Set<T>> tags = new HashMap<E, Set<T>>();
+    private final Map<E, Set<T>> tags = new HashMap<E, Set<T>>();
 
     @Override
     public boolean add(E e, T tag) {

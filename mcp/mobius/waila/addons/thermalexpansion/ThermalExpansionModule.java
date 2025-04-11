@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -57,13 +57,13 @@ public class ThermalExpansionModule {
             IEnergyInfo_getCurStorage = IEnergyInfo.getMethod("getInfoEnergyStored");
 
 
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks.", t);
@@ -75,9 +75,9 @@ public class ThermalExpansionModule {
             TileEnergyCell_Recv = TileEnergyCell.getDeclaredField("energyReceive");
             TileEnergyCell_Send = TileEnergyCell.getDeclaredField("energySend");
 
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
@@ -91,12 +91,12 @@ public class ThermalExpansionModule {
             TileTank_getTankAmount = TileTank.getMethod("getTankFluidAmount");
             TileTank_mode = TileTank.getField("mode");
 
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
-            ModuleRegistrar.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
-            ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTank);
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
+            WailaRegistrar.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
+            WailaRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTank);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
@@ -109,10 +109,10 @@ public class ThermalExpansionModule {
             TileTesseract_Fluid = TileTesseract.getDeclaredField("modeFluid");
             TileTesseract_Energy = TileTesseract.getDeclaredField("modeEnergy");
 
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTesseract(), TileTesseract);
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTesseract(), TileTesseract);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
@@ -125,10 +125,10 @@ public class ThermalExpansionModule {
             TileCache_getMaxStored = TileCache.getDeclaredMethod("getMaxStoredCount");
             TileCache_getStored = TileCache.getDeclaredMethod("getStoredCount");
 
-            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.cache");
-            ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerCache(), TileCache);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCache(), TileCache);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerCache(), TileCache);
+            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.cache");
+            WailaRegistrar.instance().registerHeadProvider(new HUDHandlerCache(), TileCache);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerCache(), TileCache);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerCache(), TileCache);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);

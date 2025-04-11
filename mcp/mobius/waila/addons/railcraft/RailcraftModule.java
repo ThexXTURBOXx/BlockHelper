@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.railcraft;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class RailcraftModule {
@@ -35,10 +35,10 @@ public class RailcraftModule {
             return;
         }
 
-        ModuleRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTankBase);
-        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTankBase);
-        ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTankBase);
+        WailaRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");
+        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTankBase);
+        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTankBase);
+        WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTank(), TileTankBase);
     }
 
 }

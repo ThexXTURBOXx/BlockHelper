@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -95,8 +95,8 @@ public class Packet0x01TERequest implements IWailaPacket {
         if (entity != null) {
             try {
                 NBTTagCompound tag = new NBTTagCompound();
-                boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
-                boolean hasNBTEnt = ModuleRegistrar.instance().hasNBTProviders(entity);
+                boolean hasNBTBlock = WailaRegistrar.instance().hasNBTProviders(block);
+                boolean hasNBTEnt = WailaRegistrar.instance().hasNBTProviders(entity);
 
                 if (hasNBTBlock || hasNBTEnt) {
                     tag.setInteger("x", posX);
@@ -105,7 +105,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                     tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
                     for (List<IDataProvider> providersList :
-                            ModuleRegistrar.instance().getNBTProviders(block).values()) {
+                            WailaRegistrar.instance().getNBTProviders(block).values()) {
                         for (IDataProvider provider : providersList) {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
@@ -120,7 +120,7 @@ public class Packet0x01TERequest implements IWailaPacket {
 
 
                     for (List<IDataProvider> providersList :
-                            ModuleRegistrar.instance().getNBTProviders(entity).values()) {
+                            WailaRegistrar.instance().getNBTProviders(entity).values()) {
                         for (IDataProvider provider : providersList) {
                             try {
                                 tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,

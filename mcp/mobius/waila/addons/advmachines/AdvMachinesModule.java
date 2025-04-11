@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.advmachines;
 
 import java.lang.reflect.Field;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class AdvMachinesModule {
@@ -19,11 +19,11 @@ public class AdvMachinesModule {
             TileAM2BaseGenerator_stored.setAccessible(true);
             TileAM2BaseGenerator_maxStorage.setAccessible(true);
 
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
 
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
 
-            ModuleRegistrar.instance().addConfigRemote("Advanced Machines", "advmachines.storage");
+            WailaRegistrar.instance().addConfigRemote("Advanced Machines", "advmachines.storage");
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);

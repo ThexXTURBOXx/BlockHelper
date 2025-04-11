@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -75,13 +75,13 @@ public class HUDHandlerEntities implements IEntityProvider {
     }
 
     public static void register() {
-        ModuleRegistrar.instance().addConfigRemote("VanillaMC", "general.showhp");
+        WailaRegistrar.instance().addConfigRemote("VanillaMC", "general.showhp");
 
         IEntityProvider provider = new HUDHandlerEntities();
 
-        ModuleRegistrar.instance().registerBodyProvider(provider, Entity.class);
+        WailaRegistrar.instance().registerBodyProvider(provider, Entity.class);
 
-        ModuleRegistrar.instance().registerNBTProvider(provider, Entity.class);
+        WailaRegistrar.instance().registerNBTProvider(provider, Entity.class);
     }
 
 }

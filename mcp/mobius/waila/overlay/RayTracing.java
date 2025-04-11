@@ -7,7 +7,7 @@ import java.util.List;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
@@ -107,11 +107,11 @@ public class RayTracing {
         if (this.target == null)
             return null;
 
-        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
+        if (WailaRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
             for (List<IEntityProvider> listProviders :
-                    ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()) {
+                    WailaRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()) {
                 for (IEntityProvider provider : listProviders) {
-                    ents.add(provider.getOverride(DataAccessorCommon.instance, PluginConfig.instance()));
+                    ents.add(provider.getOverride(DataAccessorCommon.INSTANCE, PluginConfig.instance()));
                 }
             }
         }
@@ -130,11 +130,11 @@ public class RayTracing {
 
         switch (this.target.typeOfHit) {
         case ENTITY:
-            if (this.target.entityHit != null && ModuleRegistrar.instance().hasStackEntityProviders(this.target.entityHit)) {
+            if (this.target.entityHit != null && WailaRegistrar.instance().hasStackEntityProviders(this.target.entityHit)) {
                 for (List<IEntityProvider> providersList :
-                        ModuleRegistrar.instance().getStackEntityProviders(this.target.entityHit).values()) {
+                        WailaRegistrar.instance().getStackEntityProviders(this.target.entityHit).values()) {
                     for (IEntityProvider provider : providersList) {
-                        ItemStack providerStack = provider.getDisplayItem(DataAccessorCommon.instance,
+                        ItemStack providerStack = provider.getDisplayItem(DataAccessorCommon.INSTANCE,
                                 PluginConfig.instance());
                         if (providerStack != null) {
                             if (providerStack.getItem() == null)
@@ -155,11 +155,11 @@ public class RayTracing {
             TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
             if (mouseoverBlock == null) return items;
 
-            if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {
+            if (WailaRegistrar.instance().hasStackProviders(mouseoverBlock)) {
                 for (List<IDataProvider> providersList :
-                        ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
+                        WailaRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
                     for (IDataProvider provider : providersList) {
-                        ItemStack providerStack = provider.getStack(DataAccessorCommon.instance,
+                        ItemStack providerStack = provider.getStack(DataAccessorCommon.INSTANCE,
                                 PluginConfig.instance());
                         if (providerStack != null) {
 
@@ -172,12 +172,12 @@ public class RayTracing {
                 }
             }
 
-            if (tileEntity != null && ModuleRegistrar.instance().hasStackProviders(tileEntity)) {
+            if (tileEntity != null && WailaRegistrar.instance().hasStackProviders(tileEntity)) {
                 for (List<IDataProvider> providersList :
-                        ModuleRegistrar.instance().getStackProviders(tileEntity).values()) {
+                        WailaRegistrar.instance().getStackProviders(tileEntity).values()) {
 
                     for (IDataProvider provider : providersList) {
-                        ItemStack providerStack = provider.getStack(DataAccessorCommon.instance,
+                        ItemStack providerStack = provider.getStack(DataAccessorCommon.INSTANCE,
                                 PluginConfig.instance());
                         if (providerStack != null) {
 

@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.regex.Pattern;
 
-public class SpecialChars {
+public final class SpecialChars {
 
     public static String MCStyle = "\u00A7";
 
@@ -67,6 +67,10 @@ public class SpecialChars {
         }
         result.append("}");
         return result.toString();
+    }
+
+    private SpecialChars() {
+        throw new UnsupportedOperationException();
     }
 
 }

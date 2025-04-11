@@ -17,19 +17,15 @@ import java.util.zip.ZipFile;
 
 public class LangUtil {
 
-    public static LangUtil instance;
+    public static final LangUtil INSTANCE = new LangUtil(null);
     public String prefix;
-
-    static {
-        LangUtil.instance = new LangUtil(null);
-    }
 
     public LangUtil(final String prefix) {
         this.prefix = prefix;
     }
 
     public static String translateG(final String s, final Object... format) {
-        return LangUtil.instance.translate(s, format);
+        return LangUtil.INSTANCE.translate(s, format);
     }
 
     public String translate(String s, final Object... format) {

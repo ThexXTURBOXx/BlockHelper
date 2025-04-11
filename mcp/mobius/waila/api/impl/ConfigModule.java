@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class ConfigModule {
 
-    String modName;
-    Map<String, String> options;
+    final String modName;
+    final Map<String, String> options;
 
     public ConfigModule(String _modName) {
         this.modName = _modName;

@@ -5,7 +5,6 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -31,9 +30,7 @@ public class TTRenderStack implements ITooltipRenderer {
                 stack = new ItemStack(Item.itemsList[id], amount, meta);
         }
 
-        RenderHelper.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(x, y, stack);
-        RenderHelper.disableStandardItemLighting();
     }
 
 }

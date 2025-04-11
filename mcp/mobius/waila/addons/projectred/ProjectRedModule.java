@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.projectred;
 
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class ProjectRedModule {
@@ -15,22 +15,22 @@ public class ProjectRedModule {
             return;
         }
 
-        ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showio");
-        ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showdata");
+        WailaRegistrar.instance().addConfigRemote("Project:Red", "pr.showio");
+        WailaRegistrar.instance().addConfigRemote("Project:Red", "pr.showdata");
 
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_sgate");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_igate");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_tgate");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_bgate");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_agate");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_rgate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_sgate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_igate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_tgate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_bgate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_agate");
+        WailaRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_rgate");
 
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_sgate");
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_igate");
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_tgate");
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_bgate");
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_agate");
-        ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_rgate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_sgate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_igate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_tgate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_bgate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_agate");
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_rgate");
 
         //ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
         //ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);

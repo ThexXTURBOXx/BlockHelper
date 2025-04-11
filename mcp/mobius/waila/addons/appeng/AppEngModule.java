@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.appeng;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class AppEngModule {
@@ -17,11 +17,11 @@ public class AppEngModule {
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
             IMEPowerStorage_maxPower = IMEPowerStorage.getMethod("getMEMaxPower");
 
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
 
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
 
-            ModuleRegistrar.instance().addConfigRemote("Applied Energistics", "appeng.storage");
+            WailaRegistrar.instance().addConfigRemote("Applied Energistics", "appeng.storage");
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);

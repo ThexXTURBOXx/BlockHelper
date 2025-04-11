@@ -35,7 +35,7 @@ public class Packet0x02TENBTData implements IWailaPacket {
 
     @Override
     public void handle(Player player) {
-        DataAccessorCommon.instance.setNBTData(tag);
+        DataAccessorCommon.INSTANCE.setNBTData(tag);
     }
 
 }

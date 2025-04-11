@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
@@ -45,7 +45,7 @@ public class Tooltip {
     boolean hasIcon = false;
     ItemStack stack;
 
-    ICommonAccessor accessor = DataAccessorCommon.instance;
+    ICommonAccessor accessor = DataAccessorCommon.INSTANCE;
 
     /// //////////////////////////////////Renderable///////////////////////////////////////
     private static class Renderable {
@@ -162,7 +162,7 @@ public class Tooltip {
                     if (renderMatcher.find()) {
                         String renderName = renderMatcher.group(1);
 
-                        ITooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
+                        ITooltipRenderer renderer = WailaRegistrar.instance().getTooltipRenderer(renderName);
                         if (renderer != null) {
                             renderable = new Renderable(renderer, new Point(offsetX, offsetY),
                                     renderMatcher.group(2).split(","));

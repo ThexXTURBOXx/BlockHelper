@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class IC2Module {
@@ -20,12 +20,12 @@ public class IC2Module {
             TileBaseGenerator_maxStorage = TileBaseGenerator.getField("maxStorage");
             TileBaseGenerator_production = TileBaseGenerator.getField("production");
 
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
 
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
+            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
 
-            ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
-            ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");
+            WailaRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
+            WailaRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);

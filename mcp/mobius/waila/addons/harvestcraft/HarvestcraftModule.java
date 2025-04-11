@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class HarvestcraftModule {
@@ -24,6 +24,6 @@ public class HarvestcraftModule {
             return;
         }
 
-        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerPamCrop(), TileEntityPamCrop);
+        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerPamCrop(), TileEntityPamCrop);
     }
 }

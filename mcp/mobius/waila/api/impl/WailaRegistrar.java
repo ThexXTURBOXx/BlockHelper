@@ -18,9 +18,9 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 
-public class ModuleRegistrar implements IRegistrar {
+public class WailaRegistrar implements IRegistrar {
 
-    private static ModuleRegistrar instance = null;
+    private static WailaRegistrar instance = null;
 
     public Map<Class<?>, List<IDataProvider>> headBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
@@ -59,17 +59,15 @@ public class ModuleRegistrar implements IRegistrar {
     public Map<String, List<IFMPDecorator>> FMPClassDecorators =
             new LinkedHashMap<String, List<IFMPDecorator>>();
 
-    public Map<String, ITooltipRenderer> tooltipRenderers = new LinkedHashMap<String,
-            ITooltipRenderer>();
+    public Map<String, ITooltipRenderer> tooltipRenderers =
+            new LinkedHashMap<String, ITooltipRenderer>();
 
-    private ModuleRegistrar() {
+    private WailaRegistrar() {
         instance = this;
     }
 
-    public static ModuleRegistrar instance() {
-        if (ModuleRegistrar.instance == null)
-            ModuleRegistrar.instance = new ModuleRegistrar();
-        return ModuleRegistrar.instance;
+    public static WailaRegistrar instance() {
+        return instance == null ? new WailaRegistrar() : instance;
     }
 
     /* CONFIG HANDLING */

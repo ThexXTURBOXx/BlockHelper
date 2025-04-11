@@ -17,7 +17,7 @@ public class ButtonBooleanConfig extends ButtonBoolean {
     }
 
     public ButtonBooleanConfig(IWidget parent, String category, String configKey, boolean instant, boolean state_,
-							   String textFalse, String textTrue) {
+                               String textFalse, String textTrue) {
         super(parent, textFalse, textTrue);
         this.category = category;
         this.configKey = configKey;
@@ -52,7 +52,7 @@ public class ButtonBooleanConfig extends ButtonBoolean {
             int texOffset = -1;
             this.mc.renderEngine.bindTexture(widgetsTexture);
             UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
-					this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
+                    this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
             this.loadGLState();
         }
     }

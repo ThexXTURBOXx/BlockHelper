@@ -4,11 +4,11 @@ import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 import java.util.EnumSet;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.TipList;
-import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
@@ -74,7 +74,7 @@ public class WailaTickHandler implements ITickHandler {
             MovingObjectPosition target = RayTracing.instance().getTarget();
 
             if (target != null && target.typeOfHit == EnumMovingObjectType.TILE) {
-                DataAccessorCommon accessor = DataAccessorCommon.instance;
+                DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.instance().getTargetStack();    // Here we get either the proper
                 // stack or the override
@@ -88,11 +88,11 @@ public class WailaTickHandler implements ITickHandler {
 
                     //this.identifiedHighlight = handler.identifyHighlight(world, player, target);
                     handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipHead, Layout.HEADER);
+                            currenttipHead, TooltipPosition.HEADER);
                     handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipBody, Layout.BODY);
+                            currenttipBody, TooltipPosition.BODY);
                     handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipTail, Layout.FOOTER);
+                            currenttipTail, TooltipPosition.FOOTER);
 
                     if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTBLOCK, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
@@ -107,7 +107,7 @@ public class WailaTickHandler implements ITickHandler {
                     this.tooltip = new Tooltip(this.currenttip, targetStack, true);
                 }
             } else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY) {
-                DataAccessorCommon accessor = DataAccessorCommon.instance;
+                DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
                 accessor.set(world, player, target);
 
                 Entity targetEnt = RayTracing.instance().getTargetEntity(); // This need to be replaced by the
@@ -120,11 +120,11 @@ public class WailaTickHandler implements ITickHandler {
                     this.currenttipTail = new TipList<String, String>();
 
                     handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipHead, Layout.HEADER);
+                            currenttipHead, TooltipPosition.HEADER);
                     handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipBody, Layout.BODY);
+                            currenttipBody, TooltipPosition.BODY);
                     handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipTail, Layout.FOOTER);
+                            currenttipTail, TooltipPosition.FOOTER);
 
                     if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTENTS, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {

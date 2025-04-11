@@ -1,7 +1,7 @@
 package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
@@ -22,7 +22,7 @@ public class ProxyClient extends ProxyServer {
     public void registerHandlers() {
         super.registerHandlers();
 
-        LangUtil.instance.addLangDirFromJar(LangUtil.instance.hostFile(ProxyClient.class), "/assets/waila/lang");
+        LangUtil.INSTANCE.addLangDirFromJar(LangUtil.INSTANCE.hostFile(ProxyClient.class), "/assets/waila/lang");
 
         //TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);
 
@@ -34,21 +34,21 @@ public class ProxyClient extends ProxyServer {
             }
         }
 
-        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
-        ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
+        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
+        WailaRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 
-        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
-        ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
-        ModuleRegistrar.instance().registerStackProvider(new HUDHandlerEntities(), Entity.class);
+        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+        WailaRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
+        WailaRegistrar.instance().registerStackProvider(new HUDHandlerEntities(), Entity.class);
 
         //ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 
-        ModuleRegistrar.instance().addConfig("General", "general.showents");
-        ModuleRegistrar.instance().addConfig("General", "general.showcrop");
+        WailaRegistrar.instance().addConfig("General", "general.showents");
+        WailaRegistrar.instance().addConfig("General", "general.showcrop");
 
-        ModuleRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
-        ModuleRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
-        ModuleRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
     }
 
 }
