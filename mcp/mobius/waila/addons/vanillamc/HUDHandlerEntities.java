@@ -1,13 +1,14 @@
 package mcp.mobius.waila.addons.vanillamc;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -21,20 +22,24 @@ public class HUDHandlerEntities implements IEntityProvider {
     public static float maxhpfortext = 40.0f;
 
     @Override
-    public Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config) {
+    public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
-        if (config.getConfig("general.showhp"))
+    public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
+    }
+
+    @Override
+    public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
+        if (config.get("general.showhp"))
             if (entity instanceof EntityLiving) {
                 nhearts = nhearts <= 0 ? 20 : nhearts;
 
@@ -53,14 +58,11 @@ public class HUDHandlerEntities implements IEntityProvider {
                             String.valueOf(healthHearts), String.valueOf(maxhpHearts)));
                 }
             }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
     }
 
     @Override

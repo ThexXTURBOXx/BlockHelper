@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
@@ -15,17 +15,17 @@ import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
-public class ConfigHandler implements IConfigHandler {
+public class PluginConfig implements IPluginConfig {
 
     /* SINGLETON */
-    private static ConfigHandler _instance = null;
+    private static PluginConfig _instance = null;
 
-    private ConfigHandler() {
+    private PluginConfig() {
         _instance = this;
     }
 
-    public static ConfigHandler instance() {
-        return _instance == null ? new ConfigHandler() : _instance;
+    public static PluginConfig instance() {
+        return _instance == null ? new PluginConfig() : _instance;
     }
     /* === */
 
@@ -49,7 +49,7 @@ public class ConfigHandler implements IConfigHandler {
     }
 
     @Override
-    public Map<String, String> getConfigKeys(String modName) {
+    public Map<String, String> getKeys(String modName) {
         if (this.modules.containsKey(modName))
             return this.modules.get(modName).options;
         else
@@ -94,12 +94,12 @@ public class ConfigHandler implements IConfigHandler {
     }
 
     @Override
-    public boolean getConfig(String key) {
-        return this.getConfig(key, Constants.CFG_DEFAULT_VALUE);
+    public boolean get(String key) {
+        return this.get(key, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
-    public boolean getConfig(String key, boolean defvalue) {
+    public boolean get(String key, boolean defvalue) {
         if (this.serverconfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent)
             return false;
 
@@ -121,7 +121,7 @@ public class ConfigHandler implements IConfigHandler {
 
     /* GENERAL ACCESS METHODS TO GET/SET VALUES IN THE CONFIG FILE */
 
-    public boolean getConfig(String category, String key, boolean default_) {
+    public boolean get(String category, String key, boolean default_) {
         Property prop = config.get(category, key, default_);
         return prop.getBoolean(default_);
     }
@@ -131,7 +131,7 @@ public class ConfigHandler implements IConfigHandler {
         config.save();
     }
 
-    public int getConfig(String category, String key, int default_) {
+    public int get(String category, String key, int default_) {
         Property prop = config.get(category, key, default_);
         return prop.getInt();
     }
@@ -144,7 +144,7 @@ public class ConfigHandler implements IConfigHandler {
 
     /* Some accessor helpers */
     public boolean showTooltip() {
-        return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+        return get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
     }
 
 
@@ -179,10 +179,10 @@ public class ConfigHandler implements IConfigHandler {
         HUDHandlerEntities.maxhpfortext =
                 config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 
-        mod_BlockHelper.UPDATER.notify = getConfig(Configuration.CATEGORY_GENERAL,
+        mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_UPDATE_CHECK, true);
-        FixDetector.notify = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
-        mod_BlockHelper.DEV_MODE = getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
+        FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
+        mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
 
         config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules"
                                                                   + ".\nServer side, it is used to enforce keys client"

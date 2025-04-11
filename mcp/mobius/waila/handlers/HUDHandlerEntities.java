@@ -3,15 +3,19 @@ package mcp.mobius.waila.handlers;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
-import mcp.mobius.waila.api.IConfigHandler;
-import mcp.mobius.waila.api.IEntityProvider;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.IEntityProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -22,13 +26,39 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 public class HUDHandlerEntities implements IEntityProvider {
 
     @Override
-    public Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config) {
+    public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
+    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        if (accessor.getEntity() instanceof EntityMinecart) {
+            EntityMinecart minecart = (EntityMinecart) accessor.getEntity();
+            int type = minecart.getMinecartType();
+            switch (type) {
+            case 0:
+                return new ItemStack(Item.minecartEmpty);
+            case 1:
+                return new ItemStack(Item.minecartCrate);
+            case 2:
+                return new ItemStack(Item.minecartPowered);
+            case 3:
+                return new ItemStack(Item.minecartTnt);
+            case 5:
+                return new ItemStack(Item.minecartHopper);
+            }
+        } else if (accessor.getEntity() instanceof EntityItemFrame) {
+            ItemStack held = ((EntityItemFrame) accessor.getEntity()).getDisplayedItem();
+            return held == null ? new ItemStack(Item.itemFrame) : held;
+        } else if (accessor.getEntity() instanceof EntityPainting) {
+            return new ItemStack(Item.painting);
+        }
+        return null;
+    }
+
+    @Override
+    public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
         if (entity instanceof EntityItemFrame
             || (entity instanceof EntityOcelot
                 && !((EntityOcelot) entity).func_94056_bM()
@@ -41,24 +71,21 @@ public class HUDHandlerEntities implements IEntityProvider {
                 currenttip.add(WHITE + "Unknown");
             }
         }
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                                    IEntityAccessor accessor, IConfigHandler config) {
+    public void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
+                           IEntityAccessor accessor, IPluginConfig config) {
         try {
             currenttip.add(BLUE + ITALIC + getEntityMod(entity));
         } catch (Throwable t) {
             currenttip.add(BLUE + ITALIC + "Unknown");
         }
-        return currenttip;
     }
 
     @Override

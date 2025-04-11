@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.enderstorage;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -34,20 +34,19 @@ public class HUDHandlerStorage implements IDataProvider {
     };
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (config.getConfig("enderstorage.colors")) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (config.get("enderstorage.colors")) {
             try {
 
                 int freq = EnderStorageModule.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
@@ -62,19 +61,14 @@ public class HUDHandlerStorage implements IDataProvider {
 
 
             } catch (Throwable t) {
-                currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(),
-                        currenttip);
+                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
             }
         }
-
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

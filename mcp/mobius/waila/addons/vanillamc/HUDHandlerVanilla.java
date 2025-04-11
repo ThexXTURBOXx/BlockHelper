@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.vanillamc;
 
-import mcp.mobius.waila.api.IConfigHandler;
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
@@ -36,10 +36,10 @@ public class HUDHandlerVanilla implements IDataProvider {
     static Block quartz = Block.blockNetherQuartz;
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
 
-        if (block == silverfish && config.getConfig("vanilla.silverfish")) {
+        if (block == silverfish && config.get("vanilla.silverfish")) {
             int metadata = accessor.getMetadata();
             switch (metadata) {
             case 0:
@@ -82,12 +82,12 @@ public class HUDHandlerVanilla implements IDataProvider {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
 
         /* Mob spawner handler */
-        if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.getConfig(
+        if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.get(
                 "vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).func_98049_a().getEntityNameToSpawn();
@@ -106,46 +106,40 @@ public class HUDHandlerVanilla implements IDataProvider {
         if (block == pumpkinStem) {
             currenttip.set(0, SpecialChars.WHITE + "Pumpkin stem");
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
-        if (config.getConfig("vanilla.leverstate"))
+        if (config.get("vanilla.leverstate"))
             if (block == lever) {
                 String redstoneOn = (accessor.getMetadata() & 8) == 0 ? LangUtil.translateG("hud.msg.off") :
                         LangUtil.translateG("hud.msg.on");
                 currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.state"), redstoneOn));
-                return currenttip;
             }
 
-        if (config.getConfig("vanilla.repeater"))
+        if (config.get("vanilla.repeater"))
             if ((block == repeaterIdle) || (block == repeaterActv)) {
                 int tick = (accessor.getMetadata() >> 2) + 1;
                 if (tick == 1)
                     currenttip.add(String.format("%s : %s tick", LangUtil.translateG("hud.msg.delay"), tick));
                 else
                     currenttip.add(String.format("%s : %s ticks", LangUtil.translateG("hud.msg.delay"), tick));
-                return currenttip;
             }
 
-        if (config.getConfig("vanilla.comparator"))
+        if (config.get("vanilla.comparator"))
             if ((block == comparatorIdl) || (block == comparatorAct)) {
                 String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? LangUtil.translateG("hud.msg.comparator") :
                         LangUtil.translateG("hud.msg.substractor");
                 //int outputSignal = ((TileEntityComparator)entity).func_96100_a();
                 currenttip.add("Mode : " + mode);
                 //currenttip.add(String.format("Out : %s", outputSignal));
-                return currenttip;
             }
 
-        if (config.getConfig("vanilla.redstone"))
+        if (config.get("vanilla.redstone"))
             if (block == redstone) {
                 currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.power"), accessor.getMetadata()));
-                return currenttip;
             }
 
 		/*
@@ -161,14 +155,11 @@ public class HUDHandlerVanilla implements IDataProvider {
 				}
 			}
 		*/
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

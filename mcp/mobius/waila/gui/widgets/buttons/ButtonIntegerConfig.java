@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 
@@ -21,7 +21,7 @@ public class ButtonIntegerConfig extends ButtonInteger {
         this.configKey = configKey;
         this.instant = instant;
 
-        this.state = ConfigHandler.instance().getConfig(this.category, this.configKey, state_);
+        this.state = PluginConfig.instance().get(this.category, this.configKey, state_);
 
         for (int i = 0; i < this.nStates; i++)
             this.getWidget(String.format("Label_%d", i)).hide();
@@ -34,7 +34,7 @@ public class ButtonIntegerConfig extends ButtonInteger {
         super.onMouseClick(event);
 
         if (this.instant)
-            ConfigHandler.instance().setConfig(this.category, this.configKey, this.state);
+            PluginConfig.instance().setConfig(this.category, this.configKey, this.state);
     }
 
 }

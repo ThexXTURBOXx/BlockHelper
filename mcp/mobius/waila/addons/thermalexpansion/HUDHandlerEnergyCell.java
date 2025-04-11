@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import mcp.mobius.waila.api.IConfigHandler;
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -14,34 +14,30 @@ import net.minecraft.world.World;
 public class HUDHandlerEnergyCell implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("thermalexpansion.energycell")) return currenttip;
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("thermalexpansion.energycell")) return;
 
         int energyReceive = accessor.getNBTInteger(accessor.getNBTData(), "Recv");
         int energySend = accessor.getNBTInteger(accessor.getNBTData(), "Send");
 
         currenttip.add(String.format("%s/%s : %d / %d RF/t", LangUtil.translateG("hud.msg.in"), LangUtil.translateG(
                 "hud.msg.out"), energyReceive, energySend));
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

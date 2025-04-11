@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.railcraft;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.LiquidHelper;
@@ -18,18 +18,18 @@ import net.minecraftforge.liquids.LiquidStack;
 public class HUDHandlerTank implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("railcraft.fluidamount")) return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("railcraft.fluidamount")) return;
         try {
             ILiquidTank tank =
                     (ILiquidTank) RailcraftModule.ITankTile_getTank.invoke(RailcraftModule.ITankTile.cast(accessor.getTileEntity()));
-            if (tank == null) return currenttip;
+            if (tank == null) return;
 
             LiquidStack liquid = tank.getLiquid();
 
@@ -44,21 +44,19 @@ public class HUDHandlerTank implements IDataProvider {
             currenttip.set(0, name);
 
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("railcraft.fluidamount")) return currenttip;
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("railcraft.fluidamount")) return;
 
         try {
             ILiquidTank tank =
                     (ILiquidTank) RailcraftModule.ITankTile_getTank.invoke(RailcraftModule.ITankTile.cast(accessor.getTileEntity()));
-            if (tank == null) return currenttip;
+            if (tank == null) return;
 
             LiquidStack fluid = tank.getLiquid();
             if (fluid != null)
@@ -67,16 +65,13 @@ public class HUDHandlerTank implements IDataProvider {
                 currenttip.add(String.format("0 / %d mB", tank.getCapacity()));
 
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

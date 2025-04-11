@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.projectred;
 
-import mcp.mobius.waila.api.IConfigHandler;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IFMPAccessor;
 import mcp.mobius.waila.api.IFMPProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;
 
@@ -15,15 +15,14 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 public class HUDFMPGateLogic implements IFMPProvider {
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IFMPAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IFMPAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IFMPAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("pr.showdata")) return currenttip;
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IFMPAccessor accessor, IPluginConfig config) {
+        if (!config.get("pr.showdata")) return;
 
         int orient = 0;
         int subID = 0;
@@ -77,14 +76,11 @@ public class HUDFMPGateLogic implements IFMPProvider {
         default:
             break;
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IFMPAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IFMPAccessor accessor, IPluginConfig config) {
     }
 
 }

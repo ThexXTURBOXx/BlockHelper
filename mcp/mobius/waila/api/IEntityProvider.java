@@ -2,6 +2,7 @@ package mcp.mobius.waila.api;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -24,7 +25,9 @@ public interface IEntityProvider {
      * @param config   Current configuration of Waila.
      * @return null if override is not required, an Entity otherwise.
      */
-    Entity getWailaOverride(IEntityAccessor accessor, IConfigHandler config);
+    Entity getOverride(IEntityAccessor accessor, IPluginConfig config);
+
+    ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -39,8 +42,8 @@ public interface IEntityProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaHead(Entity entity, ITaggedList<String, String> currenttip,
-                                             IEntityAccessor accessor, IConfigHandler config);
+    void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
+                    IEntityAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -55,8 +58,8 @@ public interface IEntityProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaBody(Entity entity, ITaggedList<String, String> currenttip,
-                                             IEntityAccessor accessor, IConfigHandler config);
+    void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
+                    IEntityAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -71,8 +74,8 @@ public interface IEntityProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaTail(Entity entity, ITaggedList<String, String> currenttip,
-                                             IEntityAccessor accessor, IConfigHandler config);
+    void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
+                    IEntityAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
@@ -88,4 +91,5 @@ public interface IEntityProvider {
      * @return Modified input NBTTagCompound tag.
      */
     NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world);
+
 }

@@ -6,7 +6,7 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import java.util.EnumSet;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
@@ -47,22 +47,22 @@ public class ConfigKeyHandler implements ITickHandler {
         if (mc.currentScreen != null)
             return;
 
-        if (key_show.isPressed() && ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+        if (key_show.isPressed() && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_MODE, false)) {
-            boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+            boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_SHOW, true);
-            ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
+            PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
         }
 
-        if (key_show.isPressed() && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+        if (key_show.isPressed() && !PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_MODE, false)) {
-            ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+            PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
         }
 
         if (key_liquid.isPressed()) {
-            boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+            boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_LIQUID, true);
-            ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
+            PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
         }
 
         if (key_recipe.isPressed()) {

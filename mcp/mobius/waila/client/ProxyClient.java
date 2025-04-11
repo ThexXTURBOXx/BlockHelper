@@ -39,6 +39,7 @@ public class ProxyClient extends ProxyServer {
 
         ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
         ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
+        ModuleRegistrar.instance().registerStackProvider(new HUDHandlerEntities(), Entity.class);
 
         //ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 

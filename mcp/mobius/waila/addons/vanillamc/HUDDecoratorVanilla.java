@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.vanillamc;
 
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,8 +10,7 @@ import net.minecraft.item.ItemStack;
 public class HUDDecoratorVanilla implements IBlockDecorator {
 
     @Override
-    public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IConfigHandler config) {
-
+    public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
         Tessellator tessellator = Tessellator.instance;
 
         //UIHelper.drawBillboardText(itemStack.getDisplayName(), accessor.getRenderingPosition(), 0.5F, 1.5F, 0.5F,

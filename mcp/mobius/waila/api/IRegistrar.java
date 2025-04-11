@@ -13,7 +13,7 @@ package mcp.mobius.waila.api;
  * For the registration of blocks, both Blocks and TileEntities are accepted.<p>
  * For the configuration keys :<br>
  * modname refers to a String used for display in Waila's config panel.<br>
- * keyname refers to a unique key used internally for config query (cf {@link IConfigHandler}). Those keys are
+ * keyname refers to a unique key used internally for config query (cf {@link IPluginConfig}). Those keys are
  * shared across Waila, keep them unique !<br>
  *
  * @author ProfMobius
@@ -48,6 +48,9 @@ public interface IRegistrar {
 
     /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
     void registerNBTProvider(IDataProvider dataProvider, Class<?> block);
+
+    /* Register a stack overrider for the given entity */
+    void registerStackProvider(IEntityProvider dataProvider, Class<?> entity);
 
     /* Entity text registration methods */
     void registerHeadProvider(IEntityProvider dataProvider, Class<?> entity);

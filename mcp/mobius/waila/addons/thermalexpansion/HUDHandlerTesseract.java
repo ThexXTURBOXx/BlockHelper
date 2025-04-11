@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,21 +14,20 @@ import net.minecraft.world.World;
 public class HUDHandlerTesseract implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
 
-        if (config.getConfig("thermalexpansion.tesssendrecv")) {
+        if (config.get("thermalexpansion.tesssendrecv")) {
             String send = String.format("%s : ", LangUtil.translateG("hud.msg.send"));
             String recv = String.format("%s : ", LangUtil.translateG("hud.msg.recv"));
             String item = String.format("\u00a7a%s ", LangUtil.translateG("hud.msg.item"));
@@ -82,17 +81,14 @@ public class HUDHandlerTesseract implements IDataProvider {
                 currenttip.add(recv);
         }
 
-        if (config.getConfig("thermalexpansion.tessfreq"))
+        if (config.get("thermalexpansion.tessfreq"))
             currenttip.add(String.format("%s : %d", LangUtil.translateG("hud.msg.frequency"),
                     accessor.getNBTInteger(accessor.getNBTData(), "Frequency")));
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

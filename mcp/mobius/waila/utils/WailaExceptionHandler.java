@@ -14,8 +14,7 @@ public final class WailaExceptionHandler {
 
     private static final List<String> errs = new ArrayList<String>();
 
-    public static ITaggedList<String, String> handleErr(Throwable t, String className,
-                                                        ITaggedList<String, String> currenttip) {
+    public static void handleErr(Throwable t, String className, ITaggedList<String, String> currenttip) {
         if (!errs.contains(className)) {
             errs.add(className);
 
@@ -29,8 +28,6 @@ public final class WailaExceptionHandler {
         }
         if (currenttip != null)
             currenttip.add("<ERROR>");
-
-        return currenttip;
     }
 
 }

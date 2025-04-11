@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.vanillamc;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -19,19 +19,18 @@ import net.minecraft.world.World;
 public class HUDHandlerFurnace implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockID() == Block.furnaceBurning.blockID) {
             int cookTime = accessor.getNBTData().getShort("CookTime");
             NBTTagList tag = accessor.getNBTData().getTagList("Items");
@@ -52,8 +51,6 @@ public class HUDHandlerFurnace implements IDataProvider {
 
             currenttip.add(renderStr);
         }
-
-        return currenttip;
     }
 
     private static String getItemRenderString(ItemStack stack) {
@@ -64,9 +61,8 @@ public class HUDHandlerFurnace implements IDataProvider {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

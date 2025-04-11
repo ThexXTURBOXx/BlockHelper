@@ -2,7 +2,6 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
-
 public interface ITooltipRenderer {
     /**
      * @param params   Array of string parameters as passed to the RENDER arg in the tooltip ({rendername,param1,

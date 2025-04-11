@@ -20,6 +20,6 @@ public interface IBlockDecorator {
      * @param accessor  Contains most of the relevant information about the current environment.
      * @param config    Current configuration of Waila.
      */
-    void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IConfigHandler config);
+    void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config);
 
 }

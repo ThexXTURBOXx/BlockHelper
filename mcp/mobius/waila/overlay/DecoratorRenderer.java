@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -52,7 +52,7 @@ public class DecoratorRenderer {
                     try {
                         GL11.glPushMatrix();
                         decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor,
-                                ConfigHandler.instance());
+                                PluginConfig.instance());
                         GL11.glPopMatrix();
                     } catch (Throwable t) {
                         GL11.glPopMatrix();

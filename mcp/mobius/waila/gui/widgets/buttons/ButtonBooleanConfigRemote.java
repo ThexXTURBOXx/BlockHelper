@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
@@ -31,13 +31,13 @@ public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 
     @Override
     public void onMouseClick(MouseEvent event) {
-        if ((mod_BlockHelper.INSTANCE.serverPresent) && !ConfigHandler.instance().forcedConfigs.containsKey(this.configKey))
+        if ((mod_BlockHelper.INSTANCE.serverPresent) && !PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
             super.onMouseClick(event);
     }
 
     @Override
     public void draw(Point pos) {
-        if ((mod_BlockHelper.INSTANCE.serverPresent) && !ConfigHandler.instance().forcedConfigs.containsKey(this.configKey))
+        if ((mod_BlockHelper.INSTANCE.serverPresent) && !PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
             super.draw(pos);
         else {
             this.saveGLState();

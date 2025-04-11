@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,22 +15,21 @@ import net.minecraftforge.common.ForgeDirection;
 public class HUDHandlerIEnergyHandler implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
 
-        if (!config.getConfig("thermalexpansion.energyhandler")) return currenttip;
-        if (!accessor.getNBTData().hasKey("Energy")) return currenttip;
+        if (!config.get("thermalexpansion.energyhandler")) return;
+        if (!accessor.getNBTData().hasKey("Energy")) return;
 
         int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
         int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
@@ -39,16 +38,13 @@ public class HUDHandlerIEnergyHandler implements IDataProvider {
                 currenttip.add(String.format("%d / %d RF", energy, maxEnergy), "RFEnergyStorage");
             }
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

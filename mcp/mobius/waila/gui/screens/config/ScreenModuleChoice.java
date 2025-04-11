@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.screens.config;
 
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -21,7 +21,7 @@ public class ScreenModuleChoice extends ScreenBase {
 
         ButtonContainer buttonContainer = ((ButtonContainer) this.getRoot().getWidget("ButtonContainer"));
 
-        for (String key : ConfigHandler.instance().getModuleNames())
+        for (String key : PluginConfig.instance().getModuleNames())
             buttonContainer.addButton(new ButtonScreenChange(this.getRoot(), key, new ScreenModuleConfig(this, key)));
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));

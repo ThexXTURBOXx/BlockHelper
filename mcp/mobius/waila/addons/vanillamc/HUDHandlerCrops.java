@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -29,22 +29,21 @@ public class HUDHandlerCrops implements IDataProvider {
     public static final Map<Class<?>, Integer> MAX_STAGES = new HashMap<Class<?>, Integer>();
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
         /* Crops */
-        if (config.getConfig("general.showcrop") && isCrop(block)) {
+        if (config.get("general.showcrop") && isCrop(block)) {
             int maxStage = getMaxStage(block, accessor.getBlockID());
             int growStage;
             if (block instanceof BlockCocoa)
@@ -59,8 +58,6 @@ public class HUDHandlerCrops implements IDataProvider {
                 currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"),
                         LangUtil.translateG("hud.msg.mature")));
         }
-
-        return currenttip;
     }
 
     private boolean isCrop(Block b) {
@@ -114,9 +111,8 @@ public class HUDHandlerCrops implements IDataProvider {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.overlay;
 
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.Configuration;
 
@@ -15,19 +15,19 @@ public class OverlayConfig {
     public static float scale;
 
     public static void updateColors() {
-        OverlayConfig.alpha = (int) (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+        OverlayConfig.alpha = (int) (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_ALPHA, 0) / 100.0f * 256) << 24;
         OverlayConfig.bgcolor =
-                OverlayConfig.alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_BGCOLOR, 0);
         OverlayConfig.gradient1 =
-                OverlayConfig.alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_GRADIENT1, 0);
         OverlayConfig.gradient2 =
-                OverlayConfig.alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_GRADIENT2, 0);
         OverlayConfig.fontcolor =
-                OverlayConfig.alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_FONTCOLOR, 0);
     }
 }

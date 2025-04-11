@@ -24,7 +24,7 @@ public interface IDataProvider {
      * @param config   Current configuration of Waila.
      * @return null if override is not required, an ItemStack otherwise.
      */
-    ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config);
+    ItemStack getStack(IDataAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -37,10 +37,9 @@ public interface IDataProvider {
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IDataAccessor accessor, IConfigHandler config);
+    void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IDataAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -55,8 +54,8 @@ public interface IDataProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IDataAccessor accessor, IConfigHandler config);
+    void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IDataAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -71,8 +70,8 @@ public interface IDataProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IDataAccessor accessor, IConfigHandler config);
+    void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IDataAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>

@@ -24,8 +24,8 @@ public interface IFMPProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IFMPAccessor accessor, IConfigHandler config);
+    void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IFMPAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -40,8 +40,8 @@ public interface IFMPProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IFMPAccessor accessor, IConfigHandler config);
+    void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IFMPAccessor accessor, IPluginConfig config);
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -56,6 +56,6 @@ public interface IFMPProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
-    ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                             IFMPAccessor accessor, IConfigHandler config);
+    void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                    IFMPAccessor accessor, IPluginConfig config);
 }

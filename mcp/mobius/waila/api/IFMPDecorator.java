@@ -20,5 +20,5 @@ public interface IFMPDecorator {
      * @param accessor  Contains most of the relevant information about the current environment.
      * @param config    Current configuration of Waila.
      */
-    void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IConfigHandler config);
+    void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IPluginConfig config);
 }

@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.LiquidHelper;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -17,14 +17,14 @@ import net.minecraftforge.liquids.LiquidStack;
 public class HUDHandlerTank implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("thermalexpansion.fluidtype")) return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("thermalexpansion.fluidtype")) return;
 
         try {
             LiquidStack liquid =
@@ -40,16 +40,15 @@ public class HUDHandlerTank implements IDataProvider {
             currenttip.set(0, name);
 
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         try {
-            if (config.getConfig("thermalexpansion.fluidamount")) {
+            if (config.get("thermalexpansion.fluidamount")) {
                 int amount = 0;
                 if (accessor.getNBTData().hasKey("Amount"))
                     amount = accessor.getNBTInteger(accessor.getNBTData(), "Amount");
@@ -60,7 +59,7 @@ public class HUDHandlerTank implements IDataProvider {
                 currenttip.add(String.format("%d / %d mB", amount, capacity));
             }
 
-            if (config.getConfig("thermalexpansion.tankmode")) {
+            if (config.get("thermalexpansion.tankmode")) {
                 Byte mode = (Byte) ThermalExpansionModule.TileTank_mode.get(accessor.getTileEntity());
                 if (mode == 0)
                     currenttip.add(String.format("%s : \u00a7a%s", LangUtil.translateG("hud.msg.mode"),
@@ -74,17 +73,13 @@ public class HUDHandlerTank implements IDataProvider {
 
 
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

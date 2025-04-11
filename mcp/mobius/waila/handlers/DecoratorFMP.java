@@ -3,7 +3,7 @@ package mcp.mobius.waila.handlers;
 import java.util.List;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagList;
 public class DecoratorFMP implements IBlockDecorator {
 
     @Override
-    public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IConfigHandler config) {
+    public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
         NBTTagList list = accessor.getNBTData().getTagList("parts");
         for (int i = 0; i < list.tagCount(); i++) {
             NBTBase subtagBase = list.tagAt(i);

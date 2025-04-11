@@ -1,10 +1,10 @@
 package mcp.mobius.waila.addons.ee;
 
 import mcp.mobius.waila.api.IDataAccessor;
-import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -15,22 +15,21 @@ import net.minecraft.world.World;
 public class HUDHandlerEE implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         try {
             /* EMC */
-            if (ConfigHandler.instance().getConfig("ee.emc")) {
+            if (PluginConfig.instance().get("ee.emc")) {
                 Object registry = EEModule.EMCRegistry_instance.invoke(null);
                 if (registry != null) {
                     Object entry = EEModule.EMCRegistry_getEMCValue.invoke(registry,
@@ -41,16 +40,13 @@ public class HUDHandlerEE implements IDataProvider {
                 }
             }
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

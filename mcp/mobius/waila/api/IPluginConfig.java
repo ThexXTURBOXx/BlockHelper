@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author ProfMobius
  */
-public interface IConfigHandler {
+public interface IPluginConfig {
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
@@ -24,7 +24,7 @@ public interface IConfigHandler {
      * @param modName Module name
      * @return The config options
      */
-    Map<String, String> getConfigKeys(String modName);
+    Map<String, String> getKeys(String modName);
 
     /**
      * Returns the current value of an option (true/false) with a default value if not set.
@@ -33,7 +33,7 @@ public interface IConfigHandler {
      * @param defvalue Default values
      * @return Value of the option or defvalue if not set.
      */
-    boolean getConfig(String key, boolean defvalue);
+    boolean get(String key, boolean defvalue);
 
     /**
      * Returns the current value of an option (true/false) with a default value true if not set
@@ -41,5 +41,5 @@ public interface IConfigHandler {
      * @param key Option to lookup
      * @return Value of the option or true if not set.
      */
-    boolean getConfig(String key);
+    boolean get(String key);
 }

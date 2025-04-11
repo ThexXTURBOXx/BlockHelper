@@ -4,9 +4,9 @@ import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 import java.util.EnumSet;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -87,14 +87,14 @@ public class WailaTickHandler implements ITickHandler {
 
 
                     //this.identifiedHighlight = handler.identifyHighlight(world, player, target);
-                    this.currenttipHead = handler.handleBlockTextData(targetStack, world, player, target, accessor,
+                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
                             currenttipHead, Layout.HEADER);
-                    this.currenttipBody = handler.handleBlockTextData(targetStack, world, player, target, accessor,
+                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
                             currenttipBody, Layout.BODY);
-                    this.currenttipTail = handler.handleBlockTextData(targetStack, world, player, target, accessor,
+                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
                             currenttipTail, Layout.FOOTER);
 
-                    if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                    if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTBLOCK, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
                         currenttipBody.clear();
                         currenttipBody.add(ITALIC + "Press shift for more data");
@@ -104,7 +104,7 @@ public class WailaTickHandler implements ITickHandler {
                     this.currenttip.addAll(this.currenttipBody);
                     this.currenttip.addAll(this.currenttipTail);
 
-                    this.tooltip = new Tooltip(this.currenttip, targetStack);
+                    this.tooltip = new Tooltip(this.currenttip, targetStack, true);
                 }
             } else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY) {
                 DataAccessorCommon accessor = DataAccessorCommon.instance;
@@ -119,14 +119,14 @@ public class WailaTickHandler implements ITickHandler {
                     this.currenttipBody = new TipList<String, String>();
                     this.currenttipTail = new TipList<String, String>();
 
-                    this.currenttipHead = handler.handleEntityTextData(targetEnt, world, player, target, accessor,
+                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
                             currenttipHead, Layout.HEADER);
-                    this.currenttipBody = handler.handleEntityTextData(targetEnt, world, player, target, accessor,
+                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
                             currenttipBody, Layout.BODY);
-                    this.currenttipTail = handler.handleEntityTextData(targetEnt, world, player, target, accessor,
+                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
                             currenttipTail, Layout.FOOTER);
 
-                    if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+                    if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTENTS, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
                         currenttipBody.clear();
                         currenttipBody.add(ITALIC + "Press shift for more data");
@@ -136,7 +136,7 @@ public class WailaTickHandler implements ITickHandler {
                     this.currenttip.addAll(this.currenttipBody);
                     this.currenttip.addAll(this.currenttipTail);
 
-                    this.tooltip = new Tooltip(this.currenttip, false);
+                    this.tooltip = new Tooltip(this.currenttip, RayTracing.instance().getTargetStack());
                 }
             }
         }

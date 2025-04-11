@@ -15,6 +15,8 @@ import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 
 public class ModuleRegistrar implements IRegistrar {
 
@@ -41,6 +43,8 @@ public class ModuleRegistrar implements IRegistrar {
     public Map<Class<?>, List<IEntityProvider>> tailEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
     public Map<Class<?>, List<IEntityProvider>> overrideEntityProviders =
+            new LinkedHashMap<Class<?>, List<IEntityProvider>>();
+    public Map<Class<?>, List<IEntityProvider>> stackEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
     public Map<Class<?>, List<IEntityProvider>> NBTEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
@@ -91,22 +95,22 @@ public class ModuleRegistrar implements IRegistrar {
 
     @Override
     public void addConfig(String modname, String key, String configname, boolean defvalue) {
-        ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
+        PluginConfig.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
     }
 
     @Override
     public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
-        ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
+        PluginConfig.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
     }
 
     @Override
     public void addConfig(String modname, String key, boolean defvalue) {
-        ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
+        PluginConfig.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
     }
 
     @Override
     public void addConfigRemote(String modname, String key, boolean defvalue) {
-        ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
+        PluginConfig.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
     }
 
 
@@ -132,8 +136,8 @@ public class ModuleRegistrar implements IRegistrar {
     }
 
     @Override
-    public void registerNBTProvider(IDataProvider dataProvider, Class<?> entity) {
-        this.registerProvider(dataProvider, entity, this.NBTDataProviders);
+    public void registerNBTProvider(IDataProvider dataProvider, Class<?> block) {
+        this.registerProvider(dataProvider, block, this.NBTDataProviders);
     }
 
     @Override
@@ -149,6 +153,11 @@ public class ModuleRegistrar implements IRegistrar {
     @Override
     public void registerTailProvider(IEntityProvider dataProvider, Class<?> entity) {
         this.registerProvider(dataProvider, entity, this.tailEntityProviders);
+    }
+
+    @Override
+    public void registerStackProvider(IEntityProvider dataProvider, Class<?> entity) {
+        this.registerProvider(dataProvider, entity, this.stackEntityProviders);
     }
 
     @Override
@@ -249,6 +258,10 @@ public class ModuleRegistrar implements IRegistrar {
         return getProviders(entity, this.overrideEntityProviders);
     }
 
+    public Map<Integer, List<IEntityProvider>> getStackEntityProviders(Object entity) {
+        return getProviders(entity, this.stackEntityProviders);
+    }
+
     public Map<Integer, List<IEntityProvider>> getNBTEntityProviders(Object entity) {
         return getProviders(entity, this.NBTEntityProviders);
     }
@@ -277,7 +290,7 @@ public class ModuleRegistrar implements IRegistrar {
         return this.tooltipRenderers.get(name);
     }
 
-    private <T> Map<Integer, List<T>> getProviders(Object obj, Map<Class<?>, List<T>> target) {
+    private <V, T> Map<Integer, List<T>> getProviders(V obj, Map<Class<? extends V>, List<T>> target) {
         Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
         Integer index = 0;
 
@@ -319,23 +332,27 @@ public class ModuleRegistrar implements IRegistrar {
         return hasProviders(block, this.NBTDataProviders);
     }
 
-    public boolean hasHeadEntityProviders(Object entity) {
+    public boolean hasStackEntityProviders(Entity entity) {
+        return hasProviders(entity, this.stackEntityProviders);
+    }
+
+    public boolean hasHeadEntityProviders(Entity entity) {
         return hasProviders(entity, this.headEntityProviders);
     }
 
-    public boolean hasBodyEntityProviders(Object entity) {
+    public boolean hasBodyEntityProviders(Entity entity) {
         return hasProviders(entity, this.bodyEntityProviders);
     }
 
-    public boolean hasTailEntityProviders(Object entity) {
+    public boolean hasTailEntityProviders(Entity entity) {
         return hasProviders(entity, this.tailEntityProviders);
     }
 
-    public boolean hasOverrideEntityProviders(Object entity) {
+    public boolean hasOverrideEntityProviders(Entity entity) {
         return hasProviders(entity, this.overrideEntityProviders);
     }
 
-    public boolean hasNBTEntityProviders(Object entity) {
+    public boolean hasNBTEntityProviders(Entity entity) {
         return hasProviders(entity, this.NBTEntityProviders);
     }
 
@@ -351,7 +368,7 @@ public class ModuleRegistrar implements IRegistrar {
         return hasProviders(name, this.tailFMPProviders);
     }
 
-    public boolean hasBlockDecorator(Object block) {
+    public boolean hasBlockDecorator(Block block) {
         return hasProviders(block, this.blockClassDecorators);
     }
 
@@ -359,7 +376,7 @@ public class ModuleRegistrar implements IRegistrar {
         return hasProviders(name, this.FMPClassDecorators);
     }
 
-    private <T> boolean hasProviders(Object obj, Map<Class<?>, List<T>> target) {
+    private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {
         for (Class<?> clazz : target.keySet())
             if (clazz.isInstance(obj))
                 return true;

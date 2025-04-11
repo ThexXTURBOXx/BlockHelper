@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.buildcraft;
 
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,21 +14,20 @@ import net.minecraft.world.World;
 public class HUDHandlerBCEnergy implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("bcapi.storage")) return currenttip;
-        if (!accessor.getNBTData().hasKey("Energy")) return currenttip;
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("bcapi.storage")) return;
+        if (!accessor.getNBTData().hasKey("Energy")) return;
 
         int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
         int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
@@ -37,16 +36,13 @@ public class HUDHandlerBCEnergy implements IDataProvider {
                 currenttip.add(String.format("%d / %d MJ", energy, maxEnergy), "MJEnergyStorage");
             }
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
@@ -97,11 +97,11 @@ public class Tooltip {
 
 
     public Tooltip(List<String> textData, ItemStack stack) {
-        this(textData, true);
-        this.stack = stack;
+        this(textData, stack, stack != null);
     }
 
-    public Tooltip(List<String> textData, boolean hasIcon) {
+    public Tooltip(List<String> textData, ItemStack stack, boolean hasIcon) {
+        this.stack = stack;
 
         columnsWidth.add(0);        // Small init of the arrays to have at least one element
         columnsPos.add(0);
@@ -202,9 +202,9 @@ public class Tooltip {
     }
 
     private void computePositionAndSize(boolean hasIcon) {
-        this.pos = new Point(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL,
+        this.pos = new Point(PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_POSX, 0),
-                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0));
+                PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0));
         this.hasIcon = hasIcon;
 
         int paddingW = hasIcon ? 29 : 13;

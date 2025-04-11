@@ -1,10 +1,10 @@
 package mcp.mobius.waila.handlers;
 
-import mcp.mobius.waila.api.IConfigHandler;
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
@@ -23,13 +23,13 @@ import static mcp.mobius.waila.api.SpecialChars.RENDER;
 public class HUDHandlerBlocks implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
 
         String name = null;
         try {
@@ -53,39 +53,34 @@ public class HUDHandlerBlocks implements IDataProvider {
         if (currenttip.isEmpty())
             currenttip.add("< Unnamed >");
         else {
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,
+            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,
                     true)) {
                 currenttip.add(String.format(ITALIC + "ID %d:%d", accessor.getBlockID(), accessor.getMetadata()));
             }
         }
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
 		/*
 		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false)
 		&& currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
 			currenttip.clear();
 			currenttip.add(ITALIC + "Press shift for more data");
-			return currenttip;
 		}
 		*/
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         currenttip.add(RENDER + "{Plip}" + RENDER + "{Plop,thisisatest,222,333}");
 
         String modName = ModIdentification.nameFromStack(itemStack);
         if (modName != null && !modName.isEmpty()) {
             currenttip.add(BLUE + ITALIC + modName);
         }
-
-        return currenttip;
     }
 
     @Override

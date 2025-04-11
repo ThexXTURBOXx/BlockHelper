@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.projectred;
 
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IFMPAccessor;
 import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
@@ -30,9 +30,9 @@ public class HUDDecoratorRsGateLogic implements IFMPDecorator {
     static String[] IONAMES = {"", "IN", "OUT", "SWAP", "IN_A", "IN_B", "LOCK", "IO", "POS", "NEG", "BUS", "A", "B"};
 
     @Override
-    public void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IConfigHandler config) {
+    public void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IPluginConfig config) {
 
-        if (!config.getConfig("pr.showio")) return;
+        if (!config.get("pr.showio")) return;
 
         int orient = NBTUtil.getNBTInteger(accessor.getNBTData(), "orient");
         int subID = NBTUtil.getNBTInteger(accessor.getNBTData(), "subID");

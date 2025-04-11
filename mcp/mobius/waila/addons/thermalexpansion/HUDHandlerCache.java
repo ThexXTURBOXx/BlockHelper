@@ -2,9 +2,9 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.lang.reflect.InvocationTargetException;
 import mcp.mobius.waila.api.IDataAccessor;
-import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,15 +17,14 @@ import net.minecraft.world.World;
 public class HUDHandlerCache implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("thermalexpansion.cache"))
-            return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("thermalexpansion.cache")) return;
         try {
             ItemStack storedItem = null;
             if (accessor.getNBTData().hasKey("Item"))
@@ -47,15 +46,12 @@ public class HUDHandlerCache implements IDataProvider {
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        if (!config.getConfig("thermalexpansion.cache"))
-            return currenttip;
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("thermalexpansion.cache")) return;
 
         NBTTagCompound tag = accessor.getNBTData();
         ItemStack storedItem = null;
@@ -73,15 +69,11 @@ public class HUDHandlerCache implements IDataProvider {
             currenttip.add("Stored: " + stored + "/" + maxStored);
         } else
             currenttip.add("Capacity: " + maxStored);
-
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

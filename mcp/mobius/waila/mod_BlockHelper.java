@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.Side;
 import java.io.File;
 import java.util.logging.Logger;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.commands.CommandDumpHandlers;
 import mcp.mobius.waila.network.WailaConnectionHandler;
@@ -70,7 +70,7 @@ public class mod_BlockHelper extends BaseMod {
 
         // PRE INIT
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
-        ConfigHandler.instance().loadDefaultConfig(cfg);
+        PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
         MinecraftForge.EVENT_BUS.register(this);

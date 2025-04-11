@@ -1,10 +1,10 @@
 package mcp.mobius.waila.addons.appeng;
 
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IConfigHandler;
 import mcp.mobius.waila.api.IDataAccessor;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,19 +19,18 @@ import static mcp.mobius.waila.api.SpecialChars.TAB;
 public class HUDHandlerTEGenerator implements IDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IDataAccessor accessor, IConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override
-    public ITaggedList<String, String> getWailaBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
+    public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
         try {
             int storage = accessor.getNBTData().getInteger("storage");
             int maxStorage = accessor.getNBTData().getInteger("maxStorage");
@@ -39,22 +38,19 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             String storedStr = LangUtil.translateG("hud.msg.stored");
 
             /* EU Storage */
-            if (ConfigHandler.instance().getConfig("appeng.storage")) {
+            if (PluginConfig.instance().get("appeng.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r AE", storedStr,
                             TAB + ALIGNRIGHT, Math.min(storage, maxStorage), maxStorage));
             }
         } catch (Throwable t) {
-            currenttip = WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
-
-        return currenttip;
     }
 
     @Override
-    public ITaggedList<String, String> getWailaTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
-                                                    IDataAccessor accessor, IConfigHandler config) {
-        return currenttip;
+    public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
+                           IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Override

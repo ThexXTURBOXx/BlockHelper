@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -17,11 +17,11 @@ public class Packet0x00ServerPing implements IWailaPacket {
     Map<String, Boolean> forcedKeys = new HashMap<String, Boolean>();
 
     public Packet0x00ServerPing() {
-        ConfigCategory serverForcingCfg = ConfigHandler.instance().config.getCategory(Constants.CATEGORY_SERVER);
+        ConfigCategory serverForcingCfg = PluginConfig.instance().config.getCategory(Constants.CATEGORY_SERVER);
 
         for (String key : serverForcingCfg.keySet()) {
             if (serverForcingCfg.get(key).getBoolean(false)) {
-                forcedKeys.put(key, ConfigHandler.instance().getConfig(key));
+                forcedKeys.put(key, PluginConfig.instance().get(key));
             }
         }
     }
@@ -56,7 +56,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
         for (String key : forcedKeys.keySet())
             mod_BlockHelper.LOG.info(String.format("Received forced key config %s : %s", key, forcedKeys.get(key)));
 
-        ConfigHandler.instance().forcedConfigs = forcedKeys;
+        PluginConfig.instance().forcedConfigs = forcedKeys;
     }
 
 }

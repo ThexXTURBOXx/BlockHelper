@@ -1,6 +1,6 @@
 package mcp.mobius.waila.overlay;
 
-import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.EnumMovingObjectType;
@@ -24,7 +24,7 @@ public class OverlayRenderer {
               mc.theWorld != null &&
               Minecraft.isGuiEnabled() &&
               !mc.gameSettings.keyBindPlayerList.pressed &&
-              ConfigHandler.instance().showTooltip() &&
+              PluginConfig.instance().showTooltip() &&
               RayTracing.instance().getTarget() != null))
             return;
 
@@ -32,7 +32,7 @@ public class OverlayRenderer {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && ConfigHandler.instance().getConfig("general.showents")) {
+        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
     }
