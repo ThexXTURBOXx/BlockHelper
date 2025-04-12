@@ -37,18 +37,14 @@ public class DecoratorFMP implements IBlockDecorator {
     }
 
     public static void register() {
-        Class<?> BlockMultipart;
         try {
-            BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
+            Class<?> BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
+            WailaRegistrar.instance().registerDecorator(new DecoratorFMP(), BlockMultipart);
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
-            return;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
-            return;
         }
-
-        WailaRegistrar.instance().registerDecorator(new DecoratorFMP(), BlockMultipart);
     }
 
 }

@@ -38,18 +38,8 @@ public final class ModIdentification {
         }
 
         modSource_Name.put("minecraft.jar", "Minecraft");
-        modSource_Name.put("1.5.2.jar", "Minecraft");
-        modSource_Name.put("1.6.2.jar", "Minecraft");
-        modSource_Name.put("1.6.3.jar", "Minecraft");
-        modSource_Name.put("1.6.4.jar", "Minecraft");
-        modSource_Name.put("1.7.2.jar", "Minecraft");
         modSource_Name.put("Forge", "Minecraft");
         modSource_ID.put("minecraft.jar", "Minecraft");
-        modSource_ID.put("1.5.2.jar", "Minecraft");
-        modSource_ID.put("1.6.2.jar", "Minecraft");
-        modSource_ID.put("1.6.3.jar", "Minecraft");
-        modSource_ID.put("1.6.4.jar", "Minecraft");
-        modSource_ID.put("1.7.2.jar", "Minecraft");
         modSource_ID.put("Forge", "Minecraft");
     }
 

@@ -1,11 +1,6 @@
 package mcp.mobius.waila.client;
 
-import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.TickType;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
-import java.util.EnumSet;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -16,30 +11,29 @@ import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
 
-public class ConfigKeyHandler implements ITickHandler {
+public class ConfigKeyHandler {
 
-    public static KeyBinding key_cfg;
-    public static KeyBinding key_show;
-    public static KeyBinding key_liquid;
-    public static KeyBinding key_recipe;
-    public static KeyBinding key_usage;
+    public final KeyBinding keyCfg;
+    public final KeyBinding keyShow;
+    public final KeyBinding keyLiquid;
+    public final KeyBinding keyRecipe;
+    public final KeyBinding keyUsage;
 
-    public static void init(mod_BlockHelper mod) {
-        ModLoader.registerKey(mod, key_cfg = new KeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0), false);
-        ModLoader.registerKey(mod, key_show = new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
-        ModLoader.registerKey(mod, key_liquid = new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2),
-                false);
-        ModLoader.registerKey(mod, key_recipe = new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3),
-                false);
-        ModLoader.registerKey(mod, key_usage = new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
-        TickRegistry.registerTickHandler(new ConfigKeyHandler(), Side.CLIENT);
+    public ConfigKeyHandler(mod_BlockHelper mod) {
+        ModLoader.registerKey(mod, keyCfg =
+                new KeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0), false);
+        ModLoader.registerKey(mod, keyShow =
+                new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
+        ModLoader.registerKey(mod, keyLiquid =
+                new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
+        ModLoader.registerKey(mod, keyRecipe =
+                new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
+        ModLoader.registerKey(mod, keyUsage =
+                new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
     }
 
-    @Override
-    public void tickStart(EnumSet<TickType> type, Object... tickData) {
-        Minecraft mc = Minecraft.getMinecraft();
-
-        if (key_cfg.isPressed()) {
+    public void onTickInGame(Minecraft mc) {
+        if (keyCfg.isPressed()) {
             if (mc.currentScreen == null)
                 mc.displayGuiScreen(new ScreenConfig(null));
         }
@@ -47,25 +41,25 @@ public class ConfigKeyHandler implements ITickHandler {
         if (mc.currentScreen != null)
             return;
 
-        if (key_show.isPressed() && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+        if (keyShow.isPressed() && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_MODE, false)) {
             boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_SHOW, true);
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
         }
 
-        if (key_show.isPressed() && !PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+        if (keyShow.isPressed() && !PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                 Constants.CFG_WAILA_MODE, false)) {
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
         }
 
-        if (key_liquid.isPressed()) {
+        if (keyLiquid.isPressed()) {
             boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_LIQUID, true);
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
         }
 
-        if (key_recipe.isPressed()) {
+        if (keyRecipe.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
                     Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
@@ -75,7 +69,7 @@ public class ConfigKeyHandler implements ITickHandler {
             }
         }
 
-        if (key_usage.isPressed()) {
+        if (keyUsage.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
                     Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
@@ -84,20 +78,6 @@ public class ConfigKeyHandler implements ITickHandler {
                 }
             }
         }
-    }
-
-    @Override
-    public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-    }
-
-    @Override
-    public EnumSet<TickType> ticks() {
-        return EnumSet.of(TickType.RENDER, TickType.CLIENT);
-    }
-
-    @Override
-    public String getLabel() {
-        return "Waila Key Handler";
     }
 
 }

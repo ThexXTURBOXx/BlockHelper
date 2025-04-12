@@ -4,7 +4,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.Side;
 import java.io.File;
@@ -20,6 +19,7 @@ import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.BaseMod;
 import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
@@ -41,6 +41,8 @@ public class mod_BlockHelper extends BaseMod {
     @SidedProxy(clientSide = PACKAGE + "client.ProxyClient", serverSide = PACKAGE + "server.ProxyServer")
     public static ProxyServer proxy;
     public static boolean DEV_MODE = false;
+    public static WailaTickHandler TICK_HANDLER;
+    public static ConfigKeyHandler CONFIG_KEY_HANDLER;
 
     static {
         LOG.setParent(FMLLog.getLogger());
@@ -77,8 +79,8 @@ public class mod_BlockHelper extends BaseMod {
 
         // INIT
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-            ConfigKeyHandler.init(this);
-            TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);
+            CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
+            TICK_HANDLER = new WailaTickHandler();
         }
 
         // POST INIT
@@ -94,6 +96,14 @@ public class mod_BlockHelper extends BaseMod {
     public void modsLoaded() {
         // LOAD COMPLETE
         proxy.registerMods();
+    }
+
+    @Override
+    public boolean onTickInGame(float time, Minecraft mc) {
+        if (mc.theWorld == null || mc.thePlayer == null) return true;
+        CONFIG_KEY_HANDLER.onTickInGame(mc);
+        TICK_HANDLER.onTickInGame(mc);
+        return true;
     }
 
 }

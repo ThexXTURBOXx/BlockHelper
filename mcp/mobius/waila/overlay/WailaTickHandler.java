@@ -1,8 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
-import java.util.EnumSet;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -12,7 +9,6 @@ import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,43 +20,20 @@ import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
-public class WailaTickHandler implements ITickHandler {
+public class WailaTickHandler {
 
-    //public static LangUtil lang = LangUtil.loadLangDir("waila");
-
-    private boolean firstTick = true;
-    public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
-    private ITaggedList<String, String> currenttip = new TipList<String, String>();
-    private ITaggedList<String, String> currenttipHead = new TipList<String, String>();
-    private ITaggedList<String, String> currenttipBody = new TipList<String, String>();
-    private ITaggedList<String, String> currenttipTail = new TipList<String, String>();
-    public Tooltip tooltip = null;
+    public Tooltip tooltip;
     public MetaDataProvider handler = new MetaDataProvider();
-    private final Minecraft mc = Minecraft.getMinecraft();
+    private boolean firstTick = true;
+    private ITaggedList<String, String> currenttip;
+    private ITaggedList<String, String> currenttipHead;
+    private ITaggedList<String, String> currenttipBody;
+    private ITaggedList<String, String> currenttipTail;
 
-    private static WailaTickHandler _instance;
-
-    private WailaTickHandler() {
+    public WailaTickHandler() {
     }
 
-    public static WailaTickHandler instance() {
-        if (_instance == null)
-            _instance = new WailaTickHandler();
-        return _instance;
-    }
-
-    @Override
-    public void tickStart(EnumSet<TickType> type, Object... tickData) {
-    }
-
-    @Override
-    public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-        if (type.contains(TickType.RENDER)) {
-            OverlayRenderer.renderOverlay();
-        }
-
-        if (!type.contains(TickType.CLIENT)) return;
-
+    public void onTickInGame(Minecraft mc) {
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
@@ -141,15 +114,7 @@ public class WailaTickHandler implements ITickHandler {
             }
         }
 
+        OverlayRenderer.renderOverlay();
     }
 
-    @Override
-    public EnumSet<TickType> ticks() {
-        return EnumSet.of(TickType.RENDER, TickType.CLIENT);
-    }
-
-    @Override
-    public String getLabel() {
-        return "Waila Tick Handler";
-    }
 }

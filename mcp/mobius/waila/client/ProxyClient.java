@@ -12,6 +12,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyServer {
 
@@ -21,6 +22,8 @@ public class ProxyClient extends ProxyServer {
     @Override
     public void registerHandlers() {
         super.registerHandlers();
+
+        ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
 
         LangUtil.INSTANCE.addLangDirFromJar(LangUtil.INSTANCE.hostFile(ProxyClient.class), "/assets/waila/lang");
 
