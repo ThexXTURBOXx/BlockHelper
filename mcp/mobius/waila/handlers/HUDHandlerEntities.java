@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -65,8 +65,7 @@ public class HUDHandlerEntities implements IEntityProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
-        return tag;
+    public void appendServerData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
     }
 
     private static String getEntityMod(Entity entity) {

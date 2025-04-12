@@ -14,15 +14,13 @@ public interface IFMPProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                     IFMPAccessor accessor, IPluginConfig config);
@@ -30,15 +28,13 @@ public interface IFMPProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerBodyProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                     IFMPAccessor accessor, IPluginConfig config);
@@ -46,15 +42,13 @@ public interface IFMPProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerTailProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
                     IFMPAccessor accessor, IPluginConfig config);

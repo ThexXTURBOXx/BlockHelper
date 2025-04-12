@@ -72,9 +72,9 @@ public class Packet0x03EntRequest implements IWailaPacket {
                             WailaRegistrar.instance().getNBTEntityProviders(entity).values()) {
                         for (IEntityProvider provider : providersList) {
                             try {
-                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world);
+                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world);
                             } catch (AbstractMethodError ame) {
-                                tag = NBTUtil.getNBTData(provider, entity, tag);
+                                NBTUtil.appendServerData(provider, entity, tag);
                             }
                         }
                     }

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import java.awt.Dimension;
+import org.lwjgl.util.Dimension;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;

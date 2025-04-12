@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.LiquidHelper;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -83,15 +83,14 @@ public class HUDHandlerTank implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
         try {
             int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
             tag.setInteger("Amount", amount);
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
-        return tag;
     }
 
 }

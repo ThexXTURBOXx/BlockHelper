@@ -14,9 +14,9 @@ public final class WailaExceptionHandler {
 
     private static final List<String> errs = new ArrayList<String>();
 
-    public static void handleErr(Throwable t, String className, ITaggedList<String, String> currenttip) {
-        if (!errs.contains(className)) {
-            errs.add(className);
+    public static void handleErr(Throwable t, String context, ITaggedList<String, String> currenttip) {
+        if (!errs.contains(context)) {
+            errs.add(context);
 
             for (StackTraceElement elem : t.getStackTrace()) {
                 mod_BlockHelper.LOG.log(Level.WARNING, String.format("%s.%s:%s", elem.getClassName(),
@@ -24,7 +24,7 @@ public final class WailaExceptionHandler {
                 if (elem.getClassName().contains("waila")) break;
             }
 
-            mod_BlockHelper.LOG.log(Level.WARNING, String.format("Caught unhandled exception : [%s] %s", className, t));
+            mod_BlockHelper.LOG.log(Level.WARNING, String.format("Caught unhandled exception : [%s] %s", context, t));
         }
         if (currenttip != null)
             currenttip.add("<ERROR>");

@@ -46,8 +46,8 @@ public class HUDHandlerBCEnergy implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
         try {
             Float energy = -1f;
             Integer maxsto = -1;
@@ -71,8 +71,6 @@ public class HUDHandlerBCEnergy implements IDataProvider {
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
-
-        return tag;
     }
 
 }

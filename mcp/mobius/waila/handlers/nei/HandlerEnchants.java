@@ -106,23 +106,6 @@ public class HandlerEnchants implements IContainerInputHandler {
         return false;
     }
 
-	/*
-	public String getEnchantModName(Enchantment enchant){
-		String enchantPath = enchant.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
-
-		//mod_Waila.log.log(Level.INFO, enchantPath);
-
-		String enchantModName = "<Unknown>";
-		for (String s: mod_Waila.instance.modSourceList.keySet())
-			if (enchantPath.contains(s))
-				enchantModName = mod_Waila.instance.modSourceList.get(s);
-
-		if (enchantModName.equals("Minecraft Coder Pack"))
-			enchantModName = "Minecraft";
-		return enchantModName;
-	}
-	*/
-
     @Override
     public boolean mouseClicked(GuiContainer gui, int mousex, int mousey, int button) {
         return false;

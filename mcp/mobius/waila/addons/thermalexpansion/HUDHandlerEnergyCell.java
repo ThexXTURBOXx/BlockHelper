@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,8 +41,8 @@ public class HUDHandlerEnergyCell implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
         try {
             int recv = ThermalExpansionModule.TileEnergyCell_Recv.getInt(te);
             int send = ThermalExpansionModule.TileEnergyCell_Send.getInt(te);
@@ -51,7 +51,6 @@ public class HUDHandlerEnergyCell implements IDataProvider {
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
-        return tag;
     }
 
 }

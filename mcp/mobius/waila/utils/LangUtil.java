@@ -1,4 +1,4 @@
-package mcp.mobius.waila.cbcore;
+package mcp.mobius.waila.utils;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.io.BufferedReader;

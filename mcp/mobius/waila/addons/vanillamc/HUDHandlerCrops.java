@@ -10,8 +10,8 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
@@ -116,9 +116,8 @@ public class HUDHandlerCrops implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
-        return tag;
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
     }
 
     public static void register() {

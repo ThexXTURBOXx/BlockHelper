@@ -2,7 +2,7 @@ package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerDev;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,6 +17,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
 import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
@@ -39,7 +39,7 @@ public class DisplayUtil {
         while (renderMatcher.find()) {
             ITooltipRenderer renderer = WailaRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
             if (renderer != null)
-                width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.INSTANCE).width;
+                width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.INSTANCE).getWidth();
         }
 
         Matcher iconMatcher = patternIcon.matcher(s);

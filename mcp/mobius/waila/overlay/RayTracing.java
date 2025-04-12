@@ -207,7 +207,7 @@ public class RayTracing {
                     //	items.add(new ItemStack(Item.getItemFromBlock(mouseoverBlock)));
 
 
-                } catch (Exception ignored) {
+                } catch (Throwable ignored) {
                 }
             }
 
@@ -218,7 +218,7 @@ public class RayTracing {
                 ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, x, y, z);
                 if (pick != null)
                     items.add(pick);
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
 
             if (!items.isEmpty())

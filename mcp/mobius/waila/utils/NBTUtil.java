@@ -120,17 +120,18 @@ public final class NBTUtil {
         return 0;
     }
 
-    public static NBTTagCompound getNBTData(IDataProvider provider, TileEntity entity, NBTTagCompound tag,
-                                            World world, int x, int y, int z) throws NoSuchMethodException,
+    public static void appendServerData(IDataProvider provider, TileEntity entity, NBTTagCompound tag,
+                                        World world, int x, int y, int z) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class,
-                World.class, int.class, int.class, int.class);
-        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag, world, x, y, z);
+        Method appendServerData = provider.getClass().getMethod("appendServerData",
+                TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
+        appendServerData.invoke(provider, entity, tag, world, x, y, z);
     }
 
-    public static NBTTagCompound getNBTData(IEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
-        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag);
+    public static void appendServerData(IEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method appendServerData = provider.getClass().getMethod("appendServerData",
+                Entity.class, NBTTagCompound.class);
+        appendServerData.invoke(provider, entity, tag);
     }
 
 }

@@ -12,7 +12,7 @@ import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;

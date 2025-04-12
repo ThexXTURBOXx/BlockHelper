@@ -95,11 +95,10 @@ public class HUDHandlerFMP implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
         if (te != null)
             te.writeToNBT(tag);
-        return tag;
     }
 
     public static void register() {

@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
@@ -30,7 +31,7 @@ public class WailaPacketHandler implements IPacketHandler {
 
                 inputStream.close();
             }
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
     }
 
@@ -80,7 +81,7 @@ public class WailaPacketHandler implements IPacketHandler {
             outputStream.writeByte(getPacketId(packet));
             packet.encode(outputStream);
         } catch (Throwable t) {
-            // TODO(NICO)
+            WailaExceptionHandler.handleErr(t, "wrapMLPacket", null);
         }
         mlPacket.channel = mod_BlockHelper.CHANNEL;
         mlPacket.data = bos.toByteArray();

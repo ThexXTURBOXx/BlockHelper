@@ -47,8 +47,7 @@ public class HUDHandlerEntitiesDev implements IEntityProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
-        return null;
+    public void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
     }
 
     public static void register() {

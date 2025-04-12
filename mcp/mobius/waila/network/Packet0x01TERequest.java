@@ -32,8 +32,8 @@ public class Packet0x01TERequest implements IWailaPacket {
             try {
                 classToNameMap = TileEntity.class.getDeclaredField("field_70323_b");
                 classToNameMap.setAccessible(true);
-            } catch (Exception f) {
-                throw new RuntimeException(f);
+            } catch (Throwable t1) {
+                throw new RuntimeException(t1);
             }
 
         }
@@ -108,12 +108,12 @@ public class Packet0x01TERequest implements IWailaPacket {
                             WailaRegistrar.instance().getNBTProviders(block).values()) {
                         for (IDataProvider provider : providersList) {
                             try {
-                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
-                                        posZ);
+                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world,
+                                        posX, posY, posZ);
                             } catch (AbstractMethodError ame) {
-                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
                             } catch (NoSuchMethodError nsm) {
-                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
                             }
                         }
                     }
@@ -123,12 +123,12 @@ public class Packet0x01TERequest implements IWailaPacket {
                             WailaRegistrar.instance().getNBTProviders(entity).values()) {
                         for (IDataProvider provider : providersList) {
                             try {
-                                tag = provider.getNBTData((EntityPlayerMP) player, entity, tag, world, posX, posY,
-                                        posZ);
+                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world,
+                                        posX, posY, posZ);
                             } catch (AbstractMethodError ame) {
-                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
                             } catch (NoSuchMethodError nsm) {
-                                tag = NBTUtil.getNBTData(provider, entity, tag, world, posX, posY, posZ);
+                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
                             }
                         }
                     }

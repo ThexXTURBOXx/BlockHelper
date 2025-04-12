@@ -1,7 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +7,8 @@ import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
@@ -18,6 +16,8 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNCENTER;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
@@ -80,7 +80,7 @@ public class Tooltip {
         public void draw(ICommonAccessor accessor, int x, int y) {
             GL11.glPushMatrix();
             try {
-                this.renderer.draw(this.params, accessor, this.pos.x + x, this.pos.y + y);
+                this.renderer.draw(this.params, accessor, this.pos.getX() + x, this.pos.getY() + y);
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, this.renderer.getClass().getName() + ".draw()", null);
             }
@@ -89,7 +89,7 @@ public class Tooltip {
 
         @Override
         public String toString() {
-            return String.format("Renderable@[%d,%d] | %s", pos.x, pos.y, renderer);
+            return String.format("Renderable@[%d,%d] | %s", pos.getX(), pos.getY(), renderer);
         }
     }
 
@@ -185,8 +185,8 @@ public class Tooltip {
                     }
 
                     if (renderable != null) {
-                        offsetX += renderable.getSize(accessor).width;
-                        maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height + 2);
+                        offsetX += renderable.getSize(accessor).getWidth();
+                        maxHeight = Math.max(maxHeight, renderable.getSize(accessor).getHeight() + 2);
                     }
                 }
             }
@@ -197,7 +197,7 @@ public class Tooltip {
     private int getRenderableTotalHeight() {
         int result = 0;
         for (Renderable r : this.elements)
-            result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
+            result = Math.max(r.getPos().getY() + r.getSize(accessor).getHeight() + 2, result);
         return result;
     }
 
@@ -216,8 +216,8 @@ public class Tooltip {
         h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
 
         Dimension size = DisplayUtil.displaySize();
-        x = ((int) (size.width / OverlayConfig.scale) - w - 1) * pos.x / 10000;
-        y = ((int) (size.height / OverlayConfig.scale) - h - 1) * pos.y / 10000;
+        x = ((int) (size.getWidth() / OverlayConfig.scale) - w - 1) * pos.getX() / 10000;
+        y = ((int) (size.getHeight() / OverlayConfig.scale) - h - 1) * pos.getY() / 10000;
 
         ty = (h - this.getRenderableTotalHeight()) / 2 + 1;
     }

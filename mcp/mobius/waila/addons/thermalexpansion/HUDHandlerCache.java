@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
-import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -77,8 +77,8 @@ public class HUDHandlerCache implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
         if (te != null)
             te.writeToNBT(tag);
         try {
@@ -89,7 +89,6 @@ public class HUDHandlerCache implements IDataProvider {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return tag;
     }
 
     public ItemStack readItemStack(NBTTagCompound tag) {

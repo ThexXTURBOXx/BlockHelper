@@ -32,15 +32,13 @@ public interface IEntityProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param entity     Current Entity scanned.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                     IEntityAccessor accessor, IPluginConfig config);
@@ -48,15 +46,13 @@ public interface IEntityProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerBodyProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param entity     Current Entity scanned.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                     IEntityAccessor accessor, IPluginConfig config);
@@ -64,15 +60,13 @@ public interface IEntityProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerTailProvider} client
-     * side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * side.
      *
      * @param entity     Current Entity scanned.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be
      *                   processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
      */
     void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
                     IEntityAccessor accessor, IPluginConfig config);
@@ -80,16 +74,14 @@ public interface IEntityProvider {
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerNBTProvider} server
-     * and client side.</br>
-     * You are supposed to always return the modified input NBTTagCompound tag.</br>
+     * and client side.
      *
      * @param player The player requesting data synchronization (The owner of the current connection).
      * @param ent    The Entity targeted for synchronization.
      * @param tag    Current synchronization tag (might have been processed by other providers and might be processed
      *               by other providers).
      * @param world  TileEntity's World.
-     * @return Modified input NBTTagCompound tag.
      */
-    NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world);
+    void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world);
 
 }

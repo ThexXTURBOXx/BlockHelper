@@ -6,9 +6,9 @@ import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import java.util.List;
-import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemStack;
@@ -19,17 +19,11 @@ public class NEIHandler {
     public static void register() {
         GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 
-        //KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
-
         // We mute the default keybind for displaying the tooltip
         NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
         NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 
-        //API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
-        //API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
-
         GuiContainerManager.addInputHandler(new HandlerEnchants());
-        // TODO(NICO)
         API.addKeyBind(Constants.BIND_SCREEN_ENCH, "showenchant", Keyboard.KEY_I);
     }
 
@@ -45,7 +39,7 @@ public class NEIHandler {
                 if (firstInventory) {
                     try {
                         Thread.sleep(1000);
-                    } catch (Exception ignored) {
+                    } catch (Throwable ignored) {
                     }
                     firstInventory = false;
                 }

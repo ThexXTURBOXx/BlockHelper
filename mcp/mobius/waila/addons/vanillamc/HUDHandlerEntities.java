@@ -66,12 +66,11 @@ public class HUDHandlerEntities implements IEntityProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+    public void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
         if (ent != null)
             ent.writeToNBT(tag);
         if (ent instanceof EntityLiving)
             tag.setInteger("MaxHealth", ((EntityLiving) ent).getMaxHealth());
-        return tag;
     }
 
     public static void register() {

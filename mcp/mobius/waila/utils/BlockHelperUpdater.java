@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Level;
-import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.client.Minecraft;
 

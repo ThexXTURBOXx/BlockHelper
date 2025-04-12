@@ -22,8 +22,8 @@ public class UIHelper {
         tess.startDrawingQuads();
         tess.addVertexWithUV(posX, posY + sizeY, zLevel, texU * f,
                 (texV + texSizeV) * f);
-        tess.addVertexWithUV(posX + sizeX, posY + sizeY, zLevel, (texU + texSizeU) * f
-                , (texV + texSizeV) * f);
+        tess.addVertexWithUV(posX + sizeX, posY + sizeY, zLevel, (texU + texSizeU) * f,
+                (texV + texSizeV) * f);
         tess.addVertexWithUV(posX + sizeX, posY, zLevel, (texU + texSizeU) * f,
                 texV * f);
         tess.addVertexWithUV(posX, posY, zLevel, texU * f, texV * f);
@@ -74,8 +74,8 @@ public class UIHelper {
         float playerViewX =
                 player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * (float) partialFrame;
 
-        UIHelper.drawBillboard(posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F, x1, y1, x2
-                , y2, r, g, b, a);
+        UIHelper.drawBillboard(posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F, x1, y1, x2,
+                y2, r, g, b, a);
     }
 
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ,
@@ -108,8 +108,8 @@ public class UIHelper {
 
     public static void drawBillboardText(String text, Vec3 pos, float offX, float offY, float offZ,
                                          double partialFrame) {
-        UIHelper.drawBillboardText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ
-                , partialFrame);
+        UIHelper.drawBillboardText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ,
+                partialFrame);
     }
 
     public static void drawBillboardText(String text, float posX, float posY, float posZ, float offX, float offY,
@@ -194,8 +194,8 @@ public class UIHelper {
 
     }
 
-    public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g
-            , int b, int a) {
+    public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g,
+                                       int b, int a) {
         Tessellator tessellator = Tessellator.instance;
 
         tessellator.startDrawingQuads();

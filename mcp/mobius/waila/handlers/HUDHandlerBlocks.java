@@ -18,7 +18,6 @@ import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
-import static mcp.mobius.waila.api.SpecialChars.RENDER;
 
 public class HUDHandlerBlocks implements IDataProvider {
 
@@ -39,7 +38,7 @@ public class HUDHandlerBlocks implements IDataProvider {
 
             if (name != null)
                 currenttip.add(name);
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
 
         if (itemStack.getItem() == Item.redstone) {
@@ -75,8 +74,6 @@ public class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        currenttip.add(RENDER + "{Plip}" + RENDER + "{Plop,thisisatest,222,333}");
-
         String modName = ModIdentification.nameFromStack(itemStack);
         if (modName != null && !modName.isEmpty()) {
             currenttip.add(BLUE + ITALIC + modName);
@@ -84,8 +81,8 @@ public class HUDHandlerBlocks implements IDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                     int x, int y, int z) {
-        return tag;
+    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
+                                 int x, int y, int z) {
     }
+
 }

@@ -64,7 +64,7 @@ public class ConfigKeyHandler {
                 try {
                     Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
                             boolean.class).invoke(null, true);
-                } catch (Exception ignored) {
+                } catch (Throwable ignored) {
                 }
             }
         }
@@ -74,7 +74,7 @@ public class ConfigKeyHandler {
                 try {
                     Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
                             boolean.class).invoke(null, false);
-                } catch (Exception ignored) {
+                } catch (Throwable ignored) {
                 }
             }
         }
