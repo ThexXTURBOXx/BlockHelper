@@ -10,11 +10,8 @@ import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -32,28 +29,7 @@ public class HUDHandlerEntities implements IEntityProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        if (accessor.getEntity() instanceof EntityMinecart) {
-            EntityMinecart minecart = (EntityMinecart) accessor.getEntity();
-            int type = minecart.getMinecartType();
-            switch (type) {
-            case 0:
-                return new ItemStack(Item.minecartEmpty);
-            case 1:
-                return new ItemStack(Item.minecartCrate);
-            case 2:
-                return new ItemStack(Item.minecartPowered);
-            case 3:
-                return new ItemStack(Item.minecartTnt);
-            case 5:
-                return new ItemStack(Item.minecartHopper);
-            }
-        } else if (accessor.getEntity() instanceof EntityItemFrame) {
-            ItemStack held = ((EntityItemFrame) accessor.getEntity()).getDisplayedItem();
-            return held == null ? new ItemStack(Item.itemFrame) : held;
-        } else if (accessor.getEntity() instanceof EntityPainting) {
-            return new ItemStack(Item.painting);
-        }
-        return null;
+        return accessor.getEntity().getPickedResult(accessor.getPosition());
     }
 
     @Override

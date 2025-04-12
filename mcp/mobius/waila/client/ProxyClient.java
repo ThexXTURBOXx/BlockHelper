@@ -4,7 +4,9 @@ import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
+import mcp.mobius.waila.handlers.HUDHandlerDev;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.handlers.HUDHandlerEntitiesDev;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
@@ -52,6 +54,12 @@ public class ProxyClient extends ProxyServer {
         WailaRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
         WailaRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
         WailaRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
+
+        if (mod_BlockHelper.DEV_MODE) {
+            WailaRegistrar.instance().addConfig("General", "general.dev", false);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerDev(), Block.class);
+            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEntitiesDev(), Entity.class);
+        }
     }
 
 }
