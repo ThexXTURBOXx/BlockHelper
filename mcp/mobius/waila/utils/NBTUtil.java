@@ -45,7 +45,7 @@ public final class NBTUtil {
         return deepTag;
     }
 
-    public static NBTTagCompound setTag(String key, NBTTagCompound targetTag, NBTBase addedTag) {
+    public static void setTag(String key, NBTTagCompound targetTag, NBTBase addedTag) {
         String[] path = key.split("\\.");
 
         NBTTagCompound deepTag = targetTag;
@@ -58,8 +58,6 @@ public final class NBTUtil {
         }
 
         deepTag.setTag(path[path.length - 1], addedTag);
-
-        return targetTag;
     }
 
     public static NBTTagCompound createTag(NBTTagCompound inTag, HashSet<String> keys) {
@@ -71,7 +69,7 @@ public final class NBTUtil {
             NBTBase tagToAdd = getTag(key, inTag);
             //System.out.printf("%s\n", tagToAdd);
             if (tagToAdd != null)
-                outTag = setTag(key, outTag, tagToAdd);
+                setTag(key, outTag, tagToAdd);
         }
 
         return outTag;

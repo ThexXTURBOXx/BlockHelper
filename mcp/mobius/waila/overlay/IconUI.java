@@ -10,7 +10,12 @@ public enum IconUI {
     HEART(52, 0, 9, 9, 16, 0, 9, 9, "a"),
     HHEART(61, 0, 9, 9, 16, 0, 9, 9, "b"),
     EHEART(16, 0, 9, 9, "c"),
-    BUBBLEEXP(25, 18, 9, 9, "x");
+    ARMOR(34, 9, 9, 9, "d"),
+    HARMOR(25, 9, 9, 9, "e"),
+    EARMOR(16, 9, 9, 9, "f"),
+    BUBBLE(16, 18, 9, 9, "o"),
+    BUBBLEEXP(25, 18, 9, 9, "p"),
+    CURSOR(0, 0, 16, 16, "z");
 
     private final static Map<String, IconUI> lk = new HashMap<String, IconUI>();
 

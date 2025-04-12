@@ -27,16 +27,16 @@ import static mcp.mobius.waila.api.SpecialChars.patternRender;
 import static mcp.mobius.waila.api.SpecialChars.patternTab;
 
 public class Tooltip {
-    public static int TabSpacing = 8;
-    public static int IconSize = 8;
+    public static final int TabSpacing = 8;
+    public static final int IconSize = 8;
 
-    List<List<String>> lines = new ArrayList<List<String>>();
-    List<List<Integer>> sizes = new ArrayList<List<Integer>>();
-    List<Integer> columnsWidth = new ArrayList<Integer>();
-    List<Integer> columnsPos = new ArrayList<Integer>();
+    final List<List<String>> lines = new ArrayList<List<String>>();
+    final List<List<Integer>> sizes = new ArrayList<List<Integer>>();
+    final List<Integer> columnsWidth = new ArrayList<Integer>();
+    final List<Integer> columnsPos = new ArrayList<Integer>();
 
-    List<Renderable> elements = new ArrayList<Renderable>();
-    List<Renderable> elements2nd = new ArrayList<Renderable>();
+    final List<Renderable> elements = new ArrayList<Renderable>();
+    final List<Renderable> elements2nd = new ArrayList<Renderable>();
 
     int w, h, x, y, ty;
     int offsetX;
@@ -45,7 +45,7 @@ public class Tooltip {
     boolean hasIcon = false;
     ItemStack stack;
 
-    ICommonAccessor accessor = DataAccessorCommon.INSTANCE;
+    static final ICommonAccessor accessor = DataAccessorCommon.INSTANCE;
 
     /// //////////////////////////////////Renderable///////////////////////////////////////
     private static class Renderable {

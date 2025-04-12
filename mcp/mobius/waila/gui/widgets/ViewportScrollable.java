@@ -134,7 +134,7 @@ public class ViewportScrollable extends WidgetBase {
 
     @Override
     public void onMouseWheel(MouseEvent event) {
-        this.yOffset += event.z / 120.0 * this.step;
+        this.yOffset += (int) (event.z / 120.0 * this.step);
 
         this.yOffset = Math.max(this.yOffset, this.getSize().getY() - this.attachedWidget.getSize().getY());
         this.yOffset = Math.min(this.yOffset, 0);

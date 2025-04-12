@@ -88,8 +88,6 @@ public class LayoutCanvas extends LayoutBase {
                 this.lastMouseEvent.trgwidget.onMouseLeave(event);
             }
             break;
-        case NONE:
-            break;
         default:
             break;
         }

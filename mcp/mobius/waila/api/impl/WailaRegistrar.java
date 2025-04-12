@@ -22,44 +22,44 @@ public class WailaRegistrar implements IRegistrar {
 
     private static WailaRegistrar instance = null;
 
-    public Map<Class<?>, List<IDataProvider>> headBlockProviders =
+    public final Map<Class<?>, List<IDataProvider>> headBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
-    public Map<Class<?>, List<IDataProvider>> bodyBlockProviders =
+    public final Map<Class<?>, List<IDataProvider>> bodyBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
-    public Map<Class<?>, List<IDataProvider>> tailBlockProviders =
+    public final Map<Class<?>, List<IDataProvider>> tailBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
-    public Map<Class<?>, List<IDataProvider>> stackBlockProviders =
+    public final Map<Class<?>, List<IDataProvider>> stackBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
-    public Map<Class<?>, List<IDataProvider>> NBTDataProviders =
+    public final Map<Class<?>, List<IDataProvider>> NBTDataProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
 
-    public Map<Class<?>, List<IBlockDecorator>> blockClassDecorators =
+    public final Map<Class<?>, List<IBlockDecorator>> blockClassDecorators =
             new LinkedHashMap<Class<?>, List<IBlockDecorator>>();
 
-    public Map<Class<?>, List<IEntityProvider>> headEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> headEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-    public Map<Class<?>, List<IEntityProvider>> bodyEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> bodyEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-    public Map<Class<?>, List<IEntityProvider>> tailEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> tailEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-    public Map<Class<?>, List<IEntityProvider>> overrideEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> overrideEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-    public Map<Class<?>, List<IEntityProvider>> stackEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> stackEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-    public Map<Class<?>, List<IEntityProvider>> NBTEntityProviders =
+    public final Map<Class<?>, List<IEntityProvider>> NBTEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
 
-    public Map<String, List<IFMPProvider>> headFMPProviders =
+    public final Map<String, List<IFMPProvider>> headFMPProviders =
             new LinkedHashMap<String, List<IFMPProvider>>();
-    public Map<String, List<IFMPProvider>> bodyFMPProviders =
+    public final Map<String, List<IFMPProvider>> bodyFMPProviders =
             new LinkedHashMap<String, List<IFMPProvider>>();
-    public Map<String, List<IFMPProvider>> tailFMPProviders =
+    public final Map<String, List<IFMPProvider>> tailFMPProviders =
             new LinkedHashMap<String, List<IFMPProvider>>();
 
-    public Map<String, List<IFMPDecorator>> FMPClassDecorators =
+    public final Map<String, List<IFMPDecorator>> FMPClassDecorators =
             new LinkedHashMap<String, List<IFMPDecorator>>();
 
-    public Map<String, ITooltipRenderer> tooltipRenderers =
+    public final Map<String, ITooltipRenderer> tooltipRenderers =
             new LinkedHashMap<String, ITooltipRenderer>();
 
     private WailaRegistrar() {

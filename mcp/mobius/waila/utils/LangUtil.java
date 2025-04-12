@@ -18,7 +18,7 @@ import java.util.zip.ZipFile;
 public class LangUtil {
 
     public static final LangUtil INSTANCE = new LangUtil(null);
-    public String prefix;
+    public final String prefix;
 
     public LangUtil(final String prefix) {
         this.prefix = prefix;
