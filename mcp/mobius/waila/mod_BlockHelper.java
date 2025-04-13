@@ -75,7 +75,6 @@ public class mod_BlockHelper extends BaseMod {
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
-        MinecraftForge.EVENT_BUS.register(this);
 
         // INIT
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
