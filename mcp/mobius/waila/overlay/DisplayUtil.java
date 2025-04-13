@@ -29,6 +29,10 @@ public class DisplayUtil {
     private static final RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     private static final RenderItem renderItem = new RenderItem();
 
+    static {
+        renderItem.zLevel = 200.0F; // important for enchantment glint
+    }
+
     public static int getDisplayWidth(String s) {
         if (s == null || s.isEmpty())
             return 0;
