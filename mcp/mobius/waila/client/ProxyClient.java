@@ -29,8 +29,6 @@ public class ProxyClient extends ProxyServer {
 
         LangUtil.INSTANCE.addLangDirFromJar(LangUtil.INSTANCE.hostFile(ProxyClient.class), "/assets/waila/lang");
 
-        //TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);
-
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {
                 Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
@@ -39,19 +37,10 @@ public class ProxyClient extends ProxyServer {
             }
         }
 
-        WailaRegistrar.instance().addConfig("General", "general.harvest");
-        WailaRegistrar.instance().addConfig("General", "general.lightlevel");
-        WailaRegistrar.instance().addConfig("General", "general.break");
-
         HUDHandlerBlocks.register();
 
-        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
-        WailaRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
-        WailaRegistrar.instance().registerStackProvider(new HUDHandlerEntities(), Entity.class);
+        HUDHandlerEntities.register();
 
-        //ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
-
-        WailaRegistrar.instance().addConfig("General", "general.showents");
         WailaRegistrar.instance().addConfig("General", "general.showcrop");
 
         WailaRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());

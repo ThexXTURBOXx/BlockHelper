@@ -139,6 +139,10 @@ public class HUDHandlerBlocks implements IDataProvider {
     }
 
     public static void register() {
+        WailaRegistrar.instance().addConfig("General", "general.harvest");
+        WailaRegistrar.instance().addConfig("General", "general.lightlevel");
+        WailaRegistrar.instance().addConfig("General", "general.break");
+
         HUDHandlerBlocks provider = new HUDHandlerBlocks();
         WailaRegistrar.instance().registerHeadProvider(provider, Block.class);
         WailaRegistrar.instance().registerBodyProvider(provider, Block.class);
