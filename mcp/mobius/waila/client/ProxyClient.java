@@ -3,10 +3,10 @@ package mcp.mobius.waila.client;
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.LangUtil;
-import mcp.mobius.waila.handlers.HUDHandlerBlocks;
-import mcp.mobius.waila.handlers.HUDHandlerDev;
-import mcp.mobius.waila.handlers.HUDHandlerEntities;
-import mcp.mobius.waila.handlers.HUDHandlerEntitiesDev;
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
+import mcp.mobius.waila.addons.core.HUDHandlerDev;
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
+import mcp.mobius.waila.addons.core.HUDHandlerEntitiesDev;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
@@ -33,7 +33,7 @@ public class ProxyClient extends ProxyServer {
 
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {
-                Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
+                Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
             } catch (Throwable t) {
                 mod_BlockHelper.LOG.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
             }

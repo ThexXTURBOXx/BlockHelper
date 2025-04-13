@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers.nei;
+package mcp.mobius.waila.addons.nei;
 
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.GuiContainerManager;

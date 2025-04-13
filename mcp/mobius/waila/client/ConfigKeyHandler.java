@@ -62,7 +62,7 @@ public class ConfigKeyHandler {
         if (keyRecipe.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
-                    Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
+                    Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
                             boolean.class).invoke(null, true);
                 } catch (Throwable ignored) {
                 }
@@ -72,7 +72,7 @@ public class ConfigKeyHandler {
         if (keyUsage.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
-                    Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
+                    Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
                             boolean.class).invoke(null, false);
                 } catch (Throwable ignored) {
                 }

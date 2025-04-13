@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.addons.core;
 
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;

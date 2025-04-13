@@ -21,8 +21,8 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.handlers.DecoratorFMP;
-import mcp.mobius.waila.handlers.HUDHandlerFMP;
+import mcp.mobius.waila.addons.core.DecoratorFMP;
+import mcp.mobius.waila.addons.core.HUDHandlerFMP;
 import mcp.mobius.waila.mod_BlockHelper;
 
 public class ProxyServer {

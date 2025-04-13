@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;

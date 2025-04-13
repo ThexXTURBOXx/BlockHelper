@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.addons.core;
 
 import java.util.List;
 import java.util.logging.Level;
