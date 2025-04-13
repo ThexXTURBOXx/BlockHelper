@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -130,11 +131,12 @@ public class HUDHandlerVanilla implements IDataProvider {
 
         if (config.get("vanilla.comparator"))
             if ((block == comparatorIdl) || (block == comparatorAct)) {
-                String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? LangUtil.translateG("hud.msg.comparator") :
-                        LangUtil.translateG("hud.msg.substractor");
-                //int outputSignal = ((TileEntityComparator)entity).func_96100_a();
+                String mode = ((accessor.getMetadata() >> 2) & 1) == 0
+                        ? LangUtil.translateG("hud.msg.comparator")
+                        : LangUtil.translateG("hud.msg.subtractor");
+                int outputSignal = accessor.getNBTInteger("OutputSignal");
                 currenttip.add("Mode : " + mode);
-                //currenttip.add(String.format("Out : %s", outputSignal));
+                currenttip.add(String.format("Out : %s", outputSignal));
             }
 
         if (config.get("vanilla.redstone"))
@@ -142,19 +144,23 @@ public class HUDHandlerVanilla implements IDataProvider {
                 currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.power"), accessor.getMetadata()));
             }
 
-		/*
-		if (config.getConfig("vanilla.jukebox"))
-			if (block == jukebox){
-				NBTTagCompound tag = accessor.getNBTData();
-				Item record = null;
-				if (tag.hasKey("Record")){
-					record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
-					currenttip.add(((ItemRecord)record).getRecordTitle());
-				} else {
-					currenttip.add(LangUtil.translateG("hud.msg.empty"));
-				}
-			}
-		*/
+        if (config.get("vanilla.jukebox"))
+            if (block == jukebox) {
+                NBTTagCompound tag = accessor.getNBTData();
+                Item record = null;
+
+                if (tag.hasKey("RecordItem")) {
+                    ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("RecordItem"));
+                    record = stack == null ? null : stack.getItem();
+                }
+
+                if (record == null && tag.hasKey("Record"))
+                    record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
+
+                currenttip.add(record == null
+                        ? LangUtil.translateG("hud.msg.empty")
+                        : ((ItemRecord) record).getRecordTitle());
+            }
     }
 
     @Override

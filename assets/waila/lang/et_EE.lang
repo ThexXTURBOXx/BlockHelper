@@ -89,7 +89,7 @@ hud.msg.on=Sees
 hud.msg.state=Seis
 hud.msg.delay=Viivitus
 hud.msg.comparator=Võrdleja
-hud.msg.substractor=Substractor
+hud.msg.subtractor=Subtractor
 hud.msg.record=Heliplaat
 
 hud.msg.offers=Pakkumised

@@ -25,8 +25,8 @@ import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
-@NetworkMod(channels = {mod_BlockHelper.CHANNEL}, connectionHandler = WailaConnectionHandler.class, packetHandler =
-        WailaPacketHandler.class)
+@NetworkMod(channels = {mod_BlockHelper.CHANNEL}, connectionHandler = WailaConnectionHandler.class,
+        packetHandler = WailaPacketHandler.class)
 public class mod_BlockHelper extends BaseMod {
 
     public static final String PACKAGE = "mcp.mobius.waila.";

@@ -87,7 +87,7 @@ hud.msg.on=On
 hud.msg.state=Etat
 hud.msg.delay=Retard
 hud.msg.comparator=Comparateur
-hud.msg.substractor=Soustracteur
+hud.msg.subtractor=Soustracteur
 hud.msg.record=Disque
 
 hud.msg.offers=Offre

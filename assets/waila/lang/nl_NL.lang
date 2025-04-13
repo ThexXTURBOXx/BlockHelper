@@ -57,7 +57,7 @@ hud.msg.frequency=Frequentie
 hud.msg.owner=Eigenaar
 hud.msg.public=Publiek
 hud.msg.restricted=Begrensd
-hud.msg.private=Privé
+hud.msg.private=Privï¿½
 
 hud.msg.white=Wit
 hud.msg.orange=Oranje
@@ -83,7 +83,7 @@ hud.msg.on=Aan
 hud.msg.state=Status
 hud.msg.delay=Vertraging
 hud.msg.comparator=Vergelijker
-hud.msg.substractor=Aftrekker
+hud.msg.subtractor=Aftrekker
 hud.msg.record=Neem op
 
 option.appeng.monitorcontent=Scherm inhoud

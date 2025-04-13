@@ -28,8 +28,8 @@ public class HUDHandlerEnergyCell implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         if (!config.get("thermalexpansion.energycell")) return;
 
-        int energyReceive = accessor.getNBTInteger(accessor.getNBTData(), "Recv");
-        int energySend = accessor.getNBTInteger(accessor.getNBTData(), "Send");
+        int energyReceive = accessor.getNBTInteger("Recv");
+        int energySend = accessor.getNBTInteger("Send");
 
         currenttip.add(String.format("%s/%s : %d / %d RF/t", LangUtil.translateG("hud.msg.in"), LangUtil.translateG(
                 "hud.msg.out"), energyReceive, energySend));

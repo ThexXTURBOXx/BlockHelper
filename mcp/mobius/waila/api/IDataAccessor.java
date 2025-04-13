@@ -39,6 +39,8 @@ public interface IDataAccessor {
 
     NBTTagCompound getNBTData();
 
+    int getNBTInteger(String keyname);
+
     int getNBTInteger(NBTTagCompound tag, String keyname);
 
     double getPartialFrame();

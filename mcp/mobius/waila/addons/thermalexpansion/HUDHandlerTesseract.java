@@ -35,7 +35,7 @@ public class HUDHandlerTesseract implements IDataProvider {
             String energ = String.format("\u00a7c%s ", LangUtil.translateG("hud.msg.energ"));
 
 
-            switch (accessor.getNBTInteger(accessor.getNBTData(), "Item.Mode")) {
+            switch (accessor.getNBTInteger("Item.Mode")) {
             case 0:
                 send += item;
                 break;
@@ -48,7 +48,7 @@ public class HUDHandlerTesseract implements IDataProvider {
                 break;
             }
 
-            switch (accessor.getNBTInteger(accessor.getNBTData(), "Fluid.Mode")) {
+            switch (accessor.getNBTInteger("Fluid.Mode")) {
             case 0:
                 send += fluid;
                 break;
@@ -61,7 +61,7 @@ public class HUDHandlerTesseract implements IDataProvider {
                 break;
             }
 
-            switch (accessor.getNBTInteger(accessor.getNBTData(), "Energy.Mode")) {
+            switch (accessor.getNBTInteger("Energy.Mode")) {
             case 0:
                 send += energ;
                 break;
@@ -83,7 +83,7 @@ public class HUDHandlerTesseract implements IDataProvider {
 
         if (config.get("thermalexpansion.tessfreq"))
             currenttip.add(String.format("%s : %d", LangUtil.translateG("hud.msg.frequency"),
-                    accessor.getNBTInteger(accessor.getNBTData(), "Frequency")));
+                    accessor.getNBTInteger("Frequency")));
     }
 
     @Override

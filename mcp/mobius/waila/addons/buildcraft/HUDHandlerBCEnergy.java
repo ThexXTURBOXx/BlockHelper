@@ -29,8 +29,8 @@ public class HUDHandlerBCEnergy implements IDataProvider {
         if (!config.get("bcapi.storage")) return;
         if (!accessor.getNBTData().hasKey("Energy")) return;
 
-        int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
-        int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
+        int energy = accessor.getNBTInteger("Energy");
+        int maxEnergy = accessor.getNBTInteger("MaxStorage");
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
                 currenttip.add(String.format("%d / %d MJ", energy, maxEnergy), "MJEnergyStorage");

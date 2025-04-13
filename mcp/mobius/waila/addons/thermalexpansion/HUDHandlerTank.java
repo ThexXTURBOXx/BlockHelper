@@ -51,7 +51,7 @@ public class HUDHandlerTank implements IDataProvider {
             if (config.get("thermalexpansion.fluidamount")) {
                 int amount = 0;
                 if (accessor.getNBTData().hasKey("Amount"))
-                    amount = accessor.getNBTInteger(accessor.getNBTData(), "Amount");
+                    amount = accessor.getNBTInteger("Amount");
 
                 Integer capacity =
                         (Integer) ThermalExpansionModule.TileTank_getTankCapacity.invoke(accessor.getTileEntity());

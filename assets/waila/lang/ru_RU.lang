@@ -89,7 +89,7 @@ hud.msg.on=Вкл.
 hud.msg.state=Статус
 hud.msg.delay=Задержка
 hud.msg.comparator=Компаратор
-hud.msg.substractor=Вычитатель
+hud.msg.subtractor=Вычитатель
 hud.msg.record=Пластинка
 
 hud.msg.offers=Предложения

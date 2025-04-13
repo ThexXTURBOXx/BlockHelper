@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.client.Minecraft;
@@ -26,13 +28,18 @@ public class BlockHelperUpdater implements Runnable {
         try {
             // Fix older versions of Java
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-            latestVersion = getLatestModVersion(new URL(JSON_URL).openStream());
-            if (!mod_BlockHelper.VERSION.equals(latestVersion)) {
-                mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newer_version_available",
-                        mod_BlockHelper.NAME, latestVersion));
+            List<String> latestVersions = getLatestModVersions(new URL(JSON_URL).openStream());
+            if (latestVersions.isEmpty()) {
+                throw new IllegalStateException("Version not found.");
             } else {
-                mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newest_version_installed",
-                        mod_BlockHelper.NAME));
+                latestVersion = latestVersions.get(0);
+                if (latestVersions.contains(mod_BlockHelper.VERSION)) {
+                    mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newest_version_installed",
+                            mod_BlockHelper.NAME));
+                } else {
+                    mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newer_version_available",
+                            mod_BlockHelper.NAME, latestVersion));
+                }
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, LangUtil.translateG("waila.update_check_failed",
@@ -58,23 +65,23 @@ public class BlockHelperUpdater implements Runnable {
         return latestVersion;
     }
 
-    private String getLatestModVersion(InputStream is) throws IOException {
+    private List<String> getLatestModVersions(InputStream is) throws IOException {
+        List<String> versions = new ArrayList<String>();
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
         try {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] split = line.split(",", 2);
-                if (mod_BlockHelper.MC_VERSION.equals(split[0])) {
-                    return split[1];
-                }
+                String[] split = line.split(",");
+                if (mod_BlockHelper.MC_VERSION.equals(split[0]))
+                    versions.add(split[1]);
             }
-            throw new IllegalArgumentException("Version not found.");
         } finally {
             is.close();
             isr.close();
             br.close();
         }
+        return versions;
     }
 
     public void notifyUpdater(Minecraft mc) {
