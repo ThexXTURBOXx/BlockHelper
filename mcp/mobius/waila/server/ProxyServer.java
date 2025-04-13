@@ -13,7 +13,6 @@ import mcp.mobius.waila.addons.forge.ForgeModule;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
-import mcp.mobius.waila.addons.railcraft.RailcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerCrops;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
@@ -35,28 +34,28 @@ public class ProxyServer {
         HUDHandlerCrops.register();
         HUDHandlerFurnace.register();
 
-        /* ADVANCED MACHINES */
+        /* Advanced Machines */
         AdvMachinesModule.register();
 
-        /* ADVANCED SOLAR PANELS */
+        /* Advanced Solar Panels */
         AdvSolarsModule.register();
 
-        /* APPLIED ENERGISTICS */
+        /* Applied Energistics */
         AppEngModule.register();
 
-        /* BUILDCRAFT */
+        /* BuildCraft */
         BCModule.register();
 
-        /* EQUIVALENT EXCHANGE */
+        /* Equivalent Exchange */
         EEModule.register();
 
-        /* FORGE */
+        /* Forge */
         ForgeModule.register();
 
-        /* INDUSTRIALCRAFT2 */
+        /* IC2 */
         IC2Module.register();
 
-        /*EnderStorage*/
+        /* EnderStorage */
         EnderStorageModule.register();
 
         /* Thermal Expansion */
@@ -64,9 +63,6 @@ public class ProxyServer {
 
         /* ProjectRed API */
         ProjectRedModule.register();
-
-        /* Railcraft */
-        RailcraftModule.register();
 
         /* Pam's HarvestCraft */
         HarvestcraftModule.register();

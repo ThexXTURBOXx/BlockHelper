@@ -60,10 +60,10 @@ public final class SpecialChars {
      * @param params The parameters to pass to the renderer
      * @return The special RENDER string
      */
-    public static String getRenderString(String name, String... params) {
+    public static String getRenderString(String name, Object... params) {
         StringBuilder result = new StringBuilder(RENDER + "{" + name);
-        for (String s : params) {
-            result.append(",").append(s);
+        for (Object o : params) {
+            result.append(",").append(o);
         }
         result.append("}");
         return result.toString();

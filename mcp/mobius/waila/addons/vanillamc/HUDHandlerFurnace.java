@@ -46,7 +46,7 @@ public class HUDHandlerFurnace implements IDataProvider {
 
             String renderStr = (inv[0] == null ? "" : getItemRenderString(inv[0]))
                                + (inv[1] == null ? "" : getItemRenderString(inv[1]))
-                               + SpecialChars.getRenderString("waila.progress", cookTime + "", "200")
+                               + SpecialChars.getRenderString("waila.progress", cookTime, 200)
                                + getItemRenderString(inv[2]);
 
             currenttip.add(renderStr);
@@ -57,7 +57,8 @@ public class HUDHandlerFurnace implements IDataProvider {
         boolean empty = stack == null;
         String id = (empty ? 0 : stack.getItem().itemID) + "";
         return SpecialChars.getRenderString("waila.stack",
-                "1", id, (empty ? 1 : stack.stackSize) + "", (empty ? 0 : stack.getItemDamage()) + "");
+                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage(),
+                !empty && stack.isItemEnchanted());
     }
 
     @Override

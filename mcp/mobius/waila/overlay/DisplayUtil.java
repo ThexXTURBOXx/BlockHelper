@@ -15,8 +15,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
@@ -71,29 +71,17 @@ public class DisplayUtil {
 
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
-        enable3DRender();
-        RenderHelper.enableGUIStandardItemLighting();
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glEnable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+        RenderHelper.enableGUIStandardItemLighting();
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         try {
             renderItem.renderItemAndEffectIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, "renderStack | " + stack, null);
         }
-        GL11.glDisable(EXTRescaleNormal.GL_RESCALE_NORMAL_EXT);
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
-        enable2DRender();
-    }
-
-    public static void enable3DRender() {
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-    }
-
-    public static void enable2DRender() {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
     }
 
     public static void drawGradientRect(int x, int y, int w, int h, int grad1, int grad2) {
@@ -142,10 +130,7 @@ public class DisplayUtil {
     }
 
     public static void drawString(String text, int x, int y, int colour, boolean shadow) {
-        if (shadow)
-            fontRenderer.drawStringWithShadow(text, x, y, colour);
-        else
-            fontRenderer.drawString(text, x, y, colour);
+        fontRenderer.drawString(text, x, y, colour, shadow);
     }
 
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {

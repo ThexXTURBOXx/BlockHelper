@@ -9,18 +9,6 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class ThermalExpansionModule {
 
-    public static Class<?> IEnergyProvider = null;
-    public static Method IEnergyProvider_getMaxStorage = null;
-    public static Method IEnergyProvider_getCurStorage = null;
-
-    public static Class<?> IEnergyReceiver = null;
-    public static Method IEnergyReceiver_getMaxStorage = null;
-    public static Method IEnergyReceiver_getCurStorage = null;
-
-    public static Class<?> IEnergyInfo = null;
-    public static Method IEnergyInfo_getMaxStorage = null;
-    public static Method IEnergyInfo_getCurStorage = null;
-
     public static Class<?> TileEnergyCell = null;
     public static Field TileEnergyCell_Recv = null;
     public static Field TileEnergyCell_Send = null;
@@ -36,39 +24,7 @@ public class ThermalExpansionModule {
     public static Field TileTesseract_Fluid = null;
     public static Field TileTesseract_Energy = null;
 
-    public static Class<?> TileCache = null;
-    public static Method TileCache_getItemStack = null;
-    public static Method TileCache_getMaxStored = null;
-    public static Method TileCache_getStored = null;
-
     public static void register() {
-        // XXX : We register the Energy interface first
-        try {
-            IEnergyProvider = Class.forName("cofh.api.energy.IEnergyProvider");
-            IEnergyProvider_getMaxStorage = IEnergyProvider.getMethod("getMaxEnergyStored", ForgeDirection.class);
-            IEnergyProvider_getCurStorage = IEnergyProvider.getMethod("getEnergyStored", ForgeDirection.class);
-
-            IEnergyReceiver = Class.forName("cofh.api.energy.IEnergyReceiver");
-            IEnergyReceiver_getMaxStorage = IEnergyReceiver.getMethod("getMaxEnergyStored", ForgeDirection.class);
-            IEnergyReceiver_getCurStorage = IEnergyReceiver.getMethod("getEnergyStored", ForgeDirection.class);
-
-            IEnergyInfo = Class.forName("cofh.api.tileentity.IEnergyInfo");
-            IEnergyInfo_getMaxStorage = IEnergyInfo.getMethod("getInfoMaxEnergyStored");
-            IEnergyInfo_getCurStorage = IEnergyInfo.getMethod("getInfoEnergyStored");
-
-
-            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
-            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
-            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
-            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
-
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks.", t);
-        }
-
         // XXX : We register the energy cell
         try {
             TileEnergyCell = Class.forName("cofh.thermalexpansion.block.cell.TileCell");
@@ -113,22 +69,6 @@ public class ThermalExpansionModule {
             WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
             WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
             WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTesseract(), TileTesseract);
-
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
-        }
-
-        // XXX : We register the Cache interface
-        try {
-            TileCache = Class.forName("cofh.thermalexpansion.block.cache.TileCache");
-            TileCache_getItemStack = TileCache.getDeclaredMethod("getStoredItemType");
-            TileCache_getMaxStored = TileCache.getDeclaredMethod("getMaxStoredCount");
-            TileCache_getStored = TileCache.getDeclaredMethod("getStoredCount");
-
-            WailaRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.cache");
-            WailaRegistrar.instance().registerHeadProvider(new HUDHandlerCache(), TileCache);
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerCache(), TileCache);
-            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerCache(), TileCache);
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);

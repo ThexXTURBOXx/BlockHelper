@@ -8,8 +8,10 @@ import mcp.mobius.waila.addons.core.HUDHandlerEntitiesDev;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.block.Block;
@@ -44,8 +46,10 @@ public class ProxyClient extends ProxyServer {
         WailaRegistrar.instance().addConfig("General", "general.showcrop");
 
         WailaRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
-        WailaRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.icon", new TTRenderIcon());
         WailaRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
+        WailaRegistrar.instance().registerTooltipRenderer("waila.string", new TTRenderString());
 
         if (mod_BlockHelper.DEV_MODE) {
             WailaRegistrar.instance().addConfig("General", "general.dev", false);

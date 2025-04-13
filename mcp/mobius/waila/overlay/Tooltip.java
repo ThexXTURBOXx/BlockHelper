@@ -53,14 +53,10 @@ public class Tooltip {
         final Point pos;
         final String[] params;
 
-        public Renderable(ITooltipRenderer renderer, Point pos, String[] params) {
+        public Renderable(ITooltipRenderer renderer, Point pos, String... params) {
             this.renderer = renderer;
             this.pos = pos;
             this.params = params;
-        }
-
-        public Renderable(ITooltipRenderer renderer, Point pos) {
-            this(renderer, pos, new String[]{});
         }
 
         public Point getPos() {
@@ -169,8 +165,8 @@ public class Tooltip {
                             this.elements2nd.add(renderable);
                         }
                     } else if (iconMatcher.find()) {
-                        renderable = new Renderable(new TTRenderIcon(iconMatcher.group(1)), new Point(offsetX,
-                                offsetY));
+                        renderable = new Renderable(new TTRenderIcon(), new Point(offsetX, offsetY),
+                                iconMatcher.group(1));
                         this.elements2nd.add(renderable);
                     } else {
                         if (cs.startsWith(ALIGNRIGHT))
@@ -179,8 +175,8 @@ public class Tooltip {
                         if (cs.startsWith(ALIGNCENTER))
                             offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
 
-                        renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(cs)),
-                                new Point(offsetX, offsetY));
+                        renderable = new Renderable(new TTRenderString(), new Point(offsetX, offsetY),
+                                DisplayUtil.stripWailaSymbols(cs));
                         this.elements.add(renderable);
                     }
 

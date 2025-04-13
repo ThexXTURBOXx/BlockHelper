@@ -54,8 +54,7 @@ public class HUDHandlerEntities implements IEntityProvider {
                             maxhp));
 
                 else {
-                    currenttip.add(getRenderString("waila.health", String.valueOf(nhearts),
-                            String.valueOf(healthHearts), String.valueOf(maxhpHearts)));
+                    currenttip.add(getRenderString("waila.health", nhearts, healthHearts, maxhpHearts));
                 }
             }
     }

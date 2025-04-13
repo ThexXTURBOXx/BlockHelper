@@ -10,7 +10,7 @@ public class HarvestcraftModule {
 
     public static void register() {
         try {
-            Class<?> PamHarvestCraft = Class.forName("assets.pamharvestcraft.PamHarvestCraft");
+            Class.forName("assets.pamharvestcraft.PamHarvestCraft");
             mod_BlockHelper.LOG.log(Level.INFO, "PamHarvestCraft mod found.");
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] PamHarvestCraft mod not found.");
