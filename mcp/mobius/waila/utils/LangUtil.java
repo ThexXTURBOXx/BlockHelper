@@ -20,15 +20,15 @@ public class LangUtil {
     public static final LangUtil INSTANCE = new LangUtil(null);
     public final String prefix;
 
-    public LangUtil(final String prefix) {
+    public LangUtil(String prefix) {
         this.prefix = prefix;
     }
 
-    public static String translateG(final String s, final Object... format) {
+    public static String translateG(String s, Object... format) {
         return LangUtil.INSTANCE.translate(s, format);
     }
 
-    public String translate(String s, final Object... format) {
+    public String translate(String s, Object... format) {
         if (this.prefix != null && !s.startsWith(this.prefix + ".")) {
             s = this.prefix + "." + s;
         }
@@ -45,25 +45,25 @@ public class LangUtil {
         return ret;
     }
 
-    public LangUtil addLangDirectory(final Class<?> mod) {
-        final String dir = (this.prefix == null) ? "lang" : ("lang/" + this.prefix);
+    public LangUtil addLangDirectory(Class<?> mod) {
+        String dir = (this.prefix == null) ? "lang" : ("lang/" + this.prefix);
         return this.addLangDirectory(mod, dir);
     }
 
-    public LangUtil addLangDirectory(final Class<?> mod, final String dir) {
+    public LangUtil addLangDirectory(Class<?> mod, String dir) {
         this.addLangDirectory(this.hostFile(mod), dir);
         return this;
     }
 
-    public void addLangFile(final InputStream resource, final String lang) throws IOException {
-        final LanguageRegistry reg = LanguageRegistry.instance();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
+    public void addLangFile(InputStream resource, String lang) throws IOException {
+        LanguageRegistry reg = LanguageRegistry.instance();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
         Properties prop = new Properties();
         prop.load(reader);
         reader.close();
         for (String key : prop.stringPropertyNames()) {
             if (key == null) continue;
-            final String value = prop.getProperty(key);
+            String value = prop.getProperty(key);
             if (this.prefix != null) {
                 key = this.prefix + "." + key;
             }
@@ -71,11 +71,11 @@ public class LangUtil {
         }
     }
 
-    public void addLangDirectory(final File host, final String dir) {
+    public void addLangDirectory(File host, String dir) {
         if (host.isFile()) {
             this.addLangDirFromJar(host, dir);
         } else {
-            final File hostdir = new File(host, dir);
+            File hostdir = new File(host, dir);
             if (!hostdir.exists()) {
                 System.err.println("Lang directory \"" + dir + "\" not found in " + host.getPath());
             } else if (hostdir.isDirectory()) {
@@ -88,10 +88,10 @@ public class LangUtil {
         }
     }
 
-    public void addLangDir(final File dir) {
+    public void addLangDir(File dir) {
         File[] listFiles;
         for (int length = (listFiles = dir.listFiles()).length, i = 0; i < length; ++i) {
-            final File child = listFiles[i];
+            File child = listFiles[i];
             if (child.isDirectory()) {
                 this.addLangDir(child);
             } else if (child.getName().endsWith(".lang")) {
@@ -100,41 +100,41 @@ public class LangUtil {
         }
     }
 
-    public void addLangFile(final File child) {
+    public void addLangFile(File child) {
         try {
-            final String lang = child.getName().substring(0, child.getName().lastIndexOf('.'));
-            final FileInputStream fin = new FileInputStream(child);
+            String lang = child.getName().substring(0, child.getName().lastIndexOf('.'));
+            FileInputStream fin = new FileInputStream(child);
             this.addLangFile(fin, lang);
             fin.close();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             System.err.println("Error occurred while loading lang file: " + child.getPath());
             e.printStackTrace();
         }
     }
 
-    public void addLangDirFromJar(final File jar, String dir) {
+    public void addLangDirFromJar(File jar, String dir) {
         while (dir.startsWith("/")) {
             dir = dir.substring(1);
         }
         try {
-            final ZipFile zf = new ZipFile(jar);
-            final Enumeration<? extends ZipEntry> entries = zf.entries();
+            ZipFile zf = new ZipFile(jar);
+            Enumeration<? extends ZipEntry> entries = zf.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
-                final String name = entry.getName();
+                String name = entry.getName();
                 if (!entry.isDirectory() && name.startsWith(dir) && name.endsWith(".lang")) {
                     this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1,
                             name.lastIndexOf('.')));
                 }
             }
             zf.close();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             System.err.println("Error while reading lang zip file: " + jar.getPath());
             e.printStackTrace();
         }
     }
 
-    public File hostFile(final Class<?> clazz) {
+    public File hostFile(Class<?> clazz) {
         URL url = clazz.getProtectionDomain().getCodeSource().getLocation();
         try {
             String p = url.getPath();

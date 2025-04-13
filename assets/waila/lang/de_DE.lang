@@ -38,6 +38,8 @@ waila.keybind.testing=[Waila] Testen
 client.msg.norecipe=Kein Rezept gefunden.
 client.msg.nousage=Keine Nutzung gefunden.
 
+hud.msg.please_report=Bitte melde dies!
+
 hud.msg.none=<Nichts>
 hud.msg.empty=<Leer>
 hud.msg.output=Output
@@ -96,6 +98,14 @@ hud.msg.record=Platte
 hud.msg.offers=Angebote
 hud.msg.demands=Bedarf
 
+hud.msg.light_level=§7Lichtlevel: %s §e(%s)
+
+hud.msg.harvestable=§a✔ §r§7Aktuell abbaubar
+hud.msg.not_harvestable=§4✘ §r§7Aktuell nicht abbaubar
+hud.msg.unbreakable=§4✘ §r§7Unzerstörbar
+
+hud.msg.break_progression=§7Abbaufortschritt: %s
+
 option.appeng.monitorcontent=Monitorinhalt
 option.bb.content=Fassinhalt
 option.bc.tankamount=Flüssigk.-Menge
@@ -147,6 +157,9 @@ option.stevescarts.shifttoggle=Schleichend Umschalten
 option.general.showents=Zeige Objekte
 option.general.showhp=Zeige Gesundheit von Lebewesen
 option.general.showcrop=Zeige Pflanzenwachstum
+option.general.harvest=Zeige Abbaubarkeit
+option.general.break=Zeige Abbaufortschritt
+option.general.lightlevel=Zeige Lichtlevel
 option.thaumcraft.aspects=Zeige Aspekte
 
 nei.options.keys.showenchant=Zeige Verzauberungswerte

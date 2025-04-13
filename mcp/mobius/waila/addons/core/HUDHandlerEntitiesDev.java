@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,7 +35,7 @@ public class HUDHandlerEntitiesDev implements IEntityProvider {
     @Override
     public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (!PluginConfig.instance().get("general.dev")) return;
+        if (!mod_BlockHelper.DEV_MODE || !PluginConfig.instance().get("general.dev")) return;
 
         if (accessor.getEntity() != null)
             currenttip.add(accessor.getEntity().getClass().getName());

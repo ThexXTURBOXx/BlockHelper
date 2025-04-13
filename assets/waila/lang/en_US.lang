@@ -38,6 +38,8 @@ waila.keybind.testing=[Waila] Testing
 client.msg.norecipe=No recipe found.
 client.msg.nousage=No usage found.
 
+hud.msg.please_report=Please report this!
+
 hud.msg.none=<None>
 hud.msg.empty=<Empty>
 hud.msg.output=Output
@@ -96,6 +98,14 @@ hud.msg.record=Record
 hud.msg.offers=Offers
 hud.msg.demands=Demands
 
+hud.msg.light_level=§7Light level: %s §e(%s)
+
+hud.msg.harvestable=§a✔ §r§7Currently harvestable
+hud.msg.not_harvestable=§4✘ §r§7Currently not harvestable
+hud.msg.unbreakable=§4✘ §r§7Unbreakable
+
+hud.msg.break_progression=§7Break Progress: %s
+
 option.appeng.monitorcontent=Monitor's content
 option.bb.content=Barrel's content
 option.bc.tankamount=Liquid amount
@@ -147,6 +157,9 @@ option.stevescarts.shifttoggle=Shift toggle
 option.general.showents=Show entities
 option.general.showhp=Show entities health
 option.general.showcrop=Show crop growth
+option.general.harvest=Show harvestability
+option.general.break=Show break progression
+option.general.lightlevel=Show light level
 option.thaumcraft.aspects=Show aspects
 
 nei.options.keys.showenchant=Show enchanting values

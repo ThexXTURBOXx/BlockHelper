@@ -19,7 +19,7 @@ public final class LiquidHelper {
     public static ILiquidTank getTank(IDataAccessor accessor) {
         try {
             ILiquidTank[] tanks = ((ITankContainer) accessor.getTileEntity()).getTanks(ForgeDirection.UNKNOWN);
-            return tanks.length > 0 ? tanks[0] : null;
+            return tanks == null || tanks.length == 0 ? null : tanks[0];
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.SEVERE,
                     "[Forge] Unhandled exception trying to access a tank for display!\n", t);

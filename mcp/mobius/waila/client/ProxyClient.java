@@ -1,17 +1,17 @@
 package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.addons.core.HUDHandlerDev;
 import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.addons.core.HUDHandlerEntitiesDev;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.src.ModLoader;
@@ -39,8 +39,11 @@ public class ProxyClient extends ProxyServer {
             }
         }
 
-        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
-        WailaRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
+        WailaRegistrar.instance().addConfig("General", "general.harvest");
+        WailaRegistrar.instance().addConfig("General", "general.lightlevel");
+        WailaRegistrar.instance().addConfig("General", "general.break");
+
+        HUDHandlerBlocks.register();
 
         WailaRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
         WailaRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);

@@ -1,18 +1,28 @@
 package mcp.mobius.waila.addons.core;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 
@@ -20,6 +30,8 @@ import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
 public class HUDHandlerBlocks implements IDataProvider {
+
+    private static Field curBlockDamageMP;
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -62,6 +74,13 @@ public class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
+        Block b = accessor.getBlock();
+        int meta = accessor.getMetadata();
+        World w = accessor.getWorld();
+        int x = accessor.getPosition().blockX;
+        int y = accessor.getPosition().blockY;
+        int z = accessor.getPosition().blockZ;
+
 		/*
 		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false)
 		&& currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
@@ -69,6 +88,40 @@ public class HUDHandlerBlocks implements IDataProvider {
 			currenttip.add(ITALIC + "Press shift for more data");
 		}
 		*/
+
+        if (PluginConfig.instance().get("general.harvest")) {
+            String harvest = "hud.msg.please_report";
+            if (b != null) {
+                if (b.getBlockHardness(w, x, y, z) < 0.0F) {
+                    harvest = "hud.msg.unbreakable";
+                } else if (b.canHarvestBlock(accessor.getPlayer(), meta)) {
+                    harvest = "hud.msg.harvestable";
+                } else {
+                    harvest = "hud.msg.not_harvestable";
+                }
+            }
+            currenttip.add(LangUtil.translateG(harvest));
+        }
+
+        if (PluginConfig.instance().get("general.lightlevel") &&
+            SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.creature, w, x, y + 1, z)) {
+            int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
+            String blockLight = (blockLightLevel <= 7 ? "§4" : "§a") + blockLightLevel;
+            String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
+            currenttip.add(LangUtil.translateG("hud.msg.light_level", blockLight, skyLight));
+        }
+
+        if (PluginConfig.instance().get("general.break")) {
+            try {
+                float curBlockDamage = curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
+                if (curBlockDamage > 0) {
+                    String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
+                    currenttip.add(LangUtil.translateG("hud.msg.break_progression", progress));
+                }
+            } catch (Throwable t) {
+                throw new RuntimeException(t);
+            }
+        }
     }
 
     @Override
@@ -83,6 +136,25 @@ public class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
+    }
+
+    public static void register() {
+        HUDHandlerBlocks provider = new HUDHandlerBlocks();
+        WailaRegistrar.instance().registerHeadProvider(provider, Block.class);
+        WailaRegistrar.instance().registerBodyProvider(provider, Block.class);
+        WailaRegistrar.instance().registerTailProvider(provider, Block.class);
+
+        try {
+            curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("curBlockDamageMP");
+            curBlockDamageMP.setAccessible(true);
+        } catch (Throwable t) {
+            try {
+                curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("field_78770_f");
+                curBlockDamageMP.setAccessible(true);
+            } catch (Throwable t1) {
+                throw new RuntimeException(t1);
+            }
+        }
     }
 
 }

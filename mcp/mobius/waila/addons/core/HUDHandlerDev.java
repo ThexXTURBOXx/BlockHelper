@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public class HUDHandlerDev implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (!PluginConfig.instance().get("general.dev")) return;
+        if (!mod_BlockHelper.DEV_MODE || !PluginConfig.instance().get("general.dev")) return;
 
         if (accessor.getBlock() != null)
             currenttip.add(accessor.getBlock().getClass().getName());
