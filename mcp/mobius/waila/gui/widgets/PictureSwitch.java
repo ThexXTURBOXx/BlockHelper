@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.widgets;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
@@ -20,7 +21,7 @@ public class PictureSwitch extends WidgetBase {
 
     @Override
     public void draw(Point pos) {
-        this.saveGLState();
+        GLState state = new GLState();
 
         String texture = mouseOver ? this.texture2 : this.texture1;
 
@@ -29,7 +30,7 @@ public class PictureSwitch extends WidgetBase {
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
         GL11.glPopMatrix();
 
-        this.loadGLState();
+        state.reset();
     }
 
     @Override

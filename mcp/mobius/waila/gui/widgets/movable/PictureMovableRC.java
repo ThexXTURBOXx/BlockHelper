@@ -5,6 +5,7 @@ import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
+import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
@@ -50,14 +51,14 @@ public class PictureMovableRC extends WidgetBase {
 
     @Override
     public void draw(Point pos) {
-        this.saveGLState();
+        GLState state = new GLState();
 
         GL11.glPushMatrix();
         this.renderEngine.bindTexture(texture);
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
         GL11.glPopMatrix();
 
-        this.loadGLState();
+        state.reset();
     }
 
 }

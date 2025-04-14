@@ -6,13 +6,15 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
+import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 public abstract class ButtonBase extends WidgetBase {
 
+    protected static final String WIDGETS_TEXTURE = "/gui/gui.png";
+
     protected boolean mouseOver = false;
-    protected static String widgetsTexture = "/gui/gui.png";
 
     public ButtonBase(IWidget parent) {
         super(parent);
@@ -24,27 +26,21 @@ public abstract class ButtonBase extends WidgetBase {
 
         for (IWidget widget : this.widgets.values())
             if (widget instanceof LabelFixedFont)
-                if (this.mouseOver)
-                    ((LabelFixedFont) widget).setColor(0xffffa0);
-                else
-                    ((LabelFixedFont) widget).setColor(0xffffff);
+                ((LabelFixedFont) widget).setColor(this.mouseOver ? 0xffffa0 : 0xffffff);
 
         super.draw();
     }
 
     @Override
     public void draw(Point pos) {
-        this.saveGLState();
-        int texOffset = 0;
+        GLState state = new GLState();
 
-        if (this.mouseOver)
-            texOffset = 1;
+        this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
+        int texOffset = this.mouseOver ? 1 : 0;
+        UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(), this.getSize().getY(),
+                0, 66 + texOffset * 20, 200, 20);
 
-        this.mc.renderEngine.bindTexture(widgetsTexture);
-        UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(), this.getSize().getY()
-                , 0, 66 + texOffset * 20, 200, 20);
-
-        this.loadGLState();
+        state.reset();
     }
 
     @Override
@@ -69,4 +65,5 @@ public abstract class ButtonBase extends WidgetBase {
 
         this.emit(Signal.CLICKED, event.button);
     }
+
 }

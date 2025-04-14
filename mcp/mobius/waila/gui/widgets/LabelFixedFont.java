@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.widgets;
 
+import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
@@ -48,8 +49,8 @@ public class LabelFixedFont extends WidgetBase {
 
     @Override
     public void draw(Point pos) {
-        this.saveGLState();
+        GLState state = new GLState();
         this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
-        this.loadGLState();
+        state.reset();
     }
 }

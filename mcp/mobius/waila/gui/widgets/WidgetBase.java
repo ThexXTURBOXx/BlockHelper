@@ -8,6 +8,7 @@ import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
+import mcp.mobius.waila.utils.GLState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderEngine;
@@ -137,7 +138,8 @@ public abstract class WidgetBase implements IWidget {
 
     @Override
     public void draw() {
-        this.saveGLState();
+        GLState state = new GLState();
+
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, this.alpha);
@@ -156,7 +158,7 @@ public abstract class WidgetBase implements IWidget {
             if (widget.shouldRender())
                 widget.draw();
 
-        this.loadGLState();
+        state.reset();
     }
 
     @Override
@@ -259,25 +261,6 @@ public abstract class WidgetBase implements IWidget {
     // SOME RENDERING HELPERS //
 
     /// /////////////////////////
-
-    protected void saveGLState() {
-        hasBlending = GL11.glGetBoolean(GL11.GL_BLEND);
-        hasLight = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
-        GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
-        GL11.glPushMatrix();
-    }
-
-    protected void loadGLState() {
-        if (hasBlending) GL11.glEnable(GL11.GL_BLEND);
-        else GL11.glDisable(GL11.GL_BLEND);
-        if (hasLight) GL11.glEnable(GL11.GL_LIGHTING);
-        else GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
-        GL11.glPopMatrix();
-        GL11.glPopAttrib();
-        //GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    }
 
     @Override
     public void setAlpha(float alpha) {

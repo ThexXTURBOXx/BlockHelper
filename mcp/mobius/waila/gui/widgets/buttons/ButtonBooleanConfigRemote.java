@@ -5,6 +5,7 @@ import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.util.Point;
 
 public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
@@ -40,12 +41,12 @@ public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
         if ((mod_BlockHelper.INSTANCE.serverPresent) && !PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
             super.draw(pos);
         else {
-            this.saveGLState();
+            GLState state = new GLState();
             int texOffset = -1;
-            this.mc.renderEngine.bindTexture(widgetsTexture);
+            this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
             UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
                     this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
-            this.loadGLState();
+            state.reset();
         }
     }
 }

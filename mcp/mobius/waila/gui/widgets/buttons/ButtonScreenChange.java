@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class ButtonScreenChange extends ButtonBase {
 
-    GuiScreen linkedScreen;
+    private final GuiScreen linkedScreen;
 
     public ButtonScreenChange(IWidget parent, String text, GuiScreen linkedscreen) {
         super(parent);

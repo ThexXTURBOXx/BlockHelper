@@ -2,6 +2,8 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.GLState;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumMovingObjectType;
 import org.lwjgl.opengl.GL11;
@@ -33,19 +35,25 @@ public final class OverlayRenderer {
 
     public static void renderOverlay(Tooltip tooltip) {
         GL11.glPushMatrix();
+        GLState state = new GLState();
 
-        GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
+        try {
+            GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
 
-        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor,
-                OverlayConfig.gradient1, OverlayConfig.gradient2);
+            drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor,
+                    OverlayConfig.gradient1, OverlayConfig.gradient2);
 
-        tooltip.draw();
+            tooltip.draw();
 
-        tooltip.draw2nd();
+            tooltip.draw2nd();
 
-        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
-            DisplayUtil.renderStack(tooltip.x + 5, tooltip.y + tooltip.h / 2 - 8, tooltip.stack);
+            if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
+                DisplayUtil.renderStack(tooltip.x + 5, tooltip.y + tooltip.h / 2 - 8, tooltip.stack);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, "renderOverlay", null);
+        }
 
+        state.reset();
         GL11.glPopMatrix();
     }
 
