@@ -7,8 +7,8 @@ import java.util.List;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -29,12 +29,11 @@ public class RayTracing {
     private static RayTracing _instance;
 
     private RayTracing() {
+        _instance = this;
     }
 
     public static RayTracing instance() {
-        if (_instance == null)
-            _instance = new RayTracing();
-        return _instance;
+        return _instance == null ? new RayTracing() : _instance;
     }
 
     private MovingObjectPosition target = null;

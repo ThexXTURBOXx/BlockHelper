@@ -80,7 +80,7 @@ public class LangUtil {
                 System.err.println("Lang directory \"" + dir + "\" not found in " + host.getPath());
             } else if (hostdir.isDirectory()) {
                 this.addLangDir(hostdir);
-            } else if (hostdir.getName().endsWith(".lang")) {
+            } else if (hostdir.getName().endsWith(".lang") || hostdir.getName().endsWith(".properties")) {
                 this.addLangFile(hostdir);
             } else {
                 System.err.println("Lang file \"" + hostdir + "\"does not end in .lang");
@@ -94,7 +94,7 @@ public class LangUtil {
             File child = listFiles[i];
             if (child.isDirectory()) {
                 this.addLangDir(child);
-            } else if (child.getName().endsWith(".lang")) {
+            } else if (child.getName().endsWith(".lang") || child.getName().endsWith(".properties")) {
                 this.addLangFile(child);
             }
         }
@@ -122,7 +122,8 @@ public class LangUtil {
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
                 String name = entry.getName();
-                if (!entry.isDirectory() && name.startsWith(dir) && name.endsWith(".lang")) {
+                if (!entry.isDirectory() && name.startsWith(dir) &&
+                    (name.endsWith(".lang") || name.endsWith(".properties"))) {
                     this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1,
                             name.lastIndexOf('.')));
                 }
