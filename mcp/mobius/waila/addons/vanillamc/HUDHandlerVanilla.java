@@ -182,6 +182,7 @@ public class HUDHandlerVanilla implements IDataProvider {
         WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.comparator");
         WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.redstone");
         WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.silverfish");
+        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.repeaterol");
         WailaRegistrar.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");
 
         IDataProvider provider = new HUDHandlerVanilla();
@@ -218,7 +219,7 @@ public class HUDHandlerVanilla implements IDataProvider {
         WailaRegistrar.instance().registerNBTProvider(provider, jukebox.getClass());
         WailaRegistrar.instance().registerNBTProvider(provider, silverfish.getClass());
 
-        //ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);
+        WailaRegistrar.instance().registerDecorator(new HUDDecoratorVanilla(), repeaterIdle.getClass());
     }
 
 }
