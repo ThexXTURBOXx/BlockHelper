@@ -60,9 +60,9 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             float storage = -1;
             float maxStorage = -1;
 
-            if (AppEngModule.IMEPowerStorage.isInstance(te)) {
-                storage = (float) (double) (Double) AppEngModule.IMEPowerStorage_currentPower.invoke(te);
-                maxStorage = (float) (double) (Double) AppEngModule.IMEPowerStorage_maxPower.invoke(te);
+            if (AppEngPlugin.IMEPowerStorage.isInstance(te)) {
+                storage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_currentPower.invoke(te);
+                maxStorage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
             }
 
             tag.setInteger("storage", Math.round(storage));

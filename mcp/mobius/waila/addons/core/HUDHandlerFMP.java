@@ -1,7 +1,6 @@
 package mcp.mobius.waila.addons.core;
 
 import java.util.List;
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IFMPProvider;
@@ -9,7 +8,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -101,24 +99,4 @@ public class HUDHandlerFMP implements IDataProvider {
             te.writeToNBT(tag);
     }
 
-    public static void register() {
-        Class<?> BlockMultipart;
-        try {
-            BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
-        } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
-            return;
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
-            return;
-        }
-
-        WailaRegistrar.instance().registerHeadProvider(new HUDHandlerFMP(), BlockMultipart);
-        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerFMP(), BlockMultipart);
-        WailaRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
-        WailaRegistrar.instance().registerNBTProvider(new HUDHandlerFMP(), BlockMultipart);
-
-        mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
-
-    }
 }

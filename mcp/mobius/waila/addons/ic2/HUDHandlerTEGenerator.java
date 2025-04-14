@@ -68,10 +68,10 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             int production = -1;
             short maxStorage = -1;
 
-            if (IC2Module.TileBaseGenerator.isInstance(te)) {
-                storage = IC2Module.TileBaseGenerator_storage.getShort(te);
-                production = IC2Module.TileBaseGenerator_production.getInt(te);
-                maxStorage = IC2Module.TileBaseGenerator_maxStorage.getShort(te);
+            if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
+                storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
+                production = IC2Plugin.TileBaseGenerator_production.getInt(te);
+                maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
             }
 
             tag.setShort("storage", storage);

@@ -1,10 +1,9 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.vanilla;
 
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -70,16 +69,6 @@ public class HUDHandlerEntities implements IEntityProvider {
             ent.writeToNBT(tag);
         if (ent instanceof EntityLiving)
             tag.setInteger("MaxHealth", ((EntityLiving) ent).getMaxHealth());
-    }
-
-    public static void register() {
-        WailaRegistrar.instance().addConfigRemote("VanillaMC", "general.showhp");
-
-        IEntityProvider provider = new HUDHandlerEntities();
-
-        WailaRegistrar.instance().registerBodyProvider(provider, Entity.class);
-
-        WailaRegistrar.instance().registerNBTProvider(provider, Entity.class);
     }
 
 }

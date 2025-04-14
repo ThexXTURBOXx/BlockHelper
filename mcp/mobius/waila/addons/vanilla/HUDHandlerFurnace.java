@@ -1,11 +1,10 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.vanilla;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 
 public class HUDHandlerFurnace implements IDataProvider {
@@ -73,8 +71,4 @@ public class HUDHandlerFurnace implements IDataProvider {
             te.writeToNBT(tag);
     }
 
-    public static void register() {
-        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-        WailaRegistrar.instance().registerNBTProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-    }
 }

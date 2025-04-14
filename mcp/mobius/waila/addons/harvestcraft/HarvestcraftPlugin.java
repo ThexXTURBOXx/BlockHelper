@@ -1,14 +1,21 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 
-public class HarvestcraftModule {
+public final class HarvestcraftPlugin implements IWailaPlugin {
+
+    public static final IWailaPlugin INSTANCE = new HarvestcraftPlugin();
 
     public static Class<?> TileEntityPamCrop = null;
 
-    public static void register() {
+    private HarvestcraftPlugin() {
+    }
+
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             Class.forName("assets.pamharvestcraft.PamHarvestCraft");
             mod_BlockHelper.LOG.log(Level.INFO, "PamHarvestCraft mod found.");
@@ -24,6 +31,11 @@ public class HarvestcraftModule {
             return;
         }
 
-        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerPamCrop(), TileEntityPamCrop);
+        registrar.registerBodyProvider(new HUDHandlerPamCrop(), TileEntityPamCrop);
     }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
+    }
+
 }

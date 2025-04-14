@@ -2,11 +2,14 @@ package mcp.mobius.waila.addons.ee;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 
-public class EEModule {
+public final class EEPlugin implements IWailaPlugin {
+
+    public static final IWailaPlugin INSTANCE = new EEPlugin();
 
     public static Class<?> EMCRegistry = null;
     public static Method EMCRegistry_instance = null;
@@ -14,7 +17,11 @@ public class EEModule {
     public static Class<?> EMCEntry = null;
     public static Method EMCEntry_getCost = null;
 
-    public static void register() {
+    private EEPlugin() {
+    }
+
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             EMCRegistry = Class.forName("com.pahimar.ee3.emc.EMCRegistry");
             EMCRegistry_instance = EMCRegistry.getMethod("instance");
@@ -22,13 +29,16 @@ public class EEModule {
             EMCEntry = Class.forName("com.pahimar.ee3.emc.EMCEntry");
             EMCEntry_getCost = EMCEntry.getMethod("getCost");
 
-            WailaRegistrar.instance().addConfig("Equivalent Exchange", "ee.emc");
+            registrar.addConfig("Equivalent Exchange", "ee.emc");
 
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEE(), Block.class);
+            registrar.registerBodyProvider(new HUDHandlerEE(), Block.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EE] Error while loading EMC hooks.", t);
         }
+    }
 
+    @Override
+    public void registerClient(IRegistrar registrar) {
     }
 
 }

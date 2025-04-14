@@ -1,11 +1,10 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.vanilla;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
@@ -18,23 +17,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 
-public class HUDHandlerVanilla implements IDataProvider {
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.melonStem;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.quartz;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 
-    static Block mobSpawner = Block.mobSpawner;
-    static Block crops = Block.crops;
-    static Block melonStem = Block.melonStem;
-    static Block pumpkinStem = Block.pumpkinStem;
-    static Block lever = Block.lever;
-    static Block repeaterIdle = Block.redstoneRepeaterIdle;
-    static Block repeaterActv = Block.redstoneRepeaterActive;
-    static Block comparatorIdl = Block.redstoneComparatorIdle;
-    static Block comparatorAct = Block.redstoneComparatorActive;
-    static Block redstone = Block.redstoneWire;
-    static Block jukebox = Block.jukebox;
-    static Block silverfish = Block.silverfish;
-    static Block leave = Block.leaves;
-    static Block log = Block.wood;
-    static Block quartz = Block.blockNetherQuartz;
+public class HUDHandlerVanilla implements IDataProvider {
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -173,53 +172,6 @@ public class HUDHandlerVanilla implements IDataProvider {
                                  int x, int y, int z) {
         if (te != null)
             te.writeToNBT(tag);
-    }
-
-    public static void register() {
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.spawntype");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.leverstate");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.repeater");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.comparator");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.redstone");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.silverfish");
-        WailaRegistrar.instance().addConfig("VanillaMC", "vanilla.repeaterol");
-        WailaRegistrar.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");
-
-        IDataProvider provider = new HUDHandlerVanilla();
-
-        WailaRegistrar.instance().registerStackProvider(provider, silverfish.getClass());
-        WailaRegistrar.instance().registerStackProvider(provider, redstone.getClass());
-        WailaRegistrar.instance().registerStackProvider(provider, BlockRedstoneOre.class);
-        WailaRegistrar.instance().registerStackProvider(provider, crops.getClass());
-        WailaRegistrar.instance().registerStackProvider(provider, leave.getClass());
-        WailaRegistrar.instance().registerStackProvider(provider, log.getClass());
-        WailaRegistrar.instance().registerStackProvider(provider, quartz.getClass());
-
-        //ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
-        WailaRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
-        WailaRegistrar.instance().registerHeadProvider(provider, melonStem.getClass());
-        WailaRegistrar.instance().registerHeadProvider(provider, pumpkinStem.getClass());
-
-        WailaRegistrar.instance().registerBodyProvider(provider, lever.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, repeaterIdle.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, repeaterActv.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, comparatorIdl.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, comparatorAct.getClass());
-        WailaRegistrar.instance().registerHeadProvider(provider, redstone.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, redstone.getClass());
-        WailaRegistrar.instance().registerBodyProvider(provider, jukebox.getClass());
-
-        WailaRegistrar.instance().registerNBTProvider(provider, mobSpawner.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, lever.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, repeaterIdle.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, repeaterActv.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, comparatorIdl.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, comparatorAct.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, redstone.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, jukebox.getClass());
-        WailaRegistrar.instance().registerNBTProvider(provider, silverfish.getClass());
-
-        WailaRegistrar.instance().registerDecorator(new HUDDecoratorVanilla(), repeaterIdle.getClass());
     }
 
 }

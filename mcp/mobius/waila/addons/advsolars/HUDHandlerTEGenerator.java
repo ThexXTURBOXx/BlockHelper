@@ -74,9 +74,9 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvSolarsModule.TileEntitySolarPanel.isInstance(te)) {
-                storage = AdvSolarsModule.TileEntitySolarPanel_storage.getInt(te);
-                maxStorage = AdvSolarsModule.TileEntitySolarPanel_maxStorage.getInt(te);
+            if (AdvSolarsPlugin.TileEntitySolarPanel.isInstance(te)) {
+                storage = AdvSolarsPlugin.TileEntitySolarPanel_storage.getInt(te);
+                maxStorage = AdvSolarsPlugin.TileEntitySolarPanel_maxStorage.getInt(te);
             }
 
             tag.setInteger("storage", storage);
@@ -90,9 +90,9 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             int production = -1;
             int maxPacketSize = -1;
 
-            if (AdvSolarsModule.TileEntityQGenerator.isInstance(te)) {
-                production = AdvSolarsModule.TileEntityQGenerator_production.getInt(te);
-                maxPacketSize = AdvSolarsModule.TileEntityQGenerator_maxPacketSize.getInt(te);
+            if (AdvSolarsPlugin.TileEntityQGenerator.isInstance(te)) {
+                production = AdvSolarsPlugin.TileEntityQGenerator_production.getInt(te);
+                maxPacketSize = AdvSolarsPlugin.TileEntityQGenerator_maxPacketSize.getInt(te);
             }
 
             tag.setInteger("production", production);

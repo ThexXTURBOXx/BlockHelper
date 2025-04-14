@@ -5,9 +5,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -49,10 +47,6 @@ public class HUDHandlerEntitiesDev implements IEntityProvider {
 
     @Override
     public void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
-    }
-
-    public static void register() {
-        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEntitiesDev(), Block.class);
     }
 
 }

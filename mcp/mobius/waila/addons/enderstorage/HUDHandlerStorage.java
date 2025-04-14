@@ -49,12 +49,12 @@ public class HUDHandlerStorage implements IDataProvider {
         if (config.get("enderstorage.colors")) {
             try {
 
-                int freq = EnderStorageModule.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
-                int freqLeft = (Integer) EnderStorageModule.GetColourFromFreq.invoke(null, freq, 0);
-                int freqCenter = (Integer) EnderStorageModule.GetColourFromFreq.invoke(null, freq, 1);
-                int freqRight = (Integer) EnderStorageModule.GetColourFromFreq.invoke(null, freq, 2);
+                int freq = EnderStoragePlugin.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
+                int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
+                int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
+                int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
 
-                if (!EnderStorageModule.TileEnderTank.isInstance(accessor.getTileEntity()))
+                if (!EnderStoragePlugin.TileEnderTank.isInstance(accessor.getTileEntity()))
                     currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
                 else
                     currenttip.add(String.format("%s/%s/%s", colors[freqRight], colors[freqCenter], colors[freqLeft]));

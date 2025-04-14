@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import mcp.mobius.waila.addons.vanillamc.HUDHandlerEntities;
+import mcp.mobius.waila.addons.vanilla.HUDHandlerEntities;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;

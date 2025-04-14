@@ -95,9 +95,9 @@ public class HUDHandlerTesseract implements IDataProvider {
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
         try {
-            byte modeItem = ThermalExpansionModule.TileTesseract_Item.getByte(te);
-            byte modeFluid = ThermalExpansionModule.TileTesseract_Fluid.getByte(te);
-            byte modeEnergy = ThermalExpansionModule.TileTesseract_Energy.getByte(te);
+            byte modeItem = ThermalExpansionPlugin.TileTesseract_Item.getByte(te);
+            byte modeFluid = ThermalExpansionPlugin.TileTesseract_Fluid.getByte(te);
+            byte modeEnergy = ThermalExpansionPlugin.TileTesseract_Energy.getByte(te);
             tag.setByte("Item.Mode", modeItem);
             tag.setByte("Fluid.Mode", modeFluid);
             tag.setByte("Energy.Mode", modeEnergy);

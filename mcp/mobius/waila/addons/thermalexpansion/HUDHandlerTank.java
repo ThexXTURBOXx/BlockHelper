@@ -28,7 +28,7 @@ public class HUDHandlerTank implements IDataProvider {
 
         try {
             LiquidStack liquid =
-                    (LiquidStack) ThermalExpansionModule.TileTank_getTankFluid.invoke(accessor.getTileEntity());
+                    (LiquidStack) ThermalExpansionPlugin.TileTank_getTankFluid.invoke(accessor.getTileEntity());
             String name = currenttip.get(0);
 
             try {
@@ -54,13 +54,13 @@ public class HUDHandlerTank implements IDataProvider {
                     amount = accessor.getNBTInteger("Amount");
 
                 Integer capacity =
-                        (Integer) ThermalExpansionModule.TileTank_getTankCapacity.invoke(accessor.getTileEntity());
+                        (Integer) ThermalExpansionPlugin.TileTank_getTankCapacity.invoke(accessor.getTileEntity());
 
                 currenttip.add(String.format("%d / %d mB", amount, capacity));
             }
 
             if (config.get("thermalexpansion.tankmode")) {
-                Byte mode = (Byte) ThermalExpansionModule.TileTank_mode.get(accessor.getTileEntity());
+                Byte mode = (Byte) ThermalExpansionPlugin.TileTank_mode.get(accessor.getTileEntity());
                 if (mode == 0)
                     currenttip.add(String.format("%s : \u00a7a%s", LangUtil.translateG("hud.msg.mode"),
                             LangUtil.translateG("hud.msg.input")));
@@ -86,7 +86,7 @@ public class HUDHandlerTank implements IDataProvider {
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
         try {
-            int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
+            int amount = (Integer) ThermalExpansionPlugin.TileTank_getTankAmount.invoke(te);
             tag.setInteger("Amount", amount);
         } catch (Throwable t) {
             throw new RuntimeException(t);

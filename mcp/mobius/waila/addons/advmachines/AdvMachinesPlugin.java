@@ -2,16 +2,23 @@ package mcp.mobius.waila.addons.advmachines;
 
 import java.lang.reflect.Field;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 
-public class AdvMachinesModule {
+public final class AdvMachinesPlugin implements IWailaPlugin {
+
+    public static final IWailaPlugin INSTANCE = new AdvMachinesPlugin();
 
     public static Class<?> TileAM2BaseGenerator = null;
     public static Field TileAM2BaseGenerator_stored = null;
     public static Field TileAM2BaseGenerator_maxStorage = null;
 
-    public static void register() {
+    private AdvMachinesPlugin() {
+    }
+
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             TileAM2BaseGenerator = Class.forName("mods.immibis.am2.TileAM2Base");
             TileAM2BaseGenerator_stored = TileAM2BaseGenerator.getDeclaredField("storedEnergy");
@@ -19,15 +26,19 @@ public class AdvMachinesModule {
             TileAM2BaseGenerator_stored.setAccessible(true);
             TileAM2BaseGenerator_maxStorage.setAccessible(true);
 
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
 
-            WailaRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
 
-            WailaRegistrar.instance().addConfigRemote("Advanced Machines", "advmachines.storage");
+            registrar.addConfigRemote("Advanced Machines", "advmachines.storage");
 
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
         }
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
     }
 
 }

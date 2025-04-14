@@ -44,8 +44,8 @@ public class HUDHandlerEnergyCell implements IDataProvider {
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
         try {
-            int recv = ThermalExpansionModule.TileEnergyCell_Recv.getInt(te);
-            int send = ThermalExpansionModule.TileEnergyCell_Send.getInt(te);
+            int recv = ThermalExpansionPlugin.TileEnergyCell_Recv.getInt(te);
+            int send = ThermalExpansionPlugin.TileEnergyCell_Send.getInt(te);
             tag.setInteger("Recv", recv);
             tag.setInteger("Send", send);
         } catch (Throwable t) {

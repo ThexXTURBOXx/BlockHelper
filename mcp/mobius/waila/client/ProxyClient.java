@@ -1,11 +1,9 @@
 package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
-import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
-import mcp.mobius.waila.addons.core.HUDHandlerDev;
-import mcp.mobius.waila.addons.core.HUDHandlerEntities;
-import mcp.mobius.waila.addons.core.HUDHandlerEntitiesDev;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.addons.core.CorePlugin;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
@@ -14,8 +12,6 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.LangUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyServer {
@@ -24,8 +20,8 @@ public class ProxyClient extends ProxyServer {
     }
 
     @Override
-    public void registerHandlers() {
-        super.registerHandlers();
+    public void prepare() {
+        super.prepare();
 
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
 
@@ -38,24 +34,27 @@ public class ProxyClient extends ProxyServer {
                 mod_BlockHelper.LOG.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
             }
         }
+    }
 
-        HUDHandlerBlocks.register();
+    @Override
+    public void registerCorePlugins(IRegistrar registrar) {
+        super.registerCorePlugins(registrar);
 
-        HUDHandlerEntities.register();
+        registrar.registerTooltipRenderer("waila.health", new TTRenderHealth());
+        registrar.registerTooltipRenderer("waila.icon", new TTRenderIcon());
+        registrar.registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
+        registrar.registerTooltipRenderer("waila.stack", new TTRenderStack());
+        registrar.registerTooltipRenderer("waila.string", new TTRenderString());
 
-        WailaRegistrar.instance().addConfig("General", "general.showcrop");
+        CorePlugin.INSTANCE.registerClient(registrar);
+    }
 
-        WailaRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
-        WailaRegistrar.instance().registerTooltipRenderer("waila.icon", new TTRenderIcon());
-        WailaRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
-        WailaRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
-        WailaRegistrar.instance().registerTooltipRenderer("waila.string", new TTRenderString());
+    @Override
+    public void registerModPlugins(IRegistrar registrar) {
+        super.registerModPlugins(registrar);
 
-        if (mod_BlockHelper.DEV_MODE) {
-            WailaRegistrar.instance().addConfig("General", "general.dev", false);
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerDev(), Block.class);
-            WailaRegistrar.instance().registerBodyProvider(new HUDHandlerEntitiesDev(), Entity.class);
-        }
+        for (IWailaPlugin plugin : plugins)
+            plugin.registerClient(registrar);
     }
 
 }

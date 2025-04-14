@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import java.io.File;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.commands.CommandDumpHandlers;
 import mcp.mobius.waila.network.WailaConnectionHandler;
@@ -83,7 +84,8 @@ public class mod_BlockHelper extends BaseMod {
         }
 
         // POST INIT
-        proxy.registerHandlers();
+        proxy.prepare();
+        proxy.registerCorePlugins(WailaRegistrar.instance());
         ModIdentification.init();
 
         if (DEV_MODE) {
@@ -94,7 +96,8 @@ public class mod_BlockHelper extends BaseMod {
     @Override
     public void modsLoaded() {
         // LOAD COMPLETE
-        proxy.registerMods();
+        LOG.info(MOD_ID + " mods loaded");
+        proxy.registerModPlugins(WailaRegistrar.instance());
     }
 
     @Override

@@ -51,17 +51,17 @@ public class HUDHandlerBCEnergy implements IDataProvider {
         try {
             Float energy = -1f;
             Integer maxsto = -1;
-            if (BCModule.TileEngine.isInstance(te)) {
-                Object engine = BCModule.TileEngine_engine.get(te);
+            if (BCPlugin.TileEngine.isInstance(te)) {
+                Object engine = BCPlugin.TileEngine_engine.get(te);
                 if (engine != null) {
-                    energy = BCModule.Engine_energy.getFloat(engine);
-                    maxsto = BCModule.Engine_maxEnergy.getInt(engine);
+                    energy = BCPlugin.Engine_energy.getFloat(engine);
+                    maxsto = BCPlugin.Engine_maxEnergy.getInt(engine);
                 }
-            } else if (BCModule.IPowerReceptor.isInstance(te)) {
-                Object prov = BCModule.IPowerReceptor_getPowerProvider.invoke(te);
+            } else if (BCPlugin.IPowerReceptor.isInstance(te)) {
+                Object prov = BCPlugin.IPowerReceptor_getPowerProvider.invoke(te);
                 if (prov != null) {
-                    energy = (Float) BCModule.IPowerProvider_getEnergyStored.invoke(prov);
-                    maxsto = (Integer) BCModule.IPowerProvider_getMaxEnergyStored.invoke(prov);
+                    energy = (Float) BCPlugin.IPowerProvider_getEnergyStored.invoke(prov);
+                    maxsto = (Integer) BCPlugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
                 }
             }
 

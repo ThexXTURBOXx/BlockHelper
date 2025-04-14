@@ -60,9 +60,9 @@ public class HUDHandlerTEGenerator implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvMachinesModule.TileAM2BaseGenerator.isInstance(te)) {
-                storage = AdvMachinesModule.TileAM2BaseGenerator_stored.getInt(te);
-                maxStorage = AdvMachinesModule.TileAM2BaseGenerator_maxStorage.getInt(null);
+            if (AdvMachinesPlugin.TileAM2BaseGenerator.isInstance(te)) {
+                storage = AdvMachinesPlugin.TileAM2BaseGenerator_stored.getInt(te);
+                maxStorage = AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage.getInt(null);
             }
 
             tag.setInteger("storage", storage);

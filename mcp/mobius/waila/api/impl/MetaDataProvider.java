@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
@@ -38,7 +39,7 @@ public class MetaDataProvider {
             List<IEntityProvider>>();
 
     public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop,
-                                            DataAccessorCommon accessor) {
+                                            IDataAccessor accessor) {
         Block block = accessor.getBlock();
         int blockID = accessor.getBlockID();
 

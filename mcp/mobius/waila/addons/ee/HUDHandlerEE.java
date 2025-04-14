@@ -30,12 +30,12 @@ public class HUDHandlerEE implements IDataProvider {
         try {
             /* EMC */
             if (PluginConfig.instance().get("ee.emc")) {
-                Object registry = EEModule.EMCRegistry_instance.invoke(null);
+                Object registry = EEPlugin.EMCRegistry_instance.invoke(null);
                 if (registry != null) {
-                    Object entry = EEModule.EMCRegistry_getEMCValue.invoke(registry,
+                    Object entry = EEPlugin.EMCRegistry_getEMCValue.invoke(registry,
                             accessor.getBlockID(), accessor.getMetadata());
                     if (entry != null) {
-                        currenttip.add("\u00a7eEMC:\u00a77 " + EEModule.EMCEntry_getCost.invoke(entry));
+                        currenttip.add("\u00a7eEMC:\u00a77 " + EEPlugin.EMCEntry_getCost.invoke(entry));
                     }
                 }
             }

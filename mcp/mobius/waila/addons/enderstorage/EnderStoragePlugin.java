@@ -3,10 +3,13 @@ package mcp.mobius.waila.addons.enderstorage;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 
-public class EnderStorageModule {
+public final class EnderStoragePlugin implements IWailaPlugin {
+
+    public static final IWailaPlugin INSTANCE = new EnderStoragePlugin();
 
     public static Class<?> TileFrequencyOwner = null;
     public static Field TileFrequencyOwner_Freq = null;
@@ -16,9 +19,13 @@ public class EnderStorageModule {
 
     public static Class<?> TileEnderTank = null;
 
-    public static void register() {
+    private EnderStoragePlugin() {
+    }
+
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
-            Class<?> EnderStorage = Class.forName("codechicken.enderstorage.EnderStorage");
+            Class.forName("codechicken.enderstorage.EnderStorage");
             mod_BlockHelper.LOG.log(Level.INFO, "EnderStorage mod found.");
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
@@ -26,7 +33,6 @@ public class EnderStorageModule {
         }
 
         try {
-
             TileFrequencyOwner = Class.forName("codechicken.enderstorage.common.TileFrequencyOwner");
             TileFrequencyOwner_Freq = TileFrequencyOwner.getField("freq");
 
@@ -34,7 +40,6 @@ public class EnderStorageModule {
             GetColourFromFreq = EnderStorageManager.getDeclaredMethod("getColourFromFreq", Integer.TYPE, Integer.TYPE);
 
             TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
-
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found. ", e);
             return;
@@ -49,9 +54,13 @@ public class EnderStorageModule {
             return;
         }
 
-        WailaRegistrar.instance().addConfig("EnderStorage", "enderstorage.colors");
-        WailaRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
-        WailaRegistrar.instance().registerNBTProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+        registrar.addConfig("EnderStorage", "enderstorage.colors");
+        registrar.registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+        registrar.registerNBTProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
     }
 
 }

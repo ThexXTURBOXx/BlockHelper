@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -77,15 +76,6 @@ public class HUDHandlerEntities implements IEntityProvider {
         } catch (NullPointerException e) {
             return "Minecraft";
         }
-    }
-
-    public static void register() {
-        WailaRegistrar.instance().addConfig("General", "general.showents");
-
-        HUDHandlerEntities provider = new HUDHandlerEntities();
-        WailaRegistrar.instance().registerHeadProvider(provider, Entity.class);
-        WailaRegistrar.instance().registerTailProvider(provider, Entity.class);
-        WailaRegistrar.instance().registerStackProvider(provider, Entity.class);
     }
 
 }

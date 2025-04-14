@@ -1,14 +1,12 @@
 package mcp.mobius.waila.addons.core;
 
 import java.util.List;
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,17 +31,6 @@ public class DecoratorFMP implements IBlockDecorator {
                     for (IFMPDecorator provider : providersList)
                         provider.decorateBlock(itemStack, DataAccessorFMP.INSTANCE, config);
             }
-        }
-    }
-
-    public static void register() {
-        try {
-            Class<?> BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
-            WailaRegistrar.instance().registerDecorator(new DecoratorFMP(), BlockMultipart);
-        } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
         }
     }
 

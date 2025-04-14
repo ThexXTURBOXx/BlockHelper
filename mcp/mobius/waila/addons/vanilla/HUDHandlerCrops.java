@@ -1,16 +1,11 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.vanilla;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.block.Block;
@@ -24,9 +19,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerCrops implements IDataProvider {
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.MAX_STAGES;
 
-    public static final Map<Class<?>, Integer> MAX_STAGES = new HashMap<Class<?>, Integer>();
+public class HUDHandlerCrops implements IDataProvider {
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -118,19 +113,6 @@ public class HUDHandlerCrops implements IDataProvider {
     @Override
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
-    }
-
-    public static void register() {
-        IDataProvider provider = new HUDHandlerCrops();
-
-        WailaRegistrar.instance().registerBodyProvider(provider, Block.class);
-
-        try {
-            Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
-            MAX_STAGES.put(CropBlock, 3);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading crop hooks.", t);
-        }
     }
 
 }
