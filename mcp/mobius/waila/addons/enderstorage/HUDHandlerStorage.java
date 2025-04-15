@@ -12,7 +12,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerStorage implements IDataProvider {
+public final class HUDHandlerStorage implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerStorage();
+
+    private HUDHandlerStorage() {
+    }
 
     private static final String[] colors = {
             LangUtil.translateG("hud.msg.white"),

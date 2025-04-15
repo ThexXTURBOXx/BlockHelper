@@ -20,7 +20,12 @@ import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerEntities implements IEntityProvider {
+public final class HUDHandlerEntities implements IEntityProvider {
+
+    public static final IEntityProvider INSTANCE = new HUDHandlerEntities();
+
+    private HUDHandlerEntities() {
+    }
 
     @Override
     public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {

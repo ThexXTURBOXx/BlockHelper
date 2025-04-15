@@ -11,7 +11,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerBCEnergy implements IDataProvider {
+public final class HUDHandlerBCEnergy implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerBCEnergy();
+
+    private HUDHandlerBCEnergy() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

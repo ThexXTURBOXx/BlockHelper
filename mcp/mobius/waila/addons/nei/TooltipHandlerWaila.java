@@ -6,7 +6,12 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class TooltipHandlerWaila implements IContainerTooltipHandler {
+public final class TooltipHandlerWaila implements IContainerTooltipHandler {
+
+    public static final IContainerTooltipHandler INSTANCE = new TooltipHandlerWaila();
+
+    private TooltipHandlerWaila() {
+    }
 
     @Override
     public List<String> handleTooltipFirst(GuiContainer guiContainer, int i, int i1, List<String> list) {

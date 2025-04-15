@@ -12,7 +12,12 @@ import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDFMPGateLogic implements IFMPProvider {
+public final class HUDFMPGateLogic implements IFMPProvider {
+
+    public static final IFMPProvider INSTANCE = new HUDFMPGateLogic();
+
+    private HUDFMPGateLogic() {
+    }
 
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,

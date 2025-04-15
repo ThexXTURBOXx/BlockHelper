@@ -27,13 +27,11 @@ public final class IC2Plugin implements IWailaPlugin {
             TileBaseGenerator_maxStorage = TileBaseGenerator.getField("maxStorage");
             TileBaseGenerator_production = TileBaseGenerator.getField("production");
 
-            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
-
-            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
-
             registrar.addConfigRemote("IndustrialCraft2", "ic2.storage");
             registrar.addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
+            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);
+            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
         }

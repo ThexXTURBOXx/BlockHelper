@@ -24,12 +24,10 @@ public final class AppEngPlugin implements IWailaPlugin {
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
             IMEPowerStorage_maxPower = IMEPowerStorage.getMethod("getMEMaxPower");
 
-            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
-
-            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), IMEPowerStorage);
-
             registrar.addConfigRemote("Applied Energistics", "appeng.storage");
 
+            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);
+            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
         }

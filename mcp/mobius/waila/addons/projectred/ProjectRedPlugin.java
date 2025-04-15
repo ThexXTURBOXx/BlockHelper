@@ -25,22 +25,22 @@ public final class ProjectRedPlugin implements IWailaPlugin {
         registrar.addConfigRemote("Project:Red", "pr.showio");
         registrar.addConfigRemote("Project:Red", "pr.showdata");
 
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_sgate");
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_igate");
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_tgate");
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_bgate");
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_agate");
-        registrar.registerBodyProvider(new HUDFMPGateLogic(), "pr_rgate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_sgate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_igate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_tgate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_bgate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_agate");
+        registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_rgate");
 
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_sgate");
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_igate");
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_tgate");
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_bgate");
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_agate");
-        registrar.registerDecorator(new HUDDecoratorRsGateLogic(), "pr_rgate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_sgate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_igate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_tgate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_bgate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_agate");
+        registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_rgate");
 
-        //registrar.registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
-        //registrar.registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
+        //registrar.registerBlockDecorator(HUDDecoratorRsGateLogic.INSTANCE, BlockMultipart);
+        //registrar.registerBodyProvider(HUDHandlerRsGateLogic.INSTANCE, BlockMultipart);
         //registrar.registerSyncedNBTKey("*", BlockMultipart);
     }
 

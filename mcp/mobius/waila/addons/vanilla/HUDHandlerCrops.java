@@ -21,7 +21,12 @@ import net.minecraft.world.World;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.MAX_STAGES;
 
-public class HUDHandlerCrops implements IDataProvider {
+public final class HUDHandlerCrops implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerCrops();
+
+    private HUDHandlerCrops() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

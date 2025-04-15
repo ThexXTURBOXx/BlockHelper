@@ -16,7 +16,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerFMP implements IDataProvider {
+public final class HUDHandlerFMP implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerFMP();
+
+    private HUDHandlerFMP() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

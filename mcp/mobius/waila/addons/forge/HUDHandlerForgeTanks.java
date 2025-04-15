@@ -15,7 +15,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
 
-public class HUDHandlerForgeTanks implements IDataProvider {
+public final class HUDHandlerForgeTanks implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerForgeTanks();
+
+    private HUDHandlerForgeTanks() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

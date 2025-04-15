@@ -31,7 +31,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
             return;
         }
 
-        registrar.registerBodyProvider(new HUDHandlerPamCrop(), TileEntityPamCrop);
+        registrar.registerBodyProvider(HUDHandlerPamCrop.INSTANCE, TileEntityPamCrop);
     }
 
     @Override

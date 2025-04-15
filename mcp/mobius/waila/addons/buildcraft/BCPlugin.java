@@ -40,9 +40,9 @@ public final class BCPlugin implements IWailaPlugin {
             IPowerProvider_getMaxEnergyStored = IPowerProvider.getMethod("getMaxEnergyStored");
 
             registrar.addConfigRemote("Buildcraft", "bcapi.storage");
-            registrar.registerBodyProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
-            registrar.registerNBTProvider(new HUDHandlerBCEnergy(), IPowerReceptor);
 
+            registrar.registerBodyProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
+            registrar.registerNBTProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC] Error while loading Energy hooks.", t);
         }

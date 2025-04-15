@@ -12,7 +12,12 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class DecoratorFMP implements IBlockDecorator {
+public final class DecoratorFMP implements IBlockDecorator {
+
+    public static final IBlockDecorator INSTANCE = new DecoratorFMP();
+
+    private DecoratorFMP() {
+    }
 
     @Override
     public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {

@@ -12,7 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class HUDHandlerEntitiesDev implements IEntityProvider {
+public final class HUDHandlerEntitiesDev implements IEntityProvider {
+
+    public static final IEntityProvider INSTANCE = new HUDHandlerEntitiesDev();
+
+    private HUDHandlerEntitiesDev() {
+    }
 
     @Override
     public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {

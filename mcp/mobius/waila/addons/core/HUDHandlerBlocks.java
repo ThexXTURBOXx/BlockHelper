@@ -26,7 +26,12 @@ import net.minecraftforge.common.Configuration;
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
-public class HUDHandlerBlocks implements IDataProvider {
+public final class HUDHandlerBlocks implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerBlocks();
+
+    private HUDHandlerBlocks() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

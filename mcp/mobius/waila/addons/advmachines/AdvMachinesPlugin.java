@@ -26,12 +26,10 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
             TileAM2BaseGenerator_stored.setAccessible(true);
             TileAM2BaseGenerator_maxStorage.setAccessible(true);
 
-            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
-
-            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileAM2BaseGenerator);
-
             registrar.addConfigRemote("Advanced Machines", "advmachines.storage");
 
+            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);
+            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
         }

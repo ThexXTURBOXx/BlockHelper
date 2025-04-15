@@ -38,9 +38,9 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             TileEnergyCell_Send = TileEnergyCell.getDeclaredField("energySend");
 
             registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
-            registrar.registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
-            registrar.registerNBTProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 
+            registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
+            registrar.registerNBTProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
         }
@@ -56,10 +56,10 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
             registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
             registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
-            registrar.registerHeadProvider(new HUDHandlerTank(), TileTank);
-            registrar.registerBodyProvider(new HUDHandlerTank(), TileTank);
-            registrar.registerNBTProvider(new HUDHandlerTank(), TileTank);
 
+            registrar.registerHeadProvider(HUDHandlerTank.INSTANCE, TileTank);
+            registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TileTank);
+            registrar.registerNBTProvider(HUDHandlerTank.INSTANCE, TileTank);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
         }
@@ -73,8 +73,9 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
 
             registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
             registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
-            registrar.registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
-            registrar.registerNBTProvider(new HUDHandlerTesseract(), TileTesseract);
+
+            registrar.registerBodyProvider(HUDHandlerTesseract.INSTANCE, TileTesseract);
+            registrar.registerNBTProvider(HUDHandlerTesseract.INSTANCE, TileTesseract);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
         }

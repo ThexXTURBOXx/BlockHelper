@@ -14,7 +14,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.liquids.LiquidStack;
 
-public class HUDHandlerTank implements IDataProvider {
+public final class HUDHandlerTank implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerTank();
+
+    private HUDHandlerTank() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

@@ -33,7 +33,12 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 
-public class HUDHandlerVanilla implements IDataProvider {
+public final class HUDHandlerVanilla implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerVanilla();
+
+    private HUDHandlerVanilla() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

@@ -8,7 +8,9 @@ import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 
-public class HUDDecoratorRsGateLogic implements IFMPDecorator {
+public final class HUDDecoratorRsGateLogic implements IFMPDecorator {
+
+    public static final IFMPDecorator INSTANCE = new HUDDecoratorRsGateLogic();
 
     static byte[][] IOARRAY = {
             {1, 1, 2, 1} /* OR    */, {1, 1, 2, 1} /* NOR   */, {1, 2, 2, 2} /* NOT    */, {1, 1, 2, 1} /* AND      */,
@@ -28,6 +30,9 @@ public class HUDDecoratorRsGateLogic implements IFMPDecorator {
     };
 
     static String[] IONAMES = {"", "IN", "OUT", "SWAP", "IN_A", "IN_B", "LOCK", "IO", "POS", "NEG", "BUS", "A", "B"};
+
+    private HUDDecoratorRsGateLogic() {
+    }
 
     @Override
     public void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IPluginConfig config) {

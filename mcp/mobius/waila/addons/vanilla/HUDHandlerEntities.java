@@ -15,7 +15,12 @@ import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
-public class HUDHandlerEntities implements IEntityProvider {
+public final class HUDHandlerEntities implements IEntityProvider {
+
+    public static final IEntityProvider INSTANCE = new HUDHandlerEntities();
+
+    private HUDHandlerEntities() {
+    }
 
     public static int nhearts = 20;
     public static float maxhpfortext = 40.0f;

@@ -14,7 +14,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerFurnace implements IDataProvider {
+public final class HUDHandlerFurnace implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerFurnace();
+
+    private HUDHandlerFurnace() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -29,7 +34,7 @@ public class HUDHandlerFurnace implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlockID() == Block.furnaceBurning.blockID) {
+        if (config.get("vanilla.furnace") && accessor.getBlockID() == Block.furnaceBurning.blockID) {
             int cookTime = accessor.getNBTData().getShort("CookTime");
             NBTTagList tag = accessor.getNBTData().getTagList("Items");
 

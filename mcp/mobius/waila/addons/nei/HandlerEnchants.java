@@ -14,7 +14,12 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class HandlerEnchants implements IContainerInputHandler {
+public final class HandlerEnchants implements IContainerInputHandler {
+
+    public static final IContainerInputHandler INSTANCE = new HandlerEnchants();
+
+    private HandlerEnchants() {
+    }
 
     @Override
     public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {

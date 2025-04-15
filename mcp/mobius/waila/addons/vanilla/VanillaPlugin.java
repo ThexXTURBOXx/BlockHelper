@@ -3,9 +3,6 @@ package mcp.mobius.waila.addons.vanilla;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -41,87 +38,74 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     @Override
     public void registerCommon(IRegistrar registrar) {
-        {
-            registrar.addConfig("General", "general.showcrop");
+        registrar.addConfig("General", "general.showcrop");
 
-            registrar.registerBodyProvider(new HUDHandlerCrops(), Block.class);
+        registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
 
-            try {
-                Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
-                MAX_STAGES.put(CropBlock, 3);
-            } catch (Throwable t) {
-                mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading crop hooks.", t);
-            }
+        try {
+            Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
+            MAX_STAGES.put(CropBlock, 3);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading crop hooks.", t);
         }
 
-        {
-            registrar.addConfigRemote("VanillaMC", "general.showhp");
+        registrar.addConfigRemote("VanillaMC", "general.showhp");
 
-            IEntityProvider provider = new HUDHandlerEntities();
-            registrar.registerBodyProvider(provider, Entity.class);
-            registrar.registerNBTProvider(provider, Entity.class);
-        }
+        registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
-        {
-            IDataProvider provider = new HUDHandlerFurnace();
-            registrar.registerBodyProvider(provider, TileEntityFurnace.class);
-            registrar.registerNBTProvider(provider, TileEntityFurnace.class);
-        }
+        registrar.addConfigRemote("VanillaMC", "vanilla.furnace");
 
-        {
-            registrar.addConfig("VanillaMC", "vanilla.spawntype");
-            registrar.addConfig("VanillaMC", "vanilla.leverstate");
-            registrar.addConfig("VanillaMC", "vanilla.repeater");
-            registrar.addConfig("VanillaMC", "vanilla.comparator");
-            registrar.addConfig("VanillaMC", "vanilla.redstone");
-            registrar.addConfig("VanillaMC", "vanilla.silverfish");
-            registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
+        registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+        registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
-            IDataProvider provider = new HUDHandlerVanilla();
+        registrar.addConfig("VanillaMC", "vanilla.spawntype");
+        registrar.addConfig("VanillaMC", "vanilla.leverstate");
+        registrar.addConfig("VanillaMC", "vanilla.repeater");
+        registrar.addConfig("VanillaMC", "vanilla.comparator");
+        registrar.addConfig("VanillaMC", "vanilla.redstone");
+        registrar.addConfig("VanillaMC", "vanilla.silverfish");
+        registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
 
-            registrar.registerStackProvider(provider, silverfish.getClass());
-            registrar.registerStackProvider(provider, redstone.getClass());
-            registrar.registerStackProvider(provider, BlockRedstoneOre.class);
-            registrar.registerStackProvider(provider, crops.getClass());
-            registrar.registerStackProvider(provider, leave.getClass());
-            registrar.registerStackProvider(provider, log.getClass());
-            registrar.registerStackProvider(provider, quartz.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, quartz.getClass());
 
-            //registrar.registerStackProvider(provider, Block.class);
-            registrar.registerHeadProvider(provider, mobSpawner.getClass());
-            registrar.registerHeadProvider(provider, melonStem.getClass());
-            registrar.registerHeadProvider(provider, pumpkinStem.getClass());
+        //registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, Block.class);
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());
 
-            registrar.registerBodyProvider(provider, lever.getClass());
-            registrar.registerBodyProvider(provider, repeaterIdle.getClass());
-            registrar.registerBodyProvider(provider, repeaterActv.getClass());
-            registrar.registerBodyProvider(provider, comparatorIdl.getClass());
-            registrar.registerBodyProvider(provider, comparatorAct.getClass());
-            registrar.registerHeadProvider(provider, redstone.getClass());
-            registrar.registerBodyProvider(provider, redstone.getClass());
-            registrar.registerBodyProvider(provider, jukebox.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
 
-            registrar.registerNBTProvider(provider, mobSpawner.getClass());
-            registrar.registerNBTProvider(provider, lever.getClass());
-            registrar.registerNBTProvider(provider, repeaterIdle.getClass());
-            registrar.registerNBTProvider(provider, repeaterActv.getClass());
-            registrar.registerNBTProvider(provider, comparatorIdl.getClass());
-            registrar.registerNBTProvider(provider, comparatorAct.getClass());
-            registrar.registerNBTProvider(provider, redstone.getClass());
-            registrar.registerNBTProvider(provider, jukebox.getClass());
-            registrar.registerNBTProvider(provider, silverfish.getClass());
-        }
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
     }
 
     @Override
     public void registerClient(IRegistrar registrar) {
-        {
-            registrar.addConfig("VanillaMC", "vanilla.repeaterol");
+        registrar.addConfig("VanillaMC", "vanilla.repeaterol");
 
-            IBlockDecorator decorator = new HUDDecoratorVanilla();
-            registrar.registerDecorator(decorator, repeaterIdle.getClass());
-            registrar.registerDecorator(decorator, comparatorIdl.getClass());
-        }
+        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, repeaterIdle.getClass());
+        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, comparatorIdl.getClass());
     }
 
 }

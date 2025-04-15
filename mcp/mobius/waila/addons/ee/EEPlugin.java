@@ -31,7 +31,7 @@ public final class EEPlugin implements IWailaPlugin {
 
             registrar.addConfig("Equivalent Exchange", "ee.emc");
 
-            registrar.registerBodyProvider(new HUDHandlerEE(), Block.class);
+            registrar.registerBodyProvider(HUDHandlerEE.INSTANCE, Block.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EE] Error while loading EMC hooks.", t);
         }

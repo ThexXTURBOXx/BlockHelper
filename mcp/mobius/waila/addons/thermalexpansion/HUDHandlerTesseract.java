@@ -11,7 +11,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class HUDHandlerTesseract implements IDataProvider {
+public final class HUDHandlerTesseract implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerTesseract();
+
+    private HUDHandlerTesseract() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

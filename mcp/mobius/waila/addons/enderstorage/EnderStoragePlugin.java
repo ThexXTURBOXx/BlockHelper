@@ -55,8 +55,9 @@ public final class EnderStoragePlugin implements IWailaPlugin {
         }
 
         registrar.addConfig("EnderStorage", "enderstorage.colors");
-        registrar.registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
-        registrar.registerNBTProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+
+        registrar.registerBodyProvider(HUDHandlerStorage.INSTANCE, TileFrequencyOwner);
+        registrar.registerNBTProvider(HUDHandlerStorage.INSTANCE, TileFrequencyOwner);
     }
 
     @Override

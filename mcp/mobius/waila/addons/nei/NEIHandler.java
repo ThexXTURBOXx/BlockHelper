@@ -15,15 +15,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
 import org.lwjgl.input.Keyboard;
 
-public class NEIHandler {
+public final class NEIHandler {
+
+    private NEIHandler() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void register() {
-        GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
+        GuiContainerManager.addTooltipHandler(TooltipHandlerWaila.INSTANCE);
 
         // We mute the default keybind for displaying the tooltip
         NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
         NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 
-        GuiContainerManager.addInputHandler(new HandlerEnchants());
+        GuiContainerManager.addInputHandler(HandlerEnchants.INSTANCE);
         API.addKeyBind(Constants.BIND_SCREEN_ENCH, "showenchant", Keyboard.KEY_I);
     }
 
@@ -68,4 +73,5 @@ public class NEIHandler {
             }
         }
     }
+
 }

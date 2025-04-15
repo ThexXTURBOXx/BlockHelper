@@ -28,4 +28,5 @@ public class ButtonScreenChange extends ButtonBase {
         if (event.button == 0)
             this.mc.displayGuiScreen(this.linkedScreen);
     }
+
 }

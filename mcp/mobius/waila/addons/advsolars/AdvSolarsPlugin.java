@@ -28,12 +28,10 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
             TileEntitySolarPanel_maxStorage = TileEntitySolarPanel.getField("maxStorage");
 
-            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileEntitySolarPanel);
-
-            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileEntitySolarPanel);
-
             registrar.addConfigRemote("Advanced Solar Panels", "advsolars.storage");
 
+            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
+            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
@@ -43,12 +41,10 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             TileEntityQGenerator_production = TileEntityQGenerator.getField("production");
             TileEntityQGenerator_maxPacketSize = TileEntityQGenerator.getField("maxPacketSize");
 
-            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileEntityQGenerator);
-
-            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileEntityQGenerator);
-
             registrar.addConfigRemote("Advanced Solar Panels", "advsolars.qproduction");
 
+            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);
+            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }

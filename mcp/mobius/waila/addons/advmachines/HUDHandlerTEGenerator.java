@@ -16,7 +16,12 @@ import net.minecraft.world.World;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 
-public class HUDHandlerTEGenerator implements IDataProvider {
+public final class HUDHandlerTEGenerator implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerTEGenerator();
+
+    private HUDHandlerTEGenerator() {
+    }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {

@@ -8,7 +8,12 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 
-public class HUDDecoratorVanilla implements IBlockDecorator {
+public final class HUDDecoratorVanilla implements IBlockDecorator {
+
+    public static final IBlockDecorator INSTANCE = new HUDDecoratorVanilla();
+
+    private HUDDecoratorVanilla() {
+    }
 
     @Override
     public void decorateBlock(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
