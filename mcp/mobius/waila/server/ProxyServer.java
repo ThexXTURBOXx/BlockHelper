@@ -25,19 +25,23 @@ public class ProxyServer {
     public ProxyServer() {
     }
 
+    public void registerPlugin(IWailaPlugin plugin) {
+        plugins.add(plugin);
+    }
+
     public void prepare() {
-        plugins.add(VanillaPlugin.INSTANCE);
-        plugins.add(AdvMachinesPlugin.INSTANCE);
-        plugins.add(AdvSolarsPlugin.INSTANCE);
-        plugins.add(AppEngPlugin.INSTANCE);
-        plugins.add(BCPlugin.INSTANCE);
-        plugins.add(EEPlugin.INSTANCE);
-        plugins.add(EnderStoragePlugin.INSTANCE);
-        plugins.add(ForgePlugin.INSTANCE);
-        plugins.add(HarvestcraftPlugin.INSTANCE);
-        plugins.add(IC2Plugin.INSTANCE);
-        plugins.add(ProjectRedPlugin.INSTANCE);
-        plugins.add(ThermalExpansionPlugin.INSTANCE);
+        registerPlugin(VanillaPlugin.INSTANCE);
+        registerPlugin(AdvMachinesPlugin.INSTANCE);
+        registerPlugin(AdvSolarsPlugin.INSTANCE);
+        registerPlugin(AppEngPlugin.INSTANCE);
+        registerPlugin(BCPlugin.INSTANCE);
+        registerPlugin(EEPlugin.INSTANCE);
+        registerPlugin(EnderStoragePlugin.INSTANCE);
+        registerPlugin(ForgePlugin.INSTANCE);
+        registerPlugin(HarvestcraftPlugin.INSTANCE);
+        registerPlugin(IC2Plugin.INSTANCE);
+        registerPlugin(ProjectRedPlugin.INSTANCE);
+        registerPlugin(ThermalExpansionPlugin.INSTANCE);
     }
 
     public void registerCorePlugins(IRegistrar registrar) {

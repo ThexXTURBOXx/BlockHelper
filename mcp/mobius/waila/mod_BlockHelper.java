@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.Side;
 import java.io.File;
 import java.util.logging.Logger;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
@@ -106,6 +107,22 @@ public class mod_BlockHelper extends BaseMod {
         CONFIG_KEY_HANDLER.onTickInGame(mc);
         TICK_HANDLER.onTickInGame(mc);
         return true;
+    }
+
+    /**
+     * If you want to register your plugin in a safe way, use something like this:
+     * <p><blockquote><pre>
+     * try {
+     *     Method register = Class.forName("mcp.mobius.waila.mod_BlockHelper").getMethod("registerPlugin",
+     *         Class.forName("mcp.mobius.waila.api.IWailaPlugin"));
+     *     register.invoke(null, new PluginClass());
+     * } catch (Throwable t) {
+     *     t.printStackTrace(); // Proper logging or ignoring
+     * }
+     * </pre></blockquote><p>
+     */
+    public static void registerPlugin(IWailaPlugin plugin) {
+        proxy.registerPlugin(plugin);
     }
 
 }
