@@ -5,8 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -63,6 +63,6 @@ public class DecoratorRenderer {
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopAttrib();
-
     }
+
 }

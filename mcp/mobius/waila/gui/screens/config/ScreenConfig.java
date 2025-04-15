@@ -10,6 +10,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenConfig extends ScreenBase {
+
     public ScreenConfig(GuiScreen parent) {
         super(parent);
 

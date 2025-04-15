@@ -13,19 +13,16 @@ public class UIHelper {
         UIHelper.drawTexture(posX, posY, sizeX, sizeY, 0, 0, 256, 256);
     }
 
-    public static void drawTexture(int posX, int posY, int sizeX, int sizeY, int texU, int texV, int texSizeU,
-                                   int texSizeV) {
+    public static void drawTexture(int posX, int posY, int sizeX, int sizeY, int texU, int texV,
+                                   int texSizeU, int texSizeV) {
         float zLevel = 0.0F;
         float f = 0.00390625F;
 
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
-        tess.addVertexWithUV(posX, posY + sizeY, zLevel, texU * f,
-                (texV + texSizeV) * f);
-        tess.addVertexWithUV(posX + sizeX, posY + sizeY, zLevel, (texU + texSizeU) * f,
-                (texV + texSizeV) * f);
-        tess.addVertexWithUV(posX + sizeX, posY, zLevel, (texU + texSizeU) * f,
-                texV * f);
+        tess.addVertexWithUV(posX, posY + sizeY, zLevel, texU * f, (texV + texSizeV) * f);
+        tess.addVertexWithUV(posX + sizeX, posY + sizeY, zLevel, (texU + texSizeU) * f, (texV + texSizeV) * f);
+        tess.addVertexWithUV(posX + sizeX, posY, zLevel, (texU + texSizeU) * f, texV * f);
         tess.addVertexWithUV(posX, posY, zLevel, texU * f, texV * f);
         tess.draw();
     }
@@ -39,11 +36,13 @@ public class UIHelper {
         float red2 = (float) (color2 >> 16 & 255) / 255.0F;
         float green2 = (float) (color2 >> 8 & 255) / 255.0F;
         float blue2 = (float) (color2 & 255) / 255.0F;
+
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glShadeModel(GL11.GL_SMOOTH);
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA_F(red1, green1, blue1, alpha1);
@@ -53,6 +52,7 @@ public class UIHelper {
         tessellator.addVertex(minx, maxy, zlevel);
         tessellator.addVertex(maxx, maxy, zlevel);
         tessellator.draw();
+
         GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -61,8 +61,8 @@ public class UIHelper {
 
     public static void drawBillboard(Vec3 pos, float offX, float offY, float offZ, double x1, double y1, double x2,
                                      double y2, int r, int g, int b, int a, double partialFrame) {
-        UIHelper.drawBillboard((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, x1, y1,
-                x2, y2, r, g, b, a, partialFrame);
+        UIHelper.drawBillboard((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ,
+                x1, y1, x2, y2, r, g, b, a, partialFrame);
     }
 
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ,
@@ -74,8 +74,8 @@ public class UIHelper {
         float playerViewX =
                 player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * (float) partialFrame;
 
-        UIHelper.drawBillboard(posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F, x1, y1, x2,
-                y2, r, g, b, a);
+        UIHelper.drawBillboard(posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F,
+                x1, y1, x2, y2, r, g, b, a);
     }
 
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ,
@@ -112,8 +112,8 @@ public class UIHelper {
                 partialFrame);
     }
 
-    public static void drawBillboardText(String text, float posX, float posY, float posZ, float offX, float offY,
-                                         float offZ, double partialFrame) {
+    public static void drawBillboardText(String text, float posX, float posY, float posZ,
+                                         float offX, float offY, float offZ, double partialFrame) {
         EntityLiving player = Minecraft.getMinecraft().renderViewEntity;
         float playerViewY =
                 player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float) partialFrame;
@@ -123,14 +123,14 @@ public class UIHelper {
         UIHelper.drawFloatingText(text, posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F);
     }
 
-    public static void drawFloatingText(String text, Vec3 pos, float offX, float offY, float offZ, float rotX,
-                                        float rotY, float rotZ) {
+    public static void drawFloatingText(String text, Vec3 pos, float offX, float offY, float offZ,
+                                        float rotX, float rotY, float rotZ) {
         UIHelper.drawFloatingText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ,
                 rotX, rotY, rotZ);
     }
 
-    public static void drawFloatingText(String text, float posX, float posY, float posZ, float offX, float offY,
-                                        float offZ, float rotX, float rotY, float rotZ) {
+    public static void drawFloatingText(String text, float posX, float posY, float posZ,
+                                        float offX, float offY, float offZ, float rotX, float rotY, float rotZ) {
 
         if (text.isEmpty()) return;
 
@@ -178,8 +178,8 @@ public class UIHelper {
 
     }
 
-    public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g,
-                                     int b, int a) {
+    public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2,
+                                     int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.instance;
 
         tessellator.startDrawingQuads();
@@ -194,8 +194,8 @@ public class UIHelper {
 
     }
 
-    public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g,
-                                       int b, int a) {
+    public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2,
+                                       int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.instance;
 
         tessellator.startDrawingQuads();

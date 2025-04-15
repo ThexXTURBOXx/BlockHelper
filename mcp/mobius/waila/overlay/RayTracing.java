@@ -64,11 +64,7 @@ public class RayTracing {
     }
 
     public Entity getTargetEntity() {
-        if (this.target.typeOfHit == EnumMovingObjectType.ENTITY)
-            this.targetEntity = this.getIdentifierEntity();
-        else
-            this.targetEntity = null;
-
+        this.targetEntity = this.target.typeOfHit == EnumMovingObjectType.ENTITY ? this.getIdentifierEntity() : null;
         return this.targetEntity;
     }
 
@@ -87,8 +83,7 @@ public class RayTracing {
     public ItemStack getIdentifierStack() {
         List<ItemStack> items = this.getIdentifierItems();
 
-        if (items.isEmpty())
-            return null;
+        if (items.isEmpty()) return null;
 
         Collections.sort(items, new Comparator<ItemStack>() {
             @Override
@@ -103,8 +98,7 @@ public class RayTracing {
     public Entity getIdentifierEntity() {
         List<Entity> ents = new ArrayList<Entity>();
 
-        if (this.target == null)
-            return null;
+        if (this.target == null) return null;
 
         if (WailaRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
             for (List<IEntityProvider> listProviders :
@@ -115,17 +109,13 @@ public class RayTracing {
             }
         }
 
-        if (!ents.isEmpty())
-            return ents.get(0);
-        else
-            return this.target.entityHit;
+        return !ents.isEmpty() ? ents.get(0) : this.target.entityHit;
     }
 
     public List<ItemStack> getIdentifierItems() {
         List<ItemStack> items = new ArrayList<ItemStack>();
 
-        if (this.target == null)
-            return items;
+        if (this.target == null) return items;
 
         switch (this.target.typeOfHit) {
         case ENTITY:
@@ -189,14 +179,11 @@ public class RayTracing {
                 }
             }
 
-            if (!items.isEmpty())
-                return items;
+            if (!items.isEmpty()) return items;
 
             if (world.getBlockTileEntity(x, y, z) == null) {
                 try {
                     ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
-
-                    //System.out.printf("%s %s %s\n", block, block.getDisplayName(), block.getItemDamage());
 
                     if (block.getItem() != null)
                         items.add(block);
@@ -210,8 +197,7 @@ public class RayTracing {
                 }
             }
 
-            if (!items.isEmpty())
-                return items;
+            if (!items.isEmpty()) return items;
 
             try {
                 ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, x, y, z);
@@ -220,8 +206,7 @@ public class RayTracing {
             } catch (Throwable ignored) {
             }
 
-            if (!items.isEmpty())
-                return items;
+            if (!items.isEmpty()) return items;
 
             /*
             try

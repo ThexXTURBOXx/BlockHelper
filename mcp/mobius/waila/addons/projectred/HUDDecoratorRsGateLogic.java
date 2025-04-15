@@ -47,13 +47,11 @@ public final class HUDDecoratorRsGateLogic implements IFMPDecorator {
         int hOrient = orient & 0x3;
         ForgeDirection vOrient = ForgeDirection.getOrientation((orient - (orient & 0x3)) >> 2);
 
-        //System.out.printf("%s\n", ForgeDirection.getOrientation(vOrient));
-
         if (vOrient == ForgeDirection.EAST)
-            hOrient -= 1;
+            --hOrient;
 
         if (vOrient == ForgeDirection.WEST)
-            hOrient += 1;
+            ++hOrient;
 
         if (hOrient == -1)
             hOrient = 3;

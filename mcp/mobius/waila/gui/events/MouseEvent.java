@@ -8,14 +8,15 @@ public class MouseEvent {
 
     public enum EventType {NONE, MOVE, CLICK, RELEASED, DRAG, WHEEL, ENTER, LEAVE}
 
+    public static final int BUTTON_COUNT = Mouse.getButtonCount();
+
     public long timestamp;
     public Minecraft mc;
     public IWidget srcwidget;
     public IWidget trgwidget;
     public double x, y;
     public int z;
-    public static int buttonCount = Mouse.getButtonCount();
-    public boolean[] buttonState = new boolean[buttonCount];
+    public boolean[] buttonState = new boolean[BUTTON_COUNT];
     public EventType type;
     public int button = -1;
 
@@ -31,7 +32,7 @@ public class MouseEvent {
 
         this.z = Mouse.getDWheel();
 
-        for (int i = 0; i < buttonCount; i++)
+        for (int i = 0; i < BUTTON_COUNT; i++)
             buttonState[i] = Mouse.isButtonDown(i);
 
         this.trgwidget = this.srcwidget.getWidgetAtCoordinates(this.x, this.y);
@@ -40,12 +41,10 @@ public class MouseEvent {
     public String toString() {
         StringBuilder retstring = new StringBuilder(String.format("MOUSE %s :  [%s] [ %.2f %.2f %d ] [",
                 this.type, this.timestamp, this.x, this.y, this.z));
-        if (buttonCount < 5)
-            for (int i = 0; i < buttonCount; i++)
-                retstring.append(String.format(" %s ", this.buttonState[i]));
-        else
-            for (int i = 0; i < 5; i++)
-                retstring.append(String.format(" %s ", this.buttonState[i]));
+
+        for (int i = 0; i < Math.min(5, BUTTON_COUNT); ++i)
+            retstring.append(String.format(" %s ", this.buttonState[i]));
+
         retstring.append("]");
 
         if (this.button != -1)
@@ -69,12 +68,9 @@ public class MouseEvent {
             return this.type;
         }
 
-        for (int i = 0; i < buttonCount; i++) {
+        for (int i = 0; i < BUTTON_COUNT; i++) {
             if (this.buttonState[i] != me.buttonState[i]) {
-                if (this.buttonState[i])
-                    this.type = EventType.CLICK;
-                else
-                    this.type = EventType.RELEASED;
+                this.type = this.buttonState[i] ? EventType.CLICK : EventType.RELEASED;
                 this.button = i;
                 return this.type;
             }
@@ -82,10 +78,7 @@ public class MouseEvent {
 
         //MOVE & DRAG EVENTS (we moved the mouse and button 0 was clicked or not)
         if ((this.x != me.x) || (this.y != me.y)) {
-            if (this.buttonState[0])
-                this.type = EventType.DRAG;
-            else
-                this.type = EventType.MOVE;
+            this.type = this.buttonState[0] ? EventType.DRAG : EventType.MOVE;
             return this.type;
         }
 

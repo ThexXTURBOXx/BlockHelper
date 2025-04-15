@@ -62,9 +62,8 @@ public final class SpecialChars {
      */
     public static String getRenderString(String name, Object... params) {
         StringBuilder result = new StringBuilder(RENDER + "{" + name);
-        for (Object o : params) {
+        for (Object o : params)
             result.append(",").append(o);
-        }
         result.append("}");
         return result.toString();
     }

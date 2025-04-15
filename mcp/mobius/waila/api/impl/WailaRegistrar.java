@@ -12,9 +12,9 @@ import mcp.mobius.waila.api.IFMPDecorator;
 import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 
@@ -195,9 +195,9 @@ public class WailaRegistrar implements IRegistrar {
 
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
         if (clazz == null || dataProvider == null)
-            throw new RuntimeException(String.format("Trying to register a null provider or null block ! Please check"
-                                                     + " the stacktrace to know what was the original registration "
-                                                     + "method. [Provider : %s, Target : %s]",
+            throw new RuntimeException(String.format(
+                    "Trying to register a null provider or null block! Please check the stacktrace to know what " +
+                    "was the original registration method. [Provider : %s, Target : %s]",
                     dataProvider.getClass().getName(), clazz));
 
         if (!target.containsKey(clazz))
@@ -214,8 +214,9 @@ public class WailaRegistrar implements IRegistrar {
         if (!this.tooltipRenderers.containsKey(name))
             this.tooltipRenderers.put(name, renderer);
         else
-            mod_BlockHelper.LOG.warning(String.format("A renderer named %s already exists (Class : %s). Skipping new "
-                                                      + "renderer.", name, renderer.getClass().getName()));
+            mod_BlockHelper.LOG.warning(String.format(
+                    "A renderer named %s already exists (Class : %s). Skipping new renderer.",
+                    name, renderer.getClass().getName()));
     }
 
     /* PROVIDER GETTERS */
@@ -290,13 +291,12 @@ public class WailaRegistrar implements IRegistrar {
 
     private <V, T> Map<Integer, List<T>> getProviders(V obj, Map<Class<? extends V>, List<T>> target) {
         Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
-        Integer index = 0;
 
+        int index = 0;
         for (Class<?> clazz : target.keySet()) {
             if (clazz.isInstance(obj))
                 returnList.put(index, target.get(clazz));
-
-            index++;
+            ++index;
         }
 
         return returnList;

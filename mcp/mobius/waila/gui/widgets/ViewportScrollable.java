@@ -36,8 +36,8 @@ public class ViewportScrollable extends WidgetBase {
 
         @Override
         public void draw(Point pos) {
-            UIHelper.drawGradientRect(this.getLeft(), this.getTop(), this.getRight(), this.getBottom(), 1, 0xff999999
-                    , 0xff999999);
+            UIHelper.drawGradientRect(this.getLeft(), this.getTop(), this.getRight(), this.getBottom(), 1,
+                    0xff999999, 0xff999999);
             int offsetScaled =
                     (int) (((double) this.getSize().getY() - (double) sizeCursor + 1) / (double) this.maxValue * (yOffset));
             UIHelper.drawGradientRect(this.getLeft(), this.getTop() + offsetScaled, this.getRight(),

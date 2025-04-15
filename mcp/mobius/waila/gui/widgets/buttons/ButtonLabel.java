@@ -21,4 +21,5 @@ public class ButtonLabel extends ButtonBase {
     public void onMouseClick(MouseEvent event) {
         super.onMouseClick(event);
     }
+
 }

@@ -19,11 +19,9 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public Packet0x00ServerPing() {
         ConfigCategory serverForcingCfg = PluginConfig.instance().config.getCategory(Constants.CATEGORY_SERVER);
 
-        for (String key : serverForcingCfg.keySet()) {
-            if (serverForcingCfg.get(key).getBoolean(false)) {
+        for (String key : serverForcingCfg.keySet())
+            if (serverForcingCfg.get(key).getBoolean(false))
                 forcedKeys.put(key, PluginConfig.instance().get(key));
-            }
-        }
     }
 
     @Override
@@ -39,9 +37,8 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public void decode(DataInputStream dat) {
         try {
             int nkeys = dat.readShort();
-            for (int i = 0; i < nkeys; i++) {
+            for (int i = 0; i < nkeys; i++)
                 this.forcedKeys.put(Packet.readString(dat, 255), dat.readBoolean());
-            }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
         }

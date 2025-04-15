@@ -4,7 +4,8 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.Configuration;
 
-public class OverlayConfig {
+public final class OverlayConfig {
+
     public static int posX;
     public static int posY;
     public static int alpha;
@@ -30,4 +31,9 @@ public class OverlayConfig {
                 OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_FONTCOLOR, 0);
     }
+
+    private OverlayConfig() {
+        throw new UnsupportedOperationException();
+    }
+
 }

@@ -27,6 +27,7 @@ import static mcp.mobius.waila.api.SpecialChars.patternRender;
 import static mcp.mobius.waila.api.SpecialChars.patternTab;
 
 public class Tooltip {
+
     public static final int TabSpacing = 8;
     public static final int IconSize = 8;
 
@@ -49,6 +50,7 @@ public class Tooltip {
 
     /// //////////////////////////////////Renderable///////////////////////////////////////
     private static class Renderable {
+
         final ITooltipRenderer renderer;
         final Point pos;
         final String[] params;
@@ -87,6 +89,7 @@ public class Tooltip {
         public String toString() {
             return String.format("Renderable@[%d,%d] | %s", pos.getX(), pos.getY(), renderer);
         }
+
     }
 
     /// /////////////////////////////////////////////////////////////////////////
@@ -227,4 +230,5 @@ public class Tooltip {
         for (Renderable r : this.elements2nd)
             r.draw(accessor, x + offsetX, y + ty);
     }
+
 }

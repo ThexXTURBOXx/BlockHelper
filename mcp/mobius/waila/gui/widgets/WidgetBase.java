@@ -298,66 +298,42 @@ public abstract class WidgetBase implements IWidget {
 
     @Override
     public void onMouseClick(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseClick(event);
-
-        //IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-        //if (widget != null && widget != this)
-        //	widget.onMouseClick(event);
     }
 
     @Override
     public void onMouseDrag(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseDrag(event);
-
-        //IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-        //if (widget != null && widget != this)
-        //	widget.onMouseDrag(event);
     }
 
     @Override
     public void onMouseMove(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseMove(event);
-
-
-        //IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-        //if (widget != null && widget != this)
-        //	widget.onMouseMove(event);
     }
 
     @Override
     public void onMouseRelease(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseRelease(event);
-
-        //IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-        //if (widget != null && widget != this)
-        //	widget.onMouseRelease(event);
     }
 
     @Override
     public void onMouseWheel(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseWheel(event);
     }
 
     @Override
     public void onMouseEnter(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseEnter(event);
     }
 
     @Override
     public void onMouseLeave(MouseEvent event) {
-        //System.out.printf("%s %s\n", this, event);
         if (this.parent != null)
             this.parent.onMouseLeave(event);
     }
@@ -373,4 +349,5 @@ public abstract class WidgetBase implements IWidget {
         if (this.parent != null)
             this.parent.onWidgetEvent(srcwidget, signal, params);
     }
+
 }

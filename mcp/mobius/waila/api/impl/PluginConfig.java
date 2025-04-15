@@ -34,7 +34,6 @@ public class PluginConfig implements IPluginConfig {
     public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
     public Configuration config = null;
 
-
     public void addModule(String modName, Map<String, String> options) {
         this.addModule(modName, new ConfigModule(modName, options));
     }
@@ -50,10 +49,7 @@ public class PluginConfig implements IPluginConfig {
 
     @Override
     public Map<String, String> getKeys(String modName) {
-        if (this.modules.containsKey(modName))
-            return this.modules.get(modName).options;
-        else
-            return null;
+        return this.modules.containsKey(modName) ? this.modules.get(modName).options : null;
     }
 
     private void saveModuleKey(String modName, String key) {
@@ -162,7 +158,8 @@ public class PluginConfig implements IPluginConfig {
         OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000).getInt();
         OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100).getInt();
 
-        OverlayConfig.alpha = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, 80).getInt();
+        OverlayConfig.alpha =
+                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, 80).getInt();
         OverlayConfig.bgcolor =
                 config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, 0x100010).getInt();
         OverlayConfig.gradient1 =
@@ -179,20 +176,19 @@ public class PluginConfig implements IPluginConfig {
         HUDHandlerEntities.maxhpfortext =
                 config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 
-        mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL,
-                Constants.CFG_WAILA_UPDATE_CHECK, true);
+        mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
 
-        config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules"
-                                                                  + ".\nServer side, it is used to enforce keys client"
-                                                                  + " side using the next section.");
-        config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the "
-                                                                 + "client is using the configuration set in the "
-                                                                 + "'module' section above.\nThis is useful for "
-                                                                 + "enforcing false to 'cheating' keys like silverfish"
-                                                                 + ".");
+        config.getCategory(Constants.CATEGORY_MODULES).setComment(
+                "Those are the config keys defined in modules.\n" +
+                "Server side, it is used to enforce keys client side using the next section.");
+        config.getCategory(Constants.CATEGORY_SERVER).setComment(
+                "Any key set to true here will ensure that the client is using the configuration set in the 'module' " +
+                "section above.\n" +
+                "This is useful for enforcing false to 'cheating' keys like silverfish.");
 
         config.save();
     }
+
 }

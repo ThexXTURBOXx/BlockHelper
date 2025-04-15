@@ -48,7 +48,7 @@ public class ButtonContainerLabel extends WidgetBase {
         this.getWidget(layoutLabelName).getWidget(labelName).setGeometry(new WidgetGeometry(50.0, 50.0, buttonSize,
                 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
-        this.nButtons += 1;
+        ++this.nButtons;
     }
 
     @Override

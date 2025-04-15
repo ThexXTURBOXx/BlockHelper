@@ -2,11 +2,13 @@ package mcp.mobius.waila.utils;
 
 import java.util.Random;
 
-public class ConstantRandom extends Random {
+public final class ConstantRandom extends Random {
 
     public static final ConstantRandom INSTANCE = new ConstantRandom();
 
-    public ConstantRandom() {
+    private static final long serialVersionUID = 2065235430889955492L;
+
+    private ConstantRandom() {
         super(0);
     }
 

@@ -9,9 +9,10 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Mouse;
 
 public abstract class ScreenBase extends GuiScreen {
+
     protected GuiScreen parent;                    // Return screen if available.
     protected Minecraft mc;                        // Minecraft instance
-    protected Map<String, IWidget> widgets;    // List of widgets on this ui
+    protected Map<String, IWidget> widgets;        // List of widgets on this ui
 
     public ScreenBase(GuiScreen parent) {
         this.parent = parent;

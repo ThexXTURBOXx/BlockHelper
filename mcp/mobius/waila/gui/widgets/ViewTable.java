@@ -9,6 +9,7 @@ import org.lwjgl.util.Point;
 public class ViewTable extends WidgetBase {
 
     public static class Cell extends WidgetBase {
+
         public Cell(IWidget parent, String text, WAlign align) {
             super(parent);
 
@@ -25,8 +26,8 @@ public class ViewTable extends WidgetBase {
             case LEFT:
                 //this.getWidget("Crop").addWidget("Text", new LabelFixedFont(null, text))
                 this.addWidget("Text", new LabelFixedFont(null, text))
-                        .setGeometry(new WidgetGeometry(5.0, 50.0, 95.0, 100.0, CType.RELXY, CType.RELXY, WAlign.LEFT
-                                , WAlign.CENTER));
+                        .setGeometry(new WidgetGeometry(5.0, 50.0, 95.0, 100.0, CType.RELXY, CType.RELXY,
+                                WAlign.LEFT, WAlign.CENTER));
                 break;
             case RIGHT:
                 //this.getWidget("Crop").addWidget("Text", new LabelFixedFont(null, text))
@@ -42,9 +43,11 @@ public class ViewTable extends WidgetBase {
         @Override
         public void draw(Point pos) {
         }
+
     }
 
     public static class Row extends WidgetBase {
+
         int ncolumns = -1;
         double[] widths;
         String[] texts;
@@ -67,8 +70,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = widths.length;
             else if (this.ncolumns != widths.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns
-                        , widths.length));
+                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
+                        this.ncolumns, widths.length));
             }
 
             this.widths = widths;
@@ -80,8 +83,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = strings.length;
             else if (this.ncolumns != strings.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns
-                        , strings.length));
+                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
+                        this.ncolumns, strings.length));
             }
 
             this.texts = strings;
@@ -93,8 +96,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = aligns.length;
             else if (this.ncolumns != aligns.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns
-                        , aligns.length));
+                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
+                        this.ncolumns, aligns.length));
             }
 
             this.aligns = aligns;
@@ -117,8 +120,8 @@ public class ViewTable extends WidgetBase {
                     if (!this.widgets.containsKey(String.format("Cell_%02d", i))) {
                         Cell cell = (Cell) (this.addWidget(String.format("Cell_%02d", i), new Cell(null,
                                 this.texts[i], this.aligns[i])));
-                        cell.setGeometry(new WidgetGeometry(currentOffset, 50.0, this.widths[i], 100.0, CType.RELXY,
-                                CType.RELXY, WAlign.LEFT, WAlign.CENTER));
+                        cell.setGeometry(new WidgetGeometry(currentOffset, 50.0, this.widths[i], 100.0,
+                                CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.CENTER));
                         currentOffset += this.widths[i];
                     }
                 }
@@ -131,6 +134,7 @@ public class ViewTable extends WidgetBase {
         @Override
         public void draw(Point pos) {
         }
+
     }
 
     int ncolumns = -1;
@@ -138,17 +142,15 @@ public class ViewTable extends WidgetBase {
     double[] widths;
     String[] texts;
     WAlign[] aligns;
-    boolean init = false;
 
     public ViewTable(IWidget parent) {
         super(parent);
-        this.addWidget("Titles", new Row(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 16.0, CType.REL_X,
-                CType.REL_X, WAlign.LEFT, WAlign.TOP));
+        this.addWidget("Titles", new Row(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 16.0,
+                CType.REL_X, CType.REL_X, WAlign.LEFT, WAlign.TOP));
         ((Row) this.getWidget("Titles")).setColors(0x00000000, 0x00000000);
         this.addWidget("Viewport", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(0.0, 16.0, 100.0,
                 90.0, CType.REL_X, CType.RELXY, WAlign.LEFT, WAlign.TOP));
         ((ViewportScrollable) (this.getWidget("Viewport"))).attachWidget(new LayoutBase(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 0.0, CType.RELXY, CType.REL_X, WAlign.LEFT, WAlign.TOP));
-
     }
 
     @Override
@@ -206,12 +208,12 @@ public class ViewTable extends WidgetBase {
         newRow.setColumnsAlign(this.aligns);
         if (this.nrows % 2 == 1)
             newRow.setColors(0x50808080, 0x50808080);
-        newRow.setGeometry(new WidgetGeometry(0.0, 16 * this.nrows, 100.0, 16, CType.REL_X, CType.REL_X, WAlign.LEFT,
-                WAlign.TOP));
+        newRow.setGeometry(new WidgetGeometry(0.0, 16 * this.nrows, 100.0, 16, CType.REL_X, CType.REL_X,
+                WAlign.LEFT, WAlign.TOP));
 
         tableLayout.addWidget(String.format("Row_%03d", this.nrows), newRow);
 
-        this.nrows += 1;
+        ++this.nrows;
 
         return this;
     }

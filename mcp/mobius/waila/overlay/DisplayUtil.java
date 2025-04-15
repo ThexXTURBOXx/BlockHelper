@@ -24,7 +24,8 @@ import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
 import static mcp.mobius.waila.api.SpecialChars.patternRender;
 import static mcp.mobius.waila.api.SpecialChars.patternWaila;
 
-public class DisplayUtil {
+public final class DisplayUtil {
+
     private static final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
     private static final RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     private static final RenderItem renderItem = new RenderItem();
@@ -33,9 +34,12 @@ public class DisplayUtil {
         renderItem.zLevel = 200.0F; // important for enchantment glint
     }
 
+    private DisplayUtil() {
+        throw new UnsupportedOperationException();
+    }
+
     public static int getDisplayWidth(String s) {
-        if (s == null || s.isEmpty())
-            return 0;
+        if (s == null || s.isEmpty()) return 0;
 
         int width = 0;
 
@@ -99,11 +103,13 @@ public class DisplayUtil {
         float f5 = (float) (grad2 >> 16 & 255) / 255.0F;
         float f6 = (float) (grad2 >> 8 & 255) / 255.0F;
         float f7 = (float) (grad2 & 255) / 255.0F;
+
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glShadeModel(GL11.GL_SMOOTH);
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA_F(f1, f2, f3, f);
@@ -113,6 +119,7 @@ public class DisplayUtil {
         tessellator.addVertex(x, y + h, zLevel);
         tessellator.addVertex(x + w, y + h, zLevel);
         tessellator.draw();
+
         GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -123,6 +130,7 @@ public class DisplayUtil {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         float zLevel = 0.0F;
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.setColorOpaque_F(1, 1, 1);

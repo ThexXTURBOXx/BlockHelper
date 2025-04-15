@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -42,9 +43,10 @@ public class MetaDataProvider {
                                             IDataAccessor accessor) {
         Block block = accessor.getBlock();
         int blockID = accessor.getBlockID();
+        WailaRegistrar registrar = WailaRegistrar.instance();
 
-        if (WailaRegistrar.instance().hasStackProviders(block)) {
-            for (List<IDataProvider> providerList : WailaRegistrar.instance().getStackProviders(block).values()) {
+        if (registrar.hasStackProviders(block)) {
+            for (List<IDataProvider> providerList : registrar.getStackProviders(block).values()) {
                 for (IDataProvider dataProvider : providerList) {
                     try {
                         ItemStack retval = dataProvider.getStack(accessor, PluginConfig.instance());
@@ -63,11 +65,12 @@ public class MetaDataProvider {
                                     MovingObjectPosition mop, DataAccessorCommon accessor,
                                     ITaggedList<String, String> currenttip, TooltipPosition tooltipPosition) {
         Block block = accessor.getBlock();
+        WailaRegistrar registrar = WailaRegistrar.instance();
 
         if (accessor.getTileEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
             accessor.resetTimer();
-            HashSet<String> keys = new HashSet<String>();
-            if (WailaRegistrar.instance().hasNBTProviders(block) || WailaRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
+            Set<String> keys = new HashSet<String>();
+            if (registrar.hasNBTProviders(block) || registrar.hasNBTProviders(accessor.getTileEntity()))
                 WailaPacketHandler.sendPacketToServer(new Packet0x01TERequest(accessor.getTileEntity(), keys));
 
         } else if (accessor.getTileEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
@@ -86,33 +89,32 @@ public class MetaDataProvider {
         tailBlockProviders.clear();
 
         /* Lookup by class (for blocks)*/
-        if (tooltipPosition == TooltipPosition.HEADER && WailaRegistrar.instance().hasHeadProviders(block))
-            headBlockProviders.putAll(WailaRegistrar.instance().getHeadProviders(block));
+        if (tooltipPosition == TooltipPosition.HEADER && registrar.hasHeadProviders(block))
+            headBlockProviders.putAll(registrar.getHeadProviders(block));
 
-        else if (tooltipPosition == TooltipPosition.BODY && WailaRegistrar.instance().hasBodyProviders(block))
-            bodyBlockProviders.putAll(WailaRegistrar.instance().getBodyProviders(block));
+        else if (tooltipPosition == TooltipPosition.BODY && registrar.hasBodyProviders(block))
+            bodyBlockProviders.putAll(registrar.getBodyProviders(block));
 
-        else if (tooltipPosition == TooltipPosition.FOOTER && WailaRegistrar.instance().hasTailProviders(block))
-            tailBlockProviders.putAll(WailaRegistrar.instance().getTailProviders(block));
+        else if (tooltipPosition == TooltipPosition.FOOTER && registrar.hasTailProviders(block))
+            tailBlockProviders.putAll(registrar.getTailProviders(block));
 
 
         /* Lookup by class (for tileentities)*/
-        if (tooltipPosition == TooltipPosition.HEADER && WailaRegistrar.instance().hasHeadProviders(accessor.getTileEntity()))
-            headBlockProviders.putAll(WailaRegistrar.instance().getHeadProviders(accessor.getTileEntity()));
+        if (tooltipPosition == TooltipPosition.HEADER && registrar.hasHeadProviders(accessor.getTileEntity()))
+            headBlockProviders.putAll(registrar.getHeadProviders(accessor.getTileEntity()));
 
-        else if (tooltipPosition == TooltipPosition.BODY && WailaRegistrar.instance().hasBodyProviders(accessor.getTileEntity()))
-            bodyBlockProviders.putAll(WailaRegistrar.instance().getBodyProviders(accessor.getTileEntity()));
+        else if (tooltipPosition == TooltipPosition.BODY && registrar.hasBodyProviders(accessor.getTileEntity()))
+            bodyBlockProviders.putAll(registrar.getBodyProviders(accessor.getTileEntity()));
 
-        else if (tooltipPosition == TooltipPosition.FOOTER && WailaRegistrar.instance().hasTailProviders(accessor.getTileEntity()))
-            tailBlockProviders.putAll(WailaRegistrar.instance().getTailProviders(accessor.getTileEntity()));
+        else if (tooltipPosition == TooltipPosition.FOOTER && registrar.hasTailProviders(accessor.getTileEntity()))
+            tailBlockProviders.putAll(registrar.getTailProviders(accessor.getTileEntity()));
 
         /* Apply all collected providers */
         if (tooltipPosition == TooltipPosition.HEADER)
             for (List<IDataProvider> providersList : headBlockProviders.values()) {
                 for (IDataProvider dataProvider : providersList)
                     try {
-                        dataProvider.modifyHead(itemStack, currenttip, accessor,
-                                PluginConfig.instance());
+                        dataProvider.modifyHead(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
@@ -122,8 +124,7 @@ public class MetaDataProvider {
             for (List<IDataProvider> providersList : bodyBlockProviders.values()) {
                 for (IDataProvider dataProvider : providersList)
                     try {
-                        dataProvider.modifyBody(itemStack, currenttip, accessor,
-                                PluginConfig.instance());
+                        dataProvider.modifyBody(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
@@ -132,8 +133,7 @@ public class MetaDataProvider {
             for (List<IDataProvider> providersList : tailBlockProviders.values()) {
                 for (IDataProvider dataProvider : providersList)
                     try {
-                        dataProvider.modifyTail(itemStack, currenttip, accessor,
-                                PluginConfig.instance());
+                        dataProvider.modifyTail(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
                     }
@@ -143,11 +143,12 @@ public class MetaDataProvider {
     public void handleEntityTextData(Entity entity, World world, EntityPlayer player,
                                      MovingObjectPosition mop, DataAccessorCommon accessor,
                                      ITaggedList<String, String> currenttip, TooltipPosition tooltipPosition) {
+        WailaRegistrar registrar = WailaRegistrar.instance();
 
         if (accessor.getEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)) {
             accessor.resetTimer();
-            HashSet<String> keys = new HashSet<String>();
-            if (WailaRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
+            Set<String> keys = new HashSet<String>();
+            if (registrar.hasNBTEntityProviders(accessor.getEntity()))
                 WailaPacketHandler.sendPacketToServer(new Packet0x03EntRequest(accessor.getEntity(), keys));
         } else if (accessor.getEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)) {
 
@@ -165,14 +166,14 @@ public class MetaDataProvider {
         tailEntityProviders.clear();
 
         /* Lookup by class (for entities)*/
-        if (tooltipPosition == TooltipPosition.HEADER && WailaRegistrar.instance().hasHeadEntityProviders(entity))
-            headEntityProviders.putAll(WailaRegistrar.instance().getHeadEntityProviders(entity));
+        if (tooltipPosition == TooltipPosition.HEADER && registrar.hasHeadEntityProviders(entity))
+            headEntityProviders.putAll(registrar.getHeadEntityProviders(entity));
 
-        else if (tooltipPosition == TooltipPosition.BODY && WailaRegistrar.instance().hasBodyEntityProviders(entity))
-            bodyEntityProviders.putAll(WailaRegistrar.instance().getBodyEntityProviders(entity));
+        else if (tooltipPosition == TooltipPosition.BODY && registrar.hasBodyEntityProviders(entity))
+            bodyEntityProviders.putAll(registrar.getBodyEntityProviders(entity));
 
-        else if (tooltipPosition == TooltipPosition.FOOTER && WailaRegistrar.instance().hasTailEntityProviders(entity))
-            tailEntityProviders.putAll(WailaRegistrar.instance().getTailEntityProviders(entity));
+        else if (tooltipPosition == TooltipPosition.FOOTER && registrar.hasTailEntityProviders(entity))
+            tailEntityProviders.putAll(registrar.getTailEntityProviders(entity));
 
         /* Apply all collected providers */
         if (tooltipPosition == TooltipPosition.HEADER)
@@ -205,4 +206,5 @@ public class MetaDataProvider {
                     }
             }
     }
+
 }

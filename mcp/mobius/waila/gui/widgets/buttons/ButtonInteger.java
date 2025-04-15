@@ -32,7 +32,7 @@ public class ButtonInteger extends ButtonBase {
         super.onMouseClick(event);
 
         if (event.button == 0)
-            this.state += 1;
+            ++this.state;
 
         if (this.state >= this.nStates)
             this.state = 0;

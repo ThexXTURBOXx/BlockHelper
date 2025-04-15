@@ -55,10 +55,10 @@ public class ScreenHUDConfig extends ScreenBase {
 			.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			*/
 
-            double picX = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX
-                    , 0) / 100.0;
-            double picY = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY
-                    , 0) / 100.0;
+            double picX = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                    Constants.CFG_WAILA_POSX, 0) / 100.0;
+            double picY = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                    Constants.CFG_WAILA_POSY, 0) / 100.0;
             float picAlpha = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_ALPHA, 0) / 100.0f;
             scale = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, 0) / 100.0f;
@@ -143,8 +143,6 @@ public class ScreenHUDConfig extends ScreenBase {
 
         @Override
         public void onMouseClick(MouseEvent event) {
-            //System.out.println(this.getWidgetAtCoordinates(event.x, event.y));
-
             if ((event.button == 0) && (this.getWidget("Layout").getWidget("Picture").isWidgetAtCoordinates(event.x,
                     event.y))) {
                 this.getWidget("Layout").getWidget("Picture").onMouseClick(event);

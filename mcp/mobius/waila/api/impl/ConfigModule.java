@@ -8,14 +8,13 @@ public class ConfigModule {
     final String modName;
     final Map<String, String> options;
 
-    public ConfigModule(String _modName) {
-        this.modName = _modName;
-        this.options = new HashMap<String, String>();
+    public ConfigModule(String modName) {
+        this(modName, new HashMap<String, String>());
     }
 
-    public ConfigModule(String _modName, Map<String, String> _options) {
-        this.modName = _modName;
-        this.options = _options;
+    public ConfigModule(String modName, Map<String, String> options) {
+        this.modName = modName;
+        this.options = options;
     }
 
     public void addOption(String key, String name) {

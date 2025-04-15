@@ -22,9 +22,6 @@ public class ProxyServer {
 
     protected final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
 
-    public ProxyServer() {
-    }
-
     public void registerPlugin(IWailaPlugin plugin) {
         plugins.add(plugin);
     }

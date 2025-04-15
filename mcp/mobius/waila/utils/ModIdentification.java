@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -23,7 +25,6 @@ public final class ModIdentification {
     }
 
     public static void init() {
-
         NBTTagList itemDataList = new NBTTagList();
         GameData.writeItemData(itemDataList);
 
@@ -39,8 +40,16 @@ public final class ModIdentification {
 
         modSource_Name.put("minecraft.jar", "Minecraft");
         modSource_Name.put("Forge", "Minecraft");
+        modSource_Name.put("Forge Mod Loader", "Minecraft");
+        modSource_Name.put("Minecraft Forge", "Minecraft");
+        modSource_Name.put("Minecraft Coder Pack", "Minecraft");
+        modSource_Name.put("Mod Coder Pack", "Minecraft");
         modSource_ID.put("minecraft.jar", "Minecraft");
         modSource_ID.put("Forge", "Minecraft");
+        modSource_ID.put("Forge Mod Loader", "Minecraft");
+        modSource_ID.put("Minecraft Forge", "Minecraft");
+        modSource_ID.put("Minecraft Coder Pack", "Minecraft");
+        modSource_ID.put("Mod Coder Pack", "Minecraft");
     }
 
     public static String nameFromObject(Object obj) {
@@ -49,7 +58,7 @@ public final class ModIdentification {
         try {
             objPath = URLDecoder.decode(objPath, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            mod_BlockHelper.LOG.log(Level.WARNING, "nameFromObject", e);
         }
 
         String modName = "<Unknown>";
@@ -71,7 +80,7 @@ public final class ModIdentification {
         try {
             objPath = URLDecoder.decode(objPath, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            mod_BlockHelper.LOG.log(Level.WARNING, "idFromObject", e);
         }
 
 
@@ -94,7 +103,7 @@ public final class ModIdentification {
             ModContainer mod = ModIdentification.findModContainer(modID);
             return mod == null ? "Minecraft" : mod.getName();
         } catch (NullPointerException e) {
-            //System.out.printf("NPE : %s\n",itemstack.toString());
+            mod_BlockHelper.LOG.log(Level.FINEST, "nameFromStack", e);
             return "";
         }
     }

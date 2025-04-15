@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
@@ -20,12 +21,12 @@ public class Packet0x03EntRequest implements IWailaPacket {
 
     public int dim;
     public int id;
-    public HashSet<String> keys = new HashSet<String>();
+    public Set<String> keys = new HashSet<String>();
 
     public Packet0x03EntRequest() {
     }
 
-    public Packet0x03EntRequest(Entity ent, HashSet<String> keys) {
+    public Packet0x03EntRequest(Entity ent, Set<String> keys) {
         this.dim = ent.worldObj.provider.dimensionId;
         this.id = ent.entityId;
         this.keys = keys;

@@ -16,16 +16,13 @@ import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyServer {
 
-    public ProxyClient() {
-    }
-
     @Override
     public void prepare() {
         super.prepare();
 
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
 
-        LangUtil.INSTANCE.addLangDirFromJar(LangUtil.INSTANCE.hostFile(ProxyClient.class), "/assets/waila/lang");
+        LangUtil.INSTANCE.addLangDirFromHost(ProxyClient.class, "/assets/waila/lang");
 
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {

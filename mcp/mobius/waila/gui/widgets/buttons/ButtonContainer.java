@@ -41,7 +41,7 @@ public class ButtonContainer extends WidgetBase {
         this.getWidget(layoutName).getWidget(buttonName).setGeometry(new WidgetGeometry(50.0, 50.0, buttonSize, 20.0,
                 CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
-        this.nButtons += 1;
+        ++this.nButtons;
     }
 
     @Override

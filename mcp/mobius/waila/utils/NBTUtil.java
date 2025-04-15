@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.Set;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import net.minecraft.entity.Entity;
@@ -51,7 +51,6 @@ public final class NBTUtil {
         NBTTagCompound deepTag = targetTag;
         for (int i = 0; i < path.length - 1; i++) {
             if (!deepTag.hasKey(path[i]))
-                //deepTag.setCompoundTag(path[i], new NBTTagCompound());
                 deepTag.setTag(path[i], new NBTTagCompound());
 
             deepTag = deepTag.getCompoundTag(path[i]);
@@ -60,14 +59,13 @@ public final class NBTUtil {
         deepTag.setTag(path[path.length - 1], addedTag);
     }
 
-    public static NBTTagCompound createTag(NBTTagCompound inTag, HashSet<String> keys) {
+    public static NBTTagCompound createTag(NBTTagCompound inTag, Set<String> keys) {
         if (keys.contains("*")) return inTag;
 
         NBTTagCompound outTag = new NBTTagCompound();
 
         for (String key : keys) {
             NBTBase tagToAdd = getTag(key, inTag);
-            //System.out.printf("%s\n", tagToAdd);
             if (tagToAdd != null)
                 setTag(key, outTag, tagToAdd);
         }

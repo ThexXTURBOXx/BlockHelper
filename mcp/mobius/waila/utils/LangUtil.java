@@ -151,4 +151,8 @@ public class LangUtil {
         }
     }
 
+    public void addLangDirFromHost(Class<?> clazz, String dir) {
+        this.addLangDirFromJar(hostFile(clazz), dir);
+    }
+
 }

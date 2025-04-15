@@ -120,10 +120,10 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
 
     @Override
     public NBTTagCompound getNBTData() {
-        if ((this.tileEntity != null) && this.isTagCorrectTileEntity(this.remoteNbt))
+        if (this.tileEntity != null && this.isTagCorrectTileEntity(this.remoteNbt))
             return remoteNbt;
 
-        if ((this.entity != null) && this.isTagCorrectEntity(this.remoteNbt))
+        if (this.entity != null && this.isTagCorrectEntity(this.remoteNbt))
             return remoteNbt;
 
         if (this.tileEntity != null) {

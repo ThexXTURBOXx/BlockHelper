@@ -19,7 +19,7 @@ public final class StringUtils {
         if (length == 0)
             return true;
 
-        for (int i = str.length() - length; i >= 0; i--) {
+        for (int i = str.length() - length; i >= 0; --i) {
             if (str.regionMatches(true, i, searchStr, 0, length))
                 return true;
         }

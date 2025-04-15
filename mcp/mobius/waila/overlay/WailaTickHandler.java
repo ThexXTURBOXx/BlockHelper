@@ -23,15 +23,12 @@ import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 public class WailaTickHandler {
 
     public Tooltip tooltip;
-    public MetaDataProvider handler = new MetaDataProvider();
+    public final MetaDataProvider handler = new MetaDataProvider();
+    private final ITaggedList<String, String> currenttip = new TipList<String, String>();
+    private final ITaggedList<String, String> currenttipHead = new TipList<String, String>();
+    private final ITaggedList<String, String> currenttipBody = new TipList<String, String>();
+    private final ITaggedList<String, String> currenttipTail = new TipList<String, String>();
     private boolean firstTick = true;
-    private ITaggedList<String, String> currenttip;
-    private ITaggedList<String, String> currenttipHead;
-    private ITaggedList<String, String> currenttipBody;
-    private ITaggedList<String, String> currenttipTail;
-
-    public WailaTickHandler() {
-    }
 
     public void onTickInGame(Minecraft mc) {
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
@@ -53,10 +50,10 @@ public class WailaTickHandler {
                 // stack or the override
 
                 if (targetStack != null) {
-                    this.currenttip = new TipList<String, String>();
-                    this.currenttipHead = new TipList<String, String>();
-                    this.currenttipBody = new TipList<String, String>();
-                    this.currenttipTail = new TipList<String, String>();
+                    this.currenttip.clear();
+                    this.currenttipHead.clear();
+                    this.currenttipBody.clear();
+                    this.currenttipTail.clear();
 
 
                     //this.identifiedHighlight = handler.identifyHighlight(world, player, target);
@@ -87,10 +84,10 @@ public class WailaTickHandler {
                 // override check.
 
                 if (targetEnt != null) {
-                    this.currenttip = new TipList<String, String>();
-                    this.currenttipHead = new TipList<String, String>();
-                    this.currenttipBody = new TipList<String, String>();
-                    this.currenttipTail = new TipList<String, String>();
+                    this.currenttip.clear();
+                    this.currenttipHead.clear();
+                    this.currenttipBody.clear();
+                    this.currenttipTail.clear();
 
                     handler.handleEntityTextData(targetEnt, world, player, target, accessor,
                             currenttipHead, TooltipPosition.HEADER);

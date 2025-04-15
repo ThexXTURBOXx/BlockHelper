@@ -110,7 +110,8 @@ public class mod_BlockHelper extends BaseMod {
     }
 
     /**
-     * If you want to register your plugin in a safe way, use something like this:
+     * If you want to register your plugin in a safe way, register it during the {@link #load()} phase
+     * and use something like this:
      * <p><blockquote><pre>
      * try {
      *     Method register = Class.forName("mcp.mobius.waila.mod_BlockHelper").getMethod("registerPlugin",

@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
@@ -43,12 +44,12 @@ public class Packet0x01TERequest implements IWailaPacket {
     public int posX;
     public int posY;
     public int posZ;
-    public HashSet<String> keys = new HashSet<String>();
+    public Set<String> keys = new HashSet<String>();
 
     public Packet0x01TERequest() {
     }
 
-    public Packet0x01TERequest(TileEntity ent, HashSet<String> keys) {
+    public Packet0x01TERequest(TileEntity ent, Set<String> keys) {
         this.dim = ent.getWorldObj().provider.dimensionId;
         this.posX = ent.xCoord;
         this.posY = ent.yCoord;

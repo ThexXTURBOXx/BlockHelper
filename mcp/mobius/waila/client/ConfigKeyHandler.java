@@ -33,24 +33,19 @@ public class ConfigKeyHandler {
     }
 
     public void onTickInGame(Minecraft mc) {
-        if (keyCfg.isPressed()) {
-            if (mc.currentScreen == null)
-                mc.displayGuiScreen(new ScreenConfig(null));
-        }
+        if (mc.currentScreen != null) return;
 
-        if (mc.currentScreen != null)
-            return;
+        if (keyCfg.isPressed())
+            mc.displayGuiScreen(new ScreenConfig(null));
 
-        if (keyShow.isPressed() && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                Constants.CFG_WAILA_MODE, false)) {
-            boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                    Constants.CFG_WAILA_SHOW, true);
-            PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
-        }
-
-        if (keyShow.isPressed() && !PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                Constants.CFG_WAILA_MODE, false)) {
-            PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+        if (keyShow.isPressed()) {
+            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)) {
+                boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                        Constants.CFG_WAILA_SHOW, true);
+                PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
+            } else {
+                PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+            }
         }
 
         if (keyLiquid.isPressed()) {

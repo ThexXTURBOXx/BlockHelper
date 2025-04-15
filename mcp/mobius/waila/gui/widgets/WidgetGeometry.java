@@ -7,11 +7,7 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.util.Point;
 
 
-//public class WidgetGeometry implements Cloneable{
 public class WidgetGeometry {
-
-    //public enum Align {LEFT, CENTER, RIGHT, TOP, BOTTOM};
-
 
     double x;
     double y;
@@ -30,6 +26,7 @@ public class WidgetGeometry {
     WAlign alignY;
 
     public static class PointDouble {
+
         double x;
         double y;
 
@@ -49,14 +46,15 @@ public class WidgetGeometry {
         public String toString() {
             return String.format("PointDouble : %.5f %.5f", this.x, this.y);
         }
+
     }
 
     public WidgetGeometry(double x, double y, double sx, double sy, CType fracPos, CType fracSize) {
         this(x, y, sx, sy, fracPos, fracSize, WAlign.LEFT, WAlign.TOP);
     }
 
-    public WidgetGeometry(double x, double y, double sx, double sy, CType fracPos, CType fracSize, WAlign alignX,
-                          WAlign alignY) {
+    public WidgetGeometry(double x, double y, double sx, double sy, CType fracPos, CType fracSize,
+                          WAlign alignX, WAlign alignY) {
         this.x = x;
         this.y = y;
         this.sx = sx;
@@ -193,8 +191,4 @@ public class WidgetGeometry {
                 this.posType, this.sizeType, this.alignX, this.alignY);
     }
 
-    //@Override
-    //public WidgetGeometry clone() throws CloneNotSupportedException{
-    //	return (WidgetGeometry)super.clone();
-    //}
 }
