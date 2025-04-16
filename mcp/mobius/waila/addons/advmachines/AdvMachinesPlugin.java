@@ -20,6 +20,14 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
+            Class.forName("mods.immibis.am2.AdvancedMachines");
+            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod not found.");
+            return;
+        }
+
+        try {
             TileAM2BaseGenerator = Class.forName("mods.immibis.am2.TileAM2Base");
             TileAM2BaseGenerator_stored = TileAM2BaseGenerator.getDeclaredField("storedEnergy");
             TileAM2BaseGenerator_maxStorage = TileAM2BaseGenerator.getDeclaredField("MAX_STORAGE");

@@ -26,9 +26,9 @@ public final class EnderStoragePlugin implements IWailaPlugin {
     public void registerCommon(IRegistrar registrar) {
         try {
             Class.forName("codechicken.enderstorage.EnderStorage");
-            mod_BlockHelper.LOG.log(Level.INFO, "EnderStorage mod found.");
-        } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] Mod not found.");
             return;
         }
 

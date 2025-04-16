@@ -27,6 +27,14 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
 
     @Override
     public void registerCommon(IRegistrar registrar) {
+        try {
+            Class.forName("thermalexpansion.ThermalExpansion");
+            mod_BlockHelper.LOG.log(Level.INFO, "[Thermal Expansion] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[Thermal Expansion] Mod not found.");
+            return;
+        }
+
         // XXX : We register the energy cell
         try {
             TileEnergyCell = Class.forName("thermalexpansion.block.device.TileEnergyCell");

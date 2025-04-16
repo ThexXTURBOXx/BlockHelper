@@ -16,9 +16,9 @@ public final class ProjectRedPlugin implements IWailaPlugin {
     public void registerCommon(IRegistrar registrar) {
         try {
             Class.forName("mrtjp.projectred.ProjectRed");
-            mod_BlockHelper.LOG.log(Level.INFO, "ProjectRed mod found.");
-        } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] ProjectRed mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] Mod not found.");
             return;
         }
 

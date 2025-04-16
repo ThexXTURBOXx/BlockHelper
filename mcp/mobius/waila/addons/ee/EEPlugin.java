@@ -23,6 +23,14 @@ public final class EEPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
+            Class.forName("com.pahimar.ee3.EquivalentExchange3");
+            mod_BlockHelper.LOG.log(Level.INFO, "[EE] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[EE] Mod not found.");
+            return;
+        }
+
+        try {
             EMCRegistry = Class.forName("com.pahimar.ee3.emc.EMCRegistry");
             EMCRegistry_instance = EMCRegistry.getMethod("instance");
             EMCRegistry_getEMCValue = EMCRegistry.getMethod("getEMCValue", int.class, int.class);

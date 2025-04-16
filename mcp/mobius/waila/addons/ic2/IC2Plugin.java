@@ -20,6 +20,14 @@ public final class IC2Plugin implements IWailaPlugin {
 
     @Override
     public void registerCommon(IRegistrar registrar) {
+        try {
+            Class.forName("ic2.core.IC2");
+            mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod not found.");
+            return;
+        }
+
         // XXX : We register the Energy interface first
         try {
             TileBaseGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");

@@ -28,6 +28,14 @@ public final class BCPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
+            Class.forName("buildcraft.BuildCraftCore");
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC] Mod not found.");
+            return;
+        }
+
+        try {
             TileEngine = Class.forName("buildcraft.energy.TileEngine");
             Engine = Class.forName("buildcraft.energy.Engine");
             IPowerReceptor = Class.forName("buildcraft.api.power.IPowerReceptor");

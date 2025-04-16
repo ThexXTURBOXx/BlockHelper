@@ -2,10 +2,8 @@ package mcp.mobius.waila.addons.vanilla;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockStep;
@@ -45,13 +43,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addConfig("General", "general.showcrop");
 
         registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
-
-        try {
-            Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
-            MAX_STAGES.put(CropBlock, 3);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading crop hooks.", t);
-        }
 
         registrar.addConfigRemote("VanillaMC", "general.showhp");
 

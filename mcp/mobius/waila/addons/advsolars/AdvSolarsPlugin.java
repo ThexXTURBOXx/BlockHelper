@@ -24,6 +24,14 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
+            Class.forName("advsolar.AdvancedSolarPanel");
+            mod_BlockHelper.LOG.log(Level.INFO, "[Advanced Solar Panels] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[Advanced Solar Panels] Mod not found.");
+            return;
+        }
+
+        try {
             TileEntitySolarPanel = Class.forName("advsolar.TileEntitySolarPanel");
             TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
             TileEntitySolarPanel_maxStorage = TileEntitySolarPanel.getField("maxStorage");

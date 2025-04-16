@@ -20,6 +20,14 @@ public final class AppEngPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
+            Class.forName("appeng.common.AppEng");
+            mod_BlockHelper.LOG.log(Level.INFO, "[Applied Energistics] Mod found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[Applied Energistics] Mod not found.");
+            return;
+        }
+
+        try {
             IMEPowerStorage = Class.forName("appeng.api.me.tiles.IMEPowerStorage");
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
             IMEPowerStorage_maxPower = IMEPowerStorage.getMethod("getMEMaxPower");
