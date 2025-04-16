@@ -116,10 +116,10 @@ public final class ModIdentification {
     }
 
     private static String formatModName(String name) {
-        return name
-                .replaceFirst("^mod_", "")
-                .replaceAll("\u00C2\u00A7.", "")
-                .replaceAll("\u00A7.", "");
+        return name == null ? "Minecraft" :
+                name.replaceFirst("^mod_", "")
+                        .replaceAll("\u00C2\u00A7.", "")
+                        .replaceAll("\u00A7.", "");
     }
 
 }

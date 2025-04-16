@@ -17,13 +17,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
+import static mcp.mobius.waila.api.SpecialChars.DRED;
+import static mcp.mobius.waila.api.SpecialChars.GOLD;
+import static mcp.mobius.waila.api.SpecialChars.GREEN;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
 public final class HUDHandlerBlocks implements IDataProvider {
@@ -105,7 +110,8 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (config.get("general.lightlevel") &&
             SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.creature, w, x, y + 1, z)) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
-            String blockLight = (blockLightLevel <= 7 ? "§4" : "§a") + blockLightLevel;
+            int spawnMode = getSpawnMode(w.getChunkFromBlockCoords(x, z), x, y + 1, z);
+            String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? GOLD : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
             currenttip.add(LangUtil.translateG("hud.msg.light_level", blockLight, skyLight));
         }
@@ -127,14 +133,27 @@ public final class HUDHandlerBlocks implements IDataProvider {
     public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         String modName = ModIdentification.nameFromStack(itemStack);
-        if (modName != null && !modName.isEmpty()) {
+        if (!modName.isEmpty())
             currenttip.add(BLUE + ITALIC + modName);
-        }
     }
 
     @Override
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
+    }
+
+    private byte getSpawnMode(Chunk chunk, int x, int y, int z) {
+        if (!SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, chunk.worldObj, x, y, z) ||
+            chunk.getSavedLightValue(EnumSkyBlock.Block, x & 0xF, y, z & 0xF) >= 8)
+            return 0;
+        AxisAlignedBB aabb = AxisAlignedBB.getAABBPool().getAABB(
+                x + 0.2, y + 0.01, z + 0.2, x + 0.8, y + 1.8, z + 0.8);
+        if (!chunk.worldObj.checkNoEntityCollision(aabb) ||
+            !chunk.worldObj.getCollidingBlockBounds(aabb).isEmpty() || chunk.worldObj.isAnyLiquid(aabb))
+            return 0;
+        if (chunk.getSavedLightValue(EnumSkyBlock.Sky, x & 0xF, y, z & 0xF) >= 8)
+            return 1;
+        return 2;
     }
 
 }
