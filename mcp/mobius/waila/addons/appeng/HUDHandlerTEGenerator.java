@@ -43,7 +43,7 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             String storedStr = LangUtil.translateG("hud.msg.stored");
 
             /* EU Storage */
-            if (PluginConfig.instance().get("appeng.storage")) {
+            if (config.get("appeng.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r AE", storedStr,
                             TAB + ALIGNRIGHT, Math.min(storage, maxStorage), maxStorage));

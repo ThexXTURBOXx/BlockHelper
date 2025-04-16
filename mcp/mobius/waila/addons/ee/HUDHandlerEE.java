@@ -34,7 +34,7 @@ public final class HUDHandlerEE implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             /* EMC */
-            if (PluginConfig.instance().get("ee.emc")) {
+            if (config.get("ee.emc")) {
                 Object registry = EEPlugin.EMCRegistry_instance.invoke(null);
                 if (registry != null) {
                     Object entry = EEPlugin.EMCRegistry_getEMCValue.invoke(registry,

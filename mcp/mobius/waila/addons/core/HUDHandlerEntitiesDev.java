@@ -38,7 +38,7 @@ public final class HUDHandlerEntitiesDev implements IEntityProvider {
     @Override
     public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (!mod_BlockHelper.DEV_MODE || !PluginConfig.instance().get("general.dev")) return;
+        if (!mod_BlockHelper.DEV_MODE || !config.get("general.dev")) return;
 
         if (accessor.getEntity() != null)
             currenttip.add(accessor.getEntity().getClass().getName());

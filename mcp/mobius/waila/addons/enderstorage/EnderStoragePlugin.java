@@ -41,7 +41,7 @@ public final class EnderStoragePlugin implements IWailaPlugin {
 
             TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found. ", e);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found.", e);
             return;
         } catch (NoSuchMethodException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Method not found.", e);

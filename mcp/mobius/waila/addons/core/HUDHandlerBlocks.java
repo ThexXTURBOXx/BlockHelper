@@ -64,8 +64,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (currenttip.isEmpty())
             currenttip.add("< Unnamed >");
         else {
-            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,
-                    true)) {
+            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
                 currenttip.add(String.format(ITALIC + "ID %d:%d", accessor.getBlockID(), accessor.getMetadata()));
             }
         }
@@ -89,7 +88,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
 		}
 		*/
 
-        if (PluginConfig.instance().get("general.harvest")) {
+        if (config.get("general.harvest")) {
             String harvest = "hud.msg.please_report";
             if (b != null) {
                 if (b.getBlockHardness(w, x, y, z) < 0.0F) {
@@ -103,7 +102,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             currenttip.add(LangUtil.translateG(harvest));
         }
 
-        if (PluginConfig.instance().get("general.lightlevel") &&
+        if (config.get("general.lightlevel") &&
             SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.creature, w, x, y + 1, z)) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             String blockLight = (blockLightLevel <= 7 ? "§4" : "§a") + blockLightLevel;
@@ -111,7 +110,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             currenttip.add(LangUtil.translateG("hud.msg.light_level", blockLight, skyLight));
         }
 
-        if (PluginConfig.instance().get("general.break")) {
+        if (config.get("general.break")) {
             try {
                 float curBlockDamage = CorePlugin.curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
                 if (curBlockDamage > 0) {

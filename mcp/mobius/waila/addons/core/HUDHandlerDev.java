@@ -32,7 +32,7 @@ public final class HUDHandlerDev implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (!mod_BlockHelper.DEV_MODE || !PluginConfig.instance().get("general.dev")) return;
+        if (!mod_BlockHelper.DEV_MODE || !config.get("general.dev")) return;
 
         if (accessor.getBlock() != null)
             currenttip.add(accessor.getBlock().getClass().getName());

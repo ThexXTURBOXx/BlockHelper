@@ -22,32 +22,25 @@ public final class CorePlugin implements IWailaPlugin {
     public void registerCommon(IRegistrar registrar) {
         registrar.addConfigRemote("General", "general.insivisbleplayers");
 
-        try {
-            Class<?> BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
-            registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
-        } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.FINEST, "[FMP] Class not found. ", e);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
-        }
-
-        Class<?> BlockMultipart;
+        Class<?> BlockMultipart = null;
         try {
             BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.FINEST, "[FMP] Class not found. ", e);
-            return;
+            mod_BlockHelper.LOG.log(Level.FINEST, "[FMP] Class not found.", e);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
-            return;
         }
 
-        registrar.registerHeadProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-        registrar.registerBodyProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-        registrar.registerTailProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-        registrar.registerNBTProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+        if (BlockMultipart != null) {
+            registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
 
-        mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
+            registrar.registerHeadProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+            registrar.registerBodyProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+            registrar.registerTailProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+            registrar.registerNBTProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+
+            mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
+        }
     }
 
     @Override

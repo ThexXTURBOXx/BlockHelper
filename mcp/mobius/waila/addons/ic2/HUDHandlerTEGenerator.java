@@ -45,13 +45,13 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             String outputStr = LangUtil.translateG("hud.msg.output");
 
             /* EU Storage */
-            if (PluginConfig.instance().get("ic2.storage")) {
+            if (config.get("ic2.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr,
                             TAB + ALIGNRIGHT, Math.min(storage, maxStorage), maxStorage));
             }
 
-            if (PluginConfig.instance().get("ic2.outputeu")) {
+            if (config.get("ic2.outputeu")) {
                 currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", outputStr, TAB + ALIGNRIGHT, production));
             }
 

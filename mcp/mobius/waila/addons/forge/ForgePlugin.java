@@ -21,6 +21,7 @@ public final class ForgePlugin implements IWailaPlugin {
 
             registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
             registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
+            registrar.registerNBTProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Forge] Error while loading Tank hooks.", t);
         }

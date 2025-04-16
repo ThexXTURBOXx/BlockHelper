@@ -43,10 +43,6 @@ public final class ProjectRedPlugin implements IWailaPlugin {
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_bgate");
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_agate");
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_rgate");
-
-        //registrar.registerBlockDecorator(HUDDecoratorRsGateLogic.INSTANCE, BlockMultipart);
-        //registrar.registerBodyProvider(HUDHandlerRsGateLogic.INSTANCE, BlockMultipart);
-        //registrar.registerSyncedNBTKey("*", BlockMultipart);
     }
 
     @Override

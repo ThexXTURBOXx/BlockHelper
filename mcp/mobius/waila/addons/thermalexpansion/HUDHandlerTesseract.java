@@ -32,63 +32,30 @@ public final class HUDHandlerTesseract implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
 
+        TileEntity te = accessor.getTileEntity();
+
+        if (!accessor.getNBTData().getBoolean("flag.active")) return;
+
         if (config.get("thermalexpansion.tesssendrecv")) {
             String send = String.format("%s : ", LangUtil.translateG("hud.msg.send"));
             String recv = String.format("%s : ", LangUtil.translateG("hud.msg.recv"));
-            String item = String.format("\u00a7a%s ", LangUtil.translateG("hud.msg.item"));
-            String fluid = String.format("\u00a79%s ", LangUtil.translateG("hud.msg.fluid"));
-            String energ = String.format("\u00a7c%s ", LangUtil.translateG("hud.msg.energ"));
 
+            String type = "<Unknown>";
+            if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
+                type = String.format("\u00a7a%s ", LangUtil.translateG("hud.msg.item"));
+            else if (ThermalExpansionPlugin.TileTesseractLiquid.isInstance(te))
+                type = String.format("\u00a79%s ", LangUtil.translateG("hud.msg.fluid"));
+            else if (ThermalExpansionPlugin.TileTesseractEnergy.isInstance(te))
+                type = String.format("\u00a7c%s ", LangUtil.translateG("hud.msg.energ"));
 
-            switch (accessor.getNBTInteger("Item.Mode")) {
-            case 0:
-                send += item;
-                break;
-            case 1:
-                recv += item;
-                break;
-            case 2:
-                send += item;
-                recv += item;
-                break;
-            }
-
-            switch (accessor.getNBTInteger("Fluid.Mode")) {
-            case 0:
-                send += fluid;
-                break;
-            case 1:
-                recv += fluid;
-                break;
-            case 2:
-                send += fluid;
-                recv += fluid;
-                break;
-            }
-
-            switch (accessor.getNBTInteger("Energy.Mode")) {
-            case 0:
-                send += energ;
-                break;
-            case 1:
-                recv += energ;
-                break;
-            case 2:
-                send += energ;
-                recv += energ;
-                break;
-            }
-
-            if (!send.equals(String.format("%s : ", LangUtil.translateG("hud.msg.send"))))
-                currenttip.add(send);
-
-            if (!send.equals(String.format("%s : ", LangUtil.translateG("hud.msg.recv"))))
-                currenttip.add(recv);
+            int mode = accessor.getNBTInteger("mode");
+            if (mode != 1) currenttip.add(send + type);
+            if (mode != 0) currenttip.add(recv + type);
         }
 
         if (config.get("thermalexpansion.tessfreq"))
             currenttip.add(String.format("%s : %d", LangUtil.translateG("hud.msg.frequency"),
-                    accessor.getNBTInteger("Frequency")));
+                    accessor.getNBTInteger("frequency")));
     }
 
     @Override
@@ -99,16 +66,8 @@ public final class HUDHandlerTesseract implements IDataProvider {
     @Override
     public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
                                  int x, int y, int z) {
-        try {
-            byte modeItem = ThermalExpansionPlugin.TileTesseract_Item.getByte(te);
-            byte modeFluid = ThermalExpansionPlugin.TileTesseract_Fluid.getByte(te);
-            byte modeEnergy = ThermalExpansionPlugin.TileTesseract_Energy.getByte(te);
-            tag.setByte("Item.Mode", modeItem);
-            tag.setByte("Fluid.Mode", modeFluid);
-            tag.setByte("Energy.Mode", modeEnergy);
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
+        if (te != null)
+            te.writeToNBT(tag);
     }
 
 }
