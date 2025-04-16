@@ -26,14 +26,6 @@ public class LayoutCanvas extends LayoutBase {
         this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
 
-		/*
-		this.draw(this.getPos());
-
-		for (IWidget widget: this.widgets.values())
-			if (widget.shouldRender())
-				widget.draw();
-		*/
-
         super.draw();
 
         this.handleMouseInput();
@@ -58,27 +50,22 @@ public class LayoutCanvas extends LayoutBase {
         case CLICK:
             if (targetWidget != null)
                 targetWidget.onMouseClick(event);
-            //this.onMouseClick(event);
             break;
         case DRAG:
             if (targetWidget != null)
                 targetWidget.onMouseDrag(event);
-            //this.onMouseDrag(event);
             break;
         case MOVE:
             if (targetWidget != null)
                 targetWidget.onMouseMove(event);
-            //this.onMouseMove(event);
             break;
         case RELEASED:
             if (targetWidget != null)
                 targetWidget.onMouseRelease(event);
-            //this.onMouseRelease(event);
             break;
         case WHEEL:
             if (targetWidget != null)
                 targetWidget.onMouseWheel(event);
-            //this.onMouseWheel(event);
             break;
         case ENTER:
             if (event.trgwidget != null)
@@ -117,4 +104,5 @@ public class LayoutCanvas extends LayoutBase {
         else
             super.onMouseDrag(event);
     }
+
 }

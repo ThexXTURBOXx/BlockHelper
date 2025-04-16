@@ -78,7 +78,6 @@ public abstract class WidgetBase implements IWidget {
             break;
         }
 
-
         return this.getWidget(name);
     }
 

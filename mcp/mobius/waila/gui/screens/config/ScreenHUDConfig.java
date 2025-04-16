@@ -23,6 +23,7 @@ import net.minecraftforge.common.Configuration;
 public class ScreenHUDConfig extends ScreenBase {
 
     private static class EventCanvas extends LayoutBase {
+
         IWidget draggedWidget = null;
 
         float scale;
@@ -67,14 +68,16 @@ public class ScreenHUDConfig extends ScreenBase {
                     (int) (62.0f / this.rez.getScaleFactor() * scale);
             this.addWidget("Layout", new LayoutMargin(null), RenderPriority.HIGH);
             ((LayoutMargin) this.getWidget("Layout")).setMargins(picSX / 2, picSX / 2, picSY / 2, picSY / 2);
-            this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "/assets/waila/textures"
-                                                                                     + "/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+            this.getWidget("Layout").addWidget("Picture",
+                            new PictureMovableRC(null, "/assets/waila/textures/config_template.png"))
+                    .setGeometry(new WidgetGeometry(picX, picY, picSX, picSY, CType.RELXY, CType.ABSXY,
+                            WAlign.CENTER, WAlign.CENTER));
 
             this.addWidget("TextTuto1", new LabelFixedFont(null, "screen.label.dragtuto")).setGeometry(new WidgetGeometry(50.0, 30.0, 20, 20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
             IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
-            layoutX.setGeometry(new WidgetGeometry(35.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY, WAlign.CENTER,
-                    WAlign.CENTER));
+            layoutX.setGeometry(new WidgetGeometry(35.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY,
+                    WAlign.CENTER, WAlign.CENTER));
             layoutX.addWidget("LabelX", new LabelFixedFont(null, "X")).setGeometry(new WidgetGeometry(50.0, 0.0, 20,
                     20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
             layoutX.addWidget("ButtonXAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0, 10.0, 20,
@@ -85,8 +88,8 @@ public class ScreenHUDConfig extends ScreenBase {
                     20, CType.REL_X, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 
             IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
-            layoutY.setGeometry(new WidgetGeometry(45.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY, WAlign.CENTER,
-                    WAlign.CENTER));
+            layoutY.setGeometry(new WidgetGeometry(45.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY,
+                    WAlign.CENTER, WAlign.CENTER));
             layoutY.addWidget("LabelY", new LabelFixedFont(null, "Y")).setGeometry(new WidgetGeometry(50.0, 0.0, 20,
                     20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
             layoutY.addWidget("ButtonYAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0, 10.0, 20,
@@ -97,8 +100,8 @@ public class ScreenHUDConfig extends ScreenBase {
                     20, CType.REL_X, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 
             IWidget layoutAlpha = this.addWidget("LayoutAlpha", new LayoutBase(this));
-            layoutAlpha.setGeometry(new WidgetGeometry(55.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY, WAlign.CENTER,
-                    WAlign.CENTER));
+            layoutAlpha.setGeometry(new WidgetGeometry(55.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY,
+                    WAlign.CENTER, WAlign.CENTER));
             layoutAlpha.addWidget("LabelAlpha", new LabelFixedFont(null, "Alpha")).setGeometry(new WidgetGeometry(50.0, 0.0, 20, 20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
             layoutAlpha.addWidget("ButtonAlphaAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,
                     10.0, 20, 20, CType.REL_X, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
@@ -107,8 +110,8 @@ public class ScreenHUDConfig extends ScreenBase {
                     60.0, 20, 20, CType.REL_X, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 
             IWidget layoutScale = this.addWidget("LayoutScale", new LayoutBase(this));
-            layoutScale.setGeometry(new WidgetGeometry(65.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY, WAlign.CENTER,
-                    WAlign.CENTER));
+            layoutScale.setGeometry(new WidgetGeometry(65.0, 50.0, 20, 80, CType.RELXY, CType.ABSXY,
+                    WAlign.CENTER, WAlign.CENTER));
             layoutScale.addWidget("LabelScale", new LabelFixedFont(null, "screen.label.scale")).setGeometry(new WidgetGeometry(50.0, 0.0, 20, 20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
             layoutScale.addWidget("ButtonScaleAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,
                     10.0, 20, 20, CType.REL_X, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
@@ -122,15 +125,16 @@ public class ScreenHUDConfig extends ScreenBase {
             this.addWidget("ButtonDefault", new ButtonLabel(null, "screen.button.default")).setGeometry(new WidgetGeometry(50.0, 97.0, 75, 20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 
 
-            ((LabelFixedFont) this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f",
-                    picX));
-            ((LabelFixedFont) this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f",
-                    picY));
-            ((LabelFixedFont) this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", picAlpha));
-            ((LabelFixedFont) this.getWidget("LayoutScale").getWidget("ValueDisplayScale")).setText(String.format("%.2f", scale));
+            ((LabelFixedFont) this.getWidget("LayoutX").getWidget("ValueDisplayX"))
+                    .setText(String.format("%.2f", picX));
+            ((LabelFixedFont) this.getWidget("LayoutY").getWidget("ValueDisplayY"))
+                    .setText(String.format("%.2f", picY));
+            ((LabelFixedFont) this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha"))
+                    .setText(String.format("%.2f", picAlpha));
+            ((LabelFixedFont) this.getWidget("LayoutScale").getWidget("ValueDisplayScale"))
+                    .setText(String.format("%.2f", scale));
 
             this.getWidget("Layout").getWidget("Picture").setAlpha(picAlpha);
-
         }
 
         @Override
@@ -143,8 +147,8 @@ public class ScreenHUDConfig extends ScreenBase {
 
         @Override
         public void onMouseClick(MouseEvent event) {
-            if ((event.button == 0) && (this.getWidget("Layout").getWidget("Picture").isWidgetAtCoordinates(event.x,
-                    event.y))) {
+            if ((event.button == 0) && (this.getWidget("Layout").getWidget("Picture")
+                    .isWidgetAtCoordinates(event.x, event.y))) {
                 this.getWidget("Layout").getWidget("Picture").onMouseClick(event);
                 this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
             } else
@@ -283,6 +287,7 @@ public class ScreenHUDConfig extends ScreenBase {
                 this.updateData();
             }
         }
+
     }
 
     public ScreenHUDConfig(GuiScreen parent) {

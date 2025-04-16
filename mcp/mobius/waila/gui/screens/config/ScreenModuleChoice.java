@@ -32,4 +32,5 @@ public class ScreenModuleChoice extends ScreenBase {
         this.getRoot().getWidget("LayoutBack").getWidget("ButtonBack").setGeometry(new WidgetGeometry(50.0, 50.0,
                 100.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
     }
+
 }

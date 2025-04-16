@@ -10,10 +10,10 @@ import org.lwjgl.util.Point;
 
 public class ButtonContainer extends WidgetBase {
 
-    private int nButtons = 0;
     private final int columns;
     private final int buttonSize;
     private final double spacing;
+    private int nButtons = 0;
 
     public ButtonContainer(IWidget parent, int columns, int buttonSize, double spacing) {
         super(parent);
@@ -25,21 +25,21 @@ public class ButtonContainer extends WidgetBase {
     public void addButton(ButtonBase button) {
         String buttonName = String.format("Button_%d", nButtons);
         String layoutName = String.format("Layout_%d", nButtons);
-        String layoutLabelName = String.format("LayoutLabel_%d", nButtons);
-        String labelName = String.format("Label_%d", nButtons);
+        //String layoutLabelName = String.format("LayoutLabel_%d", nButtons);
+        //String labelName = String.format("Label_%d", nButtons);
 
         this.addWidget(layoutName, new LayoutBase(this));
-        this.addWidget(layoutLabelName, new LayoutBase(this));
+        //this.addWidget(layoutLabelName, new LayoutBase(this));
 
         int column = this.nButtons % this.columns;
         int row = this.nButtons / this.columns;
         double sizeColumn = 100.0 / this.columns;
 
-        this.getWidget(layoutName).setGeometry(new WidgetGeometry(sizeColumn * column, spacing * row, sizeColumn,
-                spacing, CType.REL_X, CType.REL_X, WAlign.LEFT, WAlign.TOP));
+        this.getWidget(layoutName).setGeometry(new WidgetGeometry(sizeColumn * column, spacing * row,
+                sizeColumn, spacing, CType.REL_X, CType.REL_X, WAlign.LEFT, WAlign.TOP));
         this.getWidget(layoutName).addWidget(buttonName, button);
-        this.getWidget(layoutName).getWidget(buttonName).setGeometry(new WidgetGeometry(50.0, 50.0, buttonSize, 20.0,
-                CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+        this.getWidget(layoutName).getWidget(buttonName).setGeometry(new WidgetGeometry(50.0, 50.0,
+                buttonSize, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
         ++this.nButtons;
     }
