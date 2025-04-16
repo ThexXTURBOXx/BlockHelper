@@ -4,7 +4,6 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;

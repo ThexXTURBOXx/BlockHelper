@@ -4,7 +4,6 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
