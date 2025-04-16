@@ -60,9 +60,9 @@ public final class HUDHandlerStorage implements IDataProvider {
                 int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
 
                 if (!EnderStoragePlugin.TileEnderTank.isInstance(accessor.getTileEntity()))
-                    currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
+                    currenttip.add(colors[freqLeft] + "/" + colors[freqCenter] + "/" + colors[freqRight]);
                 else
-                    currenttip.add(String.format("%s/%s/%s", colors[freqRight], colors[freqCenter], colors[freqLeft]));
+                    currenttip.add(colors[freqRight] + "/" + colors[freqCenter] + "/" + colors[freqLeft]);
 
 
             } catch (Throwable t) {

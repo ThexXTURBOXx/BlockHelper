@@ -36,7 +36,7 @@ public class ViewTable extends WidgetBase {
                                 WAlign.RIGHT, WAlign.CENTER));
                 break;
             default:
-                throw new UIException(String.format("Unexpected align value : %s", align));
+                throw new UIException("Unexpected align value : " + align);
             }
         }
 
@@ -70,8 +70,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = widths.length;
             else if (this.ncolumns != widths.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
-                        this.ncolumns, widths.length));
+                throw new UIException("Number of columns mismatch. Expecting " +
+                                      this.ncolumns + ", got " + widths.length);
             }
 
             this.widths = widths;
@@ -83,8 +83,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = strings.length;
             else if (this.ncolumns != strings.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
-                        this.ncolumns, strings.length));
+                throw new UIException("Number of columns mismatch. Expecting " +
+                                      this.ncolumns + ", got " + strings.length);
             }
 
             this.texts = strings;
@@ -96,8 +96,8 @@ public class ViewTable extends WidgetBase {
             if (this.ncolumns == -1)
                 this.ncolumns = aligns.length;
             else if (this.ncolumns != aligns.length) {
-                throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d",
-                        this.ncolumns, aligns.length));
+                throw new UIException("Number of columns mismatch. Expecting " +
+                                      this.ncolumns + ", got " + aligns.length);
             }
 
             this.aligns = aligns;
@@ -117,9 +117,9 @@ public class ViewTable extends WidgetBase {
             if (!init) {
                 double currentOffset = 0.0;
                 for (int i = 0; i < this.ncolumns; i++) {
-                    if (!this.widgets.containsKey(String.format("Cell_%02d", i))) {
-                        Cell cell = (Cell) (this.addWidget(String.format("Cell_%02d", i), new Cell(null,
-                                this.texts[i], this.aligns[i])));
+                    if (!this.widgets.containsKey("Cell_" + i)) {
+                        Cell cell = (Cell) (this.addWidget("Cell_" + i,
+                                new Cell(null, this.texts[i], this.aligns[i])));
                         cell.setGeometry(new WidgetGeometry(currentOffset, 50.0, this.widths[i], 100.0,
                                 CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.CENTER));
                         currentOffset += this.widths[i];
@@ -161,8 +161,8 @@ public class ViewTable extends WidgetBase {
         if (this.ncolumns == -1)
             this.ncolumns = widths.length;
         else if (this.ncolumns != widths.length) {
-            throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns,
-                    widths.length));
+            throw new UIException("Number of columns mismatch. Expecting " +
+                                  this.ncolumns + ", got " + widths.length);
         }
 
         this.widths = widths;
@@ -174,8 +174,8 @@ public class ViewTable extends WidgetBase {
         if (this.ncolumns == -1)
             this.ncolumns = strings.length;
         else if (this.ncolumns != strings.length) {
-            throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns,
-                    strings.length));
+            throw new UIException("Number of columns mismatch. Expecting " +
+                                  this.ncolumns + ", got " + strings.length);
         }
 
         this.texts = strings;
@@ -188,8 +188,8 @@ public class ViewTable extends WidgetBase {
         if (this.ncolumns == -1)
             this.ncolumns = aligns.length;
         else if (this.ncolumns != aligns.length) {
-            throw new UIException(String.format("Number of columns mismatch. Expecting %d, got %d", this.ncolumns,
-                    aligns.length));
+            throw new UIException("Number of columns mismatch. Expecting " +
+                                  this.ncolumns + ", got " + aligns.length);
         }
 
         this.aligns = aligns;
@@ -211,7 +211,7 @@ public class ViewTable extends WidgetBase {
         newRow.setGeometry(new WidgetGeometry(0.0, 16 * this.nrows, 100.0, 16, CType.REL_X, CType.REL_X,
                 WAlign.LEFT, WAlign.TOP));
 
-        tableLayout.addWidget(String.format("Row_%03d", this.nrows), newRow);
+        tableLayout.addWidget("Row_" + this.nrows, newRow);
 
         ++this.nrows;
 

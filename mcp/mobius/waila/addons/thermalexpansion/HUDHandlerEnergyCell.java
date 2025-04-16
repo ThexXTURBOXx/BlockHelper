@@ -36,8 +36,8 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
         int energyReceive = accessor.getNBTInteger("Recv");
         int energySend = accessor.getNBTInteger("Send");
 
-        currenttip.add(String.format("%s/%s : %d / %d RF/t", LangUtil.translateG("hud.msg.in"), LangUtil.translateG(
-                "hud.msg.out"), energyReceive, energySend));
+        currenttip.add(LangUtil.translateG("hud.msg.in") + "/" + LangUtil.translateG("hud.msg.out") + " : " +
+                       energyReceive + " / " + energySend + " MJ/t");
     }
 
     @Override

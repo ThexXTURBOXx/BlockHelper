@@ -43,12 +43,12 @@ public class MouseEvent {
                 this.type, this.timestamp, this.x, this.y, this.z));
 
         for (int i = 0; i < Math.min(5, BUTTON_COUNT); ++i)
-            retstring.append(String.format(" %s ", this.buttonState[i]));
+            retstring.append(' ').append(this.buttonState[i]).append(' ');
 
-        retstring.append("]");
+        retstring.append(']');
 
         if (this.button != -1)
-            retstring.append(String.format(" Button %s", this.button));
+            retstring.append(" Button ").append(this.button);
 
         return retstring.toString();
     }

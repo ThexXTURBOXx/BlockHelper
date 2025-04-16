@@ -13,7 +13,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerTEGenerator implements IDataProvider {
 
@@ -44,8 +46,8 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             /* EU Storage */
             if (config.get("advsolars.storage")) {
                 if (maxStorage > 0)
-                    currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr,
-                            TAB + ALIGNRIGHT, Math.min(storage, maxStorage), maxStorage));
+                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
+                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
             }
 
             int production = accessor.getNBTData().getInteger("production");
@@ -56,10 +58,9 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             /* QGenerator Production */
             if (config.get("advsolars.qproduction")) {
                 if (production > 0)
-                    currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t",
-                            prodStr, TAB + ALIGNRIGHT, production));
+                    currenttip.add(prodStr + TAB + ALIGNRIGHT + WHITE + production + RESET + " EU/t");
                 if (maxPacketSize > 0)
-                    currenttip.add(String.format("\u00a7f%d\u00a7r EU/packet", maxPacketSize));
+                    currenttip.add(WHITE + maxPacketSize + RESET + " EU/packet");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);

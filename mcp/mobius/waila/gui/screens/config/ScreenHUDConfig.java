@@ -179,7 +179,8 @@ public class ScreenHUDConfig extends ScreenBase {
                     this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getX()));
             ((LabelFixedFont) this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f",
                     this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getY()));
-            ((LabelFixedFont) this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", this.getWidget("Layout").getWidget("Picture").getAlpha()));
+            ((LabelFixedFont) this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f",
+                    this.getWidget("Layout").getWidget("Picture").getAlpha()));
             ((LabelFixedFont) this.getWidget("LayoutScale").getWidget("ValueDisplayScale")).setText(String.format("%.2f", scale));
         }
 

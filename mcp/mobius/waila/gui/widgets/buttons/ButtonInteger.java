@@ -18,7 +18,7 @@ public class ButtonInteger extends ButtonBase {
         this.nStates = texts.length;
 
         for (int i = 0; i < texts.length; i++) {
-            String labelName = String.format("Label_%d", i);
+            String labelName = "Label_" + i;
             this.addWidget(labelName, new LabelFixedFont(this, texts[i]));
             this.getWidget(labelName).hide();
             this.getWidget(labelName).setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CType.RELXY,
@@ -38,9 +38,9 @@ public class ButtonInteger extends ButtonBase {
             this.state = 0;
 
         for (int i = 0; i < this.nStates; i++)
-            this.getWidget(String.format("Label_%d", i)).hide();
+            this.getWidget("Label_" + i).hide();
 
-        this.getWidget(String.format("Label_%d", state)).show();
+        this.getWidget("Label_" + state).show();
     }
 
 }

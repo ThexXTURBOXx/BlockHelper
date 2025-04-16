@@ -11,6 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import static mcp.mobius.waila.api.SpecialChars.BLUE;
+import static mcp.mobius.waila.api.SpecialChars.GREEN;
+import static mcp.mobius.waila.api.SpecialChars.RED;
+
 public final class HUDHandlerTesseract implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerTesseract();
@@ -37,16 +41,16 @@ public final class HUDHandlerTesseract implements IDataProvider {
         if (!accessor.getNBTData().getBoolean("flag.active")) return;
 
         if (config.get("thermalexpansion.tesssendrecv")) {
-            String send = String.format("%s : ", LangUtil.translateG("hud.msg.send"));
-            String recv = String.format("%s : ", LangUtil.translateG("hud.msg.recv"));
+            String send = LangUtil.translateG("hud.msg.send") + " : ";
+            String recv = LangUtil.translateG("hud.msg.recv") + " : ";
 
             String type = "<Unknown>";
             if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
-                type = String.format("\u00a7a%s ", LangUtil.translateG("hud.msg.item"));
+                type = GREEN + LangUtil.translateG("hud.msg.item") + " ";
             else if (ThermalExpansionPlugin.TileTesseractLiquid.isInstance(te))
-                type = String.format("\u00a79%s ", LangUtil.translateG("hud.msg.fluid"));
+                type = BLUE + LangUtil.translateG("hud.msg.fluid") + " ";
             else if (ThermalExpansionPlugin.TileTesseractEnergy.isInstance(te))
-                type = String.format("\u00a7c%s ", LangUtil.translateG("hud.msg.energ"));
+                type = RED + LangUtil.translateG("hud.msg.energ") + " ";
 
             int mode = accessor.getNBTInteger("mode");
             if (mode != 1) currenttip.add(send + type);
@@ -54,8 +58,7 @@ public final class HUDHandlerTesseract implements IDataProvider {
         }
 
         if (config.get("thermalexpansion.tessfreq"))
-            currenttip.add(String.format("%s : %d", LangUtil.translateG("hud.msg.frequency"),
-                    accessor.getNBTInteger("frequency")));
+            currenttip.add(LangUtil.translateG("hud.msg.frequency") + " : " + accessor.getNBTInteger("frequency"));
     }
 
     @Override

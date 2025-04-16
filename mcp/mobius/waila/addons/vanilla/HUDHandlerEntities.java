@@ -54,8 +54,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 float maxhpHearts = maxhp / 2.0f;
 
                 if (maxhp > maxhpfortext)
-                    currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", health,
-                            maxhp));
+                    currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f",
+                            health, maxhp));
 
                 else {
                     currenttip.add(getRenderString("waila.health", nhearts, healthHearts, maxhpHearts));

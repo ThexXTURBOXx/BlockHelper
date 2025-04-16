@@ -24,9 +24,9 @@ public class ButtonIntegerConfig extends ButtonInteger {
         this.state = PluginConfig.instance().get(this.category, this.configKey, state_);
 
         for (int i = 0; i < this.nStates; i++)
-            this.getWidget(String.format("Label_%d", i)).hide();
+            this.getWidget("Label_" + i).hide();
 
-        this.getWidget(String.format("Label_%d", state)).show();
+        this.getWidget("Label_" + state).show();
     }
 
     @Override

@@ -52,11 +52,10 @@ public final class HUDHandlerCrops implements IDataProvider {
                 growStage = accessor.getMetadata();
             float growthValue = (growStage / (float) maxStage) * 100;
             if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"),
-                        growthValue));
+                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
             else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"),
-                        LangUtil.translateG("hud.msg.mature")));
+                currenttip.add(LangUtil.translateG("hud.msg.growth") + " : " +
+                               LangUtil.translateG("hud.msg.mature"));
         }
     }
 

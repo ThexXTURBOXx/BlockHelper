@@ -65,7 +65,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             currenttip.add("< Unnamed >");
         else {
             if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
-                currenttip.add(String.format(ITALIC + "ID %d:%d", accessor.getBlockID(), accessor.getMetadata()));
+                currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata());
             }
         }
     }

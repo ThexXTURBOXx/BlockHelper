@@ -18,6 +18,7 @@ import java.util.zip.ZipFile;
 public class LangUtil {
 
     public static final LangUtil INSTANCE = new LangUtil(null);
+    public static final String FALLBACK_LANGUAGE = "en_US";
     public final String prefix;
 
     public LangUtil(String prefix) {
@@ -33,15 +34,12 @@ public class LangUtil {
             s = this.prefix + "." + s;
         }
         String ret = LanguageRegistry.instance().getStringLocalization(s);
-        if (ret.isEmpty()) {
-            ret = LanguageRegistry.instance().getStringLocalization(s, "en_US");
-        }
-        if (ret.isEmpty()) {
+        if (ret.isEmpty())
+            ret = LanguageRegistry.instance().getStringLocalization(s, FALLBACK_LANGUAGE);
+        if (ret.isEmpty())
             return s;
-        }
-        if (format.length > 0) {
+        if (format.length > 0)
             ret = String.format(ret, format);
-        }
         return ret;
     }
 

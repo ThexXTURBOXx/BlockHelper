@@ -4,12 +4,18 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.RESET;
+import static mcp.mobius.waila.api.SpecialChars.TAB;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerBCEnergy implements IDataProvider {
 
@@ -38,7 +44,9 @@ public final class HUDHandlerBCEnergy implements IDataProvider {
         int maxEnergy = accessor.getNBTInteger("MaxStorage");
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                currenttip.add(String.format("%d / %d MJ", energy, maxEnergy), "MJEnergyStorage");
+                String storedStr = LangUtil.translateG("hud.msg.stored");
+                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
+                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);

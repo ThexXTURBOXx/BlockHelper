@@ -24,10 +24,10 @@ public class ButtonContainerLabel extends WidgetBase {
     }
 
     public void addButton(ButtonBase button, String label) {
-        String buttonName = String.format("Button_%d", nButtons);
-        String layoutName = String.format("Layout_%d", nButtons);
-        String layoutLabelName = String.format("LayoutLabel_%d", nButtons);
-        String labelName = String.format("Label_%d", nButtons);
+        String buttonName = "Button_" + nButtons;
+        String layoutName = "Layout_" + nButtons;
+        String layoutLabelName = "LayoutLabel_" + nButtons;
+        String labelName = "Label_" + nButtons;
 
         this.addWidget(layoutName, new LayoutBase(this));
         this.addWidget(layoutLabelName, new LayoutBase(this));

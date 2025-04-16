@@ -187,8 +187,9 @@ public class WidgetGeometry {
     }
 
     public String toString() {
-        return String.format("Geometry : [%s %s] [%s %s] [%s %s] [%s %s]", this.x, this.y, this.sx, this.sy,
-                this.posType, this.sizeType, this.alignX, this.alignY);
+        return "Geometry : [" +
+               this.x + " " + this.y + "] [" + this.sx + " " + this.sy + "] [" +
+               this.posType + " " + this.sizeType + "] [" + this.alignX + " " + this.alignY + "]";
     }
 
 }

@@ -106,11 +106,11 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 "vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).func_98049_a().getEntityNameToSpawn();
-            currenttip.set(0, String.format("%s (%s)", name, mobname));
+            currenttip.set(0, name + " (" + mobname + ")");
         }
 
         if (block == redstone) {
-            String name = currenttip.get(0).replaceFirst(String.format(" %s", accessor.getMetadata()), "");
+            String name = currenttip.get(0).replaceFirst(" " + accessor.getMetadata(), "");
             currenttip.set(0, name);
         }
 
@@ -131,16 +131,16 @@ public final class HUDHandlerVanilla implements IDataProvider {
             if (block == lever) {
                 String redstoneOn = (accessor.getMetadata() & 8) == 0 ? LangUtil.translateG("hud.msg.off") :
                         LangUtil.translateG("hud.msg.on");
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.state"), redstoneOn));
+                currenttip.add(LangUtil.translateG("hud.msg.state") + " : " + redstoneOn);
             }
 
         if (config.get("vanilla.repeater"))
             if ((block == repeaterIdle) || (block == repeaterActv)) {
                 int tick = (accessor.getMetadata() >> 2) + 1;
                 if (tick == 1)
-                    currenttip.add(String.format("%s : %s tick", LangUtil.translateG("hud.msg.delay"), tick));
+                    currenttip.add(LangUtil.translateG("hud.msg.delay") + " : 1 tick");
                 else
-                    currenttip.add(String.format("%s : %s ticks", LangUtil.translateG("hud.msg.delay"), tick));
+                    currenttip.add(LangUtil.translateG("hud.msg.delay") + " : " + tick + " ticks");
             }
 
         if (config.get("vanilla.comparator"))
@@ -150,12 +150,12 @@ public final class HUDHandlerVanilla implements IDataProvider {
                         : LangUtil.translateG("hud.msg.subtractor");
                 int outputSignal = accessor.getNBTInteger("OutputSignal");
                 currenttip.add("Mode : " + mode);
-                currenttip.add(String.format("Out : %s", outputSignal));
+                currenttip.add("Out : " + outputSignal);
             }
 
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.power"), accessor.getMetadata()));
+                currenttip.add(LangUtil.translateG("hud.msg.power") + " : " + accessor.getMetadata());
             }
 
         if (config.get("vanilla.jukebox"))

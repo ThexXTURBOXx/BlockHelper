@@ -12,6 +12,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import static mcp.mobius.waila.api.SpecialChars.GREEN;
+
 public final class HUDHandlerTank implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerTank();
@@ -35,8 +37,8 @@ public final class HUDHandlerTank implements IDataProvider {
         try {
             if (config.get("thermalexpansion.tankmode")) {
                 boolean mode = ThermalExpansionPlugin.TileTank_mode.getBoolean(accessor.getTileEntity());
-                currenttip.add(String.format("%s : \u00a7a%s", LangUtil.translateG("hud.msg.mode"),
-                        LangUtil.translateG(mode ? "hud.msg.output" : "hud.msg.input")));
+                currenttip.add(LangUtil.translateG("hud.msg.mode") + " : " + GREEN +
+                               LangUtil.translateG(mode ? "hud.msg.output" : "hud.msg.input"));
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);

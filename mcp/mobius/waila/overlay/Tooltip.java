@@ -87,7 +87,7 @@ public class Tooltip {
 
         @Override
         public String toString() {
-            return String.format("Renderable@[%d,%d] | %s", pos.getX(), pos.getY(), renderer);
+            return "Renderable@[" + pos.getX() + "," + pos.getY() + "] | " + renderer;
         }
 
     }

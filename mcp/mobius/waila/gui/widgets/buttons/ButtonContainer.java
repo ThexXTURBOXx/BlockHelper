@@ -23,13 +23,10 @@ public class ButtonContainer extends WidgetBase {
     }
 
     public void addButton(ButtonBase button) {
-        String buttonName = String.format("Button_%d", nButtons);
-        String layoutName = String.format("Layout_%d", nButtons);
-        //String layoutLabelName = String.format("LayoutLabel_%d", nButtons);
-        //String labelName = String.format("Label_%d", nButtons);
+        String buttonName = "Button_" + nButtons;
+        String layoutName = "Layout_" + nButtons;
 
         this.addWidget(layoutName, new LayoutBase(this));
-        //this.addWidget(layoutLabelName, new LayoutBase(this));
 
         int column = this.nButtons % this.columns;
         int row = this.nButtons / this.columns;

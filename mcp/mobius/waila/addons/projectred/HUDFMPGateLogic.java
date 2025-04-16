@@ -54,8 +54,7 @@ public final class HUDFMPGateLogic implements IFMPProvider {
 
         switch (subID) {
         case 10:
-            currenttip.add(String.format("[Repeater]" + TAB + ALIGNRIGHT + WHITE + "%d" + GRAY + " ticks",
-                    (int) Math.pow(2, shape)));
+            currenttip.add("[Repeater]" + TAB + ALIGNRIGHT + WHITE + (int) Math.pow(2, shape) + GRAY + " ticks");
             break;
 
         case 15:
@@ -68,15 +67,12 @@ public final class HUDFMPGateLogic implements IFMPProvider {
             break;
 
         case 17:
-            currenttip.add(String.format("[Timer delay]" + TAB + ALIGNRIGHT + WHITE + "%d " + GRAY + "ms",
-                    (pmax + 2) * 50));
+            currenttip.add("[Timer delay]" + TAB + ALIGNRIGHT + WHITE + ((pmax + 2) * 50) + " " + GRAY + "ms");
             break;
 
         case 19:
-
-
-            currenttip.add(String.format("[Counter value]" + TAB + ALIGNRIGHT + WHITE + "%d " + GRAY + "/ " + WHITE + "%d", val, max));
-            currenttip.add(String.format("[Counter step]" + TAB + ALIGNRIGHT + WHITE + "-%d " + GRAY + "/ " + WHITE + "+%d", dec, inc));
+            currenttip.add("[Counter value]" + TAB + ALIGNRIGHT + WHITE + val + " " + GRAY + "/ " + WHITE + max);
+            currenttip.add("[Counter step]" + TAB + ALIGNRIGHT + WHITE + "-" + dec + " " + GRAY + "/ " + WHITE + "+" + inc);
 
         default:
             break;
