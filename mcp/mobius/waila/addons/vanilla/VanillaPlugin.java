@@ -8,6 +8,8 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
+import net.minecraft.block.BlockStep;
+import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
@@ -32,6 +34,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block leave = Block.leaves;
     static Block log = Block.wood;
     static Block quartz = Block.blockNetherQuartz;
+    static Block anvil = Block.anvil;
+    static Block sapling = Block.sapling;
 
     private VanillaPlugin() {
     }
@@ -74,6 +78,10 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, quartz.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, anvil.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockWoodSlab.class);
 
         //registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, Block.class);
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());

@@ -1,6 +1,7 @@
 package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
+import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -57,8 +58,7 @@ public class ConfigKeyHandler {
         if (keyRecipe.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
-                    Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
-                            boolean.class).invoke(null, true);
+                    NEIHandler.openRecipeGUI(true);
                 } catch (Throwable ignored) {
                 }
             }
@@ -67,8 +67,7 @@ public class ConfigKeyHandler {
         if (keyUsage.isPressed()) {
             if (Loader.isModLoaded("NotEnoughItems")) {
                 try {
-                    Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("openRecipeGUI",
-                            boolean.class).invoke(null, false);
+                    NEIHandler.openRecipeGUI(false);
                 } catch (Throwable ignored) {
                 }
             }

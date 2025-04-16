@@ -8,6 +8,8 @@ import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
+import net.minecraft.block.BlockStep;
+import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
@@ -17,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.anvil;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
@@ -31,6 +34,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.quartz;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -43,10 +47,10 @@ public final class HUDHandlerVanilla implements IDataProvider {
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
+        int meta = accessor.getMetadata();
 
         if (block == silverfish && config.get("vanilla.silverfish")) {
-            int metadata = accessor.getMetadata();
-            switch (metadata) {
+            switch (meta) {
             case 0:
                 return new ItemStack(Block.stone);
             case 1:
@@ -70,16 +74,22 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.wheat);
         }
 
-        if (block == leave && (accessor.getMetadata() > 3)) {
-            return new ItemStack(block, 1, accessor.getMetadata() - 4);
+        if (block == leave && (meta > 3)) {
+            return new ItemStack(block, 1, meta - 4);
         }
 
         if (block == log) {
-            return new ItemStack(block, 1, accessor.getMetadata() % 4);
+            return new ItemStack(block, 1, meta % 4);
         }
 
-        if ((block == quartz) && (accessor.getMetadata() > 2)) {
+        if ((block == quartz) && (meta > 2)) {
             return new ItemStack(block, 1, 2);
+        }
+
+        if (block == anvil ||
+            block == sapling ||
+            block instanceof BlockStep || block instanceof BlockWoodSlab) {
+            return new ItemStack(block, 1, block.damageDropped(meta));
         }
 
         return null;

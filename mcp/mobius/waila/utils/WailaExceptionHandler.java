@@ -18,10 +18,20 @@ public final class WailaExceptionHandler {
         if (!errs.contains(context)) {
             errs.add(context);
 
-            for (StackTraceElement elem : t.getStackTrace()) {
-                mod_BlockHelper.LOG.log(Level.WARNING, String.format("%s.%s:%s", elem.getClassName(),
-                        elem.getMethodName(), elem.getLineNumber()));
-                if (elem.getClassName().contains("waila")) break;
+            Throwable working = t;
+
+            while (working != null) {
+                if (working != t) {
+                    mod_BlockHelper.LOG.log(Level.WARNING, String.format("Caused by: %s", working));
+                }
+                for (StackTraceElement elem : working.getStackTrace()) {
+                    mod_BlockHelper.LOG.log(
+                            Level.WARNING,
+                            String.format("%s.%s:%s", elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
+                    if (working == t && elem.getClassName().contains("waila")) break;
+                }
+
+                working = working.getCause();
             }
 
             mod_BlockHelper.LOG.log(Level.WARNING, String.format("Caught unhandled exception : [%s] %s", context, t));

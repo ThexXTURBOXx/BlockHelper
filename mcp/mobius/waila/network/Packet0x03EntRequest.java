@@ -62,35 +62,35 @@ public class Packet0x03EntRequest implements IWailaPacket {
     @Override
     public void handle(Player player) {
         World world = DimensionManager.getWorld(dim);
+        if (world == null) return;
         Entity entity = world.getEntityByID(id);
+        if (entity == null) return;
 
-        if (entity != null) {
-            try {
-                NBTTagCompound tag = new NBTTagCompound();
+        try {
+            NBTTagCompound tag = new NBTTagCompound();
 
-                if (WailaRegistrar.instance().hasNBTEntityProviders(entity)) {
-                    for (List<IEntityProvider> providersList :
-                            WailaRegistrar.instance().getNBTEntityProviders(entity).values()) {
-                        for (IEntityProvider provider : providersList) {
-                            try {
-                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world);
-                            } catch (AbstractMethodError ame) {
-                                NBTUtil.appendServerData(provider, entity, tag);
-                            }
+            if (WailaRegistrar.instance().hasNBTEntityProviders(entity)) {
+                for (List<IEntityProvider> providersList :
+                        WailaRegistrar.instance().getNBTEntityProviders(entity).values()) {
+                    for (IEntityProvider provider : providersList) {
+                        try {
+                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world);
+                        } catch (Throwable t) {
+                            NBTUtil.appendServerData(provider, entity, tag);
                         }
                     }
-
-                } else {
-                    entity.writeToNBT(tag);
-                    tag = NBTUtil.createTag(tag, keys);
                 }
 
-                tag.setInteger("WailaEntityID", entity.entityId);
-
-                WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
-            } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
+            } else {
+                entity.writeToNBT(tag);
+                tag = NBTUtil.createTag(tag, keys);
             }
+
+            tag.setInteger("WailaEntityID", entity.entityId);
+
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }
     }
 

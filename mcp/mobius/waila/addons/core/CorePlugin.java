@@ -20,11 +20,13 @@ public final class CorePlugin implements IWailaPlugin {
 
     @Override
     public void registerCommon(IRegistrar registrar) {
+        registrar.addConfigRemote("General", "general.insivisbleplayers");
+
         try {
             Class<?> BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
             registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
+            mod_BlockHelper.LOG.log(Level.FINEST, "[FMP] Class not found. ", e);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);
         }
@@ -33,7 +35,7 @@ public final class CorePlugin implements IWailaPlugin {
         try {
             BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Class not found. ", e);
+            mod_BlockHelper.LOG.log(Level.FINEST, "[FMP] Class not found. ", e);
             return;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[FMP] Unhandled exception.", t);

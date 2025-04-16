@@ -15,15 +15,16 @@ public final class ProjectRedPlugin implements IWailaPlugin {
     @Override
     public void registerCommon(IRegistrar registrar) {
         try {
-            Class.forName("mrtjp.projectred.ProjectRedIntegration");
-            mod_BlockHelper.LOG.log(Level.INFO, "ProjectRed|Integration mod found.");
+            Class.forName("mrtjp.projectred.ProjectRed");
+            mod_BlockHelper.LOG.log(Level.INFO, "ProjectRed mod found.");
         } catch (ClassNotFoundException e) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] ProjectRed mod not found.");
             return;
         }
 
         registrar.addConfigRemote("Project:Red", "pr.showio");
         registrar.addConfigRemote("Project:Red", "pr.showdata");
+        registrar.addConfigRemote("Project:Red", "pr.showsignal");
 
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_sgate");
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_igate");
@@ -31,6 +32,10 @@ public final class ProjectRedPlugin implements IWailaPlugin {
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_bgate");
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_agate");
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_rgate");
+        registrar.registerBodyProvider(HUDFMPWires.INSTANCE, "pr_redwire");
+        registrar.registerBodyProvider(HUDFMPWires.INSTANCE, "pr_insulated");
+        registrar.registerBodyProvider(HUDFMPWires.INSTANCE, "pr_fredwire");
+        registrar.registerBodyProvider(HUDFMPWires.INSTANCE, "pr_finsulated");
 
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_sgate");
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_igate");

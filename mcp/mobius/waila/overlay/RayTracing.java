@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -37,14 +38,12 @@ public class RayTracing {
     }
 
     private MovingObjectPosition target = null;
-    private ItemStack targetStack = null;
-    private Entity targetEntity = null;
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public void fire() {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY) {
+        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY
+            && shouldShowEntity(mc.objectMouseOver.entityHit)) {
             this.target = mc.objectMouseOver;
-            this.targetStack = null;
             return;
         }
 
@@ -54,18 +53,25 @@ public class RayTracing {
         this.target = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance(), 0);
     }
 
+    private static boolean shouldShowEntity(Entity entity) {
+        // Check if entity is player with invisibility effect
+        if (entity instanceof EntityPlayer) {
+            boolean setting = PluginConfig.instance().get("general.insivisbleplayers");
+            return setting || !entity.isInvisible();
+        }
+        return true;
+    }
+
     public MovingObjectPosition getTarget() {
         return this.target;
     }
 
     public ItemStack getTargetStack() {
-        this.targetStack = this.getIdentifierStack();
-        return this.targetStack;
+        return this.getIdentifierStack();
     }
 
     public Entity getTargetEntity() {
-        this.targetEntity = this.target.typeOfHit == EnumMovingObjectType.ENTITY ? this.getIdentifierEntity() : null;
-        return this.targetEntity;
+        return this.target.typeOfHit == EnumMovingObjectType.ENTITY ? this.getIdentifierEntity() : null;
     }
 
     public MovingObjectPosition rayTrace(EntityLiving entity, double par1, float par3) {

@@ -2,6 +2,7 @@ package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.addons.core.CorePlugin;
+import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -26,7 +27,7 @@ public class ProxyClient extends ProxyServer {
 
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {
-                Class.forName("mcp.mobius.waila.addons.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
+                NEIHandler.register();
             } catch (Throwable t) {
                 mod_BlockHelper.LOG.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
             }

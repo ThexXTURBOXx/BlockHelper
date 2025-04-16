@@ -90,64 +90,57 @@ public class Packet0x01TERequest implements IWailaPacket {
     @Override
     public void handle(Player player) {
         World world = DimensionManager.getWorld(dim);
+        if (world == null) return;
         TileEntity entity = world.getBlockTileEntity(posX, posY, posZ);
         Block block = Block.blocksList[world.getBlockId(posX, posY, posZ)];
+        if (entity == null) return;
 
-        if (entity != null) {
-            try {
-                NBTTagCompound tag = new NBTTagCompound();
-                boolean hasNBTBlock = WailaRegistrar.instance().hasNBTProviders(block);
-                boolean hasNBTEnt = WailaRegistrar.instance().hasNBTProviders(entity);
+        try {
+            NBTTagCompound tag = new NBTTagCompound();
+            boolean hasNBTBlock = WailaRegistrar.instance().hasNBTProviders(block);
+            boolean hasNBTEnt = WailaRegistrar.instance().hasNBTProviders(entity);
 
-                if (hasNBTBlock || hasNBTEnt) {
-                    tag.setInteger("x", posX);
-                    tag.setInteger("y", posY);
-                    tag.setInteger("z", posZ);
-                    tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
+            if (hasNBTBlock || hasNBTEnt) {
+                tag.setInteger("x", posX);
+                tag.setInteger("y", posY);
+                tag.setInteger("z", posZ);
+                tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
-                    for (List<IDataProvider> providersList :
-                            WailaRegistrar.instance().getNBTProviders(block).values()) {
-                        for (IDataProvider provider : providersList) {
-                            try {
-                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world,
-                                        posX, posY, posZ);
-                            } catch (AbstractMethodError ame) {
-                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
-                            } catch (NoSuchMethodError nsm) {
-                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
-                            }
+                for (List<IDataProvider> providersList :
+                        WailaRegistrar.instance().getNBTProviders(block).values()) {
+                    for (IDataProvider provider : providersList) {
+                        try {
+                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
+                        } catch (Throwable t) {
+                            NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
                         }
                     }
-
-
-                    for (List<IDataProvider> providersList :
-                            WailaRegistrar.instance().getNBTProviders(entity).values()) {
-                        for (IDataProvider provider : providersList) {
-                            try {
-                                provider.appendServerData((EntityPlayerMP) player, entity, tag, world,
-                                        posX, posY, posZ);
-                            } catch (AbstractMethodError ame) {
-                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
-                            } catch (NoSuchMethodError nsm) {
-                                NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
-                            }
-                        }
-                    }
-
-                } else {
-                    entity.writeToNBT(tag);
-                    tag = NBTUtil.createTag(tag, keys);
                 }
 
-                tag.setInteger("WailaX", posX);
-                tag.setInteger("WailaY", posY);
-                tag.setInteger("WailaZ", posZ);
-                tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
+                for (List<IDataProvider> providersList :
+                        WailaRegistrar.instance().getNBTProviders(entity).values()) {
+                    for (IDataProvider provider : providersList) {
+                        try {
+                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
+                        } catch (Throwable t) {
+                            NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
+                        }
+                    }
+                }
 
-                WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
-            } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
+            } else {
+                entity.writeToNBT(tag);
+                tag = NBTUtil.createTag(tag, keys);
             }
+
+            tag.setInteger("WailaX", posX);
+            tag.setInteger("WailaY", posY);
+            tag.setInteger("WailaZ", posZ);
+            tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
+
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }
     }
 

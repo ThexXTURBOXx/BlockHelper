@@ -34,7 +34,7 @@ public final class ModIdentification {
         }
 
         for (ModContainer mod : Loader.instance().getModList()) {
-            modSource_Name.put(mod.getSource().getName(), mod.getName());
+            modSource_Name.put(mod.getSource().getName(), formatModName(mod.getName()));
             modSource_ID.put(mod.getSource().getName(), mod.getModId());
         }
 
@@ -83,7 +83,6 @@ public final class ModIdentification {
             mod_BlockHelper.LOG.log(Level.WARNING, "idFromObject", e);
         }
 
-
         String modName = "<Unknown>";
         for (String s : modSource_ID.keySet())
             if (objPath.contains(s)) {
@@ -101,7 +100,7 @@ public final class ModIdentification {
         try {
             String modID = itemMap.get(stack.itemID);
             ModContainer mod = ModIdentification.findModContainer(modID);
-            return mod == null ? "Minecraft" : mod.getName();
+            return mod == null ? "Minecraft" : formatModName(mod.getName());
         } catch (NullPointerException e) {
             mod_BlockHelper.LOG.log(Level.FINEST, "nameFromStack", e);
             return "";
@@ -114,6 +113,13 @@ public final class ModIdentification {
                 return mc;
 
         return null;
+    }
+
+    private static String formatModName(String name) {
+        return name
+                .replaceFirst("^mod_", "")
+                .replaceAll("\u00C2\u00A7.", "")
+                .replaceAll("\u00A7.", "");
     }
 
 }

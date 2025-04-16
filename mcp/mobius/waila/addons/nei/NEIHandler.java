@@ -49,7 +49,7 @@ public final class NEIHandler {
                     firstInventory = false;
                 }
 
-                if (recipe)
+                if (recipe) {
                     if (!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())) {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
@@ -59,8 +59,7 @@ public final class NEIHandler {
                             mc.setIngameFocus();
                         }
                     }
-
-                if (!recipe)
+                } else {
                     if (!GuiUsageRecipe.openRecipeGui("item", stacks.get(0).copy())) {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
@@ -70,6 +69,7 @@ public final class NEIHandler {
                             mc.setIngameFocus();
                         }
                     }
+                }
             }
         }
     }
