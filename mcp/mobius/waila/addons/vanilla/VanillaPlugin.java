@@ -48,12 +48,12 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
 
-        registrar.addConfigRemote("VanillaMC", "general.showhp");
+        registrar.addSyncedConfig("VanillaMC", "general.showhp");
 
         registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
-        registrar.addConfigRemote("VanillaMC", "vanilla.furnace");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
 
         registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
         registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
@@ -66,9 +66,9 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addConfig("VanillaMC", "vanilla.silverfish");
         registrar.addConfig("VanillaMC", "vanilla.flowerpot");
         registrar.addConfig("VanillaMC", "vanilla.skull");
-        registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
-        registrar.addConfigRemote("VanillaMC", "vanilla.noteblock");
-        registrar.addConfigRemote("VanillaMC", "vanilla.beacon");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());

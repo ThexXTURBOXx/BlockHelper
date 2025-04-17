@@ -32,7 +32,7 @@ public final class AppEngPlugin implements IWailaPlugin {
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
             IMEPowerStorage_maxPower = IMEPowerStorage.getMethod("getMEMaxPower");
 
-            registrar.addConfigRemote("Applied Energistics", "appeng.storage");
+            registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
             registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);
             registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);

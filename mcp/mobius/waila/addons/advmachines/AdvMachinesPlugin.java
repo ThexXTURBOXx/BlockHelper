@@ -34,7 +34,7 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
             TileAM2BaseGenerator_stored.setAccessible(true);
             TileAM2BaseGenerator_maxStorage.setAccessible(true);
 
-            registrar.addConfigRemote("Advanced Machines", "advmachines.storage");
+            registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
 
             registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);
             registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);

@@ -35,8 +35,8 @@ public final class IC2Plugin implements IWailaPlugin {
             TileBaseGenerator_maxStorage = TileBaseGenerator.getField("maxStorage");
             TileBaseGenerator_production = TileBaseGenerator.getField("production");
 
-            registrar.addConfigRemote("IndustrialCraft2", "ic2.storage");
-            registrar.addConfigRemote("IndustrialCraft2", "ic2.outputeu");
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
 
             registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);
             registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);

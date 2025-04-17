@@ -25,17 +25,17 @@ public interface IRegistrar {
 
     void addConfig(String modname, String keyname, String configtext, boolean defvalue);
 
-    void addConfigRemote(String modname, String keyname, String configtext);
+    void addSyncedConfig(String modname, String keyname, String configtext);
 
-    void addConfigRemote(String modname, String keyname, String configtext, boolean defvalue);
+    void addSyncedConfig(String modname, String keyname, String configtext, boolean defvalue);
 
     void addConfig(String modname, String keyname);
 
     void addConfig(String modname, String keyname, boolean defvalue);
 
-    void addConfigRemote(String modname, String keyname);
+    void addSyncedConfig(String modname, String keyname);
 
-    void addConfigRemote(String modname, String keyname, boolean defvalue);
+    void addSyncedConfig(String modname, String keyname, boolean defvalue);
 
     /* Register a stack overrider for the given blockID */
     void registerStackProvider(IDataProvider dataProvider, Class<?> block);

@@ -41,7 +41,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             TileEnergyCell_Recv = TileEnergyCell.getField("energyReceive");
             TileEnergyCell_Send = TileEnergyCell.getField("energySend");
 
-            registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
+            registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.energycell");
 
             registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
             registrar.registerNBTProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
@@ -67,8 +67,8 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             TileTesseractLiquid = Class.forName("thermalexpansion.block.tesseract.TileTesseractLiquid");
             TileTesseractEnergy = Class.forName("thermalexpansion.block.tesseract.TileTesseractEnergy");
 
-            registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
-            registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
+            registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tesssendrecv");
+            registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tessfreq");
 
             registrar.registerBodyProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
             registrar.registerNBTProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);

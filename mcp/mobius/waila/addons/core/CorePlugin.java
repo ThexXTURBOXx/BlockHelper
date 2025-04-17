@@ -20,7 +20,7 @@ public final class CorePlugin implements IWailaPlugin {
 
     @Override
     public void registerCommon(IRegistrar registrar) {
-        registrar.addConfigRemote("General", "general.insivisbleplayers");
+        registrar.addSyncedConfig("General", "general.insivisbleplayers");
 
         Class<?> BlockMultipart = null;
         try {

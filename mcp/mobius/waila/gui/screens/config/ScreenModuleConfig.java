@@ -7,7 +7,7 @@ import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
-import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfigRemote;
+import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanSyncedConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.utils.Constants;
@@ -30,23 +30,18 @@ public class ScreenModuleConfig extends ScreenBase {
 
         for (String key : PluginConfig.instance().getKeys(this.modName).keySet()) {
             if (PluginConfig.instance().isServerRequired(key))
-                buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), Constants.CATEGORY_MODULES,
-                                key, "screen.button.no", "screen.button.yes"),
+                buttonContainer.addButton(new ButtonBooleanSyncedConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
+                                "screen.button.no", "screen.button.yes"),
                         PluginConfig.instance().getKeys(this.modName).get(key));
             else
                 buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
                         PluginConfig.instance().getKeys(this.modName).get(key));
-            //buttonContainer.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance()
-            // .getConfigKeys(this.modName).get(key), key ));
-            //else
-            //buttonContainer.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance()
-            // .getConfigKeys(this.modName).get(key), key ));
         }
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
-        this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0, CType.RELXY,
-                CType.RELXY));
+        this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0,
+                CType.RELXY, CType.RELXY));
         this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack",
                 new ButtonScreenChange(this.getRoot().getWidget("LayoutBack"), "screen.button.back", this.parent));
         this.getRoot().getWidget("LayoutBack").getWidget("ButtonBack").setGeometry(new WidgetGeometry(50.0, 50.0,

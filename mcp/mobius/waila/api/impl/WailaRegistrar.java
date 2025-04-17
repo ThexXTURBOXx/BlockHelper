@@ -77,8 +77,8 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addConfigRemote(String modname, String key, String configname) {
-        this.addConfigRemote(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modname, String key, String configname) {
+        this.addSyncedConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
@@ -87,8 +87,8 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addConfigRemote(String modname, String key) {
-        this.addConfigRemote(modname, key, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modname, String key) {
+        this.addSyncedConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
+    public void addSyncedConfig(String modname, String key, String configname, boolean defvalue) {
         PluginConfig.instance().addConfigServer(modname, key, I18n.translate(configname), defvalue);
     }
 
@@ -107,7 +107,7 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addConfigRemote(String modname, String key, boolean defvalue) {
+    public void addSyncedConfig(String modname, String key, boolean defvalue) {
         PluginConfig.instance().addConfigServer(modname, key, I18n.translate("option." + key), defvalue);
     }
 

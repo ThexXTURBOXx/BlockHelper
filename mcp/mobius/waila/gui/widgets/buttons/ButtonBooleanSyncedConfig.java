@@ -8,14 +8,14 @@ import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.util.Point;
 
-public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
+public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
 
-    public ButtonBooleanConfigRemote(IWidget parent, String category, String configKey, String textFalse,
+    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, String textFalse,
                                      String textTrue) {
         this(parent, category, configKey, true, true, textFalse, textTrue);
     }
 
-    public ButtonBooleanConfigRemote(IWidget parent, String category, String configKey, boolean instant,
+    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, boolean instant,
                                      boolean state_, String textFalse, String textTrue) {
         super(parent, category, configKey, instant, state_, textFalse, textTrue);
         if (!mod_BlockHelper.INSTANCE.serverPresent)

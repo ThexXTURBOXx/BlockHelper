@@ -22,9 +22,9 @@ public final class ProjectRedPlugin implements IWailaPlugin {
             return;
         }
 
-        registrar.addConfigRemote("Project:Red", "pr.showio");
-        registrar.addConfigRemote("Project:Red", "pr.showdata");
-        registrar.addConfigRemote("Project:Red", "pr.showsignal");
+        registrar.addSyncedConfig("Project:Red", "pr.showio");
+        registrar.addSyncedConfig("Project:Red", "pr.showdata");
+        registrar.addSyncedConfig("Project:Red", "pr.showsignal");
 
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_sgate");
         registrar.registerBodyProvider(HUDFMPGateLogic.INSTANCE, "pr_igate");

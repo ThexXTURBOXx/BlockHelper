@@ -36,7 +36,7 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
             TileEntitySolarPanel_maxStorage = TileEntitySolarPanel.getField("maxStorage");
 
-            registrar.addConfigRemote("Advanced Solar Panels", "advsolars.storage");
+            registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
             registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
             registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
@@ -49,7 +49,7 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             TileEntityQGenerator_production = TileEntityQGenerator.getField("production");
             TileEntityQGenerator_maxPacketSize = TileEntityQGenerator.getField("maxPacketSize");
 
-            registrar.addConfigRemote("Advanced Solar Panels", "advsolars.qproduction");
+            registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.qproduction");
 
             registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);
             registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);

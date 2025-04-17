@@ -47,7 +47,7 @@ public final class BCPlugin implements IWailaPlugin {
             IPowerProvider_getEnergyStored = IPowerProvider.getMethod("getEnergyStored");
             IPowerProvider_getMaxEnergyStored = IPowerProvider.getMethod("getMaxEnergyStored");
 
-            registrar.addConfigRemote("Buildcraft", "bcapi.storage");
+            registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
             registrar.registerBodyProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
             registrar.registerNBTProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
