@@ -1,6 +1,5 @@
 package mcp.mobius.waila.utils;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +13,9 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import net.minecraft.src.ModLoader;
+import net.minecraft.util.StatCollector;
+import net.minecraft.util.StringTranslate;
 
 public class LangUtil {
 
@@ -29,18 +31,23 @@ public class LangUtil {
         return LangUtil.INSTANCE.translate(s, format);
     }
 
+    public static String translateG(StringTranslate translator, String s, Object... format) {
+        return LangUtil.INSTANCE.translate(translator, s, format);
+    }
+
     public String translate(String s, Object... format) {
-        if (this.prefix != null && !s.startsWith(this.prefix + ".")) {
+        return translate(StringTranslate.getInstance(), s, format);
+    }
+
+    public String translate(StringTranslate translator, String s, Object... format) {
+        if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
-        }
-        String ret = LanguageRegistry.instance().getStringLocalization(s);
-        if (ret.isEmpty())
-            ret = LanguageRegistry.instance().getStringLocalization(s, FALLBACK_LANGUAGE);
-        if (ret.isEmpty())
-            return s;
-        if (format.length > 0)
-            ret = String.format(ret, format);
-        return ret;
+
+        String ret = translator == null
+                ? StatCollector.translateToLocal(s)
+                : translator.translateKey(s);
+        if (ret.isEmpty()) return s;
+        return format.length > 0 ? String.format(ret, format) : ret;
     }
 
     public LangUtil addLangDirectory(Class<?> mod) {
@@ -54,7 +61,6 @@ public class LangUtil {
     }
 
     public void addLangFile(InputStream resource, String lang) throws IOException {
-        LanguageRegistry reg = LanguageRegistry.instance();
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
         Properties prop = new Properties();
         prop.load(reader);
@@ -65,7 +71,7 @@ public class LangUtil {
             if (this.prefix != null) {
                 key = this.prefix + "." + key;
             }
-            reg.addStringLocalization(key, lang, value);
+            ModLoader.addLocalization(key, lang, value);
         }
     }
 

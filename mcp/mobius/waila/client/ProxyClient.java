@@ -1,6 +1,7 @@
 package mcp.mobius.waila.client;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
@@ -24,6 +25,7 @@ public class ProxyClient extends ProxyServer {
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
 
         LangUtil.INSTANCE.addLangDirFromHost(ProxyClient.class, "/assets/waila/lang");
+        LanguageRegistry.reloadLanguageTable();
 
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {

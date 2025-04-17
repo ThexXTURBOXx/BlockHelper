@@ -10,6 +10,7 @@ import net.minecraft.block.BlockStep;
 import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.tileentity.TileEntitySkull;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
@@ -34,6 +35,9 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block quartz = Block.blockNetherQuartz;
     static Block anvil = Block.anvil;
     static Block sapling = Block.sapling;
+    static Block flowerPot = Block.flowerPot;
+    static Block noteBlock = Block.music;
+    static Block beacon = Block.beacon;
 
     private VanillaPlugin() {
     }
@@ -60,7 +64,11 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addConfig("VanillaMC", "vanilla.comparator");
         registrar.addConfig("VanillaMC", "vanilla.redstone");
         registrar.addConfig("VanillaMC", "vanilla.silverfish");
+        registrar.addConfig("VanillaMC", "vanilla.flowerpot");
+        registrar.addConfig("VanillaMC", "vanilla.skull");
         registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
+        registrar.addConfigRemote("VanillaMC", "vanilla.noteblock");
+        registrar.addConfigRemote("VanillaMC", "vanilla.beacon");
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
@@ -87,6 +95,10 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, TileEntitySkull.class);
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
+        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
 
         registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
         registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
@@ -97,6 +109,8 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
         registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
     }
 
     @Override

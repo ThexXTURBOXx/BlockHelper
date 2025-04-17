@@ -112,7 +112,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                         try {
                             provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
                         } catch (Throwable t) {
-                            NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
+                            WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
                         }
                     }
                 }
@@ -123,7 +123,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                         try {
                             provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
                         } catch (Throwable t) {
-                            NBTUtil.appendServerData(provider, entity, tag, world, posX, posY, posZ);
+                            WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
                         }
                     }
                 }

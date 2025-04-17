@@ -76,7 +76,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
                         try {
                             provider.appendServerData((EntityPlayerMP) player, entity, tag, world);
                         } catch (Throwable t) {
-                            NBTUtil.appendServerData(provider, entity, tag);
+                            WailaExceptionHandler.handleErr(t, Packet0x03EntRequest.class.toString(), null);
                         }
                     }
                 }
