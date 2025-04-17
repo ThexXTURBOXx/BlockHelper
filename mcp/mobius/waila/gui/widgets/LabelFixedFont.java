@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui.widgets;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.utils.GLState;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import org.lwjgl.util.Point;
 
 public class LabelFixedFont extends WidgetBase {
@@ -31,7 +31,7 @@ public class LabelFixedFont extends WidgetBase {
     }
 
     public void setText(String text) {
-        this.text = LangUtil.translateG(text);
+        this.text = I18n.translate(text);
         this.updateGeometry();
     }
 

@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -43,7 +43,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
             || (entity instanceof EntityOcelot
                 && !((EntityOcelot) entity).func_94056_bM()
                 && ((EntityOcelot) entity).isTamed())) {
-            currenttip.add(WHITE + LangUtil.translateG(entity.getTranslatedEntityName()));
+            currenttip.add(WHITE + I18n.translate(entity.getTranslatedEntityName()));
         } else {
             try {
                 currenttip.add(WHITE + entity.getTranslatedEntityName());

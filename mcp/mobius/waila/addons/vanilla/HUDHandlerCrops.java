@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
@@ -51,10 +51,10 @@ public final class HUDHandlerCrops implements IDataProvider {
                 growStage = accessor.getMetadata();
             float growthValue = (growStage / (float) maxStage) * 100;
             if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
+                currenttip.add(String.format("%s : %.0f %%", I18n.translate("hud.msg.growth"), growthValue));
             else
-                currenttip.add(LangUtil.translateG("hud.msg.growth") + " : " +
-                               LangUtil.translateG("hud.msg.mature"));
+                currenttip.add(I18n.translate("hud.msg.growth") + " : " +
+                               I18n.translate("hud.msg.mature"));
         }
     }
 

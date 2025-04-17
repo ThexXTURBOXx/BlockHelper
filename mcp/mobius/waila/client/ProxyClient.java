@@ -13,7 +13,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.server.ProxyServer;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyServer {
@@ -24,7 +24,7 @@ public class ProxyClient extends ProxyServer {
 
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
 
-        LangUtil.INSTANCE.addLangDirFromHost(ProxyClient.class, "/assets/waila/lang");
+        I18n.INSTANCE.addLangDirFromHost(ProxyClient.class, "/assets/waila/lang");
         LanguageRegistry.reloadLanguageTable();
 
         if (Loader.isModLoaded("NotEnoughItems")) {

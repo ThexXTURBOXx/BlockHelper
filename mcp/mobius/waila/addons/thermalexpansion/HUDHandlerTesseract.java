@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -40,16 +40,16 @@ public final class HUDHandlerTesseract implements IDataProvider {
         if (!accessor.getNBTData().getBoolean("flag.active")) return;
 
         if (config.get("thermalexpansion.tesssendrecv")) {
-            String send = LangUtil.translateG("hud.msg.send") + " : ";
-            String recv = LangUtil.translateG("hud.msg.recv") + " : ";
+            String send = I18n.translate("hud.msg.send") + " : ";
+            String recv = I18n.translate("hud.msg.recv") + " : ";
 
             String type = "<Unknown>";
             if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
-                type = GREEN + LangUtil.translateG("hud.msg.item") + " ";
+                type = GREEN + I18n.translate("hud.msg.item") + " ";
             else if (ThermalExpansionPlugin.TileTesseractLiquid.isInstance(te))
-                type = BLUE + LangUtil.translateG("hud.msg.fluid") + " ";
+                type = BLUE + I18n.translate("hud.msg.fluid") + " ";
             else if (ThermalExpansionPlugin.TileTesseractEnergy.isInstance(te))
-                type = RED + LangUtil.translateG("hud.msg.energ") + " ";
+                type = RED + I18n.translate("hud.msg.energ") + " ";
 
             int mode = accessor.getNBTInteger("mode");
             if (mode != 1) currenttip.add(send + type);
@@ -57,7 +57,7 @@ public final class HUDHandlerTesseract implements IDataProvider {
         }
 
         if (config.get("thermalexpansion.tessfreq"))
-            currenttip.add(LangUtil.translateG("hud.msg.frequency") + " : " + accessor.getNBTInteger("frequency"));
+            currenttip.add(I18n.translate("hud.msg.frequency") + " : " + accessor.getNBTInteger("frequency"));
     }
 
     @Override

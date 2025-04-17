@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,8 +41,8 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             int production = accessor.getNBTData().getInteger("production");
             short maxStorage = accessor.getNBTData().getShort("maxStorage");
 
-            String storedStr = LangUtil.translateG("hud.msg.stored");
-            String outputStr = LangUtil.translateG("hud.msg.output");
+            String storedStr = I18n.translate("hud.msg.stored");
+            String outputStr = I18n.translate("hud.msg.output");
 
             /* EU Storage */
             if (config.get("ic2.storage")) {

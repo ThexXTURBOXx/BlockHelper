@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +43,7 @@ public final class HUDHandlerBCEnergy implements IDataProvider {
         int maxEnergy = accessor.getNBTInteger("MaxStorage");
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                String storedStr = LangUtil.translateG("hud.msg.stored");
+                String storedStr = I18n.translate("hud.msg.stored");
                 currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
                                RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
             }

@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +35,7 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
         int energyReceive = accessor.getNBTInteger("Recv");
         int energySend = accessor.getNBTInteger("Send");
 
-        currenttip.add(LangUtil.translateG("hud.msg.in") + "/" + LangUtil.translateG("hud.msg.out") + " : " +
+        currenttip.add(I18n.translate("hud.msg.in") + "/" + I18n.translate("hud.msg.out") + " : " +
                        energyReceive + " / " + energySend + " MJ/t");
     }
 

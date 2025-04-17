@@ -11,35 +11,36 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.src.ModLoader;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringTranslate;
 
-public class LangUtil {
+public class I18n {
 
-    public static final LangUtil INSTANCE = new LangUtil(null);
-    public static final String FALLBACK_LANGUAGE = "en_US";
+    public static final I18n INSTANCE = new I18n(null);
     public final String prefix;
 
-    public LangUtil(String prefix) {
+    public I18n(String prefix) {
         this.prefix = prefix;
     }
 
-    public static String translateG(String s, Object... format) {
-        return LangUtil.INSTANCE.translate(s, format);
+    public static String translate(String s, Object... format) {
+        return I18n.INSTANCE.translateL(s, format);
     }
 
-    public static String translateG(StringTranslate translator, String s, Object... format) {
-        return LangUtil.INSTANCE.translate(translator, s, format);
+    public static String translate(StringTranslate translator, String s, Object... format) {
+        return I18n.INSTANCE.translateL(translator, s, format);
     }
 
-    public String translate(String s, Object... format) {
-        return translate(StringTranslate.getInstance(), s, format);
+    public String translateL(String s, Object... format) {
+        return translateL(StringTranslate.getInstance(), s, format);
     }
 
-    public String translate(StringTranslate translator, String s, Object... format) {
+    public String translateL(StringTranslate translator, String s, Object... format) {
         if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
 
@@ -50,12 +51,12 @@ public class LangUtil {
         return format.length > 0 ? String.format(ret, format) : ret;
     }
 
-    public LangUtil addLangDirectory(Class<?> mod) {
+    public I18n addLangDirectory(Class<?> mod) {
         String dir = (this.prefix == null) ? "lang" : ("lang/" + this.prefix);
         return this.addLangDirectory(mod, dir);
     }
 
-    public LangUtil addLangDirectory(Class<?> mod, String dir) {
+    public I18n addLangDirectory(Class<?> mod, String dir) {
         this.addLangDirectory(this.hostFile(mod), dir);
         return this;
     }
@@ -81,20 +82,21 @@ public class LangUtil {
         } else {
             File hostdir = new File(host, dir);
             if (!hostdir.exists()) {
-                System.err.println("Lang directory \"" + dir + "\" not found in " + host.getPath());
+                mod_BlockHelper.LOG.warning("Lang directory \"" + dir + "\" not found in " + host.getPath());
             } else if (hostdir.isDirectory()) {
                 this.addLangDir(hostdir);
             } else if (hostdir.getName().endsWith(".lang") || hostdir.getName().endsWith(".properties")) {
                 this.addLangFile(hostdir);
             } else {
-                System.err.println("Lang file \"" + hostdir + "\"does not end in .lang");
+                mod_BlockHelper.LOG.warning("Lang file \"" + hostdir + "\"does not end in .lang");
             }
         }
     }
 
     public void addLangDir(File dir) {
-        File[] listFiles;
-        for (int length = (listFiles = dir.listFiles()).length, i = 0; i < length; ++i) {
+        File[] listFiles = dir.listFiles();
+        if (listFiles == null) return;
+        for (int length = listFiles.length, i = 0; i < length; ++i) {
             File child = listFiles[i];
             if (child.isDirectory()) {
                 this.addLangDir(child);
@@ -111,8 +113,7 @@ public class LangUtil {
             this.addLangFile(fin, lang);
             fin.close();
         } catch (IOException e) {
-            System.err.println("Error occurred while loading lang file: " + child.getPath());
-            e.printStackTrace();
+            mod_BlockHelper.LOG.log(Level.WARNING, "Error occurred while loading lang file: " + child.getPath(), e);
         }
     }
 
@@ -134,8 +135,7 @@ public class LangUtil {
             }
             zf.close();
         } catch (IOException e) {
-            System.err.println("Error while reading lang zip file: " + jar.getPath());
-            e.printStackTrace();
+            mod_BlockHelper.LOG.log(Level.WARNING, "Error while reading lang zip file: " + jar.getPath(), e);
         }
     }
 

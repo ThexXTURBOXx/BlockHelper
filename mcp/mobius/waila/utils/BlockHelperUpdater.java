@@ -34,15 +34,15 @@ public class BlockHelperUpdater implements Runnable {
             } else {
                 latestVersion = latestVersions.get(0);
                 if (latestVersions.contains(mod_BlockHelper.VERSION)) {
-                    mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newest_version_installed",
+                    mod_BlockHelper.LOG.info(I18n.translate("waila.newest_version_installed",
                             mod_BlockHelper.NAME));
                 } else {
-                    mod_BlockHelper.LOG.info(LangUtil.translateG("waila.newer_version_available",
+                    mod_BlockHelper.LOG.info(I18n.translate("waila.newer_version_available",
                             mod_BlockHelper.NAME, latestVersion));
                 }
             }
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, LangUtil.translateG("waila.update_check_failed",
+            mod_BlockHelper.LOG.log(Level.WARNING, I18n.translate("waila.update_check_failed",
                     mod_BlockHelper.NAME), t);
         }
         isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
@@ -88,10 +88,10 @@ public class BlockHelperUpdater implements Runnable {
         if (!notify) return;
         if (!isLatestVersion()) {
             if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage(LangUtil.translateG("waila.update_check_failed_chat",
+                mc.thePlayer.addChatMessage(I18n.translate("waila.update_check_failed_chat",
                         mod_BlockHelper.NAME));
             } else {
-                mc.thePlayer.addChatMessage(LangUtil.translateG("waila.newer_version_available_chat",
+                mc.thePlayer.addChatMessage(I18n.translate("waila.newer_version_available_chat",
                         mod_BlockHelper.NAME, mod_BlockHelper.VERSION, getLatestVersion()));
             }
         }

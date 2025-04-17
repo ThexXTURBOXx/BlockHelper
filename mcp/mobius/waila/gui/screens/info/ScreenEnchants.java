@@ -8,7 +8,7 @@ import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.ViewTable;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 
@@ -40,10 +40,10 @@ public class ScreenEnchants extends ScreenBase {
                 .setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY, WAlign.CENTER,
                         WAlign.TOP));
 
-        String columnName = GREEN + ITALIC + LangUtil.translateG("enchant.title.name");
-        String columnMinLvl = GREEN + ITALIC + LangUtil.translateG("enchant.title.minlvl");
-        String columnMaxLvl = GREEN + ITALIC + LangUtil.translateG("enchant.title.maxlvl");
-        String columnWeight = GREEN + ITALIC + LangUtil.translateG("enchant.title.weight");
+        String columnName = GREEN + ITALIC + I18n.translate("enchant.title.name");
+        String columnMinLvl = GREEN + ITALIC + I18n.translate("enchant.title.minlvl");
+        String columnMaxLvl = GREEN + ITALIC + I18n.translate("enchant.title.maxlvl");
+        String columnWeight = GREEN + ITALIC + I18n.translate("enchant.title.weight");
 
         ((ViewTable) this.getRoot().getWidget("Table"))
                 .setColumnsTitle(columnName, columnMinLvl, columnMaxLvl, columnWeight, GREEN + ITALIC + "Mod")
@@ -74,7 +74,7 @@ public class ScreenEnchants extends ScreenBase {
 
     public ScreenEnchants setEnchantability(String value) {
         ((LabelFixedFont) this.getRoot().getWidget("Layout_Title").getWidget("LabelEnchantability"))
-                .setText(LangUtil.translateG("enchant.label.enchantability") + " : " + value);
+                .setText(I18n.translate("enchant.label.enchantability") + " : " + value);
         this.getRoot().getWidget("Layout_Title").adjustSize();
         return this;
     }

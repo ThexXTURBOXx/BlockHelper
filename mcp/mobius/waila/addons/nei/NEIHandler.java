@@ -8,7 +8,7 @@ import codechicken.nei.recipe.GuiUsageRecipe;
 import java.util.List;
 import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemStack;
@@ -57,7 +57,7 @@ public final class NEIHandler {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
                         if (!GuiCraftingRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage(WHITE + ITALIC + LangUtil.translateG("client.msg.norecipe"));
+                            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.norecipe"));
                             mc.displayGuiScreen(null);
                             mc.setIngameFocus();
                         }
@@ -67,7 +67,7 @@ public final class NEIHandler {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
                         if (!GuiUsageRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage(WHITE + ITALIC + LangUtil.translateG("client.msg.nousage"));
+                            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.nousage"));
                             mc.displayGuiScreen(null);
                             mc.setIngameFocus();
                         }

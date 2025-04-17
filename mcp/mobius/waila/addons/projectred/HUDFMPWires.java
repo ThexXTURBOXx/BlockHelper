@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IFMPAccessor;
 import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.item.ItemStack;
 
@@ -27,7 +27,7 @@ public final class HUDFMPWires implements IFMPProvider {
 
         int signal = ((NBTUtil.getNBTInteger(accessor.getNBTData(), "signal") & 0xff) + 16) / 17;
         if (currenttip.getEntries("signal").isEmpty()) {
-            currenttip.add(LangUtil.translateG("hud.msg.power") + " : " + signal, "signal");
+            currenttip.add(I18n.translate("hud.msg.power") + " : " + signal, "signal");
         }
     }
 

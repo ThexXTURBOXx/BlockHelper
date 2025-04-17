@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -104,7 +104,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                     harvest = "hud.msg.not_harvestable";
                 }
             }
-            currenttip.add(LangUtil.translateG(harvest));
+            currenttip.add(I18n.translate(harvest));
         }
 
         if (config.get("general.lightlevel") &&
@@ -113,7 +113,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             int spawnMode = getSpawnMode(w.getChunkFromBlockCoords(x, z), x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? GOLD : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
-            currenttip.add(LangUtil.translateG("hud.msg.light_level", blockLight, skyLight));
+            currenttip.add(I18n.translate("hud.msg.light_level", blockLight, skyLight));
         }
 
         if (config.get("general.break")) {
@@ -121,7 +121,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                 float curBlockDamage = CorePlugin.curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
-                    currenttip.add(LangUtil.translateG("hud.msg.break_progression", progress));
+                    currenttip.add(I18n.translate("hud.msg.break_progression", progress));
                 }
             } catch (Throwable t) {
                 throw new RuntimeException(t);

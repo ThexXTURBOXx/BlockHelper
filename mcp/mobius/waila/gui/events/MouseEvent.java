@@ -22,7 +22,7 @@ public class MouseEvent {
 
     public MouseEvent(IWidget widget) {
         this.srcwidget = widget;
-        this.timestamp = System.nanoTime();
+        this.timestamp = System.currentTimeMillis();
 
         this.mc = Minecraft.getMinecraft();
 

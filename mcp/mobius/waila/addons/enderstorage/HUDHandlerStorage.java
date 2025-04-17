@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,22 +19,22 @@ public final class HUDHandlerStorage implements IDataProvider {
     }
 
     private static final String[] colors = {
-            LangUtil.translateG("hud.msg.white"),
-            LangUtil.translateG("hud.msg.orange"),
-            LangUtil.translateG("hud.msg.magenta"),
-            LangUtil.translateG("hud.msg.lblue"),
-            LangUtil.translateG("hud.msg.yellow"),
-            LangUtil.translateG("hud.msg.lime"),
-            LangUtil.translateG("hud.msg.pink"),
-            LangUtil.translateG("hud.msg.gray"),
-            LangUtil.translateG("hud.msg.lgray"),
-            LangUtil.translateG("hud.msg.cyan"),
-            LangUtil.translateG("hud.msg.purple"),
-            LangUtil.translateG("hud.msg.blue"),
-            LangUtil.translateG("hud.msg.brown"),
-            LangUtil.translateG("hud.msg.green"),
-            LangUtil.translateG("hud.msg.red"),
-            LangUtil.translateG("hud.msg.black")
+            I18n.translate("hud.msg.white"),
+            I18n.translate("hud.msg.orange"),
+            I18n.translate("hud.msg.magenta"),
+            I18n.translate("hud.msg.lblue"),
+            I18n.translate("hud.msg.yellow"),
+            I18n.translate("hud.msg.lime"),
+            I18n.translate("hud.msg.pink"),
+            I18n.translate("hud.msg.gray"),
+            I18n.translate("hud.msg.lgray"),
+            I18n.translate("hud.msg.cyan"),
+            I18n.translate("hud.msg.purple"),
+            I18n.translate("hud.msg.blue"),
+            I18n.translate("hud.msg.brown"),
+            I18n.translate("hud.msg.green"),
+            I18n.translate("hud.msg.red"),
+            I18n.translate("hud.msg.black")
     };
 
     @Override

@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockRedstoneOre;
@@ -141,25 +141,25 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (config.get("vanilla.leverstate"))
             if (block == lever) {
-                String redstoneOn = (meta & 8) == 0 ? LangUtil.translateG("hud.msg.off") :
-                        LangUtil.translateG("hud.msg.on");
-                currenttip.add(LangUtil.translateG("hud.msg.state") + " : " + redstoneOn);
+                String redstoneOn = (meta & 8) == 0 ? I18n.translate("hud.msg.off") :
+                        I18n.translate("hud.msg.on");
+                currenttip.add(I18n.translate("hud.msg.state") + " : " + redstoneOn);
             }
 
         if (config.get("vanilla.repeater"))
             if ((block == repeaterIdle) || (block == repeaterActv)) {
                 int tick = ((meta & 0xc) >> 2) + 1;
                 if (tick == 1)
-                    currenttip.add(LangUtil.translateG("hud.msg.delay") + " : 1 tick");
+                    currenttip.add(I18n.translate("hud.msg.delay") + " : 1 tick");
                 else
-                    currenttip.add(LangUtil.translateG("hud.msg.delay") + " : " + tick + " ticks");
+                    currenttip.add(I18n.translate("hud.msg.delay") + " : " + tick + " ticks");
             }
 
         if (config.get("vanilla.comparator"))
             if ((block == comparatorIdl) || (block == comparatorAct)) {
                 String mode = (meta & 4) != 0
-                        ? LangUtil.translateG("hud.msg.subtractor")
-                        : LangUtil.translateG("hud.msg.comparator");
+                        ? I18n.translate("hud.msg.subtractor")
+                        : I18n.translate("hud.msg.comparator");
                 int outputSignal = accessor.getNBTInteger("OutputSignal");
                 currenttip.add("Mode : " + mode);
                 currenttip.add("Out : " + outputSignal);
@@ -167,7 +167,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
-                currenttip.add(LangUtil.translateG("hud.msg.power") + " : " + meta);
+                currenttip.add(I18n.translate("hud.msg.power") + " : " + meta);
             }
 
         if (config.get("vanilla.jukebox"))
@@ -184,15 +184,15 @@ public final class HUDHandlerVanilla implements IDataProvider {
                     record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
 
                 currenttip.add(record == null
-                        ? LangUtil.translateG("hud.msg.empty")
-                        : LangUtil.translateG("hud.msg.record", ((ItemRecord) record).getRecordTitle()));
+                        ? I18n.translate("hud.msg.empty")
+                        : I18n.translate("hud.msg.record", ((ItemRecord) record).getRecordTitle()));
             }
 
         if (config.get("vanilla.flowerpot"))
             if (block == flowerPot) {
                 ItemStack flower = BlockFlowerPot.getPlantForMeta(meta);
                 if (flower != null)
-                    currenttip.add(LangUtil.translateG("hud.msg.flower", flower.getDisplayName()));
+                    currenttip.add(I18n.translate("hud.msg.flower", flower.getDisplayName()));
             }
 
         if (config.get("vanilla.skull"))
@@ -201,14 +201,14 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 if (te.getSkullType() == 3) {
                     String playerName = te.getExtraType();
                     if (playerName != null && !playerName.isEmpty())
-                        currenttip.add(LangUtil.translateG("hud.msg.head_owner", playerName));
+                        currenttip.add(I18n.translate("hud.msg.head_owner", playerName));
                 }
             }
 
         if (config.get("vanilla.noteblock"))
             if (block == noteBlock) {
                 int note = accessor.getNBTInteger("note");
-                currenttip.add(LangUtil.translateG("hud.msg.note", NOTES[note % 12] + (note / 12 + 1)));
+                currenttip.add(I18n.translate("hud.msg.note", NOTES[note % 12] + (note / 12 + 1)));
 
                 MovingObjectPosition mop = accessor.getPosition();
                 Material m = accessor.getWorld().getBlockMaterial(mop.blockX, mop.blockY - 1, mop.blockZ);
@@ -217,7 +217,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 else if (m == Material.sand) instrument = "hud.msg.snare_drum";
                 else if (m == Material.glass) instrument = "hud.msg.clicks_sticks";
                 else if (m == Material.wood) instrument = "hud.msg.bass_guitar";
-                currenttip.add(LangUtil.translateG("hud.msg.instrument", LangUtil.translateG(instrument)));
+                currenttip.add(I18n.translate("hud.msg.instrument", I18n.translate(instrument)));
             }
 
         if (config.get("vanilla.beacon"))
@@ -226,13 +226,13 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 int primary = accessor.getNBTInteger("Primary");
                 int secondary = accessor.getNBTInteger("Secondary");
                 if (level >= 0)
-                    currenttip.add(LangUtil.translateG("hud.msg.level", level));
+                    currenttip.add(I18n.translate("hud.msg.level", level));
                 if (primary > 0)
-                    currenttip.add(LangUtil.translateG("hud.msg.primary_effect",
-                            LangUtil.translateG(Potion.potionTypes[primary].getName())));
+                    currenttip.add(I18n.translate("hud.msg.primary_effect",
+                            I18n.translate(Potion.potionTypes[primary].getName())));
                 if (secondary > 0)
-                    currenttip.add(LangUtil.translateG("hud.msg.secondary_effect",
-                            LangUtil.translateG(Potion.potionTypes[secondary].getName())));
+                    currenttip.add(I18n.translate("hud.msg.secondary_effect",
+                            I18n.translate(Potion.potionTypes[secondary].getName())));
             }
     }
 

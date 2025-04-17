@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,7 +40,7 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             int storage = accessor.getNBTData().getInteger("storage");
             int maxStorage = accessor.getNBTData().getInteger("maxStorage");
 
-            String storedStr = LangUtil.translateG("hud.msg.stored");
+            String storedStr = I18n.translate("hud.msg.stored");
 
             /* EU Storage */
             if (config.get("advsolars.storage")) {
@@ -52,7 +52,7 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             int production = accessor.getNBTData().getInteger("production");
             int maxPacketSize = accessor.getNBTData().getInteger("maxPacketSize");
 
-            String prodStr = LangUtil.translateG("hud.msg.production");
+            String prodStr = I18n.translate("hud.msg.production");
 
             /* QGenerator Production */
             if (config.get("advsolars.qproduction")) {

@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,8 +36,8 @@ public final class HUDHandlerTank implements IDataProvider {
         try {
             if (config.get("thermalexpansion.tankmode")) {
                 boolean mode = ThermalExpansionPlugin.TileTank_mode.getBoolean(accessor.getTileEntity());
-                currenttip.add(LangUtil.translateG("hud.msg.mode") + " : " + GREEN +
-                               LangUtil.translateG(mode ? "hud.msg.output" : "hud.msg.input"));
+                currenttip.add(I18n.translate("hud.msg.mode") + " : " + GREEN +
+                               I18n.translate(mode ? "hud.msg.output" : "hud.msg.input"));
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);

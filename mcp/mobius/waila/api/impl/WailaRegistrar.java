@@ -14,7 +14,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 
@@ -93,22 +93,22 @@ public class WailaRegistrar implements IRegistrar {
 
     @Override
     public void addConfig(String modname, String key, String configname, boolean defvalue) {
-        PluginConfig.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
+        PluginConfig.instance().addConfig(modname, key, I18n.translate(configname), defvalue);
     }
 
     @Override
     public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
-        PluginConfig.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
+        PluginConfig.instance().addConfigServer(modname, key, I18n.translate(configname), defvalue);
     }
 
     @Override
     public void addConfig(String modname, String key, boolean defvalue) {
-        PluginConfig.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
+        PluginConfig.instance().addConfig(modname, key, I18n.translate("option." + key), defvalue);
     }
 
     @Override
     public void addConfigRemote(String modname, String key, boolean defvalue) {
-        PluginConfig.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
+        PluginConfig.instance().addConfigServer(modname, key, I18n.translate("option." + key), defvalue);
     }
 
 

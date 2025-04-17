@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.LangUtil;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.LiquidHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +38,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
         if (capacity > 0 && config.get("forge.tanktype")) {
             String name = currenttip.get(0);
             name += " " + (stack == null
-                    ? LangUtil.translateG("hud.msg.empty")
+                    ? I18n.translate("hud.msg.empty")
                     : ("(" + LiquidHelper.getLiquidName(stack) + ")"));
             currenttip.set(0, name);
         }
