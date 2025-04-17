@@ -79,6 +79,11 @@ public class DataAccessorFMP implements IFMPAccessor {
     }
 
     @Override
+    public int getNBTInteger(String keyname) {
+        return getNBTInteger(getNBTData(), keyname);
+    }
+
+    @Override
     public int getNBTInteger(NBTTagCompound tag, String keyname) {
         return NBTUtil.getNBTInteger(tag, keyname);
     }

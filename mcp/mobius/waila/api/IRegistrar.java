@@ -19,6 +19,7 @@ package mcp.mobius.waila.api;
  * @author ProfMobius
  */
 public interface IRegistrar {
+
     /* Add a config option in the section modname with displayed text configtext and access key keyname */
     void addConfig(String modname, String keyname, String configtext);
 

@@ -1,10 +1,8 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
 /**
  * Callback class interface used to provide Entity tooltip information to Waila.<br>
@@ -76,12 +74,11 @@ public interface IEntityProvider {
      * Will be used if the implementing class is registered via {@link IRegistrar#registerNBTProvider} server
      * and client side.
      *
-     * @param player The player requesting data synchronization (The owner of the current connection).
-     * @param ent    The Entity targeted for synchronization.
-     * @param tag    Current synchronization tag (might have been processed by other providers and might be processed
-     *               by other providers).
-     * @param world  TileEntity's World.
+     * @param ent The Entity targeted for synchronization.
+     * @param tag Current synchronization tag (might have been processed by other providers and might be processed
+     *            by other providers).
      */
-    void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world);
+    void appendServerData(Entity ent, NBTTagCompound tag,
+                          IServerEntityAccessor accessor, IPluginConfig config);
 
 }

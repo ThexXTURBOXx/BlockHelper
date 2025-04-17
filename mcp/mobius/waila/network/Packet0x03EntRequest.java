@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import mcp.mobius.waila.api.IEntityProvider;
+import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.ServerDataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -14,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 public class Packet0x03EntRequest implements IWailaPacket {
@@ -60,21 +62,26 @@ public class Packet0x03EntRequest implements IWailaPacket {
     }
 
     @Override
-    public void handle(Player player) {
-        World world = DimensionManager.getWorld(dim);
+    public void handle(Player rawPlayer) {
+        WorldServer world = DimensionManager.getWorld(dim);
         if (world == null) return;
         Entity entity = world.getEntityByID(id);
         if (entity == null) return;
+        if (!(rawPlayer instanceof EntityPlayerMP)) return;
+        EntityPlayerMP player = (EntityPlayerMP) rawPlayer;
 
         try {
             NBTTagCompound tag = new NBTTagCompound();
+
+            ServerDataAccessorCommon accessor = ServerDataAccessorCommon.INSTANCE;
+            accessor.set(world, player, entity);
 
             if (WailaRegistrar.instance().hasNBTEntityProviders(entity)) {
                 for (List<IEntityProvider> providersList :
                         WailaRegistrar.instance().getNBTEntityProviders(entity).values()) {
                     for (IEntityProvider provider : providersList) {
                         try {
-                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world);
+                            provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
                             WailaExceptionHandler.handleErr(t, Packet0x03EntRequest.class.toString(), null);
                         }
@@ -88,7 +95,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
 
             tag.setInteger("WailaEntityID", entity.entityId);
 
-            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), player);
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), rawPlayer);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }

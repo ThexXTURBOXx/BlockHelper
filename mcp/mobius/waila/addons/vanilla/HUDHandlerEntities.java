@@ -3,13 +3,12 @@ package mcp.mobius.waila.addons.vanilla;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
@@ -69,7 +68,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+    public void appendServerData(Entity ent, NBTTagCompound tag,
+                                 IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent != null)
             ent.writeToNBT(tag);
         if (ent instanceof EntityLiving)

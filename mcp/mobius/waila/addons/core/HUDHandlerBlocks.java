@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.core;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
@@ -12,7 +13,6 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -138,8 +138,8 @@ public final class HUDHandlerBlocks implements IDataProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                 int x, int y, int z) {
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
     }
 
     private byte getSpawnMode(Chunk chunk, int x, int y, int z) {

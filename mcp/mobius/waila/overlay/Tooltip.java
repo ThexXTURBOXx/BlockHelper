@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
@@ -15,9 +16,11 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
+import org.lwjgl.util.Rectangle;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNCENTER;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
@@ -39,10 +42,9 @@ public class Tooltip {
     final List<Renderable> elements = new ArrayList<Renderable>();
     final List<Renderable> elements2nd = new ArrayList<Renderable>();
 
-    int w, h, x, y, ty;
-    int offsetX;
+    Rectangle poss;
+    int offsetX, offsetY;
     int maxStringW;
-    Point pos;
     boolean hasIcon = false;
     ItemStack stack;
 
@@ -100,6 +102,9 @@ public class Tooltip {
     }
 
     public Tooltip(List<String> textData, ItemStack stack, boolean hasIcon) {
+        WailaTooltipEvent event = new WailaTooltipEvent(textData, DataAccessorCommon.INSTANCE);
+        MinecraftForge.EVENT_BUS.post(event);
+
         this.stack = stack;
 
         columnsWidth.add(0);        // Small init of the arrays to have at least one element
@@ -210,34 +215,43 @@ public class Tooltip {
     }
 
     private void computePositionAndSize(boolean hasIcon) {
-        this.pos = new Point(PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                Constants.CFG_WAILA_POSX, 0),
-                PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0));
-        this.hasIcon = hasIcon;
+        int x = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0);
+        int y = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0);
 
+        this.hasIcon = hasIcon;
         int paddingW = hasIcon ? 29 : 13;
         int paddingH = hasIcon ? 24 : 0;
-        offsetX = hasIcon ? 24 : 6;
 
-        w = maxStringW + paddingW;
-
-        h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
+        int w = maxStringW + paddingW;
+        int h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
 
         Dimension size = DisplayUtil.displaySize();
-        x = ((int) (size.getWidth() / OverlayConfig.scale) - w - 1) * pos.getX() / 10000;
-        y = ((int) (size.getHeight() / OverlayConfig.scale) - h - 1) * pos.getY() / 10000;
+        x = ((int) (size.getWidth() / OverlayConfig.scale) - w - 1) * x / 10000;
+        y = ((int) (size.getHeight() / OverlayConfig.scale) - h - 1) * y / 10000;
 
-        ty = (h - this.getRenderableTotalHeight()) / 2 + 1;
+        this.poss = new Rectangle(x, y, w, h);
+
+        this.offsetX = hasIcon ? 24 : 6;
+        this.offsetY = (h - this.getRenderableTotalHeight()) / 2 + 1;
+    }
+
+    public boolean hasItem() {
+        return this.hasIcon && this.stack != null && this.stack.getItem() != null;
+    }
+
+    public void drawAll() {
+        draw();
+        draw2nd();
     }
 
     public void draw() {
         for (Renderable r : this.elements)
-            r.draw(accessor, x + offsetX, y + ty);
+            r.draw(accessor, this.poss.getX() + offsetX, this.poss.getY() + offsetY);
     }
 
     public void draw2nd() {
         for (Renderable r : this.elements2nd)
-            r.draw(accessor, x + offsetX, y + ty);
+            r.draw(accessor, this.poss.getX() + offsetX, this.poss.getY() + offsetY);
     }
 
 }

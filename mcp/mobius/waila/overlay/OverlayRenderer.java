@@ -1,12 +1,16 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.api.event.WailaRenderEvent;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Rectangle;
 
 public final class OverlayRenderer {
 
@@ -34,27 +38,44 @@ public final class OverlayRenderer {
     }
 
     public static void renderOverlay(Tooltip tooltip) {
+        Minecraft.getMinecraft().mcProfiler.startSection("Waila Overlay");
         GL11.glPushMatrix();
         GLState state = new GLState();
 
+        draw:
         try {
             GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
 
-            drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor,
-                    OverlayConfig.gradient1, OverlayConfig.gradient2);
+            WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessorCommon.INSTANCE, tooltip.poss);
+            if (MinecraftForge.EVENT_BUS.post(preEvent)) break draw;
+            Rectangle position = preEvent.getPosition();
 
-            tooltip.draw();
+            WailaRenderEvent.Color colorEvent = new WailaRenderEvent.Color(
+                    OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
+            MinecraftForge.EVENT_BUS.post(colorEvent);
 
-            tooltip.draw2nd();
+            drawTooltipBox(position, colorEvent.getBackground(),
+                    colorEvent.getGradientStart(), colorEvent.getGradientEnd());
 
-            if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
-                DisplayUtil.renderStack(tooltip.x + 5, tooltip.y + tooltip.h / 2 - 8, tooltip.stack);
+            tooltip.drawAll();
+
+            if (tooltip.hasItem())
+                DisplayUtil.renderStack(position.getX() + 5, position.getY() + position.getHeight() / 2 - 8,
+                        tooltip.stack);
+
+            WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
+            MinecraftForge.EVENT_BUS.post(postEvent);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, "renderOverlay", null);
         }
 
         state.reset();
         GL11.glPopMatrix();
+        Minecraft.getMinecraft().mcProfiler.endSection();
+    }
+
+    public static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {
+        drawTooltipBox(position.getX(), position.getY(), position.getWidth(), position.getHeight(), bg, grad1, grad2);
     }
 
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {

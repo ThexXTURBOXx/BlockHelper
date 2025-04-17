@@ -3,14 +3,13 @@ package mcp.mobius.waila.addons.forge;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.LiquidHelper;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidStack;
@@ -65,8 +64,8 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                 int x, int y, int z) {
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
         ILiquidTank tank = LiquidHelper.getTank((ITankContainer) te);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int capacity = tank != null ? tank.getCapacity() : 0;

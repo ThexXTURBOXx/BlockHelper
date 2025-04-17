@@ -1,13 +1,8 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 /**
@@ -19,11 +14,7 @@ import net.minecraftforge.common.ForgeDirection;
  * @author ProfMobius
  */
 
-public interface IDataAccessor {
-
-    World getWorld();
-
-    EntityPlayer getPlayer();
+public interface IDataAccessor extends ICommonAccessor {
 
     Block getBlock();
 
@@ -33,19 +24,8 @@ public interface IDataAccessor {
 
     TileEntity getTileEntity();
 
-    MovingObjectPosition getPosition();
-
-    Vec3 getRenderingPosition();
-
-    NBTTagCompound getNBTData();
-
-    int getNBTInteger(String keyname);
-
-    int getNBTInteger(NBTTagCompound tag, String keyname);
-
-    double getPartialFrame();
-
     ForgeDirection getSide();
 
     ItemStack getStack();
+
 }

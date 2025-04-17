@@ -14,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import static mcp.mobius.waila.api.SpecialChars.MCStyle;
+
 public final class ModIdentification {
 
     public static Map<String, String> modSource_Name = new HashMap<String, String>();
@@ -119,7 +121,7 @@ public final class ModIdentification {
         return name == null ? "Minecraft" :
                 name.replaceFirst("^mod_", "")
                         .replaceAll("\u00C2\u00A7.", "")
-                        .replaceAll("\u00A7.", "");
+                        .replaceAll(MCStyle + ".", "");
     }
 
 }

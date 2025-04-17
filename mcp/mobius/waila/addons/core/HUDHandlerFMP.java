@@ -5,16 +5,15 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.DataAccessorFMP;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public final class HUDHandlerFMP implements IDataProvider {
 
@@ -98,8 +97,8 @@ public final class HUDHandlerFMP implements IDataProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                 int x, int y, int z) {
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
         if (te != null)
             te.writeToNBT(tag);
     }

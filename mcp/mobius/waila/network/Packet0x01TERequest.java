@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.ServerDataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -17,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 public class Packet0x01TERequest implements IWailaPacket {
@@ -88,12 +90,14 @@ public class Packet0x01TERequest implements IWailaPacket {
     }
 
     @Override
-    public void handle(Player player) {
-        World world = DimensionManager.getWorld(dim);
+    public void handle(Player rawPlayer) {
+        WorldServer world = DimensionManager.getWorld(dim);
         if (world == null) return;
         TileEntity entity = world.getBlockTileEntity(posX, posY, posZ);
         Block block = Block.blocksList[world.getBlockId(posX, posY, posZ)];
         if (entity == null) return;
+        if (!(rawPlayer instanceof EntityPlayerMP)) return;
+        EntityPlayerMP player = (EntityPlayerMP) rawPlayer;
 
         try {
             NBTTagCompound tag = new NBTTagCompound();
@@ -106,11 +110,14 @@ public class Packet0x01TERequest implements IWailaPacket {
                 tag.setInteger("z", posZ);
                 tag.setString("id", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
+                ServerDataAccessorCommon accessor = ServerDataAccessorCommon.INSTANCE;
+                accessor.set(world, player, entity, posX, posY, posZ);
+
                 for (List<IDataProvider> providersList :
                         WailaRegistrar.instance().getNBTProviders(block).values()) {
                     for (IDataProvider provider : providersList) {
                         try {
-                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
+                            provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
                             WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
                         }
@@ -121,7 +128,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                         WailaRegistrar.instance().getNBTProviders(entity).values()) {
                     for (IDataProvider provider : providersList) {
                         try {
-                            provider.appendServerData((EntityPlayerMP) player, entity, tag, world, posX, posY, posZ);
+                            provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
                             WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
                         }
@@ -138,7 +145,7 @@ public class Packet0x01TERequest implements IWailaPacket {
             tag.setInteger("WailaZ", posZ);
             tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
-            WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), player);
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), rawPlayer);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }

@@ -19,6 +19,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Dimension;
 
+import static mcp.mobius.waila.api.SpecialChars.GRAY;
+import static mcp.mobius.waila.api.SpecialChars.MCStyle;
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
 import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
 import static mcp.mobius.waila.api.SpecialChars.patternRender;
@@ -162,9 +164,9 @@ public final class DisplayUtil {
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
             namelist.set(0, "Unnamed");
 
-        namelist.set(0, "\u00a7" + Integer.toHexString(itemstack.getRarity().rarityColor) + namelist.get(0));
+        namelist.set(0, MCStyle + Integer.toHexString(itemstack.getRarity().rarityColor) + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
-            namelist.set(i, "\u00a77" + namelist.get(i));
+            namelist.set(i, GRAY + namelist.get(i));
 
         return namelist;
     }

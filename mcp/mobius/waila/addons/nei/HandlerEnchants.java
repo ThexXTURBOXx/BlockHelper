@@ -14,6 +14,12 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import static mcp.mobius.waila.api.SpecialChars.BLUE;
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+import static mcp.mobius.waila.api.SpecialChars.RED;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
+import static mcp.mobius.waila.api.SpecialChars.YELLOW;
+
 public final class HandlerEnchants implements IContainerInputHandler {
 
     public static final IContainerInputHandler INSTANCE = new HandlerEnchants();
@@ -92,16 +98,16 @@ public final class HandlerEnchants implements IContainerInputHandler {
                         int minLevel = (int) ((minEnchantEnchantability - minModifiedEnchantability) / 1.15);
                         int maxLevel = (int) ((maxEnchantEnchantability - maxModifiedEnchantability) / 0.85);
 
-                        String colorcode = isCompatible ? "\u00a7f" : "\u00a7c";
+                        String colorcode = isCompatible ? WHITE : RED;
 
                         if (isApplied && lvl == level)
-                            colorcode = "\u00a7e";
+                            colorcode = YELLOW;
 
                         screen.addRow(colorcode + enchant.getTranslatedName(lvl),
                                 colorcode + minLevel,
                                 colorcode + maxLevel,
                                 colorcode + enchant.getWeight(),
-                                "\u00a79\u00a7o" + ModIdentification.nameFromObject(enchant));
+                                BLUE + ITALIC + ModIdentification.nameFromObject(enchant));
                     }
                 }
             }

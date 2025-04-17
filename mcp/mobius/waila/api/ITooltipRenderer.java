@@ -3,6 +3,7 @@ package mcp.mobius.waila.api;
 import org.lwjgl.util.Dimension;
 
 public interface ITooltipRenderer {
+
     /**
      * @param params   Array of string parameters as passed to the RENDER arg in the tooltip ({rendername,param1,
      *                 param2,...})
@@ -21,4 +22,5 @@ public interface ITooltipRenderer {
      * @param y        The y offset to draw at
      */
     void draw(String[] params, ICommonAccessor accessor, int x, int y);
+
 }

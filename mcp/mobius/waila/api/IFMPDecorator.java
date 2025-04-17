@@ -21,4 +21,5 @@ public interface IFMPDecorator {
      * @param config    Current configuration of Waila.
      */
     void decorateBlock(ItemStack itemStack, IFMPAccessor accessor, IPluginConfig config);
+
 }

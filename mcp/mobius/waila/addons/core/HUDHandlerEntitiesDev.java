@@ -3,13 +3,12 @@ package mcp.mobius.waila.addons.core;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
 public final class HUDHandlerEntitiesDev implements IEntityProvider {
 
@@ -50,7 +49,8 @@ public final class HUDHandlerEntitiesDev implements IEntityProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+    public void appendServerData(Entity ent, NBTTagCompound tag,
+                                 IServerEntityAccessor accessor, IPluginConfig config) {
     }
 
 }

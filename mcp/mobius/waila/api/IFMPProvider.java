@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
  * @author ProfMobius
  */
 public interface IFMPProvider {
+
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
@@ -52,4 +53,5 @@ public interface IFMPProvider {
      */
     void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
                     IFMPAccessor accessor, IPluginConfig config);
+
 }

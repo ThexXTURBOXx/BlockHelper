@@ -11,6 +11,7 @@ import java.util.Set;
  * @author ProfMobius
  */
 public interface IPluginConfig {
+
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
@@ -42,4 +43,5 @@ public interface IPluginConfig {
      * @return Value of the option or true if not set.
      */
     boolean get(String key);
+
 }

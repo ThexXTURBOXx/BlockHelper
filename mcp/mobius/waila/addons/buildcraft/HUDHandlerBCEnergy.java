@@ -3,14 +3,13 @@ package mcp.mobius.waila.addons.buildcraft;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
@@ -59,8 +58,8 @@ public final class HUDHandlerBCEnergy implements IDataProvider {
     }
 
     @Override
-    public void appendServerData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world,
-                                 int x, int y, int z) {
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
         try {
             Float energy = -1f;
             Integer maxsto = -1;

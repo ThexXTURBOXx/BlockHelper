@@ -15,6 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
 import org.lwjgl.input.Keyboard;
 
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
+
 public final class NEIHandler {
 
     private NEIHandler() {
@@ -54,7 +57,7 @@ public final class NEIHandler {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
                         if (!GuiCraftingRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage("\u00a7f\u00a7o" + LangUtil.translateG("client.msg.norecipe"));
+                            mc.thePlayer.addChatMessage(WHITE + ITALIC + LangUtil.translateG("client.msg.norecipe"));
                             mc.displayGuiScreen(null);
                             mc.setIngameFocus();
                         }
@@ -64,7 +67,7 @@ public final class NEIHandler {
                         ItemStack target = stacks.get(0).copy();
                         target.setItemDamage(0);
                         if (!GuiUsageRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage("\u00a7f\u00a7o" + LangUtil.translateG("client.msg.nousage"));
+                            mc.thePlayer.addChatMessage(WHITE + ITALIC + LangUtil.translateG("client.msg.nousage"));
                             mc.displayGuiScreen(null);
                             mc.setIngameFocus();
                         }

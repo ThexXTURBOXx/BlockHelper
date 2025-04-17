@@ -6,6 +6,9 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
+import static mcp.mobius.waila.api.SpecialChars.BLUE;
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+
 public final class TooltipHandlerWaila implements IContainerTooltipHandler {
 
     public static final IContainerTooltipHandler INSTANCE = new TooltipHandlerWaila();
@@ -22,7 +25,7 @@ public final class TooltipHandlerWaila implements IContainerTooltipHandler {
     public List<String> handleItemTooltip(GuiContainer guiContainer, ItemStack itemStack, List<String> list) {
         String canonicalName = ModIdentification.nameFromStack(itemStack);
         if (canonicalName != null && !canonicalName.isEmpty())
-            list.add("\u00a79\u00a7o" + canonicalName);
+            list.add(BLUE + ITALIC + canonicalName);
         return list;
     }
 

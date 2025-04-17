@@ -12,6 +12,9 @@ import mcp.mobius.waila.utils.LangUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 
+import static mcp.mobius.waila.api.SpecialChars.GREEN;
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+
 public class ScreenEnchants extends ScreenBase {
 
     public ScreenEnchants(GuiScreen parent) {
@@ -37,13 +40,13 @@ public class ScreenEnchants extends ScreenBase {
                 .setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY, WAlign.CENTER,
                         WAlign.TOP));
 
-        String columnName = "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.name");
-        String columnMinLvl = "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.minlvl");
-        String columnMaxLvl = "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.maxlvl");
-        String columnWeight = "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.weight");
+        String columnName = GREEN + ITALIC + LangUtil.translateG("enchant.title.name");
+        String columnMinLvl = GREEN + ITALIC + LangUtil.translateG("enchant.title.minlvl");
+        String columnMaxLvl = GREEN + ITALIC + LangUtil.translateG("enchant.title.maxlvl");
+        String columnWeight = GREEN + ITALIC + LangUtil.translateG("enchant.title.weight");
 
         ((ViewTable) this.getRoot().getWidget("Table"))
-                .setColumnsTitle(columnName, columnMinLvl, columnMaxLvl, columnWeight, "\u00a7a\u00a7oMod")
+                .setColumnsTitle(columnName, columnMinLvl, columnMaxLvl, columnWeight, GREEN + ITALIC + "Mod")
                 .setColumnsWidth(35.0, 10.0, 10.0, 10.0, 35.0)
                 .setColumnsAlign(WAlign.LEFT, WAlign.CENTER, WAlign.CENTER, WAlign.CENTER, WAlign.LEFT);
     }
