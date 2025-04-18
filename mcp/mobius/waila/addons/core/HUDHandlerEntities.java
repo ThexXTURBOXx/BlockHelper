@@ -10,11 +10,13 @@ import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+import static mcp.mobius.waila.api.SpecialChars.RED;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerEntities implements IEntityProvider {
@@ -37,15 +39,18 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
+        String color = entity instanceof IMob ? RED : WHITE;
+
         try {
             String entityName = entity.getTranslatedEntityName();
-            if (entityName == null || entityName.isEmpty() ||
-                entityName.startsWith("entity.") && entityName.endsWith(".name"))
+            if (entityName.startsWith("entity.") && entityName.endsWith(".name"))
                 entityName = I18n.translate(entityName);
+            if (entityName == null || entityName.isEmpty())
+                throw new IllegalStateException();
 
-            currenttip.add(WHITE + entityName);
+            currenttip.add(color + entityName);
         } catch (Throwable t) {
-            currenttip.add(WHITE + "Unknown");
+            currenttip.add(color + "Unknown");
         }
     }
 
