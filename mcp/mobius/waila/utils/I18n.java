@@ -47,7 +47,9 @@ public class I18n {
         String ret = translator == null
                 ? StatCollector.translateToLocal(s)
                 : translator.translateKey(s);
-        if (ret == null || ret.isEmpty() || format.length == 0) return s;
+
+        if (ret == null || ret.isEmpty()) return s;
+        if (format.length == 0) return ret;
 
         try {
             return String.format(ret, format);
