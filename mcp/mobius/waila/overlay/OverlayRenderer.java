@@ -46,16 +46,12 @@ public final class OverlayRenderer {
         try {
             GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
 
-            WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessorCommon.INSTANCE, tooltip.poss);
+            WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(tooltip.pos, DataAccessorCommon.INSTANCE,
+                    OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
             if (MinecraftForge.EVENT_BUS.post(preEvent)) break draw;
             Rectangle position = preEvent.getPosition();
 
-            WailaRenderEvent.Color colorEvent = new WailaRenderEvent.Color(
-                    OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
-            MinecraftForge.EVENT_BUS.post(colorEvent);
-
-            drawTooltipBox(position, colorEvent.getBackground(),
-                    colorEvent.getGradientStart(), colorEvent.getGradientEnd());
+            drawTooltipBox(position, preEvent.getBackground(), preEvent.getGradientStart(), preEvent.getGradientEnd());
 
             tooltip.drawAll();
 

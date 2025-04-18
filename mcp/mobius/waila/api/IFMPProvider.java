@@ -3,17 +3,15 @@ package mcp.mobius.waila.api;
 import net.minecraft.item.ItemStack;
 
 /**
- * Callback class interface used to provide FMP tooltip information to Waila.<br>
- * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
+ * Callback class interface used to provide FMP tooltip information to Waila.</br>
+ * All methods in this interface shouldn't be called by the implementing mod. An instance of the class is to be
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
  * (cf. {@link IRegistrar} documentation for more information).
- *
- * @author ProfMobius
  */
 public interface IFMPProvider {
 
     /**
-     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
+     * Client-side callback used to modify the lines of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerHeadProvider} client
      * side.
      *
@@ -27,7 +25,7 @@ public interface IFMPProvider {
                     IFMPAccessor accessor, IPluginConfig config);
 
     /**
-     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
+     * Client-side callback used to modify the lines of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerBodyProvider} client
      * side.
      *
@@ -41,7 +39,7 @@ public interface IFMPProvider {
                     IFMPAccessor accessor, IPluginConfig config);
 
     /**
-     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
+     * Client-side callback used to modify the lines of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IRegistrar#registerTailProvider} client
      * side.
      *

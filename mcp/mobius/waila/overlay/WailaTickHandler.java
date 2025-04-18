@@ -55,14 +55,9 @@ public class WailaTickHandler {
                     this.currenttipBody.clear();
                     this.currenttipTail.clear();
 
-
-                    //this.identifiedHighlight = handler.identifyHighlight(world, player, target);
-                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipHead, TooltipPosition.HEADER);
-                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipBody, TooltipPosition.BODY);
-                    handler.handleBlockTextData(targetStack, world, player, target, accessor,
-                            currenttipTail, TooltipPosition.FOOTER);
+                    handler.handleBlockTextData(targetStack, accessor, currenttipHead, TooltipPosition.HEADER);
+                    handler.handleBlockTextData(targetStack, accessor, currenttipBody, TooltipPosition.BODY);
+                    handler.handleBlockTextData(targetStack, accessor, currenttipTail, TooltipPosition.FOOTER);
 
                     if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTBLOCK, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
@@ -89,12 +84,9 @@ public class WailaTickHandler {
                     this.currenttipBody.clear();
                     this.currenttipTail.clear();
 
-                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipHead, TooltipPosition.HEADER);
-                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipBody, TooltipPosition.BODY);
-                    handler.handleEntityTextData(targetEnt, world, player, target, accessor,
-                            currenttipTail, TooltipPosition.FOOTER);
+                    handler.handleEntityTextData(targetEnt, accessor, currenttipHead, TooltipPosition.HEADER);
+                    handler.handleEntityTextData(targetEnt, accessor, currenttipBody, TooltipPosition.BODY);
+                    handler.handleEntityTextData(targetEnt, accessor, currenttipTail, TooltipPosition.FOOTER);
 
                     if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                             Constants.CFG_WAILA_SHIFTENTS, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {

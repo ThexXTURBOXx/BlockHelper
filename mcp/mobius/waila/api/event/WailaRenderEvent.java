@@ -6,8 +6,8 @@ import net.minecraftforge.event.Event;
 import org.lwjgl.util.Rectangle;
 
 /**
- * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the
- * tooltip.
+ * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes
+ * to the tooltip.
  * <p>
  * All sub-events are fired from
  * {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}.
@@ -38,44 +38,21 @@ public class WailaRenderEvent extends Event {
     public static class Pre extends WailaRenderEvent {
 
         private final ICommonAccessor accessor;
+        private int background;
+        private int gradientStart;
+        private int gradientEnd;
 
-        public Pre(ICommonAccessor accessor, Rectangle position) {
+        public Pre(Rectangle position, ICommonAccessor accessor,
+                   int background, int gradientStart, int gradientEnd) {
             super(position);
-
             this.accessor = accessor;
+            this.background = background;
+            this.gradientStart = gradientStart;
+            this.gradientEnd = gradientEnd;
         }
 
         public ICommonAccessor getAccessor() {
             return accessor;
-        }
-
-    }
-
-    /**
-     * This event is fired just after the tooltip is rendered and right before the GL state is reset in
-     * {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}
-     * This event is only fired if {@link Pre} is not cancelled.
-     * <p>
-     * This event is not cancelable.
-     */
-    public static class Post extends WailaRenderEvent {
-
-        public Post(Rectangle position) {
-            super(position);
-        }
-
-    }
-
-    public static class Color extends Event {
-        private int background;
-        private int gradientStart;
-        private int gradientEnd;
-        private boolean reset;
-
-        public Color(int background, int gradientStart, int gradientEnd) {
-            this.background = background;
-            this.gradientStart = gradientStart;
-            this.gradientEnd = gradientEnd;
         }
 
         public int getBackground() {
@@ -102,12 +79,19 @@ public class WailaRenderEvent extends Event {
             this.gradientEnd = gradientEnd;
         }
 
-        public boolean isReset() {
-            return reset;
-        }
+    }
 
-        public void setReset(boolean reset) {
-            this.reset = reset;
+    /**
+     * This event is fired just after the tooltip is rendered and right before the GL state is reset in
+     * {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}.
+     * This event is only fired if {@link Pre} is not canceled and the draw process did not throw an exception.
+     * <p>
+     * This event is not cancelable.
+     */
+    public static class Post extends WailaRenderEvent {
+
+        public Post(Rectangle position) {
+            super(position);
         }
 
     }

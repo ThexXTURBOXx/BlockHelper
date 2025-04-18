@@ -1,22 +1,16 @@
 package mcp.mobius.waila.api;
 
 /**
- * Main registration interface. An instance will be provided to a method specified in an IMC msg formatted as
- * follows:<br>
- * FMLInterModComms.sendMessage("Waila", "register", "fully.qualified.path.to.registration.method");<br>
- * The registration method need to follow this signature<br>
- * public static void callbackRegister({@link IRegistrar} registrar)<p>
+ * Main registration interface. An instance will be provided to registered plugins automatically.
+ * For more info, see {@link mcp.mobius.waila.mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
  * If not specified otherwise, all the registration methods taking a class can take classes as well as interfaces.
  * Waila will do a lookup using instanceof on the registered classes, meaning that if all your targets inherit one
- * interface, you only need
- * to specify it to cover the whole hierarchy.<br>
+ * interface, you only need to specify it to cover the whole hierarchy.</br>
  * For the registration of blocks, both Blocks and TileEntities are accepted.<p>
- * For the configuration keys :<br>
- * modname refers to a String used for display in Waila's config panel.<br>
- * keyname refers to a unique key used internally for config query (cf {@link IPluginConfig}). Those keys are
- * shared across Waila, keep them unique !<br>
- *
- * @author ProfMobius
+ * For the configuration keys:</br>
+ * modname refers to a String used for display in Waila's config panel.</br>
+ * keyname refers to a unique key used internally for config query (cf. {@link IPluginConfig}).</br>
+ * Those keys are shared across Waila, keep them unique!</br>
  */
 public interface IRegistrar {
 

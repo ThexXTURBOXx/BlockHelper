@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
@@ -17,11 +16,8 @@ import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 
 public class MetaDataProvider {
 
@@ -39,30 +35,7 @@ public class MetaDataProvider {
     private final Map<Integer, List<IEntityProvider>> tailEntityProviders = new TreeMap<Integer,
             List<IEntityProvider>>();
 
-    public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop,
-                                            IDataAccessor accessor) {
-        Block block = accessor.getBlock();
-        int blockID = accessor.getBlockID();
-        WailaRegistrar registrar = WailaRegistrar.instance();
-
-        if (registrar.hasStackProviders(block)) {
-            for (List<IDataProvider> providerList : registrar.getStackProviders(block).values()) {
-                for (IDataProvider dataProvider : providerList) {
-                    try {
-                        ItemStack retval = dataProvider.getStack(accessor, PluginConfig.instance());
-                        if (retval != null)
-                            return retval;
-                    } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), null);
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public void handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player,
-                                    MovingObjectPosition mop, DataAccessorCommon accessor,
+    public void handleBlockTextData(ItemStack itemStack, DataAccessorCommon accessor,
                                     ITaggedList<String, String> currenttip, TooltipPosition tooltipPosition) {
         Block block = accessor.getBlock();
         WailaRegistrar registrar = WailaRegistrar.instance();
@@ -140,8 +113,7 @@ public class MetaDataProvider {
             }
     }
 
-    public void handleEntityTextData(Entity entity, World world, EntityPlayer player,
-                                     MovingObjectPosition mop, DataAccessorCommon accessor,
+    public void handleEntityTextData(Entity entity, DataAccessorCommon accessor,
                                      ITaggedList<String, String> currenttip, TooltipPosition tooltipPosition) {
         WailaRegistrar registrar = WailaRegistrar.instance();
 

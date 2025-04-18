@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -42,7 +43,7 @@ public class Tooltip {
     final List<Renderable> elements = new ArrayList<Renderable>();
     final List<Renderable> elements2nd = new ArrayList<Renderable>();
 
-    Rectangle poss;
+    Rectangle pos;
     int offsetX, offsetY;
     int maxStringW;
     boolean hasIcon = false;
@@ -97,11 +98,11 @@ public class Tooltip {
     /// /////////////////////////////////////////////////////////////////////////
 
 
-    public Tooltip(List<String> textData, ItemStack stack) {
+    public Tooltip(ITaggedList<String, String> textData, ItemStack stack) {
         this(textData, stack, stack != null);
     }
 
-    public Tooltip(List<String> textData, ItemStack stack, boolean hasIcon) {
+    public Tooltip(ITaggedList<String, String> textData, ItemStack stack, boolean hasIcon) {
         WailaTooltipEvent event = new WailaTooltipEvent(textData, DataAccessorCommon.INSTANCE);
         MinecraftForge.EVENT_BUS.post(event);
 
@@ -229,7 +230,7 @@ public class Tooltip {
         x = ((int) (size.getWidth() / OverlayConfig.scale) - w - 1) * x / 10000;
         y = ((int) (size.getHeight() / OverlayConfig.scale) - h - 1) * y / 10000;
 
-        this.poss = new Rectangle(x, y, w, h);
+        this.pos = new Rectangle(x, y, w, h);
 
         this.offsetX = hasIcon ? 24 : 6;
         this.offsetY = (h - this.getRenderableTotalHeight()) / 2 + 1;
@@ -246,12 +247,12 @@ public class Tooltip {
 
     public void draw() {
         for (Renderable r : this.elements)
-            r.draw(accessor, this.poss.getX() + offsetX, this.poss.getY() + offsetY);
+            r.draw(accessor, this.pos.getX() + offsetX, this.pos.getY() + offsetY);
     }
 
     public void draw2nd() {
         for (Renderable r : this.elements2nd)
-            r.draw(accessor, this.poss.getX() + offsetX, this.poss.getY() + offsetY);
+            r.draw(accessor, this.pos.getX() + offsetX, this.pos.getY() + offsetY);
     }
 
 }

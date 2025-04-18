@@ -2,10 +2,17 @@ package mcp.mobius.waila.api;
 
 import java.util.regex.Pattern;
 
+/**
+ * Wrapper around various special characters, patterns, etc. that Waila uses.
+ */
 public final class SpecialChars {
 
+    /**
+     * The paragraph (§) symbol - safe across various encodings.
+     */
     public static final String MCStyle = "\u00A7";
 
+    /* COLOR FORMATTING CODES */
     public static final String BLACK = MCStyle + "0";
     public static final String DBLUE = MCStyle + "1";
     public static final String DGREEN = MCStyle + "2";
@@ -23,6 +30,7 @@ public final class SpecialChars {
     public static final String YELLOW = MCStyle + "e";
     public static final String WHITE = MCStyle + "f";
 
+    /* FONT FORMATTING STYLE CODES */
     public static final String OBF = MCStyle + "k";
     public static final String BOLD = MCStyle + "l";
     public static final String STRIKE = MCStyle + "m";
@@ -30,17 +38,16 @@ public final class SpecialChars {
     public static final String ITALIC = MCStyle + "o";
     public static final String RESET = MCStyle + "r";
 
+    /* WAILA SPECIAL CHARACTERS */
     public static final String WailaStyle = "\u00A4";
     public static final String WailaIcon = "\u00A5";
     public static final String WailaRenderer = "\u00A6";
     public static final String TAB = WailaStyle + WailaStyle + "a";
     public static final String ALIGNRIGHT = WailaStyle + WailaStyle + "b";
     public static final String ALIGNCENTER = WailaStyle + WailaStyle + "c";
-    public static final String HEART = WailaStyle + WailaIcon + "a";
-    public static final String HHEART = WailaStyle + WailaIcon + "b";
-    public static final String EHEART = WailaStyle + WailaIcon + "c";
     public static final String RENDER = WailaStyle + WailaRenderer + "a";
 
+    /* WAILA RECOGNITION PATTERNS */
     public static final Pattern patternMinecraft = Pattern.compile("(?i)" + MCStyle + "[0-9A-FK-OR]");
     public static final Pattern patternWaila = Pattern.compile("(?i)" + WailaStyle + "(..)");
     public static final Pattern patternRender = Pattern.compile("(?i)" + RENDER + "\\{([^,}]*),?([^}]*)}");

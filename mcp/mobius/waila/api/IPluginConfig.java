@@ -4,11 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Read-only interface for Waila internal config storage.<br>
+ * Read-only interface for Waila internal config storage.</br>
  * An instance of this interface is passed to most of Waila callbacks as a way to change the behavior depending on
  * client settings.
- *
- * @author ProfMobius
  */
 public interface IPluginConfig {
 
