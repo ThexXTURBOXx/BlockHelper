@@ -62,13 +62,17 @@ public class Packet0x03EntRequest implements IWailaPacket {
     }
 
     @Override
-    public void handle(Player rawPlayer) {
+    public void handleClient() {
+    }
+
+    @Override
+    public void handleServer(Player rawSender) {
         WorldServer world = DimensionManager.getWorld(dim);
         if (world == null) return;
         Entity entity = world.getEntityByID(id);
         if (entity == null) return;
-        if (!(rawPlayer instanceof EntityPlayerMP)) return;
-        EntityPlayerMP player = (EntityPlayerMP) rawPlayer;
+        if (!(rawSender instanceof EntityPlayerMP)) return;
+        EntityPlayerMP player = (EntityPlayerMP) rawSender;
 
         try {
             NBTTagCompound tag = new NBTTagCompound();
@@ -95,7 +99,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
 
             tag.setInteger("WailaEntityID", entity.entityId);
 
-            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), rawPlayer);
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), rawSender);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }

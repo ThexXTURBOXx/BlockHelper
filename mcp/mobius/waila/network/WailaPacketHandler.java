@@ -1,5 +1,6 @@
 package mcp.mobius.waila.network;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -26,7 +27,10 @@ public class WailaPacketHandler implements IPacketHandler {
 
                 if (castedPacket != null) {
                     castedPacket.decode(inputStream);
-                    castedPacket.handle(player);
+                    if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+                        castedPacket.handleClient();
+                    else
+                        castedPacket.handleServer(player);
                 }
 
                 inputStream.close();

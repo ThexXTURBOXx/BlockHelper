@@ -46,7 +46,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
     }
 
     @Override
-    public void handle(Player player) {
+    public void handleClient() {
         mod_BlockHelper.LOG.info("Received server authentication packet. Remote sync will be activated");
         mod_BlockHelper.INSTANCE.serverPresent = true;
 
@@ -54,6 +54,10 @@ public class Packet0x00ServerPing implements IWailaPacket {
             mod_BlockHelper.LOG.info("Received forced key config " + key + " : " + forcedKeys.get(key));
 
         PluginConfig.instance().forcedConfigs = forcedKeys;
+    }
+
+    @Override
+    public void handleServer(Player rawSender) {
     }
 
 }
