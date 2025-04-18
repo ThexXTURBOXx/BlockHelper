@@ -10,8 +10,6 @@ import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -39,17 +37,15 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (entity instanceof EntityItemFrame
-            || (entity instanceof EntityOcelot
-                && !((EntityOcelot) entity).func_94056_bM()
-                && ((EntityOcelot) entity).isTamed())) {
-            currenttip.add(WHITE + I18n.translate(entity.getTranslatedEntityName()));
-        } else {
-            try {
-                currenttip.add(WHITE + entity.getTranslatedEntityName());
-            } catch (Throwable t) {
-                currenttip.add(WHITE + "Unknown");
-            }
+        try {
+            String entityName = entity.getTranslatedEntityName();
+            if (entityName == null || entityName.isEmpty() ||
+                entityName.startsWith("entity.") && entityName.endsWith(".name"))
+                entityName = I18n.translate(entityName);
+
+            currenttip.add(WHITE + entityName);
+        } catch (Throwable t) {
+            currenttip.add(WHITE + "Unknown");
         }
     }
 
