@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines;
+package mcp.mobius.waila.addons.bc3;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerTEGenerator implements IDataProvider {
+public final class HUDHandlerBC3Energy implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerTEGenerator();
+    public static final IDataProvider INSTANCE = new HUDHandlerBC3Energy();
 
-    private HUDHandlerTEGenerator() {
+    private HUDHandlerBC3Energy() {
     }
 
     @Override
@@ -36,17 +36,16 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("bcapi.storage")) return;
+        if (!accessor.getNBTData().hasKey("Energy")) return;
+
+        int energy = accessor.getNBTInteger("Energy");
+        int maxEnergy = accessor.getNBTInteger("MaxStorage");
         try {
-            int storage = accessor.getNBTData().getInteger("storage");
-            int maxStorage = accessor.getNBTData().getInteger("maxStorage");
-
-            String storedStr = I18n.translate("hud.msg.stored");
-
-            /* EU Storage */
-            if (config.get("advmachines.storage")) {
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
+            if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
+                String storedStr = I18n.translate("hud.msg.stored");
+                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
+                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
@@ -62,16 +61,24 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = -1;
-            int maxStorage = -1;
-
-            if (AdvMachinesPlugin.TileAM2BaseGenerator.isInstance(te)) {
-                storage = AdvMachinesPlugin.TileAM2BaseGenerator_stored.getInt(te);
-                maxStorage = AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage.getInt(null);
+            Float energy = -1f;
+            Integer maxsto = -1;
+            if (BC3Plugin.TileEngine.isInstance(te)) {
+                Object engine = BC3Plugin.TileEngine_engine.get(te);
+                if (engine != null) {
+                    energy = BC3Plugin.Engine_energy.getFloat(engine);
+                    maxsto = BC3Plugin.Engine_maxEnergy.getInt(engine);
+                }
+            } else if (BC3Plugin.IPowerReceptor.isInstance(te)) {
+                Object prov = BC3Plugin.IPowerReceptor_getPowerProvider.invoke(te);
+                if (prov != null) {
+                    energy = (Float) BC3Plugin.IPowerProvider_getEnergyStored.invoke(prov);
+                    maxsto = (Integer) BC3Plugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
+                }
             }
 
-            tag.setInteger("storage", storage);
-            tag.setInteger("maxStorage", maxStorage);
+            tag.setInteger("Energy", Math.round(energy));
+            tag.setInteger("MaxStorage", maxsto);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

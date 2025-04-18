@@ -36,8 +36,8 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
 
-            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);
-            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileAM2BaseGenerator);
+            registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
+            registrar.registerNBTProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
         }

@@ -38,8 +38,8 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
-            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
-            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntitySolarPanel);
+            registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
+            registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
@@ -51,8 +51,8 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.qproduction");
 
-            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);
-            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileEntityQGenerator);
+            registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
+            registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }

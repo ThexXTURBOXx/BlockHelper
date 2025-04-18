@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.buildcraft;
+package mcp.mobius.waila.addons.bc3;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,9 +7,9 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 
-public final class BCPlugin implements IWailaPlugin {
+public final class BC3Plugin implements IWailaPlugin {
 
-    public static final IWailaPlugin INSTANCE = new BCPlugin();
+    public static final IWailaPlugin INSTANCE = new BC3Plugin();
 
     public static Class<?> TileEngine = null;
     public static Field TileEngine_engine = null;
@@ -22,7 +22,7 @@ public final class BCPlugin implements IWailaPlugin {
     public static Method IPowerProvider_getEnergyStored = null;
     public static Method IPowerProvider_getMaxEnergyStored = null;
 
-    private BCPlugin() {
+    private BC3Plugin() {
     }
 
     @Override
@@ -49,8 +49,8 @@ public final class BCPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
-            registrar.registerBodyProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
-            registrar.registerNBTProvider(HUDHandlerBCEnergy.INSTANCE, IPowerReceptor);
+            registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
+            registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC] Error while loading Energy hooks.", t);
         }

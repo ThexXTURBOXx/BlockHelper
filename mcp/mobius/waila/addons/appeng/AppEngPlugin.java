@@ -34,8 +34,8 @@ public final class AppEngPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
-            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);
-            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, IMEPowerStorage);
+            registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
+            registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
         }

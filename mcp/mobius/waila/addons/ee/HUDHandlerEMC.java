@@ -13,11 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
-public final class HUDHandlerEE implements IDataProvider {
+public final class HUDHandlerEMC implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerEE();
+    public static final IDataProvider INSTANCE = new HUDHandlerEMC();
 
-    private HUDHandlerEE() {
+    private HUDHandlerEMC() {
     }
 
     @Override

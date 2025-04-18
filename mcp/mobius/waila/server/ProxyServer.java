@@ -5,7 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin;
 import mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin;
 import mcp.mobius.waila.addons.appeng.AppEngPlugin;
-import mcp.mobius.waila.addons.buildcraft.BCPlugin;
+import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee.EEPlugin;
 import mcp.mobius.waila.addons.enderstorage.EnderStoragePlugin;
@@ -32,7 +32,7 @@ public class ProxyServer {
         registerPlugin(AdvMachinesPlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
         registerPlugin(AppEngPlugin.INSTANCE);
-        registerPlugin(BCPlugin.INSTANCE);
+        registerPlugin(BC3Plugin.INSTANCE);
         registerPlugin(EEPlugin.INSTANCE);
         registerPlugin(EnderStoragePlugin.INSTANCE);
         registerPlugin(ForgePlugin.INSTANCE);

@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public final class HUDHandlerStorage implements IDataProvider {
+public final class HUDHandlerFrequency implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerStorage();
+    public static final IDataProvider INSTANCE = new HUDHandlerFrequency();
 
-    private HUDHandlerStorage() {
+    private HUDHandlerFrequency() {
     }
 
     private static final String[] colors = {

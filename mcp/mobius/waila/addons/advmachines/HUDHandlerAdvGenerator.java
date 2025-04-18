@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advsolars;
+package mcp.mobius.waila.addons.advmachines;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerTEGenerator implements IDataProvider {
+public final class HUDHandlerAdvGenerator implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerTEGenerator();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGenerator();
 
-    private HUDHandlerTEGenerator() {
+    private HUDHandlerAdvGenerator() {
     }
 
     @Override
@@ -43,23 +43,10 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             String storedStr = I18n.translate("hud.msg.stored");
 
             /* EU Storage */
-            if (config.get("advsolars.storage")) {
+            if (config.get("advmachines.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
                                    RESET + " / " + WHITE + maxStorage + RESET + " EU");
-            }
-
-            int production = accessor.getNBTData().getInteger("production");
-            int maxPacketSize = accessor.getNBTData().getInteger("maxPacketSize");
-
-            String prodStr = I18n.translate("hud.msg.production");
-
-            /* QGenerator Production */
-            if (config.get("advsolars.qproduction")) {
-                if (production > 0)
-                    currenttip.add(prodStr + TAB + ALIGNRIGHT + WHITE + production + RESET + " EU/t");
-                if (maxPacketSize > 0)
-                    currenttip.add(WHITE + maxPacketSize + RESET + " EU/packet");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
@@ -78,29 +65,13 @@ public final class HUDHandlerTEGenerator implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvSolarsPlugin.TileEntitySolarPanel.isInstance(te)) {
-                storage = AdvSolarsPlugin.TileEntitySolarPanel_storage.getInt(te);
-                maxStorage = AdvSolarsPlugin.TileEntitySolarPanel_maxStorage.getInt(te);
+            if (AdvMachinesPlugin.TileAM2BaseGenerator.isInstance(te)) {
+                storage = AdvMachinesPlugin.TileAM2BaseGenerator_stored.getInt(te);
+                maxStorage = AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage.getInt(null);
             }
 
             tag.setInteger("storage", storage);
             tag.setInteger("maxStorage", maxStorage);
-
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-
-        try {
-            int production = -1;
-            int maxPacketSize = -1;
-
-            if (AdvSolarsPlugin.TileEntityQGenerator.isInstance(te)) {
-                production = AdvSolarsPlugin.TileEntityQGenerator_production.getInt(te);
-                maxPacketSize = AdvSolarsPlugin.TileEntityQGenerator_maxPacketSize.getInt(te);
-            }
-
-            tag.setInteger("production", production);
-            tag.setInteger("maxPacketSize", maxPacketSize);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.buildcraft;
+package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerBCEnergy implements IDataProvider {
+public final class HUDHandlerIC2Generator implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerBCEnergy();
+    public static final IDataProvider INSTANCE = new HUDHandlerIC2Generator();
 
-    private HUDHandlerBCEnergy() {
+    private HUDHandlerIC2Generator() {
     }
 
     @Override
@@ -36,17 +36,25 @@ public final class HUDHandlerBCEnergy implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (!config.get("bcapi.storage")) return;
-        if (!accessor.getNBTData().hasKey("Energy")) return;
-
-        int energy = accessor.getNBTInteger("Energy");
-        int maxEnergy = accessor.getNBTInteger("MaxStorage");
         try {
-            if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                String storedStr = I18n.translate("hud.msg.stored");
-                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
-                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
+            short storage = accessor.getNBTData().getShort("storage");
+            int production = accessor.getNBTData().getInteger("production");
+            short maxStorage = accessor.getNBTData().getShort("maxStorage");
+
+            String storedStr = I18n.translate("hud.msg.stored");
+            String outputStr = I18n.translate("hud.msg.output");
+
+            /* EU Storage */
+            if (config.get("ic2.storage")) {
+                if (maxStorage > 0)
+                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
+                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
             }
+
+            if (config.get("ic2.outputeu")) {
+                currenttip.add(outputStr + TAB + ALIGNRIGHT + WHITE + production + RESET + " EU/t");
+            }
+
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
         }
@@ -61,24 +69,19 @@ public final class HUDHandlerBCEnergy implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            Float energy = -1f;
-            Integer maxsto = -1;
-            if (BCPlugin.TileEngine.isInstance(te)) {
-                Object engine = BCPlugin.TileEngine_engine.get(te);
-                if (engine != null) {
-                    energy = BCPlugin.Engine_energy.getFloat(engine);
-                    maxsto = BCPlugin.Engine_maxEnergy.getInt(engine);
-                }
-            } else if (BCPlugin.IPowerReceptor.isInstance(te)) {
-                Object prov = BCPlugin.IPowerReceptor_getPowerProvider.invoke(te);
-                if (prov != null) {
-                    energy = (Float) BCPlugin.IPowerProvider_getEnergyStored.invoke(prov);
-                    maxsto = (Integer) BCPlugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
-                }
+            short storage = -1;
+            int production = -1;
+            short maxStorage = -1;
+
+            if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
+                storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
+                production = IC2Plugin.TileBaseGenerator_production.getInt(te);
+                maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
             }
 
-            tag.setInteger("Energy", Math.round(energy));
-            tag.setInteger("MaxStorage", maxsto);
+            tag.setShort("storage", storage);
+            tag.setInteger("production", production);
+            tag.setShort("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

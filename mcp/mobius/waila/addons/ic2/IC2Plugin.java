@@ -38,8 +38,8 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
 
-            registrar.registerBodyProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);
-            registrar.registerNBTProvider(HUDHandlerTEGenerator.INSTANCE, TileBaseGenerator);
+            registrar.registerBodyProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
+            registrar.registerNBTProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
         }
