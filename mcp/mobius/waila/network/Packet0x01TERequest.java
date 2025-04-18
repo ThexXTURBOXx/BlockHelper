@@ -28,17 +28,20 @@ public class Packet0x01TERequest implements IWailaPacket {
 
     static {
         try {
-            classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
+            classToNameMap = TileEntity.class.getDeclaredField("b");
             classToNameMap.setAccessible(true);
         } catch (Throwable t) {
-
             try {
                 classToNameMap = TileEntity.class.getDeclaredField("field_70323_b");
                 classToNameMap.setAccessible(true);
             } catch (Throwable t1) {
-                throw new RuntimeException(t1);
+                try {
+                    classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
+                    classToNameMap.setAccessible(true);
+                } catch (Throwable t2) {
+                    throw new RuntimeException(t2);
+                }
             }
-
         }
     }
 
