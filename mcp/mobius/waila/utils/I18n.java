@@ -47,8 +47,13 @@ public class I18n {
         String ret = translator == null
                 ? StatCollector.translateToLocal(s)
                 : translator.translateKey(s);
-        if (ret.isEmpty()) return s;
-        return format.length > 0 ? String.format(ret, format) : ret;
+        if (ret == null || ret.isEmpty() || format.length == 0) return s;
+
+        try {
+            return String.format(ret, format);
+        } catch (Throwable t) {
+            return ret;
+        }
     }
 
     public I18n addLangDirectory(Class<?> mod) {
@@ -88,7 +93,7 @@ public class I18n {
             } else if (hostdir.getName().endsWith(".lang") || hostdir.getName().endsWith(".properties")) {
                 this.addLangFile(hostdir);
             } else {
-                mod_BlockHelper.LOG.warning("Lang file \"" + hostdir + "\"does not end in .lang");
+                mod_BlockHelper.LOG.warning("Lang file \"" + hostdir + "\" has wrong file ending.");
             }
         }
     }
