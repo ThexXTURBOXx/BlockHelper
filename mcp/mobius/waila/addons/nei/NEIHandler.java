@@ -12,7 +12,6 @@ import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
 import org.lwjgl.input.Keyboard;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
@@ -40,38 +39,38 @@ public final class NEIHandler {
     public static void openRecipeGUI(boolean recipe) {
         Minecraft mc = Minecraft.getMinecraft();
 
-        if ((RayTracing.instance().getTarget() != null) && (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE)) {
-            List<ItemStack> stacks = RayTracing.instance().getIdentifierItems();
-            if (!stacks.isEmpty()) {
-                mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
-                if (firstInventory) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Throwable ignored) {
-                    }
-                    firstInventory = false;
-                }
+        if (RayTracing.instance().getTarget() == null) return;
 
-                if (recipe) {
-                    if (!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())) {
-                        ItemStack target = stacks.get(0).copy();
-                        target.setItemDamage(0);
-                        if (!GuiCraftingRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.norecipe"));
-                            mc.displayGuiScreen(null);
-                            mc.setIngameFocus();
-                        }
-                    }
-                } else {
-                    if (!GuiUsageRecipe.openRecipeGui("item", stacks.get(0).copy())) {
-                        ItemStack target = stacks.get(0).copy();
-                        target.setItemDamage(0);
-                        if (!GuiUsageRecipe.openRecipeGui("item", target)) {
-                            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.nousage"));
-                            mc.displayGuiScreen(null);
-                            mc.setIngameFocus();
-                        }
-                    }
+        List<ItemStack> stacks = RayTracing.instance().getIdentifierItems();
+        if (stacks.isEmpty()) return;
+
+        mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
+        if (firstInventory) {
+            try {
+                Thread.sleep(1000);
+            } catch (Throwable ignored) {
+            }
+            firstInventory = false;
+        }
+
+        if (recipe) {
+            if (!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())) {
+                ItemStack target = stacks.get(0).copy();
+                target.setItemDamage(0);
+                if (!GuiCraftingRecipe.openRecipeGui("item", target)) {
+                    mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.norecipe"));
+                    mc.displayGuiScreen(null);
+                    mc.setIngameFocus();
+                }
+            }
+        } else {
+            if (!GuiUsageRecipe.openRecipeGui("item", stacks.get(0).copy())) {
+                ItemStack target = stacks.get(0).copy();
+                target.setItemDamage(0);
+                if (!GuiUsageRecipe.openRecipeGui("item", target)) {
+                    mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate("client.msg.nousage"));
+                    mc.displayGuiScreen(null);
+                    mc.setIngameFocus();
                 }
             }
         }
