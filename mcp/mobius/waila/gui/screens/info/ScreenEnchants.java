@@ -21,24 +21,24 @@ public class ScreenEnchants extends ScreenBase {
         super(parent);
 
         this.getRoot().addWidget("Layout_Title", new LayoutBase(null))
-                .setGeometry(new WidgetGeometry(50.0, 10.0, 50.0, 32.0, CType.REL_X, CType.REL_X, WAlign.CENTER,
-                        WAlign.TOP));
+                .setGeometry(new WidgetGeometry(50.0, 10.0, 50.0, 32.0, CType.REL_X, CType.REL_X,
+                        WAlign.CENTER, WAlign.TOP));
 
         this.getRoot().getWidget("Layout_Title").addWidget("ItemStack", new ItemStackDisplay(null))
-                .setGeometry(new WidgetGeometry(0.0, 0.0, 32.0, 32.0, CType.ABSXY, CType.ABSXY, WAlign.LEFT,
-                        WAlign.TOP));
+                .setGeometry(new WidgetGeometry(0.0, 0.0, 32.0, 32.0, CType.ABSXY, CType.ABSXY,
+                        WAlign.LEFT, WAlign.TOP));
 
         this.getRoot().getWidget("Layout_Title").addWidget("LabelName", new LabelFixedFont(null, "None"))
-                .setGeometry(new WidgetGeometry(40.0, 4.0, 16.0, 16.0, CType.ABSXY, CType.ABSXY, WAlign.LEFT,
-                        WAlign.TOP));
+                .setGeometry(new WidgetGeometry(40.0, 4.0, 16.0, 16.0, CType.ABSXY, CType.ABSXY,
+                        WAlign.LEFT, WAlign.TOP));
 
         this.getRoot().getWidget("Layout_Title").addWidget("LabelEnchantability", new LabelFixedFont(null, "None"))
-                .setGeometry(new WidgetGeometry(40.0, 22.0, 16.0, 16.0, CType.ABSXY, CType.REL_X, WAlign.LEFT,
-                        WAlign.BOTTOM));
+                .setGeometry(new WidgetGeometry(40.0, 22.0, 16.0, 16.0, CType.ABSXY, CType.REL_X,
+                        WAlign.LEFT, WAlign.BOTTOM));
 
         this.getRoot().addWidget("Table", new ViewTable(null))
-                .setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY, WAlign.CENTER,
-                        WAlign.TOP));
+                .setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY,
+                        WAlign.CENTER, WAlign.TOP));
 
         String columnName = GREEN + ITALIC + I18n.translate("enchant.title.name");
         String columnMinLvl = GREEN + ITALIC + I18n.translate("enchant.title.minlvl");
@@ -79,10 +79,4 @@ public class ScreenEnchants extends ScreenBase {
         return this;
     }
 
-	/*
-	public ScreenEnchants setStack(ItemStack stack){
-		((ItemStackDisplay)this.getRoot().getWidget("ItemStack")).setStack(stack);
-		return this;
-	}
-	*/
 }

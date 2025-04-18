@@ -4,7 +4,6 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.utils.GLState;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Point;
 
 public class LayoutCropping extends LayoutBase {
 
@@ -34,17 +33,8 @@ public class LayoutCropping extends LayoutBase {
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(this.getPos().getX() * this.rez.getScaleFactor(),
                 (this.rez.getScaledHeight() - (this.getPos().getY() + this.getSize().getY())) * this.rez.getScaleFactor(), this.getSize().getX() * this.rez.getScaleFactor(), this.getSize().getY() * this.rez.getScaleFactor());
-        //GL11.glScissor(this.getPos().getX()*this.rez.getScaleFactor(), this.getPos().getY()*this.rez.getScaleFactor
-        // (), this.getSize().getX()*this.rez.getScaleFactor(), this.getSize().getY()*this.rez.getScaleFactor());
 
         GL11.glTranslatef(xOffset, yOffset, 0.0f);
-
-		/*
-		for (IWidget widget: this.widgets.values())
-			if (widget.shouldRender())
-				widget.draw();
-		*/
-
 
         for (IWidget widget : this.renderQueue_LOW.values())
             if (widget.shouldRender())
@@ -58,15 +48,9 @@ public class LayoutCropping extends LayoutBase {
             if (widget.shouldRender())
                 widget.draw();
 
-
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
         state.reset();
-    }
-
-    @Override
-    public void draw(Point pos) {
-        super.draw(pos);
     }
 
 }

@@ -24,9 +24,11 @@ public class GLState {
         depthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
         depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
         GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
+        GL11.glPushMatrix();
     }
 
     public void reset() {
+        GL11.glPopMatrix();
         GL11.glPopAttrib();
         GL11.glDepthMask(depthMask);
         GL11.glDepthFunc(depthFunc);

@@ -11,10 +11,11 @@ import org.lwjgl.util.Point;
 public class ViewportScrollable extends WidgetBase {
 
     public static class Escalator extends WidgetBase {
+
         int yOffset = 0;
         int sizeCursor = 8;
         int maxValue = 0;
-        int step = 0;
+        int step;
         boolean drag = false;
 
         public Escalator(IWidget parent, int step) {
@@ -39,7 +40,7 @@ public class ViewportScrollable extends WidgetBase {
             UIHelper.drawGradientRect(this.getLeft(), this.getTop(), this.getRight(), this.getBottom(), 1,
                     0xff999999, 0xff999999);
             int offsetScaled =
-                    (int) (((double) this.getSize().getY() - (double) sizeCursor + 1) / (double) this.maxValue * (yOffset));
+                    (int) (((double) this.getSize().getY() - (double) sizeCursor + 1) / (double) this.maxValue * yOffset);
             UIHelper.drawGradientRect(this.getLeft(), this.getTop() + offsetScaled, this.getRight(),
                     this.getTop() + offsetScaled + sizeCursor, 1, 0xffffffff, 0xffffffff);
         }
@@ -95,10 +96,10 @@ public class ViewportScrollable extends WidgetBase {
 
     public ViewportScrollable(IWidget parent) {
         super(parent);
-        this.addWidget("Cropping", new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 100.0,
-                CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
-        this.addWidget("Escalator", new Escalator(null, this.step * 5)).setGeometry(new WidgetGeometry(100.0, 0, 8,
-                100.0, CType.RELXY, CType.REL_Y, WAlign.RIGHT, WAlign.TOP)).hide();
+        this.addWidget("Cropping", new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 0.0,
+                100.0, 100.0, CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
+        this.addWidget("Escalator", new Escalator(null, this.step * 5)).setGeometry(new WidgetGeometry(100.0, 0,
+                8, 100.0, CType.RELXY, CType.REL_Y, WAlign.RIGHT, WAlign.TOP)).hide();
     }
 
     public IWidget attachWidget(IWidget widget) {
