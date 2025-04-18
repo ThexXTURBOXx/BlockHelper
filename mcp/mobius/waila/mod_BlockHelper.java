@@ -97,7 +97,6 @@ public class mod_BlockHelper extends BaseMod {
     @Override
     public void modsLoaded() {
         // LOAD COMPLETE
-        LOG.info(MOD_ID + " mods loaded");
         proxy.registerModPlugins(WailaRegistrar.instance());
     }
 
