@@ -54,11 +54,11 @@ public final class CorePlugin implements IWailaPlugin {
         registrar.registerTailProvider(HUDHandlerBlocks.INSTANCE, Block.class);
 
         try {
-            curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("curBlockDamageMP");
+            curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("field_78770_f");
             curBlockDamageMP.setAccessible(true);
         } catch (Throwable t) {
             try {
-                curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("field_78770_f");
+                curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("curBlockDamageMP");
                 curBlockDamageMP.setAccessible(true);
             } catch (Throwable t1) {
                 throw new RuntimeException(t1);
