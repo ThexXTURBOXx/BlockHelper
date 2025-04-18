@@ -41,17 +41,22 @@ public final class HUDHandlerEntities implements IEntityProvider {
                            IEntityAccessor accessor, IPluginConfig config) {
         String color = entity instanceof IMob ? RED : WHITE;
 
+        retrieve:
         try {
             String entityName = entity.getTranslatedEntityName();
-            if (entityName.startsWith("entity.") && entityName.endsWith(".name"))
+            if (entityName == null || entityName.isEmpty()) break retrieve;
+
+            if (entityName.startsWith("entity.") && entityName.endsWith(".name")) {
                 entityName = I18n.translate(entityName);
-            if (entityName == null || entityName.isEmpty())
-                throw new IllegalStateException();
+                if (entityName == null || entityName.isEmpty()) break retrieve;
+            }
 
             currenttip.add(color + entityName);
-        } catch (Throwable t) {
-            currenttip.add(color + "Unknown");
+            return;
+        } catch (Throwable ignored) {
         }
+
+        currenttip.add(color + "Unknown");
     }
 
     @Override
