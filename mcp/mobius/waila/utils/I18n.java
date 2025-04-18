@@ -15,9 +15,9 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import mcp.mobius.waila.mod_BlockHelper;
+import net.minecraft.item.ItemDye;
 import net.minecraft.src.ModLoader;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.StringTranslate;
 
 public class I18n {
 
@@ -28,26 +28,23 @@ public class I18n {
         this.prefix = prefix;
     }
 
+    public static String color(int dyeColorId) {
+        return I18n.INSTANCE.colorL(dyeColorId);
+    }
+
     public static String translate(String s, Object... format) {
         return I18n.INSTANCE.translateL(s, format);
     }
 
-    public static String translate(StringTranslate translator, String s, Object... format) {
-        return I18n.INSTANCE.translateL(translator, s, format);
+    public String colorL(int dyeColorId) {
+        return translateL("hud.msg." + ItemDye.dyeColorNames[dyeColorId]);
     }
 
     public String translateL(String s, Object... format) {
-        return translateL(StringTranslate.getInstance(), s, format);
-    }
-
-    public String translateL(StringTranslate translator, String s, Object... format) {
         if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
 
-        String ret = translator == null
-                ? StatCollector.translateToLocal(s)
-                : translator.translateKey(s);
-
+        String ret = StatCollector.translateToLocal(s);
         if (ret == null || ret.isEmpty()) return s;
         if (format.length == 0) return ret;
 

@@ -49,6 +49,11 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
 
         registrar.addSyncedConfig("VanillaMC", "general.showhp");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.villager");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
         registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
@@ -82,17 +87,16 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockWoodSlab.class);
 
-        //registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, Block.class);
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
 
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
