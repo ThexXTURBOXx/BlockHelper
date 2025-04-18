@@ -4,10 +4,13 @@ import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
@@ -20,12 +23,16 @@ public final class OverlayRenderer {
 
     public static void renderOverlay() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (!(mc.currentScreen == null &&
-              mc.theWorld != null &&
-              Minecraft.isGuiEnabled() &&
-              !mc.gameSettings.keyBindPlayerList.pressed &&
-              PluginConfig.instance().showTooltip() &&
-              RayTracing.instance().getTarget() != null))
+        if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
+            mc.theWorld == null || // World is loaded
+            !Minecraft.isGuiEnabled() || // Not in cinema mode
+            (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
+             && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
+            (mc.gameSettings.keyBindPlayerList.pressed // Together with next two lines: player list is not shown
+             && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1
+                 || mc.theWorld.getScoreboard().func_96539_a(0) != null)) ||
+            !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
+            RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {

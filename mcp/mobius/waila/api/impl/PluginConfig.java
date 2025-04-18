@@ -10,6 +10,7 @@ import mcp.mobius.waila.addons.vanilla.HUDHandlerEntities;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.overlay.OverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
@@ -179,6 +180,7 @@ public class PluginConfig implements IPluginConfig {
         mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
 
         config.getCategory(Constants.CATEGORY_MODULES).setComment(
                 "Those are the config keys defined in modules.\n" +

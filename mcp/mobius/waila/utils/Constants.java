@@ -36,6 +36,7 @@ public final class Constants {
     public static final String CFG_WAILA_UPDATE_CHECK = "waila.cfg.updatecheck";
     public static final String CFG_WAILA_FIXER_NOTIFY = "waila.cfg.fixernotify";
     public static final String CFG_WAILA_DEV_MODE = "waila.cfg.devmode";
+    public static final String CFG_WAILA_HIDE_IN_DEBUG = "waila.cfg.hideindebug";
 
     public static final String CATEGORY_MODULES = "modules";
     public static final String CATEGORY_SERVER = "server_forcing";
