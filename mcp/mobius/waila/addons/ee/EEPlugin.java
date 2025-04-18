@@ -21,15 +21,23 @@ public final class EEPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("com.pahimar.ee3.EquivalentExchange3");
             mod_BlockHelper.LOG.log(Level.INFO, "[EE] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[EE] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
         try {
             EMCRegistry = Class.forName("com.pahimar.ee3.emc.EMCRegistry");
             EMCRegistry_instance = EMCRegistry.getMethod("instance");
@@ -43,10 +51,6 @@ public final class EEPlugin implements IWailaPlugin {
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EE] Error while loading EMC hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
     }
 
 }

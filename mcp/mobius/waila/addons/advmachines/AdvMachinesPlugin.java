@@ -18,15 +18,19 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("mods.immibis.am2.AdvancedMachines");
             mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             TileAM2BaseGenerator = Class.forName("mods.immibis.am2.TileAM2Base");
             TileAM2BaseGenerator_stored = TileAM2BaseGenerator.getDeclaredField("storedEnergy");
@@ -36,7 +40,6 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
 
-            registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
             registrar.registerNBTProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
@@ -45,6 +48,7 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
     }
 
 }

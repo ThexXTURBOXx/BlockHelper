@@ -18,15 +18,19 @@ public final class AppEngPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("appeng.common.AppEng");
             mod_BlockHelper.LOG.log(Level.INFO, "[Applied Energistics] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[Applied Energistics] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             IMEPowerStorage = Class.forName("appeng.api.me.tiles.IMEPowerStorage");
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
@@ -34,7 +38,6 @@ public final class AppEngPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
-            registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
             registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
@@ -43,6 +46,7 @@ public final class AppEngPlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
     }
 
 }

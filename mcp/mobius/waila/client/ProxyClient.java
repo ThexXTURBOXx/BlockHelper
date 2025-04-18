@@ -54,7 +54,8 @@ public class ProxyClient extends ProxyServer {
         super.registerModPlugins(registrar);
 
         for (IWailaPlugin plugin : plugins)
-            plugin.registerClient(registrar);
+            if (plugin.shouldRegister())
+                plugin.registerClient(registrar);
     }
 
 }

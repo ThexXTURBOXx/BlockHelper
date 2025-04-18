@@ -49,7 +49,8 @@ public class ProxyServer {
 
     public void registerModPlugins(IRegistrar registrar) {
         for (IWailaPlugin plugin : plugins)
-            plugin.registerCommon(registrar);
+            if (plugin.shouldRegister())
+                plugin.registerCommon(registrar);
     }
 
 }

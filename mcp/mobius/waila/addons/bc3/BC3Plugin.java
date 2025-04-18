@@ -26,15 +26,19 @@ public final class BC3Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("buildcraft.BuildCraftCore");
-            mod_BlockHelper.LOG.log(Level.INFO, "[BC] Mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC3] Mod found.");
+            return true;
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[BC] Mod not found.");
-            return;
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC3] Mod not found.");
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             TileEngine = Class.forName("buildcraft.energy.TileEngine");
             Engine = Class.forName("buildcraft.energy.Engine");
@@ -49,15 +53,15 @@ public final class BC3Plugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
-            registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
             registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC] Error while loading Energy hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Energy hooks.", t);
         }
     }
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
     }
 
 }

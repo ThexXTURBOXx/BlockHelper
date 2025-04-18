@@ -43,11 +43,12 @@ public final class VanillaPlugin implements IWailaPlugin {
     }
 
     @Override
+    public boolean shouldRegister() {
+        return true;
+    }
+
+    @Override
     public void registerCommon(IRegistrar registrar) {
-        registrar.addConfig("General", "general.showcrop");
-
-        registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
-
         registrar.addSyncedConfig("VanillaMC", "general.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
@@ -55,14 +56,40 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.villager");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
-        registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
 
-        registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
         registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
+        registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
+
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
+        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+
+        registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+
+        registrar.addConfig("General", "general.showcrop");
+
+        registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
+
+        registrar.addConfig("VanillaMC", "vanilla.repeaterol");
         registrar.addConfig("VanillaMC", "vanilla.spawntype");
         registrar.addConfig("VanillaMC", "vanilla.leverstate");
         registrar.addConfig("VanillaMC", "vanilla.repeater");
@@ -71,9 +98,9 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addConfig("VanillaMC", "vanilla.silverfish");
         registrar.addConfig("VanillaMC", "vanilla.flowerpot");
         registrar.addConfig("VanillaMC", "vanilla.skull");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
+
+        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, repeaterIdle.getClass());
+        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, comparatorIdl.getClass());
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
@@ -103,26 +130,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, TileEntitySkull.class);
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
-
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.addConfig("VanillaMC", "vanilla.repeaterol");
-
-        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, repeaterIdle.getClass());
-        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, comparatorIdl.getClass());
     }
 
 }

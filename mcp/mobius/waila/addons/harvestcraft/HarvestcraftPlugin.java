@@ -14,25 +14,29 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("mods.PamHarvestCraft.PamHarvestCraft");
             mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
         try {
             Class<?> BlockPamCrop = Class.forName("mods.PamHarvestCraft.BlockPamCrop");
             VanillaPlugin.MAX_STAGES.put(BlockPamCrop, 7);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[PamHarvestCraft] Error while loading crop hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
     }
 
 }

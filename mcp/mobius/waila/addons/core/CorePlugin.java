@@ -15,14 +15,20 @@ public final class CorePlugin implements IWailaPlugin {
 
     static Field curBlockDamageMP;
 
+    Class<?> BlockMultipart;
+
     private CorePlugin() {
+    }
+
+    @Override
+    public boolean shouldRegister() {
+        return true;
     }
 
     @Override
     public void registerCommon(IRegistrar registrar) {
         registrar.addSyncedConfig("General", "general.insivisbleplayers");
 
-        Class<?> BlockMultipart = null;
         try {
             BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
         } catch (ClassNotFoundException e) {
@@ -32,11 +38,6 @@ public final class CorePlugin implements IWailaPlugin {
         }
 
         if (BlockMultipart != null) {
-            registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
-
-            registrar.registerHeadProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-            registrar.registerBodyProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-            registrar.registerTailProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
             registrar.registerNBTProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
 
             mod_BlockHelper.LOG.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
@@ -75,6 +76,14 @@ public final class CorePlugin implements IWailaPlugin {
         registrar.registerHeadProvider(HUDHandlerEntities.INSTANCE, Entity.class);
         registrar.registerTailProvider(HUDHandlerEntities.INSTANCE, Entity.class);
         registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+
+        if (BlockMultipart != null) {
+            registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
+
+            registrar.registerHeadProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+            registrar.registerBodyProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+            registrar.registerTailProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
+        }
 
         if (mod_BlockHelper.DEV_MODE) {
             registrar.addConfig("General", "general.dev", false);

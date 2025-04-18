@@ -19,15 +19,19 @@ public final class IC2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("ic2.core.IC2");
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         // XXX : We register the Energy interface first
         try {
             TileBaseGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
@@ -38,7 +42,6 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
 
-            registrar.registerBodyProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
             registrar.registerNBTProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
@@ -47,6 +50,7 @@ public final class IC2Plugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
     }
 
 }

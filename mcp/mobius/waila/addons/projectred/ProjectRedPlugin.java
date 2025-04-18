@@ -13,14 +13,20 @@ public final class ProjectRedPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("mrtjp.projectred.ProjectRed");
             mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] Mod not found.");
-            return;
         }
+        return false;
+    }
+
+    @Override
+    public void registerCommon(IRegistrar registrar) {
+        // TODO: Rewrite everything and put into right registerers
 
         registrar.addSyncedConfig("Project:Red", "pr.showio");
         registrar.addSyncedConfig("Project:Red", "pr.showdata");

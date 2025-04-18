@@ -14,13 +14,16 @@ public final class ForgePlugin implements IWailaPlugin {
     }
 
     @Override
+    public boolean shouldRegister() {
+        return true;
+    }
+
+    @Override
     public void registerCommon(IRegistrar registrar) {
         try {
-            registrar.addConfig("Forge", "forge.tankamount");
-            registrar.addConfig("Forge", "forge.tanktype");
+            registrar.addSyncedConfig("Forge", "forge.tankamount");
+            registrar.addSyncedConfig("Forge", "forge.tanktype");
 
-            registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
-            registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
             registrar.registerNBTProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Forge] Error while loading Tank hooks.", t);
@@ -29,6 +32,8 @@ public final class ForgePlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
+        registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
     }
 
 }

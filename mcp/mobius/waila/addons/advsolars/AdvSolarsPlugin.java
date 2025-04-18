@@ -22,15 +22,19 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("advsolar.AdvancedSolarPanel");
             mod_BlockHelper.LOG.log(Level.INFO, "[Advanced Solar Panels] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[Advanced Solar Panels] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
         try {
             TileEntitySolarPanel = Class.forName("advsolar.TileEntitySolarPanel");
             TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
@@ -38,7 +42,6 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
-            registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
             registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
@@ -51,7 +54,6 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.qproduction");
 
-            registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
             registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
@@ -60,6 +62,8 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IRegistrar registrar) {
+        registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
+        registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
     }
 
 }

@@ -23,15 +23,23 @@ public final class EnderStoragePlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public boolean shouldRegister() {
         try {
             Class.forName("codechicken.enderstorage.EnderStorage");
             mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] Mod found.");
+            return true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] Mod not found.");
-            return;
         }
+        return false;
+    }
 
+    @Override
+    public void registerCommon(IRegistrar registrar) {
+    }
+
+    @Override
+    public void registerClient(IRegistrar registrar) {
         try {
             TileFrequencyOwner = Class.forName("codechicken.enderstorage.common.TileFrequencyOwner");
             TileFrequencyOwner_Freq = TileFrequencyOwner.getField("freq");
@@ -57,11 +65,6 @@ public final class EnderStoragePlugin implements IWailaPlugin {
         registrar.addConfig("EnderStorage", "enderstorage.colors");
 
         registrar.registerBodyProvider(HUDHandlerFrequency.INSTANCE, TileFrequencyOwner);
-        registrar.registerNBTProvider(HUDHandlerFrequency.INSTANCE, TileFrequencyOwner);
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
     }
 
 }
