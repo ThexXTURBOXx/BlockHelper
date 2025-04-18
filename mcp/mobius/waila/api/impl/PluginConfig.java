@@ -10,7 +10,6 @@ import mcp.mobius.waila.addons.vanilla.HUDHandlerEntities;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
-import mcp.mobius.waila.overlay.OverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
@@ -150,32 +149,25 @@ public class PluginConfig implements IPluginConfig {
 
     public void loadDefaultConfig(Configuration cfg) {
         config = cfg;
-        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
-        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true);
-        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false);
-        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true);
-        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
 
-        OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000).getInt();
-        OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100).getInt();
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
 
-        OverlayConfig.alpha =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, 80).getInt();
-        OverlayConfig.bgcolor =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, 0x100010).getInt();
-        OverlayConfig.gradient1 =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
-        OverlayConfig.gradient2 =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
-        OverlayConfig.fontcolor =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
-        OverlayConfig.scale =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, 100).getInt() / 100.0f;
+        OverlayConfig.posX = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000);
+        OverlayConfig.posY = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100);
+        OverlayConfig.scale = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, 100) / 100.0f;
 
-        HUDHandlerEntities.nhearts =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
-        HUDHandlerEntities.maxhpfortext =
-                config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
+        OverlayConfig.alpha = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, 80);
+        OverlayConfig.bgcolor = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, 0x100010);
+        OverlayConfig.gradient1 = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff);
+        OverlayConfig.gradient2 = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f);
+        OverlayConfig.fontcolor = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0);
+
+        HUDHandlerEntities.nhearts = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20);
+        HUDHandlerEntities.maxhpfortext = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40);
 
         mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);

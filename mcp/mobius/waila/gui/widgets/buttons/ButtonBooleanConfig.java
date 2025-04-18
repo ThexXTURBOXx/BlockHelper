@@ -11,18 +11,16 @@ public class ButtonBooleanConfig extends ButtonBoolean {
 
     protected String category;
     protected String configKey;
-    protected boolean instant;
 
     public ButtonBooleanConfig(IWidget parent, String category, String configKey, String textFalse, String textTrue) {
-        this(parent, category, configKey, true, true, textFalse, textTrue);
+        this(parent, category, configKey, true, textFalse, textTrue);
     }
 
-    public ButtonBooleanConfig(IWidget parent, String category, String configKey, boolean instant, boolean state_,
+    public ButtonBooleanConfig(IWidget parent, String category, String configKey, boolean state_,
                                String textFalse, String textTrue) {
         super(parent, textFalse, textTrue);
         this.category = category;
         this.configKey = configKey;
-        this.instant = instant;
 
         this.state = PluginConfig.instance().get(this.category, this.configKey, state_);
 
@@ -39,9 +37,7 @@ public class ButtonBooleanConfig extends ButtonBoolean {
     public void onMouseClick(MouseEvent event) {
         if (!PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
             super.onMouseClick(event);
-
-        if (this.instant)
-            PluginConfig.instance().setConfig(this.category, this.configKey, this.state);
+        PluginConfig.instance().setConfig(this.category, this.configKey, this.state);
     }
 
     @Override

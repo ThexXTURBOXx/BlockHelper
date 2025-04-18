@@ -10,14 +10,14 @@ import org.lwjgl.util.Point;
 
 public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
 
-    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, String textFalse,
-                                     String textTrue) {
-        this(parent, category, configKey, true, true, textFalse, textTrue);
+    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey,
+                                     String textFalse, String textTrue) {
+        this(parent, category, configKey, true, textFalse, textTrue);
     }
 
-    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, boolean instant,
-                                     boolean state_, String textFalse, String textTrue) {
-        super(parent, category, configKey, instant, state_, textFalse, textTrue);
+    public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, boolean state_,
+                                     String textFalse, String textTrue) {
+        super(parent, category, configKey, state_, textFalse, textTrue);
         if (!mod_BlockHelper.INSTANCE.serverPresent)
             this.state = false;
 
