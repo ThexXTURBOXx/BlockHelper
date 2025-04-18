@@ -46,7 +46,6 @@ public final class OverlayRenderer {
 
     public static void renderOverlay(Tooltip tooltip) {
         Minecraft.getMinecraft().mcProfiler.startSection("Waila Overlay");
-        GL11.glPushMatrix();
         GLState state = new GLState();
 
         draw:
@@ -73,7 +72,6 @@ public final class OverlayRenderer {
         }
 
         state.reset();
-        GL11.glPopMatrix();
         Minecraft.getMinecraft().mcProfiler.endSection();
     }
 
