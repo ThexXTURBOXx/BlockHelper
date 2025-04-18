@@ -32,7 +32,7 @@ public final class NEIHandler {
         NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 
         GuiContainerManager.addInputHandler(HandlerEnchants.INSTANCE);
-        API.addKeyBind(Constants.BIND_SCREEN_ENCH, "showenchant", Keyboard.KEY_I);
+        API.addKeyBind(Constants.BIND_SCREEN_ENCH, I18n.translate("nei.options.keys.showenchant"), Keyboard.KEY_I);
     }
 
     public static boolean firstInventory = true;
