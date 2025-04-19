@@ -28,11 +28,13 @@ public class ScreenEnchants extends ScreenBase {
                 .setGeometry(new WidgetGeometry(0.0, 0.0, 32.0, 32.0, CType.ABSXY, CType.ABSXY,
                         WAlign.LEFT, WAlign.TOP));
 
-        this.getRoot().getWidget("Layout_Title").addWidget("LabelName", new LabelFixedFont(null, "None"))
+        this.getRoot().getWidget("Layout_Title").addWidget("LabelName",
+                        new LabelFixedFont(null, I18n.translate("hud.msg.none")))
                 .setGeometry(new WidgetGeometry(40.0, 4.0, 16.0, 16.0, CType.ABSXY, CType.ABSXY,
                         WAlign.LEFT, WAlign.TOP));
 
-        this.getRoot().getWidget("Layout_Title").addWidget("LabelEnchantability", new LabelFixedFont(null, "None"))
+        this.getRoot().getWidget("Layout_Title").addWidget("LabelEnchantability",
+                        new LabelFixedFont(null, I18n.translate("hud.msg.none")))
                 .setGeometry(new WidgetGeometry(40.0, 22.0, 16.0, 16.0, CType.ABSXY, CType.REL_X,
                         WAlign.LEFT, WAlign.BOTTOM));
 

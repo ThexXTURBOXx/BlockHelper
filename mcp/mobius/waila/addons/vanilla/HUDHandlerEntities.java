@@ -66,7 +66,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 float maxhpHearts = maxhp / 2.0f;
 
                 if (maxhp > maxhpfortext)
-                    currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f",
+                    currenttip.add(String.format(WHITE + "%.0f \u2764" + GRAY + " / " + WHITE + "%.0f \u2764",
                             health, maxhp));
                 else
                     currenttip.add(getRenderString("waila.health", nhearts, healthHearts, maxhpHearts));
@@ -76,18 +76,18 @@ public final class HUDHandlerEntities implements IEntityProvider {
             if (entity instanceof EntityAgeable) {
                 int age = accessor.getNBTInteger("Age");
                 if (age < 0) {
-                    currenttip.add(I18n.translate("hud.msg.adult_in",
-                            I18n.translate("hud.msg.seconds_format", -age / 20)));
+                    currenttip.add(I18n.translate("hud.msg.adult_in") + ": " +
+                                   I18n.translate("hud.msg.seconds_format", -age / 20));
                 } else {
                     if (age > 0) {
-                        currenttip.add(I18n.translate("hud.msg.cooldown",
-                                I18n.translate("hud.msg.seconds_format", age / 20)));
+                        currenttip.add(I18n.translate("hud.msg.cooldown") + ": " +
+                                       I18n.translate("hud.msg.seconds_format", age / 20));
                     } else if (entity instanceof EntityAnimal) {
                         EntityAnimal animal = (EntityAnimal) entity;
                         int inLove = accessor.getNBTInteger("InLove");
                         if (inLove != 0)
-                            currenttip.add(I18n.translate("hud.msg.in_love",
-                                    I18n.translate("hud.msg.seconds_format", inLove / 20)));
+                            currenttip.add(I18n.translate("hud.msg.in_love") + ": " +
+                                           I18n.translate("hud.msg.seconds_format", inLove / 20));
                         else if (accessor.getPlayer().getCurrentEquippedItem() != null &&
                                  animal.isBreedingItem(accessor.getPlayer().getCurrentEquippedItem()))
                             currenttip.add(I18n.translate("hud.msg.can_be_bred"));
@@ -100,17 +100,18 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 String ownerName = accessor.getNBTData().getString("Owner");
                 boolean isTamed = ownerName != null && !ownerName.isEmpty();
                 if (isTamed)
-                    currenttip.add(I18n.translate("hud.msg.owner_format", ownerName));
+                    currenttip.add(I18n.translate("hud.msg.owner") + ": " + ownerName);
 
                 if (entity instanceof EntityWolf) {
                     if (isTamed) {
                         int collarColor = accessor.getNBTInteger("CollarColor");
-                        currenttip.add(I18n.translate("hud.msg.collar",
-                                I18n.color(BlockCloth.getDyeFromBlock(collarColor))));
+                        currenttip.add(I18n.translate("hud.msg.collar") + ": " +
+                                       I18n.color(BlockCloth.getDyeFromBlock(collarColor)));
                     }
                     boolean angry = accessor.getNBTData().getBoolean("Angry");
                     if (angry)
-                        currenttip.add(I18n.translate("hud.msg.state_format", I18n.translate("hud.msg.angry")));
+                        currenttip.add(I18n.translate("hud.msg.state") + ": " +
+                                       I18n.translate("hud.msg.angry"));
                 }
 
                 if (entity instanceof EntityOcelot && isTamed) {
@@ -130,15 +131,15 @@ public final class HUDHandlerEntities implements IEntityProvider {
                         breed = "hud.msg.cat.siamese";
                         break;
                     }
-                    currenttip.add(I18n.translate("hud.msg.breed", I18n.translate(breed)));
+                    currenttip.add(I18n.translate("hud.msg.breed") + ": " + I18n.translate(breed));
                 }
             }
         }
 
         if (config.get("vanilla.sheep"))
             if (entity instanceof EntitySheep) {
-                currenttip.add(I18n.translate("hud.msg.color_format",
-                        I18n.color(BlockCloth.getDyeFromBlock(accessor.getNBTInteger("Color")))));
+                currenttip.add(I18n.translate("hud.msg.color") + ": " +
+                               I18n.color(BlockCloth.getDyeFromBlock(accessor.getNBTInteger("Color"))));
             }
 
         if (config.get("vanilla.villager")) {
@@ -146,8 +147,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
             if (entity instanceof EntityZombie &&
                 accessor.getNBTData().getBoolean("IsVillager") &&
                 (conversionTime = accessor.getNBTInteger("ConversionTime")) > -1) {
-                currenttip.add(I18n.translate("hud.msg.converting_to_villager",
-                        I18n.translate("hud.msg.seconds_format", conversionTime / 20)));
+                currenttip.add(I18n.translate("hud.msg.converting_to_villager") + ": " +
+                               I18n.translate("hud.msg.seconds_format", conversionTime / 20));
             }
 
             if (entity instanceof EntityVillager) {
@@ -178,16 +179,17 @@ public final class HUDHandlerEntities implements IEntityProvider {
                         // Strip path and ".png"
                         profession = "hud.msg.villager." + skin.substring(skin.lastIndexOf("/") + 1, skin.length() - 4);
                 }
-                currenttip.add(I18n.translate("hud.msg.profession", StringUtils.firstCharacterUppercase(
-                        I18n.translate(profession).replaceFirst("hud\\.msg\\.villager\\.", ""))));
+                currenttip.add(I18n.translate("hud.msg.profession") + ": " +
+                               StringUtils.firstCharacterUppercase(I18n.translate(profession)
+                                       .replaceFirst("hud\\.msg\\.villager\\.", "")));
             }
         }
 
         if (config.get("vanilla.tnt"))
             if (entity instanceof EntityTNTPrimed) {
                 String fuseSeconds = String.format("%.2f", accessor.getNBTInteger("Fuse") / 20f);
-                currenttip.add(I18n.translate("hud.msg.fuse",
-                        I18n.translate("hud.msg.seconds_format", fuseSeconds)));
+                currenttip.add(I18n.translate("hud.msg.fuse") + ": " +
+                               I18n.translate("hud.msg.seconds_format", fuseSeconds));
             }
     }
 

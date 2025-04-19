@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
+import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.GREEN;
 import static mcp.mobius.waila.api.SpecialChars.RED;
 
@@ -43,13 +44,15 @@ public final class HUDHandlerTesseract implements IDataProvider {
             String send = I18n.translate("hud.msg.send") + " : ";
             String recv = I18n.translate("hud.msg.recv") + " : ";
 
-            String type = "<Unknown>";
+            String type;
             if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
                 type = GREEN + I18n.translate("hud.msg.item") + " ";
             else if (ThermalExpansionPlugin.TileTesseractLiquid.isInstance(te))
                 type = BLUE + I18n.translate("hud.msg.fluid") + " ";
             else if (ThermalExpansionPlugin.TileTesseractEnergy.isInstance(te))
                 type = RED + I18n.translate("hud.msg.energ") + " ";
+            else
+                type = GRAY + "<" + I18n.translate("hud.msg.unknown") + ">";
 
             int mode = accessor.getNBTInteger("mode");
             if (mode != 1) currenttip.add(send + type);

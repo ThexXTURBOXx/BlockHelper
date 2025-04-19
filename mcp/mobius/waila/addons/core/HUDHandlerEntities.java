@@ -56,7 +56,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
         } catch (Throwable ignored) {
         }
 
-        currenttip.add(color + "Unknown");
+        currenttip.add(color + I18n.translate("hud.msg.please_report"));
     }
 
     @Override
@@ -70,7 +70,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
         try {
             currenttip.add(BLUE + ITALIC + getEntityMod(entity));
         } catch (Throwable t) {
-            currenttip.add(BLUE + ITALIC + "Unknown");
+            currenttip.add(BLUE + ITALIC + I18n.translate("hud.msg.unknown"));
         }
     }
 
@@ -80,13 +80,11 @@ public final class HUDHandlerEntities implements IEntityProvider {
     }
 
     private static String getEntityMod(Entity entity) {
-        try {
-            EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
-            ModContainer modC = er.getContainer();
-            return modC.getName();
-        } catch (NullPointerException e) {
-            return "Minecraft";
-        }
+        EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
+        if (er == null) return "Minecraft";
+        ModContainer mod = er.getContainer();
+        if (mod == null) return "Minecraft";
+        return mod.getName();
     }
 
 }

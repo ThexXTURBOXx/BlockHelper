@@ -57,10 +57,9 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (currenttip.isEmpty())
-            currenttip.add("< Unnamed >");
-        if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
+            currenttip.add(I18n.translate("hud.msg.please_report"));
+        if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true))
             currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata());
-        }
     }
 
     @Override
@@ -72,14 +71,6 @@ public final class HUDHandlerBlocks implements IDataProvider {
         int x = accessor.getPosition().blockX;
         int y = accessor.getPosition().blockY;
         int z = accessor.getPosition().blockZ;
-
-		/*
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false)
-		&& currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
-			currenttip.clear();
-			currenttip.add(ITALIC + "Press shift for more data");
-		}
-		*/
 
         if (config.get("general.harvest")) {
             String harvest = "hud.msg.please_report";
@@ -101,7 +92,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             int spawnMode = getSpawnMode(w.getChunkFromBlockCoords(x, z), x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? GOLD : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
-            currenttip.add(I18n.translate("hud.msg.light_level", blockLight, skyLight));
+            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + " (" + skyLight + ")");
         }
 
         if (config.get("general.break")) {
@@ -109,7 +100,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                 float curBlockDamage = CorePlugin.curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
-                    currenttip.add(I18n.translate("hud.msg.break_progression", progress));
+                    currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress);
                 }
             } catch (Throwable t) {
                 throw new RuntimeException(t);

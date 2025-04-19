@@ -67,7 +67,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
         int meta = accessor.getMetadata();
 
-        if (block == silverfish && config.get("vanilla.silverfish")) {
+        if (block == silverfish && config.get("vanilla.silverfish"))
             switch (meta) {
             case 1:
                 return new ItemStack(Block.cobblestone);
@@ -76,73 +76,56 @@ public final class HUDHandlerVanilla implements IDataProvider {
             default:
                 return new ItemStack(Block.stone);
             }
-        }
 
-        if (block == redstone) {
+        if (block == redstone)
             return new ItemStack(Item.redstone);
-        }
 
-        if (block instanceof BlockRedstoneOre) {
+        if (block instanceof BlockRedstoneOre)
             return new ItemStack(Block.oreRedstone);
-        }
 
-        if (block == repeaterIdle || block == repeaterActv) {
+        if (block == repeaterIdle || block == repeaterActv)
             return new ItemStack(Item.redstoneRepeater);
-        }
 
-        if (block == melonStem) {
+        if (block == melonStem)
             return new ItemStack(Item.melonSeeds);
-        }
 
-        if (block == pumpkinStem) {
+        if (block == pumpkinStem)
             return new ItemStack(Item.pumpkinSeeds);
-        }
 
-        if (block == sugarCane) {
+        if (block == sugarCane)
             return new ItemStack(Item.reed);
-        }
 
-        if (block == crops) {
+        if (block == crops)
             return new ItemStack(Item.wheat);
-        }
 
-        if (block == carrot) {
+        if (block == carrot)
             return new ItemStack(Item.carrot);
-        }
 
-        if (block == potato) {
+        if (block == potato)
             return new ItemStack(Item.potato);
-        }
 
-        if (block == flowerPot) {
+        if (block == flowerPot)
             return new ItemStack(Item.flowerPot);
-        }
 
-        if (block == cauldron) {
+        if (block == cauldron)
             return new ItemStack(Item.cauldron);
-        }
 
-        if (block == bed) {
+        if (block == bed)
             return new ItemStack(Item.bed);
-        }
 
-        if (block == leave && (meta > 3)) {
+        if (block == leave && (meta > 3))
             return new ItemStack(block, 1, meta - 4);
-        }
 
-        if (block == log) {
+        if (block == log)
             return new ItemStack(block, 1, meta % 4);
-        }
 
-        if ((block == quartz) && (meta > 2)) {
+        if ((block == quartz) && (meta > 2))
             return new ItemStack(block, 1, 2);
-        }
 
         if (block == anvil ||
             block == sapling ||
-            block instanceof BlockStep || block instanceof BlockWoodSlab) {
+            block instanceof BlockStep || block instanceof BlockWoodSlab)
             return new ItemStack(block, 1, block.damageDropped(meta));
-        }
 
         return null;
 
@@ -161,25 +144,20 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.set(0, name + " (" + mobname + ")");
         }
 
-        if (block == melonStem) {
-            currenttip.set(0, WHITE + "Melon stem");
-        }
+        if (block == melonStem)
+            currenttip.set(0, WHITE + I18n.translate("tile.melonStem.name"));
 
-        if (block == pumpkinStem) {
-            currenttip.set(0, WHITE + "Pumpkin stem");
-        }
+        if (block == pumpkinStem)
+            currenttip.set(0, WHITE + I18n.translate("tile.pumpkinStem.name"));
 
-        if (block == endPortal) {
-            currenttip.set(0, WHITE + "End Portal");
-        }
+        if (block == endPortal)
+            currenttip.set(0, WHITE + I18n.translate("tile.endPortal.name"));
 
-        if (block == pistonExtension) {
-            currenttip.set(0, WHITE + "Piston Head");
-        }
+        if (block == pistonExtension)
+            currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
 
-        if (block == pistonMoving) {
-            currenttip.set(0, WHITE + "Moving Piston");
-        }
+        if (block == pistonMoving)
+            currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
     }
 
     @Override
@@ -234,14 +212,14 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
                 currenttip.add(record == null
                         ? I18n.translate("hud.msg.empty")
-                        : I18n.translate("hud.msg.record", ((ItemRecord) record).getRecordTitle()));
+                        : (I18n.translate("hud.msg.record") + ": " + ((ItemRecord) record).getRecordTitle()));
             }
 
         if (config.get("vanilla.flowerpot"))
             if (block == flowerPot) {
                 ItemStack flower = BlockFlowerPot.getPlantForMeta(meta);
                 if (flower != null)
-                    currenttip.add(I18n.translate("hud.msg.flower", flower.getDisplayName()));
+                    currenttip.add(I18n.translate("hud.msg.flower") + ": " + flower.getDisplayName());
             }
 
         if (config.get("vanilla.skull"))
@@ -250,14 +228,14 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 if (te.getSkullType() == 3) {
                     String playerName = te.getExtraType();
                     if (playerName != null && !playerName.isEmpty())
-                        currenttip.add(I18n.translate("hud.msg.head_owner", playerName));
+                        currenttip.add(I18n.translate("hud.msg.head_owner") + ": " + playerName);
                 }
             }
 
         if (config.get("vanilla.noteblock"))
             if (block == noteBlock) {
                 int note = accessor.getNBTInteger("note");
-                currenttip.add(I18n.translate("hud.msg.note", NOTES[note % 12] + (note / 12 + 1)));
+                currenttip.add(I18n.translate("hud.msg.note") + ": " + NOTES[note % 12] + (note / 12 + 1));
 
                 MovingObjectPosition mop = accessor.getPosition();
                 Material m = accessor.getWorld().getBlockMaterial(mop.blockX, mop.blockY - 1, mop.blockZ);
@@ -266,7 +244,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 else if (m == Material.sand) instrument = "hud.msg.snare_drum";
                 else if (m == Material.glass) instrument = "hud.msg.clicks_sticks";
                 else if (m == Material.wood) instrument = "hud.msg.bass_guitar";
-                currenttip.add(I18n.translate("hud.msg.instrument", I18n.translate(instrument)));
+                currenttip.add(I18n.translate("hud.msg.instrument") + ": " + I18n.translate(instrument));
             }
 
         if (config.get("vanilla.beacon"))
@@ -275,13 +253,13 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 int primary = accessor.getNBTInteger("Primary");
                 int secondary = accessor.getNBTInteger("Secondary");
                 if (level >= 0)
-                    currenttip.add(I18n.translate("hud.msg.level", level));
+                    currenttip.add(I18n.translate("hud.msg.level") + ": " + level);
                 if (primary > 0)
-                    currenttip.add(I18n.translate("hud.msg.primary_effect",
-                            I18n.translate(Potion.potionTypes[primary].getName())));
+                    currenttip.add(I18n.translate("hud.msg.primary_effect") + ": " +
+                                   I18n.translate(Potion.potionTypes[primary].getName()));
                 if (secondary > 0)
-                    currenttip.add(I18n.translate("hud.msg.secondary_effect",
-                            I18n.translate(Potion.potionTypes[secondary].getName())));
+                    currenttip.add(I18n.translate("hud.msg.secondary_effect") + ": " +
+                                   I18n.translate(Potion.potionTypes[secondary].getName()));
             }
     }
 

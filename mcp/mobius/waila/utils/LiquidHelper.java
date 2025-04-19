@@ -40,7 +40,7 @@ public final class LiquidHelper {
                 return StringUtils.firstCharacterUppercase(name);
             }
         }
-        return "Unknown";
+        return I18n.translate("hud.msg.unknown");
     }
 
 }

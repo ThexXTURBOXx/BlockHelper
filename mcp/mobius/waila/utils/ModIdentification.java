@@ -63,14 +63,16 @@ public final class ModIdentification {
             mod_BlockHelper.LOG.log(Level.WARNING, "nameFromObject", e);
         }
 
-        String modName = "<Unknown>";
+        String modName = null;
         for (String s : modSource_Name.keySet())
             if (objPath.contains(s)) {
                 modName = modSource_Name.get(s);
                 break;
             }
 
-        if (modName.equals("Minecraft Coder Pack"))
+        if (modName == null)
+            modName = "<" + I18n.translate("hud.msg.unknown") + ">";
+        else if (modName.equals("Minecraft Coder Pack"))
             modName = "Minecraft";
 
         return modName;
@@ -85,14 +87,16 @@ public final class ModIdentification {
             mod_BlockHelper.LOG.log(Level.WARNING, "idFromObject", e);
         }
 
-        String modName = "<Unknown>";
+        String modName = null;
         for (String s : modSource_ID.keySet())
             if (objPath.contains(s)) {
                 modName = modSource_ID.get(s);
                 break;
             }
 
-        if (modName.equals("Minecraft Coder Pack"))
+        if (modName == null)
+            modName = "<" + I18n.translate("hud.msg.unknown") + ">";
+        else if (modName.equals("Minecraft Coder Pack"))
             modName = "Minecraft";
 
         return modName;
