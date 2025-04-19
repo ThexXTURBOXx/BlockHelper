@@ -45,9 +45,9 @@ public final class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        String name = null;
         try {
             String s = DisplayUtil.itemDisplayNameShort(itemStack);
+            String name = null;
             if (s != null && !s.endsWith("Unnamed"))
                 name = s;
 
