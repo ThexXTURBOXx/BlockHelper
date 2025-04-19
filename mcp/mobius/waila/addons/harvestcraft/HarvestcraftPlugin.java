@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
+import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
@@ -26,11 +27,9 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
-    }
+    public void register(IRegistrar registrar, Side side) {
+        if (!side.isClient()) return;
 
-    @Override
-    public void registerClient(IRegistrar registrar) {
         try {
             Class<?> BlockPamCrop = Class.forName("mods.PamHarvestCraft.BlockPamCrop");
             VanillaPlugin.MAX_STAGES.put(BlockPamCrop, 7);

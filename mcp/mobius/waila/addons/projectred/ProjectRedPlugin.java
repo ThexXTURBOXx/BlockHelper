@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.projectred;
 
+import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -25,7 +26,7 @@ public final class ProjectRedPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         // TODO: Rewrite everything and put into right registerers
 
         registrar.addSyncedConfig("Project:Red", "pr.showio");
@@ -49,10 +50,6 @@ public final class ProjectRedPlugin implements IWailaPlugin {
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_bgate");
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_agate");
         registrar.registerDecorator(HUDDecoratorRsGateLogic.INSTANCE, "pr_rgate");
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
     }
 
 }

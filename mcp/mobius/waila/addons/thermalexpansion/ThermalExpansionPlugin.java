@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -38,7 +39,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         // XXX : We register the energy cell
         try {
             TileEnergyCell = Class.forName("thermalexpansion.block.device.TileEnergyCell");
@@ -48,6 +49,9 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.energycell");
 
             registrar.registerNBTProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
         }
@@ -63,27 +67,25 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tessfreq");
 
             registrar.registerNBTProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks.", t);
         }
-    }
 
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
+        if (side.isClient()) {
+            // XXX : We register the Tank interface
+            try {
+                TileTank = Class.forName("thermalexpansion.block.device.TileTankPortable");
+                TileTank_mode = TileTank.getField("mode");
 
-        // XXX : We register the Tank interface
-        try {
-            TileTank = Class.forName("thermalexpansion.block.device.TileTankPortable");
-            TileTank_mode = TileTank.getField("mode");
-
-            registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
-            registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TileTank);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
+                registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
+                registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TileTank);
+            } catch (Throwable t) {
+                mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
+            }
         }
-
-        registrar.registerBodyProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
     }
 
 }

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.core;
+package mcp.mobius.waila.addons.fmp;
 
 import java.util.List;
 import mcp.mobius.waila.api.IBlockDecorator;

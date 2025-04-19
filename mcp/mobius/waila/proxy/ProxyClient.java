@@ -1,22 +1,24 @@
-package mcp.mobius.waila.client;
+package mcp.mobius.waila.proxy;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import mcp.mobius.waila.addons.core.CorePlugin;
+import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
-import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
-import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.ModLoader;
 
-public class ProxyClient extends ProxyServer {
+public class ProxyClient extends ProxyCommon {
+
+    public ProxyClient() {
+        super(Side.CLIENT);
+    }
 
     @Override
     public void prepare() {
@@ -45,16 +47,6 @@ public class ProxyClient extends ProxyServer {
         registrar.registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
         registrar.registerTooltipRenderer("waila.stack", new TTRenderStack());
         registrar.registerTooltipRenderer("waila.string", new TTRenderString());
-
-        CorePlugin.INSTANCE.registerClient(registrar);
-    }
-
-    @Override
-    public void registerModPlugins(IRegistrar registrar) {
-        super.registerModPlugins(registrar);
-
-        for (IWailaPlugin plugin : loadedPlugins)
-            plugin.registerClient(registrar);
     }
 
 }

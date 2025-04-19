@@ -1,5 +1,6 @@
-package mcp.mobius.waila.server;
+package mcp.mobius.waila.proxy;
 
+import cpw.mods.fml.relauncher.Side;
 import java.util.ArrayList;
 import java.util.List;
 import mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin;
@@ -9,6 +10,7 @@ import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee.EEPlugin;
 import mcp.mobius.waila.addons.enderstorage.EnderStoragePlugin;
+import mcp.mobius.waila.addons.fmp.FMPPlugin;
 import mcp.mobius.waila.addons.forge.ForgePlugin;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftPlugin;
 import mcp.mobius.waila.addons.ic2.IC2Plugin;
@@ -19,16 +21,22 @@ import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 
-public class ProxyServer {
+public class ProxyCommon {
 
-    protected final List<IWailaPlugin> registeredPlugins = new ArrayList<IWailaPlugin>();
-    protected final List<IWailaPlugin> loadedPlugins = new ArrayList<IWailaPlugin>();
+    private final Side side;
+    private final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
+
+    public ProxyCommon(Side side) {
+        this.side = side;
+    }
 
     public void registerPlugin(IWailaPlugin plugin) {
-        registeredPlugins.add(plugin);
+        plugins.add(plugin);
     }
 
     public void prepare() {
+        registerPlugin(CorePlugin.INSTANCE);
+        registerPlugin(FMPPlugin.INSTANCE);
         registerPlugin(VanillaPlugin.INSTANCE);
         registerPlugin(AdvMachinesPlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
@@ -45,16 +53,12 @@ public class ProxyServer {
     }
 
     public void registerCorePlugins(IRegistrar registrar) {
-        CorePlugin.INSTANCE.registerCommon(registrar);
     }
 
     public void registerModPlugins(IRegistrar registrar) {
-        for (IWailaPlugin plugin : registeredPlugins) {
-            if (plugin.shouldRegister()) {
-                plugin.registerCommon(registrar);
-                loadedPlugins.add(plugin);
-            }
-        }
+        for (IWailaPlugin plugin : plugins)
+            if (plugin.shouldRegister())
+                plugin.register(registrar, side);
     }
 
 }

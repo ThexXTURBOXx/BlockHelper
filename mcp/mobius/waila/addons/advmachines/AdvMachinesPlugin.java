@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.advmachines;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -30,7 +31,7 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         try {
             TileAM2BaseGenerator = Class.forName("mods.immibis.am2.TileAM2Base");
             TileAM2BaseGenerator_stored = TileAM2BaseGenerator.getDeclaredField("storedEnergy");
@@ -41,14 +42,12 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
 
             registrar.registerNBTProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
     }
 
 }

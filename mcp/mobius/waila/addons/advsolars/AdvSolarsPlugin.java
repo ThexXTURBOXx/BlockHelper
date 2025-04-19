@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.advsolars;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -34,7 +35,7 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         try {
             TileEntitySolarPanel = Class.forName("advsolar.TileEntitySolarPanel");
             TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
@@ -43,6 +44,9 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
             registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
@@ -55,15 +59,12 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.qproduction");
 
             registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Solar Panels] Error while loading generator hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
-        registrar.registerBodyProvider(HUDHandlerAdvSolars.INSTANCE, TileEntityQGenerator);
     }
 
 }

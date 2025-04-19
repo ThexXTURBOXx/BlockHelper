@@ -18,7 +18,7 @@ import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
-import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
@@ -40,8 +40,8 @@ public class mod_BlockHelper extends BaseMod {
     public static final Logger LOG = Logger.getLogger(NAME);
     public static final BlockHelperUpdater UPDATER = new BlockHelperUpdater();
     public static mod_BlockHelper INSTANCE;
-    @SidedProxy(clientSide = PACKAGE + "client.ProxyClient", serverSide = PACKAGE + "server.ProxyServer")
-    public static ProxyServer proxy;
+    @SidedProxy(clientSide = PACKAGE + "proxy.ProxyClient", serverSide = PACKAGE + "proxy.ProxyServer")
+    public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
     public static WailaTickHandler TICK_HANDLER;
     public static ConfigKeyHandler CONFIG_KEY_HANDLER;

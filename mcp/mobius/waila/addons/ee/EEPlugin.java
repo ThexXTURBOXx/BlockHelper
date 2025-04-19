@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.ee;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -33,11 +34,9 @@ public final class EEPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
-    }
+    public void register(IRegistrar registrar, Side side) {
+        if (!side.isClient()) return;
 
-    @Override
-    public void registerClient(IRegistrar registrar) {
         try {
             EMCRegistry = Class.forName("com.pahimar.ee3.emc.EMCRegistry");
             EMCRegistry_instance = EMCRegistry.getMethod("instance");

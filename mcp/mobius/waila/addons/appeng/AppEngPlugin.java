@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.appeng;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -30,7 +31,7 @@ public final class AppEngPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         try {
             IMEPowerStorage = Class.forName("appeng.api.me.tiles.IMEPowerStorage");
             IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
@@ -39,14 +40,12 @@ public final class AppEngPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
             registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
     }
 
 }

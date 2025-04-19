@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.natura;
 
+import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
@@ -26,11 +27,9 @@ public final class NaturaPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
-    }
+    public void register(IRegistrar registrar, Side side) {
+        if (!side.isClient()) return;
 
-    @Override
-    public void registerClient(IRegistrar registrar) {
         try {
             Class<?> CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
             VanillaPlugin.MAX_STAGES.put(CropBlock, 3);

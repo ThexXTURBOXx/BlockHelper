@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.bc3;
 
+import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ public final class BC3Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void registerCommon(IRegistrar registrar) {
+    public void register(IRegistrar registrar, Side side) {
         try {
             TileEngine = Class.forName("buildcraft.energy.TileEngine");
             Engine = Class.forName("buildcraft.energy.Engine");
@@ -54,14 +55,12 @@ public final class BC3Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
             registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Energy hooks.", t);
         }
-    }
-
-    @Override
-    public void registerClient(IRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
     }
 
 }

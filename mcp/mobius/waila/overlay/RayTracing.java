@@ -56,7 +56,7 @@ public class RayTracing {
     private static boolean shouldShowEntity(Entity entity) {
         // Check if entity is player with invisibility effect
         if (entity instanceof EntityPlayer) {
-            boolean setting = PluginConfig.instance().get("general.insivisbleplayers");
+            boolean setting = PluginConfig.instance().get("general.invisibleplayers");
             return setting || !entity.isInvisible();
         }
         return true;
