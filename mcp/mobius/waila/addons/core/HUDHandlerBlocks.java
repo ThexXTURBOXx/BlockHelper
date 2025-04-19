@@ -13,7 +13,6 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +45,6 @@ public final class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-
         String name = null;
         try {
             String s = DisplayUtil.itemDisplayNameShort(itemStack);
@@ -58,20 +56,10 @@ public final class HUDHandlerBlocks implements IDataProvider {
         } catch (Throwable ignored) {
         }
 
-        if (itemStack.getItem() == Item.redstone) {
-            int md = accessor.getMetadata();
-            String s = "" + md;
-            if (s.length() < 2)
-                s = " " + s;
-            currenttip.set(currenttip.size() - 1, name + " " + s);
-        }
-
         if (currenttip.isEmpty())
             currenttip.add("< Unnamed >");
-        else {
-            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
-                currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata());
-            }
+        if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
+            currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata());
         }
     }
 

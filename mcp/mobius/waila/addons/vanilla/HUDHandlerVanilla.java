@@ -5,7 +5,6 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowerPot;
@@ -25,9 +24,13 @@ import net.minecraft.util.MovingObjectPosition;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.anvil;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.beacon;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.carrot;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.endPortal;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.flowerPot;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
@@ -36,6 +39,9 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.melonStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonExtension;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonMoving;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.potato;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.quartz;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
@@ -43,6 +49,8 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
 
@@ -61,14 +69,12 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (block == silverfish && config.get("vanilla.silverfish")) {
             switch (meta) {
-            case 0:
-                return new ItemStack(Block.stone);
             case 1:
                 return new ItemStack(Block.cobblestone);
             case 2:
-                return new ItemStack(Block.brick);
+                return new ItemStack(Block.stoneBrick);
             default:
-                return null;
+                return new ItemStack(Block.stone);
             }
         }
 
@@ -80,8 +86,44 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Block.oreRedstone);
         }
 
+        if (block == repeaterIdle || block == repeaterActv) {
+            return new ItemStack(Item.redstoneRepeater);
+        }
+
+        if (block == melonStem) {
+            return new ItemStack(Item.melonSeeds);
+        }
+
+        if (block == pumpkinStem) {
+            return new ItemStack(Item.pumpkinSeeds);
+        }
+
+        if (block == sugarCane) {
+            return new ItemStack(Item.reed);
+        }
+
         if (block == crops) {
             return new ItemStack(Item.wheat);
+        }
+
+        if (block == carrot) {
+            return new ItemStack(Item.carrot);
+        }
+
+        if (block == potato) {
+            return new ItemStack(Item.potato);
+        }
+
+        if (block == flowerPot) {
+            return new ItemStack(Item.flowerPot);
+        }
+
+        if (block == cauldron) {
+            return new ItemStack(Item.cauldron);
+        }
+
+        if (block == bed) {
+            return new ItemStack(Item.bed);
         }
 
         if (block == leave && (meta > 3)) {
@@ -119,17 +161,24 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.set(0, name + " (" + mobname + ")");
         }
 
-        if (block == redstone) {
-            String name = currenttip.get(0).replaceFirst(" " + accessor.getMetadata(), "");
-            currenttip.set(0, name);
-        }
-
         if (block == melonStem) {
-            currenttip.set(0, SpecialChars.WHITE + "Melon stem");
+            currenttip.set(0, WHITE + "Melon stem");
         }
 
         if (block == pumpkinStem) {
-            currenttip.set(0, SpecialChars.WHITE + "Pumpkin stem");
+            currenttip.set(0, WHITE + "Pumpkin stem");
+        }
+
+        if (block == endPortal) {
+            currenttip.set(0, WHITE + "End Portal");
+        }
+
+        if (block == pistonExtension) {
+            currenttip.set(0, WHITE + "Piston Head");
+        }
+
+        if (block == pistonMoving) {
+            currenttip.set(0, WHITE + "Moving Piston");
         }
     }
 

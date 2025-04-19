@@ -21,6 +21,8 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
+    static Block carrot = Block.carrot;
+    static Block potato = Block.potato;
     static Block melonStem = Block.melonStem;
     static Block pumpkinStem = Block.pumpkinStem;
     static Block lever = Block.lever;
@@ -39,6 +41,12 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block flowerPot = Block.flowerPot;
     static Block noteBlock = Block.music;
     static Block beacon = Block.beacon;
+    static Block endPortal = Block.endPortal;
+    static Block cauldron = Block.cauldron;
+    static Block sugarCane = Block.reed;
+    static Block bed = Block.bed;
+    static Block pistonExtension = Block.pistonExtension;
+    static Block pistonMoving = Block.pistonMoving;
 
     private VanillaPlugin() {
     }
@@ -102,19 +110,31 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sugarCane.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, carrot.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, potato.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, quartz.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, anvil.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, cauldron.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockWoodSlab.class);
 
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());
-            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
+            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, endPortal.getClass());
+            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonExtension.getClass());
+            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonMoving.getClass());
 
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
