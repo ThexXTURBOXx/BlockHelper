@@ -21,10 +21,11 @@ import mcp.mobius.waila.api.IWailaPlugin;
 
 public class ProxyServer {
 
-    protected final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
+    protected final List<IWailaPlugin> registeredPlugins = new ArrayList<IWailaPlugin>();
+    protected final List<IWailaPlugin> loadedPlugins = new ArrayList<IWailaPlugin>();
 
     public void registerPlugin(IWailaPlugin plugin) {
-        plugins.add(plugin);
+        registeredPlugins.add(plugin);
     }
 
     public void prepare() {
@@ -48,9 +49,12 @@ public class ProxyServer {
     }
 
     public void registerModPlugins(IRegistrar registrar) {
-        for (IWailaPlugin plugin : plugins)
-            if (plugin.shouldRegister())
+        for (IWailaPlugin plugin : registeredPlugins) {
+            if (plugin.shouldRegister()) {
                 plugin.registerCommon(registrar);
+                loadedPlugins.add(plugin);
+            }
+        }
     }
 
 }
