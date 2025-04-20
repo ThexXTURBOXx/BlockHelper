@@ -23,8 +23,6 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import static mcp.mobius.waila.api.SpecialChars.GRAY;
-import static mcp.mobius.waila.api.SpecialChars.WHITE;
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public final class HUDHandlerEntities implements IEntityProvider {
@@ -66,8 +64,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 float maxhpHearts = maxhp / 2.0f;
 
                 if (maxhp > maxhpfortext)
-                    currenttip.add(String.format(WHITE + "%.0f \u2764" + GRAY + " / " + WHITE + "%.0f \u2764",
-                            health, maxhp));
+                    currenttip.add(String.format("%.0f \u2764 / %.0f \u2764", health, maxhp));
                 else
                     currenttip.add(getRenderString("waila.health", nhearts, healthHearts, maxhpHearts));
             }
