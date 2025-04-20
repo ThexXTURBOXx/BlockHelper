@@ -27,9 +27,8 @@ public final class NBTUtil {
             if (deepTag.hasKey(i)) {
                 if (deepTag.getTag(i) instanceof NBTTagCompound)
                     deepTag = deepTag.getCompoundTag(i);
-                else {
+                else
                     return deepTag.getTag(i);
-                }
             } else {
                 //Waila.log.log(Level.WARNING, "Leaf " + key + " not found.");
                 return null;

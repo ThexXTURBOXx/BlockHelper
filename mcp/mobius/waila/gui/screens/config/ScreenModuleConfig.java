@@ -15,12 +15,8 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenModuleConfig extends ScreenBase {
 
-    private final String modName;
-
-    public ScreenModuleConfig(GuiScreen parent, String modname) {
+    public ScreenModuleConfig(GuiScreen parent, String modName) {
         super(parent);
-
-        this.modName = modname;
 
         this.getRoot().addWidget("ButtonContainer", new ButtonContainerLabel(this.getRoot(), 2, 100, 25.0));
         this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,
@@ -28,15 +24,15 @@ public class ScreenModuleConfig extends ScreenBase {
 
         ButtonContainerLabel buttonContainer = ((ButtonContainerLabel) this.getRoot().getWidget("ButtonContainer"));
 
-        for (String key : PluginConfig.instance().getKeys(this.modName).keySet()) {
+        for (String key : PluginConfig.instance().getKeys(modName).keySet()) {
             if (PluginConfig.instance().isServerRequired(key))
                 buttonContainer.addButton(new ButtonBooleanSyncedConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
-                        PluginConfig.instance().getKeys(this.modName).get(key));
+                        PluginConfig.instance().getKeys(modName).get(key));
             else
                 buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
-                        PluginConfig.instance().getKeys(this.modName).get(key));
+                        PluginConfig.instance().getKeys(modName).get(key));
         }
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));

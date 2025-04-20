@@ -32,18 +32,17 @@ public class GLState {
         GL11.glPopAttrib();
         GL11.glDepthMask(depthMask);
         GL11.glDepthFunc(depthFunc);
-        if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-        if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        if (hasDepthTest) GL11.glEnable(GL11.GL_DEPTH_TEST);
-        else GL11.glDisable(GL11.GL_DEPTH_TEST);
-        if (hasLight1) GL11.glEnable(GL11.GL_LIGHT1);
-        else GL11.glDisable(GL11.GL_LIGHT1);
-        if (hasLight0) GL11.glEnable(GL11.GL_LIGHT0);
-        else GL11.glDisable(GL11.GL_LIGHT0);
-        if (hasLight) GL11.glEnable(GL11.GL_LIGHTING);
-        else GL11.glDisable(GL11.GL_LIGHTING);
+        glSetBoolean(GL11.GL_COLOR_MATERIAL, hasColorMaterial);
+        glSetBoolean(GL12.GL_RESCALE_NORMAL, hasRescaleNormal);
+        glSetBoolean(GL11.GL_DEPTH_TEST, hasDepthTest);
+        glSetBoolean(GL11.GL_LIGHT1, hasLight1);
+        glSetBoolean(GL11.GL_LIGHT0, hasLight0);
+        glSetBoolean(GL11.GL_LIGHTING, hasLight);
+    }
+
+    private static void glSetBoolean(int cap, boolean value) {
+        if (value) GL11.glEnable(cap);
+        else GL11.glDisable(cap);
     }
 
 }

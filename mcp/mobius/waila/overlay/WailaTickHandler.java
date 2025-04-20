@@ -75,8 +75,8 @@ public class WailaTickHandler {
                 DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
                 accessor.set(world, player, target);
 
-                Entity targetEnt = RayTracing.instance().getTargetEntity(); // This need to be replaced by the
-                // override check.
+                // This needs to be replaced by the override check
+                Entity targetEnt = RayTracing.instance().getTargetEntity();
 
                 if (targetEnt != null) {
                     this.currenttip.clear();

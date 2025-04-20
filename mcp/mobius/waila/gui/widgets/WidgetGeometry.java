@@ -126,7 +126,7 @@ public class WidgetGeometry {
             x = (int) this.x;
 
         int y = -1;
-        if (this.fracPosY)
+        if (this.fracPosY && parent != null)
             y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
         if (!this.fracPosY && parent != null)
             y = parent.getPos().getY() + (int) this.y;
@@ -147,7 +147,7 @@ public class WidgetGeometry {
             x = (int) this.x;
 
         int y = -1;
-        if (this.fracPosY)
+        if (this.fracPosY && parent != null)
             y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
         if (!this.fracPosY && parent != null)
             y = parent.getPos().getY() + (int) this.y;

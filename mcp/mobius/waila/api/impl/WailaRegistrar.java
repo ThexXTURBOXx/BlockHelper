@@ -207,7 +207,7 @@ public class WailaRegistrar implements IRegistrar {
             throw new RuntimeException(String.format(
                     "Trying to register a null provider or null block! Please check the stacktrace to know what " +
                     "was the original registration method. [Provider : %s, Target : %s]",
-                    dataProvider.getClass().getName(), clazz));
+                    dataProvider == null ? "null" : dataProvider.getClass().getName(), clazz));
 
         if (!target.containsKey(clazz))
             target.put(clazz, new ArrayList<T>());
