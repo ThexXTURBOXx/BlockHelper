@@ -3,6 +3,7 @@ package mcp.mobius.waila.proxy;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
+import java.util.logging.Level;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -32,8 +33,10 @@ public class ProxyClient extends ProxyCommon {
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {
                 NEIHandler.register();
+                mod_BlockHelper.LOG.info("[NEI] Successfully registered NEI hooks!");
             } catch (Throwable t) {
-                mod_BlockHelper.LOG.severe("Failed to hook into NEI properly. Mod names not shown in item tooltips.");
+                mod_BlockHelper.LOG.log(Level.WARNING,
+                        "[NEI] Failed to hook into NEI properly. Mod names not shown in item tooltips.", t);
             }
         }
     }
