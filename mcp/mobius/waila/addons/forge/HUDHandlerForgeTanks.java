@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.LiquidHelper;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -29,33 +30,54 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        NBTTagCompound compound = accessor.getNBTData();
-        LiquidStack stack = compound.hasKey("liquidstack")
-                ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                : null;
-        int capacity = accessor.getNBTInteger("liquidcapacity");
+        if (config.get("forge.tanktype")) {
+            LiquidStack stack = null;
+            int capacity = 0;
 
-        if (capacity > 0 && config.get("forge.tanktype")) {
-            String name = currenttip.get(0);
-            name += " " + (stack == null
-                    ? I18n.translate("hud.msg.empty")
-                    : ("(" + LiquidHelper.getLiquidName(stack) + ")"));
-            currenttip.set(0, name);
+            if (accessor.getTileEntity() instanceof ITankContainer) {
+                NBTTagCompound compound = accessor.getNBTData();
+                stack = compound.hasKey("liquidstack")
+                        ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+                        : null;
+                capacity = accessor.getNBTInteger("liquidcapacity");
+            } else if (accessor.getBlock() == Block.cauldron) {
+                int meta = accessor.getMetadata();
+                stack = meta == 0 ? null : new LiquidStack(Block.waterStill, Math.min(4, meta) * 250);
+                capacity = 1000;
+            }
+
+            if (capacity > 0) {
+                String name = currenttip.get(0);
+                name += " " + (stack == null
+                        ? I18n.translate("hud.msg.empty")
+                        : ("(" + LiquidHelper.getLiquidName(stack) + ")"));
+                currenttip.set(0, name);
+            }
         }
     }
 
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        NBTTagCompound compound = accessor.getNBTData();
-        LiquidStack stack = compound.hasKey("liquidstack")
-                ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                : null;
-        int liquidAmount = stack != null ? stack.amount : 0;
-        int capacity = accessor.getNBTInteger("liquidcapacity");
+        if (config.get("forge.tankamount")) {
+            int liquidAmount = 0;
+            int capacity = 0;
 
-        if (capacity > 0 && config.get("forge.tankamount"))
-            currenttip.add(liquidAmount + "/" + capacity + " mB");
+            if (accessor.getTileEntity() instanceof ITankContainer) {
+                NBTTagCompound compound = accessor.getNBTData();
+                LiquidStack stack = compound.hasKey("liquidstack")
+                        ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+                        : null;
+                liquidAmount = stack != null ? stack.amount : 0;
+                capacity = accessor.getNBTInteger("liquidcapacity");
+            } else if (accessor.getBlock() == Block.cauldron) {
+                liquidAmount = Math.min(4, accessor.getMetadata()) * 250;
+                capacity = 1000;
+            }
+
+            if (capacity > 0)
+                currenttip.add(liquidAmount + "/" + capacity + " mB");
+        }
     }
 
     @Override

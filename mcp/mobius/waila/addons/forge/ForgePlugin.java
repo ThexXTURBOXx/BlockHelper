@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import net.minecraft.block.BlockCauldron;
 import net.minecraftforge.liquids.ITankContainer;
 
 public final class ForgePlugin implements IWailaPlugin {
@@ -29,7 +30,10 @@ public final class ForgePlugin implements IWailaPlugin {
 
             if (side.isClient()) {
                 registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
+                registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, BlockCauldron.class);
+
                 registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
+                registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, BlockCauldron.class);
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Forge] Error while loading Tank hooks.", t);
