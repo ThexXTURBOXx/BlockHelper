@@ -8,7 +8,7 @@ import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for standard strings.
- * Syntax : {waila.string, string}
+ * Syntax: {waila.string, string}
  */
 public class TTRenderString implements ITooltipRenderer {
 

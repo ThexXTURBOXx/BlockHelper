@@ -11,7 +11,7 @@ import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for item stacks.
- * Syntax : {waila.stack, type, id, amount, meta, haseffects}
+ * Syntax: {waila.stack, type, id, amount, meta, haseffects}
  */
 public class TTRenderStack implements ITooltipRenderer {
 

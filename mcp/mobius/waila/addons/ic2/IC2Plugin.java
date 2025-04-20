@@ -33,7 +33,7 @@ public final class IC2Plugin implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar, Side side) {
-        // XXX : We register the Energy interface first
+        // XXX: We register the Energy interface first
         try {
             TileBaseGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
             TileBaseGenerator_storage = TileBaseGenerator.getField("storage");

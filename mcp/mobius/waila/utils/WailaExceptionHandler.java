@@ -34,7 +34,7 @@ public final class WailaExceptionHandler {
                 working = working.getCause();
             }
 
-            mod_BlockHelper.LOG.log(Level.WARNING, "Caught unhandled exception : [" + context + "] " + t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "Caught unhandled exception: [" + context + "] " + t);
         }
         if (currenttip != null)
             currenttip.add("<ERROR>");

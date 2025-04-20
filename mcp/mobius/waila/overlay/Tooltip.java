@@ -118,7 +118,7 @@ public class Tooltip {
             for (String ss : line)
                 size.add(DisplayUtil.getDisplayWidth(ss));
 
-            // This line.size() > 1 is to prevent columns to align on lines without column (ie : the name & modid)
+            // This line.size() > 1 is to prevent columns to align on lines without column (ie: the name & modid)
             if (line.size() > 1) {
                 while (columnsWidth.size() < line.size()) {
                     columnsWidth.add(0);

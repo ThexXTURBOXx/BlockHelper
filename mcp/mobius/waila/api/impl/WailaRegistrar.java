@@ -206,7 +206,7 @@ public class WailaRegistrar implements IRegistrar {
         if (clazz == null || dataProvider == null)
             throw new RuntimeException(String.format(
                     "Trying to register a null provider or null block! Please check the stacktrace to know what " +
-                    "was the original registration method. [Provider : %s, Target : %s]",
+                    "was the original registration method. [Provider: %s, Target: %s]",
                     dataProvider == null ? "null" : dataProvider.getClass().getName(), clazz));
 
         if (!target.containsKey(clazz))
@@ -223,7 +223,7 @@ public class WailaRegistrar implements IRegistrar {
             this.tooltipRenderers.put(name, renderer);
         else
             mod_BlockHelper.LOG.warning(String.format(
-                    "A renderer named %s already exists (Class : %s). Skipping new renderer.",
+                    "A renderer named %s already exists (Class: %s). Skipping new renderer.",
                     name, renderer.getClass().getName()));
     }
 

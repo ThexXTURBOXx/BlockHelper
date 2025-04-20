@@ -36,7 +36,7 @@ public class ViewTable extends WidgetBase {
                                 WAlign.RIGHT, WAlign.CENTER));
                 break;
             default:
-                throw new UIException("Unexpected align value : " + align);
+                throw new UIException("Unexpected align value: " + align);
             }
         }
 

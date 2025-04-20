@@ -37,9 +37,9 @@ public class DefaultCropHandler implements ICropHandler {
 
         List<String> ret = new ArrayList<String>();
         if (growthValue < 100.0)
-            ret.add(String.format("%s : %.0f %%", I18n.translate(GROWTH_STATE), growthValue));
+            ret.add(String.format("%s: %.0f %%", I18n.translate(GROWTH_STATE), growthValue));
         else
-            ret.add(I18n.translate(GROWTH_STATE) + " : " + I18n.translate(MATURE));
+            ret.add(I18n.translate(GROWTH_STATE) + ": " + I18n.translate(MATURE));
         return ret;
     }
 

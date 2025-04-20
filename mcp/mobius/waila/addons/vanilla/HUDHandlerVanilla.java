@@ -170,16 +170,16 @@ public final class HUDHandlerVanilla implements IDataProvider {
             if (block == lever) {
                 String redstoneOn = (meta & 8) == 0 ? I18n.translate("hud.msg.off") :
                         I18n.translate("hud.msg.on");
-                currenttip.add(I18n.translate("hud.msg.state") + " : " + redstoneOn);
+                currenttip.add(I18n.translate("hud.msg.state") + ": " + redstoneOn);
             }
 
         if (config.get("vanilla.repeater"))
             if ((block == repeaterIdle) || (block == repeaterActv)) {
                 int tick = ((meta & 0xc) >> 2) + 1;
                 if (tick == 1)
-                    currenttip.add(I18n.translate("hud.msg.delay") + " : 1 tick");
+                    currenttip.add(I18n.translate("hud.msg.delay") + ": 1 tick");
                 else
-                    currenttip.add(I18n.translate("hud.msg.delay") + " : " + tick + " ticks");
+                    currenttip.add(I18n.translate("hud.msg.delay") + ": " + tick + " ticks");
             }
 
         if (config.get("vanilla.comparator"))
@@ -188,13 +188,13 @@ public final class HUDHandlerVanilla implements IDataProvider {
                         ? I18n.translate("hud.msg.subtractor")
                         : I18n.translate("hud.msg.comparator");
                 int outputSignal = accessor.getNBTInteger("OutputSignal");
-                currenttip.add("Mode : " + mode);
-                currenttip.add("Out : " + outputSignal);
+                currenttip.add("Mode: " + mode);
+                currenttip.add("Out: " + outputSignal);
             }
 
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
-                currenttip.add(I18n.translate("hud.msg.power") + " : " + meta);
+                currenttip.add(I18n.translate("hud.msg.power") + ": " + meta);
             }
 
         if (config.get("vanilla.jukebox"))

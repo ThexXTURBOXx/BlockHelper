@@ -51,7 +51,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
         mod_BlockHelper.INSTANCE.serverPresent = true;
 
         for (String key : forcedKeys.keySet())
-            mod_BlockHelper.LOG.info("Received forced key config " + key + " : " + forcedKeys.get(key));
+            mod_BlockHelper.LOG.info("Received forced key config " + key + ": " + forcedKeys.get(key));
 
         PluginConfig.instance().forcedConfigs = forcedKeys;
     }

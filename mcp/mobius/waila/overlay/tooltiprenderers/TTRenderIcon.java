@@ -11,7 +11,7 @@ import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
 
 /**
  * Custom renderer for icons from the icons.png file.
- * Syntax : {waila.icon, icon}
+ * Syntax: {waila.icon, icon}
  */
 public class TTRenderIcon implements ITooltipRenderer {
 

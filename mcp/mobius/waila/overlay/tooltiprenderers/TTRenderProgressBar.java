@@ -8,7 +8,7 @@ import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for progress bars.
- * Syntax : {waila.progress, currentvalue, maxvalue}
+ * Syntax: {waila.progress, currentvalue, maxvalue}
  */
 public class TTRenderProgressBar implements ITooltipRenderer {
 

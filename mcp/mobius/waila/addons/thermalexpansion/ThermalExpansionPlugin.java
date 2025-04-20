@@ -40,7 +40,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar, Side side) {
-        // XXX : We register the energy cell
+        // XXX: We register the energy cell
         try {
             TileEnergyCell = Class.forName("thermalexpansion.block.device.TileEnergyCell");
             TileEnergyCell_Recv = TileEnergyCell.getField("energyReceive");
@@ -56,7 +56,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
         }
 
-        // XXX : We register the Tesseract interface
+        // XXX: We register the Tesseract interface
         try {
             TileTesseractRoot = Class.forName("thermalexpansion.block.tesseract.TileTesseractRoot");
             TileTesseractItem = Class.forName("thermalexpansion.block.tesseract.TileTesseractItem");
@@ -75,7 +75,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
         }
 
         if (side.isClient()) {
-            // XXX : We register the Tank interface
+            // XXX: We register the Tank interface
             try {
                 TileTank = Class.forName("thermalexpansion.block.device.TileTankPortable");
                 TileTank_mode = TileTank.getField("mode");

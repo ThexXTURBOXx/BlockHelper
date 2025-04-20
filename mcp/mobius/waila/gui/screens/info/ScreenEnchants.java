@@ -76,7 +76,7 @@ public class ScreenEnchants extends ScreenBase {
 
     public ScreenEnchants setEnchantability(String value) {
         ((LabelFixedFont) this.getRoot().getWidget("Layout_Title").getWidget("LabelEnchantability"))
-                .setText(I18n.translate("enchant.label.enchantability") + " : " + value);
+                .setText(I18n.translate("enchant.label.enchantability") + ": " + value);
         this.getRoot().getWidget("Layout_Title").adjustSize();
         return this;
     }

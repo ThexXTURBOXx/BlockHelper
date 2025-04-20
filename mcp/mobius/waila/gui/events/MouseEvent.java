@@ -39,7 +39,7 @@ public class MouseEvent {
     }
 
     public String toString() {
-        StringBuilder retstring = new StringBuilder(String.format("MOUSE %s :  [%s] [ %.2f %.2f %d ] [",
+        StringBuilder retstring = new StringBuilder(String.format("MOUSE %s: [%s] [ %.2f %.2f %d ] [",
                 this.type, this.timestamp, this.x, this.y, this.z));
 
         for (int i = 0; i < Math.min(5, BUTTON_COUNT); ++i)

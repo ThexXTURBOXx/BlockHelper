@@ -9,7 +9,7 @@ import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for health bars.
- * Syntax : {waila.health, nheartperline, health, maxhealth}
+ * Syntax: {waila.health, nheartperline, health, maxhealth}
  */
 public class TTRenderHealth implements ITooltipRenderer {
 

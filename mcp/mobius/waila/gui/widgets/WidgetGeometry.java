@@ -44,7 +44,7 @@ public class WidgetGeometry {
         }
 
         public String toString() {
-            return String.format("PointDouble : %.5f %.5f", this.x, this.y);
+            return String.format("PointDouble: %.5f %.5f", this.x, this.y);
         }
 
     }
@@ -187,7 +187,7 @@ public class WidgetGeometry {
     }
 
     public String toString() {
-        return "Geometry : [" +
+        return "Geometry: [" +
                this.x + " " + this.y + "] [" + this.sx + " " + this.sy + "] [" +
                this.posType + " " + this.sizeType + "] [" + this.alignX + " " + this.alignY + "]";
     }

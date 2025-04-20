@@ -41,8 +41,8 @@ public final class HUDHandlerTesseract implements IDataProvider {
         if (!accessor.getNBTData().getBoolean("flag.active")) return;
 
         if (config.get("thermalexpansion.tesssendrecv")) {
-            String send = I18n.translate("hud.msg.send") + " : ";
-            String recv = I18n.translate("hud.msg.recv") + " : ";
+            String send = I18n.translate("hud.msg.send") + ": ";
+            String recv = I18n.translate("hud.msg.recv") + ": ";
 
             String type;
             if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
@@ -60,7 +60,7 @@ public final class HUDHandlerTesseract implements IDataProvider {
         }
 
         if (config.get("thermalexpansion.tessfreq"))
-            currenttip.add(I18n.translate("hud.msg.frequency") + " : " + accessor.getNBTInteger("frequency"));
+            currenttip.add(I18n.translate("hud.msg.frequency") + ": " + accessor.getNBTInteger("frequency"));
     }
 
     @Override
