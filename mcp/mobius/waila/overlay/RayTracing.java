@@ -79,8 +79,8 @@ public class RayTracing {
         Vec3 vec31 = entity.getLook(par3);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
 
-        //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
-        if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
+        //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false))
+        if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false))
             return entity.worldObj.rayTraceBlocks_do(vec3, vec32, true);
         else
             return entity.worldObj.rayTraceBlocks_do(vec3, vec32, false);

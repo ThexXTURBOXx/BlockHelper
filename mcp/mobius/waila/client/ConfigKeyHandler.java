@@ -6,11 +6,15 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
+
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public class ConfigKeyHandler {
 
@@ -40,10 +44,12 @@ public class ConfigKeyHandler {
             mc.displayGuiScreen(new ScreenConfig(null));
 
         if (keyShow.isPressed()) {
-            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)) {
+            if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true)) {
                 boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_SHOW, true);
                 PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
+                mc.thePlayer.addChatMessage(WHITE + ITALIC +
+                                            I18n.translate(status ? "client.msg.now_hidden" : "client.msg.now_shown"));
             } else {
                 PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
             }
@@ -51,8 +57,10 @@ public class ConfigKeyHandler {
 
         if (keyLiquid.isPressed()) {
             boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                    Constants.CFG_WAILA_LIQUID, true);
+                    Constants.CFG_WAILA_LIQUID, false);
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
+            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
+                    status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
         }
 
         if (keyRecipe.isPressed()) {
