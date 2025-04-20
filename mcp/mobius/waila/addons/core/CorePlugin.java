@@ -47,6 +47,11 @@ public final class CorePlugin implements IWailaPlugin {
         registrar.addSyncedConfig("General", "general.invisibleplayers");
 
         if (side.isClient()) {
+            registrar.addConfig("General", "general.showcrop");
+            registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
+        }
+
+        if (side.isClient()) {
             registrar.addConfig("General", "general.harvest");
             registrar.addConfig("General", "general.lightlevel");
             registrar.addConfig("General", "general.break");

@@ -1,23 +1,27 @@
 package mcp.mobius.waila.addons.vanilla;
 
 import cpw.mods.fml.relauncher.Side;
-import java.util.HashMap;
-import java.util.Map;
+import mcp.mobius.waila.addons.core.DefaultCropHandler;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCocoa;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockNetherStalk;
 import net.minecraft.block.BlockRedstoneOre;
+import net.minecraft.block.BlockStem;
 import net.minecraft.block.BlockStep;
 import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntitySkull;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new VanillaPlugin();
-
-    public static final Map<Class<?>, Integer> MAX_STAGES = new HashMap<Class<?>, Integer>();
 
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
@@ -58,7 +62,7 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar, Side side) {
-        registrar.addSyncedConfig("VanillaMC", "general.showhp");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
         registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
@@ -78,8 +82,15 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
         if (side.isClient()) {
-            registrar.addConfig("General", "general.showcrop");
-            registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
+            registrar.registerCropHandler(new DefaultCropHandler(7), BlockCrops.class);
+            registrar.registerCropHandler(new DefaultCropHandler(7), BlockStem.class);
+            registrar.registerCropHandler(new DefaultCropHandler(3), BlockNetherStalk.class);
+            registrar.registerCropHandler(new DefaultCropHandler(2) {
+                @Override
+                public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+                    return BlockCocoa.func_72219_c(accessor.getMetadata());
+                }
+            }, BlockCocoa.class);
         }
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import mcp.mobius.waila.api.IBlockDecorator;
+import mcp.mobius.waila.api.ICropHandler;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IFMPDecorator;
@@ -58,6 +59,9 @@ public class WailaRegistrar implements IRegistrar {
 
     public final Map<String, List<IFMPDecorator>> FMPClassDecorators =
             new LinkedHashMap<String, List<IFMPDecorator>>();
+
+    public final Map<Class<?>, List<ICropHandler>> cropHandlers =
+            new LinkedHashMap<Class<?>, List<ICropHandler>>();
 
     public final Map<String, ITooltipRenderer> tooltipRenderers =
             new LinkedHashMap<String, ITooltipRenderer>();
@@ -193,6 +197,11 @@ public class WailaRegistrar implements IRegistrar {
         this.registerProvider(decorator, name, this.FMPClassDecorators);
     }
 
+    @Override
+    public void registerCropHandler(ICropHandler cropHandler, Class<?> block) {
+        this.registerProvider(cropHandler, block, this.cropHandlers);
+    }
+
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
         if (clazz == null || dataProvider == null)
             throw new RuntimeException(String.format(
@@ -204,9 +213,8 @@ public class WailaRegistrar implements IRegistrar {
             target.put(clazz, new ArrayList<T>());
 
         List<T> providers = target.get(clazz);
-        if (providers.contains(dataProvider)) return;
-
-        target.get(clazz).add(dataProvider);
+        if (!providers.contains(dataProvider))
+            target.get(clazz).add(dataProvider);
     }
 
     @Override
@@ -283,6 +291,10 @@ public class WailaRegistrar implements IRegistrar {
 
     public Map<Integer, List<IFMPDecorator>> getFMPDecorators(String name) {
         return getProviders(name, this.FMPClassDecorators);
+    }
+
+    public Map<Integer, List<ICropHandler>> getCropHandlers(Object block) {
+        return getProviders(block, this.cropHandlers);
     }
 
     public ITooltipRenderer getTooltipRenderer(String name) {
@@ -372,6 +384,10 @@ public class WailaRegistrar implements IRegistrar {
 
     public boolean hasFMPDecorator(String name) {
         return hasProviders(name, this.FMPClassDecorators);
+    }
+
+    public boolean hasCropHandler(Block block) {
+        return hasProviders(block, this.cropHandlers);
     }
 
     private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {

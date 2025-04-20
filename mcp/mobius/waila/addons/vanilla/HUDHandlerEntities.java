@@ -55,7 +55,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get("general.showhp"))
+        if (config.get("vanilla.showhp"))
             if (entity instanceof EntityLiving) {
                 nhearts = nhearts <= 0 ? 20 : nhearts;
 

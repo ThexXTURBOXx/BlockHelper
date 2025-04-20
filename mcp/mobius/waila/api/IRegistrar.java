@@ -71,6 +71,9 @@ public interface IRegistrar {
 
     void registerDecorator(IFMPDecorator decorator, String name);
 
+    /* Register a crop handler for the given block */
+    void registerCropHandler(ICropHandler cropHandler, Class<?> block);
+
     void registerTooltipRenderer(String name, ITooltipRenderer renderer);
 
 }
