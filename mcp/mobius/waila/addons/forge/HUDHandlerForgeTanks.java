@@ -15,6 +15,9 @@ import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidStack;
 
+import static mcp.mobius.waila.api.SpecialChars.RESET;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
+
 public final class HUDHandlerForgeTanks implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerForgeTanks();
@@ -50,7 +53,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
                 String name = currenttip.get(0);
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
-                        : ("(" + LiquidHelper.getLiquidName(stack) + ")"));
+                        : ("(" + LiquidHelper.getLiquidName(stack) + RESET + WHITE + ")"));
                 currenttip.set(0, name);
             }
         }
