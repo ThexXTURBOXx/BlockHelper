@@ -160,7 +160,18 @@ public class I18n {
     }
 
     public void addLangDirFromHost(Class<?> clazz, String dir) {
-        this.addLangDirFromJar(hostFile(clazz), dir);
+        try {
+            this.addLangDirFromJar(hostFile(clazz), dir);
+        } catch (Throwable t) {
+            try {
+                mod_BlockHelper.LOG.log(Level.WARNING, "Error occurred while loading lang directory: " + dir, t);
+                InputStream stream = clazz.getResourceAsStream(dir + "/en_US.properties");
+                if (stream == null) stream = clazz.getResourceAsStream(dir + "/en_US.lang");
+                this.addLangFile(stream, "en_US");
+            } catch (Throwable t1) {
+                mod_BlockHelper.LOG.log(Level.SEVERE, "Critical error occurred while loading fallback!", t1);
+            }
+        }
     }
 
 }
