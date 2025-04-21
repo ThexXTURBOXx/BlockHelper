@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
-import mcp.mobius.waila.commands.CommandDumpHandlers;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
@@ -23,7 +22,6 @@ import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BaseMod;
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -76,6 +74,7 @@ public class mod_BlockHelper extends BaseMod {
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
+
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
 
         // INIT
@@ -88,10 +87,6 @@ public class mod_BlockHelper extends BaseMod {
         proxy.prepare();
         proxy.registerCorePlugins(WailaRegistrar.instance());
         ModIdentification.init();
-
-        if (DEV_MODE) {
-            ModLoader.addCommand(new CommandDumpHandlers());
-        }
     }
 
     @Override
