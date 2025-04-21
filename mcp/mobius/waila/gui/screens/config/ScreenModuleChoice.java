@@ -38,7 +38,7 @@ public class ScreenModuleChoice extends ScreenBase {
         for (String key : keys)
             buttonContainer.addButton(new ButtonScreenChange(holder, key, new ScreenModuleConfig(this, key)));
 
-        int rows = keys.size() / columns;
+        int rows = (keys.size() + (columns - 1)) / columns; // = ceilDiv
         holder.setSize(100.0, spacing * rows);
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));

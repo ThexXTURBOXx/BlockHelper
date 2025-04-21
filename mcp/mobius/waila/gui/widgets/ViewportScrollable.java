@@ -127,17 +127,22 @@ public class ViewportScrollable extends WidgetBase {
     public void draw() {
         //if (Display.wasResized())
 
-        if ((this.attachedWidget != null) && (this.attachedWidget.getSize().getY() > this.getSize().getY()))
+        if ((this.attachedWidget != null) && (this.attachedWidget.getSize().getY() > this.getSize().getY())) {
             this.getWidget("Escalator").show();
-        else
+        } else {
+            ((Escalator) this.getWidget("Escalator")).setOffset(0);
             this.getWidget("Escalator").hide();
+        }
 
         super.draw();
     }
 
     @Override
     public void onMouseWheel(MouseEvent event) {
-        ((Escalator) this.getWidget("Escalator")).addOffset((int) (event.z / 120.0 * this.step));
+        if (this.getWidget("Escalator").shouldRender())
+            ((Escalator) this.getWidget("Escalator")).addOffset((int) (event.z / 120.0 * this.step));
+        else
+            super.onMouseWheel(event);
     }
 
     @Override
@@ -161,7 +166,7 @@ public class ViewportScrollable extends WidgetBase {
     @Override
     public void onMouseClick(MouseEvent event) {
         if (event.button == 0) {
-            if (this.getWidget("Escalator").isWidgetAtCoordinates(event.x, event.y)) {
+            if (this.getWidget("Escalator").shouldRender() && this.getWidget("Escalator").isWidgetAtCoordinates(event.x, event.y)) {
                 this.getWidget("Escalator").onMouseClick(event);
             } else {
                 ((Escalator) this.getWidget("Escalator")).drag = false;

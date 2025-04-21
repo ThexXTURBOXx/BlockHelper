@@ -49,7 +49,7 @@ public class ScreenModuleConfig extends ScreenBase {
                         PluginConfig.instance().getKeys(modName).get(key));
         }
 
-        int rows = keys.size() / columns;
+        int rows = (keys.size() + (columns - 1)) / columns; // = ceilDiv
         holder.setSize(100.0, spacing * rows);
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
