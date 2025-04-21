@@ -12,14 +12,20 @@ public class DefaultCropHandler implements ICropHandler {
 
     protected final int minStage;
     protected final int maxStage;
+    protected final Integer ripeStage;
 
     public DefaultCropHandler(int maxStage) {
-        this(0, maxStage);
+        this(maxStage, null);
     }
 
-    public DefaultCropHandler(int minStage, int maxStage) {
+    public DefaultCropHandler(int maxStage, Integer ripeStage) {
+        this(0, maxStage, ripeStage);
+    }
+
+    public DefaultCropHandler(int minStage, int maxStage, Integer ripeStage) {
         this.minStage = minStage;
         this.maxStage = maxStage;
+        this.ripeStage = ripeStage;
     }
 
     public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
@@ -30,16 +36,37 @@ public class DefaultCropHandler implements ICropHandler {
         return maxStage - minStage;
     }
 
+    public Integer getRipeStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+        return ripeStage == null ? null : (ripeStage - minStage);
+    }
+
+    public String getGrowthString(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config,
+                                  float growthValue) {
+        return String.format("%s: %.0f %%", I18n.translate(GROWTH_STATE), growthValue);
+    }
+
+    public String getMatureString(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+        return I18n.translate(GROWTH_STATE) + ": " + I18n.translate(MATURE);
+    }
+
+    public String getRipeString(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+        return I18n.translate(GROWTH_STATE) + ": " + I18n.translate(RIPE);
+    }
+
     @Override
     public List<String> getGrowthString(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
-        float growthValue = (getCurrentStage(itemStack, accessor, config) /
-                             (float) getMaxStage(itemStack, accessor, config)) * 100;
-
         List<String> ret = new ArrayList<String>();
-        if (growthValue < 100.0)
-            ret.add(String.format("%s: %.0f %%", I18n.translate(GROWTH_STATE), growthValue));
-        else
-            ret.add(I18n.translate(GROWTH_STATE) + ": " + I18n.translate(MATURE));
+        int currentStage = getCurrentStage(itemStack, accessor, config);
+        Integer ripeStage = getRipeStage(itemStack, accessor, config);
+
+        if (ripeStage != null && currentStage >= ripeStage) {
+            ret.add(getRipeString(itemStack, accessor, config));
+        } else {
+            float growthValue = (currentStage / (float) getMaxStage(itemStack, accessor, config)) * 100;
+            ret.add(growthValue < 100.0
+                    ? getGrowthString(itemStack, accessor, config, growthValue)
+                    : getMatureString(itemStack, accessor, config));
+        }
         return ret;
     }
 
