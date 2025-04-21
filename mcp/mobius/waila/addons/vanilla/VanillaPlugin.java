@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.vanilla;
 
 import cpw.mods.fml.relauncher.Side;
-import mcp.mobius.waila.addons.core.DefaultCropHandler;
+import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
@@ -82,10 +82,10 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
         if (side.isClient()) {
-            registrar.registerCropHandler(new DefaultCropHandler(7), BlockCrops.class);
-            registrar.registerCropHandler(new DefaultCropHandler(7), BlockStem.class);
-            registrar.registerCropHandler(new DefaultCropHandler(3), BlockNetherStalk.class);
-            registrar.registerCropHandler(new DefaultCropHandler(2) {
+            registrar.registerCropProvider(new DefaultCropProvider(7), BlockCrops.class);
+            registrar.registerCropProvider(new DefaultCropProvider(7), BlockStem.class);
+            registrar.registerCropProvider(new DefaultCropProvider(3), BlockNetherStalk.class);
+            registrar.registerCropProvider(new DefaultCropProvider(2) {
                 @Override
                 public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
                     return BlockCocoa.func_72219_c(accessor.getMetadata());

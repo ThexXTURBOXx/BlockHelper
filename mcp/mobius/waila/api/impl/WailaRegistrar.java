@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import mcp.mobius.waila.api.IBlockDecorator;
-import mcp.mobius.waila.api.ICropHandler;
+import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IFMPDecorator;
@@ -60,8 +60,8 @@ public class WailaRegistrar implements IRegistrar {
     public final Map<String, List<IFMPDecorator>> FMPClassDecorators =
             new LinkedHashMap<String, List<IFMPDecorator>>();
 
-    public final Map<Class<?>, List<ICropHandler>> cropHandlers =
-            new LinkedHashMap<Class<?>, List<ICropHandler>>();
+    public final Map<Class<?>, List<ICropProvider>> cropProviders =
+            new LinkedHashMap<Class<?>, List<ICropProvider>>();
 
     public final Map<String, ITooltipRenderer> tooltipRenderers =
             new LinkedHashMap<String, ITooltipRenderer>();
@@ -198,8 +198,8 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void registerCropHandler(ICropHandler cropHandler, Class<?> block) {
-        this.registerProvider(cropHandler, block, this.cropHandlers);
+    public void registerCropProvider(ICropProvider cropProvider, Class<?> block) {
+        this.registerProvider(cropProvider, block, this.cropProviders);
     }
 
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
@@ -293,8 +293,8 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(name, this.FMPClassDecorators);
     }
 
-    public Map<Integer, List<ICropHandler>> getCropHandlers(Object block) {
-        return getProviders(block, this.cropHandlers);
+    public Map<Integer, List<ICropProvider>> getCropProviders(Object block) {
+        return getProviders(block, this.cropProviders);
     }
 
     public ITooltipRenderer getTooltipRenderer(String name) {
@@ -386,8 +386,8 @@ public class WailaRegistrar implements IRegistrar {
         return hasProviders(name, this.FMPClassDecorators);
     }
 
-    public boolean hasCropHandler(Block block) {
-        return hasProviders(block, this.cropHandlers);
+    public boolean hasCropProvider(Block block) {
+        return hasProviders(block, this.cropProviders);
     }
 
     private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {

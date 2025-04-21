@@ -3,8 +3,8 @@ package mcp.mobius.waila.addons.natura;
 import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.addons.core.DefaultCropHandler;
-import mcp.mobius.waila.api.ICropHandler;
+import mcp.mobius.waila.addons.core.DefaultCropProvider;
+import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
@@ -52,7 +52,7 @@ public final class NaturaPlugin implements IWailaPlugin {
 
             registrar.registerHeadProvider(HUDHandlerNaturaCrops.INSTANCE, CropBlock);
 
-            registrar.registerCropHandler(new DefaultCropHandler(8) {
+            registrar.registerCropProvider(new DefaultCropProvider(8) {
                 @Override
                 public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
                     int meta = accessor.getMetadata();
@@ -72,14 +72,14 @@ public final class NaturaPlugin implements IWailaPlugin {
             BerryBush = Class.forName("mods.natura.blocks.crops.BerryBush");
             NetherBerryBush = Class.forName("mods.natura.blocks.crops.NetherBerryBush");
 
-            ICropHandler handler = new DefaultCropHandler(2, 3) {
+            ICropProvider provider = new DefaultCropProvider(2, 3) {
                 @Override
                 public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
                     return MathHelper.floor_double(accessor.getMetadata() / 4d);
                 }
             };
-            registrar.registerCropHandler(handler, BerryBush);
-            registrar.registerCropHandler(handler, NetherBerryBush);
+            registrar.registerCropProvider(provider, BerryBush);
+            registrar.registerCropProvider(provider, NetherBerryBush);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Natura] Error while loading bush hooks.", t);
         }

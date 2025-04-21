@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.core;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
-import mcp.mobius.waila.api.ICropHandler;
+import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -39,41 +39,43 @@ public final class HUDHandlerCrops implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
-        /* Crops */
+
         if (config.get("general.showcrop")) {
-            ICropHandler handler = getHandler(block, accessor.getBlockID());
-            if (handler != null)
-                currenttip.addAll(handler.getGrowthString(itemStack, accessor, config));
+            ICropProvider provider = getProvider(block, accessor.getBlockID());
+            if (provider != null)
+                currenttip.addAll(provider.getGrowthDetails(itemStack, accessor, config));
         }
     }
 
-    private ICropHandler getHandler(Block b, int id) {
-        Class<?> handlerClass = Block.class;
-        ICropHandler handler = null;
-        if (registrar.hasCropHandler(b)) {
-            for (Class<?> clazz : registrar.cropHandlers.keySet()) {
-                if (clazz.isInstance(b) && handlerClass.isAssignableFrom(clazz)) {
-                    List<ICropHandler> handlers = registrar.cropHandlers.get(clazz);
-                    if (!handlers.isEmpty())
-                        handler = registrar.cropHandlers.get(clazz).get(0);
+    private ICropProvider getProvider(Block b, int id) {
+        Class<?> providerClass = Block.class;
+        ICropProvider provider = null;
+        if (registrar.hasCropProvider(b)) {
+            for (Class<?> clazz : registrar.cropProviders.keySet()) {
+                if (clazz.isInstance(b) && providerClass.isAssignableFrom(clazz)) {
+                    List<ICropProvider> providers = registrar.cropProviders.get(clazz);
+                    if (!providers.isEmpty()) {
+                        provider = registrar.cropProviders.get(clazz).get(0);
+                        providerClass = clazz;
+                    }
                 }
             }
         }
-        if (handler != null) return handler;
+        if (provider != null) return provider;
 
         try {
             for (Method method : b.getClass().getDeclaredMethods()) {
                 String name = method.getName();
                 if (name.equals("getGrowthRate") ||
                     name.equals("getGrowthModifier")) {
-                    handler = new DefaultCropHandler(tryGetMaxStage(b, id));
-                    registrar.registerCropHandler(handler, b.getClass());
+                    provider = new DefaultCropProvider(tryGetMaxStage(b, id));
+                    registrar.registerCropProvider(provider, b.getClass());
                 }
             }
         } catch (Throwable ignored) {
         }
 
-        return handler;
+        return provider;
     }
 
     private int tryGetMaxStage(Block b, int id) {

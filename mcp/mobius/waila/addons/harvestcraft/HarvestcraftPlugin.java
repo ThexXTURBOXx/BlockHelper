@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.harvestcraft;
 import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.addons.core.DefaultCropHandler;
+import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -42,7 +42,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
 
             registrar.registerHeadProvider(HUDHandlerPamCrops.INSTANCE, BlockPamCrop);
 
-            registrar.registerCropHandler(new DefaultCropHandler(7), BlockPamCrop);
+            registrar.registerCropProvider(new DefaultCropProvider(7), BlockPamCrop);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[PamHarvestCraft] Error while loading crop hooks.", t);
         }

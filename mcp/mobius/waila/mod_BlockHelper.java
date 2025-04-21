@@ -5,7 +5,6 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.relauncher.FMLInjectionData;
-import cpw.mods.fml.relauncher.Side;
 import java.io.File;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -78,7 +77,7 @@ public class mod_BlockHelper extends BaseMod {
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
 
         // INIT
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
             TICK_HANDLER = new WailaTickHandler();
         }

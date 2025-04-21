@@ -2,27 +2,27 @@ package mcp.mobius.waila.addons.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import mcp.mobius.waila.api.ICropHandler;
+import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.item.ItemStack;
 
-public class DefaultCropHandler implements ICropHandler {
+public class DefaultCropProvider implements ICropProvider {
 
     protected final int minStage;
     protected final int maxStage;
     protected final Integer ripeStage;
 
-    public DefaultCropHandler(int maxStage) {
+    public DefaultCropProvider(int maxStage) {
         this(maxStage, null);
     }
 
-    public DefaultCropHandler(int maxStage, Integer ripeStage) {
+    public DefaultCropProvider(int maxStage, Integer ripeStage) {
         this(0, maxStage, ripeStage);
     }
 
-    public DefaultCropHandler(int minStage, int maxStage, Integer ripeStage) {
+    public DefaultCropProvider(int minStage, int maxStage, Integer ripeStage) {
         this.minStage = minStage;
         this.maxStage = maxStage;
         this.ripeStage = ripeStage;
@@ -54,7 +54,7 @@ public class DefaultCropHandler implements ICropHandler {
     }
 
     @Override
-    public List<String> getGrowthString(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+    public List<String> getGrowthDetails(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
         List<String> ret = new ArrayList<String>();
         int currentStage = getCurrentStage(itemStack, accessor, config);
         Integer ripeStage = getRipeStage(itemStack, accessor, config);
