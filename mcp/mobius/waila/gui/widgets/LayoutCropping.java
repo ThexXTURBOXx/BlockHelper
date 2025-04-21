@@ -53,4 +53,9 @@ public class LayoutCropping extends LayoutBase {
         state.reset();
     }
 
+    @Override
+    public IWidget getWidgetAtCoordinates(double posX, double posY) {
+        return super.getWidgetAtCoordinates(posX - xOffset, posY - yOffset);
+    }
+
 }
