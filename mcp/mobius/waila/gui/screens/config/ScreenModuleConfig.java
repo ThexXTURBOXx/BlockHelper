@@ -1,10 +1,13 @@
 package mcp.mobius.waila.gui.screens.config;
 
+import java.util.Set;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.interfaces.CType;
+import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
+import mcp.mobius.waila.gui.widgets.ViewportScrollable;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanSyncedConfig;
@@ -18,22 +21,36 @@ public class ScreenModuleConfig extends ScreenBase {
     public ScreenModuleConfig(GuiScreen parent, String modName) {
         super(parent);
 
-        this.getRoot().addWidget("ButtonContainer", new ButtonContainerLabel(this.getRoot(), 2, 100, 25.0));
-        this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,
+        this.getRoot().addWidget("Viewport", new ViewportScrollable(null))
+                .setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0, CType.RELXY, CType.RELXY,
+                        WAlign.LEFT, WAlign.TOP));
+        IWidget holder = new LayoutBase(null);
+        ((ViewportScrollable) (this.getRoot().getWidget("Viewport"))).attachWidget(holder)
+                .setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 0.0, CType.RELXY, CType.REL_X,
+                        WAlign.LEFT, WAlign.TOP));
+
+        int columns = 2;
+        double spacing = 25.0;
+        holder.addWidget("ButtonContainer", new ButtonContainerLabel(holder, columns, 100, spacing));
+        holder.getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 100.0,
                 CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
 
-        ButtonContainerLabel buttonContainer = ((ButtonContainerLabel) this.getRoot().getWidget("ButtonContainer"));
+        ButtonContainerLabel buttonContainer = ((ButtonContainerLabel) holder.getWidget("ButtonContainer"));
 
-        for (String key : PluginConfig.instance().getKeys(modName).keySet()) {
+        Set<String> keys = PluginConfig.instance().getKeys(modName).keySet();
+        for (String key : keys) {
             if (PluginConfig.instance().isServerRequired(key))
-                buttonContainer.addButton(new ButtonBooleanSyncedConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
+                buttonContainer.addButton(new ButtonBooleanSyncedConfig(holder, Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
                         PluginConfig.instance().getKeys(modName).get(key));
             else
-                buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key,
+                buttonContainer.addButton(new ButtonBooleanConfig(holder, Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
                         PluginConfig.instance().getKeys(modName).get(key));
         }
+
+        int rows = keys.size() / columns;
+        holder.setSize(100.0, spacing * rows);
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
         this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0,
