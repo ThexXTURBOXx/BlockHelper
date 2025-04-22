@@ -37,12 +37,12 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTData().getInteger("storage");
-            int maxStorage = accessor.getNBTData().getInteger("maxStorage");
+            int storage = accessor.getNBTData().getInteger("AEStorage");
+            int maxStorage = accessor.getNBTData().getInteger("AEMaxStorage");
 
             String storedStr = I18n.translate("hud.msg.stored");
 
-            /* EU Storage */
+            /* AE Storage */
             if (config.get("appeng.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
@@ -70,8 +70,8 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
                 maxStorage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
             }
 
-            tag.setInteger("storage", Math.round(storage));
-            tag.setInteger("maxStorage", Math.round(maxStorage));
+            tag.setInteger("AEStorage", Math.round(storage));
+            tag.setInteger("AEMaxStorage", Math.round(maxStorage));
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }

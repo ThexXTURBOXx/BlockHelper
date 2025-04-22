@@ -37,10 +37,10 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (!config.get("bcapi.storage")) return;
-        if (!accessor.getNBTData().hasKey("Energy")) return;
+        if (!accessor.getNBTData().hasKey("MJEnergy")) return;
 
-        int energy = accessor.getNBTInteger("Energy");
-        int maxEnergy = accessor.getNBTInteger("MaxStorage");
+        int energy = accessor.getNBTInteger("MJEnergy");
+        int maxEnergy = accessor.getNBTInteger("MJMaxStorage");
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
                 String storedStr = I18n.translate("hud.msg.stored");
@@ -77,8 +77,8 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
                 }
             }
 
-            tag.setInteger("Energy", Math.round(energy));
-            tag.setInteger("MaxStorage", maxsto);
+            tag.setInteger("MJEnergy", Math.round(energy));
+            tag.setInteger("MJMaxStorage", maxsto);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);
