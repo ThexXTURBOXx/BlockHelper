@@ -3,6 +3,7 @@ package mcp.mobius.waila.utils;
 import java.util.Map;
 import java.util.logging.Level;
 import mcp.mobius.waila.mod_BlockHelper;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -15,6 +16,19 @@ public final class LiquidHelper {
 
     private LiquidHelper() {
         throw new UnsupportedOperationException();
+    }
+
+    public static void writeToNBT(ITankContainer container, NBTTagCompound tag) {
+        ILiquidTank tank = LiquidHelper.getTank(container);
+        LiquidStack stack = tank != null ? tank.getLiquid() : null;
+        int capacity = tank != null ? tank.getCapacity() : 0;
+
+        if (stack != null) {
+            NBTTagCompound stackNBT = new NBTTagCompound();
+            stack.writeToNBT(stackNBT);
+            tag.setCompoundTag("liquidstack", stackNBT);
+        }
+        tag.setInteger("liquidcapacity", capacity);
     }
 
     public static ILiquidTank getTank(ITankContainer container) {

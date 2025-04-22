@@ -11,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
 import net.minecraftforge.liquids.LiquidStack;
 
@@ -91,16 +90,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
-        ILiquidTank tank = LiquidHelper.getTank((ITankContainer) te);
-        LiquidStack stack = tank != null ? tank.getLiquid() : null;
-        int capacity = tank != null ? tank.getCapacity() : 0;
-
-        if (stack != null) {
-            NBTTagCompound stackNBT = new NBTTagCompound();
-            stack.writeToNBT(stackNBT);
-            tag.setCompoundTag("liquidstack", stackNBT);
-        }
-        tag.setInteger("liquidcapacity", capacity);
+        LiquidHelper.writeToNBT((ITankContainer) te, tag);
     }
 
 }

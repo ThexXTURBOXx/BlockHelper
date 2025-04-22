@@ -157,10 +157,8 @@ public class RayTracing {
                         ItemStack providerStack = provider.getStack(DataAccessorCommon.INSTANCE,
                                 PluginConfig.instance());
                         if (providerStack != null) {
-
                             if (providerStack.getItem() == null)
                                 return new ArrayList<ItemStack>();
-
                             items.add(providerStack);
                         }
                     }

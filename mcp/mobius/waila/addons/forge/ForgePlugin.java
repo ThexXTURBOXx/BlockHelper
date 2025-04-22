@@ -27,13 +27,16 @@ public final class ForgePlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Forge", "forge.tanktype");
 
             registrar.registerNBTProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
+            registrar.registerNBTProvider(HUDHandlerEntityForgeTanks.INSTANCE, ITankContainer.class);
 
             if (side.isClient()) {
                 registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
                 registrar.registerHeadProvider(HUDHandlerForgeTanks.INSTANCE, BlockCauldron.class);
+                registrar.registerHeadProvider(HUDHandlerEntityForgeTanks.INSTANCE, ITankContainer.class);
 
                 registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
                 registrar.registerBodyProvider(HUDHandlerForgeTanks.INSTANCE, BlockCauldron.class);
+                registrar.registerBodyProvider(HUDHandlerEntityForgeTanks.INSTANCE, ITankContainer.class);
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Forge] Error while loading Tank hooks.", t);
