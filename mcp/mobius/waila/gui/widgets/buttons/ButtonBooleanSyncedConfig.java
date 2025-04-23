@@ -18,9 +18,6 @@ public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
     public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, boolean state_,
                                      String textFalse, String textTrue) {
         super(parent, category, configKey, state_, textFalse, textTrue);
-        if (!mod_BlockHelper.INSTANCE.serverPresent)
-            this.state = false;
-
         if (this.state) {
             this.getWidget("LabelTrue").show();
             this.getWidget("LabelFalse").hide();
@@ -32,21 +29,26 @@ public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
 
     @Override
     public void onMouseClick(MouseEvent event) {
-        if ((mod_BlockHelper.INSTANCE.serverPresent) && !PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
+        if (!isForcedConfig())
             super.onMouseClick(event);
     }
 
     @Override
     public void draw(Point pos) {
-        if ((mod_BlockHelper.INSTANCE.serverPresent) && !PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
-            super.draw(pos);
-        else {
+        if (isForcedConfig()) {
             GLState state = new GLState();
             int texOffset = -1;
             this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
             UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
                     this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
             state.reset();
+        } else {
+            super.draw(pos);
         }
     }
+
+    public boolean isForcedConfig() {
+        return mod_BlockHelper.INSTANCE.serverPresent && PluginConfig.instance().forcedConfigs.containsKey(this.configKey);
+    }
+
 }
