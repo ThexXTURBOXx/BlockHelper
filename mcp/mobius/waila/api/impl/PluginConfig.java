@@ -53,22 +53,14 @@ public class PluginConfig implements IPluginConfig {
         return this.modules.containsKey(modName) ? this.modules.get(modName).options : null;
     }
 
-    private void saveModuleKey(String modName, String key) {
-        this.saveModuleKey(modName, key, Constants.CFG_DEFAULT_VALUE);
-    }
-
-    private void saveModuleKey(String modName, String key, boolean defvalue) {
-        config.get(Constants.CATEGORY_MODULES, key, defvalue);
-        config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
-        config.save();
-    }
-
     public void addConfig(String modName, String key, String name) {
         this.addConfig(modName, key, name, Constants.CFG_DEFAULT_VALUE);
     }
 
     public void addConfig(String modName, String key, String name, boolean defvalue) {
-        this.saveModuleKey(modName, key, defvalue);
+        config.get(Constants.CATEGORY_MODULES, key, defvalue);
+        config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
+        config.save();
 
         if (!this.modules.containsKey(modName))
             this.modules.put(modName, new ConfigModule(modName));
@@ -81,12 +73,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addSyncedConfig(String modName, String key, String name, boolean defvalue) {
-        this.saveModuleKey(modName, key, defvalue);
-
-        if (!this.modules.containsKey(modName))
-            this.modules.put(modName, new ConfigModule(modName));
-
-        this.modules.get(modName).addOption(key, name);
+        this.addConfig(modName, key, name, defvalue);
         this.syncedConfigs.add(key);
     }
 
