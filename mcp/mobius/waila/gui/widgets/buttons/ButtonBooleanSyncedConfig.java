@@ -18,6 +18,10 @@ public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
     public ButtonBooleanSyncedConfig(IWidget parent, String category, String configKey, boolean state_,
                                      String textFalse, String textTrue) {
         super(parent, category, configKey, state_, textFalse, textTrue);
+
+        if (this.isForcedConfig())
+            this.state = PluginConfig.instance().forcedConfigs.get(this.configKey);
+
         if (this.state) {
             this.getWidget("LabelTrue").show();
             this.getWidget("LabelFalse").hide();

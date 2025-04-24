@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.impl;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,7 +97,8 @@ public class PluginConfig implements IPluginConfig {
 
     @Override
     public boolean get(String key, boolean defvalue) {
-        if (this.serverconfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent)
+        if (this.serverconfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
+            && !FMLCommonHandler.instance().getEffectiveSide().isServer())
             return false;
 
         if (this.forcedConfigs.containsKey(key))
@@ -149,6 +151,7 @@ public class PluginConfig implements IPluginConfig {
 
     public void loadDefaultConfig(Configuration cfg) {
         config = cfg;
+        config.load();
 
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true);
