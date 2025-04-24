@@ -19,6 +19,7 @@ ibxm/
 !**/mod_BlockHelper.java
 paulscode/
 argo/
+common/
 
 # MC/Forge files #
 fml_at.cfg
