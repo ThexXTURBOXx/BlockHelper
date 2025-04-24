@@ -1,8 +1,10 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.addons.forge;
 
 import java.util.Map;
 import java.util.logging.Level;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
