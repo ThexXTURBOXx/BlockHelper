@@ -102,7 +102,7 @@ public class WailaRegistrar implements IRegistrar {
 
     @Override
     public void addSyncedConfig(String modname, String key, String configname, boolean defvalue) {
-        PluginConfig.instance().addConfigServer(modname, key, I18n.translate(configname), defvalue);
+        PluginConfig.instance().addSyncedConfig(modname, key, I18n.translate(configname), defvalue);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class WailaRegistrar implements IRegistrar {
 
     @Override
     public void addSyncedConfig(String modname, String key, boolean defvalue) {
-        PluginConfig.instance().addConfigServer(modname, key, I18n.translate("option." + key), defvalue);
+        PluginConfig.instance().addSyncedConfig(modname, key, I18n.translate("option." + key), defvalue);
     }
 
 

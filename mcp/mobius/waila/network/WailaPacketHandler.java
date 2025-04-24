@@ -51,13 +51,11 @@ public class WailaPacketHandler implements IPacketHandler {
         if (header == 0x00) {
             return new Packet0x00ServerPing();
         } else if (header == 0x01) {
-            return new Packet0x01TERequest();
+            return new Packet0x01TileRequest();
         } else if (header == 0x02) {
-            return new Packet0x02TENBTData();
+            return new Packet0x02EntRequest();
         } else if (header == 0x03) {
-            return new Packet0x03EntRequest();
-        } else if (header == 0x04) {
-            return new Packet0x04EntNBTData();
+            return new Packet0x03NBTData();
         }
         return null;
     }
@@ -65,14 +63,12 @@ public class WailaPacketHandler implements IPacketHandler {
     public static byte getPacketId(IWailaPacket packet) {
         if (packet instanceof Packet0x00ServerPing) {
             return 0x00;
-        } else if (packet instanceof Packet0x01TERequest) {
+        } else if (packet instanceof Packet0x01TileRequest) {
             return 0x01;
-        } else if (packet instanceof Packet0x02TENBTData) {
+        } else if (packet instanceof Packet0x02EntRequest) {
             return 0x02;
-        } else if (packet instanceof Packet0x03EntRequest) {
+        } else if (packet instanceof Packet0x03NBTData) {
             return 0x03;
-        } else if (packet instanceof Packet0x04EntNBTData) {
-            return 0x04;
         }
         return -1;
     }

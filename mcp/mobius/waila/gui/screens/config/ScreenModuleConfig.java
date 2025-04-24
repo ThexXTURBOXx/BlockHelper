@@ -39,7 +39,7 @@ public class ScreenModuleConfig extends ScreenBase {
 
         Set<String> keys = PluginConfig.instance().getKeys(modName).keySet();
         for (String key : keys) {
-            if (PluginConfig.instance().isServerRequired(key))
+            if (PluginConfig.instance().isSyncedConfig(key))
                 buttonContainer.addButton(new ButtonBooleanSyncedConfig(holder, Constants.CATEGORY_MODULES, key,
                                 "screen.button.no", "screen.button.yes"),
                         PluginConfig.instance().getKeys(modName).get(key));

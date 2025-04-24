@@ -19,16 +19,16 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-public class Packet0x03EntRequest implements IWailaPacket {
+public class Packet0x02EntRequest implements IWailaPacket {
 
     public int dim;
     public int id;
     public Set<String> keys = new HashSet<String>();
 
-    public Packet0x03EntRequest() {
+    public Packet0x02EntRequest() {
     }
 
-    public Packet0x03EntRequest(Entity ent, Set<String> keys) {
+    public Packet0x02EntRequest(Entity ent, Set<String> keys) {
         this.dim = ent.worldObj.provider.dimensionId;
         this.id = ent.entityId;
         this.keys = keys;
@@ -87,7 +87,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
                         try {
                             provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
-                            WailaExceptionHandler.handleErr(t, Packet0x03EntRequest.class.toString(), null);
+                            WailaExceptionHandler.handleErr(t, Packet0x02EntRequest.class.toString(), null);
                         }
                     }
                 }
@@ -99,7 +99,7 @@ public class Packet0x03EntRequest implements IWailaPacket {
 
             tag.setInteger("WailaEntityID", entity.entityId);
 
-            WailaPacketHandler.sendPacketToPlayer(new Packet0x04EntNBTData(tag), rawSender);
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), rawSender);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }

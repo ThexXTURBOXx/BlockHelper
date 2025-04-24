@@ -8,14 +8,14 @@ import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Packet0x04EntNBTData implements IWailaPacket {
+public class Packet0x03NBTData implements IWailaPacket {
 
     NBTTagCompound tag;
 
-    public Packet0x04EntNBTData() {
+    public Packet0x03NBTData() {
     }
 
-    public Packet0x04EntNBTData(NBTTagCompound tag) {
+    public Packet0x03NBTData(NBTTagCompound tag) {
         this.tag = tag;
     }
 

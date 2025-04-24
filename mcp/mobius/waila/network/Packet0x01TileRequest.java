@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-public class Packet0x01TERequest implements IWailaPacket {
+public class Packet0x01TileRequest implements IWailaPacket {
 
     private static Field classToNameMap;
 
@@ -51,10 +51,10 @@ public class Packet0x01TERequest implements IWailaPacket {
     public int posZ;
     public Set<String> keys = new HashSet<String>();
 
-    public Packet0x01TERequest() {
+    public Packet0x01TileRequest() {
     }
 
-    public Packet0x01TERequest(TileEntity ent, Set<String> keys) {
+    public Packet0x01TileRequest(TileEntity ent, Set<String> keys) {
         this.dim = ent.getWorldObj().provider.dimensionId;
         this.posX = ent.xCoord;
         this.posY = ent.yCoord;
@@ -126,7 +126,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                         try {
                             provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
-                            WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
+                            WailaExceptionHandler.handleErr(t, Packet0x01TileRequest.class.toString(), null);
                         }
                     }
                 }
@@ -137,7 +137,7 @@ public class Packet0x01TERequest implements IWailaPacket {
                         try {
                             provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
-                            WailaExceptionHandler.handleErr(t, Packet0x01TERequest.class.toString(), null);
+                            WailaExceptionHandler.handleErr(t, Packet0x01TileRequest.class.toString(), null);
                         }
                     }
                 }
@@ -152,7 +152,7 @@ public class Packet0x01TERequest implements IWailaPacket {
             tag.setInteger("WailaZ", posZ);
             tag.setString("WailaID", ((Map<Class<?>, String>) classToNameMap.get(null)).get(entity.getClass()));
 
-            WailaPacketHandler.sendPacketToPlayer(new Packet0x02TENBTData(tag), rawSender);
+            WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), rawSender);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
         }

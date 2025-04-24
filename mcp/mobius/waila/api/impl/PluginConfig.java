@@ -31,7 +31,7 @@ public class PluginConfig implements IPluginConfig {
     /* === */
 
     private final Map<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
-    private final List<String> serverconfigs = new ArrayList<String>();
+    private final List<String> syncedConfigs = new ArrayList<String>();
     public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
     public Configuration config = null;
 
@@ -76,18 +76,18 @@ public class PluginConfig implements IPluginConfig {
         this.modules.get(modName).addOption(key, name);
     }
 
-    public void addConfigServer(String modName, String key, String name) {
-        this.addConfigServer(modName, key, name, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modName, String key, String name) {
+        this.addSyncedConfig(modName, key, name, Constants.CFG_DEFAULT_VALUE);
     }
 
-    public void addConfigServer(String modName, String key, String name, boolean defvalue) {
+    public void addSyncedConfig(String modName, String key, String name, boolean defvalue) {
         this.saveModuleKey(modName, key, defvalue);
 
         if (!this.modules.containsKey(modName))
             this.modules.put(modName, new ConfigModule(modName));
 
         this.modules.get(modName).addOption(key, name);
-        this.serverconfigs.add(key);
+        this.syncedConfigs.add(key);
     }
 
     @Override
@@ -97,19 +97,19 @@ public class PluginConfig implements IPluginConfig {
 
     @Override
     public boolean get(String key, boolean defvalue) {
-        if (this.serverconfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
+        if (this.syncedConfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
             && !FMLCommonHandler.instance().getEffectiveSide().isServer())
             return false;
 
-        if (this.forcedConfigs.containsKey(key))
+        if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return this.forcedConfigs.get(key);
 
         Property prop = config.get(Constants.CATEGORY_MODULES, key, defvalue);
         return prop.getBoolean(defvalue);
     }
 
-    public boolean isServerRequired(String key) {
-        return this.serverconfigs.contains(key);
+    public boolean isSyncedConfig(String key) {
+        return this.syncedConfigs.contains(key);
     }
 
 

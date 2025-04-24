@@ -61,4 +61,9 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public void handleServer(Player rawSender) {
     }
 
+    public static void resetClient() {
+        mod_BlockHelper.INSTANCE.serverPresent = false;
+        PluginConfig.instance().forcedConfigs = new HashMap<String, Boolean>();
+    }
+
 }

@@ -30,6 +30,7 @@ public class WailaConnectionHandler implements IConnectionHandler {
 
     @Override
     public void connectionClosed(INetworkManager manager) {
+        Packet0x00ServerPing.resetClient();
     }
 
     @Override
