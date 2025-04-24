@@ -77,6 +77,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
+        if (ent != null)
+            ent.writeToNBT(tag);
     }
 
     private static String getEntityMod(Entity entity) {

@@ -15,6 +15,7 @@ import net.minecraft.block.BlockStem;
 import net.minecraft.block.BlockStep;
 import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntitySkull;
@@ -69,14 +70,12 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.villager");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
-        registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
 
         if (side.isClient())
             registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
-
-        registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
         if (side.isClient())
             registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
@@ -96,12 +95,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
         registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
-
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
-        registrar.registerNBTProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
 
         if (side.isClient()) {
             registrar.addConfig("VanillaMC", "vanilla.repeaterol");

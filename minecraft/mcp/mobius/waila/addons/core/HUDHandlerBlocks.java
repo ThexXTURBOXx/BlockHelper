@@ -119,6 +119,8 @@ public final class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
+        if (te != null)
+            te.writeToNBT(tag);
     }
 
     private byte getSpawnMode(Chunk chunk, int x, int y, int z) {

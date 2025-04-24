@@ -99,8 +99,6 @@ public final class HUDHandlerFMP implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
-        if (te != null)
-            te.writeToNBT(tag);
     }
 
 }

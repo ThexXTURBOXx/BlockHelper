@@ -44,6 +44,9 @@ public final class CorePlugin implements IWailaPlugin {
             }
         }
 
+        registrar.registerNBTProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+
         registrar.addSyncedConfig("General", "general.invisibleplayers");
 
         if (side.isClient()) {

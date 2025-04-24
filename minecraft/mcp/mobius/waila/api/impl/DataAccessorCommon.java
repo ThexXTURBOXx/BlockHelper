@@ -149,7 +149,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
     }
 
     private boolean isTagCorrectTileEntity(NBTTagCompound tag) {
-        if (tag == null || !tag.hasKey("WailaX")) {
+        if (tag == null || !tag.hasKey("WailaX") || !tag.hasKey("WailaY") || !tag.hasKey("WailaZ")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }

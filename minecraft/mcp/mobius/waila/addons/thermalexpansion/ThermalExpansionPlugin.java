@@ -66,8 +66,6 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tesssendrecv");
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tessfreq");
 
-            registrar.registerNBTProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
-
             if (side.isClient())
                 registrar.registerBodyProvider(HUDHandlerTesseract.INSTANCE, TileTesseractRoot);
         } catch (Throwable t) {

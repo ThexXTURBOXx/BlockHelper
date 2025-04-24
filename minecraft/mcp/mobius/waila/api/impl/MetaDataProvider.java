@@ -1,9 +1,7 @@
 package mcp.mobius.waila.api.impl;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
@@ -40,20 +38,19 @@ public class MetaDataProvider {
         Block block = accessor.getBlock();
         WailaRegistrar registrar = WailaRegistrar.instance();
 
-        if (accessor.getTileEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
-            accessor.resetTimer();
-            Set<String> keys = new HashSet<String>();
-            if (registrar.hasNBTProviders(block) || registrar.hasNBTProviders(accessor.getTileEntity()))
-                WailaPacketHandler.sendPacketToServer(new Packet0x01TileRequest(accessor.getTileEntity(), keys));
-
-        } else if (accessor.getTileEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
-
-            try {
-                NBTTagCompound tag = new NBTTagCompound();
-                accessor.getTileEntity().writeToNBT(tag);
-                accessor.setNBTData(tag);
-            } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+        if (accessor.getTileEntity() != null && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
+            if (mod_BlockHelper.INSTANCE.serverPresent) {
+                accessor.resetTimer();
+                if (registrar.hasNBTProviders(block) || registrar.hasNBTProviders(accessor.getTileEntity()))
+                    WailaPacketHandler.sendPacketToServer(new Packet0x01TileRequest(accessor.getTileEntity()));
+            } else {
+                try {
+                    NBTTagCompound tag = new NBTTagCompound();
+                    accessor.getTileEntity().writeToNBT(tag);
+                    accessor.setNBTData(tag);
+                } catch (Throwable t) {
+                    WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+                }
             }
         }
 
@@ -117,19 +114,19 @@ public class MetaDataProvider {
                                      ITaggedList<String, String> currenttip, TooltipPosition tooltipPosition) {
         WailaRegistrar registrar = WailaRegistrar.instance();
 
-        if (accessor.getEntity() != null && mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)) {
-            accessor.resetTimer();
-            Set<String> keys = new HashSet<String>();
-            if (registrar.hasNBTEntityProviders(accessor.getEntity()))
-                WailaPacketHandler.sendPacketToServer(new Packet0x02EntRequest(accessor.getEntity(), keys));
-        } else if (accessor.getEntity() != null && !mod_BlockHelper.INSTANCE.serverPresent && accessor.isTimeElapsed(250)) {
-
-            try {
-                NBTTagCompound tag = new NBTTagCompound();
-                accessor.getEntity().writeToNBT(tag);
-                accessor.remoteNbt = tag;
-            } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+        if (accessor.getEntity() != null && accessor.isTimeElapsed(250) && PluginConfig.instance().showTooltip()) {
+            if (mod_BlockHelper.INSTANCE.serverPresent) {
+                accessor.resetTimer();
+                if (registrar.hasNBTEntityProviders(accessor.getEntity()))
+                    WailaPacketHandler.sendPacketToServer(new Packet0x02EntRequest(accessor.getEntity()));
+            } else {
+                try {
+                    NBTTagCompound tag = new NBTTagCompound();
+                    accessor.getEntity().writeToNBT(tag);
+                    accessor.setNBTData(tag);
+                } catch (Throwable t) {
+                    WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+                }
             }
         }
 

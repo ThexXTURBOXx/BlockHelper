@@ -3,7 +3,6 @@ package mcp.mobius.waila.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Set;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
@@ -17,52 +16,6 @@ public final class NBTUtil {
 
     private NBTUtil() {
         throw new UnsupportedOperationException();
-    }
-
-    public static NBTBase getTag(String key, NBTTagCompound tag) {
-        String[] path = key.split("\\.");
-
-        NBTTagCompound deepTag = tag;
-        for (String i : path) {
-            if (deepTag.hasKey(i)) {
-                if (deepTag.getTag(i) instanceof NBTTagCompound)
-                    deepTag = deepTag.getCompoundTag(i);
-                else
-                    return deepTag.getTag(i);
-            } else {
-                //Waila.log.log(Level.WARNING, "Leaf " + key + " not found.");
-                return null;
-            }
-        }
-        return deepTag;
-    }
-
-    public static void setTag(String key, NBTTagCompound targetTag, NBTBase addedTag) {
-        String[] path = key.split("\\.");
-
-        NBTTagCompound deepTag = targetTag;
-        for (int i = 0; i < path.length - 1; i++) {
-            if (!deepTag.hasKey(path[i]))
-                deepTag.setTag(path[i], new NBTTagCompound());
-
-            deepTag = deepTag.getCompoundTag(path[i]);
-        }
-
-        deepTag.setTag(path[path.length - 1], addedTag);
-    }
-
-    public static NBTTagCompound createTag(NBTTagCompound inTag, Set<String> keys) {
-        if (keys.contains("*")) return inTag;
-
-        NBTTagCompound outTag = new NBTTagCompound();
-
-        for (String key : keys) {
-            NBTBase tagToAdd = getTag(key, inTag);
-            if (tagToAdd != null)
-                setTag(key, outTag, tagToAdd);
-        }
-
-        return outTag;
     }
 
     public static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, DataOutputStream par1DataOutputStream) throws IOException {

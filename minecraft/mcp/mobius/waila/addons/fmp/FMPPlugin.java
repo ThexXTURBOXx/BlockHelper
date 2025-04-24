@@ -27,8 +27,6 @@ public final class FMPPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            registrar.registerNBTProvider(HUDHandlerFMP.INSTANCE, BlockMultipart);
-
             if (side.isClient()) {
                 registrar.registerDecorator(DecoratorFMP.INSTANCE, BlockMultipart);
 
