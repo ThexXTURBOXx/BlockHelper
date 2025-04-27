@@ -35,12 +35,13 @@ public class PluginConfig implements IPluginConfig {
     public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
     public Configuration config = null;
 
-    public void addModule(String modName, Map<String, String> options) {
-        this.addModule(modName, new ConfigModule(modName, options));
+    public ConfigModule addModule(String modName) {
+        return this.addModule(modName, new ConfigModule(modName));
     }
 
-    public void addModule(String modName, ConfigModule options) {
+    public ConfigModule addModule(String modName, ConfigModule options) {
         this.modules.put(modName, options);
+        return options;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class PluginConfig implements IPluginConfig {
 
     @Override
     public Map<String, String> getKeys(String modName) {
-        return this.modules.containsKey(modName) ? this.modules.get(modName).options : null;
+        return this.modules.containsKey(modName) ? this.modules.get(modName).options : new HashMap<String, String>();
     }
 
     public void addConfig(String modName, String key, String name) {
@@ -58,12 +59,11 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addConfig(String modName, String key, String name, boolean defvalue) {
-        config.get(Constants.CATEGORY_MODULES, key, defvalue);
-        config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
-        config.save();
+        this.config.get(Constants.CATEGORY_MODULES, key, defvalue);
+        this.config.save();
 
         if (!this.modules.containsKey(modName))
-            this.modules.put(modName, new ConfigModule(modName));
+            this.addModule(modName);
 
         this.modules.get(modName).addOption(key, name);
     }
@@ -73,6 +73,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addSyncedConfig(String modName, String key, String name, boolean defvalue) {
+        this.config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
         this.addConfig(modName, key, name, defvalue);
         this.syncedConfigs.add(key);
     }
@@ -91,7 +92,7 @@ public class PluginConfig implements IPluginConfig {
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return this.forcedConfigs.get(key);
 
-        Property prop = config.get(Constants.CATEGORY_MODULES, key, defvalue);
+        Property prop = this.config.get(Constants.CATEGORY_MODULES, key, defvalue);
         return prop.getBoolean(defvalue);
     }
 
@@ -107,23 +108,23 @@ public class PluginConfig implements IPluginConfig {
     /* GENERAL ACCESS METHODS TO GET/SET VALUES IN THE CONFIG FILE */
 
     public boolean get(String category, String key, boolean default_) {
-        Property prop = config.get(category, key, default_);
+        Property prop = this.config.get(category, key, default_);
         return prop.getBoolean(default_);
     }
 
     public void setConfig(String category, String key, boolean state) {
-        config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.BOOLEAN));
-        config.save();
+        this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.BOOLEAN));
+        this.config.save();
     }
 
     public int get(String category, String key, int default_) {
-        Property prop = config.get(category, key, default_);
+        Property prop = this.config.get(category, key, default_);
         return prop.getInt();
     }
 
     public void setConfig(String category, String key, int state) {
-        config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.INTEGER));
-        config.save();
+        this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.INTEGER));
+        this.config.save();
     }
 
 
@@ -137,8 +138,8 @@ public class PluginConfig implements IPluginConfig {
     /* Default config loading */
 
     public void loadDefaultConfig(Configuration cfg) {
-        config = cfg;
-        config.load();
+        this.config = cfg;
+        this.config.load();
 
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true);
@@ -164,15 +165,15 @@ public class PluginConfig implements IPluginConfig {
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
 
-        config.getCategory(Constants.CATEGORY_MODULES).setComment(
+        this.config.getCategory(Constants.CATEGORY_MODULES).setComment(
                 "Those are the config keys defined in modules.\n" +
                 "Server side, it is used to enforce keys client side using the next section.");
-        config.getCategory(Constants.CATEGORY_SERVER).setComment(
+        this.config.getCategory(Constants.CATEGORY_SERVER).setComment(
                 "Any key set to true here will ensure that the client is using the configuration set in the 'module' " +
                 "section above.\n" +
                 "This is useful for enforcing false to 'cheating' keys like silverfish.");
 
-        config.save();
+        this.config.save();
     }
 
 }

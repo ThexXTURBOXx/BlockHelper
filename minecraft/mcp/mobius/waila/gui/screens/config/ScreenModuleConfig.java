@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.screens.config;
 
+import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.interfaces.CType;
@@ -37,19 +38,18 @@ public class ScreenModuleConfig extends ScreenBase {
 
         ButtonContainerLabel buttonContainer = ((ButtonContainerLabel) holder.getWidget("ButtonContainer"));
 
-        Set<String> keys = PluginConfig.instance().getKeys(modName).keySet();
-        for (String key : keys) {
+        Set<Map.Entry<String, String>> entries = PluginConfig.instance().getKeys(modName).entrySet();
+        for (Map.Entry<String, String> e : entries) {
+            String key = e.getKey();
             if (PluginConfig.instance().isSyncedConfig(key))
                 buttonContainer.addButton(new ButtonBooleanSyncedConfig(holder, Constants.CATEGORY_MODULES, key,
-                                "screen.button.no", "screen.button.yes"),
-                        PluginConfig.instance().getKeys(modName).get(key));
+                        "screen.button.no", "screen.button.yes"), e.getValue());
             else
                 buttonContainer.addButton(new ButtonBooleanConfig(holder, Constants.CATEGORY_MODULES, key,
-                                "screen.button.no", "screen.button.yes"),
-                        PluginConfig.instance().getKeys(modName).get(key));
+                        "screen.button.no", "screen.button.yes"), e.getValue());
         }
 
-        int rows = (keys.size() + (columns - 1)) / columns; // = ceilDiv
+        int rows = (entries.size() + (columns - 1)) / columns; // = ceilDiv
         holder.setSize(100.0, spacing * rows);
 
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));

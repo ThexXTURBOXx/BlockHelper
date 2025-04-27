@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api.impl;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ConfigModule {
 
@@ -9,7 +9,7 @@ public class ConfigModule {
     final Map<String, String> options;
 
     public ConfigModule(String modName) {
-        this(modName, new HashMap<String, String>());
+        this(modName, new TreeMap<String, String>());
     }
 
     public ConfigModule(String modName, Map<String, String> options) {
