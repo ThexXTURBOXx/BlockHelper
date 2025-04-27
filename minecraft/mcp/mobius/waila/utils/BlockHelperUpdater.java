@@ -17,6 +17,7 @@ public class BlockHelperUpdater implements Runnable {
                                            + "ThexXTURBOXx/UpdateJSONs/master/block-helper.csv";
 
     public boolean notify = false;
+    private boolean error = false;
     private boolean isLatestVersion = true;
     private String latestVersion = "";
 
@@ -33,7 +34,8 @@ public class BlockHelperUpdater implements Runnable {
                 throw new IllegalStateException("Version not found.");
             } else {
                 latestVersion = latestVersions.get(0);
-                if (latestVersions.contains(mod_BlockHelper.VERSION)) {
+                isLatestVersion = latestVersions.contains(mod_BlockHelper.VERSION);
+                if (isLatestVersion) {
                     mod_BlockHelper.LOG.info(I18n.translate("waila.newest_version_installed",
                             mod_BlockHelper.NAME));
                 } else {
@@ -42,10 +44,17 @@ public class BlockHelperUpdater implements Runnable {
                 }
             }
         } catch (Throwable t) {
+            error = true;
             mod_BlockHelper.LOG.log(Level.WARNING, I18n.translate("waila.update_check_failed",
                     mod_BlockHelper.NAME), t);
         }
-        isLatestVersion = mod_BlockHelper.VERSION.equals(latestVersion);
+    }
+
+    /**
+     * @return whether the updater has failed to check for updates.
+     */
+    public boolean isErrored() {
+        return error;
     }
 
     /**
@@ -86,15 +95,12 @@ public class BlockHelperUpdater implements Runnable {
 
     public void notifyUpdater(Minecraft mc) {
         if (!notify) return;
-        if (!isLatestVersion()) {
-            if (getLatestVersion().equals(mod_BlockHelper.VERSION)) {
-                mc.thePlayer.addChatMessage(I18n.translate("waila.update_check_failed_chat",
-                        mod_BlockHelper.NAME));
-            } else {
-                mc.thePlayer.addChatMessage(I18n.translate("waila.newer_version_available_chat",
-                        mod_BlockHelper.NAME, mod_BlockHelper.VERSION, getLatestVersion()));
-            }
-        }
+        if (isErrored())
+            mc.thePlayer.addChatMessage(I18n.translate("waila.update_check_failed_chat",
+                    mod_BlockHelper.NAME));
+        else if (!isLatestVersion())
+            mc.thePlayer.addChatMessage(I18n.translate("waila.newer_version_available_chat",
+                    mod_BlockHelper.NAME, mod_BlockHelper.VERSION, getLatestVersion()));
     }
 
 }
