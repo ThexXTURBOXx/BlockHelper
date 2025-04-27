@@ -48,16 +48,16 @@ public class DecoratorRenderer {
         if (WailaRegistrar.instance().hasBlockDecorator(block)) {
             for (List<IBlockDecorator> decoratorsList :
                     WailaRegistrar.instance().getBlockDecorators(block).values()) {
-                for (IBlockDecorator decorator : decoratorsList)
+                for (IBlockDecorator decorator : decoratorsList) {
+                    GL11.glPushMatrix();
                     try {
-                        GL11.glPushMatrix();
                         decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor,
                                 PluginConfig.instance());
-                        GL11.glPopMatrix();
                     } catch (Throwable t) {
-                        GL11.glPopMatrix();
                         WailaExceptionHandler.handleErr(t, decorator.getClass().toString(), null);
                     }
+                    GL11.glPopMatrix();
+                }
             }
         }
 

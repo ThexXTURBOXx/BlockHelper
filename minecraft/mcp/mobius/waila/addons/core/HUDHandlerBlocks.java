@@ -26,9 +26,9 @@ import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.DRED;
-import static mcp.mobius.waila.api.SpecialChars.GOLD;
 import static mcp.mobius.waila.api.SpecialChars.GREEN;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
 public final class HUDHandlerBlocks implements IDataProvider {
 
@@ -87,12 +87,12 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (config.get("general.lightlevel") &&
-            SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.creature, w, x, y + 1, z)) {
+            (!w.isBlockNormalCubeDefault(x, y + 1, z, false) || w.isAirBlock(x, y + 1, z))) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             int spawnMode = getSpawnMode(w.getChunkFromBlockCoords(x, z), x, y + 1, z);
-            String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? GOLD : DRED)) + blockLightLevel;
+            String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
-            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + " (" + skyLight + ")");
+            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")");
         }
 
         if (config.get("general.break")) {
