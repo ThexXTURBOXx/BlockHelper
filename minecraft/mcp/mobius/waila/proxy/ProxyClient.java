@@ -1,7 +1,6 @@
 package mcp.mobius.waila.proxy;
 
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.nei.NEIHandler;
@@ -12,7 +11,6 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
-import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyCommon {
@@ -26,9 +24,6 @@ public class ProxyClient extends ProxyCommon {
         super.prepare();
 
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
-
-        I18n.INSTANCE.addLangDirFromHost(ProxyClient.class, "/assets/waila/lang");
-        LanguageRegistry.reloadLanguageTable();
 
         if (Loader.isModLoaded("NotEnoughItems")) {
             try {

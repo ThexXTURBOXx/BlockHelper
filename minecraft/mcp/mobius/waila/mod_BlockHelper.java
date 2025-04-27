@@ -4,6 +4,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import java.io.File;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BaseMod;
@@ -67,9 +69,12 @@ public class mod_BlockHelper extends BaseMod {
     public void load() {
         INSTANCE = this;
 
+        // PRE INIT
+        I18n.INSTANCE.addLangDirFromHost(mod_BlockHelper.class, "/assets/waila/lang");
+        LanguageRegistry.reloadLanguageTable();
+
         new Thread(UPDATER, "Block Helper Version Check").start();
 
-        // PRE INIT
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
