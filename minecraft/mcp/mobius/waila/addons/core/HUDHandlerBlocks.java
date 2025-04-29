@@ -10,18 +10,15 @@ import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
+import mcp.mobius.waila.utils.SpawnUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
@@ -89,7 +86,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (config.get("general.lightlevel") &&
             (!w.isBlockNormalCubeDefault(x, y + 1, z, false) || w.isAirBlock(x, y + 1, z))) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
-            int spawnMode = getSpawnMode(w.getChunkFromBlockCoords(x, z), x, y + 1, z);
+            byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
             currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")");
@@ -121,20 +118,6 @@ public final class HUDHandlerBlocks implements IDataProvider {
                                  IServerDataAccessor accessor, IPluginConfig config) {
         if (te != null)
             te.writeToNBT(tag);
-    }
-
-    private byte getSpawnMode(Chunk chunk, int x, int y, int z) {
-        if (!SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, chunk.worldObj, x, y, z) ||
-            chunk.getSavedLightValue(EnumSkyBlock.Block, x & 0xF, y, z & 0xF) >= 8)
-            return 0;
-        AxisAlignedBB aabb = AxisAlignedBB.getAABBPool().getAABB(
-                x + 0.2, y + 0.01, z + 0.2, x + 0.8, y + 1.8, z + 0.8);
-        if (!chunk.worldObj.checkNoEntityCollision(aabb) ||
-            !chunk.worldObj.getCollidingBlockBounds(aabb).isEmpty() || chunk.worldObj.isAnyLiquid(aabb))
-            return 0;
-        if (chunk.getSavedLightValue(EnumSkyBlock.Sky, x & 0xF, y, z & 0xF) >= 8)
-            return 1;
-        return 2;
     }
 
 }
