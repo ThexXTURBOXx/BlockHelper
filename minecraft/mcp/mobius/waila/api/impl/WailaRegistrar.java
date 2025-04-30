@@ -15,7 +15,6 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.I18n;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 
@@ -76,43 +75,43 @@ public class WailaRegistrar implements IRegistrar {
 
     /* CONFIG HANDLING */
     @Override
-    public void addConfig(String modname, String key, String configname) {
-        this.addConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
+    public void addConfig(String modName, String key, String translationKey) {
+        this.addConfig(modName, key, translationKey, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
-    public void addSyncedConfig(String modname, String key, String configname) {
-        this.addSyncedConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modName, String key, String translationKey) {
+        this.addSyncedConfig(modName, key, translationKey, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
-    public void addConfig(String modname, String key) {
-        this.addConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
+    public void addConfig(String modName, String key) {
+        this.addConfig(modName, key, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
-    public void addSyncedConfig(String modname, String key) {
-        this.addSyncedConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modName, String key) {
+        this.addSyncedConfig(modName, key, Constants.CFG_DEFAULT_VALUE);
     }
 
     @Override
-    public void addConfig(String modname, String key, String configname, boolean defvalue) {
-        PluginConfig.instance().addConfig(modname, key, I18n.translate(configname), defvalue);
+    public void addConfig(String modName, String key, boolean defValue) {
+        this.addConfig(modName, key, "option." + key, defValue);
     }
 
     @Override
-    public void addSyncedConfig(String modname, String key, String configname, boolean defvalue) {
-        PluginConfig.instance().addSyncedConfig(modname, key, I18n.translate(configname), defvalue);
+    public void addSyncedConfig(String modName, String key, boolean defValue) {
+        this.addSyncedConfig(modName, key, "option." + key, defValue);
     }
 
     @Override
-    public void addConfig(String modname, String key, boolean defvalue) {
-        PluginConfig.instance().addConfig(modname, key, I18n.translate("option." + key), defvalue);
+    public void addConfig(String modName, String key, String translationKey, boolean defValue) {
+        PluginConfig.instance().addConfig(modName, key, translationKey, defValue);
     }
 
     @Override
-    public void addSyncedConfig(String modname, String key, boolean defvalue) {
-        PluginConfig.instance().addSyncedConfig(modname, key, I18n.translate("option." + key), defvalue);
+    public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
+        PluginConfig.instance().addSyncedConfig(modName, key, translationKey, defValue);
     }
 
 

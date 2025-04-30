@@ -54,27 +54,27 @@ public class PluginConfig implements IPluginConfig {
         return this.modules.containsKey(modName) ? this.modules.get(modName).options : new HashMap<String, String>();
     }
 
-    public void addConfig(String modName, String key, String name) {
-        this.addConfig(modName, key, name, Constants.CFG_DEFAULT_VALUE);
+    public void addConfig(String modName, String key, String translationKey) {
+        this.addConfig(modName, key, translationKey, Constants.CFG_DEFAULT_VALUE);
     }
 
-    public void addConfig(String modName, String key, String name, boolean defvalue) {
-        this.config.get(Constants.CATEGORY_MODULES, key, defvalue);
+    public void addConfig(String modName, String key, String translationKey, boolean defValue) {
+        this.config.get(Constants.CATEGORY_MODULES, key, defValue);
         this.config.save();
 
         if (!this.modules.containsKey(modName))
             this.addModule(modName);
 
-        this.modules.get(modName).addOption(key, name);
+        this.modules.get(modName).addOption(key, translationKey);
     }
 
-    public void addSyncedConfig(String modName, String key, String name) {
-        this.addSyncedConfig(modName, key, name, Constants.CFG_DEFAULT_VALUE);
+    public void addSyncedConfig(String modName, String key, String translationKey) {
+        this.addSyncedConfig(modName, key, translationKey, Constants.CFG_DEFAULT_VALUE);
     }
 
-    public void addSyncedConfig(String modName, String key, String name, boolean defvalue) {
-        this.config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
-        this.addConfig(modName, key, name, defvalue);
+    public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
+        this.config.get(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
+        this.addConfig(modName, key, translationKey, defValue);
         this.syncedConfigs.add(key);
     }
 

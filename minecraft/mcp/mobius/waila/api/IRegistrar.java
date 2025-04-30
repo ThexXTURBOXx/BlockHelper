@@ -8,28 +8,28 @@ package mcp.mobius.waila.api;
  * interface, you only need to specify it to cover the whole hierarchy.</br>
  * For the registration of blocks, both Blocks and TileEntities are accepted.<p>
  * For the configuration keys:</br>
- * modname refers to a String used for display in Waila's config panel.</br>
- * keyname refers to a unique key used internally for config query (cf. {@link IPluginConfig}).</br>
+ * modName refers to a String used for display in Waila's config panel.</br>
+ * keyName refers to a unique key used internally for config query (cf. {@link IPluginConfig}).</br>
  * Those keys are shared across Waila, keep them unique!</br>
  */
 public interface IRegistrar {
 
-    /* Add a config option in the section modname with displayed text configtext and access key keyname */
-    void addConfig(String modname, String keyname, String configtext);
+    /* Add a config option in the section modName with translationKey for display text and access key keyName */
+    void addConfig(String modName, String keyName, String translationKey);
 
-    void addConfig(String modname, String keyname, String configtext, boolean defvalue);
+    void addConfig(String modName, String keyName, String translationKey, boolean defValue);
 
-    void addSyncedConfig(String modname, String keyname, String configtext);
+    void addSyncedConfig(String modName, String keyName, String translationKey);
 
-    void addSyncedConfig(String modname, String keyname, String configtext, boolean defvalue);
+    void addSyncedConfig(String modName, String keyName, String translationKey, boolean defValue);
 
-    void addConfig(String modname, String keyname);
+    void addConfig(String modName, String keyName);
 
-    void addConfig(String modname, String keyname, boolean defvalue);
+    void addConfig(String modName, String keyName, boolean defValue);
 
-    void addSyncedConfig(String modname, String keyname);
+    void addSyncedConfig(String modName, String keyName);
 
-    void addSyncedConfig(String modname, String keyname, boolean defvalue);
+    void addSyncedConfig(String modName, String keyName, boolean defValue);
 
     /* Register a stack overrider for the given blockID */
     void registerStackProvider(IDataProvider dataProvider, Class<?> block);

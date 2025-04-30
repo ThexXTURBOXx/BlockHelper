@@ -17,8 +17,8 @@ public class ConfigModule {
         this.options = options;
     }
 
-    public void addOption(String key, String name) {
-        this.options.put(key, name);
+    public void addOption(String key, String translationKey) {
+        this.options.put(key, translationKey);
     }
 
 }
