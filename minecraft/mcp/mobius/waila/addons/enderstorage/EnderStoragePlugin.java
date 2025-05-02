@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class EnderStoragePlugin implements IWailaPlugin {
 
@@ -26,7 +27,7 @@ public final class EnderStoragePlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("codechicken.enderstorage.EnderStorage");
+            AccessHelper.getClass("codechicken.enderstorage.EnderStorage");
             mod_BlockHelper.LOG.log(Level.INFO, "[EnderStorage] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -40,13 +41,14 @@ public final class EnderStoragePlugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            TileFrequencyOwner = Class.forName("codechicken.enderstorage.common.TileFrequencyOwner");
-            TileFrequencyOwner_Freq = TileFrequencyOwner.getField("freq");
+            TileFrequencyOwner = AccessHelper.getClass("codechicken.enderstorage.common.TileFrequencyOwner");
+            TileFrequencyOwner_Freq = AccessHelper.getField(TileFrequencyOwner, "freq");
 
-            EnderStorageManager = Class.forName("codechicken.enderstorage.api.EnderStorageManager");
-            GetColourFromFreq = EnderStorageManager.getDeclaredMethod("getColourFromFreq", Integer.TYPE, Integer.TYPE);
+            EnderStorageManager = AccessHelper.getClass("codechicken.enderstorage.api.EnderStorageManager");
+            GetColourFromFreq = AccessHelper.getDeclaredMethod(EnderStorageManager, new Class[]{int.class, int.class},
+                    "getColourFromFreq");
 
-            TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
+            TileEnderTank = AccessHelper.getClass("codechicken.enderstorage.storage.liquid.TileEnderTank");
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found.", e);
             return;

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class IC2Plugin implements IWailaPlugin {
 
@@ -22,7 +23,7 @@ public final class IC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("ic2.core.IC2");
+            AccessHelper.getClass("ic2.core.IC2");
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -35,10 +36,10 @@ public final class IC2Plugin implements IWailaPlugin {
     public void register(IRegistrar registrar, Side side) {
         // XXX: We register the Energy interface first
         try {
-            TileBaseGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
-            TileBaseGenerator_storage = TileBaseGenerator.getField("storage");
-            TileBaseGenerator_maxStorage = TileBaseGenerator.getField("maxStorage");
-            TileBaseGenerator_production = TileBaseGenerator.getField("production");
+            TileBaseGenerator = AccessHelper.getClass("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
+            TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
+            TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
+            TileBaseGenerator_production = AccessHelper.getField(TileBaseGenerator, "production");
 
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");

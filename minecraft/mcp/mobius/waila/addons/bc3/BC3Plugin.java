@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class BC3Plugin implements IWailaPlugin {
 
@@ -29,7 +30,7 @@ public final class BC3Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("buildcraft.BuildCraftCore");
+            AccessHelper.getClass("buildcraft.BuildCraftCore");
             mod_BlockHelper.LOG.log(Level.INFO, "[BC3] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -41,16 +42,19 @@ public final class BC3Plugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            TileEngine = Class.forName("buildcraft.energy.TileEngine");
-            Engine = Class.forName("buildcraft.energy.Engine");
-            IPowerReceptor = Class.forName("buildcraft.api.power.IPowerReceptor");
-            IPowerProvider = Class.forName("buildcraft.api.power.IPowerProvider");
-            TileEngine_engine = TileEngine.getField("engine");
-            Engine_energy = Engine.getField("energy");
-            Engine_maxEnergy = Engine.getField("maxEnergy");
-            IPowerReceptor_getPowerProvider = IPowerReceptor.getMethod("getPowerProvider");
-            IPowerProvider_getEnergyStored = IPowerProvider.getMethod("getEnergyStored");
-            IPowerProvider_getMaxEnergyStored = IPowerProvider.getMethod("getMaxEnergyStored");
+            TileEngine = AccessHelper.getClass("buildcraft.energy.TileEngine");
+            Engine = AccessHelper.getClass("buildcraft.energy.Engine");
+            IPowerReceptor = AccessHelper.getClass("buildcraft.api.power.IPowerReceptor");
+            IPowerProvider = AccessHelper.getClass("buildcraft.api.power.IPowerProvider");
+            TileEngine_engine = AccessHelper.getField(TileEngine, "engine");
+            Engine_energy = AccessHelper.getField(Engine, "energy");
+            Engine_maxEnergy = AccessHelper.getField(Engine, "maxEnergy");
+            IPowerReceptor_getPowerProvider = AccessHelper.getMethod(IPowerReceptor, new Class[0],
+                    "getPowerProvider");
+            IPowerProvider_getEnergyStored = AccessHelper.getMethod(IPowerProvider, new Class[0],
+                    "getEnergyStored");
+            IPowerProvider_getMaxEnergyStored = AccessHelper.getMethod(IPowerProvider, new Class[0],
+                    "getMaxEnergyStored");
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 

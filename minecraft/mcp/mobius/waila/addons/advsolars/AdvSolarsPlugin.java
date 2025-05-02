@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class AdvSolarsPlugin implements IWailaPlugin {
 
@@ -25,7 +26,7 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("advsolar.AdvancedSolarPanel");
+            AccessHelper.getClass("advsolar.AdvancedSolarPanel");
             mod_BlockHelper.LOG.log(Level.INFO, "[Advanced Solar Panels] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -37,9 +38,9 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            TileEntitySolarPanel = Class.forName("advsolar.TileEntitySolarPanel");
-            TileEntitySolarPanel_storage = TileEntitySolarPanel.getField("storage");
-            TileEntitySolarPanel_maxStorage = TileEntitySolarPanel.getField("maxStorage");
+            TileEntitySolarPanel = AccessHelper.getClass("advsolar.TileEntitySolarPanel");
+            TileEntitySolarPanel_storage = AccessHelper.getField(TileEntitySolarPanel, "storage");
+            TileEntitySolarPanel_maxStorage = AccessHelper.getField(TileEntitySolarPanel, "maxStorage");
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
@@ -52,9 +53,9 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
         }
 
         try {
-            TileEntityQGenerator = Class.forName("advsolar.TileEntityQGenerator");
-            TileEntityQGenerator_production = TileEntityQGenerator.getField("production");
-            TileEntityQGenerator_maxPacketSize = TileEntityQGenerator.getField("maxPacketSize");
+            TileEntityQGenerator = AccessHelper.getClass("advsolar.TileEntityQGenerator");
+            TileEntityQGenerator_production = AccessHelper.getField(TileEntityQGenerator, "production");
+            TileEntityQGenerator_maxPacketSize = AccessHelper.getField(TileEntityQGenerator, "maxPacketSize");
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.qproduction");
 

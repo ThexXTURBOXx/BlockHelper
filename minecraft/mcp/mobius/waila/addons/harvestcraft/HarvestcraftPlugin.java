@@ -7,6 +7,7 @@ import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class HarvestcraftPlugin implements IWailaPlugin {
 
@@ -21,7 +22,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("mods.PamHarvestCraft.PamHarvestCraft");
+            AccessHelper.getClass("mods.PamHarvestCraft.PamHarvestCraft");
             mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -35,8 +36,8 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            BlockPamCrop = Class.forName("mods.PamHarvestCraft.BlockPamCrop");
-            BlockPamCrop_getCropItem = BlockPamCrop.getMethod("getCropItem");
+            BlockPamCrop = AccessHelper.getClass("mods.PamHarvestCraft.BlockPamCrop");
+            BlockPamCrop_getCropItem = AccessHelper.getMethod(BlockPamCrop, new Class[0], "getCropItem");
 
             registrar.registerStackProvider(HUDHandlerPamCrops.INSTANCE, BlockPamCrop);
 

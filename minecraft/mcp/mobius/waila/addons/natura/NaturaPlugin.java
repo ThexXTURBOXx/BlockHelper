@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
@@ -30,7 +31,7 @@ public final class NaturaPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("mods.natura.Natura");
+            AccessHelper.getClass("mods.natura.Natura");
             mod_BlockHelper.LOG.log(Level.INFO, "[Natura] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -44,9 +45,9 @@ public final class NaturaPlugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            CropBlock = Class.forName("mods.natura.blocks.crops.CropBlock");
-            CropBlock_getCropItem = CropBlock.getDeclaredMethod("getCropItem", int.class);
-            CropBlock_getCropItem.setAccessible(true);
+            CropBlock = AccessHelper.getClass("mods.natura.blocks.crops.CropBlock");
+            CropBlock_getCropItem = AccessHelper.getDeclaredMethod(CropBlock, new Class[]{int.class},
+                    "getCropItem");
 
             registrar.registerStackProvider(HUDHandlerNaturaCrops.INSTANCE, CropBlock);
 
@@ -69,8 +70,8 @@ public final class NaturaPlugin implements IWailaPlugin {
         }
 
         try {
-            BerryBush = Class.forName("mods.natura.blocks.crops.BerryBush");
-            NetherBerryBush = Class.forName("mods.natura.blocks.crops.NetherBerryBush");
+            BerryBush = AccessHelper.getClass("mods.natura.blocks.crops.BerryBush");
+            NetherBerryBush = AccessHelper.getClass("mods.natura.blocks.crops.NetherBerryBush");
 
             ICropProvider provider = new DefaultCropProvider(2, 3) {
                 @Override

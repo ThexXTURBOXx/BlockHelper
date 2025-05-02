@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class AdvMachinesPlugin implements IWailaPlugin {
 
@@ -21,7 +22,7 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("mods.immibis.am2.AdvancedMachines");
+            AccessHelper.getClass("mods.immibis.am2.AdvancedMachines");
             mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -33,11 +34,9 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            TileAM2BaseGenerator = Class.forName("mods.immibis.am2.TileAM2Base");
-            TileAM2BaseGenerator_stored = TileAM2BaseGenerator.getDeclaredField("storedEnergy");
-            TileAM2BaseGenerator_maxStorage = TileAM2BaseGenerator.getDeclaredField("MAX_STORAGE");
-            TileAM2BaseGenerator_stored.setAccessible(true);
-            TileAM2BaseGenerator_maxStorage.setAccessible(true);
+            TileAM2BaseGenerator = AccessHelper.getClass("mods.immibis.am2.TileAM2Base");
+            TileAM2BaseGenerator_stored = AccessHelper.getDeclaredField(TileAM2BaseGenerator, "storedEnergy");
+            TileAM2BaseGenerator_maxStorage = AccessHelper.getDeclaredField(TileAM2BaseGenerator, "MAX_STORAGE");
 
             registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
 

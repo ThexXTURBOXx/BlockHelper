@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.entity.item.EntityMinecart;
 
 public final class RailcraftPlugin implements IWailaPlugin {
@@ -17,7 +18,7 @@ public final class RailcraftPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("mods.railcraft.common.core.Railcraft");
+            AccessHelper.getClass("mods.railcraft.common.core.Railcraft");
             mod_BlockHelper.LOG.log(Level.INFO, "[Railcraft] Mod found.");
             return true;
         } catch (Throwable t) {

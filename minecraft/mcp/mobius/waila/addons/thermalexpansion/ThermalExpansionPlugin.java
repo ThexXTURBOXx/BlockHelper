@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class ThermalExpansionPlugin implements IWailaPlugin {
 
@@ -29,7 +30,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("thermalexpansion.ThermalExpansion");
+            AccessHelper.getClass("thermalexpansion.ThermalExpansion");
             mod_BlockHelper.LOG.log(Level.INFO, "[Thermal Expansion] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -42,9 +43,9 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
     public void register(IRegistrar registrar, Side side) {
         // XXX: We register the energy cell
         try {
-            TileEnergyCell = Class.forName("thermalexpansion.block.device.TileEnergyCell");
-            TileEnergyCell_Recv = TileEnergyCell.getField("energyReceive");
-            TileEnergyCell_Send = TileEnergyCell.getField("energySend");
+            TileEnergyCell = AccessHelper.getClass("thermalexpansion.block.device.TileEnergyCell");
+            TileEnergyCell_Recv = AccessHelper.getField(TileEnergyCell, "energyReceive");
+            TileEnergyCell_Send = AccessHelper.getField(TileEnergyCell, "energySend");
 
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.energycell");
 
@@ -58,10 +59,10 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
 
         // XXX: We register the Tesseract interface
         try {
-            TileTesseractRoot = Class.forName("thermalexpansion.block.tesseract.TileTesseractRoot");
-            TileTesseractItem = Class.forName("thermalexpansion.block.tesseract.TileTesseractItem");
-            TileTesseractLiquid = Class.forName("thermalexpansion.block.tesseract.TileTesseractLiquid");
-            TileTesseractEnergy = Class.forName("thermalexpansion.block.tesseract.TileTesseractEnergy");
+            TileTesseractRoot = AccessHelper.getClass("thermalexpansion.block.tesseract.TileTesseractRoot");
+            TileTesseractItem = AccessHelper.getClass("thermalexpansion.block.tesseract.TileTesseractItem");
+            TileTesseractLiquid = AccessHelper.getClass("thermalexpansion.block.tesseract.TileTesseractLiquid");
+            TileTesseractEnergy = AccessHelper.getClass("thermalexpansion.block.tesseract.TileTesseractEnergy");
 
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tesssendrecv");
             registrar.addSyncedConfig("Thermal Expansion", "thermalexpansion.tessfreq");
@@ -75,8 +76,8 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
         if (side.isClient()) {
             // XXX: We register the Tank interface
             try {
-                TileTank = Class.forName("thermalexpansion.block.device.TileTankPortable");
-                TileTank_mode = TileTank.getField("mode");
+                TileTank = AccessHelper.getClass("thermalexpansion.block.device.TileTankPortable");
+                TileTank_mode = AccessHelper.getField(TileTank, "mode");
 
                 registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
                 registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TileTank);

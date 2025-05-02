@@ -2,9 +2,11 @@ package mcp.mobius.waila.addons.core;
 
 import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.Entity;
@@ -27,20 +29,10 @@ public final class CorePlugin implements IWailaPlugin {
     public void register(IRegistrar registrar, Side side) {
         if (side.isClient()) {
             try {
-                curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("g");
-                curBlockDamageMP.setAccessible(true);
+                curBlockDamageMP = AccessHelper.getDeclaredField(PlayerControllerMP.class,
+                        "g", "field_78770_f", "curBlockDamageMP");
             } catch (Throwable t) {
-                try {
-                    curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("field_78770_f");
-                    curBlockDamageMP.setAccessible(true);
-                } catch (Throwable t1) {
-                    try {
-                        curBlockDamageMP = PlayerControllerMP.class.getDeclaredField("curBlockDamageMP");
-                        curBlockDamageMP.setAccessible(true);
-                    } catch (Throwable t2) {
-                        throw new RuntimeException(t2);
-                    }
-                }
+                throw new RuntimeException(t);
             }
         }
 

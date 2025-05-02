@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public final class AppEngPlugin implements IWailaPlugin {
 
@@ -21,7 +22,7 @@ public final class AppEngPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("appeng.common.AppEng");
+            AccessHelper.getClass("appeng.common.AppEng");
             mod_BlockHelper.LOG.log(Level.INFO, "[Applied Energistics] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -33,9 +34,11 @@ public final class AppEngPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            IMEPowerStorage = Class.forName("appeng.api.me.tiles.IMEPowerStorage");
-            IMEPowerStorage_currentPower = IMEPowerStorage.getMethod("getMECurrentPower");
-            IMEPowerStorage_maxPower = IMEPowerStorage.getMethod("getMEMaxPower");
+            IMEPowerStorage = AccessHelper.getClass("appeng.api.me.tiles.IMEPowerStorage");
+            IMEPowerStorage_currentPower = AccessHelper.getMethod(IMEPowerStorage, new Class[0],
+                    "getMECurrentPower");
+            IMEPowerStorage_maxPower = AccessHelper.getMethod(IMEPowerStorage, new Class[0],
+                    "getMEMaxPower");
 
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
