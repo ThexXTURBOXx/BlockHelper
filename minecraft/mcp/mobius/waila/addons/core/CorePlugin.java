@@ -10,12 +10,15 @@ import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 
 public final class CorePlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new CorePlugin();
 
     static Field curBlockDamageMP;
+
+    static Method getDropItemId;
 
     private CorePlugin() {
     }
@@ -31,6 +34,8 @@ public final class CorePlugin implements IWailaPlugin {
             try {
                 curBlockDamageMP = AccessHelper.getDeclaredField(PlayerControllerMP.class,
                         "g", "field_78770_f", "curBlockDamageMP");
+                getDropItemId = AccessHelper.getDeclaredMethod(EntityLiving.class, new Class[0],
+                        "be", "func_70633_aT", "getDropItemId");
             } catch (Throwable t) {
                 throw new RuntimeException(t);
             }

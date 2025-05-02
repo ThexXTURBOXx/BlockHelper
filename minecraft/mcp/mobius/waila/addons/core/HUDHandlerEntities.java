@@ -9,11 +9,14 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import static mcp.mobius.waila.addons.core.CorePlugin.getDropItemId;
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.RED;
@@ -33,6 +36,16 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        if (accessor.getEntity() instanceof EntityLiving) {
+            try {
+                EntityLiving living = (EntityLiving) accessor.getEntity();
+                int dropId = (Integer) getDropItemId.invoke(living);
+                if (dropId > 0)
+                    return new ItemStack(dropId, 1, 0);
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, String.valueOf(accessor.getEntity()), null);
+            }
+        }
         return accessor.getEntity().getPickedResult(accessor.getPosition());
     }
 
