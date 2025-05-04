@@ -18,8 +18,7 @@ import static mcp.mobius.waila.api.SpecialChars.MCStyle;
 
 public final class ModIdentification {
 
-    public static Map<String, String> modSource_Name = new HashMap<String, String>();
-    public static Map<String, String> modSource_ID = new HashMap<String, String>();
+    public static Map<String, String> modSource = new HashMap<String, String>();
     public static Map<Integer, String> itemMap = new HashMap<Integer, String>();
 
     private ModIdentification() {
@@ -35,23 +34,15 @@ public final class ModIdentification {
             itemMap.put(itemData.getItemId(), itemData.getModId());
         }
 
-        for (ModContainer mod : Loader.instance().getModList()) {
-            modSource_Name.put(mod.getSource().getName(), formatModName(mod.getName()));
-            modSource_ID.put(mod.getSource().getName(), mod.getModId());
-        }
+        for (ModContainer mod : Loader.instance().getModList())
+            modSource.put(mod.getSource().getName(), formatModName(mod.getName()));
 
-        modSource_Name.put("minecraft.jar", "Minecraft");
-        modSource_Name.put("Forge", "Minecraft");
-        modSource_Name.put("Forge Mod Loader", "Minecraft");
-        modSource_Name.put("Minecraft Forge", "Minecraft");
-        modSource_Name.put("Minecraft Coder Pack", "Minecraft");
-        modSource_Name.put("Mod Coder Pack", "Minecraft");
-        modSource_ID.put("minecraft.jar", "Minecraft");
-        modSource_ID.put("Forge", "Minecraft");
-        modSource_ID.put("Forge Mod Loader", "Minecraft");
-        modSource_ID.put("Minecraft Forge", "Minecraft");
-        modSource_ID.put("Minecraft Coder Pack", "Minecraft");
-        modSource_ID.put("Mod Coder Pack", "Minecraft");
+        modSource.put("minecraft.jar", "Minecraft");
+        modSource.put("Forge", "Minecraft");
+        modSource.put("Forge Mod Loader", "Minecraft");
+        modSource.put("Minecraft Forge", "Minecraft");
+        modSource.put("Minecraft Coder Pack", "Minecraft");
+        modSource.put("Mod Coder Pack", "Minecraft");
     }
 
     public static String nameFromObject(Object obj) {
@@ -64,33 +55,9 @@ public final class ModIdentification {
         }
 
         String modName = null;
-        for (String s : modSource_Name.keySet())
+        for (String s : modSource.keySet())
             if (objPath.contains(s)) {
-                modName = modSource_Name.get(s);
-                break;
-            }
-
-        if (modName == null)
-            modName = "<" + I18n.translate("hud.msg.unknown") + ">";
-        else if (modName.equals("Minecraft Coder Pack"))
-            modName = "Minecraft";
-
-        return modName;
-    }
-
-    public static String idFromObject(Object obj) {
-        String objPath = obj.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
-
-        try {
-            objPath = URLDecoder.decode(objPath, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "idFromObject", e);
-        }
-
-        String modName = null;
-        for (String s : modSource_ID.keySet())
-            if (objPath.contains(s)) {
-                modName = modSource_ID.get(s);
+                modName = modSource.get(s);
                 break;
             }
 
