@@ -177,10 +177,9 @@ public final class DisplayUtil {
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
-        Minecraft.getMinecraft().renderEngine.bindTexture("/gui/icons.png");
+        if (icon == null) return;
 
-        if (icon == null)
-            return;
+        Minecraft.getMinecraft().renderEngine.bindTexture(icon.texture);
 
         if (icon.bu != -1)
             DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
