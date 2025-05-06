@@ -10,9 +10,6 @@ public final class Constants {
     public static final String BIND_WAILA_RECIPE = "waila.keybind.recipe";
     public static final String BIND_WAILA_USAGE = "waila.keybind.usage";
 
-    public static final String CFG_NEI_SHOW = "world.highlight_tips";
-    public static final String BIND_NEI_SHOW = "keys.world.highlight_tips";
-
     public static final boolean CFG_DEFAULT_VALUE = true;
     public static final String CFG_WAILA_SHOW = "waila.cfg.show";
     public static final String CFG_WAILA_MODE = "waila.cfg.showmode";

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.nei;
 
-import codechicken.nei.NEIClientConfig;
 import codechicken.nei.api.API;
 import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
@@ -28,15 +27,9 @@ public final class NEIHandler {
         GuiContainerManager.addTooltipHandler(TooltipHandlerWaila.INSTANCE);
         WailaRegistrar.instance().addConfig("Not Enough Items", "nei.modtooltips");
 
-        // We mute the default keybind for displaying the tooltip
-        NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
-        NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
-
         GuiContainerManager.addInputHandler(HandlerEnchants.INSTANCE);
         API.addKeyBind(Constants.BIND_SCREEN_ENCH, I18n.translate("nei.options.keys.showenchant"), Keyboard.KEY_I);
     }
-
-    public static boolean firstInventory = true;
 
     public static void openRecipeGUI(boolean recipe) {
         Minecraft mc = Minecraft.getMinecraft();
@@ -46,14 +39,8 @@ public final class NEIHandler {
         List<ItemStack> stacks = RayTracing.instance().getIdentifierItems();
         if (stacks.isEmpty()) return;
 
-        mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
-        if (firstInventory) {
-            try {
-                Thread.sleep(1000);
-            } catch (Throwable ignored) {
-            }
-            firstInventory = false;
-        }
+        GuiInventory inv = new GuiInventory(mc.thePlayer);
+        mc.displayGuiScreen(inv);
 
         if (recipe) {
             if (!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())) {
