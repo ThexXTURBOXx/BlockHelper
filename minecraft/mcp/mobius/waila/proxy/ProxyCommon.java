@@ -61,4 +61,7 @@ public class ProxyCommon {
                 plugin.register(registrar, side);
     }
 
+    public void postLoad() {
+    }
+
 }

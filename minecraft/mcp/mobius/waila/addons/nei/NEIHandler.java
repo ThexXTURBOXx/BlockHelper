@@ -6,6 +6,7 @@ import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import java.util.List;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
@@ -25,6 +26,7 @@ public final class NEIHandler {
 
     public static void register() {
         GuiContainerManager.addTooltipHandler(TooltipHandlerWaila.INSTANCE);
+        WailaRegistrar.instance().addConfig("Not Enough Items", "nei.modtooltips");
 
         // We mute the default keybind for displaying the tooltip
         NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);

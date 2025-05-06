@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.nei;
 
 import codechicken.nei.forge.IContainerTooltipHandler;
 import java.util.List;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
@@ -23,6 +24,7 @@ public final class TooltipHandlerWaila implements IContainerTooltipHandler {
 
     @Override
     public List<String> handleItemTooltip(GuiContainer guiContainer, ItemStack itemStack, List<String> list) {
+        if (!PluginConfig.instance().get("nei.modtooltips")) return list;
         String canonicalName = ModIdentification.nameFromStack(itemStack);
         if (canonicalName != null && !canonicalName.isEmpty())
             list.add(BLUE + ITALIC + canonicalName);
