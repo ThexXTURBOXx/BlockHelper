@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'xyz.wagyourtail.unimined' version '1.3.14'
+}
+
+group = project.mod_group
+version = project.mod_version
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(6)
+    }
+}
+
+repositories {
+    flatDir {
+        name = 'libs'
+        dirs('libs')
+    }
+}
+
+unimined.minecraft {
+    version project.mc_version
+
+    minecraftForge {
+        loader project.forge_version
+    }
+
+    mappings {
+        stub.withMappings(["searge", "mcp"]) {
+            c("BaseMod", "net/minecraft/src/BaseMod", "net/minecraft/src/BaseMod")
+            c("BaseModMp", "net/minecraft/src/BaseModMp", "net/minecraft/src/BaseModMp")
+            c("ModLoader", "net/minecraft/src/ModLoader", "net/minecraft/src/ModLoader")
+            c("ModLoaderMp", "net/minecraft/src/ModLoaderMp", "net/minecraft/src/ModLoaderMp")
+        }
+    }
+}
+
+remapJar {
+    prodNamespace("searge")
+}
+
+dependencies {
+    modImplementation(":CodeChickenCore 0.8.7.3-fix1")
+    modImplementation(":NotEnoughItems 1.5.2.28")
+}

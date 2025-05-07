@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        maven {
+            url = uri("https://maven.wagyourtail.xyz/releases")
+        }
+        maven {
+            url = uri("https://maven.wagyourtail.xyz/snapshots")
+        }
+        mavenCentral()
+        gradlePluginPortal {
+            content {
+                excludeGroup("org.apache.logging.log4j")
+            }
+        }
+    }
+}
+
+rootProject.name = "BlockHelper-$mc_version"
