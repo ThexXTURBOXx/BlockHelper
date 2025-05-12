@@ -2,9 +2,10 @@
   {
     "modid": "mod_BlockHelper",
     "name": "Block Helper",
-    "version": "2.0.0-pre1",
+    "version": "${mod_version}",
+    "mcversion": "${mc_version}",
     "url": "https://github.com/ThexXTURBOXx/BlockHelper",
-    "updateUrl": "",
+    "updateUrl": "https://modrinth.com/mod/block-helper",
     "credits": "Created by HyperSpeeed",
     "authors": [
       "HyperSpeeed"

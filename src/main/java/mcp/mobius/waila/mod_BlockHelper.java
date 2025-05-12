@@ -33,8 +33,8 @@ public class mod_BlockHelper extends BaseMod {
     public static final String PACKAGE = "mcp.mobius.waila.";
     public static final String MOD_ID = "mod_BlockHelper";
     public static final String NAME = "Block Helper";
-    public static final String VERSION = "2.0.0-pre1";
-    public static final String MC_VERSION = "1.5.2";
+    public static final String VERSION = "@MOD_VERSION@";
+    public static final String MC_VERSION = "@MC_VERSION@";
     public static final String CHANNEL = "BlockHelper";
     public static final Logger LOG = Logger.getLogger(NAME);
     public static final BlockHelperUpdater UPDATER = new BlockHelperUpdater();

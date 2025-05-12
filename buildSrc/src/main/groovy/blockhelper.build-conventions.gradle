@@ -1,3 +1,4 @@
+import org.apache.tools.ant.filters.ReplaceTokens
 import org.objectweb.asm.*
 
 ext {
@@ -56,3 +57,40 @@ ext {
         })
     }
 }
+
+tasks.register('processSource', Sync) {
+    from sourceSets.main.java
+    inputs.property 'mod_version', project.mod_version
+    inputs.property 'mc_version', project.mc_version
+    filter(ReplaceTokens, tokens: [
+            MOD_VERSION: project.mod_version,
+            MC_VERSION : project.mc_version
+    ])
+    into layout.buildDirectory.dir("src")
+}
+
+compileJava {
+    source = processSource.outputs
+}
+
+processResources {
+    inputs.property("mod_version", mod_version)
+    inputs.property("mc_version", mc_version)
+
+    filesMatching("mcmod.info") {
+        expand(inputs.properties)
+    }
+}
+
+// Copy the jar into root directory for better symlinking capabilities
+tasks.register('copyJarsToRoot', Copy) {
+    dependsOn 'build'
+    destinationDir = file('build/libs')
+    from {
+        return fileTree(dir: 'build/libs', include: '*.jar').exclude { it.name.endsWith('-dev.jar') }
+    }
+    rename { String fileName ->
+        fileName.replace("-${mod_version}", "")
+    }
+}
+build.finalizedBy copyJarsToRoot

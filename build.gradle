@@ -20,6 +20,10 @@ repositories {
         name = 'libs'
         dirs('libs')
     }
+    unimined.fabricMaven
+    unimined.legacyFabricMaven
+    unimined.minecraftForgeMaven
+    unimined.wagYourMaven('releases')
 }
 
 LegacyATReader.leinient = true // Forge's AT just ignores invalid entries

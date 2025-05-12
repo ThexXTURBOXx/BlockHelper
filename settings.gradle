@@ -15,5 +15,4 @@ pluginManagement {
     }
 }
 
-// rootProject.name = "BlockHelper-$mc_version"
-rootProject.name = "BlockHelper-1.5.x"
+rootProject.name = "BlockHelper-$mc_version_display"
