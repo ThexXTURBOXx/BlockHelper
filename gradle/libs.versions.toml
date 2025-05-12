@@ -1,0 +1,5 @@
+[versions]
+unimined = '1.4.1-SNAPSHOT'
+
+[plugins]
+unimined = { id = 'xyz.wagyourtail.unimined', version.ref = 'unimined' }
