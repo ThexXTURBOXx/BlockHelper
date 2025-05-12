@@ -1,8 +1,9 @@
-import xyz.wagyourtail.unimined.mapping.formats.at.LegacyATReader;
+import xyz.wagyourtail.unimined.mapping.formats.at.LegacyATReader
 
 plugins {
     id 'java'
     alias(libs.plugins.unimined)
+    id 'blockhelper.build-conventions'
 }
 
 group = project.mod_group
@@ -36,7 +37,14 @@ unimined.minecraft {
             c("BaseModMp", "net/minecraft/src/BaseModMp")
             c("ModLoader", "net/minecraft/src/ModLoader")
             c("ModLoaderMp", "net/minecraft/src/ModLoaderMp")
+            // c("mod_BlockHelper", "net/minecraft/src/mod_BlockHelper") //  Not in 1.5.x!
+            // c("mod_BlockHelper\$Accessor", "net/minecraft/src/mod_BlockHelper\$Accessor") //  Not in 1.5.x!
+            c("Packet230ModLoader", "net/minecraft/src/Packet230ModLoader")
         }
+    }
+
+    mods.modImplementation {
+        remapper ext.configureSigFixRemapper
     }
 }
 

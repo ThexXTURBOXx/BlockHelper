@@ -1,0 +1,58 @@
+import org.objectweb.asm.*
+
+ext {
+    configureSigFixRemapper = {
+        it.extraPreApplyVisitor({ c, v ->
+            return new ClassVisitor(Opcodes.ASM9, v) { // this will remove the signatures where needed
+                @Override
+                void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+                    try {
+                        super.visit(version, access, name, signature, superName, interfaces)
+                    } catch (Throwable ignored) {
+                        super.visit(version, access, name, null, superName, interfaces) // remove faulty signature
+                    }
+                }
+
+                @Override
+                RecordComponentVisitor visitRecordComponent(String name, String descriptor, String signature) {
+                    try {
+                        return super.visitRecordComponent(name, descriptor, signature)
+                    } catch (Throwable ignored) {
+                        return super.visitRecordComponent(name, descriptor, null) // remove faulty signature
+                    }
+                }
+
+                @Override
+                FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+                    try {
+                        return super.visitField(access, name, descriptor, signature, value)
+                    } catch (Throwable ignored) {
+                        return super.visitField(access, name, descriptor, null, value) // remove faulty signature
+                    }
+                }
+
+                @Override
+                MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                    MethodVisitor mv;
+                    try {
+                        mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                    } catch (Throwable ignored) {
+                        // remove faulty signature
+                        mv = super.visitMethod(access, name, descriptor, null, exceptions)
+                    }
+                    return new MethodVisitor(Opcodes.ASM9, mv) {
+                        @Override
+                        void visitLocalVariable(String name1, String descriptor1, String signature1, Label start, Label end, int index) {
+                            try {
+                                super.visitLocalVariable(name1, descriptor1, signature1, start, end, index)
+                            } catch (Throwable ignored) {
+                                // remove faulty signature
+                                super.visitLocalVariable(name1, descriptor1, null, start, end, index)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+}
