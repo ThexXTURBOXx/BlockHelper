@@ -83,7 +83,7 @@ public final class DisplayUtil {
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderHelper.enableGUIStandardItemLighting();
+        RenderHelper.func_41089_c();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         try {
             renderItem.renderItemIntoGUI(fontRenderer, renderEngine, stack, x, y);
@@ -166,7 +166,7 @@ public final class DisplayUtil {
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
             namelist.set(0, "Unnamed");
 
-        namelist.set(0, MCStyle + Integer.toHexString(itemstack.getRarity().field_40535_e) + namelist.get(0));
+        namelist.set(0, MCStyle + Integer.toHexString(itemstack.func_40707_s().field_40535_e) + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, GRAY + namelist.get(i));
 

@@ -1,10 +1,8 @@
 package mcp.mobius.waila.addons.nei;
 
-import codechicken.nei.API;
 import codechicken.nei.GuiCraftingRecipe;
 import codechicken.nei.GuiUsageRecipe;
 import java.util.List;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
@@ -19,11 +17,6 @@ public final class NEIHandler {
 
     private NEIHandler() {
         throw new UnsupportedOperationException();
-    }
-
-    public static void register() {
-        API.addTooltipHandler(TooltipHandlerWaila.INSTANCE);
-        WailaRegistrar.instance().addConfig("Not Enough Items", "nei.modtooltips");
     }
 
     public static void openRecipeGUI(boolean recipe) {

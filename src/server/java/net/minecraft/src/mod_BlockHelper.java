@@ -41,11 +41,6 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
     public String getVersion() {
         return VERSION;
     }
@@ -77,21 +72,21 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void modsLoaded() {
+    public void ModsLoaded() {
         // LOAD COMPLETE
-        super.modsLoaded();
+        super.ModsLoaded();
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
     }
 
     @Override
-    public void handleLogin(EntityPlayerMP player) {
+    public void HandleLogin(EntityPlayerMP player) {
         WailaPacketHandler.sendPacketToPlayer(new Packet0x00ServerPing(), player);
     }
 
     @Override
-    public void handlePacket(Packet230ModLoader payload, EntityPlayerMP source) {
+    public void HandlePacket(Packet230ModLoader payload, EntityPlayerMP source) {
         WailaPacketHandler.INSTANCE.onPacketData(source, payload);
     }
 

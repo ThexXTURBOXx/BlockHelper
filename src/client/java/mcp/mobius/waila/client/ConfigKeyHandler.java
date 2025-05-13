@@ -27,19 +27,19 @@ public class ConfigKeyHandler {
     public final KeyBinding keyCBOverlay;
 
     public ConfigKeyHandler(mod_BlockHelper mod) {
-        ModLoader.registerKey(mod, keyCfg =
+        ModLoader.RegisterKey(mod, keyCfg =
                 new KeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0), false);
-        ModLoader.registerKey(mod, keyShow =
+        ModLoader.RegisterKey(mod, keyShow =
                 new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
-        ModLoader.registerKey(mod, keyLiquid =
+        ModLoader.RegisterKey(mod, keyLiquid =
                 new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
-        ModLoader.registerKey(mod, keyRecipe =
+        ModLoader.RegisterKey(mod, keyRecipe =
                 new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
-        ModLoader.registerKey(mod, keyUsage =
+        ModLoader.RegisterKey(mod, keyUsage =
                 new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
-        ModLoader.registerKey(mod, keyLLOverlay =
+        ModLoader.RegisterKey(mod, keyLLOverlay =
                 new KeyBinding(Constants.BIND_WAILA_LLOVERLAY, Keyboard.KEY_F7), false);
-        ModLoader.registerKey(mod, keyCBOverlay =
+        ModLoader.RegisterKey(mod, keyCBOverlay =
                 new KeyBinding(Constants.BIND_WAILA_CBOVERLAY, Keyboard.KEY_F9), false);
     }
 

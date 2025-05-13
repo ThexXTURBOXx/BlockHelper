@@ -22,7 +22,7 @@ public final class NBTUtil {
         if (par0NBTTagCompound == null) {
             par1DataOutputStream.writeShort(-1);
         } else {
-            byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
+            byte[] abyte = CompressedStreamTools.writeMapToByteArray(par0NBTTagCompound);
 
             if (abyte.length > 32000)
                 par1DataOutputStream.writeShort(-1);
@@ -41,7 +41,7 @@ public final class NBTUtil {
         } else {
             byte[] abyte = new byte[short1];
             par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.decompress(abyte);
+            return CompressedStreamTools.loadMapFromByteArray(abyte);
         }
     }
 

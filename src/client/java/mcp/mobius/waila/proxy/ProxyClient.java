@@ -1,7 +1,5 @@
 package mcp.mobius.waila.proxy;
 
-import java.util.logging.Level;
-import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
@@ -21,7 +19,7 @@ public class ProxyClient extends ProxyCommon {
     public void prepare() {
         super.prepare();
 
-        ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
+        ModLoader.SetInGameHook(mod_BlockHelper.INSTANCE, true, false);
     }
 
     @Override
@@ -33,21 +31,6 @@ public class ProxyClient extends ProxyCommon {
         registrar.registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
         registrar.registerTooltipRenderer("waila.stack", new TTRenderStack());
         registrar.registerTooltipRenderer("waila.string", new TTRenderString());
-    }
-
-    @Override
-    public void postLoad() {
-        super.postLoad();
-
-        if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
-            try {
-                NEIHandler.register();
-                mod_BlockHelper.LOG.info("[NEI] Successfully registered NEI hooks!");
-            } catch (Throwable t) {
-                mod_BlockHelper.LOG.log(Level.WARNING,
-                        "[NEI] Failed to hook into NEI properly. Mod names not shown in item tooltips.", t);
-            }
-        }
     }
 
 }

@@ -55,11 +55,6 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
     public String getVersion() {
         return VERSION;
     }
@@ -95,16 +90,18 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void modsLoaded() {
+    public void ModsLoaded() {
         // LOAD COMPLETE
-        super.modsLoaded();
+        super.ModsLoaded();
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
     }
 
     @Override
-    public boolean onTickInGame(float time, Minecraft mc) {
+    public boolean OnTickInGame(float time, Minecraft mc) {
+        I18n.INSTANCE.update();
+
         if (mc.theWorld != null && mc.thePlayer != null) {
             CONFIG_KEY_HANDLER.onTickInGame(mc);
             TICK_HANDLER.onTickInGame(mc);
@@ -117,7 +114,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void handlePacket(Packet230ModLoader packet) {
+    public void HandlePacket(Packet230ModLoader packet) {
         WailaPacketHandler.INSTANCE.onPacketData(packet);
     }
 
@@ -152,7 +149,7 @@ public class mod_BlockHelper extends BaseModMp {
             } catch (Throwable ignored) {
             }
 
-            if (b.blockMaterial.isHarvestable())
+            if (b.blockMaterial.getIsHarvestable())
                 return true;
             ItemStack stack = player.inventory.getCurrentItem();
             if (stack == null)

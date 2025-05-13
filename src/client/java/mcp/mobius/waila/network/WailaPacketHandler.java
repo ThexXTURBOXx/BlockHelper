@@ -119,8 +119,8 @@ public class WailaPacketHandler {
     }
 
     public static void sendPacketToServer(IWailaPacket packet) {
-        if (ModLoader.getMinecraftInstance().theWorld.isRemote)
-            ModLoaderMp.sendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
+        if (ModLoader.getMinecraftInstance().theWorld.multiplayerWorld)
+            ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
         else
             WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);
     }

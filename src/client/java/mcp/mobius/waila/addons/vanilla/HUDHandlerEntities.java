@@ -7,21 +7,20 @@ import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityAgeable;
 import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityOcelot;
 import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
-import net.minecraft.src.EntityTameable;
 import net.minecraft.src.EntityVillager;
 import net.minecraft.src.EntityWolf;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.isWheat;
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public final class HUDHandlerEntities implements IEntityProvider {
@@ -69,7 +68,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
             }
 
         if (config.get("vanilla.breed"))
-            if (entity instanceof EntityAgeable) {
+            if (entity instanceof EntityAnimal) {
                 int age = accessor.getNBTInteger("Age");
                 if (age < 0) {
                     currenttip.add(I18n.translate("hud.msg.adult_in") + ": " +
@@ -78,57 +77,38 @@ public final class HUDHandlerEntities implements IEntityProvider {
                     if (age > 0) {
                         currenttip.add(I18n.translate("hud.msg.cooldown") + ": " +
                                        I18n.translate("hud.msg.seconds_format", age / 20));
-                    } else if (entity instanceof EntityAnimal) {
+                    } else {
                         EntityAnimal animal = (EntityAnimal) entity;
                         int inLove = accessor.getNBTInteger("InLove");
-                        if (inLove != 0)
-                            currenttip.add(I18n.translate("hud.msg.in_love") + ": " +
-                                           I18n.translate("hud.msg.seconds_format", inLove / 20));
-                        else if (accessor.getPlayer().getCurrentEquippedItem() != null &&
-                                 animal.isWheat(accessor.getPlayer().getCurrentEquippedItem()))
-                            currenttip.add(I18n.translate("hud.msg.can_be_bred"));
+                        try {
+                            if (inLove != 0)
+                                currenttip.add(I18n.translate("hud.msg.in_love") + ": " +
+                                               I18n.translate("hud.msg.seconds_format", inLove / 20));
+                            else if (accessor.getPlayer().getCurrentEquippedItem() != null &&
+                                     (Boolean) isWheat.invoke(animal, accessor.getPlayer().getCurrentEquippedItem()))
+                                currenttip.add(I18n.translate("hud.msg.can_be_bred"));
+                        } catch (Throwable t) {
+                            WailaExceptionHandler.handleErr(t, animal.getClass(), currenttip);
+                        }
                     }
                 }
             }
 
         if (config.get("vanilla.tame")) {
-            if (entity instanceof EntityTameable) {
+            if (entity instanceof EntityWolf) {
                 String ownerName = accessor.getNBTData().getString("Owner");
                 boolean isTamed = ownerName != null && !ownerName.isEmpty();
-                if (isTamed)
+                if (isTamed) {
                     currenttip.add(I18n.translate("hud.msg.owner") + ": " + ownerName);
 
-                if (entity instanceof EntityWolf) {
-                    if (isTamed) {
-                        int collarColor = accessor.getNBTInteger("CollarColor");
-                        currenttip.add(I18n.translate("hud.msg.collar") + ": " +
-                                       I18n.color(BlockCloth.getDyeFromBlock(collarColor)));
-                    }
-                    boolean angry = accessor.getNBTData().getBoolean("Angry");
-                    if (angry)
-                        currenttip.add(I18n.translate("hud.msg.state") + ": " +
-                                       I18n.translate("hud.msg.angry"));
+                    int collarColor = accessor.getNBTInteger("CollarColor");
+                    currenttip.add(I18n.translate("hud.msg.collar") + ": " +
+                                   I18n.color(BlockCloth.getDyeFromBlock(collarColor)));
                 }
-
-                if (entity instanceof EntityOcelot && isTamed) {
-                    String breed = "hud.msg.please_report";
-                    switch (accessor.getNBTInteger("CatType")) {
-                    case 0:
-                        // Usually should not happen since it is tamed
-                        breed = "hud.msg.cat.ocelote";
-                        break;
-                    case 1:
-                        breed = "hud.msg.cat.black";
-                        break;
-                    case 2:
-                        breed = "hud.msg.cat.red";
-                        break;
-                    case 3:
-                        breed = "hud.msg.cat.siamese";
-                        break;
-                    }
-                    currenttip.add(I18n.translate("hud.msg.breed") + ": " + I18n.translate(breed));
-                }
+                boolean angry = accessor.getNBTData().getBoolean("Angry");
+                if (angry)
+                    currenttip.add(I18n.translate("hud.msg.state") + ": " +
+                                   I18n.translate("hud.msg.angry"));
             }
         }
 

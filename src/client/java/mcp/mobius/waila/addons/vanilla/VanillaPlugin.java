@@ -1,8 +1,10 @@
 package mcp.mobius.waila.addons.vanilla;
 
+import java.lang.reflect.Method;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
 import net.minecraft.src.BlockNetherStalk;
@@ -11,7 +13,9 @@ import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStem;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
 
 public final class VanillaPlugin implements IWailaPlugin {
@@ -40,6 +44,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block pistonMoving = Block.pistonMoving;
     static Block brewingStand = Block.brewingStand;
 
+    static Method isWheat;
+
     private VanillaPlugin() {
     }
 
@@ -50,6 +56,13 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
+        try {
+            isWheat = AccessHelper.getDeclaredMethod(EntityAnimal.class, new Class[]{ItemStack.class},
+                    "a", "func_40143_a", "isWheat");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");

@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
@@ -17,12 +19,17 @@ import java.util.zip.ZipFile;
 import net.minecraft.src.ItemDye;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.StatCollector;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public class I18n {
 
     public static final I18n INSTANCE = new I18n(null);
     public final String prefix;
+
+    private static String lastLanguage = StringTranslate.getInstance().func_44024_c();
+    private static Properties translateTable;
+    private static final Map<String, Properties> langToTable = new HashMap<String, Properties>();
 
     public I18n(String prefix) {
         this.prefix = prefix;
@@ -70,13 +77,50 @@ public class I18n {
         Properties prop = new Properties();
         prop.load(reader);
         reader.close();
+        langToTable.put(lang, prop);
+        init();
+    }
+
+    private static void addLocalization(String key, String value) {
+        ModLoader.AddLocalization(key, value);
+        if (translateTable != null)
+            translateTable.put(key, value);
+    }
+
+    public void init() {
+        try {
+            translateTable = (Properties) ModLoader.getPrivateValue(
+                    StringTranslate.class, StringTranslate.getInstance(), 1);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.throwing("I18n", "init", t);
+            ModLoader.ThrowException("Exception occurred in BlockHelper", t);
+        }
+
+        Properties lang = langToTable.get(StringTranslate.getInstance().func_44024_c());
+        Properties enUS = langToTable.get("en_US");
+        if (enUS == null) return;
+
+        loadLanguageFromProperties(enUS);
+        if (lang != null)
+            loadLanguageFromProperties(lang);
+    }
+
+    private void loadLanguageFromProperties(Properties prop) {
         for (String key : prop.stringPropertyNames()) {
             if (key == null) continue;
             String value = prop.getProperty(key);
             if (this.prefix != null) {
                 key = this.prefix + "." + key;
             }
-            ModLoader.addLocalization(key, lang, value);
+            addLocalization(key, value);
+        }
+    }
+
+    public void update() {
+        String newLang = StringTranslate.getInstance().func_44024_c();
+        if (!lastLanguage.equals(newLang)) {
+            lastLanguage = newLang;
+            init();
         }
     }
 
@@ -126,7 +170,6 @@ public class I18n {
             dir = dir.substring(1);
         }
         try {
-            ZipEntry langToReload = null;
             ZipFile zf = new ZipFile(jar);
             Enumeration<? extends ZipEntry> entries = zf.entries();
             while (entries.hasMoreElements()) {
@@ -136,18 +179,8 @@ public class I18n {
                     (name.endsWith(".lang") || name.endsWith(".properties"))) {
                     this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1,
                             name.lastIndexOf('.')));
-                    if (name.endsWith("en_US.lang") || name.endsWith("en_US.properties"))
-                        langToReload = entry;
                 }
             }
-            // Load translations again in current language in order to fix
-            // stupid bug in Forge, reported through Discord...
-            if (langToReload != null) {
-                String name = langToReload.getName();
-                this.addLangFile(zf.getInputStream(langToReload), name.substring(name.lastIndexOf('/') + 1,
-                        name.lastIndexOf('.')));
-            }
-            zf.close();
         } catch (IOException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "Error while reading lang zip file: " + jar.getPath(), e);
         }

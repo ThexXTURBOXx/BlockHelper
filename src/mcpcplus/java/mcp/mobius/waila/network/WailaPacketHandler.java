@@ -108,7 +108,7 @@ public class WailaPacketHandler {
     }
 
     public static void sendPacketToPlayer(IWailaPacket packet, EntityPlayer player) {
-        ModLoaderMp.sendPacketTo(mod_BlockHelper.INSTANCE, player, wrapMLPacket(packet));
+        ModLoaderMp.SendPacketTo(mod_BlockHelper.INSTANCE, player, wrapMLPacket(packet));
     }
 
 }

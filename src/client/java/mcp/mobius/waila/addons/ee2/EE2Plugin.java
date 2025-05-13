@@ -22,10 +22,10 @@ public final class EE2Plugin implements IWailaPlugin {
     public boolean shouldRegister() {
         try {
             AccessHelper.getClass("mod_EE");
-            mod_BlockHelper.LOG.log(Level.INFO, "[EE2] Mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[EE1/2] Mod found.");
             return true;
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[EE2] Mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[EE1/2] Mod not found.");
         }
         return false;
     }
@@ -36,11 +36,11 @@ public final class EE2Plugin implements IWailaPlugin {
             Class<?> EEMaps = AccessHelper.getClass("ee.EEMaps");
             EEMaps_getEMC = AccessHelper.getMethod(EEMaps, new Class[]{ItemStack.class}, "getEMC");
 
-            registrar.addConfig("Equivalent Exchange 2", "ee2.emc");
+            registrar.addConfig("Equivalent Exchange 1/2", "ee2.emc");
 
             registrar.registerBodyProvider(HUDHandlerEMC.INSTANCE, Block.class);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[EE2] Error while loading EMC hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[EE1/2] Error while loading EMC hooks.", t);
         }
     }
 
