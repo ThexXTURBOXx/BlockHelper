@@ -1,7 +1,6 @@
 import xyz.wagyourtail.unimined.mapping.formats.at.LegacyATReader
 
 plugins {
-    id 'java'
     alias(libs.plugins.unimined)
     id 'blockhelper.build-conventions'
 }

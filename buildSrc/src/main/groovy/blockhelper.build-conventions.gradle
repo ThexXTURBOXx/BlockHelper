@@ -4,6 +4,10 @@ import org.objectweb.asm.*
 import java.nio.file.Files
 import java.nio.file.LinkOption
 
+plugins {
+    id 'java'
+}
+
 ext {
     configureSigFixRemapper = {
         it.extraPreApplyVisitor({ c, v ->
@@ -61,27 +65,29 @@ ext {
     }
 }
 
-tasks.register('processSource', Sync) {
-    from sourceSets.main.java
-    inputs.property 'mod_version', project.mod_version
-    inputs.property 'mc_version', project.mc_version
-    filter(ReplaceTokens, tokens: [
-            MOD_VERSION: project.mod_version,
-            MC_VERSION : project.mc_version
-    ])
-    into layout.buildDirectory.dir("src")
-}
+sourceSets.configureEach { ss ->
+    def processSource = tasks.register("process${ss.name.capitalize()}Source", Sync) {
+        from ss.java
+        inputs.property 'mod_version', project.mod_version
+        inputs.property 'mc_version', project.mc_version
+        filter(ReplaceTokens, tokens: [
+                MOD_VERSION: project.mod_version,
+                MC_VERSION : project.mc_version
+        ])
+        into layout.buildDirectory.dir("src/${ss.name}")
+    }
 
-compileJava {
-    source = processSource.outputs
-}
+    tasks.named(ss.compileJavaTaskName) {
+        source = processSource.get()
+        dependsOn processSource
+    }
 
-processResources {
-    inputs.property("mod_version", mod_version)
-    inputs.property("mc_version", mc_version)
-
-    filesMatching("mcmod.info") {
-        expand(inputs.properties)
+    tasks.named(ss.processResourcesTaskName) {
+        inputs.property("mod_version", mod_version)
+        inputs.property("mc_version", mc_version)
+        filesMatching("mcmod.info") {
+            expand(inputs.properties)
+        }
     }
 }
 
@@ -90,10 +96,9 @@ tasks.register('symlinkJars') {
     dependsOn 'build'
 
     doLast {
-        File symlinkDir = file("build/libs");
+        File symlinkDir = layout.buildDirectory.dir("libs").get().asFile;
         File[] files = symlinkDir.listFiles({ f ->
-            f.isFile() && !Files.isSymbolicLink(f.toPath()) &&
-                    f.name.endsWith(".jar") && !f.name.endsWith("-dev.jar")
+            f.isFile() && !Files.isSymbolicLink(f.toPath()) && f.name.endsWith(".jar")
         } as FileFilter)
 
         for (File file : files) {
@@ -110,7 +115,7 @@ tasks.register('symlinkJars') {
             try {
                 Files.createSymbolicLink(symlinkPath, targetPath)
             } catch (IOException e) {
-                throw new GradleException("Error creating symlink: ${e.message}", e)
+                throw new GradleException("Error creating generic symlink", e)
             }
         }
     }
