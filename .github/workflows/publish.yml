@@ -1,0 +1,126 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      mod_version:
+        description: 'Mod Version'
+        default: '2.0.0'
+        required: true
+
+env:
+  MOD_VERSION: ${{ inputs.mod_version }}
+  GAME_VERSIONS_CF: |
+    1.5
+    1.5.1
+    1.5.2
+  GAME_VERSIONS_MR: |
+    1.5
+    1.5.1
+    1.5.2
+  LOADERS_CF: |
+    forge
+  LOADERS_MR: |
+    forge
+  MC_VERSION: 1.5.x
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download JDK 6
+        run: |
+          download_url="https://github.com/NicosMinecraftArchive/jdk1.6.0_45/raw/refs/heads/master/jdk-6u45-linux-x64.tar.gz"
+          wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
+
+      - name: Set up JDK 6
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          java-version: '1.6'
+          architecture: x64
+          mvn-toolchain-vendor: 'Oracle'
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+          cache: 'gradle'
+
+      #      TODO: Set up Crowdin...
+      #      - name: crowdin action
+      #        uses: crowdin/github-action@v2
+      #        with:
+      #          push_sources: false
+      #          upload_sources: false
+      #          push_translations: false
+      #          upload_translations: false
+      #          download_translations: false
+      #          create_pull_request: false
+      #          download_bundle: 6
+      #        env:
+      #          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      #          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+
+      - name: Set mod_version
+        run: sed -i -E "s/(mod_version\s*=\s*).+/\1${{ env.MOD_VERSION }}/" gradle.properties
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Tag release on GitHub
+        uses: Kir-Antipov/mc-publish@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: LICENSE
+          name: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          version: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          github-tag: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          github-commitish: ${{ github.sha }}
+          github-generate-changelog: true
+
+      - name: Publish build to Modrinth
+        uses: Kir-Antipov/mc-publish@v3
+        if: env.GAME_VERSIONS_MR != '' && env.LOADERS_MR != ''
+        with:
+          modrinth-id: CiDIVfkf
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          files: |
+            build/libs/*-${{ env.MOD_VERSION }}*.jar
+            build/libs/*-${{ env.MOD_VERSION }}*-dev.jar
+          name: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          version: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          changelog: |
+            Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
+          loaders: ${{ env.LOADERS_MR }}
+          game-versions: ${{ env.GAME_VERSIONS_MR }}
+          java: |
+            6
+            7
+            8
+
+      - name: Publish build to CurseForge
+        uses: Kir-Antipov/mc-publish@v3
+        if: env.GAME_VERSIONS_CF != '' && env.LOADERS_CF != ''
+        with:
+          curseforge-id: 251766
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: |
+            build/libs/*-${{ env.MOD_VERSION }}*.jar
+            build/libs/*-${{ env.MOD_VERSION }}*-dev.jar
+          name: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          version: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
+          changelog: |
+            Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
+          loaders: ${{ env.LOADERS_CF }}
+          game-versions: ${{ env.GAME_VERSIONS_CF }}
+          java: |
+            6
+            7
+            8
