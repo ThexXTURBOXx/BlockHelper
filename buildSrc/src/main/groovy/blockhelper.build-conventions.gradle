@@ -1,6 +1,9 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.objectweb.asm.*
 
+import java.nio.file.Files
+import java.nio.file.LinkOption
+
 ext {
     configureSigFixRemapper = {
         it.extraPreApplyVisitor({ c, v ->
@@ -82,15 +85,34 @@ processResources {
     }
 }
 
-// Copy the jar into root directory for better symlinking capabilities
-tasks.register('copyJarsToRoot', Copy) {
+// Create main symlink for easier symlink access
+tasks.register('symlinkJars') {
     dependsOn 'build'
-    destinationDir = file('build/libs')
-    from {
-        return fileTree(dir: 'build/libs', include: '*.jar').exclude { it.name.endsWith('-dev.jar') }
-    }
-    rename { String fileName ->
-        fileName.replace("-${mod_version}", "")
+
+    doLast {
+        File symlinkDir = file("build/libs");
+        File[] files = symlinkDir.listFiles({ f ->
+            f.isFile() && !Files.isSymbolicLink(f.toPath()) &&
+                    f.name.endsWith(".jar") && !f.name.endsWith("-dev.jar")
+        } as FileFilter)
+
+        for (File file : files) {
+            java.nio.file.Path symlinkPath = symlinkDir.toPath().resolve(file.getName().replace("-${mod_version}", "")).toAbsolutePath()
+            java.nio.file.Path targetPath = file.toPath().toAbsolutePath()
+
+            if (Files.exists(symlinkPath, LinkOption.NOFOLLOW_LINKS)) {
+                java.nio.file.Path currentLink = Files.readSymbolicLink(symlinkPath)
+                if (currentLink == targetPath) continue
+
+                Files.delete(symlinkPath)
+            }
+
+            try {
+                Files.createSymbolicLink(symlinkPath, targetPath)
+            } catch (IOException e) {
+                throw new GradleException("Error creating symlink: ${e.message}", e)
+            }
+        }
     }
 }
-build.finalizedBy copyJarsToRoot
+build.finalizedBy symlinkJars
