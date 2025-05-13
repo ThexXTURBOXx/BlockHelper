@@ -9,11 +9,9 @@ import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityEggInfo;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IMob;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
@@ -46,13 +44,6 @@ public final class HUDHandlerEntities implements IEntityProvider {
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), null);
             }
-        }
-        try {
-            int id = EntityList.getEntityID(accessor.getEntity());
-            EntityEggInfo info = (EntityEggInfo) EntityList.field_44041_a.get(id);
-            if (info != null)
-                return new ItemStack(Item.field_44019_bC, 1, info.field_46063_a);
-        } catch (Throwable ignored) {
         }
         return null;
     }

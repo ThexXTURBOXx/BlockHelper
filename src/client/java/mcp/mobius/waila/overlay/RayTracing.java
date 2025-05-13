@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import forge.IShearable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +16,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EnumMovingObjectType;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
@@ -216,16 +214,6 @@ public class RayTracing {
             if(items.size() > 0)
                 return items;
             */
-
-            try {
-                if (mouseoverBlock instanceof IShearable) {
-                    IShearable shearable = (IShearable) mouseoverBlock;
-                    if (shearable.isShearable(new ItemStack(Item.shears), world, x, y, z)) {
-                        items.addAll(shearable.onSheared(new ItemStack(Item.shears), world, x, y, z, 0));
-                    }
-                }
-            } catch (Throwable ignored) {
-            }
 
             if (items.isEmpty())
                 items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));

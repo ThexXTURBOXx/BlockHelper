@@ -1,7 +1,9 @@
 package net.minecraft.src;
 
 import forge.ForgeHooksClient;
+import forge.IRenderWorldLastHandler;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -17,6 +19,7 @@ import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
@@ -66,7 +69,7 @@ public class mod_BlockHelper extends BaseModMp {
         proxy = new ProxyClient();
 
         // PRE INIT
-        I18n.INSTANCE.addLangDirFromHost(mod_BlockHelper.class, "/assets/waila/lang");
+        I18n.INSTANCE.addDefaultLangFromHost(mod_BlockHelper.class, "/assets/waila/lang");
 
         new Thread(UPDATER, "Block Helper Version Check").start();
 
@@ -76,8 +79,10 @@ public class mod_BlockHelper extends BaseModMp {
 
         // INIT
         try {
-            ForgeHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
-            ForgeHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
+            Field f = AccessHelper.getDeclaredField(ForgeHooksClient.class, "renderWorldLastHandlers");
+            List<IRenderWorldLastHandler> renderWorldLastHandlers = (List<IRenderWorldLastHandler>) f.get(null);
+            renderWorldLastHandlers.add(new DecoratorRenderer());
+            renderWorldLastHandlers.add(new NEIOverlayRenderer());
         } catch (Throwable t) {
             LOG.info("Forge not detected. Overlays and decorators will not work.");
         }
@@ -100,8 +105,6 @@ public class mod_BlockHelper extends BaseModMp {
 
     @Override
     public boolean OnTickInGame(float time, Minecraft mc) {
-        I18n.INSTANCE.update();
-
         if (mc.theWorld != null && mc.thePlayer != null) {
             CONFIG_KEY_HANDLER.onTickInGame(mc);
             TICK_HANDLER.onTickInGame(mc);
@@ -129,7 +132,7 @@ public class mod_BlockHelper extends BaseModMp {
             if (w == null) return null;
             try {
                 if (w instanceof WorldClient) {
-                    Entity e = ((WorldClient) w).getEntityByID(entityId);
+                    Entity e = ((WorldClient) w).func_709_b(entityId);
                     if (e != null)
                         return e;
                 }

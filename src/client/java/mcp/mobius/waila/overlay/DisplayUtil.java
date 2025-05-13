@@ -34,7 +34,7 @@ public final class DisplayUtil {
     private static final RenderItem renderItem = new RenderItem();
 
     static {
-        renderItem.zLevel = 200.0F; // important for enchantment glint
+        renderItem.field_40268_b = 200.0F; // important for enchantment glint
     }
 
     private DisplayUtil() {
@@ -153,7 +153,7 @@ public final class DisplayUtil {
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = null;
         try {
-            namelist = (List<String>) itemstack.getItemNameandInformation();
+            namelist = (List<String>) itemstack.func_40712_q();
         } catch (Throwable ignored) {
         }
 

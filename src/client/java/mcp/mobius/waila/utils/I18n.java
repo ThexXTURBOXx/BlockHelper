@@ -10,8 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
@@ -19,17 +17,12 @@ import java.util.zip.ZipFile;
 import net.minecraft.src.ItemDye;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.StatCollector;
-import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public class I18n {
 
     public static final I18n INSTANCE = new I18n(null);
     public final String prefix;
-
-    private static String lastLanguage = StringTranslate.getInstance().func_44024_c();
-    private static Properties translateTable;
-    private static final Map<String, Properties> langToTable = new HashMap<String, Properties>();
 
     public I18n(String prefix) {
         this.prefix = prefix;
@@ -72,55 +65,19 @@ public class I18n {
         return this;
     }
 
-    public void addLangFile(InputStream resource, String lang) throws IOException {
+    public void addLangFile(InputStream resource) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
         Properties prop = new Properties();
         prop.load(reader);
         reader.close();
-        langToTable.put(lang, prop);
-        init();
-    }
 
-    private static void addLocalization(String key, String value) {
-        ModLoader.AddLocalization(key, value);
-        if (translateTable != null)
-            translateTable.put(key, value);
-    }
-
-    public void init() {
-        try {
-            translateTable = (Properties) ModLoader.getPrivateValue(
-                    StringTranslate.class, StringTranslate.getInstance(), 1);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.throwing("I18n", "init", t);
-            ModLoader.ThrowException("Exception occurred in BlockHelper", t);
-        }
-
-        Properties lang = langToTable.get(StringTranslate.getInstance().func_44024_c());
-        Properties enUS = langToTable.get("en_US");
-        if (enUS == null) return;
-
-        loadLanguageFromProperties(enUS);
-        if (lang != null)
-            loadLanguageFromProperties(lang);
-    }
-
-    private void loadLanguageFromProperties(Properties prop) {
         for (String key : prop.stringPropertyNames()) {
             if (key == null) continue;
             String value = prop.getProperty(key);
             if (this.prefix != null) {
                 key = this.prefix + "." + key;
             }
-            addLocalization(key, value);
-        }
-    }
-
-    public void update() {
-        String newLang = StringTranslate.getInstance().func_44024_c();
-        if (!lastLanguage.equals(newLang)) {
-            lastLanguage = newLang;
-            init();
+            ModLoader.AddLocalization(key, value);
         }
     }
 
@@ -156,9 +113,8 @@ public class I18n {
 
     public void addLangFile(File child) {
         try {
-            String lang = child.getName().substring(0, child.getName().lastIndexOf('.'));
             FileInputStream fin = new FileInputStream(child);
-            this.addLangFile(fin, lang);
+            this.addLangFile(fin);
             fin.close();
         } catch (IOException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "Error occurred while loading lang file: " + child.getPath(), e);
@@ -177,8 +133,7 @@ public class I18n {
                 String name = entry.getName();
                 if (!entry.isDirectory() && name.startsWith(dir) &&
                     (name.endsWith(".lang") || name.endsWith(".properties"))) {
-                    this.addLangFile(zf.getInputStream(entry), name.substring(name.lastIndexOf('/') + 1,
-                            name.lastIndexOf('.')));
+                    this.addLangFile(zf.getInputStream(entry));
                 }
             }
         } catch (IOException e) {
@@ -206,14 +161,18 @@ public class I18n {
         try {
             this.addLangDirFromJar(hostFile(clazz), dir);
         } catch (Throwable t) {
-            try {
-                mod_BlockHelper.LOG.log(Level.WARNING, "Error occurred while loading lang directory: " + dir, t);
-                InputStream stream = clazz.getResourceAsStream(dir + "/en_US.properties");
-                if (stream == null) stream = clazz.getResourceAsStream(dir + "/en_US.lang");
-                this.addLangFile(stream, "en_US");
-            } catch (Throwable t1) {
-                mod_BlockHelper.LOG.log(Level.SEVERE, "Critical error occurred while loading fallback!", t1);
-            }
+            mod_BlockHelper.LOG.log(Level.WARNING, "Error occurred while loading lang directory: " + dir, t);
+            addDefaultLangFromHost(clazz, dir);
+        }
+    }
+
+    public void addDefaultLangFromHost(Class<?> clazz, String dir) {
+        try {
+            InputStream stream = clazz.getResourceAsStream(dir + "/en_US.properties");
+            if (stream == null) stream = clazz.getResourceAsStream(dir + "/en_US.lang");
+            this.addLangFile(stream);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.SEVERE, "Critical error occurred while loading default language!", t);
         }
     }
 

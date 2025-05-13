@@ -41,12 +41,15 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public String getVersion() {
+    public String Version() {
         return VERSION;
     }
 
     @Override
-    public void load() {
+    public void ModsLoaded() {
+        // LOAD COMPLETE
+        super.ModsLoaded();
+
         INSTANCE = this;
         proxy = new ProxyServer();
 
@@ -68,14 +71,10 @@ public class mod_BlockHelper extends BaseModMp {
 
         // POST INIT
         proxy.prepare();
-        proxy.registerCorePlugins(WailaRegistrar.instance());
-    }
 
-    @Override
-    public void ModsLoaded() {
-        // LOAD COMPLETE
-        super.ModsLoaded();
-        proxy.registerModPlugins(WailaRegistrar.instance());
+        WailaRegistrar registrar = WailaRegistrar.instance();
+        proxy.registerCorePlugins(registrar);
+        proxy.registerModPlugins(registrar);
 
         proxy.postLoad();
     }
@@ -118,7 +117,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     /**
-     * If you want to register your plugin in a safe way, register it during the {@link #load()} phase
+     * If you want to register your plugin in a safe way, register it during the {@link #ModsLoaded()} phase
      * and use something like this:
      * <p><blockquote><pre>
      * try {

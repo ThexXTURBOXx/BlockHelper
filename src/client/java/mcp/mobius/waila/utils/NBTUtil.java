@@ -22,7 +22,7 @@ public final class NBTUtil {
         if (par0NBTTagCompound == null) {
             par1DataOutputStream.writeShort(-1);
         } else {
-            byte[] abyte = CompressedStreamTools.writeMapToByteArray(par0NBTTagCompound);
+            byte[] abyte = CompressedStreamTools.func_40591_a(par0NBTTagCompound);
 
             if (abyte.length > 32000)
                 par1DataOutputStream.writeShort(-1);
@@ -41,12 +41,12 @@ public final class NBTUtil {
         } else {
             byte[] abyte = new byte[short1];
             par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.loadMapFromByteArray(abyte);
+            return CompressedStreamTools.func_40592_a(abyte);
         }
     }
 
     public static int getNBTInteger(NBTTagCompound tag, String keyname) {
-        NBTBase subtag = tag.getTag(keyname);
+        NBTBase subtag = tag.func_40196_b(keyname);
         if (subtag instanceof NBTTagInt)
             return tag.getInteger(keyname);
         if (subtag instanceof NBTTagShort)

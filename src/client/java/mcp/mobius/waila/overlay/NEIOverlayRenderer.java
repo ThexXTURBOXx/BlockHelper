@@ -53,7 +53,7 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
         World world = entity.worldObj;
         int x1 = (int) entity.posX;
         int z1 = (int) entity.posZ;
-        int y1 = (int) clamp(entity.posY, 16.0, world.getWorldHeight() - 16);
+        int y1 = (int) clamp(entity.posY, 16.0, world.func_35452_b() - 16);
         AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         for (int x2 = x1 - 16; x2 <= x1 + 16; ++x2) {
             for (int z2 = z1 - 16; z2 <= z1 + 16; ++z2) {
@@ -108,8 +108,8 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
                     y1 = 0.0;
                     y2 = dy;
                 }
-                if (y1 > entity.worldObj.getWorldHeight()) {
-                    y2 = entity.worldObj.getWorldHeight();
+                if (y1 > entity.worldObj.func_35452_b()) {
+                    y2 = entity.worldObj.func_35452_b();
                     y1 = y2 - dy;
                 }
                 double dist = Math.pow(1.5, -(cx * cx + cz * cz));
@@ -138,8 +138,8 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
                         y1 = 0.0;
                         y2 = dy;
                     }
-                    if (y1 > entity.worldObj.getWorldHeight()) {
-                        y2 = entity.worldObj.getWorldHeight();
+                    if (y1 > entity.worldObj.func_35452_b()) {
+                        y2 = entity.worldObj.func_35452_b();
                         y1 = y2 - dy;
                     }
                     GL11.glColor4d(0.0, 0.9, 0.0, 0.4);
