@@ -18,11 +18,13 @@ public final class TooltipHandlerWaila implements IContainerTooltipHandler {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public List handleTooltipFirst(GuiContainer guiContainer, int i, int i1, List list) {
         return list;
     }
 
     @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public List handleItemTooltip(GuiContainer guiContainer, ItemStack itemStack, List list) {
         if (!PluginConfig.instance().get("nei.modtooltips")) return list;
         String canonicalName = ModIdentification.nameFromStack(itemStack);

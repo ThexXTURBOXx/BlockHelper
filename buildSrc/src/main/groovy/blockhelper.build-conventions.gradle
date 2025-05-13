@@ -121,3 +121,8 @@ tasks.register('symlinkJars') {
     }
 }
 build.finalizedBy symlinkJars
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:unchecked"
+    options.deprecation = true
+}

@@ -37,6 +37,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
         GuiContainerManager manager = gui.manager;
         ItemStack stackover = manager.getStackMouseOver();

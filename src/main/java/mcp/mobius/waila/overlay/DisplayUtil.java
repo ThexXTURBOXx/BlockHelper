@@ -147,6 +147,7 @@ public final class DisplayUtil {
         fontRenderer.drawString(text, x, y, colour, shadow);
     }
 
+    @SuppressWarnings("unchecked")
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = null;
         try {
