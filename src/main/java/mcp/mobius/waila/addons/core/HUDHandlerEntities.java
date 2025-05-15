@@ -10,11 +10,11 @@ import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.IMob;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
 
 import static mcp.mobius.waila.addons.core.CorePlugin.getDropItemId;
 import static mcp.mobius.waila.api.SpecialChars.BLUE;

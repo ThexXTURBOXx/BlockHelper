@@ -8,10 +8,10 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.IBlockAccess;
+import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public final class RedPower2Plugin implements IWailaPlugin {
 

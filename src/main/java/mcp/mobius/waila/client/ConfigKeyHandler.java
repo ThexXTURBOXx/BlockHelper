@@ -1,14 +1,12 @@
 package mcp.mobius.waila.client;
 
-import cpw.mods.fml.common.Loader;
-import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
@@ -22,8 +20,6 @@ public class ConfigKeyHandler {
     public final KeyBinding keyCfg;
     public final KeyBinding keyShow;
     public final KeyBinding keyLiquid;
-    public final KeyBinding keyRecipe;
-    public final KeyBinding keyUsage;
     public final KeyBinding keyLLOverlay;
     public final KeyBinding keyCBOverlay;
 
@@ -34,10 +30,6 @@ public class ConfigKeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
         ModLoader.registerKey(mod, keyLiquid =
                 new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
-        ModLoader.registerKey(mod, keyRecipe =
-                new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
-        ModLoader.registerKey(mod, keyUsage =
-                new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
         ModLoader.registerKey(mod, keyLLOverlay =
                 new KeyBinding(Constants.BIND_WAILA_LLOVERLAY, Keyboard.KEY_F7), false);
         ModLoader.registerKey(mod, keyCBOverlay =
@@ -68,24 +60,6 @@ public class ConfigKeyHandler {
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
             mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
                     status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
-        }
-
-        if (keyRecipe.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
-                try {
-                    NEIHandler.openRecipeGUI(true);
-                } catch (Throwable ignored) {
-                }
-            }
-        }
-
-        if (keyUsage.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
-                try {
-                    NEIHandler.openRecipeGUI(false);
-                } catch (Throwable ignored) {
-                }
-            }
         }
 
         if (keyLLOverlay.isPressed()) {

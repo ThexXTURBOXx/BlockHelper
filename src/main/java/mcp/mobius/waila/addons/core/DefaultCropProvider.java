@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.utils.I18n;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 public class DefaultCropProvider implements ICropProvider {
 

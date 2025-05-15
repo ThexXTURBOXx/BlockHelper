@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 /**
  * Callback class interface used to provide Block/TileEntity decorator.</br>

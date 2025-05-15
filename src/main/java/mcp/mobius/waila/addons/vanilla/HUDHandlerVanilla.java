@@ -6,21 +6,21 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockRedstoneOre;
-import net.minecraft.block.BlockStep;
-import net.minecraft.block.BlockWoodSlab;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemRecord;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.tileentity.TileEntitySkull;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockFlowerPot;
+import net.minecraft.src.BlockRedstoneOre;
+import net.minecraft.src.BlockStep;
+import net.minecraft.src.BlockWoodSlab;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemRecord;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.Potion;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.TileEntityMobSpawner;
+import net.minecraft.src.TileEntitySkull;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.anvil;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.beacon;
@@ -99,7 +99,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.carrot);
 
         if (block == potato)
-            return new ItemStack(Item.potato);
+            return new ItemStack(Item.potatoe);
 
         if (block == flowerPot)
             return new ItemStack(Item.flowerPot);
@@ -195,7 +195,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
                 currenttip.add(record == null
                         ? I18n.translate("hud.msg.empty")
-                        : (I18n.translate("hud.msg.record") + ": " + ((ItemRecord) record).func_90043_g()));
+                        : (I18n.translate("hud.msg.record") + ": " +
+                           "C418 - " + ((ItemRecord) record).recordName));
             }
 
         if (config.get("vanilla.flowerpot"))

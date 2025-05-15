@@ -113,7 +113,8 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void setConfig(String category, String key, boolean state) {
-        this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.BOOLEAN));
+        String value = String.valueOf(state);
+        this.config.get(category, key, value, Property.Type.BOOLEAN).value = value;
         this.config.save();
     }
 
@@ -123,7 +124,8 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void setConfig(String category, String key, int state) {
-        this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.INTEGER));
+        String value = String.valueOf(state);
+        this.config.get(category, key, value, Property.Type.INTEGER).value = value;
         this.config.save();
     }
 

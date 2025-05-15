@@ -10,18 +10,18 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.Constants;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EnumMovingObjectType;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.Vec3;
+import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IShearable;
 
@@ -57,7 +57,7 @@ public class RayTracing {
         // Check if entity is player with invisibility effect
         if (entity instanceof EntityPlayer) {
             boolean setting = PluginConfig.instance().get("general.invisibleplayers");
-            return setting || !entity.getHasActivePotion();
+            return setting || !entity.func_82150_aj();
         }
         return true;
     }

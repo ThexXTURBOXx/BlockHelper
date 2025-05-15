@@ -3,14 +3,14 @@ package mcp.mobius.waila.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.src.CompressedStreamTools;
+import net.minecraft.src.NBTBase;
+import net.minecraft.src.NBTTagByte;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagDouble;
+import net.minecraft.src.NBTTagFloat;
+import net.minecraft.src.NBTTagInt;
+import net.minecraft.src.NBTTagShort;
 
 public final class NBTUtil {
 

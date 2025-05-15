@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
-import net.minecraft.util.MathHelper;
+import net.minecraft.src.MathHelper;
 import org.lwjgl.util.Dimension;
 
 /**

@@ -11,14 +11,14 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import mcp.mobius.waila.utils.SpawnUtil;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
+import net.minecraft.src.Block;
+import net.minecraft.src.EnumSkyBlock;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
@@ -108,7 +108,9 @@ public final class HUDHandlerBlocks implements IDataProvider {
     @Override
     public void modifyTail(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        String modName = ModIdentification.nameFromStack(itemStack);
+        String modName = ModIdentification.identifyMod(itemStack);
+        if (modName.isEmpty())
+            modName = ModIdentification.identifyMod(accessor.getTileEntity());
         if (!modName.isEmpty())
             currenttip.add(BLUE + ITALIC + modName);
     }

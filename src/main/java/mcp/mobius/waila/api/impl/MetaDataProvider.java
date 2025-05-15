@@ -11,10 +11,10 @@ import mcp.mobius.waila.network.Packet0x01TileRequest;
 import mcp.mobius.waila.network.Packet0x02EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
 
 public class MetaDataProvider {

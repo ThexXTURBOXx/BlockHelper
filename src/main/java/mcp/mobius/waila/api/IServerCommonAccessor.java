@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.WorldServer;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.WorldServer;
 
 /**
  * The Accessor is used to get some basic data out of the game without having to request direct access to

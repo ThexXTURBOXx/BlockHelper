@@ -5,7 +5,7 @@ import java.util.Map;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.widgets.LayoutCanvas;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.src.GuiScreen;
 import org.lwjgl.input.Mouse;
 
 public abstract class ScreenBase extends GuiScreen {

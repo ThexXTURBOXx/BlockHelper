@@ -5,10 +5,10 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
 
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 

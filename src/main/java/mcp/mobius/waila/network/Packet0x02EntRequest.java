@@ -9,10 +9,10 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.ServerDataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldServer;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.WorldServer;
 
 public class Packet0x02EntRequest implements IWailaPacket {
 

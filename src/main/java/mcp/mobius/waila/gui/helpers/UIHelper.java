@@ -1,10 +1,10 @@
 package mcp.mobius.waila.gui.helpers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.Vec3;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.FontRenderer;
+import net.minecraft.src.Tessellator;
+import net.minecraft.src.Vec3;
 import org.lwjgl.opengl.GL11;
 
 public class UIHelper {

@@ -6,10 +6,10 @@ import java.lang.reflect.Method;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.block.Block;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.PlayerControllerMP;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class CorePlugin implements IWailaPlugin {
@@ -35,7 +35,7 @@ public final class CorePlugin implements IWailaPlugin {
                 curBlockDamageMP = AccessHelper.getDeclaredField(PlayerControllerMP.class,
                         "g", "field_78770_f", "curBlockDamageMP");
                 getDropItemId = AccessHelper.getDeclaredMethod(EntityLiving.class, new Class[0],
-                        "bb", "func_70633_aT", "getDropItemId");
+                        "ba", "func_70633_aT", "getDropItemId");
             } catch (Throwable t) {
                 throw new RuntimeException(t);
             }

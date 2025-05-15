@@ -6,19 +6,19 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCocoa;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockNetherStalk;
-import net.minecraft.block.BlockRedstoneOre;
-import net.minecraft.block.BlockStem;
-import net.minecraft.block.BlockStep;
-import net.minecraft.block.BlockWoodSlab;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockCocoa;
+import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockRedstoneOre;
+import net.minecraft.src.BlockStem;
+import net.minecraft.src.BlockStep;
+import net.minecraft.src.BlockWoodSlab;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.TileEntityFurnace;
+import net.minecraft.src.TileEntitySkull;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
@@ -27,7 +27,7 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
     static Block carrot = Block.carrot;
-    static Block potato = Block.potato;
+    static Block potato = Block.potatoe;
     static Block melonStem = Block.melonStem;
     static Block pumpkinStem = Block.pumpkinStem;
     static Block lever = Block.lever;

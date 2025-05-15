@@ -10,8 +10,8 @@ import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.utils.GLState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderEngine;
+import net.minecraft.src.RenderEngine;
+import net.minecraft.src.ScaledResolution;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 

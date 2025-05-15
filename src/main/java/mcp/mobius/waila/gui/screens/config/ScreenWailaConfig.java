@@ -9,7 +9,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.utils.Constants;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.src.GuiScreen;
 import net.minecraftforge.common.Configuration;
 
 public class ScreenWailaConfig extends ScreenBase {

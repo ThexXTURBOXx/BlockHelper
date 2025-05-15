@@ -53,6 +53,4 @@ unimined.minecraft {
 }
 
 dependencies {
-    modImplementation(":CodeChickenCore 0.6.16")
-    modImplementation(":NotEnoughItems 1.4.3.2")
 }

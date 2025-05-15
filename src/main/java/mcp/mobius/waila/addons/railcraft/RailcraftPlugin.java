@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.src.EntityMinecart;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class RailcraftPlugin implements IWailaPlugin {

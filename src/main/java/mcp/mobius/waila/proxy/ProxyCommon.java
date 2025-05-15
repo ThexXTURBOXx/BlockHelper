@@ -12,7 +12,6 @@ import mcp.mobius.waila.addons.ee2.EE2Plugin;
 import mcp.mobius.waila.addons.ee3.EE3Plugin;
 import mcp.mobius.waila.addons.enderstorage.EnderStoragePlugin;
 import mcp.mobius.waila.addons.florasoma.FloraSomaPlugin;
-import mcp.mobius.waila.addons.forge.ForgePlugin;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftPlugin;
 import mcp.mobius.waila.addons.ic2.IC2Plugin;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
@@ -53,7 +52,6 @@ public class ProxyCommon {
         registerPlugin(RedPower2Plugin.INSTANCE);
         registerPlugin(ThermalExpansionPlugin.INSTANCE);
         registerPlugin(WeeeFlowersPlugin.INSTANCE);
-        registerPlugin(ForgePlugin.INSTANCE);
     }
 
     public void registerCorePlugins(IRegistrar registrar) {

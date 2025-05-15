@@ -4,9 +4,9 @@ import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.gui.helpers.UIHelper;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.BlockDirectional;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Tessellator;
 
 public final class HUDDecoratorVanilla implements IBlockDecorator {
 

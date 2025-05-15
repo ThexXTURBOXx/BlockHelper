@@ -9,11 +9,11 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.ServerDataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
+import net.minecraft.src.Block;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.WorldServer;
 
 public class Packet0x01TileRequest implements IWailaPacket {
 
