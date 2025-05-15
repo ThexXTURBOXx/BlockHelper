@@ -27,7 +27,7 @@ public final class HUDHandlerWeeeCrops implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        currenttip.set(0, WHITE + getFlowerCropItem(accessor).getDisplayName());
+        currenttip.set(0, WHITE + getFlowerCropItem(accessor).func_82833_r());
     }
 
     @Override

@@ -20,7 +20,7 @@ public final class HUDDecoratorVanilla implements IBlockDecorator {
         if (config.get("vanilla.repeaterol")) {
             Tessellator tessellator = Tessellator.instance;
 
-            //UIHelper.drawBillboardText(itemStack.getDisplayName(), accessor.getRenderingPosition(), 0.5F, 1.5F, 0.5F,
+            //UIHelper.drawBillboardText(itemStack.func_82833_r(), accessor.getRenderingPosition(), 0.5F, 1.5F, 0.5F,
             // accessor.getPartialFrame());
             int dir = BlockDirectional.getDirection(accessor.getMetadata());
             UIHelper.drawFloatingText(dir == 0 ? "OUT" : "IN", accessor.getRenderingPosition(),

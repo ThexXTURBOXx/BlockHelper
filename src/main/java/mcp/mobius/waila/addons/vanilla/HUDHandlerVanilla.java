@@ -96,13 +96,13 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.wheat);
 
         if (block == carrot)
-            return new ItemStack(Item.carrot);
+            return new ItemStack(Item.field_82797_bK);
 
         if (block == potato)
-            return new ItemStack(Item.potatoe);
+            return new ItemStack(Item.field_82794_bL);
 
         if (block == flowerPot)
-            return new ItemStack(Item.flowerPot);
+            return new ItemStack(Item.field_82796_bJ);
 
         if (block == cauldron)
             return new ItemStack(Item.cauldron);
@@ -201,9 +201,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (config.get("vanilla.flowerpot"))
             if (block == flowerPot) {
-                ItemStack flower = BlockFlowerPot.getPlantForMeta(meta);
+                ItemStack flower = BlockFlowerPot.func_82531_c(meta);
                 if (flower != null)
-                    currenttip.add(I18n.translate("hud.msg.flower") + ": " + flower.getDisplayName());
+                    currenttip.add(I18n.translate("hud.msg.flower") + ": " + flower.func_82833_r());
             }
 
         if (config.get("vanilla.skull"))

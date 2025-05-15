@@ -43,7 +43,7 @@ public final class HUDHandlerFloraSomaCrops implements IDataProvider {
             if (FloraCropBlock.isInstance(b)) {
                 int meta = accessor.getMetadata();
                 currenttip.set(0, WHITE + new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
-                        b.damageDropped(meta)).getDisplayName());
+                        b.damageDropped(meta)).func_82833_r());
             }
         } catch (Throwable ignored) {
         }

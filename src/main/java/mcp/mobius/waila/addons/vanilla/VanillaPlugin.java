@@ -26,8 +26,8 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
-    static Block carrot = Block.carrot;
-    static Block potato = Block.potatoe;
+    static Block carrot = Block.field_82513_cg;
+    static Block potato = Block.field_82514_ch;
     static Block melonStem = Block.melonStem;
     static Block pumpkinStem = Block.pumpkinStem;
     static Block lever = Block.lever;
@@ -38,11 +38,11 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block silverfish = Block.silverfish;
     static Block leave = Block.leaves;
     static Block log = Block.wood;
-    static Block anvil = Block.anvil;
+    static Block anvil = Block.field_82510_ck;
     static Block sapling = Block.sapling;
-    static Block flowerPot = Block.flowerPot;
+    static Block flowerPot = Block.field_82516_cf;
     static Block noteBlock = Block.music;
-    static Block beacon = Block.beacon;
+    static Block beacon = Block.field_82518_cd;
     static Block endPortal = Block.endPortal;
     static Block cauldron = Block.cauldron;
     static Block sugarCane = Block.reed;

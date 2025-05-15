@@ -33,7 +33,7 @@ public final class HUDHandlerCarts implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (entity instanceof EntityMinecart) {
-            currenttip.set(0, WHITE + ((EntityMinecart) entity).getCartItem().getDisplayName());
+            currenttip.set(0, WHITE + ((EntityMinecart) entity).getCartItem().func_82833_r());
         }
     }
 
