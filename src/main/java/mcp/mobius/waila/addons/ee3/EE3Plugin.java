@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.ee3;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -23,7 +23,7 @@ public final class EE3Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("com.pahimar.ee3.EquivalentExchange3");
+            AccessHelper.getClass("ee3.common.EquivalentExchange3");
             mod_BlockHelper.LOG.log(Level.INFO, "[EE3] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -37,12 +37,12 @@ public final class EE3Plugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            Class<?> EMCRegistry = AccessHelper.getClass("com.pahimar.ee3.emc.EMCRegistry");
+            Class<?> EMCRegistry = AccessHelper.getClass("ee3.common.emc.EMCRegistry");
             EMCRegistry_instance = AccessHelper.getMethod(EMCRegistry, new Class[0],
                     "instance");
             EMCRegistry_getEMCValue = AccessHelper.getMethod(EMCRegistry, new Class[]{int.class, int.class},
                     "getEMCValue");
-            Class<?> EMCEntry = AccessHelper.getClass("com.pahimar.ee3.emc.EMCEntry");
+            Class<?> EMCEntry = AccessHelper.getClass("ee3.common.emc.EMCEntry");
             EMCEntry_getCost = AccessHelper.getMethod(EMCEntry, new Class[0],
                     "getCost");
 

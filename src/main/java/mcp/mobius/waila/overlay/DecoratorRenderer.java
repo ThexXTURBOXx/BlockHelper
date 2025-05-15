@@ -1,7 +1,7 @@
 package mcp.mobius.waila.overlay;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 import java.util.List;
 import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;

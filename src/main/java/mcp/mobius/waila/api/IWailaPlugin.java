@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import net.minecraft.src.mod_BlockHelper;
 
 /**

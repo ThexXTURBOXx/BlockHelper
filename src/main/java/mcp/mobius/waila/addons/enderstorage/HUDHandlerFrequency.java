@@ -34,21 +34,14 @@ public final class HUDHandlerFrequency implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("enderstorage.colors")) {
             try {
-
-                int freq = EnderStoragePlugin.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
+                int freq = EnderStoragePlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
                 int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
                 int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
                 int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
 
-                if (!EnderStoragePlugin.TileEnderTank.isInstance(accessor.getTileEntity()))
-                    currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqLeft)) + "/" +
-                                   I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
-                                   I18n.color(BlockCloth.getBlockFromDye(freqRight)));
-                else
-                    currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqRight)) + "/" +
-                                   I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
-                                   I18n.color(BlockCloth.getBlockFromDye(freqLeft)));
-
+                currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqLeft)) + "/" +
+                               I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
+                               I18n.color(BlockCloth.getBlockFromDye(freqRight)));
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }

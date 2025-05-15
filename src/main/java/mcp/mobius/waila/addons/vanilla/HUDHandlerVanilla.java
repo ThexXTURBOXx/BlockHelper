@@ -195,7 +195,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
                 currenttip.add(record == null
                         ? I18n.translate("hud.msg.empty")
-                        : (I18n.translate("hud.msg.record") + ": " + ((ItemRecord) record).getRecordTitle()));
+                        : (I18n.translate("hud.msg.record") + ": " + ((ItemRecord) record).func_90043_g()));
             }
 
         if (config.get("vanilla.flowerpot"))
@@ -208,8 +208,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (config.get("vanilla.skull"))
             if (accessor.getTileEntity() instanceof TileEntitySkull) {
                 TileEntitySkull te = (TileEntitySkull) accessor.getTileEntity();
-                if (te.getSkullType() == 3) {
-                    String playerName = te.getExtraType();
+                if (te.func_82117_a() == 3) {
+                    String playerName = te.func_82120_c();
                     if (playerName != null && !playerName.isEmpty())
                         currenttip.add(I18n.translate("hud.msg.head_owner") + ": " + playerName);
                 }

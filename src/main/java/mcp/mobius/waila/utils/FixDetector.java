@@ -1,6 +1,12 @@
 package mcp.mobius.waila.utils;
 
+import cpw.mods.fml.relauncher.RelaunchClassLoader;
 import net.minecraft.client.Minecraft;
+
+import static mcp.mobius.waila.api.SpecialChars.GOLD;
+import static mcp.mobius.waila.api.SpecialChars.GRAY;
+import static mcp.mobius.waila.api.SpecialChars.RED;
+import static net.minecraft.src.mod_BlockHelper.NAME;
 
 public final class FixDetector {
 
@@ -12,6 +18,22 @@ public final class FixDetector {
 
     public static void detectFixes(Minecraft mc) {
         if (!notify) return;
+
+        try {
+            Object fixerVersion = AccessHelper.getField(RelaunchClassLoader.class, "FIXER_VERSION").get(null);
+            if (!"2".equals(fixerVersion)) {
+                mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "Please update ClassLoaderFixer.");
+                mc.thePlayer.addChatMessage(RED + "You can find it on Modrinth.");
+            }
+        } catch (Throwable t) {
+            mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                        RED + "It is very recommended to install the");
+            mc.thePlayer.addChatMessage(RED + "ClassLoaderFixer jar-mod. " +
+                                        "You can find it on Modrinth.");
+            mc.thePlayer.addChatMessage(RED + "Otherwise, some features " +
+                                        "will not work correctly!");
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.core;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import mcp.mobius.waila.api.IRegistrar;
@@ -55,6 +55,7 @@ public final class CorePlugin implements IWailaPlugin {
             registrar.addConfig("General", "general.harvest");
             registrar.addConfig("General", "general.lightlevel");
             registrar.addConfig("General", "general.break");
+            registrar.addConfig("General", "general.oldlightlevelol", false);
 
             registrar.registerHeadProvider(HUDHandlerBlocks.INSTANCE, Block.class);
             registrar.registerBodyProvider(HUDHandlerBlocks.INSTANCE, Block.class);

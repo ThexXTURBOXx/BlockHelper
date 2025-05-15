@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.ee2;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -22,7 +22,7 @@ public final class EE2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("ee.core.mod_EE");
+            AccessHelper.getClass("mod_EE");
             mod_BlockHelper.LOG.log(Level.INFO, "[EE2] Mod found.");
             return true;
         } catch (Throwable t) {

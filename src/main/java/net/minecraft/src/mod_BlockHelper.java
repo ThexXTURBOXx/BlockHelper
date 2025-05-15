@@ -15,6 +15,7 @@ import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
+import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
@@ -79,6 +80,8 @@ public class mod_BlockHelper extends BaseMod {
         OverlayConfig.updateColors();
 
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
+
+        MinecraftForge.EVENT_BUS.register(new NEIOverlayRenderer());
 
         // INIT
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

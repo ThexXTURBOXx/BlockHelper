@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
+import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,8 @@ public class ConfigKeyHandler {
     public final KeyBinding keyLiquid;
     public final KeyBinding keyRecipe;
     public final KeyBinding keyUsage;
+    public final KeyBinding keyLLOverlay;
+    public final KeyBinding keyCBOverlay;
 
     public ConfigKeyHandler(mod_BlockHelper mod) {
         ModLoader.registerKey(mod, keyCfg =
@@ -35,6 +38,10 @@ public class ConfigKeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
         ModLoader.registerKey(mod, keyUsage =
                 new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
+        ModLoader.registerKey(mod, keyLLOverlay =
+                new KeyBinding(Constants.BIND_WAILA_LLOVERLAY, Keyboard.KEY_F7), false);
+        ModLoader.registerKey(mod, keyCBOverlay =
+                new KeyBinding(Constants.BIND_WAILA_CBOVERLAY, Keyboard.KEY_F9), false);
     }
 
     public void onTickInGame(Minecraft mc) {
@@ -64,7 +71,7 @@ public class ConfigKeyHandler {
         }
 
         if (keyRecipe.isPressed()) {
-            if (Loader.isModLoaded("NotEnoughItems")) {
+            if (Loader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(true);
                 } catch (Throwable ignored) {
@@ -73,12 +80,20 @@ public class ConfigKeyHandler {
         }
 
         if (keyUsage.isPressed()) {
-            if (Loader.isModLoaded("NotEnoughItems")) {
+            if (Loader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(false);
                 } catch (Throwable ignored) {
                 }
             }
+        }
+
+        if (keyLLOverlay.isPressed()) {
+            NEIOverlayRenderer.renderMobSpawnOverlay = !NEIOverlayRenderer.renderMobSpawnOverlay;
+        }
+
+        if (keyCBOverlay.isPressed()) {
+            NEIOverlayRenderer.renderChunkBounds = (NEIOverlayRenderer.renderChunkBounds + 1) % 3;
         }
     }
 

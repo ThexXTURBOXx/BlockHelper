@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.ic2;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -23,7 +23,7 @@ public final class IC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("ic2.core.IC2");
+            AccessHelper.getClass("ic2.common.IC2");
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -36,7 +36,7 @@ public final class IC2Plugin implements IWailaPlugin {
     public void register(IRegistrar registrar, Side side) {
         // XXX: We register the Energy interface first
         try {
-            TileBaseGenerator = AccessHelper.getClass("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
+            TileBaseGenerator = AccessHelper.getClass("ic2.common.TileEntityBaseGenerator");
             TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
             TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
             TileBaseGenerator_production = AccessHelper.getField(TileBaseGenerator, "production");

@@ -165,10 +165,10 @@ public class PluginConfig implements IPluginConfig {
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
 
-        this.config.getCategory(Constants.CATEGORY_MODULES).setComment(
+        this.config.addCustomCategoryComment(Constants.CATEGORY_MODULES,
                 "Those are the config keys defined in modules.\n" +
                 "Server side, it is used to enforce keys client side using the next section.");
-        this.config.getCategory(Constants.CATEGORY_SERVER).setComment(
+        this.config.addCustomCategoryComment(Constants.CATEGORY_SERVER,
                 "Any key set to true here will ensure that the client is using the configuration set in the 'module' " +
                 "section above.\n" +
                 "This is useful for enforcing false to 'cheating' keys like silverfish.");

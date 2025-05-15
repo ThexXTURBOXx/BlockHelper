@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.vanilla;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;

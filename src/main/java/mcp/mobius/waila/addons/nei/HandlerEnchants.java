@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
@@ -57,13 +56,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
             screen.setName(stackover.getDisplayName());
             screen.setEnchantability(String.valueOf(itemEnchantability));
 
-            Enchantment[] enchants;
-            if (stackover.getItem() == Item.book)
-                enchants = Enchantment.field_92090_c;
-            else
-                enchants = Enchantment.enchantmentsList;
-
-            for (Enchantment enchant : enchants) {
+            for (Enchantment enchant : Enchantment.enchantmentsList) {
                 boolean isCompatible = true;
                 int level = 0;
                 boolean isApplied = false;
@@ -71,7 +64,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
                 if (enchant == null) {
                     continue;
                 }
-                if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Item.book) {
+                if (enchant.canEnchantItem(stackover)) {
 
                     if (stackover.isItemEnchanted()) {
                         Map<Integer, Integer> stackenchants =
@@ -138,10 +131,6 @@ public final class HandlerEnchants implements IContainerInputHandler {
 
     @Override
     public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
-    }
-
-    @Override
-    public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {
     }
 
 }

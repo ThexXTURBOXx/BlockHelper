@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.enderstorage;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -13,13 +13,11 @@ public final class EnderStoragePlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new EnderStoragePlugin();
 
-    public static Class<?> TileFrequencyOwner = null;
-    public static Field TileFrequencyOwner_Freq = null;
+    public static Class<?> TileEnderChest = null;
+    public static Field TileEnderChest_freq = null;
 
     public static Class<?> EnderStorageManager = null;
     public static Method GetColourFromFreq = null;
-
-    public static Class<?> TileEnderTank = null;
 
     private EnderStoragePlugin() {
     }
@@ -41,14 +39,12 @@ public final class EnderStoragePlugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            TileFrequencyOwner = AccessHelper.getClass("codechicken.enderstorage.common.TileFrequencyOwner");
-            TileFrequencyOwner_Freq = AccessHelper.getField(TileFrequencyOwner, "freq");
+            TileEnderChest = AccessHelper.getClass("codechicken.enderstorage.TileEnderChest");
+            TileEnderChest_freq = AccessHelper.getField(TileEnderChest, "freq");
 
-            EnderStorageManager = AccessHelper.getClass("codechicken.enderstorage.api.EnderStorageManager");
+            EnderStorageManager = AccessHelper.getClass("codechicken.enderstorage.EnderStorageManager");
             GetColourFromFreq = AccessHelper.getDeclaredMethod(EnderStorageManager, new Class[]{int.class, int.class},
                     "getColourFromFreq");
-
-            TileEnderTank = AccessHelper.getClass("codechicken.enderstorage.storage.liquid.TileEnderTank");
         } catch (ClassNotFoundException e) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[EnderStorage] Class not found.", e);
             return;
@@ -65,7 +61,7 @@ public final class EnderStoragePlugin implements IWailaPlugin {
 
         registrar.addConfig("EnderStorage", "enderstorage.colors");
 
-        registrar.registerBodyProvider(HUDHandlerFrequency.INSTANCE, TileFrequencyOwner);
+        registrar.registerBodyProvider(HUDHandlerFrequency.INSTANCE, TileEnderChest);
     }
 
 }

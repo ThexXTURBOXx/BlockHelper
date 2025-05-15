@@ -2,8 +2,10 @@ package mcp.mobius.waila.addons.forge;
 
 import java.util.Map;
 import java.util.logging.Level;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
@@ -48,6 +50,12 @@ public final class LiquidHelper {
     }
 
     public static String getLiquidName(LiquidStack liquidStack) {
+        try {
+            ItemStack stack = liquidStack.asItemStack();
+            return DisplayUtil.itemDisplayNameShort(stack);
+        } catch (Throwable ignored) {
+        }
+
         Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
         for (String name : map.keySet()) {
             if (name == null) continue;
@@ -55,6 +63,7 @@ public final class LiquidHelper {
             if (stack != null && stack.isLiquidEqual(liquidStack))
                 return StringUtils.firstCharacterUppercase(name);
         }
+
         return I18n.translate("hud.msg.unknown");
     }
 

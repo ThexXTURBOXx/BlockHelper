@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.florasoma;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;

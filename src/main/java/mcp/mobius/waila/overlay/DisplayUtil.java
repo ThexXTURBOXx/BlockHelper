@@ -144,7 +144,7 @@ public final class DisplayUtil {
     }
 
     public static void drawString(String text, int x, int y, int colour, boolean shadow) {
-        fontRenderer.drawString(text, x, y, colour, shadow);
+        fontRenderer.func_85187_a(text, x, y, colour, shadow);
     }
 
     @SuppressWarnings("unchecked")

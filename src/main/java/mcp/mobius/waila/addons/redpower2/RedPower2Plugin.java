@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.redpower2;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

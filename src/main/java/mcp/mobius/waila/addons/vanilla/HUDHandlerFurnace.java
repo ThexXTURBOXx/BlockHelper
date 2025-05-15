@@ -57,7 +57,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
 
     private static String getItemRenderString(ItemStack stack) {
         boolean empty = stack == null;
-        String id = (empty ? 0 : stack.getItem().itemID) + "";
+        String id = (empty ? 0 : stack.getItem().shiftedIndex) + "";
         return SpecialChars.getRenderString("waila.stack",
                 1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage(),
                 !empty && stack.isItemEnchanted());

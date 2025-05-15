@@ -1,12 +1,11 @@
 package mcp.mobius.waila.proxy;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.util.ArrayList;
 import java.util.List;
 import mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin;
 import mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin;
 import mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin;
-import mcp.mobius.waila.addons.appeng.AppEngPlugin;
 import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee2.EE2Plugin;
@@ -43,7 +42,6 @@ public class ProxyCommon {
         registerPlugin(AdvMachinesASPlugin.INSTANCE);
         registerPlugin(AdvMachinesSnykePlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
-        registerPlugin(AppEngPlugin.INSTANCE);
         registerPlugin(BC3Plugin.INSTANCE);
         registerPlugin(EE2Plugin.INSTANCE);
         registerPlugin(EE3Plugin.INSTANCE);

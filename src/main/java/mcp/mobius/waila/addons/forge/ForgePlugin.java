@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.forge;
 
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
