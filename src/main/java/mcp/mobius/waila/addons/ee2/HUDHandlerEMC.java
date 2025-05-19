@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.ee;
+package mcp.mobius.waila.addons.ee2;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -35,14 +35,10 @@ public final class HUDHandlerEMC implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             /* EMC */
-            if (config.get("ee.emc")) {
-                Object registry = EEPlugin.EMCRegistry_instance.invoke(null);
-                if (registry != null) {
-                    Object entry = EEPlugin.EMCRegistry_getEMCValue.invoke(registry,
-                            accessor.getBlockID(), accessor.getMetadata());
-                    if (entry != null)
-                        currenttip.add(YELLOW + "EMC: " + GRAY + EEPlugin.EMCEntry_getCost.invoke(entry));
-                }
+            if (config.get("ee2.emc")) {
+                int emc = (Integer) EE2Plugin.EEMaps_getEMC.invoke(null, itemStack);
+                if (emc > 0)
+                    currenttip.add(YELLOW + "EMC: " + GRAY + emc);
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
