@@ -36,7 +36,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.web;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -107,9 +106,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
                     new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
                             accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())));
-
-        if (block == web)
-            currenttip.set(0, WHITE + I18n.translate("tile.web.name"));
     }
 
     @Override

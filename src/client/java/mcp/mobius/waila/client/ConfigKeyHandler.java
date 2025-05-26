@@ -1,6 +1,5 @@
 package mcp.mobius.waila.client;
 
-import mcp.mobius.waila.addons.hmi.HMIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.utils.Constants;
@@ -19,8 +18,6 @@ public class ConfigKeyHandler {
     public final BlockHelperKeyBinding keyCfg;
     public final BlockHelperKeyBinding keyShow;
     public final BlockHelperKeyBinding keyLiquid;
-    public final BlockHelperKeyBinding keyRecipe;
-    public final BlockHelperKeyBinding keyUsage;
 
     public ConfigKeyHandler(mod_BlockHelper mod) {
         ModLoader.RegisterKey(mod, keyCfg =
@@ -29,10 +26,6 @@ public class ConfigKeyHandler {
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
         ModLoader.RegisterKey(mod, keyLiquid =
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
-        ModLoader.RegisterKey(mod, keyRecipe =
-                new BlockHelperKeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
-        ModLoader.RegisterKey(mod, keyUsage =
-                new BlockHelperKeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
     }
 
     public void onTickInGame(Minecraft mc) {
@@ -61,20 +54,6 @@ public class ConfigKeyHandler {
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
             mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
                     status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
-        }
-
-        if (keyRecipe.isClicked()) {
-            try {
-                HMIHandler.openRecipeGUI(true);
-            } catch (Throwable ignored) {
-            }
-        }
-
-        if (keyUsage.isClicked()) {
-            try {
-                HMIHandler.openRecipeGUI(false);
-            } catch (Throwable ignored) {
-            }
         }
     }
 

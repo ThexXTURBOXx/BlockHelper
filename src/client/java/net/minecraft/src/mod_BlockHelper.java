@@ -99,7 +99,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void HandlePacket(Packet230ModLoader packet) {
+    public void HandlePacket(Packet200ModLoader packet) {
         WailaPacketHandler.INSTANCE.onPacketData(packet);
     }
 

@@ -8,7 +8,7 @@ import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.ModLoaderMp;
-import net.minecraft.src.Packet230ModLoader;
+import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaPacketHandler {
@@ -18,7 +18,7 @@ public class WailaPacketHandler {
     private WailaPacketHandler() {
     }
 
-    public void onPacketData(Packet230ModLoader packet) {
+    public void onPacketData(Packet200ModLoader packet) {
         try {
             DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(toByteArray(packet.dataInt)));
 
@@ -99,8 +99,8 @@ public class WailaPacketHandler {
         return ret;
     }
 
-    public static Packet230ModLoader wrapMLPacket(IWailaPacket packet) {
-        Packet230ModLoader mlPacket = new Packet230ModLoader();
+    public static Packet200ModLoader wrapMLPacket(IWailaPacket packet) {
+        Packet200ModLoader mlPacket = new Packet200ModLoader();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(bos);
         try {
@@ -123,6 +123,30 @@ public class WailaPacketHandler {
             ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
         else
             WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);
+    }
+
+    public static void writeString(String str, DataOutputStream dos) throws IOException {
+        if (str.length() > 32767) {
+            throw new IOException("String too big");
+        } else {
+            dos.writeShort(str.length());
+            dos.writeChars(str);
+        }
+    }
+
+    public static String readString(DataInputStream dis, int maxSize) throws IOException {
+        short size = dis.readShort();
+        if (size > maxSize) {
+            throw new IOException("Received string length longer than maximum allowed (" +
+                                  size + " > " + maxSize + ")");
+        } else if (size < 0) {
+            throw new IOException("Received string length is less than zero! Weird string!");
+        } else {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < size; ++i)
+                builder.append(dis.readChar());
+            return builder.toString();
+        }
     }
 
 }

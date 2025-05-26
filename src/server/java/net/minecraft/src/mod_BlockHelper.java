@@ -85,7 +85,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void HandlePacket(Packet230ModLoader payload, EntityPlayerMP source) {
+    public void HandlePacket(Packet200ModLoader payload, EntityPlayerMP source) {
         WailaPacketHandler.INSTANCE.onPacketData(source, payload);
     }
 

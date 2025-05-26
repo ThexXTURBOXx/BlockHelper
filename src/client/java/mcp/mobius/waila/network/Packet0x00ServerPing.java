@@ -7,7 +7,6 @@ import java.util.Map;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.EntityPlayerSP;
-import net.minecraft.src.Packet;
 import net.minecraft.src.mod_BlockHelper;
 
 public class Packet0x00ServerPing implements IWailaPacket {
@@ -21,7 +20,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public void encode(DataOutputStream target) throws Exception {
         target.writeShort(this.forcedKeys.size());
         for (String key : forcedKeys.keySet()) {
-            Packet.func_27049_a(key, target);
+            WailaPacketHandler.writeString(key, target);
             target.writeBoolean(this.forcedKeys.get(key));
         }
     }
@@ -32,7 +31,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
             this.forcedKeys = new HashMap<String, Boolean>();
             int nkeys = dat.readShort();
             for (int i = 0; i < nkeys; i++)
-                this.forcedKeys.put(Packet.func_27048_a(dat, 255), dat.readBoolean());
+                this.forcedKeys.put(WailaPacketHandler.readString(dat, 255), dat.readBoolean());
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }

@@ -12,12 +12,11 @@ env:
   MOD_VERSION: ${{ inputs.mod_version }}
   GAME_VERSIONS_CF: ''
   GAME_VERSIONS_MR: |
-    b1.5
-    b1.5_01
+    b1.4_01
   LOADERS_CF: ''
   LOADERS_MR: |
     modloader
-  MC_VERSION: b1.5_01
+  MC_VERSION: b1.4_01
 
 jobs:
   build:

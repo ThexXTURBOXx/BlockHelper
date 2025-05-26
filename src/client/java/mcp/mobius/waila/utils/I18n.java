@@ -44,7 +44,7 @@ public class I18n {
         if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
 
-        String ret = StatCollector.translateToLocal(s);
+        String ret = StatCollector.func_25200_a(s);
         if (ret == null || ret.isEmpty()) return s;
         if (format.length == 0) return ret;
 

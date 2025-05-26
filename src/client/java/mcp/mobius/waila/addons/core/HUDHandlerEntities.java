@@ -11,7 +11,7 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.IMob;
+import net.minecraft.src.IMobs;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
@@ -51,7 +51,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        String color = entity instanceof IMob ? RED : WHITE;
+        String color = entity instanceof IMobs ? RED : WHITE;
 
         retrieve:
         try {

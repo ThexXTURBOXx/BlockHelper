@@ -32,7 +32,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
     static Block bed = Block.blockBed;
-    static Block web = Block.web;
 
     static Field ItemRecord_recordName;
 
@@ -94,7 +93,6 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, web.getClass());
 
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
