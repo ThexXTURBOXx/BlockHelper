@@ -4,12 +4,12 @@ import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
 import org.lwjgl.input.Keyboard;
 

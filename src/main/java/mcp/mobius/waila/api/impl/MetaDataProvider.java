@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.network.Packet0x01TileRequest;
 import mcp.mobius.waila.network.Packet0x02EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
@@ -16,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.mod_BlockHelper;
 
 public class MetaDataProvider {
 

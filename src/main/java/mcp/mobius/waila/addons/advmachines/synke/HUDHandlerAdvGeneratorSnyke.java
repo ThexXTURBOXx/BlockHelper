@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines;
+package mcp.mobius.waila.addons.advmachines.synke;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerAdvGenerator implements IDataProvider {
+public final class HUDHandlerAdvGeneratorSnyke implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvGenerator();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorSnyke();
 
-    private HUDHandlerAdvGenerator() {
+    private HUDHandlerAdvGeneratorSnyke() {
     }
 
     @Override
@@ -65,9 +65,9 @@ public final class HUDHandlerAdvGenerator implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvMachinesPlugin.TileAM2BaseGenerator.isInstance(te)) {
-                storage = AdvMachinesPlugin.TileAM2BaseGenerator_stored.getInt(te);
-                maxStorage = AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage.getInt(null);
+            if (AdvMachinesSnykePlugin.TileAdvMachine.isInstance(te)) {
+                storage = AdvMachinesSnykePlugin.TileAdvMachine_energy.getInt(te);
+                maxStorage = AdvMachinesSnykePlugin.TileAdvMachine_maxEnergy.getInt(null);
             }
 
             tag.setInteger("storage", storage);

@@ -14,9 +14,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemDye;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.util.StatCollector;
 
 public class I18n {

@@ -1,11 +1,12 @@
 package mcp.mobius.waila.api;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.src.mod_BlockHelper;
 
 /**
  * Main interface used for Waila plugins.
  * An instance of {@link IRegistrar} will be provided to registered plugins automatically.
- * For more info, see {@link mcp.mobius.waila.mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
+ * For more info, see {@link mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
  * The following call order is guaranteed:
  * {@link #shouldRegister()} => if it returns {@code true}:
  * {@link #register(IRegistrar, Side)}.

@@ -40,8 +40,8 @@ unimined.minecraft {
             c("BaseModMp", "net/minecraft/src/BaseModMp")
             c("ModLoader", "net/minecraft/src/ModLoader")
             c("ModLoaderMp", "net/minecraft/src/ModLoaderMp")
-            // c("mod_BlockHelper", "net/minecraft/src/mod_BlockHelper") //  Not in 1.5.x!
-            // c("mod_BlockHelper\$Accessor", "net/minecraft/src/mod_BlockHelper\$Accessor") //  Not in 1.5.x!
+            c("mod_BlockHelper", "net/minecraft/src/mod_BlockHelper")
+            c("mod_BlockHelper\$Accessor", "net/minecraft/src/mod_BlockHelper\$Accessor")
             c("Packet200ModLoader", "net/minecraft/src/Packet200ModLoader")
             c("Packet230ModLoader", "net/minecraft/src/Packet230ModLoader")
         }
@@ -52,11 +52,7 @@ unimined.minecraft {
     }
 }
 
-remapJar {
-    prodNamespace("searge")
-}
-
 dependencies {
-    modImplementation(":CodeChickenCore 0.8.7.3-fix1")
-    modImplementation(":NotEnoughItems 1.5.2.28")
+    modImplementation(":CodeChickenCore 0.8.1.6")
+    modImplementation(":NotEnoughItems 1.4.7.4")
 }

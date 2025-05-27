@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.harvestcraft;
+package mcp.mobius.waila.addons.florasoma;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -9,24 +9,26 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
 
-public final class HUDHandlerPamCrops implements IDataProvider {
+import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock;
+import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock_getCropItem;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-    public static final IDataProvider INSTANCE = new HUDHandlerPamCrops();
+public final class HUDHandlerFloraSomaCrops implements IDataProvider {
 
-    private HUDHandlerPamCrops() {
+    public static final IDataProvider INSTANCE = new HUDHandlerFloraSomaCrops();
+
+    private HUDHandlerFloraSomaCrops() {
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
-        // Yes, this is more than just ugly... But Pam's code here is more than just ugly as well...
         try {
             Block b = accessor.getBlock();
-            String clazz = b.getClass().getName();
-            if (clazz.startsWith("pamsmods.common.harvestcraft") &&
-                clazz.contains("Pam") && clazz.endsWith("Crop")) {
-                return getPamCropItem(accessor);
+            if (FloraCropBlock.isInstance(b)) {
+                int meta = accessor.getMetadata();
+                return new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
+                        b.damageDropped(meta));
             }
         } catch (Throwable ignored) {
         }
@@ -36,6 +38,15 @@ public final class HUDHandlerPamCrops implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
+        try {
+            Block b = accessor.getBlock();
+            if (FloraCropBlock.isInstance(b)) {
+                int meta = accessor.getMetadata();
+                currenttip.set(0, WHITE + new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
+                        b.damageDropped(meta)).getDisplayName());
+            }
+        } catch (Throwable ignored) {
+        }
     }
 
     @Override
@@ -51,12 +62,6 @@ public final class HUDHandlerPamCrops implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
-    }
-
-    private ItemStack getPamCropItem(IDataAccessor accessor) {
-        MovingObjectPosition mop = accessor.getPosition();
-        return accessor.getBlock().getBlockDropped(accessor.getWorld(),
-                mop.blockX, mop.blockY, mop.blockZ, 7, -10).get(0);
     }
 
 }

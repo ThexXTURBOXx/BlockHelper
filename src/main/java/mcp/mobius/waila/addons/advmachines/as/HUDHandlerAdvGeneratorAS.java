@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.appeng;
+package mcp.mobius.waila.addons.advmachines.as;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerMEPowerStorage implements IDataProvider {
+public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerMEPowerStorage();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
 
-    private HUDHandlerMEPowerStorage() {
+    private HUDHandlerAdvGeneratorAS() {
     }
 
     @Override
@@ -37,16 +37,16 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTData().getInteger("AEStorage");
-            int maxStorage = accessor.getNBTData().getInteger("AEMaxStorage");
+            int storage = accessor.getNBTData().getInteger("storage");
+            int maxStorage = accessor.getNBTData().getInteger("maxStorage");
 
             String storedStr = I18n.translate("hud.msg.stored");
 
-            /* AE Storage */
-            if (config.get("appeng.storage")) {
+            /* EU Storage */
+            if (config.get("advmachines.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " AE");
+                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -62,16 +62,17 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            float storage = -1;
-            float maxStorage = -1;
+            int storage = -1;
+            int maxStorage = -1;
 
-            if (AppEngPlugin.TilePoweredBase.isInstance(te)) {
-                storage = AppEngPlugin.TilePoweredBase_storedPower.getFloat(te);
-                maxStorage = AppEngPlugin.TilePoweredBase_maxStoredPower.getFloat(te);
+            if (AdvMachinesASPlugin.TileEntityBaseMachine.isInstance(te)) {
+                storage = AdvMachinesASPlugin.TileEntityBaseMachine_energy.getInt(te);
+                maxStorage = AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy.getInt(te);
             }
 
-            tag.setInteger("AEStorage", Math.round(storage));
-            tag.setInteger("AEMaxStorage", Math.round(maxStorage));
+            tag.setInteger("storage", storage);
+            tag.setInteger("maxStorage", maxStorage);
+
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }

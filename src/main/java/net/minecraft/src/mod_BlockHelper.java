@@ -1,4 +1,4 @@
-package mcp.mobius.waila;
+package net.minecraft.src;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
@@ -22,7 +22,6 @@ import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.BaseMod;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -114,7 +113,7 @@ public class mod_BlockHelper extends BaseMod {
      * and use something like this:
      * <p><blockquote><pre>
      * try {
-     *     Method register = Class.forName("mcp.mobius.waila.mod_BlockHelper").getMethod("registerPlugin",
+     *     Method register = Class.forName("mod_BlockHelper").getMethod("registerPlugin",
      *         Class.forName("mcp.mobius.waila.api.IWailaPlugin"));
      *     register.invoke(null, new PluginClass());
      * } catch (Throwable t) {

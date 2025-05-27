@@ -11,18 +11,16 @@ on:
 env:
   MOD_VERSION: ${{ inputs.mod_version }}
   GAME_VERSIONS_CF: |
-    1.5
-    1.5.1
-    1.5.2
+    1.4.6
+    1.4.7
   GAME_VERSIONS_MR: |
-    1.5
-    1.5.1
-    1.5.2
+    1.4.6
+    1.4.7
   LOADERS_CF: |
     forge
   LOADERS_MR: |
     forge
-  MC_VERSION: 1.5.x
+  MC_VERSION: 1.4.7
 
 jobs:
   build:

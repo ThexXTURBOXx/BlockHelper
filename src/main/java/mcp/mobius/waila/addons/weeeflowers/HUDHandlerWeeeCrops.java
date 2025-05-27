@@ -1,52 +1,33 @@
-package mcp.mobius.waila.addons.natura;
+package mcp.mobius.waila.addons.weeeflowers;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 
-import static mcp.mobius.waila.addons.natura.NaturaPlugin.CropBlock;
-import static mcp.mobius.waila.addons.natura.NaturaPlugin.CropBlock_getCropItem;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerNaturaCrops implements IDataProvider {
+public final class HUDHandlerWeeeCrops implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerNaturaCrops();
+    public static final IDataProvider INSTANCE = new HUDHandlerWeeeCrops();
 
-    private HUDHandlerNaturaCrops() {
+    private HUDHandlerWeeeCrops() {
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
-        try {
-            Block b = accessor.getBlock();
-            if (CropBlock.isInstance(b)) {
-                int meta = accessor.getMetadata();
-                return new ItemStack((Integer) CropBlock_getCropItem.invoke(b, meta), 1,
-                        b.damageDropped(meta));
-            }
-        } catch (Throwable ignored) {
-        }
-        return null;
+        return getFlowerCropItem(accessor);
     }
 
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        try {
-            Block b = accessor.getBlock();
-            if (CropBlock.isInstance(b)) {
-                int meta = accessor.getMetadata();
-                currenttip.set(0, WHITE + new ItemStack((Integer) CropBlock_getCropItem.invoke(b, meta), 1,
-                        b.damageDropped(meta)).getDisplayName());
-            }
-        } catch (Throwable ignored) {
-        }
+        currenttip.set(0, WHITE + getFlowerCropItem(accessor).getDisplayName());
     }
 
     @Override
@@ -62,6 +43,12 @@ public final class HUDHandlerNaturaCrops implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
+    }
+
+    private ItemStack getFlowerCropItem(IDataAccessor accessor) {
+        MovingObjectPosition mop = accessor.getPosition();
+        return accessor.getBlock().getBlockDropped(accessor.getWorld(),
+                mop.blockX, mop.blockY, mop.blockZ, 7, -10).get(0);
     }
 
 }

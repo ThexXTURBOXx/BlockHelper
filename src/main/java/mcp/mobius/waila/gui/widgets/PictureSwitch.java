@@ -23,7 +23,7 @@ public class PictureSwitch extends WidgetBase {
         GLState state = new GLState();
 
         String texture = mouseOver ? this.texture2 : this.texture1;
-        this.renderEngine.bindTexture(texture);
+        this.mc.renderEngine.bindTexture(this.mc.renderEngine.getTexture(texture));
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
 
         state.reset();

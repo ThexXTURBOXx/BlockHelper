@@ -5,10 +5,10 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class HUDHandlerEntitiesDev implements IEntityProvider {
 

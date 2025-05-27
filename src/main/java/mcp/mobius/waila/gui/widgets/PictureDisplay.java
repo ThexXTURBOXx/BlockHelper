@@ -18,7 +18,7 @@ public class PictureDisplay extends WidgetBase {
     public void draw(Point pos) {
         GLState state = new GLState();
 
-        this.renderEngine.bindTexture(texture);
+        this.mc.renderEngine.bindTexture(this.mc.renderEngine.getTexture(texture));
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
 
         state.reset();

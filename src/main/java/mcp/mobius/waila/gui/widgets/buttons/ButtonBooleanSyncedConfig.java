@@ -4,8 +4,8 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.GLState;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.util.Point;
 
 public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
@@ -42,7 +42,7 @@ public class ButtonBooleanSyncedConfig extends ButtonBooleanConfig {
         if (isForcedConfig()) {
             GLState state = new GLState();
             int texOffset = -1;
-            this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
+            this.mc.renderEngine.bindTexture(this.mc.renderEngine.getTexture(WIDGETS_TEXTURE));
             UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
                     this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
             state.reset();

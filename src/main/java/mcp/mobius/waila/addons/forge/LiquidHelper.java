@@ -2,10 +2,10 @@ package mcp.mobius.waila.addons.forge;
 
 import java.util.Map;
 import java.util.logging.Level;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -52,9 +52,8 @@ public final class LiquidHelper {
         for (String name : map.keySet()) {
             if (name == null) continue;
             LiquidStack stack = map.get(name);
-            if (stack != null && stack.isLiquidEqual(liquidStack)) {
+            if (stack != null && stack.isLiquidEqual(liquidStack))
                 return StringUtils.firstCharacterUppercase(name);
-            }
         }
         return I18n.translate("hud.msg.unknown");
     }

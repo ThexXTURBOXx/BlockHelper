@@ -5,9 +5,9 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.tileentity.TileEntity;
 
 public final class HUDHandlerDev implements IDataProvider {

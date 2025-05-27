@@ -3,12 +3,12 @@ package mcp.mobius.waila.overlay;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,9 +28,8 @@ public final class OverlayRenderer {
             !Minecraft.isGuiEnabled() || // Not in cinema mode
             (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
              && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
-            (mc.gameSettings.keyBindPlayerList.pressed // Together with next two lines: player list is not shown
-             && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1
-                 || mc.theWorld.getScoreboard().func_96539_a(0) != null)) ||
+            (mc.gameSettings.keyBindPlayerList.pressed // Together with next line: player list is not shown
+             && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1)) ||
             !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
             RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;

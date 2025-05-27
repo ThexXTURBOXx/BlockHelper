@@ -24,7 +24,8 @@ public class TTRenderProgressBar implements ITooltipRenderer {
 
         int progress = (currentValue * 28) / maxValue;
 
-        Minecraft.getMinecraft().renderEngine.bindTexture("/assets/waila/textures/sprites.png");
+        Minecraft.getMinecraft().renderEngine.bindTexture(
+                Minecraft.getMinecraft().renderEngine.getTexture("/assets/waila/textures/sprites.png"));
 
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 16, 28, 16, 28, 16);
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 0, progress + 1, 16, progress + 1, 16);

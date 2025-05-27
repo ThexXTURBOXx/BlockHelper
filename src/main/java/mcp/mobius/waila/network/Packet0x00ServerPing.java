@@ -6,10 +6,10 @@ import java.io.DataOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import mcp.mobius.waila.api.impl.PluginConfig;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.ConfigCategory;
 
 public class Packet0x00ServerPing implements IWailaPacket {

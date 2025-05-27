@@ -4,8 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.block.BlockCauldron;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.liquids.ITankContainer;
 
 public final class ForgePlugin implements IWailaPlugin {

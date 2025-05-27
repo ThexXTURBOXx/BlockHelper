@@ -5,13 +5,13 @@ import cpw.mods.fml.relauncher.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 
 public class ProxyClient extends ProxyCommon {
 

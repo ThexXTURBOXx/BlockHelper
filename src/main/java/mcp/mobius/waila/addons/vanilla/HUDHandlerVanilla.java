@@ -27,8 +27,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.beacon;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.carrot;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.endPortal;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.flowerPot;
@@ -43,7 +41,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonExtension;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonMoving;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.potato;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.quartz;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
@@ -119,9 +116,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
 
-        if ((block == quartz) && (meta > 2))
-            return new ItemStack(block, 1, 2);
-
         if (block == anvil ||
             block == sapling ||
             block instanceof BlockStep || block instanceof BlockWoodSlab)
@@ -140,7 +134,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.get(
                 "vanilla.spawntype")) {
             String name = currenttip.get(0);
-            String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).func_98049_a().getEntityNameToSpawn();
+            String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
             currenttip.set(0, name + " (" + mobname + ")");
         }
 
@@ -181,17 +175,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 else
                     currenttip.add(I18n.translate("hud.msg.delay") + ": " + tick + " ticks");
             }
-
-        if (config.get("vanilla.comparator"))
-            if ((block == comparatorIdl) || (block == comparatorAct)) {
-                String mode = (meta & 4) != 0
-                        ? I18n.translate("hud.msg.subtractor")
-                        : I18n.translate("hud.msg.comparator");
-                int outputSignal = accessor.getNBTInteger("OutputSignal");
-                currenttip.add("Mode: " + mode);
-                currenttip.add("Out: " + outputSignal);
-            }
-
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
                 currenttip.add(I18n.translate("hud.msg.power") + ": " + meta);

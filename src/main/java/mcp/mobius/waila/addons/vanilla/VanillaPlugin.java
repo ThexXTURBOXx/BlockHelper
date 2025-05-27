@@ -33,14 +33,11 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block lever = Block.lever;
     static Block repeaterIdle = Block.redstoneRepeaterIdle;
     static Block repeaterActv = Block.redstoneRepeaterActive;
-    static Block comparatorIdl = Block.redstoneComparatorIdle;
-    static Block comparatorAct = Block.redstoneComparatorActive;
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
     static Block silverfish = Block.silverfish;
     static Block leave = Block.leaves;
     static Block log = Block.wood;
-    static Block quartz = Block.blockNetherQuartz;
     static Block anvil = Block.anvil;
     static Block sapling = Block.sapling;
     static Block flowerPot = Block.flowerPot;
@@ -95,17 +92,14 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
         registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
-
         if (side.isClient()) {
             registrar.addConfig("VanillaMC", "vanilla.repeaterol");
 
             registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, repeaterIdle.getClass());
-            registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, comparatorIdl.getClass());
 
             registrar.addConfig("VanillaMC", "vanilla.spawntype");
             registrar.addConfig("VanillaMC", "vanilla.leverstate");
             registrar.addConfig("VanillaMC", "vanilla.repeater");
-            registrar.addConfig("VanillaMC", "vanilla.comparator");
             registrar.addConfig("VanillaMC", "vanilla.redstone");
             registrar.addConfig("VanillaMC", "vanilla.silverfish");
             registrar.addConfig("VanillaMC", "vanilla.flowerpot");
@@ -124,7 +118,6 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, potato.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, quartz.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, anvil.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
@@ -143,8 +136,6 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
-            registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorIdl.getClass());
-            registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, comparatorAct.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());

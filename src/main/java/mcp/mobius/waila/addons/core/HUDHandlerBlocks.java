@@ -119,5 +119,4 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (te != null)
             te.writeToNBT(tag);
     }
-
 }

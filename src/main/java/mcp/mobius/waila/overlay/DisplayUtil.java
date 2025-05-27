@@ -180,7 +180,8 @@ public final class DisplayUtil {
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         if (icon == null) return;
 
-        Minecraft.getMinecraft().renderEngine.bindTexture(icon.texture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(
+                Minecraft.getMinecraft().renderEngine.getTexture(icon.texture));
 
         if (icon.bu != -1)
             DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);

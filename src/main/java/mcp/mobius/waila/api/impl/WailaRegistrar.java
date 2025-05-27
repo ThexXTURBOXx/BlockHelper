@@ -9,14 +9,12 @@ import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
-import mcp.mobius.waila.api.IFMPDecorator;
-import mcp.mobius.waila.api.IFMPProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.src.mod_BlockHelper;
 
 public class WailaRegistrar implements IRegistrar {
 
@@ -48,16 +46,6 @@ public class WailaRegistrar implements IRegistrar {
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
     public final Map<Class<?>, List<IEntityProvider>> NBTEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
-
-    public final Map<String, List<IFMPProvider>> headFMPProviders =
-            new LinkedHashMap<String, List<IFMPProvider>>();
-    public final Map<String, List<IFMPProvider>> bodyFMPProviders =
-            new LinkedHashMap<String, List<IFMPProvider>>();
-    public final Map<String, List<IFMPProvider>> tailFMPProviders =
-            new LinkedHashMap<String, List<IFMPProvider>>();
-
-    public final Map<String, List<IFMPDecorator>> FMPClassDecorators =
-            new LinkedHashMap<String, List<IFMPDecorator>>();
 
     public final Map<Class<?>, List<ICropProvider>> cropProviders =
             new LinkedHashMap<Class<?>, List<ICropProvider>>();
@@ -167,21 +155,6 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void registerHeadProvider(IFMPProvider dataProvider, String name) {
-        this.registerProvider(dataProvider, name, this.headFMPProviders);
-    }
-
-    @Override
-    public void registerBodyProvider(IFMPProvider dataProvider, String name) {
-        this.registerProvider(dataProvider, name, this.bodyFMPProviders);
-    }
-
-    @Override
-    public void registerTailProvider(IFMPProvider dataProvider, String name) {
-        this.registerProvider(dataProvider, name, this.tailFMPProviders);
-    }
-
-    @Override
     public void registerOverrideEntityProvider(IEntityProvider dataProvider, Class<?> entity) {
         this.registerProvider(dataProvider, entity, this.overrideEntityProviders);
     }
@@ -189,11 +162,6 @@ public class WailaRegistrar implements IRegistrar {
     @Override
     public void registerDecorator(IBlockDecorator decorator, Class<?> block) {
         this.registerProvider(decorator, block, this.blockClassDecorators);
-    }
-
-    @Override
-    public void registerDecorator(IFMPDecorator decorator, String name) {
-        this.registerProvider(decorator, name, this.FMPClassDecorators);
     }
 
     @Override
@@ -272,24 +240,8 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(entity, this.NBTEntityProviders);
     }
 
-    public Map<Integer, List<IFMPProvider>> getHeadFMPProviders(String name) {
-        return getProviders(name, this.headFMPProviders);
-    }
-
-    public Map<Integer, List<IFMPProvider>> getBodyFMPProviders(String name) {
-        return getProviders(name, this.bodyFMPProviders);
-    }
-
-    public Map<Integer, List<IFMPProvider>> getTailFMPProviders(String name) {
-        return getProviders(name, this.tailFMPProviders);
-    }
-
     public Map<Integer, List<IBlockDecorator>> getBlockDecorators(Object block) {
         return getProviders(block, this.blockClassDecorators);
-    }
-
-    public Map<Integer, List<IFMPDecorator>> getFMPDecorators(String name) {
-        return getProviders(name, this.FMPClassDecorators);
     }
 
     public Map<Integer, List<ICropProvider>> getCropProviders(Object block) {
@@ -310,12 +262,6 @@ public class WailaRegistrar implements IRegistrar {
             ++index;
         }
 
-        return returnList;
-    }
-
-    private <T> Map<Integer, List<T>> getProviders(String name, Map<String, List<T>> target) {
-        Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
-        returnList.put(0, target.get(name));
         return returnList;
     }
 
@@ -365,24 +311,8 @@ public class WailaRegistrar implements IRegistrar {
         return hasProviders(entity, this.NBTEntityProviders);
     }
 
-    public boolean hasHeadFMPProviders(String name) {
-        return hasProviders(name, this.headFMPProviders);
-    }
-
-    public boolean hasBodyFMPProviders(String name) {
-        return hasProviders(name, this.bodyFMPProviders);
-    }
-
-    public boolean hasTailFMPProviders(String name) {
-        return hasProviders(name, this.tailFMPProviders);
-    }
-
     public boolean hasBlockDecorator(Block block) {
         return hasProviders(block, this.blockClassDecorators);
-    }
-
-    public boolean hasFMPDecorator(String name) {
-        return hasProviders(name, this.FMPClassDecorators);
     }
 
     public boolean hasCropProvider(Block block) {
@@ -394,10 +324,6 @@ public class WailaRegistrar implements IRegistrar {
             if (clazz.isInstance(obj))
                 return true;
         return false;
-    }
-
-    private <T> boolean hasProviders(String name, Map<String, List<T>> target) {
-        return target.containsKey(name);
     }
 
 }

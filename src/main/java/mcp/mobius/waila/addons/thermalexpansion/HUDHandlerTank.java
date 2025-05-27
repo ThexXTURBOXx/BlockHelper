@@ -35,7 +35,7 @@ public final class HUDHandlerTank implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             if (config.get("thermalexpansion.tankmode")) {
-                boolean mode = ThermalExpansionPlugin.TileTank_mode.getBoolean(accessor.getTileEntity());
+                boolean mode = ThermalExpansionPlugin.TilePortableTank_mode.getBoolean(accessor.getTileEntity());
                 currenttip.add(I18n.translate("hud.msg.mode") + ": " + GREEN +
                                I18n.translate(mode ? "hud.msg.output" : "hud.msg.input"));
             }

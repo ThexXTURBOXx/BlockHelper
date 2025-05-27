@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.block.Block;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class EE3Plugin implements IWailaPlugin {
 

@@ -1,8 +1,10 @@
 package mcp.mobius.waila.api;
 
+import net.minecraft.src.mod_BlockHelper;
+
 /**
  * Main registration interface. An instance will be provided to registered plugins automatically.
- * For more info, see {@link mcp.mobius.waila.mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
+ * For more info, see {@link mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
  * If not specified otherwise, all the registration methods taking a class can take classes as well as interfaces.
  * Waila will do a lookup using instanceof on the registered classes, meaning that if all your targets inherit one
  * interface, you only need to specify it to cover the whole hierarchy.</br>
@@ -59,17 +61,8 @@ public interface IRegistrar {
     /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
     void registerNBTProvider(IEntityProvider dataProvider, Class<?> entity);
 
-    /* FMP Providers */
-    void registerHeadProvider(IFMPProvider dataProvider, String name);
-
-    void registerBodyProvider(IFMPProvider dataProvider, String name);
-
-    void registerTailProvider(IFMPProvider dataProvider, String name);
-
     /* The block decorators */
     void registerDecorator(IBlockDecorator decorator, Class<?> block);
-
-    void registerDecorator(IFMPDecorator decorator, String name);
 
     /* Register a crop info provider for the given block */
     void registerCropProvider(ICropProvider cropProvider, Class<?> block);

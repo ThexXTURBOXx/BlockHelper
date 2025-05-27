@@ -6,6 +6,7 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
 import mcp.mobius.waila.utils.GLState;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.util.Point;
 
 
@@ -48,7 +49,8 @@ public class PictureMovableRC extends WidgetBase {
     public void draw(Point pos) {
         GLState state = new GLState();
 
-        this.renderEngine.bindTexture(texture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(
+                Minecraft.getMinecraft().renderEngine.getTexture(texture));
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
 
         state.reset();

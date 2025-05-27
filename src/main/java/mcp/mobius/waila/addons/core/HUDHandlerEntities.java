@@ -56,7 +56,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
         retrieve:
         try {
-            String entityName = entity.getTranslatedEntityName();
+            String entityName = entity.getEntityName();
             if (entityName == null || entityName.isEmpty()) break retrieve;
 
             if (entityName.startsWith("entity.") && entityName.endsWith(".name")) {

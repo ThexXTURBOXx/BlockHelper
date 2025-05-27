@@ -1,20 +1,20 @@
 package mcp.mobius.waila.addons.appeng;
 
 import cpw.mods.fml.relauncher.Side;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.AccessHelper;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class AppEngPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new AppEngPlugin();
 
-    public static Class<?> IMEPowerStorage = null;
-    public static Method IMEPowerStorage_currentPower = null;
-    public static Method IMEPowerStorage_maxPower = null;
+    public static Class<?> TilePoweredBase = null;
+    public static Field TilePoweredBase_storedPower = null;
+    public static Field TilePoweredBase_maxStoredPower = null;
 
     private AppEngPlugin() {
     }
@@ -34,18 +34,16 @@ public final class AppEngPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar, Side side) {
         try {
-            IMEPowerStorage = AccessHelper.getClass("appeng.api.me.tiles.IMEPowerStorage");
-            IMEPowerStorage_currentPower = AccessHelper.getMethod(IMEPowerStorage, new Class[0],
-                    "getMECurrentPower");
-            IMEPowerStorage_maxPower = AccessHelper.getMethod(IMEPowerStorage, new Class[0],
-                    "getMEMaxPower");
+            TilePoweredBase = AccessHelper.getClass("appeng.me.basetiles.TilePoweredBase");
+            TilePoweredBase_storedPower = AccessHelper.getDeclaredField(TilePoweredBase, "storedPower");
+            TilePoweredBase_maxStoredPower = AccessHelper.getDeclaredField(TilePoweredBase, "maxStoredPower");
 
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
-            registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
+            registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, TilePoweredBase);
 
             if (side.isClient())
-                registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
+                registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, TilePoweredBase);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
         }

@@ -9,10 +9,10 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
 

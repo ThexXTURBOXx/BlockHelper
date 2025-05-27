@@ -47,7 +47,7 @@ public class ButtonBooleanConfig extends ButtonBoolean {
         else {
             GLState state = new GLState();
             int texOffset = -1;
-            this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
+            this.mc.renderEngine.bindTexture(this.mc.renderEngine.getTexture(WIDGETS_TEXTURE));
             UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
                     this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
             state.reset();

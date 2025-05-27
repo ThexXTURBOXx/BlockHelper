@@ -1,20 +1,16 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
 import cpw.mods.fml.relauncher.Side;
-import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.AccessHelper;
+import net.minecraft.block.Block;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class HarvestcraftPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new HarvestcraftPlugin();
-
-    static Class<?> BlockPamCrop;
-    static Method BlockPamCrop_getCropItem;
 
     private HarvestcraftPlugin() {
     }
@@ -22,7 +18,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("mods.PamHarvestCraft.PamHarvestCraft");
+            AccessHelper.getClass("pamsmods.common.harvestcraft.PamHCBase");
             mod_BlockHelper.LOG.log(Level.INFO, "[PamHarvestCraft] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -36,14 +32,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
         if (!side.isClient()) return;
 
         try {
-            BlockPamCrop = AccessHelper.getClass("mods.PamHarvestCraft.BlockPamCrop");
-            BlockPamCrop_getCropItem = AccessHelper.getMethod(BlockPamCrop, new Class[0], "getCropItem");
-
-            registrar.registerStackProvider(HUDHandlerPamCrops.INSTANCE, BlockPamCrop);
-
-            registrar.registerHeadProvider(HUDHandlerPamCrops.INSTANCE, BlockPamCrop);
-
-            registrar.registerCropProvider(new DefaultCropProvider(7), BlockPamCrop);
+            registrar.registerStackProvider(HUDHandlerPamCrops.INSTANCE, Block.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[PamHarvestCraft] Error while loading crop hooks.", t);
         }

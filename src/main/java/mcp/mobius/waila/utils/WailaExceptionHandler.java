@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.mod_BlockHelper;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class WailaExceptionHandler {
 

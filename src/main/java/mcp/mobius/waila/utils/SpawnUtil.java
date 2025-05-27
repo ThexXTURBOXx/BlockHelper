@@ -17,7 +17,7 @@ public final class SpawnUtil {
     public static byte getSpawnMode(World w, int x, int y, int z) {
         BiomeGenBase biome = w.getBiomeGenForCoords(x, z);
         if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty() && biome.getSpawningChance() > 0.0f)
-            return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getAABBPool().getAABB(
+            return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getAABBPool().addOrModifyAABBInPool(
                     0, 0, 0, 0, 0, 0), x, y, z);
         return 0;
     }
@@ -32,8 +32,8 @@ public final class SpawnUtil {
         aabb.maxY = y + 1.8;
         aabb.minZ = z + 0.2;
         aabb.maxZ = z + 0.8;
-        if (!chunk.worldObj.checkNoEntityCollision(aabb) ||
-            !chunk.worldObj.getCollidingBlockBounds(aabb).isEmpty() || chunk.worldObj.isAnyLiquid(aabb))
+        if (!chunk.worldObj.checkIfAABBIsClear(aabb) ||
+            !chunk.worldObj.getAllCollidingBoundingBoxes(aabb).isEmpty() || chunk.worldObj.isAnyLiquid(aabb))
             return 0;
         if (chunk.getSavedLightValue(EnumSkyBlock.Sky, x & 0xF, y, z & 0xF) >= 8)
             return 1;

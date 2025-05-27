@@ -35,7 +35,7 @@ public abstract class ButtonBase extends WidgetBase {
     public void draw(Point pos) {
         GLState state = new GLState();
 
-        this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
+        this.mc.renderEngine.bindTexture(this.mc.renderEngine.getTexture(WIDGETS_TEXTURE));
         int texOffset = this.mouseOver ? 1 : 0;
         UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(), this.getSize().getY(),
                 0, 66 + texOffset * 20, 200, 20);

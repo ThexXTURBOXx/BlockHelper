@@ -8,8 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import mcp.mobius.waila.mod_BlockHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.mod_BlockHelper;
 
 public class BlockHelperUpdater implements Runnable {
 
