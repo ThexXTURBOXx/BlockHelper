@@ -19,7 +19,7 @@ public class ViewportScrollable extends WidgetBase {
         boolean drag = false;
 
         public Escalator(IWidget parent, int step) {
-            this.parent = parent;
+            super(parent);
             this.step = step;
         }
 
