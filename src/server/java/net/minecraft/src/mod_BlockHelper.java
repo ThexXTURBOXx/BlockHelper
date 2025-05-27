@@ -1,22 +1,21 @@
 package net.minecraft.src;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import forge.Configuration;
-import forge.MinecraftForge;
-import forge.NetworkMod;
 import java.io.File;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.network.WailaConnectionHandler;
+import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.proxy.ProxyServer;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
+import mcp.mobius.waila.utils.config.Configuration;
+import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 
-public class mod_BlockHelper extends NetworkMod {
+public class mod_BlockHelper extends BaseModMp {
 
     public static final String PACKAGE = "mcp.mobius.waila.";
     public static final String MOD_ID = "mod_BlockHelper";
@@ -31,6 +30,10 @@ public class mod_BlockHelper extends NetworkMod {
 
     static {
         LOG.setParent(ModLoader.getLogger());
+        ConsoleHandler ch = new ConsoleHandler();
+        LOG.setUseParentHandlers(false);
+        LOG.addHandler(ch);
+        ch.setFormatter(new FMLLikeLogFormatter());
     }
 
     public static String getModId() {
@@ -55,13 +58,18 @@ public class mod_BlockHelper extends NetworkMod {
         // PRE INIT
         new Thread(UPDATER, "Block Helper Version Check").start();
 
-        Configuration cfg = new Configuration(new File(FMLCommonHandler.instance().getMinecraftRootDirectory(),
-                "config/BlockHelper.cfg"));
+        File cfgdir;
+        try {
+            String supdir = ModLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            supdir = supdir.substring(0, supdir.lastIndexOf(47));
+            cfgdir = new File(supdir, "/config/");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+        Configuration cfg = new Configuration(new File(cfgdir, "BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
 
         // INIT
-        MinecraftForge.registerConnectionHandler(new WailaConnectionHandler());
-        ModLoader.registerPacketChannel(this, CHANNEL);
 
         // POST INIT
         proxy.prepare();
@@ -71,15 +79,20 @@ public class mod_BlockHelper extends NetworkMod {
     @Override
     public void modsLoaded() {
         // LOAD COMPLETE
+        super.modsLoaded();
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
     }
 
     @Override
-    public void onPacket250Received(EntityPlayer source, Packet250CustomPayload payload) {
-        if (source instanceof EntityPlayerMP)
-            WailaPacketHandler.INSTANCE.onPacketData((EntityPlayerMP) source, payload);
+    public void handleLogin(EntityPlayerMP player) {
+        WailaPacketHandler.sendPacketToPlayer(new Packet0x00ServerPing(), player);
+    }
+
+    @Override
+    public void handlePacket(Packet230ModLoader payload, EntityPlayerMP source) {
+        WailaPacketHandler.INSTANCE.onPacketData(source, payload);
     }
 
     public static class Accessor {
@@ -93,7 +106,7 @@ public class mod_BlockHelper extends NetworkMod {
             if (w == null) return null;
             try {
                 if (w instanceof WorldServer) {
-                    Entity e = ((WorldServer) w).getEntityByID(entityId);
+                    Entity e = ((WorldServer) w).func_6158_a(entityId);
                     if (e != null)
                         return e;
                 }

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.ic2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -33,7 +32,7 @@ public final class IC2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         // XXX: We register the Energy interface first
         try {
             TileBaseGenerator = AccessHelper.getClass("ic2.common.TileEntityBaseGenerator");
@@ -46,8 +45,7 @@ public final class IC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
 
-            if (side.isClient())
-                registrar.registerBodyProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
+            registrar.registerBodyProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
         }

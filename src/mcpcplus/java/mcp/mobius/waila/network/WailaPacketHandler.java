@@ -7,7 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet250CustomPayload;
+import net.minecraft.server.ModLoaderMp;
+import net.minecraft.server.Packet230ModLoader;
 import net.minecraft.server.mod_BlockHelper;
 
 public class WailaPacketHandler {
@@ -17,11 +18,13 @@ public class WailaPacketHandler {
     private WailaPacketHandler() {
     }
 
-    public void onPacketData(EntityPlayer source, Packet250CustomPayload payload) {
+    public void onPacketData(EntityPlayer source, Packet230ModLoader payload) {
         try {
-            if (!payload.tag.equals(mod_BlockHelper.CHANNEL)) return;
+            DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(toByteArray(payload.dataInt)));
 
-            DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(payload.data));
+            String channel = inputStream.readUTF();
+            if (!channel.equals(mod_BlockHelper.CHANNEL)) return;
+
             byte header = getHeader(inputStream);
 
             IWailaPacket castedPacket = getWailaPacket(header);
@@ -70,24 +73,42 @@ public class WailaPacketHandler {
         return -1;
     }
 
-    public static Packet250CustomPayload wrapMLPacket(IWailaPacket packet) {
-        Packet250CustomPayload mlPacket = new Packet250CustomPayload();
+    // Format: first int is byte array length.
+    // Then, we assume little endian for the bytes.
+    public static byte[] toByteArray(int[] arr) {
+        byte[] ret = new byte[arr[0]];
+        for (int i = 0; i < ret.length; ++i)
+            ret[i] = (byte) ((arr[1 + i / 4] >> ((i % 4) * 8)) & 0xFF);
+        return ret;
+    }
+
+    // Format: first int is byte array length.
+    // Then, we use little endian for the bytes.
+    public static int[] toIntArray(byte[] arr) {
+        int[] ret = new int[1 + (arr.length + 3) / 4]; // ceil div
+        ret[0] = arr.length;
+        for (int i = 0; i < arr.length; ++i)
+            ret[1 + i / 4] |= (arr[i] & 0xFF) << ((i % 4) * 8);
+        return ret;
+    }
+
+    public static Packet230ModLoader wrapMLPacket(IWailaPacket packet) {
+        Packet230ModLoader mlPacket = new Packet230ModLoader();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(bos);
         try {
+            outputStream.writeUTF(mod_BlockHelper.CHANNEL);
             outputStream.writeByte(getPacketId(packet));
             packet.encode(outputStream);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, packet.getClass());
         }
-        mlPacket.tag = mod_BlockHelper.CHANNEL;
-        mlPacket.data = bos.toByteArray();
-        mlPacket.length = bos.size();
+        mlPacket.dataInt = toIntArray(bos.toByteArray());
         return mlPacket;
     }
 
     public static void sendPacketToPlayer(IWailaPacket packet, EntityPlayer player) {
-        player.netServerHandler.sendPacket(wrapMLPacket(packet));
+        ModLoaderMp.sendPacketTo(mod_BlockHelper.INSTANCE, player, wrapMLPacket(packet));
     }
 
 }

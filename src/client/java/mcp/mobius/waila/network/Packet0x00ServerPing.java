@@ -51,6 +51,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
     }
 
     public static void resetClient() {
+        mod_BlockHelper.LOG.severe("resetClient() called");
         mod_BlockHelper.INSTANCE.serverPresent = false;
         PluginConfig.instance().forcedConfigs = new HashMap<String, Boolean>();
     }

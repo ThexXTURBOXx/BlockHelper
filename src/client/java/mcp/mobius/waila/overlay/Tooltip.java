@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import forge.Configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +16,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.src.ItemStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;

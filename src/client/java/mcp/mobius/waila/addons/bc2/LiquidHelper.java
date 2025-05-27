@@ -1,7 +1,6 @@
 package mcp.mobius.waila.addons.bc2;
 
 import buildcraft.api.ILiquidContainer;
-import buildcraft.api.LiquidSlot;
 import java.util.logging.Level;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
@@ -27,15 +26,6 @@ public final class LiquidHelper {
     }
 
     public static LiquidSlotDelegate getTank(ILiquidContainer container) {
-        try {
-            LiquidSlot[] slots = container.getLiquidSlots();
-            if (slots != null)
-                for (LiquidSlot slot : slots)
-                    if (slot != null && slot.getCapacity() > 0)
-                        return new LiquidSlotDelegate(slot.getLiquidId(), slot.getLiquidQty(), slot.getCapacity());
-        } catch (Throwable ignored) {
-        }
-
         try {
             int quantity = container.getLiquidQuantity();
             int capacity = Math.max(quantity, container.getCapacity());

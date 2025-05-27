@@ -4,7 +4,6 @@ import codechicken.nei.IHandleTooltip;
 import java.util.List;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.src.GuiContainer;
 import net.minecraft.src.ItemStack;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
@@ -17,16 +16,7 @@ public final class TooltipHandlerWaila implements IHandleTooltip {
     private TooltipHandlerWaila() {
     }
 
-    @SuppressWarnings("rawtypes")
-    public boolean canHandle(Class p0) {
-        return true;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public List handleTooltip(GuiContainer guiContainer, List list) {
-        return handleTooltip(guiContainer.getStackMouseOver(), list);
-    }
-
+    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List handleTooltip(ItemStack stack, List list) {
         if (!PluginConfig.instance().get("nei.modtooltips")) return list;

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.enderstorage;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -35,9 +34,7 @@ public final class EnderStoragePlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             TileEnderChest = AccessHelper.getClass("codechicken.enderstorage.TileEnderChest");
             TileEnderChest_freq = AccessHelper.getField(TileEnderChest, "freq");

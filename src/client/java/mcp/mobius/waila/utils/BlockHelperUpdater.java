@@ -35,16 +35,16 @@ public class BlockHelperUpdater implements Runnable {
                 latestVersion = latestVersions.get(0);
                 status = latestVersions.contains(mod_BlockHelper.VERSION) ? Status.UP_TO_DATE : Status.OUTDATED;
                 if (status == Status.UP_TO_DATE) {
-                    mod_BlockHelper.LOG.info(I18n.translate("waila.newest_version_installed",
+                    mod_BlockHelper.LOG.info(String.format("Yay! You have the newest version of %s :)",
                             mod_BlockHelper.NAME));
                 } else {
-                    mod_BlockHelper.LOG.info(I18n.translate("waila.newer_version_available",
+                    mod_BlockHelper.LOG.info(String.format("Newer version of %s available: %s",
                             mod_BlockHelper.NAME, latestVersion));
                 }
             }
         } catch (Throwable t) {
             status = Status.ERRORED;
-            mod_BlockHelper.LOG.log(Level.WARNING, I18n.translate("waila.update_check_failed",
+            mod_BlockHelper.LOG.log(Level.WARNING, String.format("Update check for %s failed.",
                     mod_BlockHelper.NAME), t);
         }
     }

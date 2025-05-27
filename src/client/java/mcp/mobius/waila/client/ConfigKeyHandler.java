@@ -1,13 +1,12 @@
 package mcp.mobius.waila.client;
 
-import cpw.mods.fml.common.Loader;
-import forge.Configuration;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
@@ -71,7 +70,7 @@ public class ConfigKeyHandler {
         }
 
         if (keyRecipe.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
+            if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(true);
                 } catch (Throwable ignored) {
@@ -80,7 +79,7 @@ public class ConfigKeyHandler {
         }
 
         if (keyUsage.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
+            if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(false);
                 } catch (Throwable ignored) {
@@ -89,11 +88,17 @@ public class ConfigKeyHandler {
         }
 
         if (keyLLOverlay.isPressed()) {
-            NEIOverlayRenderer.renderMobSpawnOverlay = !NEIOverlayRenderer.renderMobSpawnOverlay;
+            try {
+                NEIOverlayRenderer.renderMobSpawnOverlay = !NEIOverlayRenderer.renderMobSpawnOverlay;
+            } catch (Throwable ignored) {
+            }
         }
 
         if (keyCBOverlay.isPressed()) {
-            NEIOverlayRenderer.renderChunkBounds = (NEIOverlayRenderer.renderChunkBounds + 1) % 3;
+            try {
+                NEIOverlayRenderer.renderChunkBounds = (NEIOverlayRenderer.renderChunkBounds + 1) % 3;
+            } catch (Throwable ignored) {
+            }
         }
     }
 

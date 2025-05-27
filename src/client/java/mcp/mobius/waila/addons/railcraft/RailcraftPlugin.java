@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.railcraft;
 
-import cpw.mods.fml.common.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -28,10 +27,9 @@ public final class RailcraftPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         try {
-            if (side.isClient())
-                registrar.registerHeadProvider(HUDHandlerCarts.INSTANCE, EntityMinecart.class);
+            registrar.registerHeadProvider(HUDHandlerCarts.INSTANCE, EntityMinecart.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Railcraft] Error while loading cart hooks.", t);
         }

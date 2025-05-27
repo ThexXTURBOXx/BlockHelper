@@ -48,7 +48,7 @@ public final class HUDHandlerWeeeCrops implements IDataProvider {
 
     private ItemStack getFlowerCropItem(IDataAccessor accessor) {
         MovingObjectPosition mop = accessor.getPosition();
-        return accessor.getBlock().getBlockDropped(accessor.getWorld(),
+        return (ItemStack) accessor.getBlock().getBlockDropped(accessor.getWorld(),
                 mop.blockX, mop.blockY, mop.blockZ, 7, -10).get(0);
     }
 

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import forge.Configuration;
 import mcp.mobius.waila.api.event.WailaEventRegistrar;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -8,6 +7,7 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EnumMovingObjectType;

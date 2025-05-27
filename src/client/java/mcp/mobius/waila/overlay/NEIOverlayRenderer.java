@@ -53,12 +53,12 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
         World world = entity.worldObj;
         int x1 = (int) entity.posX;
         int z1 = (int) entity.posZ;
-        int y1 = (int) clamp(entity.posY, 16.0, world.getHeight() - 16);
+        int y1 = (int) clamp(entity.posY, 16.0, world.func_48453_b() - 16);
         AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         for (int x2 = x1 - 16; x2 <= x1 + 16; ++x2) {
             for (int z2 = z1 - 16; z2 <= z1 + 16; ++z2) {
                 Chunk chunk = world.getChunkFromBlockCoords(x2, z2);
-                BiomeGenBase biome = world.getBiomeGenForCoords(x2, z2);
+                BiomeGenBase biome = world.func_48454_a(x2, z2);
                 if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty() &&
                     biome.getSpawningChance() > 0.0f) {
                     for (int y2 = y1 - 16; y2 < y1 + 16; ++y2) {
@@ -108,8 +108,8 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
                     y1 = 0.0;
                     y2 = dy;
                 }
-                if (y1 > entity.worldObj.getHeight()) {
-                    y2 = entity.worldObj.getHeight();
+                if (y1 > entity.worldObj.func_48453_b()) {
+                    y2 = entity.worldObj.func_48453_b();
                     y1 = y2 - dy;
                 }
                 double dist = Math.pow(1.5, -(cx * cx + cz * cz));
@@ -138,8 +138,8 @@ public class NEIOverlayRenderer implements IRenderWorldLastHandler {
                         y1 = 0.0;
                         y2 = dy;
                     }
-                    if (y1 > entity.worldObj.getHeight()) {
-                        y2 = entity.worldObj.getHeight();
+                    if (y1 > entity.worldObj.func_48453_b()) {
+                        y2 = entity.worldObj.func_48453_b();
                         y1 = y2 - dy;
                     }
                     GL11.glColor4d(0.0, 0.9, 0.0, 0.4);

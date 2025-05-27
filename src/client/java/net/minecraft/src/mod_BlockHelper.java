@@ -1,17 +1,16 @@
 package net.minecraft.src;
 
-import forge.Configuration;
-import forge.MinecraftForge;
-import forge.MinecraftForgeClient;
-import forge.NetworkMod;
+import forge.ForgeHooksClient;
 import java.io.File;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
-import mcp.mobius.waila.network.WailaConnectionHandler;
+import mcp.mobius.waila.network.Packet0x00ServerPing;
+import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
 import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
@@ -20,9 +19,11 @@ import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.config.Configuration;
+import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 import net.minecraft.client.Minecraft;
 
-public class mod_BlockHelper extends NetworkMod {
+public class mod_BlockHelper extends BaseModMp {
 
     public static final String PACKAGE = "mcp.mobius.waila.";
     public static final String MOD_ID = "mod_BlockHelper";
@@ -41,6 +42,10 @@ public class mod_BlockHelper extends NetworkMod {
 
     static {
         LOG.setParent(ModLoader.getLogger());
+        ConsoleHandler ch = new ConsoleHandler();
+        LOG.setUseParentHandlers(false);
+        LOG.addHandler(ch);
+        ch.setFormatter(new FMLLikeLogFormatter());
     }
 
     public boolean serverPresent = false;
@@ -60,6 +65,7 @@ public class mod_BlockHelper extends NetworkMod {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void load() {
         INSTANCE = this;
         proxy = new ProxyClient();
@@ -74,11 +80,14 @@ public class mod_BlockHelper extends NetworkMod {
         OverlayConfig.updateColors();
 
         // INIT
-        MinecraftForgeClient.registerRenderLastHandler(new DecoratorRenderer());
-        MinecraftForgeClient.registerRenderLastHandler(new NEIOverlayRenderer());
+        try {
+            ForgeHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
+            ForgeHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
+        } catch (Throwable t) {
+            LOG.info("Forge not detected. Overlays and decorators will not work.");
+        }
         CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
         TICK_HANDLER = new WailaTickHandler();
-        MinecraftForge.registerConnectionHandler(new WailaConnectionHandler());
 
         // POST INIT
         proxy.prepare();
@@ -88,6 +97,7 @@ public class mod_BlockHelper extends NetworkMod {
     @Override
     public void modsLoaded() {
         // LOAD COMPLETE
+        super.modsLoaded();
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
@@ -95,10 +105,20 @@ public class mod_BlockHelper extends NetworkMod {
 
     @Override
     public boolean onTickInGame(float time, Minecraft mc) {
-        if (mc.theWorld == null || mc.thePlayer == null) return true;
-        CONFIG_KEY_HANDLER.onTickInGame(mc);
-        TICK_HANDLER.onTickInGame(mc);
+        if (mc.theWorld != null && mc.thePlayer != null) {
+            CONFIG_KEY_HANDLER.onTickInGame(mc);
+            TICK_HANDLER.onTickInGame(mc);
+        }
+
+        if (serverPresent && mc.theWorld == null)
+            Packet0x00ServerPing.resetClient();
+
         return true;
+    }
+
+    @Override
+    public void handlePacket(Packet230ModLoader packet) {
+        WailaPacketHandler.INSTANCE.onPacketData(packet);
     }
 
     public static class Accessor {
@@ -124,6 +144,28 @@ public class mod_BlockHelper extends NetworkMod {
                     if (e.entityId == entityId)
                         return e;
             return null;
+        }
+
+        public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+            try {
+                return b.canHarvestBlock(player, meta);
+            } catch (Throwable ignored) {
+            }
+
+            if (b.blockMaterial.isHarvestable())
+                return true;
+            ItemStack stack = player.inventory.getCurrentItem();
+            if (stack == null)
+                return false;
+            return stack.canHarvestBlock(b);
+        }
+
+        public static float getHardness(Block b, int meta) {
+            try {
+                return b.getHardness(meta);
+            } catch (Throwable ignored) {
+            }
+            return b.getHardness();
         }
 
     }

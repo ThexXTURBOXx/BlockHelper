@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay;
 
-import forge.Configuration;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.config.Configuration;
 
 public final class OverlayConfig {
 

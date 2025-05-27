@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.vanilla;
 
-import cpw.mods.fml.common.Side;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.server.EntityLiving;
@@ -18,7 +17,7 @@ public final class VanillaPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");

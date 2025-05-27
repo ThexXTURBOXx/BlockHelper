@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.ic2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -33,7 +32,7 @@ public final class IC2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         // XXX: We register the Energy interface first
         try {
             TileBaseGenerator = AccessHelper.getClass("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");

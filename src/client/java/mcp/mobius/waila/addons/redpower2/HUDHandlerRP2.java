@@ -27,10 +27,8 @@ import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileExtended_get
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic_Cover;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic_Rotation;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic_SubId;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileMultipart;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileMultipart_addHarvestContents;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TilePipe;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileTube;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_CenterPost;
@@ -64,7 +62,7 @@ public final class HUDHandlerRP2 implements IDataProvider {
                             if (pos.subHit == TileLogic_Rotation.getInt(tl) >> 2) {
                                 if (TileLogic_Cover.getInt(tl) != 255) {
                                     return new ItemStack((Integer) TileExtended_getBlockID.invoke(tl), 1,
-                                            (Integer) TileExtended_getExtendedID.invoke(tl) * 256 + TileLogic_SubId.getInt(tl));
+                                            (Integer) TileExtended_getExtendedID.invoke(tl));
                                 } else {
                                     ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
                                     TileMultipart_addHarvestContents.invoke(tl, stacks);
@@ -73,8 +71,7 @@ public final class HUDHandlerRP2 implements IDataProvider {
                                 }
                             }
                             return getCover(tl, pos.subHit);
-                        } else if ((TileTube != null && TileTube.isInstance(tl)) ||
-                                   (TilePipe != null && TilePipe.isInstance(tl))) {
+                        } else if (TileTube != null && TileTube.isInstance(tl)) {
                             if (pos.subHit == 29)
                                 return new ItemStack(bm.blockID, 1,
                                         (Integer) TileExtended_getExtendedID.invoke(tl) << 8);

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.core;
 
-import forge.Configuration;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -12,6 +11,7 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import mcp.mobius.waila.utils.SpawnUtil;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.ItemStack;
@@ -20,6 +20,7 @@ import net.minecraft.src.ModLoader;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_BlockHelper.Accessor;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.DRED;
@@ -72,9 +73,9 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (config.get("general.harvest")) {
             String harvest = "hud.msg.please_report";
             if (b != null) {
-                if (b.getHardness(meta) < 0.0F) {
+                if (Accessor.getHardness(b, meta) < 0.0F) {
                     harvest = "hud.msg.unbreakable";
-                } else if (b.canHarvestBlock(accessor.getPlayer(), meta)) {
+                } else if (Accessor.canHarvestBlock(b, accessor.getPlayer(), meta)) {
                     harvest = "hud.msg.harvestable";
                 } else {
                     harvest = "hud.msg.not_harvestable";

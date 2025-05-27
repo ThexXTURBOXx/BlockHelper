@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -35,7 +34,7 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         // XXX: We register the energy cell
         try {
             TileEnergyCell = AccessHelper.getClass("thermalexpansion.energy.tileentity.TileEnergyCell");
@@ -46,23 +45,20 @@ public final class ThermalExpansionPlugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
 
-            if (side.isClient())
-                registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
+            registrar.registerBodyProvider(HUDHandlerEnergyCell.INSTANCE, TileEnergyCell);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks.", t);
         }
 
-        if (side.isClient()) {
-            // XXX: We register the Tank interface
-            try {
-                TilePortableTank = AccessHelper.getClass("thermalexpansion.factory.tileentity.TilePortableTank");
-                TilePortableTank_mode = AccessHelper.getField(TilePortableTank, "mode");
+        // XXX: We register the Tank interface
+        try {
+            TilePortableTank = AccessHelper.getClass("thermalexpansion.factory.tileentity.TilePortableTank");
+            TilePortableTank_mode = AccessHelper.getField(TilePortableTank, "mode");
 
-                registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
-                registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TilePortableTank);
-            } catch (Throwable t) {
-                mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
-            }
+            registrar.addConfig("Thermal Expansion", "thermalexpansion.tankmode");
+            registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TilePortableTank);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks.", t);
         }
     }
 

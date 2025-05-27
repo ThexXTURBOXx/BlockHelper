@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.ee3;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -37,9 +36,7 @@ public final class EE3Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             Class<?> EMCList = AccessHelper.getClass("ee3.emc.EMCList");
             EMCList_emcMap = AccessHelper.getDeclaredField(EMCList, "emcMap");

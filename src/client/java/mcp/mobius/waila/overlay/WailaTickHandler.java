@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import forge.Configuration;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -10,6 +9,7 @@ import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import mcp.mobius.waila.utils.ModIdentification;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;

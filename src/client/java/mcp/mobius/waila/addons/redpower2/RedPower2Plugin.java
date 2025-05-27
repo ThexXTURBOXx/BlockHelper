@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.redpower2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -47,9 +46,6 @@ public final class RedPower2Plugin implements IWailaPlugin {
     public static Class<?> TileLogic = null;
     public static Field TileLogic_Rotation = null;
     public static Field TileLogic_Cover = null;
-    public static Field TileLogic_SubId = null;
-
-    public static Class<?> TilePipe = null;
 
     public static Class<?> TileTube = null;
 
@@ -97,9 +93,7 @@ public final class RedPower2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             RedPowerBase_blockMicro = AccessHelper.getField(RedPowerBase, "blockMicro");
 
@@ -131,12 +125,9 @@ public final class RedPower2Plugin implements IWailaPlugin {
                 TileLogic = AccessHelper.getClass("eloraam.logic.TileLogic");
                 TileLogic_Rotation = AccessHelper.getField(TileLogic, "Rotation");
                 TileLogic_Cover = AccessHelper.getField(TileLogic, "Cover");
-                TileLogic_SubId = AccessHelper.getField(TileLogic, "SubId");
             }
 
             if (mod_RedPowerMachine != null) {
-                TilePipe = AccessHelper.getClass("eloraam.machine.TilePipe");
-
                 TileTube = AccessHelper.getClass("eloraam.machine.TileTube");
             }
 

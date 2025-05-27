@@ -1,6 +1,5 @@
 package mcp.mobius.waila.proxy;
 
-import cpw.mods.fml.common.Side;
 import java.util.ArrayList;
 import java.util.List;
 import mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin;
@@ -15,11 +14,9 @@ import mcp.mobius.waila.api.IWailaPlugin;
 
 public class ProxyCommon {
 
-    private final Side side;
     private final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
 
-    public ProxyCommon(Side side) {
-        this.side = side;
+    public ProxyCommon() {
     }
 
     public void registerPlugin(IWailaPlugin plugin) {
@@ -42,7 +39,7 @@ public class ProxyCommon {
     public void registerModPlugins(IRegistrar registrar) {
         for (IWailaPlugin plugin : plugins)
             if (plugin.shouldRegister())
-                plugin.register(registrar, side);
+                plugin.register(registrar);
     }
 
     public void postLoad() {

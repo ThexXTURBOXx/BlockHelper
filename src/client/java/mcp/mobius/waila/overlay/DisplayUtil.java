@@ -166,7 +166,7 @@ public final class DisplayUtil {
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
             namelist.set(0, "Unnamed");
 
-        namelist.set(0, MCStyle + Integer.toHexString(itemstack.getRarity().rarityColor) + namelist.get(0));
+        namelist.set(0, MCStyle + Integer.toHexString(itemstack.getRarity().field_40535_e) + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, GRAY + namelist.get(i));
 

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.gui.screens.config;
 
-import forge.Configuration;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -10,6 +9,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.src.GuiScreen;
 
 public class ScreenWailaConfig extends ScreenBase {

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.network;
 
-import forge.Property;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.HashMap;
@@ -8,6 +7,7 @@ import java.util.Map;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.config.Property;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet;
 

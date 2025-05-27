@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import forge.Configuration;
 import forge.IShearable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +11,7 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -113,6 +113,7 @@ public class RayTracing {
         return !ents.isEmpty() ? ents.get(0) : this.target.entityHit;
     }
 
+    @SuppressWarnings("unchecked")
     public List<ItemStack> getIdentifierItems() {
         List<ItemStack> items = new ArrayList<ItemStack>();
 
@@ -216,11 +217,14 @@ public class RayTracing {
                 return items;
             */
 
-            if (mouseoverBlock instanceof IShearable) {
-                IShearable shearable = (IShearable) mouseoverBlock;
-                if (shearable.isShearable(new ItemStack(Item.shears), world, x, y, z)) {
-                    items.addAll(shearable.onSheared(new ItemStack(Item.shears), world, x, y, z, 0));
+            try {
+                if (mouseoverBlock instanceof IShearable) {
+                    IShearable shearable = (IShearable) mouseoverBlock;
+                    if (shearable.isShearable(new ItemStack(Item.shears), world, x, y, z)) {
+                        items.addAll(shearable.onSheared(new ItemStack(Item.shears), world, x, y, z, 0));
+                    }
                 }
+            } catch (Throwable ignored) {
             }
 
             if (items.isEmpty())

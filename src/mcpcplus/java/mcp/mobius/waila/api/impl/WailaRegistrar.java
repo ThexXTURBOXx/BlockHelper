@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.utils.Constants;
-import net.minecraft.src.Entity;
+import net.minecraft.server.Entity;
 
 public class WailaRegistrar implements IRegistrar {
 

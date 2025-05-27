@@ -1,8 +1,5 @@
 package mcp.mobius.waila.utils;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.ModMetadata;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.JarURLConnection;
@@ -10,13 +7,16 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.BaseMod;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
@@ -43,19 +43,15 @@ public final class ModIdentification {
         modInfos.add(new ModInfo(minecraftUri, MINECRAFT));
 
         try {
-            containerLoop:
-            for (ModContainer container : Loader.getModList()) {
+            baseModLoop:
+            for (BaseMod mod : (List<BaseMod>) ModLoader.getLoadedMods()) {
                 try {
-                    File source = container.getSource();
-                    if (source.isFile()) {
-                        String uri = formatURI(source.toURI());
-                        for (ModInfo info : modInfos) {
-                            if (info.uri.equals(uri)) {
-                                continue containerLoop;
-                            }
-                        }
-                        modInfos.add(new ModInfo(uri, getModName(container)));
-                    }
+                    String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
+                            .getLocation().toURI());
+                    for (ModInfo info : modInfos)
+                        if (info.uri.equals(uri))
+                            continue baseModLoop;
+                    modInfos.add(new ModInfo(uri, formatModName(mod.getName())));
                 } catch (Throwable t) {
                     mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t);
                 }
@@ -96,16 +92,6 @@ public final class ModIdentification {
         } catch (Throwable ignored) {
         }
         return null;
-    }
-
-    private static String getModName(ModContainer container) {
-        if (container != null) {
-            ModMetadata metadata = container.getMetadata();
-            if (metadata != null && metadata.name != null)
-                return formatModName(metadata.name);
-            return formatModName(container.getName());
-        }
-        return MINECRAFT;
     }
 
     private static String formatModName(String name) {

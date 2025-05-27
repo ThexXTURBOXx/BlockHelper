@@ -1,12 +1,10 @@
 package mcp.mobius.waila.proxy;
 
-import cpw.mods.fml.common.Side;
 import java.util.ArrayList;
 import java.util.List;
 import mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin;
 import mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin;
 import mcp.mobius.waila.addons.bc2.BC2Plugin;
-import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee2.EE2Plugin;
 import mcp.mobius.waila.addons.ee3.EE3Plugin;
@@ -24,11 +22,9 @@ import mcp.mobius.waila.api.IWailaPlugin;
 
 public class ProxyCommon {
 
-    private final Side side;
     private final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
 
-    public ProxyCommon(Side side) {
-        this.side = side;
+    public ProxyCommon() {
     }
 
     public void registerPlugin(IWailaPlugin plugin) {
@@ -51,7 +47,6 @@ public class ProxyCommon {
         registerPlugin(ThermalExpansionPlugin.INSTANCE);
         registerPlugin(WeeeFlowersPlugin.INSTANCE);
         registerPlugin(BC2Plugin.INSTANCE);
-        registerPlugin(BC3Plugin.INSTANCE);
     }
 
     public void registerCorePlugins(IRegistrar registrar) {
@@ -60,7 +55,7 @@ public class ProxyCommon {
     public void registerModPlugins(IRegistrar registrar) {
         for (IWailaPlugin plugin : plugins)
             if (plugin.shouldRegister())
-                plugin.register(registrar, side);
+                plugin.register(registrar);
     }
 
     public void postLoad() {

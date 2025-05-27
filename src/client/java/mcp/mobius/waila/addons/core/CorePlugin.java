@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.core;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -25,46 +24,40 @@ public final class CorePlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (side.isClient()) {
-            try {
-                getDropItemId = AccessHelper.getDeclaredMethod(EntityLiving.class, new Class[0],
-                        "f", "func_422_g", "getDropItemId");
-            } catch (Throwable t) {
-                throw new RuntimeException(t);
-            }
+    public void register(IRegistrar registrar) {
+        try {
+            getDropItemId = AccessHelper.getDeclaredMethod(EntityLiving.class, new Class[0],
+                    "f", "func_422_g", "getDropItemId");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
 
         registrar.registerNBTProvider(HUDHandlerBlocks.INSTANCE, Block.class);
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
-        if (side.isClient()) {
-            registrar.addConfig("General", "general.showcrop");
-            registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
-        }
+        registrar.addConfig("General", "general.showcrop");
+        registrar.registerBodyProvider(HUDHandlerCrops.INSTANCE, Block.class);
 
-        if (side.isClient()) {
-            registrar.addConfig("General", "general.harvest");
-            registrar.addConfig("General", "general.lightlevel");
-            registrar.addConfig("General", "general.break");
-            registrar.addConfig("General", "general.oldlightlevelol", false);
+        registrar.addConfig("General", "general.harvest");
+        registrar.addConfig("General", "general.lightlevel");
+        registrar.addConfig("General", "general.break");
+        registrar.addConfig("General", "general.oldlightlevelol", false);
 
-            registrar.registerHeadProvider(HUDHandlerBlocks.INSTANCE, Block.class);
-            registrar.registerBodyProvider(HUDHandlerBlocks.INSTANCE, Block.class);
-            registrar.registerTailProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerHeadProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerBodyProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerTailProvider(HUDHandlerBlocks.INSTANCE, Block.class);
 
-            registrar.addConfig("General", "general.showents");
+        registrar.addConfig("General", "general.showents");
 
-            registrar.registerHeadProvider(HUDHandlerEntities.INSTANCE, Entity.class);
-            registrar.registerTailProvider(HUDHandlerEntities.INSTANCE, Entity.class);
-            registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerHeadProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerTailProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
-            if (mod_BlockHelper.DEV_MODE) {
-                registrar.addConfig("General", "general.dev", false);
+        if (mod_BlockHelper.DEV_MODE) {
+            registrar.addConfig("General", "general.dev", false);
 
-                registrar.registerBodyProvider(HUDHandlerDev.INSTANCE, Block.class);
-                registrar.registerBodyProvider(HUDHandlerEntitiesDev.INSTANCE, Entity.class);
-            }
+            registrar.registerBodyProvider(HUDHandlerDev.INSTANCE, Block.class);
+            registrar.registerBodyProvider(HUDHandlerEntitiesDev.INSTANCE, Entity.class);
         }
     }
 

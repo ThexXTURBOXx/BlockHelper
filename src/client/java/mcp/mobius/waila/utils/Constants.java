@@ -2,8 +2,6 @@ package mcp.mobius.waila.utils;
 
 public final class Constants {
 
-    public static final String BIND_SCREEN_ENCH = "showenchant";
-
     public static final String BIND_WAILA_CFG = "waila.keybind.wailaconfig";
     public static final String BIND_WAILA_SHOW = "waila.keybind.wailadisplay";
     public static final String BIND_WAILA_LIQUID = "waila.keybind.liquid";

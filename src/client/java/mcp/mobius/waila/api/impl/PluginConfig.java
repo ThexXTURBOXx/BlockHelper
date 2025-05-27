@@ -1,7 +1,5 @@
 package mcp.mobius.waila.api.impl;
 
-import forge.Configuration;
-import forge.Property;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,6 +11,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
+import mcp.mobius.waila.utils.config.Configuration;
+import mcp.mobius.waila.utils.config.Property;
 import net.minecraft.src.mod_BlockHelper;
 
 public class PluginConfig implements IPluginConfig {

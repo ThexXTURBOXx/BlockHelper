@@ -1,13 +1,13 @@
 package mcp.mobius.waila.api.impl;
 
-import forge.Configuration;
-import forge.Property;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.config.Configuration;
+import mcp.mobius.waila.utils.config.Property;
 
 public class PluginConfig implements IPluginConfig {
 
