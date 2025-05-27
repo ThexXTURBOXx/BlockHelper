@@ -22,8 +22,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
     static Block lever = Block.lever;
-    static Block repeaterIdle = Block.redstoneRepeaterIdle;
-    static Block repeaterActv = Block.redstoneRepeaterActive;
+    static Block repeaterIdle = Block.field_22021_bh;
+    static Block repeaterActv = Block.field_22020_bi;
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
     static Block leave = Block.leaves;
@@ -31,7 +31,7 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block sapling = Block.sapling;
     static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
-    static Block bed = Block.blockBed;
+    static Block bed = Block.field_9262_S;
 
     static Field ItemRecord_recordName;
 
@@ -52,7 +52,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         }
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
         registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 

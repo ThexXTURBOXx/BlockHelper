@@ -10,6 +10,7 @@ import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
+import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.RenderEngine;
@@ -61,7 +62,7 @@ public final class DisplayUtil {
 
     public static Dimension displaySize() {
         Minecraft mc = ModLoader.getMinecraftInstance();
-        ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        ScaledResolution res = new ScaledResolution(mc.displayWidth, mc.displayHeight);
         return new Dimension(res.getScaledWidth(), res.getScaledHeight());
     }
 
@@ -89,7 +90,8 @@ public final class DisplayUtil {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         try {
             renderItem.renderItemIntoGUI(fontRenderer, renderEngine, stack, x, y);
-            renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
+            if (!(stack.getItem() instanceof ItemBlock))
+                renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, stack.getItem().getClass(), null);
         }

@@ -80,7 +80,7 @@ public abstract class ScreenBase extends GuiScreen {
         if (keyID == 1)
             if (this.parent == null) {
                 this.mc.displayGuiScreen(null);
-                this.mc.setIngameFocus();
+                this.mc.func_6259_e();
             } else
                 this.mc.displayGuiScreen(this.parent);
     }

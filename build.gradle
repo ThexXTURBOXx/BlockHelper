@@ -90,8 +90,8 @@ unimined.minecraft(sourceSets.server) {
 }
 
 dependencies {
-    clientJarMod "risugami:modloader:${project.mc_version}"
-    clientJarMod ":SDK's ModLoaderMP 1.4_01v3"
+    clientJarMod "risugami:modloader:${project.mc_version}+build.5"
+    clientJarMod ":ModLoaderMP 1.3_01 v4"
 
-    serverJarMod ":SDK's ModLoaderMP Server 1.4_01v3"
+    serverJarMod ":ModLoaderMP Server 1.3_01 v3"
 }

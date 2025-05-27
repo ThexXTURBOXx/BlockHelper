@@ -16,7 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import net.minecraft.src.ItemDye;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.StatCollector;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
 public class I18n {
@@ -44,7 +44,7 @@ public class I18n {
         if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
 
-        String ret = StatCollector.func_25200_a(s);
+        String ret = StringTranslate.getInstance().translateKey(s);
         if (ret == null || ret.isEmpty()) return s;
         if (format.length == 0) return ret;
 

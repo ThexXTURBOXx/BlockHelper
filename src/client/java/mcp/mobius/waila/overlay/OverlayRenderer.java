@@ -26,7 +26,7 @@ public final class OverlayRenderer {
         Minecraft mc = ModLoader.getMinecraftInstance();
         if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
             mc.theWorld == null || // World is loaded
-            !Minecraft.isGuiEnabled() || // Not in cinema mode
+            !Minecraft.func_22006_t() || // Not in cinema mode
             (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
              && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
             !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config

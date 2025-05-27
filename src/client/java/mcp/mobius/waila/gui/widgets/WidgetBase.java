@@ -38,7 +38,7 @@ public abstract class WidgetBase implements IWidget {
     public WidgetBase(IWidget parent) {
         this.setParent(parent);
         this.mc = ModLoader.getMinecraftInstance();
-        this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        this.rez = new ScaledResolution(mc.displayWidth, mc.displayHeight);
         this.renderEngine = this.mc.renderEngine;
         this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));
     }

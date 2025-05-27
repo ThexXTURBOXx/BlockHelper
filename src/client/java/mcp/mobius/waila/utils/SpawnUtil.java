@@ -6,7 +6,6 @@ import net.minecraft.src.Chunk;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EnumCreatureType;
 import net.minecraft.src.EnumSkyBlock;
-import net.minecraft.src.MobSpawnerBase;
 import net.minecraft.src.SpawnerAnimals;
 import net.minecraft.src.World;
 
@@ -29,11 +28,8 @@ public final class SpawnUtil {
     }
 
     public static byte getSpawnMode(World w, int x, int y, int z) {
-        MobSpawnerBase biome = w.getWorldChunkManager().func_4073_a(x, z);
-        if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty())
-            return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getBoundingBoxFromPool(
-                    0, 0, 0, 0, 0, 0), x, y, z);
-        return 0;
+        return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getBoundingBoxFromPool(
+                0, 0, 0, 0, 0, 0), x, y, z);
     }
 
     public static byte getSpawnMode(Chunk chunk, AxisAlignedBB aabb, int x, int y, int z) {

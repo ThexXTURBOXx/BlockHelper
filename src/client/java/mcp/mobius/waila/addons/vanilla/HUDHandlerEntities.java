@@ -11,7 +11,6 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
-import net.minecraft.src.EntityWolf;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
@@ -58,23 +57,6 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 else
                     currenttip.add(getRenderString("waila.health", nhearts, healthHearts, healthHearts));
             }
-        if (config.get("vanilla.tame")) {
-            if (entity instanceof EntityWolf) {
-                String ownerName = accessor.getNBTData().getString("Owner");
-                boolean isTamed = ownerName != null && !ownerName.isEmpty();
-                if (isTamed) {
-                    currenttip.add(I18n.translate("hud.msg.owner") + ": " + ownerName);
-
-                    int collarColor = accessor.getNBTInteger("CollarColor");
-                    currenttip.add(I18n.translate("hud.msg.collar") + ": " +
-                                   I18n.color(BlockCloth.func_21035_d(collarColor)));
-                }
-                boolean angry = accessor.getNBTData().getBoolean("Angry");
-                if (angry)
-                    currenttip.add(I18n.translate("hud.msg.state") + ": " +
-                                   I18n.translate("hud.msg.angry"));
-            }
-        }
 
         if (config.get("vanilla.sheep"))
             if (entity instanceof EntitySheep) {

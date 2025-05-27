@@ -41,8 +41,8 @@ public class ConfigKeyHandler {
                 boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_SHOW, true);
                 PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
-                mc.thePlayer.addChatMessage(WHITE + ITALIC +
-                                            I18n.translate(status ? "client.msg.now_hidden" : "client.msg.now_shown"));
+                mc.thePlayer.func_22055_b(WHITE + ITALIC +
+                                          I18n.translate(status ? "client.msg.now_hidden" : "client.msg.now_shown"));
             } else {
                 PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
             }
@@ -52,7 +52,7 @@ public class ConfigKeyHandler {
             boolean status = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
                     Constants.CFG_WAILA_LIQUID, false);
             PluginConfig.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
-            mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
+            mc.thePlayer.func_22055_b(WHITE + ITALIC + I18n.translate(
                     status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
         }
     }

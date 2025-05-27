@@ -60,7 +60,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Block.oreRedstone);
 
         if (block == repeaterIdle || block == repeaterActv)
-            return new ItemStack(Item.redstoneRepeater);
+            return new ItemStack(Item.field_22018_aZ);
 
         if (block == sugarCane)
             return new ItemStack(Item.reed);
@@ -69,7 +69,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.wheat);
 
         if (block == bed)
-            return new ItemStack(Item.bed);
+            return new ItemStack(Item.field_22019_aY);
 
         if (block == leave && (meta > 3))
             return new ItemStack(block, 1, meta - 4);
