@@ -42,6 +42,7 @@ unimined.minecraft {
             c("ModLoaderMp", "net/minecraft/src/ModLoaderMp")
             // c("mod_BlockHelper", "net/minecraft/src/mod_BlockHelper") //  Not in 1.5.x!
             // c("mod_BlockHelper\$Accessor", "net/minecraft/src/mod_BlockHelper\$Accessor") //  Not in 1.5.x!
+            c("Packet200ModLoader", "net/minecraft/src/Packet200ModLoader")
             c("Packet230ModLoader", "net/minecraft/src/Packet230ModLoader")
         }
     }
