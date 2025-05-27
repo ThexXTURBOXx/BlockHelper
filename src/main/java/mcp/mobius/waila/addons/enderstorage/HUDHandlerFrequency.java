@@ -50,7 +50,7 @@ public final class HUDHandlerFrequency implements IDataProvider {
                                    I18n.color(BlockCloth.getBlockFromDye(freqLeft)));
 
             } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
         }
     }

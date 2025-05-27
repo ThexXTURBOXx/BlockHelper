@@ -49,7 +49,7 @@ public class MetaDataProvider {
                     accessor.getTileEntity().writeToNBT(tag);
                     accessor.setNBTData(tag);
                 } catch (Throwable t) {
-                    WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+                    WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
                 }
             }
         }
@@ -86,7 +86,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyHead(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
 
@@ -96,7 +96,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyBody(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
         if (tooltipPosition == TooltipPosition.FOOTER)
@@ -105,7 +105,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyTail(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
     }
@@ -125,7 +125,7 @@ public class MetaDataProvider {
                     accessor.getEntity().writeToNBT(tag);
                     accessor.setNBTData(tag);
                 } catch (Throwable t) {
-                    WailaExceptionHandler.handleErr(t, this.getClass().getName(), null);
+                    WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), currenttip);
                 }
             }
         }
@@ -151,7 +151,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyHead(entity, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
 
@@ -161,7 +161,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyBody(entity, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
 
@@ -171,7 +171,7 @@ public class MetaDataProvider {
                     try {
                         dataProvider.modifyTail(entity, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
-                        WailaExceptionHandler.handleErr(t, dataProvider.getClass().toString(), currenttip);
+                        WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
     }

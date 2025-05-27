@@ -1,7 +1,7 @@
 package mcp.mobius.waila.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -12,7 +12,11 @@ public final class WailaExceptionHandler {
         throw new UnsupportedOperationException();
     }
 
-    private static final List<String> errs = new ArrayList<String>();
+    private static final Set<String> errs = new HashSet<String>();
+
+    public static void handleErr(Throwable t, Class<?> context, ITaggedList<String, String> currenttip) {
+        handleErr(t, context.getName(), currenttip);
+    }
 
     public static void handleErr(Throwable t, String context, ITaggedList<String, String> currenttip) {
         if (!errs.contains(context)) {

@@ -40,7 +40,7 @@ public final class HUDHandlerTank implements IDataProvider {
                                I18n.translate(mode ? "hud.msg.output" : "hud.msg.input"));
             }
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
         }
     }
 

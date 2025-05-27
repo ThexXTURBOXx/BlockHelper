@@ -29,7 +29,7 @@ public class Packet0x03NBTData implements IWailaPacket {
         try {
             this.tag = NBTUtil.readNBTTagCompound(dat);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }
     }
 

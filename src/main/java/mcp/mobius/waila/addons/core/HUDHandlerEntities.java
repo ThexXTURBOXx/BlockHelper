@@ -43,7 +43,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 if (dropId > 0)
                     return new ItemStack(dropId, 1, 0);
             } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, String.valueOf(accessor.getEntity()), null);
+                WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), null);
             }
         }
         return accessor.getEntity().getPickedResult(accessor.getPosition());

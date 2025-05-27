@@ -68,7 +68,7 @@ public final class OverlayRenderer {
             WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
             MinecraftForge.EVENT_BUS.post(postEvent);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, "renderOverlay", null);
+            WailaExceptionHandler.handleErr(t, tooltip.getClass(), null);
         }
 
         state.reset();

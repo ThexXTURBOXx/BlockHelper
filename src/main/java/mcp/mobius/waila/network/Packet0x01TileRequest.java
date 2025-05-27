@@ -44,7 +44,7 @@ public class Packet0x01TileRequest implements IWailaPacket {
             posY = dat.readInt();
             posZ = dat.readInt();
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }
     }
 
@@ -79,7 +79,7 @@ public class Packet0x01TileRequest implements IWailaPacket {
                             try {
                                 provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                             } catch (Throwable t) {
-                                WailaExceptionHandler.handleErr(t, Packet0x01TileRequest.class.toString(), null);
+                                WailaExceptionHandler.handleErr(t, block.getClass(), null);
                             }
                         }
                     }
@@ -92,7 +92,7 @@ public class Packet0x01TileRequest implements IWailaPacket {
                             try {
                                 provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                             } catch (Throwable t) {
-                                WailaExceptionHandler.handleErr(t, Packet0x01TileRequest.class.toString(), null);
+                                WailaExceptionHandler.handleErr(t, entity.getClass(), null);
                             }
                         }
                     }
@@ -105,7 +105,7 @@ public class Packet0x01TileRequest implements IWailaPacket {
 
             WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), rawSender);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, entity.getClass(), null);
         }
     }
 

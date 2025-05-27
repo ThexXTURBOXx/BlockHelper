@@ -81,7 +81,7 @@ public class WailaPacketHandler implements IPacketHandler {
             outputStream.writeByte(getPacketId(packet));
             packet.encode(outputStream);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, "wrapMLPacket", null);
+            WailaExceptionHandler.handleErr(t, packet.getClass(), null);
         }
         mlPacket.channel = mod_BlockHelper.CHANNEL;
         mlPacket.data = bos.toByteArray();

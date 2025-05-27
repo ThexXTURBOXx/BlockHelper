@@ -56,7 +56,7 @@ public final class HUDHandlerIC2Generator implements IDataProvider {
             }
 
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
         }
     }
 

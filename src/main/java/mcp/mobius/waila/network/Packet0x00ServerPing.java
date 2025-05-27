@@ -41,7 +41,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
             for (int i = 0; i < nkeys; i++)
                 this.forcedKeys.put(Packet.readString(dat, 255), dat.readBoolean());
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }
 
     }

@@ -88,7 +88,7 @@ public final class DisplayUtil {
             renderItem.renderItemAndEffectIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, "renderStack | " + stack, null);
+            WailaExceptionHandler.handleErr(t, stack.getItem().getClass(), null);
         }
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();

@@ -35,7 +35,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
         try {
             id = dat.readInt();
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, this.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }
     }
 
@@ -65,7 +65,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
                         try {
                             provider.appendServerData(entity, tag, accessor, PluginConfig.instance());
                         } catch (Throwable t) {
-                            WailaExceptionHandler.handleErr(t, Packet0x02EntRequest.class.toString(), null);
+                            WailaExceptionHandler.handleErr(t, entity.getClass(), null);
                         }
                     }
                 }
@@ -75,7 +75,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
 
             WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), rawSender);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, entity.getClass().toString(), null);
+            WailaExceptionHandler.handleErr(t, entity.getClass(), null);
         }
     }
 

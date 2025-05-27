@@ -62,7 +62,7 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
                     currenttip.add(WHITE + maxPacketSize + RESET + " EU/packet");
             }
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
         }
     }
 

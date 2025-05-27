@@ -48,7 +48,7 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
                                RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
             }
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass().getName(), currenttip);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
         }
     }
 
