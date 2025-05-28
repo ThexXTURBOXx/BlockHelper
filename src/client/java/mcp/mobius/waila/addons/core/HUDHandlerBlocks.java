@@ -85,7 +85,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (config.get("general.lightlevel") &&
-            (!w.isBlockOpaqueCube(x, y + 1, z) || w.isAirBlock(x, y + 1, z))) {
+            (!w.isBlockOpaqueCube(x, y + 1, z) || w.func_20084_d(x, y + 1, z))) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;

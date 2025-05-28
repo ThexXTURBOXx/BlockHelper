@@ -60,7 +60,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
         boolean empty = stack == null;
         String id = (empty ? 0 : stack.getItem().shiftedIndex) + "";
         return SpecialChars.getRenderString("waila.stack",
-                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage());
+                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.itemDamage);
     }
 
     @Override

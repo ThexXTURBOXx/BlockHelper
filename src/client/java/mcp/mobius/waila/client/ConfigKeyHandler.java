@@ -1,13 +1,15 @@
 package mcp.mobius.waila.client;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_BlockHelper;
+import net.minecraft.src.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
@@ -19,16 +21,26 @@ public class ConfigKeyHandler {
     public final BlockHelperKeyBinding keyShow;
     public final BlockHelperKeyBinding keyLiquid;
 
-    public ConfigKeyHandler(mod_BlockHelper mod) {
-        ModLoader.RegisterKey(mod, keyCfg =
-                new BlockHelperKeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0), false);
-        ModLoader.RegisterKey(mod, keyShow =
-                new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
-        ModLoader.RegisterKey(mod, keyLiquid =
-                new BlockHelperKeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
+    private final List<BlockHelperKeyBinding> keyBindings = new ArrayList<BlockHelperKeyBinding>();
+    private boolean firstTick = true;
+
+    public ConfigKeyHandler() {
+        keyBindings.add(keyCfg =
+                new BlockHelperKeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0));
+        keyBindings.add(keyShow =
+                new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1));
+        keyBindings.add(keyLiquid =
+                new BlockHelperKeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2));
     }
 
     public void onTickInGame(Minecraft mc) {
+        if (firstTick) {
+            List<KeyBinding> mcKeyBindings = new ArrayList<KeyBinding>(Arrays.asList(mc.gameSettings.keyBindings));
+            mcKeyBindings.addAll(keyBindings);
+            mc.gameSettings.keyBindings = mcKeyBindings.toArray(new KeyBinding[0]);
+            firstTick = false;
+        }
+
         BlockHelperKeyBinding.onTick();
 
         if (mc.currentScreen != null) return;

@@ -13,23 +13,16 @@ import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.ItemRecord_recordName;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -59,18 +52,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == crops)
             return new ItemStack(Item.wheat);
 
-        if (block == leave && (meta > 3))
-            return new ItemStack(block, 1, meta - 4);
-
-        if (block == log)
-            return new ItemStack(block, 1, meta % 4);
-
-        if (block == sapling)
-            return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
-
         if (block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE), 1,
-                    mod_BlockHelper.Accessor.damageDropped(block, meta));
+            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE));
 
         return null;
 
@@ -85,7 +68,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.get(
                 "vanilla.spawntype")) {
             String name = currenttip.get(0);
-            String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
+            String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).entityID;
             currenttip.set(0, name + " (" + mobname + ")");
         }
     }
@@ -124,21 +107,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 } catch (Throwable t) {
                     WailaExceptionHandler.handleErr(t, block.getClass().getName() + ":" + meta, currenttip);
                 }
-            }
-
-        if (config.get("vanilla.noteblock"))
-            if (block == noteBlock) {
-                int note = accessor.getNBTInteger("note");
-                currenttip.add(I18n.translate("hud.msg.note") + ": " + NOTES[note % 12] + (note / 12 + 1));
-
-                MovingObjectPosition mop = accessor.getPosition();
-                Material m = accessor.getWorld().getBlockMaterial(mop.blockX, mop.blockY - 1, mop.blockZ);
-                String instrument = "hud.msg.piano";
-                if (m == Material.rock) instrument = "hud.msg.bass_drum";
-                else if (m == Material.sand) instrument = "hud.msg.snare_drum";
-                else if (m == Material.glass) instrument = "hud.msg.clicks_sticks";
-                else if (m == Material.wood) instrument = "hud.msg.bass_guitar";
-                currenttip.add(I18n.translate("hud.msg.instrument") + ": " + I18n.translate(instrument));
             }
     }
 

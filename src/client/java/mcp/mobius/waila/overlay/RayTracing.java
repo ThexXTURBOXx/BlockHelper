@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
+import mcp.mobius.waila.api.MovingObjectType;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
@@ -15,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
@@ -39,7 +39,7 @@ public class RayTracing {
     private final Minecraft mc = ModLoader.getMinecraftInstance();
 
     public void fire() {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY
+        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectType.ENTITY
             && shouldShowEntity(mc.objectMouseOver.entityHit)) {
             this.target = mc.objectMouseOver;
             return;
@@ -64,7 +64,7 @@ public class RayTracing {
     }
 
     public Entity getTargetEntity() {
-        return this.target.typeOfHit == EnumMovingObjectType.ENTITY ? this.getIdentifierEntity() : null;
+        return this.target.typeOfHit == MovingObjectType.ENTITY ? this.getIdentifierEntity() : null;
     }
 
     public MovingObjectPosition rayTrace(EntityLiving entity, double par1, float par3) {
@@ -87,7 +87,7 @@ public class RayTracing {
         Collections.sort(items, new Comparator<ItemStack>() {
             @Override
             public int compare(ItemStack stack0, ItemStack stack1) {
-                return stack1.getItemDamage() - stack0.getItemDamage();
+                return stack1.itemDamage - stack0.itemDamage;
             }
         });
 
@@ -118,7 +118,7 @@ public class RayTracing {
         if (this.target == null) return items;
 
         switch (this.target.typeOfHit) {
-        case ENTITY:
+        case MovingObjectType.ENTITY:
             if (this.target.entityHit != null && WailaRegistrar.instance().hasStackEntityProviders(this.target.entityHit)) {
                 for (List<IEntityProvider> providersList :
                         WailaRegistrar.instance().getStackEntityProviders(this.target.entityHit).values()) {
@@ -134,7 +134,7 @@ public class RayTracing {
                 }
             }
             break;
-        case TILE:
+        case MovingObjectType.TILE:
             World world = mc.theWorld;
             int x = this.target.blockX;
             int y = this.target.blockY;
@@ -181,7 +181,7 @@ public class RayTracing {
 
             if (world.getBlockTileEntity(x, y, z) == null) {
                 try {
-                    ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
+                    ItemStack block = new ItemStack(mouseoverBlock.blockID, 1, world.getBlockMetadata(x, y, z));
 
                     if (block.getItem() != null)
                         items.add(block);
@@ -216,7 +216,7 @@ public class RayTracing {
             */
 
             if (items.isEmpty())
-                items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
+                items.add(0, new ItemStack(mouseoverBlock.blockID, 1, world.getBlockMetadata(x, y, z)));
             break;
         }
 

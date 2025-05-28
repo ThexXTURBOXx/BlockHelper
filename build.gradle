@@ -30,8 +30,6 @@ LegacyATReader.leinient = true // Forge's AT just ignores invalid entries
 sourceSets {
     client {
     }
-    server {
-    }
 }
 tasks.named('jar') { // Disable jar for main sourceSet
     enabled = false
@@ -63,35 +61,6 @@ unimined.minecraft(sourceSets.client) {
     }
 }
 
-unimined.minecraft(sourceSets.server) {
-    version project.mc_version
-    side "server"
-
-    jarMod {
-    }
-
-    mappings {
-        retroMCP(project.mc_version_mcp)
-        stubs(["official", "retroMCP"]) {
-            c("BaseMod", "net/minecraft/src/BaseMod")
-            c("BaseModMp", "net/minecraft/src/BaseModMp")
-            c("ModLoader", "net/minecraft/src/ModLoader")
-            c("ModLoaderMp", "net/minecraft/src/ModLoaderMp")
-            c("mod_BlockHelper", "net/minecraft/src/mod_BlockHelper")
-            c("mod_BlockHelper\$Accessor", "net/minecraft/src/mod_BlockHelper\$Accessor")
-            c("Packet200ModLoader", "net/minecraft/src/Packet200ModLoader")
-            c("Packet230ModLoader", "net/minecraft/src/Packet230ModLoader")
-        }
-    }
-
-    mods.modImplementation {
-        remapper ext.configureSigFixRemapper
-    }
-}
-
 dependencies {
-    clientJarMod "risugami:modloader:${project.mc_version}+build.4"
-    clientJarMod ":Risugami's ModLoader (SDK'd) 1.2_02 v2"
-
-    serverJarMod ":Risugami's ModLoader (SDK'd) Server 1.2_02 v2"
+    clientJarMod "risugami:modloader:${project.mc_version}+build.2"
 }

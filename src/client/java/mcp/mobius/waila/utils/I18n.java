@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -14,8 +15,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import net.minecraft.src.ItemDye;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -24,27 +23,29 @@ public class I18n {
     public static final I18n INSTANCE = new I18n(null);
     public final String prefix;
 
-    public I18n(String prefix) {
-        this.prefix = prefix;
+    private static final Field translateMapField;
+
+    static {
+        try {
+            translateMapField = AccessHelper.getDeclaredField(StringTranslate.class, "b", "field_20164_b");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
     }
 
-    public static String color(int dyeColorId) {
-        return I18n.INSTANCE.colorL(dyeColorId);
+    public I18n(String prefix) {
+        this.prefix = prefix;
     }
 
     public static String translate(String s, Object... format) {
         return I18n.INSTANCE.translateL(s, format);
     }
 
-    public String colorL(int dyeColorId) {
-        return translateL("hud.msg." + ItemDye.dyeColors[dyeColorId]);
-    }
-
     public String translateL(String s, Object... format) {
         if (this.prefix != null && !s.startsWith(this.prefix + "."))
             s = this.prefix + "." + s;
 
-        String ret = StringTranslate.getInstance().translateKey(s);
+        String ret = StringTranslate.func_20162_a().func_20163_a(s);
         if (ret == null || ret.isEmpty()) return s;
         if (format.length == 0) return ret;
 
@@ -66,6 +67,12 @@ public class I18n {
     }
 
     public void addLangFile(InputStream resource) throws IOException {
+        Properties translateMap;
+        try {
+            translateMap = (Properties) translateMapField.get(StringTranslate.func_20162_a());
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
         Properties prop = new Properties();
         prop.load(reader);
@@ -77,7 +84,7 @@ public class I18n {
             if (this.prefix != null) {
                 key = this.prefix + "." + key;
             }
-            ModLoader.AddLocalization(key, value);
+            translateMap.put(key, value);
         }
     }
 

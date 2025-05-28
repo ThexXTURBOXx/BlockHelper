@@ -157,7 +157,7 @@ public final class DisplayUtil {
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = new ArrayList<String>();
         try {
-            String name = I18n.translate(itemstack.getItem().getItemNameIS(itemstack) + ".name");
+            String name = I18n.translate(itemstack.getItem().func_20009_a() + ".name");
             if (name != null && !name.isEmpty())
                 namelist.add(name);
         } catch (Throwable ignored) {

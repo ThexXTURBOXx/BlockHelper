@@ -34,6 +34,7 @@ public final class ModIdentification {
         throw new UnsupportedOperationException();
     }
 
+    @SuppressWarnings("unchecked")
     public static void init() {
         try {
             blockIdField = ItemBlock.class.getDeclaredField("a");
@@ -65,8 +66,10 @@ public final class ModIdentification {
         modInfos.add(new ModInfo(minecraftUri, MINECRAFT));
 
         try {
+            List<BaseMod> modList = (List<BaseMod>) AccessHelper.getDeclaredField(ModLoader.class, "modList").get(null);
+
             baseModLoop:
-            for (BaseMod mod : (List<BaseMod>) ModLoader.getLoadedMods()) {
+            for (BaseMod mod : modList) {
                 try {
                     String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
                             .getLocation().toURI());

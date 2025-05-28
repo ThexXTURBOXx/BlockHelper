@@ -27,7 +27,7 @@ public final class CorePlugin implements IWailaPlugin {
     public void register(IRegistrar registrar) {
         try {
             getDropItemId = AccessHelper.getDeclaredMethod(EntityLiving.class, new Class[0],
-                    "i", "getDropItemId");
+                    "g_", "getDropItemId");
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }

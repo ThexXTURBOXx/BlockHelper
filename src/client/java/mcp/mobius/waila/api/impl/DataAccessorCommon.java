@@ -3,13 +3,13 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.MovingObjectType;
 import mcp.mobius.waila.api.WailaDirection;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
@@ -45,18 +45,18 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
         this.player = _player;
         this.mop = _mop;
 
-        if (this.mop.typeOfHit == EnumMovingObjectType.TILE) {
+        if (this.mop.typeOfHit == MovingObjectType.TILE) {
             this.blockID = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
             this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
             this.block = Block.blocksList[this.blockID];
             this.tileEntity = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
             this.entity = null;
             try {
-                this.stack = new ItemStack(this.block, 1, this.metadata);
+                this.stack = new ItemStack(this.block.blockID, 1, this.metadata);
             } catch (Throwable ignored) {
             }
 
-        } else if (this.mop.typeOfHit == EnumMovingObjectType.ENTITY) {
+        } else if (this.mop.typeOfHit == MovingObjectType.ENTITY) {
             this.block = null;
             this.metadata = -1;
             this.tileEntity = null;
@@ -174,7 +174,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
 
         int id = tag.getInteger("WailaEntityID");
 
-        if (id == this.entity.entityId)
+        if (id == this.entity.field_620_ab)
             return true;
         else {
             this.timeLastUpdate = System.currentTimeMillis() - 250;

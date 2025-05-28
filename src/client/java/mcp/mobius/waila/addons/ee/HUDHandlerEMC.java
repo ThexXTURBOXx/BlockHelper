@@ -37,7 +37,7 @@ public final class HUDHandlerEMC implements IDataProvider {
             /* EMC */
             if (config.get("ee2.emc")) {
                 Integer emc = (Integer) EEPlugin.mod_EE_getDamagedAlchemicalValue.invoke(null,
-                        itemStack.itemID, itemStack.getItemDamage());
+                        itemStack.itemID, itemStack.itemDamage);
                 if (emc != null && emc > 0)
                     currenttip.add(YELLOW + "EMC: " + GRAY + emc);
             }

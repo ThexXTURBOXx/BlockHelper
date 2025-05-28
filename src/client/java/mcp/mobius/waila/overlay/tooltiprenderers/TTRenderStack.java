@@ -29,9 +29,9 @@ public class TTRenderStack implements ITooltipRenderer {
         ItemStack stack = null;
         if (id > 0) {
             if (type == 0)
-                stack = new ItemStack(Block.blocksList[id], amount, meta);
+                stack = new ItemStack(Block.blocksList[id].blockID, amount, meta);
             else if (type == 1)
-                stack = new ItemStack(Item.itemsList[id], amount, meta);
+                stack = new ItemStack(Item.itemsList[id].shiftedIndex, amount, meta);
         }
 
         DisplayUtil.renderStack(x, y, stack);

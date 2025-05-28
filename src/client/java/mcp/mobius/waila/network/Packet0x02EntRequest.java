@@ -22,7 +22,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
     }
 
     public Packet0x02EntRequest(Entity ent) {
-        this.id = ent.entityId;
+        this.id = ent.field_620_ab;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
                 }
             }
 
-            tag.setInteger("WailaEntityID", entity.entityId);
+            tag.setInteger("WailaEntityID", entity.field_620_ab);
 
             WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag));
         } catch (Throwable t) {

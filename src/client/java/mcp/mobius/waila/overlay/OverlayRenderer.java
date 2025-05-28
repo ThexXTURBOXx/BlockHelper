@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.api.MovingObjectType;
 import mcp.mobius.waila.api.event.WailaEventRegistrar;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -9,7 +10,6 @@ import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
@@ -34,11 +34,11 @@ public final class OverlayRenderer {
             RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
             renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
         }
     }

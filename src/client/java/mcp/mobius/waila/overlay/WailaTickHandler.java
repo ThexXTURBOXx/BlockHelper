@@ -1,6 +1,7 @@
 package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.MovingObjectType;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
@@ -13,7 +14,6 @@ import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
@@ -49,7 +49,7 @@ public class WailaTickHandler {
             RayTracing.instance().fire();
             MovingObjectPosition target = RayTracing.instance().getTarget();
 
-            if (target != null && target.typeOfHit == EnumMovingObjectType.TILE) {
+            if (target != null && target.typeOfHit == MovingObjectType.TILE) {
                 DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.instance().getTargetStack();    // Here we get either the proper
@@ -77,7 +77,7 @@ public class WailaTickHandler {
 
                     this.tooltip = new Tooltip(this.currenttip, targetStack, true);
                 }
-            } else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY) {
+            } else if (target != null && target.typeOfHit == MovingObjectType.ENTITY) {
                 DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;
                 accessor.set(world, player, target);
 

@@ -26,7 +26,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block leave = Block.leaves;
     static Block log = Block.wood;
     static Block sapling = Block.sapling;
-    static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
 
     static Field ItemRecord_recordName;
@@ -48,7 +47,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         }
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
@@ -62,7 +60,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockCrops.class);
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
 
         registrar.addConfig("VanillaMC", "vanilla.spawntype");
         registrar.addConfig("VanillaMC", "vanilla.leverstate");
@@ -82,7 +79,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
-        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
     }
 
 }

@@ -1,13 +1,9 @@
 package mcp.mobius.waila.network;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaPacketHandler {
@@ -17,7 +13,7 @@ public class WailaPacketHandler {
     private WailaPacketHandler() {
     }
 
-    public void onPacketData(Packet200ModLoader packet) {
+    /*public void onPacketData(Packet200ModLoader packet) {
         try {
             DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(toByteArray(packet.dataInt)));
 
@@ -36,7 +32,7 @@ public class WailaPacketHandler {
             inputStream.close();
         } catch (Throwable ignored) {
         }
-    }
+    }*/
 
     public void handlePacket(String channel, IWailaPacket packet) {
         if (channel.equals(mod_BlockHelper.CHANNEL))
@@ -98,7 +94,7 @@ public class WailaPacketHandler {
         return ret;
     }
 
-    public static Packet200ModLoader wrapMLPacket(IWailaPacket packet) {
+    /*public static Packet200ModLoader wrapMLPacket(IWailaPacket packet) {
         Packet200ModLoader mlPacket = new Packet200ModLoader();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(bos);
@@ -111,17 +107,17 @@ public class WailaPacketHandler {
         }
         mlPacket.dataInt = toIntArray(bos.toByteArray());
         return mlPacket;
-    }
+    }*/
 
     public static void sendPacketToPlayer(IWailaPacket packet) {
         WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL, packet);
     }
 
     public static void sendPacketToServer(IWailaPacket packet) {
-        if (ModLoader.getMinecraftInstance().theWorld.multiplayerWorld)
+        /*if (ModLoader.getMinecraftInstance().theWorld.multiplayerWorld)
             ModLoader.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
-        else
-            WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);
+        else*/
+        WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);
     }
 
     public static void writeString(String str, DataOutputStream dos) throws IOException {

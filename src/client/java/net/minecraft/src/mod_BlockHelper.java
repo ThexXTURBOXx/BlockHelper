@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.Packet0x00ServerPing;
-import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
@@ -38,7 +37,6 @@ public class mod_BlockHelper extends BaseMod {
     public static ConfigKeyHandler CONFIG_KEY_HANDLER;
 
     static {
-        LOG.setParent(ModLoader.getLogger());
         ConsoleHandler ch = new ConsoleHandler();
         LOG.setUseParentHandlers(false);
         LOG.addHandler(ch);
@@ -51,7 +49,6 @@ public class mod_BlockHelper extends BaseMod {
         return MOD_ID;
     }
 
-    @Override
     public String Version() {
         return VERSION;
     }
@@ -74,7 +71,7 @@ public class mod_BlockHelper extends BaseMod {
         OverlayConfig.updateColors();
 
         // INIT
-        CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
+        CONFIG_KEY_HANDLER = new ConfigKeyHandler();
         TICK_HANDLER = new WailaTickHandler();
 
         // POST INIT
@@ -98,16 +95,12 @@ public class mod_BlockHelper extends BaseMod {
             Packet0x00ServerPing.resetClient();
     }
 
-    @Override
+    /*@Override
     public void HandlePacket(Packet200ModLoader packet) {
         WailaPacketHandler.INSTANCE.onPacketData(packet);
-    }
+    }*/
 
     public static class Accessor {
-
-        public static int damageDropped(Block b, int meta) {
-            return b.damageDropped(meta);
-        }
 
         @SuppressWarnings("unchecked")
         public static Entity getEntityByID(World w, int entityId) {
@@ -120,10 +113,10 @@ public class mod_BlockHelper extends BaseMod {
                 }
             } catch (Throwable ignored) {
             }
-            List<Entity> list = (List<Entity>) w.getLoadedEntityList();
+            List<Entity> list = (List<Entity>) w.func_658_i();
             if (list != null)
                 for (Entity e : list)
-                    if (e.entityId == entityId)
+                    if (e.field_620_ab == entityId)
                         return e;
             return null;
         }

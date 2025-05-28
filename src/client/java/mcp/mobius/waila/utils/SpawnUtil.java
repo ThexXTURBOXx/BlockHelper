@@ -1,27 +1,12 @@
 package mcp.mobius.waila.utils;
 
-import java.lang.reflect.Method;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EnumCreatureType;
 import net.minecraft.src.EnumSkyBlock;
-import net.minecraft.src.SpawnerAnimals;
 import net.minecraft.src.World;
 
 public final class SpawnUtil {
-
-    private static final Method canCreatureTypeSpawnAtLocation;
-
-    static {
-        try {
-            canCreatureTypeSpawnAtLocation = AccessHelper.getDeclaredMethod(SpawnerAnimals.class,
-                    new Class[]{EnumCreatureType.class, World.class, int.class, int.class, int.class},
-                    "a", "func_21203_a", "method_1871", "canCreatureTypeSpawnAtLocation");
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-    }
 
     private SpawnUtil() {
         throw new UnsupportedOperationException();
@@ -34,9 +19,8 @@ public final class SpawnUtil {
 
     public static byte getSpawnMode(Chunk chunk, AxisAlignedBB aabb, int x, int y, int z) {
         try {
-            boolean flag = (Boolean) canCreatureTypeSpawnAtLocation.invoke(null,
-                    EnumCreatureType.monster, chunk.worldObj, x, y, z);
-            if (!flag || chunk.getSavedLightValue(EnumSkyBlock.Block, x & 0xF, y, z & 0xF) >= 8)
+            if (!canCreatureTypeSpawnAtLocation(chunk.worldObj, x, y, z) ||
+                chunk.getSavedLightValue(EnumSkyBlock.Block, x & 0xF, y, z & 0xF) >= 8)
                 return 0;
             aabb.minX = x + 0.2;
             aabb.maxX = x + 0.8;
@@ -54,6 +38,13 @@ public final class SpawnUtil {
             WailaExceptionHandler.handleErr(t, "SpawnUtil#getSpawnMode", null);
             return 1;
         }
+    }
+
+    public static boolean canCreatureTypeSpawnAtLocation(World world, int x, int y, int z) {
+        return world.isBlockOpaqueCube(x, y - 1, z) &&
+               !world.isBlockOpaqueCube(x, y, z) &&
+               !world.getBlockMaterial(x, y, z).getIsLiquid() &&
+               !world.isBlockOpaqueCube(x, y + 1, z);
     }
 
 }

@@ -45,7 +45,7 @@ public final class HUDHandlerEMC implements IDataProvider {
                     Map<Integer, Object> metaMap = emcMap.get(itemStack.itemID);
                     if (metaMap != null) {
                         boolean qm = false;
-                        Object value = metaMap.get(itemStack.getItemDamage());
+                        Object value = metaMap.get(itemStack.itemDamage);
                         if (value == null) {
                             value = metaMap.get(0);
                             qm = true;

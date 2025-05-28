@@ -6,10 +6,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
-import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -56,12 +54,6 @@ public final class HUDHandlerEntities implements IEntityProvider {
                     currenttip.add(String.format("%.0f \u2764", health));
                 else
                     currenttip.add(getRenderString("waila.health", nhearts, healthHearts, healthHearts));
-            }
-
-        if (config.get("vanilla.sheep"))
-            if (entity instanceof EntitySheep) {
-                currenttip.add(I18n.translate("hud.msg.color") + ": " +
-                               I18n.color(BlockCloth.func_21035_d(accessor.getNBTInteger("Color"))));
             }
 
         if (config.get("vanilla.tnt"))
