@@ -7,7 +7,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.ModLoaderMp;
 import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -120,7 +119,7 @@ public class WailaPacketHandler {
 
     public static void sendPacketToServer(IWailaPacket packet) {
         if (ModLoader.getMinecraftInstance().theWorld.multiplayerWorld)
-            ModLoaderMp.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
+            ModLoader.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
         else
             WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);
     }

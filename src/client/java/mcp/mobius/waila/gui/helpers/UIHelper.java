@@ -68,7 +68,7 @@ public class UIHelper {
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ,
                                      double x1, double y1, double x2, double y2, int r, int g, int b, int a,
                                      double partialFrame) {
-        EntityLiving player = ModLoader.getMinecraftInstance().field_22009_h;
+        EntityLiving player = ModLoader.getMinecraftInstance().thePlayer;
         float playerViewY =
                 player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float) partialFrame;
         float playerViewX =
@@ -114,7 +114,7 @@ public class UIHelper {
 
     public static void drawBillboardText(String text, float posX, float posY, float posZ,
                                          float offX, float offY, float offZ, double partialFrame) {
-        EntityLiving player = ModLoader.getMinecraftInstance().field_22009_h;
+        EntityLiving player = ModLoader.getMinecraftInstance().thePlayer;
         float playerViewY =
                 player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float) partialFrame;
         float playerViewX =

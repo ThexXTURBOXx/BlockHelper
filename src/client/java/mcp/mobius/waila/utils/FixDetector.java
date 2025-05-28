@@ -20,26 +20,26 @@ public final class FixDetector {
         try {
             Object fixerVersion = AccessHelper.getField(FontRenderer.class, "FIXER_VERSION").get(null);
             if (!"2".equals(fixerVersion)) {
-                mc.thePlayer.func_22055_b(GRAY + "[" + GOLD + NAME + GRAY + "] " +
-                                          RED + "Please update FontFixer.");
-                mc.thePlayer.func_22055_b(RED + "You can find it on Modrinth.");
+                mc.ingameGUI.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "Please update FontFixer.");
+                mc.ingameGUI.addChatMessage(RED + "You can find it on Modrinth.");
             }
         } catch (Throwable t) {
             try {
                 Class<?> FontFixer = AccessHelper.getClass("de.thexxturboxx.blockhelper.FontFixer");
                 Object fixerVersion = AccessHelper.getField(FontFixer, "FIXER_VERSION").get(null);
                 if (!"2".equals(fixerVersion)) {
-                    mc.thePlayer.func_22055_b(GRAY + "[" + GOLD + NAME + GRAY + "] " +
-                                              RED + "Please update FontFixer.");
-                    mc.thePlayer.func_22055_b(RED + "You can find it on Modrinth.");
+                    mc.ingameGUI.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                                RED + "Please update FontFixer.");
+                    mc.ingameGUI.addChatMessage(RED + "You can find it on Modrinth.");
                 }
             } catch (Throwable t1) {
-                mc.thePlayer.func_22055_b(GRAY + "[" + GOLD + NAME + GRAY + "] " +
-                                          RED + "It is very recommended to install the");
-                mc.thePlayer.func_22055_b(RED + "FontFixer jar-mod. " +
-                                          "You can find it on Modrinth.");
-                mc.thePlayer.func_22055_b(RED + "Otherwise, some texts " +
-                                          "will not be rendered correctly!");
+                mc.ingameGUI.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "It is very recommended to install the");
+                mc.ingameGUI.addChatMessage(RED + "FontFixer jar-mod. " +
+                                            "You can find it on Modrinth.");
+                mc.ingameGUI.addChatMessage(RED + "Otherwise, some texts " +
+                                            "will not be rendered correctly!");
             }
         }
     }

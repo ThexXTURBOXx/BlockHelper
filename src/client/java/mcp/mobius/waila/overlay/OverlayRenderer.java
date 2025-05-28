@@ -13,6 +13,7 @@ import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
@@ -26,8 +27,8 @@ public final class OverlayRenderer {
         Minecraft mc = ModLoader.getMinecraftInstance();
         if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
             mc.theWorld == null || // World is loaded
-            !Minecraft.func_22006_t() || // Not in cinema mode
-            (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
+            Keyboard.isKeyDown(Keyboard.KEY_F1) || // Not in cinema mode
+            (Keyboard.isKeyDown(Keyboard.KEY_F3) // Together with next line: handle F3 screen
              && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
             !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
             RayTracing.instance().getTarget() == null) // Raytrace found a target

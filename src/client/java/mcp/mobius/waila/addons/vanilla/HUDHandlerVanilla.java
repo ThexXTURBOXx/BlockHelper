@@ -5,14 +5,12 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
-import net.minecraft.src.BlockStep;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
@@ -23,7 +21,6 @@ import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.ItemRecord_recordName;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
@@ -32,11 +29,8 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
-import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
 
@@ -59,17 +53,11 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block instanceof BlockRedstoneOre)
             return new ItemStack(Block.oreRedstone);
 
-        if (block == repeaterIdle || block == repeaterActv)
-            return new ItemStack(Item.field_22018_aZ);
-
         if (block == sugarCane)
             return new ItemStack(Item.reed);
 
         if (block == crops)
             return new ItemStack(Item.wheat);
-
-        if (block == bed)
-            return new ItemStack(Item.field_22019_aY);
 
         if (block == leave && (meta > 3))
             return new ItemStack(block, 1, meta - 4);
@@ -77,8 +65,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
 
-        if (block == sapling ||
-            block instanceof BlockStep)
+        if (block == sapling)
             return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
 
         if (block instanceof BlockSign)
@@ -101,11 +88,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
             currenttip.set(0, name + " (" + mobname + ")");
         }
-
-        if (block instanceof BlockStep)
-            currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                    new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
-                            accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())));
     }
 
     @Override
@@ -121,14 +103,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 currenttip.add(I18n.translate("hud.msg.state") + ": " + redstoneOn);
             }
 
-        if (config.get("vanilla.repeater"))
-            if ((block == repeaterIdle) || (block == repeaterActv)) {
-                int tick = ((meta & 0xc) >> 2) + 1;
-                if (tick == 1)
-                    currenttip.add(I18n.translate("hud.msg.delay") + ": 1 tick");
-                else
-                    currenttip.add(I18n.translate("hud.msg.delay") + ": " + tick + " ticks");
-            }
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
                 currenttip.add(I18n.translate("hud.msg.power") + ": " + meta);

@@ -45,7 +45,7 @@ public class RayTracing {
             return;
         }
 
-        EntityLiving viewpoint = mc.field_22009_h;
+        EntityLiving viewpoint = mc.thePlayer;
         if (viewpoint == null) return;
 
         this.target = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance(), 0);

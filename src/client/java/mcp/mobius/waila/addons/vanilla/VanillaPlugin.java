@@ -9,7 +9,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
-import net.minecraft.src.BlockStep;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.ItemRecord;
@@ -22,8 +21,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
     static Block lever = Block.lever;
-    static Block repeaterIdle = Block.field_22021_bh;
-    static Block repeaterActv = Block.field_22020_bi;
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
     static Block leave = Block.leaves;
@@ -31,7 +28,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block sapling = Block.sapling;
     static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
-    static Block bed = Block.field_9262_S;
 
     static Field ItemRecord_recordName;
 
@@ -68,34 +64,22 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
 
-        registrar.addConfig("VanillaMC", "vanilla.repeaterol");
-
-        registrar.registerDecorator(HUDDecoratorVanilla.INSTANCE, repeaterIdle.getClass());
-
         registrar.addConfig("VanillaMC", "vanilla.spawntype");
         registrar.addConfig("VanillaMC", "vanilla.leverstate");
-        registrar.addConfig("VanillaMC", "vanilla.repeater");
         registrar.addConfig("VanillaMC", "vanilla.redstone");
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sugarCane.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockSign.class);
 
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
 
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
-        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
-        registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());

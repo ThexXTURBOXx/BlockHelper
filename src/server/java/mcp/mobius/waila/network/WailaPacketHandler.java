@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.EntityPlayerMP;
-import net.minecraft.src.ModLoaderMp;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.Packet200ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -108,7 +108,7 @@ public class WailaPacketHandler {
     }
 
     public static void sendPacketToPlayer(IWailaPacket packet, EntityPlayerMP player) {
-        ModLoaderMp.SendPacketTo(mod_BlockHelper.INSTANCE, player, wrapMLPacket(packet));
+        ModLoader.SendPacketTo(mod_BlockHelper.INSTANCE, player, wrapMLPacket(packet));
     }
 
     public static void writeString(String str, DataOutputStream dos) throws IOException {

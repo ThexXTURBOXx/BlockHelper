@@ -80,10 +80,10 @@ public class BlockHelperUpdater implements Runnable {
     public void notifyUpdater(Minecraft mc) {
         if (!notify) return;
         if (status == Status.ERRORED)
-            mc.thePlayer.func_22055_b(I18n.translate("waila.update_check_failed_chat",
+            mc.ingameGUI.addChatMessage(I18n.translate("waila.update_check_failed_chat",
                     mod_BlockHelper.NAME));
         else if (status == Status.OUTDATED)
-            mc.thePlayer.func_22055_b(I18n.translate("waila.newer_version_available_chat",
+            mc.ingameGUI.addChatMessage(I18n.translate("waila.newer_version_available_chat",
                     mod_BlockHelper.NAME, mod_BlockHelper.VERSION, getLatestVersion()));
     }
 

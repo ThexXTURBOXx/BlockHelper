@@ -15,7 +15,7 @@ import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.config.Configuration;
 import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 
-public class mod_BlockHelper extends BaseModMp {
+public class mod_BlockHelper extends BaseMod {
 
     public static final String PACKAGE = "mcp.mobius.waila.";
     public static final String MOD_ID = "mod_BlockHelper";

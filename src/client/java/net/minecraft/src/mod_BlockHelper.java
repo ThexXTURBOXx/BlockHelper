@@ -20,7 +20,7 @@ import mcp.mobius.waila.utils.config.Configuration;
 import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 import net.minecraft.client.Minecraft;
 
-public class mod_BlockHelper extends BaseModMp {
+public class mod_BlockHelper extends BaseMod {
 
     public static final String PACKAGE = "mcp.mobius.waila.";
     public static final String MOD_ID = "mod_BlockHelper";
@@ -88,7 +88,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public void OnTickInGame(Minecraft mc) {
+    public void OSDHook(Minecraft mc, boolean guiOpen) {
         if (mc.theWorld != null && mc.thePlayer != null) {
             CONFIG_KEY_HANDLER.onTickInGame(mc);
             TICK_HANDLER.onTickInGame(mc);
