@@ -81,7 +81,7 @@ public final class DisplayUtil {
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
         GL11.glPushMatrix();
-        GL11.glRotatef(120F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GL11.glPopMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -155,7 +155,7 @@ public final class DisplayUtil {
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = new ArrayList<String>();
         try {
-            String name = I18n.translate(itemstack.getItemName() + ".name");
+            String name = I18n.translate(itemstack.getItem().getItemNameIS(itemstack) + ".name");
             if (name != null && !name.isEmpty())
                 namelist.add(name);
         } catch (Throwable ignored) {

@@ -21,7 +21,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public void encode(DataOutputStream target) throws Exception {
         target.writeShort(this.forcedKeys.size());
         for (String key : forcedKeys.keySet()) {
-            Packet.writeString(key, target);
+            Packet.func_27049_a(key, target);
             target.writeBoolean(this.forcedKeys.get(key));
         }
     }
@@ -32,7 +32,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
             this.forcedKeys = new HashMap<String, Boolean>();
             int nkeys = dat.readShort();
             for (int i = 0; i < nkeys; i++)
-                this.forcedKeys.put(Packet.readString(dat, 255), dat.readBoolean());
+                this.forcedKeys.put(Packet.func_27048_a(dat, 255), dat.readBoolean());
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, this.getClass(), null);
         }

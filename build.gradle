@@ -32,20 +32,9 @@ sourceSets {
     }
     server {
     }
-    bukkit {
-    }
 }
 tasks.named('jar') { // Disable jar for main sourceSet
     enabled = false
-}
-
-/* The hard way for Bukkit */
-tasks.register('bukkitJar', Jar) {
-    from sourceSets.bukkit.output
-    archiveClassifier.set('bukkit')
-}
-artifacts {
-    archives bukkitJar
 }
 
 unimined.minecraft(sourceSets.client) {
@@ -101,10 +90,8 @@ unimined.minecraft(sourceSets.server) {
 }
 
 dependencies {
-    clientJarMod "risugami:modloader:${project.mc_version}"
+    clientJarMod "risugami:modloader:${project.mc_version}+build.4"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-
-    bukkitImplementation(":craftbukkit-935-3c91b39f2ed50a4b11071a9a9f0a44ade0c479a1-MODIFIED")
 }

@@ -8,12 +8,12 @@ import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Item;
-import net.minecraft.src.ItemRecord;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MovingObjectPosition;
@@ -22,6 +22,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.mod_BlockHelper;
 
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.ItemRecord_recordName;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
@@ -35,7 +36,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.tallGrass;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.web;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -107,21 +108,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
                     new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
                             accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())));
 
-        if (block == tallGrass)
-            switch (accessor.getMetadata()) {
-            case 0:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.shrub.name"));
-                break;
-            case 1:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.grass.name"));
-                break;
-            case 2:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.fern.name"));
-                break;
-            default:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.name"));
-                break;
-            }
+        if (block == web)
+            currenttip.set(0, WHITE + I18n.translate("tile.web.name"));
     }
 
     @Override
@@ -155,13 +143,17 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 NBTTagCompound tag = accessor.getNBTData();
                 Item record = null;
 
-                if (tag.hasKey("Record"))
-                    record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
+                if (meta != 0)
+                    record = Item.itemsList[(Item.record13.shiftedIndex + meta) - 1];
 
-                currenttip.add(record == null
-                        ? I18n.translate("hud.msg.empty")
-                        : (I18n.translate("hud.msg.record") + ": " +
-                           "C418 - " + ((ItemRecord) record).recordName));
+                try {
+                    currenttip.add(record == null
+                            ? I18n.translate("hud.msg.empty")
+                            : (I18n.translate("hud.msg.record") + ": " +
+                               "C418 - " + ItemRecord_recordName.get(record)));
+                } catch (Throwable t) {
+                    WailaExceptionHandler.handleErr(t, block.getClass().getName() + ":" + meta, currenttip);
+                }
             }
 
         if (config.get("vanilla.noteblock"))

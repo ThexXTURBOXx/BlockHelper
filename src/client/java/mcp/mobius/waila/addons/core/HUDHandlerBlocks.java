@@ -85,7 +85,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (config.get("general.lightlevel") &&
-            (!w.func_28100_h(x, y + 1, z) || w.isAirBlock(x, y + 1, z))) {
+            (!w.isBlockOpaqueCube(x, y + 1, z) || w.isAirBlock(x, y + 1, z))) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
@@ -95,7 +95,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
 
         if (config.get("general.break")) {
             try {
-                float curBlockDamage = ModLoader.getMinecraftInstance().renderGlobal.damagePartialTime;
+                float curBlockDamage = ModLoader.getMinecraftInstance().renderGlobal.field_1450_i;
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
                     currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress);

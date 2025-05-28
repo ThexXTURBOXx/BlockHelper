@@ -1,8 +1,10 @@
 package mcp.mobius.waila.addons.vanilla;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
 import net.minecraft.src.BlockRedstoneOre;
@@ -10,6 +12,7 @@ import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.ItemRecord;
 import net.minecraft.src.TileEntityFurnace;
 
 public final class VanillaPlugin implements IWailaPlugin {
@@ -29,7 +32,9 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
     static Block bed = Block.blockBed;
-    static Block tallGrass = Block.tallGrass;
+    static Block web = Block.web;
+
+    static Field ItemRecord_recordName;
 
     private VanillaPlugin() {
     }
@@ -41,6 +46,12 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
+        try {
+            ItemRecord_recordName = AccessHelper.getDeclaredField(ItemRecord.class, "recordName", "a");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
         registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
@@ -83,7 +94,7 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, tallGrass.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, web.getClass());
 
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
