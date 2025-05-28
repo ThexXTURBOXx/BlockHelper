@@ -1,0 +1,29 @@
+package mcp.mobius.waila.addons.thermalexpansion;
+
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+
+public final class HUDHandlerEnergyCell implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerEnergyCell();
+
+    private HUDHandlerEnergyCell() {
+    }
+
+    @Override
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
+        try {
+            int recv = ThermalExpansionPlugin.TileEnergyCell_Recv.getInt(te);
+            int send = ThermalExpansionPlugin.TileEnergyCell_Send.getInt(te);
+            tag.setInteger("Recv", recv);
+            tag.setInteger("Send", send);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+    }
+
+}

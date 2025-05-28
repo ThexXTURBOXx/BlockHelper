@@ -1,0 +1,17 @@
+[
+  {
+    "modid": "mod_BlockHelper",
+    "name": "Block Helper",
+    "version": "${mod_version}",
+    "mcversion": "${mc_version}",
+    "url": "https://github.com/ThexXTURBOXx/BlockHelper",
+    "updateUrl": "https://modrinth.com/mod/block-helper",
+    "credits": "Created by HyperSpeeed",
+    "authors": [
+      "HyperSpeeed"
+    ],
+    "parent": "",
+    "screenshots": [],
+    "description": "A port of WAILA to Legacy Minecraft"
+  }
+]
