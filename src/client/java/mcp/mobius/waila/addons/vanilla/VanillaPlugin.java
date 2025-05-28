@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
-import net.minecraft.src.BlockNetherStalk;
+import net.minecraft.src.BlockNetherBrick;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStem;
@@ -36,13 +36,14 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block log = Block.wood;
     static Block sapling = Block.sapling;
     static Block noteBlock = Block.music;
-    static Block endPortal = Block.endPortal;
-    static Block cauldron = Block.cauldron;
+    static Block endPortal = Block.field_40209_bI;
+    static Block cauldron = Block.field_40208_bH;
     static Block sugarCane = Block.reed;
     static Block bed = Block.bed;
     static Block pistonExtension = Block.pistonExtension;
     static Block pistonMoving = Block.pistonMoving;
-    static Block brewingStand = Block.brewingStand;
+    static Block brewingStand = Block.field_40211_bG;
+    static Block tallGrass = Block.tallGrass;
 
     static Method isWheat;
 
@@ -80,7 +81,7 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockCrops.class);
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockStem.class);
-        registrar.registerCropProvider(new DefaultCropProvider(3), BlockNetherStalk.class);
+        registrar.registerCropProvider(new DefaultCropProvider(3), BlockNetherBrick.class); // Nether warts
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
@@ -121,6 +122,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonMoving.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
+        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, tallGrass.getClass());
 
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
         registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());

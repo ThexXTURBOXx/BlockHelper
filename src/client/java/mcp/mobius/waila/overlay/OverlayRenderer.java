@@ -47,7 +47,7 @@ public final class OverlayRenderer {
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        Profiler.startSection("Waila Overlay");
+        Profiler.func_40663_a("Waila Overlay");
         GLState state = new GLState();
 
         draw:
@@ -74,7 +74,7 @@ public final class OverlayRenderer {
         }
 
         state.reset();
-        Profiler.endSection();
+        Profiler.func_40662_b();
     }
 
     public static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {

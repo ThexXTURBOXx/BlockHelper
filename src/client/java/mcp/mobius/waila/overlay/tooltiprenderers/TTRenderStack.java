@@ -36,7 +36,7 @@ public class TTRenderStack implements ITooltipRenderer {
                 stack = new ItemStack(Item.itemsList[id], amount, meta);
         }
         if (hasEffects && stack != null)
-            stack.addEnchantment(Enchantment.unbreaking, 1); // any enchantment adds back effect
+            stack.func_40705_a(Enchantment.field_40518_q, 1); // any enchantment adds back effect
 
         DisplayUtil.renderStack(x, y, stack);
     }

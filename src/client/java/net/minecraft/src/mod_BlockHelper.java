@@ -1,9 +1,6 @@
 package net.minecraft.src;
 
-import forge.ForgeHooksClient;
-import forge.IRenderWorldLastHandler;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -13,13 +10,10 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
-import mcp.mobius.waila.overlay.DecoratorRenderer;
-import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
@@ -78,14 +72,6 @@ public class mod_BlockHelper extends BaseModMp {
         OverlayConfig.updateColors();
 
         // INIT
-        try {
-            Field f = AccessHelper.getDeclaredField(ForgeHooksClient.class, "renderWorldLastHandlers");
-            List<IRenderWorldLastHandler> renderWorldLastHandlers = (List<IRenderWorldLastHandler>) f.get(null);
-            renderWorldLastHandlers.add(new DecoratorRenderer());
-            renderWorldLastHandlers.add(new NEIOverlayRenderer());
-        } catch (Throwable t) {
-            LOG.info("Forge not detected. Overlays and decorators will not work.");
-        }
         CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
         TICK_HANDLER = new WailaTickHandler();
 
@@ -146,12 +132,7 @@ public class mod_BlockHelper extends BaseModMp {
             return null;
         }
 
-        public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
-            try {
-                return b.canHarvestBlock(player, meta);
-            } catch (Throwable ignored) {
-            }
-
+        public static boolean canHarvestBlock(Block b, EntityPlayer player) {
             if (b.blockMaterial.getIsHarvestable())
                 return true;
             ItemStack stack = player.inventory.getCurrentItem();
@@ -160,11 +141,7 @@ public class mod_BlockHelper extends BaseModMp {
             return stack.canHarvestBlock(b);
         }
 
-        public static float getHardness(Block b, int meta) {
-            try {
-                return b.getHardness(meta);
-            } catch (Throwable ignored) {
-            }
+        public static float getHardness(Block b) {
             return b.getHardness();
         }
 

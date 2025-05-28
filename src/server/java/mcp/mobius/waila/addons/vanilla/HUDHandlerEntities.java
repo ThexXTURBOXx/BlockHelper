@@ -18,7 +18,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent instanceof EntityLiving)
-            tag.setInteger("MaxHealth", ((EntityLiving) ent).getMaxHealth());
+            tag.setInteger("MaxHealth", ((EntityLiving) ent).func_40095_c());
     }
 
 }

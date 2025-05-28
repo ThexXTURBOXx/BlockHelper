@@ -18,6 +18,7 @@ import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.util.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
@@ -82,9 +83,13 @@ public final class DisplayUtil {
 
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderHelper.func_41089_c();
+        GL11.glPushMatrix();
+        GL11.glRotatef(120F, 1.0F, 0.0F, 0.0F);
+        RenderHelper.enableStandardItemLighting();
+        GL11.glPopMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, 240, 240);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         try {
             renderItem.renderItemIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);

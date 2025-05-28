@@ -16,10 +16,8 @@ env:
   GAME_VERSIONS_MR: |
     1.0
   LOADERS_CF: |
-    forge
     modloader
   LOADERS_MR: |
-    forge
     modloader
   MC_VERSION: 1.0
 

@@ -14,7 +14,7 @@ import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
-import net.minecraft.src.EntityVillager;
+import net.minecraft.src.EntityVillage;
 import net.minecraft.src.EntityWolf;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.ItemStack;
@@ -127,7 +127,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                I18n.translate("hud.msg.seconds_format", conversionTime / 20));
             }
 
-            if (entity instanceof EntityVillager) {
+            if (entity instanceof EntityVillage) {
                 String profession = "hud.msg.villager.modded";
                 int professionId = accessor.getNBTInteger("Profession");
                 switch (professionId) {
@@ -170,7 +170,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent instanceof EntityLiving)
-            tag.setInteger("MaxHealth", ((EntityLiving) ent).getMaxHealth());
+            tag.setInteger("MaxHealth", ((EntityLiving) ent).func_40117_c());
     }
 
 }

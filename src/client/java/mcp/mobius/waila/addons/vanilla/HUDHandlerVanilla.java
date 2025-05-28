@@ -43,6 +43,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.tallGrass;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -92,7 +93,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.wheat);
 
         if (block == cauldron)
-            return new ItemStack(Item.cauldron);
+            return new ItemStack(Item.field_40408_bz);
 
         if (block == bed)
             return new ItemStack(Item.bed);
@@ -159,6 +160,22 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 break;
             default:
                 currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.stone.name"));
+                break;
+            }
+
+        if (block == tallGrass)
+            switch (accessor.getMetadata()) {
+            case 0:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.shrub.name"));
+                break;
+            case 1:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.grass.name"));
+                break;
+            case 2:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.fern.name"));
+                break;
+            default:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.name"));
                 break;
             }
     }
