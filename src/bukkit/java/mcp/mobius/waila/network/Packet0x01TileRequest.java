@@ -24,9 +24,9 @@ public class Packet0x01TileRequest implements IWailaPacket {
     }
 
     public Packet0x01TileRequest(TileEntity ent) {
-        this.posX = ent.x;
-        this.posY = ent.y;
-        this.posZ = ent.z;
+        this.posX = ent.e;
+        this.posY = ent.f;
+        this.posZ = ent.g;
     }
 
     @Override

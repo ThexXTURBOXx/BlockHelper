@@ -30,8 +30,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonExtension;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonMoving;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
@@ -103,12 +101,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
             currenttip.set(0, name + " (" + mobname + ")");
         }
-
-        if (block == pistonExtension)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
-
-        if (block == pistonMoving)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
 
         if (block instanceof BlockStep)
             currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(

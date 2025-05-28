@@ -52,10 +52,6 @@ unimined.minecraft(sourceSets.client) {
     version project.mc_version
     side "client"
 
-    // Use Reforged instead!
-    // minecraftForge {
-    //     loader project.forge_version
-    // }
     jarMod {
     }
 
@@ -82,8 +78,7 @@ unimined.minecraft(sourceSets.server) {
     version project.mc_version
     side "server"
 
-    minecraftForge {
-        loader project.forge_version
+    jarMod {
     }
 
     mappings {
@@ -108,13 +103,8 @@ unimined.minecraft(sourceSets.server) {
 dependencies {
     clientJarMod "risugami:modloader:${project.mc_version}"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
-    clientJarMod ":reforged-client-1.0.3"
-    clientModImplementation(":buildcraft-client-A-core-2.1.1")
-    clientModImplementation(":FabricStubs-v1")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.1.1")
 
-    bukkitImplementation(":craftbukkit-1060-6f67ce03005ab3f51cb0f6401c5bd8a1996497f0-MODIFIED")
-    bukkitImplementation(":BuildCraft_bukkitbuild_6-MODIFIED")
+    bukkitImplementation(":craftbukkit-935-3c91b39f2ed50a4b11071a9a9f0a44ade0c479a1-MODIFIED")
 }

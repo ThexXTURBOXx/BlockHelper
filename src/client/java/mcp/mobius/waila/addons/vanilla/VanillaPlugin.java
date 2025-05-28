@@ -29,8 +29,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block noteBlock = Block.musicBlock;
     static Block sugarCane = Block.reed;
     static Block bed = Block.blockBed;
-    static Block pistonExtension = Block.pistonExtension;
-    static Block pistonMoving = Block.pistonMoving;
     static Block tallGrass = Block.tallGrass;
 
     private VanillaPlugin() {
@@ -84,8 +82,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockSign.class);
 
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonExtension.getClass());
-        registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonMoving.getClass());
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, tallGrass.getClass());
 

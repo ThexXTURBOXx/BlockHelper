@@ -73,9 +73,9 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (config.get("general.harvest")) {
             String harvest = "hud.msg.please_report";
             if (b != null) {
-                if (Accessor.getHardness(b, meta) < 0.0F) {
+                if (Accessor.getHardness(b) < 0.0F) {
                     harvest = "hud.msg.unbreakable";
-                } else if (Accessor.canHarvestBlock(b, accessor.getPlayer())) {
+                } else if (accessor.getPlayer().canHarvestBlock(b)) {
                     harvest = "hud.msg.harvestable";
                 } else {
                     harvest = "hud.msg.not_harvestable";
@@ -85,7 +85,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (config.get("general.lightlevel") &&
-            (!w.isBlockNormalCube(x, y + 1, z) || w.isAirBlock(x, y + 1, z))) {
+            (!w.func_28100_h(x, y + 1, z) || w.isAirBlock(x, y + 1, z))) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;

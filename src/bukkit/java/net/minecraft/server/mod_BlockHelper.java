@@ -86,7 +86,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static class Accessor {
 
         public static int damageDropped(Block b, int meta) {
-            return b.a_(meta);
+            return b.b(meta);
         }
 
         @SuppressWarnings("unchecked")

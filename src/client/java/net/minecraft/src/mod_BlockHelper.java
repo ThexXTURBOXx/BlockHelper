@@ -10,8 +10,6 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
-import mcp.mobius.waila.overlay.DecoratorRenderer;
-import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
@@ -21,7 +19,6 @@ import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
 import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 import net.minecraft.client.Minecraft;
-import reforged.ReforgedHooksClient;
 
 public class mod_BlockHelper extends BaseModMp {
 
@@ -77,12 +74,6 @@ public class mod_BlockHelper extends BaseModMp {
         OverlayConfig.updateColors();
 
         // INIT
-        try {
-            ReforgedHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
-            ReforgedHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
-        } catch (Throwable t) {
-            LOG.info("Could not hook into Reforged. Overlays and decorators will not work.");
-        }
         CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
         TICK_HANDLER = new WailaTickHandler();
 
@@ -97,7 +88,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public boolean OnTickInGame(Minecraft mc) {
+    public void OnTickInGame(Minecraft mc) {
         if (mc.theWorld != null && mc.thePlayer != null) {
             CONFIG_KEY_HANDLER.onTickInGame(mc);
             TICK_HANDLER.onTickInGame(mc);
@@ -105,8 +96,6 @@ public class mod_BlockHelper extends BaseModMp {
 
         if (serverPresent && mc.theWorld == null)
             Packet0x00ServerPing.resetClient();
-
-        return true;
     }
 
     @Override
@@ -139,22 +128,8 @@ public class mod_BlockHelper extends BaseModMp {
             return null;
         }
 
-        public static boolean canHarvestBlock(Block b, EntityPlayer player) {
-            try {
-                return player.canHarvestBlock(b);
-            } catch (Throwable ignored) {
-            }
-
-            if (b.blockMaterial.getIsHarvestable())
-                return true;
-            ItemStack stack = player.inventory.getCurrentItem();
-            if (stack == null)
-                return false;
-            return stack.canHarvestBlock(b);
-        }
-
-        public static float getHardness(Block b, int meta) {
-            return b.getHardness();
+        public static float getHardness(Block b) {
+            return b.blockHardness;
         }
 
     }
