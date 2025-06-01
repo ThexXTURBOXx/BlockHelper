@@ -56,13 +56,14 @@ or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3).
 ## Source Code
 
 BlockHelper is being developed for:<br>
+[b1.1_01/b1.1_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.1_02)<br>
 [b1.2_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.2_02)<br>
 [b1.3_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.3_01)<br>
 [b1.4_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.4_01)<br>
 [b1.5/b1.5_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.5_01)<br>
 [b1.6.5/b1.6.6](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.6.6)<br>
-[b1.7.2/b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)<br>
-[b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)<br>
+[b1.7-b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)<br>
+[b1.8/b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)<br>
 [b1.9p5](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.9p5)<br>
 [1.0/1.0.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.0)<br>
 [1.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.1)<br>
