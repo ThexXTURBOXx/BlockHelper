@@ -18,7 +18,6 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
-import net.minecraft.src.TileEntitySkull;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
@@ -26,8 +25,6 @@ public final class VanillaPlugin implements IWailaPlugin {
 
     static Block mobSpawner = Block.mobSpawner;
     static Block crops = Block.crops;
-    static Block carrot = Block.carrot;
-    static Block potato = Block.potatoe;
     static Block melonStem = Block.melonStem;
     static Block pumpkinStem = Block.pumpkinStem;
     static Block lever = Block.lever;
@@ -38,11 +35,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block silverfish = Block.silverfish;
     static Block leave = Block.leaves;
     static Block log = Block.wood;
-    static Block anvil = Block.anvil;
     static Block sapling = Block.sapling;
-    static Block flowerPot = Block.flowerPot;
     static Block noteBlock = Block.music;
-    static Block beacon = Block.beacon;
     static Block endPortal = Block.endPortal;
     static Block cauldron = Block.cauldron;
     static Block sugarCane = Block.reed;
@@ -91,7 +85,7 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
-        registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
+
         if (side.isClient()) {
             registrar.addConfig("VanillaMC", "vanilla.repeaterol");
 
@@ -102,8 +96,6 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.addConfig("VanillaMC", "vanilla.repeater");
             registrar.addConfig("VanillaMC", "vanilla.redstone");
             registrar.addConfig("VanillaMC", "vanilla.silverfish");
-            registrar.addConfig("VanillaMC", "vanilla.flowerpot");
-            registrar.addConfig("VanillaMC", "vanilla.skull");
 
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
@@ -114,13 +106,9 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, carrot.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, potato.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, anvil.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, cauldron.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
@@ -138,10 +126,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterActv.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, jukebox.getClass());
-            registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
-            registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, TileEntitySkull.class);
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, noteBlock.getClass());
-            registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, beacon.getClass());
         }
     }
 

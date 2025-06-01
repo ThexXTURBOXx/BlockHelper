@@ -53,7 +53,7 @@ unimined.minecraft {
 }
 
 dependencies {
-    modImplementation(":CodeChickenCore 0.6.6.2")
-    modImplementation(":NotEnoughItems 1.4.1.2")
-    modImplementation(":BuildCraft-3.1.8.206")
+    modImplementation(":CodeChickenCore 0.6.5")
+    modImplementation(":NotEnoughItems 1.4.0.5")
+    modImplementation(":buildcraft-A-3.2.0pre9")
 }

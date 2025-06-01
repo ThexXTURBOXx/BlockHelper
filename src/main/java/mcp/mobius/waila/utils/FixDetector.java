@@ -2,6 +2,7 @@ package mcp.mobius.waila.utils;
 
 import cpw.mods.fml.relauncher.RelaunchClassLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.FontRenderer;
 
 import static mcp.mobius.waila.api.SpecialChars.GOLD;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
@@ -33,6 +34,32 @@ public final class FixDetector {
                                         "You can find it on Modrinth.");
             mc.thePlayer.addChatMessage(RED + "Otherwise, some features " +
                                         "will not work correctly!");
+        }
+
+        try {
+            Object fixerVersion = AccessHelper.getField(FontRenderer.class, "FIXER_VERSION").get(null);
+            if (!"2".equals(fixerVersion)) {
+                mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "Please update FontFixer.");
+                mc.thePlayer.addChatMessage(RED + "You can find it on Modrinth.");
+            }
+        } catch (Throwable t) {
+            try {
+                Class<?> FontFixer = AccessHelper.getClass("de.thexxturboxx.blockhelper.FontFixer");
+                Object fixerVersion = AccessHelper.getField(FontFixer, "FIXER_VERSION").get(null);
+                if (!"2".equals(fixerVersion)) {
+                    mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                                RED + "Please update FontFixer.");
+                    mc.thePlayer.addChatMessage(RED + "You can find it on Modrinth.");
+                }
+            } catch (Throwable t1) {
+                mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "It is very recommended to install the");
+                mc.thePlayer.addChatMessage(RED + "FontFixer jar-mod. " +
+                                            "You can find it on Modrinth.");
+                mc.thePlayer.addChatMessage(RED + "Otherwise, some texts " +
+                                            "will not be rendered correctly!");
+            }
         }
     }
 

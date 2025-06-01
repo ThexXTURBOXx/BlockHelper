@@ -10,14 +10,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.INetworkManager;
+import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaPacketHandler implements IPacketHandler {
 
     @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+    public void onPacketData(NetworkManager manager, Packet250CustomPayload packet, Player player) {
         try {
             if (packet.channel.equals(mod_BlockHelper.CHANNEL)) {
                 DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));

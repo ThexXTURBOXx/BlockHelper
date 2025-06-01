@@ -14,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -54,11 +53,6 @@ public class RayTracing {
     }
 
     private static boolean shouldShowEntity(Entity entity) {
-        // Check if entity is player with invisibility effect
-        if (entity instanceof EntityPlayer) {
-            boolean setting = PluginConfig.instance().get("general.invisibleplayers");
-            return setting || !entity.func_82150_aj();
-        }
         return true;
     }
 

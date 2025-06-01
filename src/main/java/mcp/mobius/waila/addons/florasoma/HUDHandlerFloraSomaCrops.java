@@ -5,10 +5,12 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
+import net.minecraft.src.mod_BlockHelper.Accessor;
 
 import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock;
 import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock_getCropItem;
@@ -28,7 +30,7 @@ public final class HUDHandlerFloraSomaCrops implements IDataProvider {
             if (FloraCropBlock.isInstance(b)) {
                 int meta = accessor.getMetadata();
                 return new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
-                        b.damageDropped(meta));
+                        Accessor.damageDropped(b, meta));
             }
         } catch (Throwable ignored) {
         }
@@ -42,8 +44,9 @@ public final class HUDHandlerFloraSomaCrops implements IDataProvider {
             Block b = accessor.getBlock();
             if (FloraCropBlock.isInstance(b)) {
                 int meta = accessor.getMetadata();
-                currenttip.set(0, WHITE + new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
-                        b.damageDropped(meta)).getDisplayName());
+                currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
+                        new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
+                                Accessor.damageDropped(b, meta))));
             }
         } catch (Throwable ignored) {
         }

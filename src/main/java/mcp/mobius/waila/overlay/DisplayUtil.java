@@ -85,7 +85,7 @@ public final class DisplayUtil {
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         try {
-            renderItem.renderItemAndEffectIntoGUI(fontRenderer, renderEngine, stack, x, y);
+            renderItem.renderItemIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, stack.getItem().getClass(), null);
@@ -152,8 +152,7 @@ public final class DisplayUtil {
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = null;
         try {
-            namelist = (List<String>) itemstack.getTooltip(Minecraft.getMinecraft().thePlayer,
-                    Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+            namelist = (List<String>) itemstack.getItemNameandInformation();
         } catch (Throwable ignored) {
         }
 

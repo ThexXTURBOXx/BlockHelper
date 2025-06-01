@@ -86,7 +86,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                             currenttip.add(I18n.translate("hud.msg.in_love") + ": " +
                                            I18n.translate("hud.msg.seconds_format", inLove / 20));
                         else if (accessor.getPlayer().getCurrentEquippedItem() != null &&
-                                 animal.isBreedingItem(accessor.getPlayer().getCurrentEquippedItem()))
+                                 animal.isWheat(accessor.getPlayer().getCurrentEquippedItem()))
                             currenttip.add(I18n.translate("hud.msg.can_be_bred"));
                     }
                 }

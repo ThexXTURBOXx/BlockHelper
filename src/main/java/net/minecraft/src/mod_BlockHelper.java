@@ -109,6 +109,14 @@ public class mod_BlockHelper extends BaseMod {
         return true;
     }
 
+    public static class Accessor {
+
+        public static int damageDropped(Block b, int meta) {
+            return b.damageDropped(meta);
+        }
+
+    }
+
     /**
      * If you want to register your plugin in a safe way, register it during the {@link #load()} phase
      * and use something like this:

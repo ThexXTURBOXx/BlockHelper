@@ -3,15 +3,18 @@ package mcp.mobius.waila.addons.nei;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.forge.IContainerInputHandler;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Enchantment;
-import net.minecraft.src.EnchantmentHelper;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagList;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
@@ -36,7 +39,6 @@ public final class HandlerEnchants implements IContainerInputHandler {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
         GuiContainerManager manager = gui.manager;
         ItemStack stackover = manager.getStackMouseOver();
@@ -53,7 +55,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
             Minecraft mc = Minecraft.getMinecraft();
             ScreenEnchants screen = new ScreenEnchants(mc.currentScreen);
             screen.setStack(stackover);
-            screen.setName(stackover.getDisplayName());
+            screen.setName(DisplayUtil.itemDisplayNameShort(stackover));
             screen.setEnchantability(String.valueOf(itemEnchantability));
 
             for (Enchantment enchant : Enchantment.enchantmentsList) {
@@ -67,8 +69,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
                 if (enchant.canEnchantItem(stackover)) {
 
                     if (stackover.isItemEnchanted()) {
-                        Map<Integer, Integer> stackenchants =
-                                (Map<Integer, Integer>) EnchantmentHelper.getEnchantments(stackover);
+                        Map<Integer, Integer> stackenchants = getEnchantments(stackover);
                         for (Integer id : stackenchants.keySet()) {
                             if (!enchant.canApplyTogether(Enchantment.enchantmentsList[id]))
                                 isCompatible = false;
@@ -131,6 +132,19 @@ public final class HandlerEnchants implements IContainerInputHandler {
 
     @Override
     public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
+    }
+
+    public static Map<Integer, Integer> getEnchantments(ItemStack stack) {
+        LinkedHashMap<Integer, Integer> ret = new LinkedHashMap<Integer, Integer>();
+        NBTTagList list = stack.getEnchantmentTagList();
+        if (list != null) {
+            for (int i = 0; i < list.tagCount(); ++i) {
+                short var4 = ((NBTTagCompound) list.tagAt(i)).getShort("id");
+                short var5 = ((NBTTagCompound) list.tagAt(i)).getShort("lvl");
+                ret.put((int) var4, (int) var5);
+            }
+        }
+        return ret;
     }
 
 }

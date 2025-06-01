@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
-import net.minecraft.src.BlockFlowerPot;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.BlockWoodSlab;
@@ -17,19 +16,14 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Potion;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.TileEntitySkull;
+import net.minecraft.src.mod_BlockHelper;
 
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.anvil;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.beacon;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.carrot;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.endPortal;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.flowerPot;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
@@ -39,7 +33,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonExtension;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonMoving;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.potato;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
@@ -95,15 +88,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == crops)
             return new ItemStack(Item.wheat);
 
-        if (block == carrot)
-            return new ItemStack(Item.carrot);
-
-        if (block == potato)
-            return new ItemStack(Item.potatoe);
-
-        if (block == flowerPot)
-            return new ItemStack(Item.flowerPot);
-
         if (block == cauldron)
             return new ItemStack(Item.cauldron);
 
@@ -116,10 +100,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
 
-        if (block == anvil ||
-            block == sapling ||
+        if (block == sapling ||
             block instanceof BlockStep || block instanceof BlockWoodSlab)
-            return new ItemStack(block, 1, block.damageDropped(meta));
+            return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
 
         return null;
 
@@ -199,23 +182,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
                            "C418 - " + ((ItemRecord) record).recordName));
             }
 
-        if (config.get("vanilla.flowerpot"))
-            if (block == flowerPot) {
-                ItemStack flower = BlockFlowerPot.getPlantForMeta(meta);
-                if (flower != null)
-                    currenttip.add(I18n.translate("hud.msg.flower") + ": " + flower.getDisplayName());
-            }
-
-        if (config.get("vanilla.skull"))
-            if (accessor.getTileEntity() instanceof TileEntitySkull) {
-                TileEntitySkull te = (TileEntitySkull) accessor.getTileEntity();
-                if (te.func_82117_a() == 3) {
-                    String playerName = te.func_82120_c();
-                    if (playerName != null && !playerName.isEmpty())
-                        currenttip.add(I18n.translate("hud.msg.head_owner") + ": " + playerName);
-                }
-            }
-
         if (config.get("vanilla.noteblock"))
             if (block == noteBlock) {
                 int note = accessor.getNBTInteger("note");
@@ -229,21 +195,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 else if (m == Material.glass) instrument = "hud.msg.clicks_sticks";
                 else if (m == Material.wood) instrument = "hud.msg.bass_guitar";
                 currenttip.add(I18n.translate("hud.msg.instrument") + ": " + I18n.translate(instrument));
-            }
-
-        if (config.get("vanilla.beacon"))
-            if (block == beacon) {
-                int level = accessor.getNBTInteger("Levels");
-                int primary = accessor.getNBTInteger("Primary");
-                int secondary = accessor.getNBTInteger("Secondary");
-                if (level >= 0)
-                    currenttip.add(I18n.translate("hud.msg.level") + ": " + level);
-                if (primary > 0)
-                    currenttip.add(I18n.translate("hud.msg.primary_effect") + ": " +
-                                   I18n.translate(Potion.potionTypes[primary].getName()));
-                if (secondary > 0)
-                    currenttip.add(I18n.translate("hud.msg.secondary_effect") + ": " +
-                                   I18n.translate(Potion.potionTypes[secondary].getName()));
             }
     }
 
