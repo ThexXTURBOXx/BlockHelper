@@ -4,14 +4,13 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.src.Block;
-import net.minecraft.src.Enchantment;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for item stacks.
- * Syntax: {waila.stack, type, id, amount, meta, haseffects}
+ * Syntax: {waila.stack, type, id, amount, meta}
  */
 public class TTRenderStack implements ITooltipRenderer {
 
@@ -26,7 +25,6 @@ public class TTRenderStack implements ITooltipRenderer {
         int id = Integer.parseInt(params[1]);
         int amount = Integer.parseInt(params[2]);
         int meta = Integer.parseInt(params[3]);
-        boolean hasEffects = Boolean.parseBoolean(params[4]);
 
         ItemStack stack = null;
         if (id > 0) {
@@ -35,8 +33,6 @@ public class TTRenderStack implements ITooltipRenderer {
             else if (type == 1)
                 stack = new ItemStack(Item.itemsList[id], amount, meta);
         }
-        if (hasEffects && stack != null)
-            stack.addEnchantment(Enchantment.unbreaking, 1); // any enchantment adds back effect
 
         DisplayUtil.renderStack(x, y, stack);
     }

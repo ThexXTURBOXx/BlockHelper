@@ -30,7 +30,7 @@ public final class SpawnUtil {
 
     public static byte getSpawnMode(World w, int x, int y, int z) {
         BiomeGenBase biome = w.getWorldChunkManager().getBiomeGenAt(x, z);
-        if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty() && biome.getSpawningChance() > 0.0f)
+        if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty() && biome.getBiome() > 0.0f)
             return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getBoundingBoxFromPool(
                     0, 0, 0, 0, 0, 0), x, y, z);
         return 0;

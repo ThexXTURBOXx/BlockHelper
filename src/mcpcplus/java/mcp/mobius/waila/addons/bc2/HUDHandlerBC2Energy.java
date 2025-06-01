@@ -33,8 +33,8 @@ public final class HUDHandlerBC2Energy implements IDataProvider {
                 }
             }
 
-            tag.setInt("MJEnergy", energy);
-            tag.setInt("MJMaxStorage", maxsto);
+            tag.a("MJEnergy", energy);
+            tag.a("MJMaxStorage", maxsto);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

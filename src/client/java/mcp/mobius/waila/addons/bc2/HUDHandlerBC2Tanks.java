@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
@@ -39,9 +38,6 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
                 if (ILiquidContainer.isInstance(accessor.getTileEntity())) {
                     liquidId = accessor.getNBTInteger("liquidtype");
                     capacity = accessor.getNBTInteger("liquidcapacity");
-                } else if (accessor.getBlock() == Block.cauldron) {
-                    liquidId = Block.waterStill.blockID;
-                    capacity = 1000;
                 }
 
                 if (capacity > 0) {
@@ -68,9 +64,6 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
                 if (ILiquidContainer.isInstance(accessor.getTileEntity())) {
                     liquidAmount = accessor.getNBTInteger("liquidamt");
                     capacity = accessor.getNBTInteger("liquidcapacity");
-                } else if (accessor.getBlock() == Block.cauldron) {
-                    liquidAmount = Math.min(4, accessor.getMetadata()) * 250;
-                    capacity = 1000;
                 }
 
                 if (capacity > 0)

@@ -25,8 +25,8 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
                 maxStorage = AdvSolarsPlugin.TileEntitySolarPanel_maxStorage.getInt(te);
             }
 
-            tag.setInt("storage", storage);
-            tag.setInt("maxStorage", maxStorage);
+            tag.a("storage", storage);
+            tag.a("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);
@@ -41,8 +41,8 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
                 maxPacketSize = AdvSolarsPlugin.TileEntityQGenerator_maxPacketSize.getInt(te);
             }
 
-            tag.setInt("production", production);
-            tag.setInt("maxPacketSize", maxPacketSize);
+            tag.a("production", production);
+            tag.a("maxPacketSize", maxPacketSize);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

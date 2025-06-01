@@ -17,9 +17,9 @@ public final class LiquidHelper {
         int liquidAmount = slot != null ? slot.liquidQty : 0;
         int capacity = slot != null ? slot.capacity : 0;
 
-        tag.setInt("liquidtype", liquidId);
-        tag.setInt("liquidamt", liquidAmount);
-        tag.setInt("liquidcapacity", capacity);
+        tag.a("liquidtype", liquidId);
+        tag.a("liquidamt", liquidAmount);
+        tag.a("liquidcapacity", capacity);
     }
 
     public static LiquidSlotDelegate getTank(ILiquidContainer container) {

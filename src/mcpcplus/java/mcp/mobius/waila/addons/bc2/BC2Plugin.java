@@ -34,7 +34,7 @@ public final class BC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("net.minecraft.server.mod_BuildCraftCore");
+            AccessHelper.getClass("mod_BuildCraftCore");
             mod_BlockHelper.LOG.log(Level.INFO, "[BC2] Mod found.");
             return true;
         } catch (Throwable t) {

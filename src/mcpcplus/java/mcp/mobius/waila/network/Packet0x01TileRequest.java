@@ -92,9 +92,9 @@ public class Packet0x01TileRequest implements IWailaPacket {
                 }
             }
 
-            tag.setInt("WailaX", posX);
-            tag.setInt("WailaY", posY);
-            tag.setInt("WailaZ", posZ);
+            tag.a("WailaX", posX);
+            tag.a("WailaY", posY);
+            tag.a("WailaZ", posZ);
 
             WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), sender);
         } catch (Throwable t) {

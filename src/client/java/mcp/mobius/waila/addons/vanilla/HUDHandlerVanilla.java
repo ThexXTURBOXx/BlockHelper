@@ -23,10 +23,7 @@ import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.brewingStand;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.endPortal;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
@@ -43,6 +40,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.tallGrass;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -65,7 +63,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
             case 1:
                 return new ItemStack(Block.cobblestone);
             case 2:
-                return new ItemStack(Block.stoneBrick);
+                return new ItemStack(Block.field_35285_bn);
             default:
                 return new ItemStack(Block.stone);
             }
@@ -80,19 +78,16 @@ public final class HUDHandlerVanilla implements IDataProvider {
             return new ItemStack(Item.redstoneRepeater);
 
         if (block == melonStem)
-            return new ItemStack(Item.melonSeeds);
+            return new ItemStack(Item.field_35423_bi);
 
         if (block == pumpkinStem)
-            return new ItemStack(Item.pumpkinSeeds);
+            return new ItemStack(Item.field_35422_bh);
 
         if (block == sugarCane)
             return new ItemStack(Item.reed);
 
         if (block == crops)
             return new ItemStack(Item.wheat);
-
-        if (block == cauldron)
-            return new ItemStack(Item.cauldron);
 
         if (block == bed)
             return new ItemStack(Item.bed);
@@ -107,9 +102,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
             block instanceof BlockStep)
             return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
 
-        if (block == brewingStand ||
-            block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE, 0), 1,
+        if (block instanceof BlockSign)
+            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE), 1,
                     mod_BlockHelper.Accessor.damageDropped(block, meta));
 
         return null;
@@ -135,9 +129,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == pumpkinStem)
             currenttip.set(0, WHITE + I18n.translate("tile.pumpkinStem.name"));
 
-        if (block == endPortal)
-            currenttip.set(0, WHITE + I18n.translate("tile.endPortal.name"));
-
         if (block == pistonExtension)
             currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
 
@@ -146,7 +137,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (block instanceof BlockStep)
             currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                    new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE, 0), 1,
+                    new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
                             mod_BlockHelper.Accessor.damageDropped(block, accessor.getMetadata()))));
 
         if (block == silverfish && !config.get("vanilla.silverfish"))
@@ -159,6 +150,22 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 break;
             default:
                 currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.stone.name"));
+                break;
+            }
+
+        if (block == tallGrass)
+            switch (accessor.getMetadata()) {
+            case 0:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.shrub.name"));
+                break;
+            case 1:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.grass.name"));
+                break;
+            case 2:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.fern.name"));
+                break;
+            default:
+                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.name"));
                 break;
             }
     }
@@ -195,7 +202,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 Item record = null;
 
                 if (tag.hasKey("RecordItem")) {
-                    ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("RecordItem"));
+                    ItemStack stack = ItemStack.func_35864_a(tag.getCompoundTag("RecordItem"));
                     record = stack == null ? null : stack.getItem();
                 }
 

@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.src.BlockCauldron;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class BC2Plugin implements IWailaPlugin {
@@ -55,7 +54,8 @@ public final class BC2Plugin implements IWailaPlugin {
             Engine_maxEnergy = AccessHelper.getField(Engine, "maxEnergy");
 
             IPowerReceptor = AccessHelper.getClass("buildcraft.api.IPowerReceptor");
-            IPowerReceptor_getPowerProvider = AccessHelper.getMethod(IPowerReceptor, new Class[0], "getPowerProvider");
+            IPowerReceptor_getPowerProvider = AccessHelper.getMethod(IPowerReceptor, new Class[0],
+                    "getPowerProvider");
 
             PowerProvider = AccessHelper.getClass("buildcraft.api.PowerProvider");
             PowerProvider_energyStored = AccessHelper.getField(PowerProvider, "energyStored");
@@ -80,11 +80,9 @@ public final class BC2Plugin implements IWailaPlugin {
             registrar.registerNBTProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
 
             registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-            registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
             registrar.registerHeadProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
 
             registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-            registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
             registrar.registerBodyProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Tank hooks.", t);

@@ -64,7 +64,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
                 }
             }
 
-            tag.setInt("WailaEntityID", entity.id);
+            tag.a("WailaEntityID", entity.id);
 
             WailaPacketHandler.sendPacketToPlayer(new Packet0x03NBTData(tag), sender);
         } catch (Throwable t) {

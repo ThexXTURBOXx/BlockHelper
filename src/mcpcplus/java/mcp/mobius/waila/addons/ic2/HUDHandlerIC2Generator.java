@@ -27,9 +27,9 @@ public final class HUDHandlerIC2Generator implements IDataProvider {
                 maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
             }
 
-            tag.setShort("storage", storage);
-            tag.setInt("production", production);
-            tag.setShort("maxStorage", maxStorage);
+            tag.a("storage", storage);
+            tag.a("production", production);
+            tag.a("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

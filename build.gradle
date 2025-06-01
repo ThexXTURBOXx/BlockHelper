@@ -103,16 +103,14 @@ unimined.minecraft(sourceSets.server) {
 }
 
 dependencies {
-    clientJarMod "risugami:modloader:${project.mc_version_mcp}"
+    clientJarMod "risugami:modloader:${project.mc_version}"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
-    clientModImplementation(":CodeChickenCore-Client 0.4.0")
-    clientModImplementation(":NotEnoughItems-Client 1.0.5")
-    clientModImplementation(":buildcraft-client-A-core-2.2.11")
-    clientModImplementation(":buildcraft-client-A-core-3.1.1")
+    clientModImplementation(":buildcraft-client-A-core-2.2.5")
+    clientModImplementation(":buildcraft-client-A-core-3.0.1")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.2.11")
+    serverModImplementation(":buildcraft-server-A-core-2.2.5")
 
-    mcpcplusImplementation(":craftbukkit-1.0.1-R1_r1")
-    mcpcplusImplementation(":buildcraft-2.2.11-b1.0.1R1-r5")
+    mcpcplusImplementation(":craftbukkit-0.0.1-SNAPSHOT_v4")
+    mcpcplusImplementation(":buildcraft-2.2.5-b1337-r11")
 }

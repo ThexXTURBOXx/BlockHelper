@@ -75,7 +75,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             if (b != null) {
                 if (Accessor.getHardness(b, meta) < 0.0F) {
                     harvest = "hud.msg.unbreakable";
-                } else if (Accessor.canHarvestBlock(b, accessor.getPlayer(), meta)) {
+                } else if (Accessor.canHarvestBlock(b, accessor.getPlayer())) {
                     harvest = "hud.msg.harvestable";
                 } else {
                     harvest = "hud.msg.not_harvestable";

@@ -42,7 +42,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
                 NBTBase subtagBase = tag.tagAt(i);
                 if (!(subtagBase instanceof NBTTagCompound)) continue;
                 NBTTagCompound subtag = (NBTTagCompound) subtagBase;
-                ItemStack stack = ItemStack.loadItemStackFromNBT(subtag);
+                ItemStack stack = ItemStack.func_35864_a(subtag);
                 inv[subtag.getByte("Slot")] = stack;
             }
 
@@ -59,8 +59,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
         boolean empty = stack == null;
         String id = (empty ? 0 : stack.getItem().shiftedIndex) + "";
         return SpecialChars.getRenderString("waila.stack",
-                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage(),
-                !empty && stack.func_40711_u());
+                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage());
     }
 
     @Override

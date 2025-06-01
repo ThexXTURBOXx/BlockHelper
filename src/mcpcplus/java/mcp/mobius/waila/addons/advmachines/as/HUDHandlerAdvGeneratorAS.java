@@ -25,8 +25,8 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
                 maxStorage = AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy.getInt(te);
             }
 
-            tag.setInt("storage", storage);
-            tag.setInt("maxStorage", maxStorage);
+            tag.a("storage", storage);
+            tag.a("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             throw new RuntimeException(t);

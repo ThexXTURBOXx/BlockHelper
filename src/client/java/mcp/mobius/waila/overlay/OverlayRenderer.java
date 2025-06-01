@@ -13,7 +13,6 @@ import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.Profiler;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
@@ -32,7 +31,7 @@ public final class OverlayRenderer {
             (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
              && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
             (mc.thePlayer instanceof EntityClientPlayerMP // Together with next line fix player list
-             && mc.gameSettings.keyBindPlayerList.pressed) ||
+             && mc.gameSettings.field_35384_x.field_35965_e) ||
             !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
             RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;
@@ -47,7 +46,6 @@ public final class OverlayRenderer {
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        Profiler.startSection("Waila Overlay");
         GLState state = new GLState();
 
         draw:
@@ -74,7 +72,6 @@ public final class OverlayRenderer {
         }
 
         state.reset();
-        Profiler.endSection();
     }
 
     public static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {

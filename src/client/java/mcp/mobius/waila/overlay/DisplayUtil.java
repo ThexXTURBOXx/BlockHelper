@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -18,10 +19,11 @@ import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.util.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
-import static mcp.mobius.waila.api.SpecialChars.MCStyle;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
 import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
 import static mcp.mobius.waila.api.SpecialChars.patternRender;
@@ -32,10 +34,6 @@ public final class DisplayUtil {
     private static final FontRenderer fontRenderer = ModLoader.getMinecraftInstance().fontRenderer;
     private static final RenderEngine renderEngine = ModLoader.getMinecraftInstance().renderEngine;
     private static final RenderItem renderItem = new RenderItem();
-
-    static {
-        renderItem.field_40268_b = 200.0F; // important for enchantment glint
-    }
 
     private DisplayUtil() {
         throw new UnsupportedOperationException();
@@ -82,9 +80,13 @@ public final class DisplayUtil {
 
     public static void renderStack(int x, int y, ItemStack stack) {
         if (stack == null) return;
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderHelper.func_41089_c();
+        GL11.glPushMatrix();
+        GL11.glRotatef(120F, 1.0F, 0.0F, 0.0F);
+        RenderHelper.enableStandardItemLighting();
+        GL11.glPopMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, 240, 240);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         try {
             renderItem.renderItemIntoGUI(fontRenderer, renderEngine, stack, x, y);
             renderItem.renderItemOverlayIntoGUI(fontRenderer, renderEngine, stack, x, y);
@@ -151,14 +153,13 @@ public final class DisplayUtil {
 
     @SuppressWarnings("unchecked")
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
-        List<String> namelist = null;
+        List<String> namelist = new ArrayList<String>();
         try {
-            namelist = (List<String>) itemstack.func_40712_q();
+            String name = I18n.translate(itemstack.getItemName() + ".name");
+            if (name != null && !name.isEmpty())
+                namelist.add(name);
         } catch (Throwable ignored) {
         }
-
-        if (namelist == null)
-            namelist = new ArrayList<String>();
 
         if (namelist.isEmpty())
             namelist.add("Unnamed");
@@ -166,7 +167,7 @@ public final class DisplayUtil {
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
             namelist.set(0, "Unnamed");
 
-        namelist.set(0, MCStyle + Integer.toHexString(itemstack.func_40707_s().field_40535_e) + namelist.get(0));
+        namelist.set(0, WHITE + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, GRAY + namelist.get(i));
 

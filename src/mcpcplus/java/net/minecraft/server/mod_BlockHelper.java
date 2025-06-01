@@ -86,7 +86,7 @@ public class mod_BlockHelper extends BaseModMp {
     public static class Accessor {
 
         public static int damageDropped(Block b, int meta) {
-            return b.getDropData(meta);
+            return b.a_(meta);
         }
 
         @SuppressWarnings("unchecked")
@@ -115,7 +115,7 @@ public class mod_BlockHelper extends BaseModMp {
      * and use something like this:
      * <p><blockquote><pre>
      * try {
-     *     Method register = Class.forName("mod_BlockHelper").getMethod("registerPlugin",
+     *     Method register = Class.forName("net.minecraft.server.mod_BlockHelper").getMethod("registerPlugin",
      *         Class.forName("mcp.mobius.waila.api.IWailaPlugin"));
      *     register.invoke(null, new PluginClass());
      * } catch (Throwable t) {

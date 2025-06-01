@@ -19,8 +19,8 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
         try {
             int recv = ThermalExpansionPlugin.TileEnergyCell_Recv.getInt(te);
             int send = ThermalExpansionPlugin.TileEnergyCell_Send.getInt(te);
-            tag.setInt("Recv", recv);
-            tag.setInt("Send", send);
+            tag.a("Recv", recv);
+            tag.a("Send", send);
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }

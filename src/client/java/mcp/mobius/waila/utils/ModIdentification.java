@@ -51,7 +51,7 @@ public final class ModIdentification {
                     for (ModInfo info : modInfos)
                         if (info.uri.equals(uri))
                             continue baseModLoop;
-                    modInfos.add(new ModInfo(uri, formatModName(mod.getName())));
+                    modInfos.add(new ModInfo(uri, formatModName(mod.getClass().getSimpleName())));
                 } catch (Throwable t) {
                     mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t);
                 }
@@ -65,7 +65,7 @@ public final class ModIdentification {
         if (object instanceof ItemStack)
             object = ((ItemStack) object).getItem();
         if (object instanceof ItemBlock)
-            object = Block.blocksList[((ItemBlock) object).getBlockID()];
+            object = Block.blocksList[((ItemBlock) object).func_35435_b()];
         if (object == null)
             return "";
 

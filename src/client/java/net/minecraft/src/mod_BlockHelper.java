@@ -1,9 +1,6 @@
 package net.minecraft.src;
 
-import forge.ForgeHooksClient;
-import forge.IRenderWorldLastHandler;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -13,8 +10,6 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
-import mcp.mobius.waila.overlay.DecoratorRenderer;
-import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
@@ -58,13 +53,15 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public String getVersion() {
+    public String Version() {
         return VERSION;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void load() {
+    public void ModsLoaded() {
+        // LOAD COMPLETE
+        super.ModsLoaded();
+
         INSTANCE = this;
         proxy = new ProxyClient();
 
@@ -78,27 +75,15 @@ public class mod_BlockHelper extends BaseModMp {
         OverlayConfig.updateColors();
 
         // INIT
-        try {
-            Field f = AccessHelper.getDeclaredField(ForgeHooksClient.class, "renderWorldLastHandlers");
-            List<IRenderWorldLastHandler> renderWorldLastHandlers = (List<IRenderWorldLastHandler>) f.get(null);
-            renderWorldLastHandlers.add(new DecoratorRenderer());
-            renderWorldLastHandlers.add(new NEIOverlayRenderer());
-        } catch (Throwable t) {
-            LOG.info("Forge not detected. Overlays and decorators will not work.");
-        }
         CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
         TICK_HANDLER = new WailaTickHandler();
 
         // POST INIT
         proxy.prepare();
-        proxy.registerCorePlugins(WailaRegistrar.instance());
-    }
 
-    @Override
-    public void ModsLoaded() {
-        // LOAD COMPLETE
-        super.ModsLoaded();
-        proxy.registerModPlugins(WailaRegistrar.instance());
+        WailaRegistrar registrar = WailaRegistrar.instance();
+        proxy.registerCorePlugins(registrar);
+        proxy.registerModPlugins(registrar);
 
         proxy.postLoad();
     }
@@ -146,9 +131,9 @@ public class mod_BlockHelper extends BaseModMp {
             return null;
         }
 
-        public static boolean canHarvestBlock(Block b, EntityPlayer player, int meta) {
+        public static boolean canHarvestBlock(Block b, EntityPlayer player) {
             try {
-                return b.canHarvestBlock(player, meta);
+                return player.canHarvestBlock(b);
             } catch (Throwable ignored) {
             }
 
@@ -161,17 +146,13 @@ public class mod_BlockHelper extends BaseModMp {
         }
 
         public static float getHardness(Block b, int meta) {
-            try {
-                return b.getHardness(meta);
-            } catch (Throwable ignored) {
-            }
             return b.getHardness();
         }
 
     }
 
     /**
-     * If you want to register your plugin in a safe way, register it during the {@link #load()} phase
+     * If you want to register your plugin in a safe way, register it during the {@link #ModsLoaded()} phase
      * and use something like this:
      * <p><blockquote><pre>
      * try {
