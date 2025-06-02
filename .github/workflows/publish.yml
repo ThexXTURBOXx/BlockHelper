@@ -102,6 +102,7 @@ jobs:
             Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
           loaders: ${{ env.LOADERS_MR }}
           game-versions: ${{ env.GAME_VERSIONS_MR }}
+          game-version-filter: any
           java: |
             6
             7
@@ -122,6 +123,7 @@ jobs:
             Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
           loaders: ${{ env.LOADERS_CF }}
           game-versions: ${{ env.GAME_VERSIONS_CF }}
+          game-version-filter: any
           java: |
             6
             7
