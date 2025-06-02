@@ -11,7 +11,7 @@ on:
 env:
   MOD_VERSION: ${{ inputs.mod_version }}
   GAME_VERSIONS_CF: |
-    Beta 1.8.1
+    b1.8.1
   GAME_VERSIONS_MR: |
     b1.8
     b1.8.1
