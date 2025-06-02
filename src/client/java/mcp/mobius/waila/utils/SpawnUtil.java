@@ -18,7 +18,7 @@ public final class SpawnUtil {
         try {
             canCreatureTypeSpawnAtLocation = AccessHelper.getDeclaredMethod(SpawnerAnimals.class,
                     new Class[]{EnumCreatureType.class, World.class, int.class, int.class, int.class},
-                    "a", "func_21203_a", "canCreatureTypeSpawnAtLocation");
+                    "a", "func_21203_a", "method_1871", "canCreatureTypeSpawnAtLocation");
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
@@ -30,7 +30,7 @@ public final class SpawnUtil {
 
     public static byte getSpawnMode(World w, int x, int y, int z) {
         BiomeGenBase biome = w.getWorldChunkManager().getBiomeGenAt(x, z);
-        if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty() && biome.getBiome() > 0.0f)
+        if (!biome.getSpawnableList(EnumCreatureType.monster).isEmpty())
             return getSpawnMode(w.getChunkFromBlockCoords(x, z), AxisAlignedBB.getBoundingBoxFromPool(
                     0, 0, 0, 0, 0, 0), x, y, z);
         return 0;

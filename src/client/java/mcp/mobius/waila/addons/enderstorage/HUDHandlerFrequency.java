@@ -39,9 +39,9 @@ public final class HUDHandlerFrequency implements IDataProvider {
                 int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
                 int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
 
-                currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqLeft)) + "/" +
-                               I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
-                               I18n.color(BlockCloth.getBlockFromDye(freqRight)));
+                currenttip.add(I18n.color(BlockCloth.func_21035_d(freqLeft)) + "/" +
+                               I18n.color(BlockCloth.func_21035_d(freqCenter)) + "/" +
+                               I18n.color(BlockCloth.func_21035_d(freqRight)));
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }

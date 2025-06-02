@@ -67,7 +67,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
                     int collarColor = accessor.getNBTInteger("CollarColor");
                     currenttip.add(I18n.translate("hud.msg.collar") + ": " +
-                                   I18n.color(BlockCloth.getDyeFromBlock(collarColor)));
+                                   I18n.color(BlockCloth.func_21035_d(collarColor)));
                 }
                 boolean angry = accessor.getNBTData().getBoolean("Angry");
                 if (angry)
@@ -79,7 +79,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
         if (config.get("vanilla.sheep"))
             if (entity instanceof EntitySheep) {
                 currenttip.add(I18n.translate("hud.msg.color") + ": " +
-                               I18n.color(BlockCloth.getDyeFromBlock(accessor.getNBTInteger("Color"))));
+                               I18n.color(BlockCloth.func_21035_d(accessor.getNBTInteger("Color"))));
             }
 
         if (config.get("vanilla.tnt"))

@@ -10,16 +10,18 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.overlay.DecoratorRenderer;
+import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
 import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 import net.minecraft.client.Minecraft;
+import reforged.ReforgedHooksClient;
 
 public class mod_BlockHelper extends BaseModMp {
 
@@ -75,6 +77,12 @@ public class mod_BlockHelper extends BaseModMp {
         OverlayConfig.updateColors();
 
         // INIT
+        try {
+            ReforgedHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
+            ReforgedHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
+        } catch (Throwable t) {
+            LOG.info("Could not hook into Reforged. Overlays and decorators will not work.");
+        }
         CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
         TICK_HANDLER = new WailaTickHandler();
 
@@ -89,7 +97,7 @@ public class mod_BlockHelper extends BaseModMp {
     }
 
     @Override
-    public boolean OnTickInGame(float time, Minecraft mc) {
+    public boolean OnTickInGame(Minecraft mc) {
         if (mc.theWorld != null && mc.thePlayer != null) {
             CONFIG_KEY_HANDLER.onTickInGame(mc);
             TICK_HANDLER.onTickInGame(mc);

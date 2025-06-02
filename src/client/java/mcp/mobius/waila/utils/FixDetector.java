@@ -25,12 +25,22 @@ public final class FixDetector {
                 mc.thePlayer.addChatMessage(RED + "You can find it on Modrinth.");
             }
         } catch (Throwable t) {
-            mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
-                                        RED + "It is very recommended to install the");
-            mc.thePlayer.addChatMessage(RED + "FontFixer jar-mod. " +
-                                        "You can find it on Modrinth.");
-            mc.thePlayer.addChatMessage(RED + "Otherwise, some texts " +
-                                        "will not be rendered correctly!");
+            try {
+                Class<?> FontFixer = AccessHelper.getClass("de.thexxturboxx.blockhelper.FontFixer");
+                Object fixerVersion = AccessHelper.getField(FontFixer, "FIXER_VERSION").get(null);
+                if (!"2".equals(fixerVersion)) {
+                    mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                                RED + "Please update FontFixer.");
+                    mc.thePlayer.addChatMessage(RED + "You can find it on Modrinth.");
+                }
+            } catch (Throwable t1) {
+                mc.thePlayer.addChatMessage(GRAY + "[" + GOLD + NAME + GRAY + "] " +
+                                            RED + "It is very recommended to install the");
+                mc.thePlayer.addChatMessage(RED + "FontFixer jar-mod. " +
+                                            "You can find it on Modrinth.");
+                mc.thePlayer.addChatMessage(RED + "Otherwise, some texts " +
+                                            "will not be rendered correctly!");
+            }
         }
     }
 

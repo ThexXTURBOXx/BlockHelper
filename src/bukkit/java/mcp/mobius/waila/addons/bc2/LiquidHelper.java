@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.bc2;
 
-import buildcraft.api.ILiquidContainer;
+import buildcraft.core.ILiquidContainer;
 import java.util.logging.Level;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.mod_BlockHelper;
@@ -12,7 +12,7 @@ public final class LiquidHelper {
     }
 
     public static void writeToNBT(Object container, NBTTagCompound tag) {
-        LiquidSlotDelegate slot = LiquidHelper.getTank((ILiquidContainer) container);
+        LiquidSlot slot = LiquidHelper.getTank((ILiquidContainer) container);
         int liquidId = slot != null ? slot.liquidId : 0;
         int liquidAmount = slot != null ? slot.liquidQty : 0;
         int capacity = slot != null ? slot.capacity : 0;
@@ -22,12 +22,12 @@ public final class LiquidHelper {
         tag.a("liquidcapacity", capacity);
     }
 
-    public static LiquidSlotDelegate getTank(ILiquidContainer container) {
+    public static LiquidSlot getTank(ILiquidContainer container) {
         try {
             int quantity = container.getLiquidQuantity();
             int capacity = Math.max(quantity, container.getCapacity());
             if (capacity > 0)
-                return new LiquidSlotDelegate(container.getLiquidId(), quantity, capacity);
+                return new LiquidSlot(0, quantity, capacity);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.SEVERE,
                     "[BC2] Unhandled exception trying to access a tank for display!\n", t);
@@ -36,12 +36,12 @@ public final class LiquidHelper {
         return null;
     }
 
-    public static class LiquidSlotDelegate {
+    public static class LiquidSlot {
         private final int liquidId;
         private final int liquidQty;
         private final int capacity;
 
-        public LiquidSlotDelegate(int liquidId, int liquidQty, int capacity) {
+        public LiquidSlot(int liquidId, int liquidQty, int capacity) {
             this.liquidId = liquidId;
             this.liquidQty = liquidQty;
             this.capacity = capacity;

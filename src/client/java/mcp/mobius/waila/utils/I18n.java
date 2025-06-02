@@ -37,7 +37,7 @@ public class I18n {
     }
 
     public String colorL(int dyeColorId) {
-        return translateL("hud.msg." + ItemDye.dyeColorNames[dyeColorId]);
+        return translateL("hud.msg." + ItemDye.dyeColors[dyeColorId]);
     }
 
     public String translateL(String s, Object... format) {

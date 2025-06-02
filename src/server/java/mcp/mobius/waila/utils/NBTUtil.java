@@ -57,7 +57,7 @@ public final class NBTUtil {
         } else {
             byte[] abyte = new byte[short1];
             par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.loadGzippedCompoundFromOutputStream(new ByteArrayInputStream(abyte));
+            return CompressedStreamTools.func_770_a(new ByteArrayInputStream(abyte));
         }
     }
 

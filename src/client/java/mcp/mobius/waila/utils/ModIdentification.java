@@ -2,6 +2,8 @@ package mcp.mobius.waila.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -11,27 +13,54 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BaseMod;
 import net.minecraft.src.Block;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
+import net.modificationstation.stationapi.api.registry.BlockRegistry;
+import net.modificationstation.stationapi.api.registry.ItemRegistry;
 
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
 
 public final class ModIdentification {
 
     public static final String MINECRAFT = "Minecraft";
+    public static final String MINECRAFT_FABRIC_NAMESPACE = "minecraft";
     private static final Map<Object, String> classToMod = new HashMap<Object, String>();
     private static Set<ModInfo> modInfos;
+    private static Field blockIdField;
 
     private ModIdentification() {
         throw new UnsupportedOperationException();
     }
 
     public static void init() {
+        try {
+            blockIdField = ItemBlock.class.getDeclaredField("a");
+        } catch (Throwable t) {
+            try {
+                blockIdField = ItemBlock.class.getDeclaredField("field_330_a");
+            } catch (Throwable t1) {
+                try {
+                    blockIdField = ItemBlock.class.getDeclaredField("field_2216");
+                } catch (Throwable t2) {
+                    try {
+                        blockIdField = ItemBlock.class.getDeclaredField("blockID");
+                    } catch (Throwable t3) {
+                        throw new RuntimeException(t3);
+                    }
+                }
+            }
+        }
+        blockIdField.setAccessible(true);
+
         modInfos = new HashSet<ModInfo>();
         String minecraftUri = new File("bin/minecraft.jar").getAbsoluteFile().toString();
         try {
@@ -59,13 +88,33 @@ public final class ModIdentification {
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t);
         }
+        try {
+            Class<?> FabricLoader = AccessHelper.getClass("net.fabricmc.loader.api.FabricLoader");
+            try {
+                modInfos.add(new ModInfo(MINECRAFT_FABRIC_NAMESPACE, MINECRAFT, true));
+                Method m = AccessHelper.getMethod(FabricLoader, new Class[0], "getInstance");
+                FabricLoader instance = (FabricLoader) m.invoke(null);
+                for (ModContainer container : instance.getAllMods()) {
+                    ModMetadata meta = container.getMetadata();
+                    modInfos.add(new ModInfo(meta.getId(), meta.getName(), true));
+                }
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, "ModIdentification#init/Fabric", null);
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.info("Fabric not detected. Will not initialize compatibility layer.");
+        }
     }
 
     public static String identifyMod(Object object) {
         if (object instanceof ItemStack)
             object = ((ItemStack) object).getItem();
-        if (object instanceof ItemBlock)
-            object = Block.blocksList[((ItemBlock) object).func_35435_b()];
+        try {
+            if (object instanceof ItemBlock)
+                object = Block.blocksList[blockIdField.getInt(object)];
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, object.getClass(), null);
+        }
         if (object == null)
             return "";
 
@@ -73,7 +122,7 @@ public final class ModIdentification {
         String mod = classToMod.get(clazz);
         if (mod != null)
             return mod;
-        mod = lookupMod(clazz);
+        mod = lookupMod(clazz, object);
         if (mod != null) {
             classToMod.put(clazz, mod);
             return mod;
@@ -83,14 +132,39 @@ public final class ModIdentification {
         return MINECRAFT;
     }
 
-    private static String lookupMod(Class<?> clazz) {
+    private static String lookupMod(Class<?> clazz, Object object) {
         try {
             String modFile = formatURI(clazz.getProtectionDomain().getCodeSource().getLocation().toURI());
             for (ModInfo modInfo : modInfos)
-                if (modFile.contains(modInfo.uri))
+                if (modInfo.uri != null && modFile.contains(modInfo.uri))
                     return modInfo.name;
         } catch (Throwable ignored) {
         }
+
+        try {
+            ModMetadata metadata = null;
+            try {
+                // Older StationAPI
+                if (object instanceof Block)
+                    metadata = BlockRegistry.INSTANCE.getIdentifier((Block) object).modID.getMetadata();
+                else if (object instanceof Item)
+                    metadata = ItemRegistry.INSTANCE.getIdentifier((Item) object).modID.getMetadata();
+            } catch (Throwable ignored) {
+                // StationAPI >= 2.0-alpha.1
+                if (object instanceof Block)
+                    metadata = BlockRegistry.INSTANCE.getId(object).getNamespace().getMetadata();
+                else if (object instanceof Item)
+                    metadata = ItemRegistry.INSTANCE.getId(object).getNamespace().getMetadata();
+            }
+            if (metadata == null)
+                return MINECRAFT;
+            String idStr = metadata.getId();
+            for (ModInfo modInfo : modInfos)
+                if (modInfo.namespace != null && modInfo.namespace.equals(idStr))
+                    return modInfo.name;
+        } catch (Throwable ignored) {
+        }
+
         return null;
     }
 
@@ -120,10 +194,18 @@ public final class ModIdentification {
 
     private static class ModInfo {
         private final String uri;
+        private final String namespace;
         private final String name;
 
         private ModInfo(String uri, String name) {
             this.uri = uri;
+            this.namespace = null;
+            this.name = name;
+        }
+
+        private ModInfo(String namespace, String name, boolean fabric) {
+            this.uri = null;
+            this.namespace = namespace;
             this.name = name;
         }
     }

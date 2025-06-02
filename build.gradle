@@ -32,28 +32,31 @@ sourceSets {
     }
     server {
     }
-    mcpcplus {
+    bukkit {
     }
 }
 tasks.named('jar') { // Disable jar for main sourceSet
     enabled = false
 }
 
-/* The hard way for MCPC+ */
-tasks.register('mcpcplusJar', Jar) {
-    from sourceSets.mcpcplus.output
-    archiveClassifier.set('mcpcplus')
+/* The hard way for Bukkit */
+tasks.register('bukkitJar', Jar) {
+    from sourceSets.bukkit.output
+    archiveClassifier.set('bukkit')
 }
 artifacts {
-    archives mcpcplusJar
+    archives bukkitJar
 }
 
 unimined.minecraft(sourceSets.client) {
     version project.mc_version
     side "client"
 
-    minecraftForge {
-        loader project.forge_version
+    // Use Reforged instead!
+    // minecraftForge {
+    //     loader project.forge_version
+    // }
+    jarMod {
     }
 
     mappings {
@@ -105,12 +108,13 @@ unimined.minecraft(sourceSets.server) {
 dependencies {
     clientJarMod "risugami:modloader:${project.mc_version}"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
-    clientModImplementation(":buildcraft-client-A-core-2.2.5")
-    clientModImplementation(":buildcraft-client-A-core-3.0.1")
+    clientJarMod ":reforged-client-1.0.3"
+    clientModImplementation(":buildcraft-client-A-core-2.1.1")
+    clientModImplementation(":FabricStubs-v1")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.2.5")
+    serverModImplementation(":buildcraft-server-A-core-2.1.1")
 
-    mcpcplusImplementation(":craftbukkit-0.0.1-SNAPSHOT_v4")
-    mcpcplusImplementation(":buildcraft-2.2.5-b1337-r11")
+    bukkitImplementation(":craftbukkit-1060-6f67ce03005ab3f51cb0f6401c5bd8a1996497f0-MODIFIED")
+    bukkitImplementation(":BuildCraft_bukkitbuild_6-MODIFIED")
 }

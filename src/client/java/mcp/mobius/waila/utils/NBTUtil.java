@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
 import net.minecraft.src.CompressedStreamTools;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTBase;
 import net.minecraft.src.NBTTagByte;
 import net.minecraft.src.NBTTagCompound;
@@ -26,7 +28,7 @@ public final class NBTUtil {
 
     static {
         try {
-            tagMap = AccessHelper.getDeclaredField(NBTTagCompound.class, "a", "field_1094_a", "tagMap");
+            tagMap = AccessHelper.getDeclaredField(NBTTagCompound.class, "a", "field_1094_a", "field_1199", "tagMap");
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
@@ -57,8 +59,14 @@ public final class NBTUtil {
         } else {
             byte[] abyte = new byte[short1];
             par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.loadGzippedCompoundFromOutputStream(new ByteArrayInputStream(abyte));
+            return CompressedStreamTools.func_1138_a(new ByteArrayInputStream(abyte));
         }
+    }
+
+    public static ItemStack readStackFromNBT(NBTTagCompound tag) {
+        ItemStack itemstack = new ItemStack(Item.stick);
+        itemstack.readFromNBT(tag);
+        return itemstack.getItem() == null ? null : itemstack;
     }
 
     @SuppressWarnings("unchecked")

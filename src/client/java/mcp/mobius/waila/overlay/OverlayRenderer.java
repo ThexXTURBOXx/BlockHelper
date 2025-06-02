@@ -9,7 +9,6 @@ import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
@@ -30,8 +29,6 @@ public final class OverlayRenderer {
             !Minecraft.isGuiEnabled() || // Not in cinema mode
             (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
              && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
-            (mc.thePlayer instanceof EntityClientPlayerMP // Together with next line fix player list
-             && mc.gameSettings.field_35384_x.field_35965_e) ||
             !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
             RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;

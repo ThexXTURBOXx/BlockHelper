@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTBase;
@@ -42,7 +43,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
                 NBTBase subtagBase = tag.tagAt(i);
                 if (!(subtagBase instanceof NBTTagCompound)) continue;
                 NBTTagCompound subtag = (NBTTagCompound) subtagBase;
-                ItemStack stack = ItemStack.func_35864_a(subtag);
+                ItemStack stack = NBTUtil.readStackFromNBT(subtag);
                 inv[subtag.getByte("Slot")] = stack;
             }
 

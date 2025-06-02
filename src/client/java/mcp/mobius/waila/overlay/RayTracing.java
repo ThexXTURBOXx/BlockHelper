@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +10,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
@@ -16,6 +18,7 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EnumMovingObjectType;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
@@ -27,8 +30,27 @@ public class RayTracing {
 
     private static RayTracing _instance;
 
+    private final boolean shearHookLoaded;
+    private Class<?> IShearable;
+    private Method IShearable_isShearable;
+    private Method IShearable_onSheared;
+
     private RayTracing() {
         _instance = this;
+
+        boolean shearHookLoaded = false;
+        try {
+            IShearable = AccessHelper.getClass("forge.IShearable");
+            IShearable_isShearable = AccessHelper.getDeclaredMethod(IShearable,
+                    new Class[]{ItemStack.class, World.class, int.class, int.class, int.class},
+                    "isShearable");
+            IShearable_onSheared = AccessHelper.getDeclaredMethod(IShearable,
+                    new Class[]{ItemStack.class, World.class, int.class, int.class, int.class},
+                    "onSheared");
+            shearHookLoaded = true;
+        } catch (Throwable ignored) {
+        }
+        this.shearHookLoaded = shearHookLoaded;
     }
 
     public static RayTracing instance() {
@@ -214,6 +236,20 @@ public class RayTracing {
             if(items.size() > 0)
                 return items;
             */
+
+            if (shearHookLoaded && IShearable.isInstance(mouseoverBlock)) {
+                try {
+                    Boolean isShearable = (Boolean) IShearable_isShearable.invoke(mouseoverBlock,
+                            new ItemStack(Item.shears), world, x, y, z);
+                    if (isShearable == true) {
+                        List<ItemStack> sheared = (List<ItemStack>) IShearable_onSheared.invoke(mouseoverBlock,
+                                new ItemStack(Item.shears), world, x, y, z);
+                        if (sheared != null)
+                            items.addAll(sheared);
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
 
             if (items.isEmpty())
                 items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));

@@ -28,17 +28,14 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.melonStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonExtension;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pistonMoving;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.tallGrass;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
@@ -58,16 +55,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
         int meta = accessor.getMetadata();
 
-        if (block == silverfish && config.get("vanilla.silverfish"))
-            switch (meta) {
-            case 1:
-                return new ItemStack(Block.cobblestone);
-            case 2:
-                return new ItemStack(Block.field_35285_bn);
-            default:
-                return new ItemStack(Block.stone);
-            }
-
         if (block == redstone)
             return new ItemStack(Item.redstone);
 
@@ -76,12 +63,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (block == repeaterIdle || block == repeaterActv)
             return new ItemStack(Item.redstoneRepeater);
-
-        if (block == melonStem)
-            return new ItemStack(Item.field_35423_bi);
-
-        if (block == pumpkinStem)
-            return new ItemStack(Item.field_35422_bh);
 
         if (block == sugarCane)
             return new ItemStack(Item.reed);
@@ -123,12 +104,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.set(0, name + " (" + mobname + ")");
         }
 
-        if (block == melonStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.melonStem.name"));
-
-        if (block == pumpkinStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.pumpkinStem.name"));
-
         if (block == pistonExtension)
             currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
 
@@ -138,20 +113,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block instanceof BlockStep)
             currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
                     new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
-                            mod_BlockHelper.Accessor.damageDropped(block, accessor.getMetadata()))));
-
-        if (block == silverfish && !config.get("vanilla.silverfish"))
-            switch (accessor.getMetadata()) {
-            case 1:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.cobble.name"));
-                break;
-            case 2:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.brick.name"));
-                break;
-            default:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.stone.name"));
-                break;
-            }
+                            accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())));
 
         if (block == tallGrass)
             switch (accessor.getMetadata()) {
@@ -201,12 +163,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 NBTTagCompound tag = accessor.getNBTData();
                 Item record = null;
 
-                if (tag.hasKey("RecordItem")) {
-                    ItemStack stack = ItemStack.func_35864_a(tag.getCompoundTag("RecordItem"));
-                    record = stack == null ? null : stack.getItem();
-                }
-
-                if (record == null && tag.hasKey("Record"))
+                if (tag.hasKey("Record"))
                     record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
 
                 currenttip.add(record == null
