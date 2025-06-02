@@ -89,8 +89,8 @@ jobs:
           modrinth-id: CiDIVfkf
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           files: |
+            build/libs/*-${{ env.MOD_VERSION }}?(-client).jar
             build/libs/*-${{ env.MOD_VERSION }}*.jar
-            build/libs/*-${{ env.MOD_VERSION }}*-dev.jar
           name: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
           version: ${{ env.MC_VERSION }}-${{ env.MOD_VERSION }}
           changelog: |
