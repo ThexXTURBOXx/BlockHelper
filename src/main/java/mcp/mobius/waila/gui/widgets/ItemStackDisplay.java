@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 

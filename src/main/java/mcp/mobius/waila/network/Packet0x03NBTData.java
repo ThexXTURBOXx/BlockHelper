@@ -6,7 +6,7 @@ import java.io.DataOutputStream;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.src.NBTTagCompound;
 
 public class Packet0x03NBTData implements IWailaPacket {
 

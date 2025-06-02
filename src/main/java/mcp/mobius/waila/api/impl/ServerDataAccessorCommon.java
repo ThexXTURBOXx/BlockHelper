@@ -3,10 +3,10 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.api.IServerCommonAccessor;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.IServerEntityAccessor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.WorldServer;
 
 public class ServerDataAccessorCommon implements IServerCommonAccessor, IServerDataAccessor, IServerEntityAccessor {
 

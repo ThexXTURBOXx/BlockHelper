@@ -4,17 +4,17 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EnumMovingObjectType;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.Vec3;
+import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEntityAccessor {

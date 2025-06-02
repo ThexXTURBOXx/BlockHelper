@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui.widgets;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
-import net.minecraft.util.MathHelper;
+import net.minecraft.src.MathHelper;
 import org.lwjgl.util.Point;
 
 

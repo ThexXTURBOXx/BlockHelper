@@ -6,7 +6,7 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.src.GuiScreen;
 
 public class ButtonScreenChange extends ButtonBase {
 

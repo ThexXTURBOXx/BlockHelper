@@ -12,8 +12,8 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.utils.Constants;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaRegistrar implements IRegistrar {

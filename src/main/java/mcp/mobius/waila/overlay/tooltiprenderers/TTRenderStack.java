@@ -3,10 +3,10 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.Block;
+import net.minecraft.src.Enchantment;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
 import org.lwjgl.util.Dimension;
 
 /**

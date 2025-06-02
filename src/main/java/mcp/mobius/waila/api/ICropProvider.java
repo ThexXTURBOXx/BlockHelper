@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 
 /**
  * Callback class interface used to provide crop growth information to Waila.</br>

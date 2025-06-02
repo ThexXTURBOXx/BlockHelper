@@ -1,12 +1,12 @@
 package mcp.mobius.waila.utils;
 
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.SpawnerAnimals;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.BiomeGenBase;
+import net.minecraft.src.Chunk;
+import net.minecraft.src.EnumCreatureType;
+import net.minecraft.src.EnumSkyBlock;
+import net.minecraft.src.SpawnerAnimals;
+import net.minecraft.src.World;
 
 public final class SpawnUtil {
 

@@ -15,7 +15,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;

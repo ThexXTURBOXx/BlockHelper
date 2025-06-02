@@ -10,8 +10,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.src.INetworkManager;
+import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaPacketHandler implements IPacketHandler {

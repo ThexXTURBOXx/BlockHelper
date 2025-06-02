@@ -10,8 +10,8 @@ import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.GuiInventory;
+import net.minecraft.src.ItemStack;
 import org.lwjgl.input.Keyboard;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;

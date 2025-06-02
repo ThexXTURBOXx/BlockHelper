@@ -5,10 +5,10 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.src.Block;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
 
 import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock;
 import static mcp.mobius.waila.addons.florasoma.FloraSomaPlugin.FloraCropBlock_getCropItem;

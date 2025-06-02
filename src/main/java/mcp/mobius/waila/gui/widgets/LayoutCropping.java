@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.utils.GLState;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.src.ScaledResolution;
 import org.lwjgl.opengl.GL11;
 
 public class LayoutCropping extends LayoutBase {

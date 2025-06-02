@@ -9,8 +9,8 @@ import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.ViewTable;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.utils.I18n;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.GuiScreen;
+import net.minecraft.src.ItemStack;
 
 import static mcp.mobius.waila.api.SpecialChars.GREEN;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;

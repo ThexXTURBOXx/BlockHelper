@@ -9,9 +9,9 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MathHelper;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraft.util.MathHelper;
 
 public final class FloraSomaPlugin implements IWailaPlugin {
 

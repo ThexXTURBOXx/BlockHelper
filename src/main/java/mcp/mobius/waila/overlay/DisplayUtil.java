@@ -8,13 +8,13 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderEngine;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.FontRenderer;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.RenderEngine;
+import net.minecraft.src.RenderHelper;
+import net.minecraft.src.RenderItem;
+import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Dimension;
@@ -144,7 +144,8 @@ public final class DisplayUtil {
     }
 
     public static void drawString(String text, int x, int y, int colour, boolean shadow) {
-        fontRenderer.func_85187_a(text, x, y, colour, shadow);
+        if (shadow) fontRenderer.drawStringWithShadow(text, x, y, colour);
+        else fontRenderer.drawString(text, x, y, colour);
     }
 
     @SuppressWarnings("unchecked")

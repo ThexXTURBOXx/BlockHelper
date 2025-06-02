@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.src.Block;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
 /**

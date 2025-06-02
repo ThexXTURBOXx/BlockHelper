@@ -8,10 +8,10 @@ import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.src.Enchantment;
+import net.minecraft.src.EnchantmentHelper;
+import net.minecraft.src.GuiContainer;
+import net.minecraft.src.ItemStack;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
@@ -101,7 +101,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
                                 colorcode + minLevel,
                                 colorcode + maxLevel,
                                 colorcode + enchant.getWeight(),
-                                BLUE + ITALIC + ModIdentification.nameFromObject(enchant));
+                                BLUE + ITALIC + ModIdentification.identifyMod(enchant));
                     }
                 }
             }

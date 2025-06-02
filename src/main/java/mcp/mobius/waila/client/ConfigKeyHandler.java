@@ -8,7 +8,7 @@ import mcp.mobius.waila.overlay.NEIOverlayRenderer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.Configuration;
