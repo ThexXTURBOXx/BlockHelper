@@ -20,7 +20,7 @@ env:
     forge
   LOADERS_MR: |
     forge
-  MC_VERSION: 1.2.5
+  MC_VERSION: '1.2.5'
 
 jobs:
   build:
