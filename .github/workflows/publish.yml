@@ -16,10 +16,10 @@ env:
   GAME_VERSIONS_MR: |
     1.0
   LOADERS_CF: |
-    modloader
+    risugamis-modloader
   LOADERS_MR: |
     modloader
-  MC_VERSION: 1.0
+  MC_VERSION: b1.9p5
 
 jobs:
   build:
