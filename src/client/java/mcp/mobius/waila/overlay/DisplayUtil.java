@@ -150,7 +150,7 @@ public final class DisplayUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
+    public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
         List<String> namelist = null;
         try {
             namelist = (List<String>) itemstack.getItemNameandInformation();
@@ -166,6 +166,16 @@ public final class DisplayUtil {
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
             namelist.set(0, "Unnamed");
 
+        return namelist;
+    }
+
+    public static String itemDisplayNameShortUnformatted(ItemStack itemstack) {
+        return itemDisplayNameMultilineUnformatted(itemstack).get(0);
+    }
+
+    public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
+        List<String> namelist = itemDisplayNameMultilineUnformatted(itemstack);
+
         namelist.set(0, MCStyle + Integer.toHexString(itemstack.getRarity().field_40535_e) + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, GRAY + namelist.get(i));
@@ -174,8 +184,7 @@ public final class DisplayUtil {
     }
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
-        List<String> list = itemDisplayNameMultiline(itemstack);
-        return list.get(0);
+        return itemDisplayNameMultiline(itemstack).get(0);
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
