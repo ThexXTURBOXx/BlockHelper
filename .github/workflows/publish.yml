@@ -17,11 +17,11 @@ env:
     b1.8.1
   LOADERS_CF: |
     forge
-    modloader
+    risugamis-modloader
   LOADERS_MR: |
     forge
     modloader
-  MC_VERSION: b1.8.1
+  MC_VERSION: 'b1.8.1'
 
 jobs:
   build:
