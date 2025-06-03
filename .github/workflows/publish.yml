@@ -17,7 +17,7 @@ env:
   LOADERS_CF: ''
   LOADERS_MR: |
     modloader
-  MC_VERSION: b1.5_01
+  MC_VERSION: 'b1.5_01'
 
 jobs:
   build:
