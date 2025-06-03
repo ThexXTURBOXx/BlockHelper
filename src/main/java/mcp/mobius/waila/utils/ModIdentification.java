@@ -72,7 +72,7 @@ public final class ModIdentification {
     public static String nameFromStack(ItemStack stack) {
         try {
             String modID = itemMap.get(stack.itemID);
-            ModContainer mod = ModIdentification.findModContainer(modID);
+            ModContainer mod = modID == null ? null : ModIdentification.findModContainer(modID);
             return mod == null ? "Minecraft" : formatModName(mod.getName());
         } catch (NullPointerException e) {
             mod_BlockHelper.LOG.log(Level.FINEST, "nameFromStack", e);
@@ -82,7 +82,7 @@ public final class ModIdentification {
 
     public static ModContainer findModContainer(String modID) {
         for (ModContainer mc : Loader.instance().getModList())
-            if (modID.equals(mc.getModId()))
+            if (mc != null && modID.equals(mc.getModId()))
                 return mc;
 
         return null;
