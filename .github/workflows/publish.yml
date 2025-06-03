@@ -16,10 +16,10 @@ env:
     b1.6.5
     b1.6.6
   LOADERS_CF: |
-    modloader
+    risugamis-modloader
   LOADERS_MR: |
     modloader
-  MC_VERSION: b1.6.6
+  MC_VERSION: 'b1.6.6'
 
 jobs:
   build:
