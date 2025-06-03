@@ -6,6 +6,7 @@ import java.util.List;
 import mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin;
 import mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin;
 import mcp.mobius.waila.addons.appeng.AppEngPlugin;
+import mcp.mobius.waila.addons.barrels.BarrelsPlugin;
 import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee2.EE2Plugin;
@@ -17,6 +18,7 @@ import mcp.mobius.waila.addons.harvestcraft.HarvestcraftPlugin;
 import mcp.mobius.waila.addons.ic2.IC2Plugin;
 import mcp.mobius.waila.addons.natura.NaturaPlugin;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
+import mcp.mobius.waila.addons.thaumcraft.ThaumcraftPlugin;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin;
 import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
@@ -42,6 +44,7 @@ public class ProxyCommon {
         registerPlugin(AdvMachinesPlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
         registerPlugin(AppEngPlugin.INSTANCE);
+        registerPlugin(BarrelsPlugin.INSTANCE);
         registerPlugin(BC3Plugin.INSTANCE);
         registerPlugin(EE2Plugin.INSTANCE);
         registerPlugin(EE3Plugin.INSTANCE);
@@ -50,6 +53,7 @@ public class ProxyCommon {
         registerPlugin(IC2Plugin.INSTANCE);
         registerPlugin(NaturaPlugin.INSTANCE);
         registerPlugin(RailcraftPlugin.INSTANCE);
+        registerPlugin(ThaumcraftPlugin.INSTANCE);
         registerPlugin(ThermalExpansionPlugin.INSTANCE);
         registerPlugin(ForgePlugin.INSTANCE);
     }
