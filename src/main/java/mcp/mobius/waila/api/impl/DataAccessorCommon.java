@@ -28,7 +28,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
     public int metadata;
     public TileEntity tileEntity;
     public Entity entity;
-    public NBTTagCompound remoteNbt = null;
+    public NBTTagCompound remoteNbt = new NBTTagCompound();
     public long timeLastUpdate = System.currentTimeMillis();
     public double partialFrame;
     public ItemStack stack;
@@ -137,15 +137,19 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
 
         if (this.entity != null) {
             NBTTagCompound tag = new NBTTagCompound();
-            this.entity.writeToNBT(tag);
+            try {
+                this.entity.writeToNBT(tag);
+            } catch (Throwable ignored) {
+            }
             return tag;
         }
 
-        return null;
+        return new NBTTagCompound();
     }
 
     public void setNBTData(NBTTagCompound tag) {
-        this.remoteNbt = tag;
+        if (tag != null)
+            this.remoteNbt = tag;
     }
 
     private boolean isTagCorrectTileEntity(NBTTagCompound tag) {
