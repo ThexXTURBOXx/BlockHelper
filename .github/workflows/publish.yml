@@ -11,6 +11,7 @@ on:
 env:
   MOD_VERSION: ${{ inputs.mod_version }}
   GAME_VERSIONS_CF: |
+    b1.7
     b1.7.3
   GAME_VERSIONS_MR: |
     b1.7
@@ -19,11 +20,11 @@ env:
   LOADERS_CF: |
     fabric
     forge
-    modloader
+    risugamis-modloader
   LOADERS_MR: |
     forge
     modloader
-  MC_VERSION: b1.7.3
+  MC_VERSION: 'b1.7.3'
 
 jobs:
   build:
