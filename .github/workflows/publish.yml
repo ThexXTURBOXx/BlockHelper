@@ -108,7 +108,8 @@ jobs:
             8
 
       - name: Publish build to CurseForge
-        uses: Kira-NT/mc-publish@v3
+        #uses: Kira-NT/mc-publish@v3 # Need temporary workaround for "beta" versions on CF
+        uses: ThexXTURBOXx/mc-publish@7090b2b1992a745b6693ab62b738e8319843c5d0
         if: env.GAME_VERSIONS_CF != '' && env.LOADERS_CF != ''
         with:
           curseforge-id: 251766
