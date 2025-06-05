@@ -6,8 +6,9 @@
     "mcversion": "${mc_version}",
     "url": "https://github.com/ThexXTURBOXx/BlockHelper",
     "updateUrl": "https://modrinth.com/mod/block-helper",
-    "credits": "Created by HyperSpeeed",
+    "credits": "Created by ProfMobius and ported to legacy by HyperSpeeed",
     "authors": [
+      "ProfMobius",
       "HyperSpeeed"
     ],
     "parent": "",
