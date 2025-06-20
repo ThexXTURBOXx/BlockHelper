@@ -5,22 +5,21 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
-import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerMEPowerStorage implements IDataProvider {
+public class HUDAppEngMonitor implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerMEPowerStorage();
+    public static final HUDAppEngMonitor INSTANCE = new HUDAppEngMonitor();
 
-    private HUDHandlerMEPowerStorage() {
+    private HUDAppEngMonitor() {
     }
 
     @Override
@@ -37,16 +36,12 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTInteger("AEStorage");
-            int maxStorage = accessor.getNBTInteger("AEMaxStorage");
-
-            String storedStr = I18n.translate("hud.msg.stored");
-
-            /* AE Storage */
-            if (config.get("appeng.storage")) {
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " AE");
+            if (config.get("appeng.monitorcontent")) {
+                if (accessor.getNBTData().hasKey("AppEngMonitor_Item")) {
+                    NBTTagCompound nbt = accessor.getNBTData().getCompoundTag("AppEngMonitor_Item");
+                    ItemStack stack = ItemStack.loadItemStackFromNBT(nbt);
+                    currenttip.add(I18n.translate("hud.msg.item") + ": " + TAB + WHITE + DisplayUtil.itemDisplayNameShort(stack));
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -62,16 +57,17 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            float storage = -1;
-            float maxStorage = -1;
-
-            if (AppEngPlugin.IMEPowerStorage.isInstance(te)) {
-                storage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_currentPower.invoke(te);
-                maxStorage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
+            if (AppEngPlugin.TileStorageMonitor.isInstance(te)) {
+                Object iaeStack = AppEngPlugin.TileStorageMonitor_getItem.invoke(te);
+                if (iaeStack != null) {
+                    Object mcStack = AppEngPlugin.IAEItemStack_getItemStack.invoke(iaeStack);
+                    if (mcStack instanceof ItemStack) {
+                        NBTTagCompound stackTag = new NBTTagCompound();
+                        ((ItemStack) mcStack).writeToNBT(stackTag);
+                        tag.setCompoundTag("AppEngMonitor_Item", stackTag);
+                    }
+                }
             }
-
-            tag.setInteger("AEStorage", Math.round(storage));
-            tag.setInteger("AEMaxStorage", Math.round(maxStorage));
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }

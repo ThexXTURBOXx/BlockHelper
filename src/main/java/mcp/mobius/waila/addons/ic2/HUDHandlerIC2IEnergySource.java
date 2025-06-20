@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.appeng;
+package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerMEPowerStorage implements IDataProvider {
+public class HUDHandlerIC2IEnergySource implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerMEPowerStorage();
+    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergySource();
 
-    private HUDHandlerMEPowerStorage() {
+    private HUDHandlerIC2IEnergySource() {
     }
 
     @Override
@@ -36,21 +36,17 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        try {
-            int storage = accessor.getNBTInteger("AEStorage");
-            int maxStorage = accessor.getNBTInteger("AEMaxStorage");
+        if (config.get("ic2.outputeu"))
+            try {
+                int out = accessor.getNBTInteger("maxOutput");
 
-            String storedStr = I18n.translate("hud.msg.stored");
+                String outputStr = I18n.translate("hud.msg.output");
 
-            /* AE Storage */
-            if (config.get("appeng.storage")) {
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " AE");
+                if (out > 0)
+                    currenttip.add(outputStr + TAB + ALIGNRIGHT + WHITE + out + RESET + " EU/t");
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
-        } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
-        }
     }
 
     @Override
@@ -62,16 +58,13 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            float storage = -1;
-            float maxStorage = -1;
+            int out = -1;
 
-            if (AppEngPlugin.IMEPowerStorage.isInstance(te)) {
-                storage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_currentPower.invoke(te);
-                maxStorage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
+            if (IC2Plugin.IEnergySource.isInstance(te)) {
+                out = (Integer) IC2Plugin.IEnergySource_getOutput.invoke(te);
             }
 
-            tag.setInteger("AEStorage", Math.round(storage));
-            tag.setInteger("AEMaxStorage", Math.round(maxStorage));
+            tag.setInteger("maxOutput", out);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }

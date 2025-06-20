@@ -20,6 +20,8 @@ import mcp.mobius.waila.addons.natura.NaturaPlugin;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftPlugin;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin;
+import mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin;
+import mcp.mobius.waila.addons.twilightforest.TwilightForestPlugin;
 import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -55,6 +57,8 @@ public class ProxyCommon {
         registerPlugin(RailcraftPlugin.INSTANCE);
         registerPlugin(ThaumcraftPlugin.INSTANCE);
         registerPlugin(ThermalExpansionPlugin.INSTANCE);
+        registerPlugin(TotalPanelsPlugin.INSTANCE);
+        registerPlugin(TwilightForestPlugin.INSTANCE);
         registerPlugin(ForgePlugin.INSTANCE);
     }
 
