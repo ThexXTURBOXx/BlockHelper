@@ -60,7 +60,7 @@ public class PluginConfig implements IPluginConfig {
 
     public void addConfig(String modName, String key, String translationKey, boolean defValue) {
         this.config.get(Constants.CATEGORY_MODULES, key, defValue);
-        this.config.save();
+        if (this.config.hasChanged()) this.config.save();
 
         if (!this.modules.containsKey(modName))
             this.addModule(modName);
@@ -114,7 +114,7 @@ public class PluginConfig implements IPluginConfig {
 
     public void setConfig(String category, String key, boolean state) {
         this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.BOOLEAN));
-        this.config.save();
+        if (this.config.hasChanged()) this.config.save();
     }
 
     public int get(String category, String key, int default_) {
@@ -124,7 +124,7 @@ public class PluginConfig implements IPluginConfig {
 
     public void setConfig(String category, String key, int state) {
         this.config.getCategory(category).put(key, new Property(key, String.valueOf(state), Property.Type.INTEGER));
-        this.config.save();
+        if (this.config.hasChanged()) this.config.save();
     }
 
 
@@ -173,7 +173,7 @@ public class PluginConfig implements IPluginConfig {
                 "section above.\n" +
                 "This is useful for enforcing false to 'cheating' keys like silverfish.");
 
-        this.config.save();
+        if (this.config.hasChanged()) this.config.save();
     }
 
 }
