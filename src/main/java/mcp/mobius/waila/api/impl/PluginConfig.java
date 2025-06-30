@@ -97,18 +97,19 @@ public class PluginConfig implements IPluginConfig {
     }
 
     @Override
-    public void set(String key, boolean value) {
+    public boolean set(String key, boolean value) {
         if (this.syncedConfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
             && !FMLCommonHandler.instance().getEffectiveSide().isServer())
-            return;
+            return false;
 
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
-            return;
+            return false;
 
         Property prop = this.config.get(Constants.CATEGORY_MODULES, key, value);
         prop.set(value);
 
         if (this.config.hasChanged()) this.config.save();
+        return true;
     }
 
     public boolean isSyncedConfig(String key) {

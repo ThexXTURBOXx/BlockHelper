@@ -51,7 +51,10 @@ public interface IPluginConfig {
      *
      * @param key   Option to lookup
      * @param value New value for the option
+     * @return true if the value is now definitely set correctly. If false, then
+     *         we are on the client and the config is either forced or it is a
+     *         synced config and we do not know whether it is forced (yet)
      */
-    void set(String key, boolean value);
+    boolean set(String key, boolean value);
 
 }
