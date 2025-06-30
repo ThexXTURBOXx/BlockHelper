@@ -12,6 +12,9 @@ public final class ThaumcraftPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new ThaumcraftPlugin();
 
+    static Class<?> BlockMagicalLeaves;
+    static Class<?> BlockCustomPlant;
+
     static Class<?> TileCrystalCapacitor;
     static Field TileCrystalCapacitor_maxVis;
 
@@ -44,6 +47,18 @@ public final class ThaumcraftPlugin implements IWailaPlugin {
                 registrar.registerBodyProvider(HUDHandlerVis.INSTANCE, TileCrystalCapacitor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Thaumcraft] Error while loading crystal capacitor hooks.", t);
+        }
+
+        try {
+            BlockMagicalLeaves = AccessHelper.getClass("thaumcraft.common.world.BlockMagicalLeaves");
+            BlockCustomPlant = AccessHelper.getClass("thaumcraft.common.world.BlockCustomPlant");
+
+            if (side.isClient()) {
+                registrar.registerStackProvider(HUDThaumcraftGenericOverride.INSTANCE, BlockMagicalLeaves);
+                registrar.registerStackProvider(HUDThaumcraftGenericOverride.INSTANCE, BlockCustomPlant);
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Thaumcraft] Error while loading item hooks.", t);
         }
     }
 

@@ -1,26 +1,25 @@
-package mcp.mobius.waila.addons.advmachines.as;
+package mcp.mobius.waila.addons.appeng;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
-import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
+public class HUDAppEngMonitor implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
+    public static final HUDAppEngMonitor INSTANCE = new HUDAppEngMonitor();
 
-    private HUDHandlerAdvGeneratorAS() {
+    private HUDAppEngMonitor() {
     }
 
     @Override
@@ -37,16 +36,12 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTInteger("storage");
-            int maxStorage = accessor.getNBTInteger("maxStorage");
-
-            String storedStr = I18n.translate("hud.msg.stored");
-
-            /* EU Storage */
-            if (config.get("advmachines.storage")) {
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
+            if (config.get("appeng.monitorcontent")) {
+                if (accessor.getNBTData().hasKey("AppEngMonitor_Item")) {
+                    NBTTagCompound nbt = accessor.getNBTData().getCompoundTag("AppEngMonitor_Item");
+                    ItemStack stack = ItemStack.loadItemStackFromNBT(nbt);
+                    currenttip.add(I18n.translate("hud.msg.item") + ": " + TAB + WHITE + DisplayUtil.itemDisplayNameShort(stack));
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -62,17 +57,14 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = -1;
-            int maxStorage = -1;
-
-            if (AdvMachinesASPlugin.TileEntityBaseMachine.isInstance(te)) {
-                storage = AdvMachinesASPlugin.TileEntityBaseMachine_energy.getInt(te);
-                maxStorage = AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy.getInt(te);
+            if (AppEngPlugin.TileStorageMonitor.isInstance(te)) {
+                ItemStack stack = (ItemStack) AppEngPlugin.TileStorageMonitor_getItem.invoke(te);
+                if (stack != null) {
+                    NBTTagCompound stackTag = new NBTTagCompound();
+                    stack.writeToNBT(stackTag);
+                    tag.setCompoundTag("AppEngMonitor_Item", stackTag);
+                }
             }
-
-            tag.setInteger("storage", storage);
-            tag.setInteger("maxStorage", maxStorage);
-
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }

@@ -37,8 +37,8 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTData().getInteger("AEStorage");
-            int maxStorage = accessor.getNBTData().getInteger("AEMaxStorage");
+            int storage = accessor.getNBTInteger("AEStorage");
+            int maxStorage = accessor.getNBTInteger("AEMaxStorage");
 
             String storedStr = I18n.translate("hud.msg.stored");
 
@@ -73,7 +73,7 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
             tag.setInteger("AEStorage", Math.round(storage));
             tag.setInteger("AEMaxStorage", Math.round(maxStorage));
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 

@@ -37,8 +37,8 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTData().getInteger("storage");
-            int maxStorage = accessor.getNBTData().getInteger("maxStorage");
+            int storage = accessor.getNBTInteger("storage");
+            int maxStorage = accessor.getNBTInteger("maxStorage");
 
             String storedStr = I18n.translate("hud.msg.stored");
 
@@ -47,19 +47,6 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
                 if (maxStorage > 0)
                     currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
                                    RESET + " / " + WHITE + maxStorage + RESET + " EU");
-            }
-
-            int production = accessor.getNBTData().getInteger("production");
-            int maxPacketSize = accessor.getNBTData().getInteger("maxPacketSize");
-
-            String prodStr = I18n.translate("hud.msg.production");
-
-            /* QGenerator Production */
-            if (config.get("advsolars.qproduction")) {
-                if (production > 0)
-                    currenttip.add(prodStr + TAB + ALIGNRIGHT + WHITE + production + RESET + " EU/t");
-                if (maxPacketSize > 0)
-                    currenttip.add(WHITE + maxPacketSize + RESET + " EU/packet");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -87,23 +74,7 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
             tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-
-        try {
-            int production = -1;
-            int maxPacketSize = -1;
-
-            if (AdvSolarsPlugin.TileEntityQGenerator.isInstance(te)) {
-                production = AdvSolarsPlugin.TileEntityQGenerator_production.getInt(te);
-                maxPacketSize = AdvSolarsPlugin.TileEntityQGenerator_maxPacketSize.getInt(te);
-            }
-
-            tag.setInteger("production", production);
-            tag.setInteger("maxPacketSize", maxPacketSize);
-
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 
