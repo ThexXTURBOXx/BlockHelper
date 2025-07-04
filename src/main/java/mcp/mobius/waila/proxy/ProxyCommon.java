@@ -31,10 +31,16 @@ import net.minecraftforge.common.MinecraftForge;
 public class ProxyCommon {
 
     private final Side side;
+    private final List<IWailaPlugin> corePlugins = new ArrayList<IWailaPlugin>();
     private final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
 
     public ProxyCommon(Side side) {
         this.side = side;
+    }
+
+    // Do NOT use this outside of BlockHelper!
+    private void registerCorePlugin(IWailaPlugin plugin) {
+        corePlugins.add(plugin);
     }
 
     public void registerPlugin(IWailaPlugin plugin) {
@@ -42,9 +48,6 @@ public class ProxyCommon {
     }
 
     public void prepare() {
-        registerPlugin(CorePlugin.INSTANCE);
-        registerPlugin(FMPPlugin.INSTANCE);
-        registerPlugin(VanillaPlugin.INSTANCE);
         registerPlugin(AdvMachinesPlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
         registerPlugin(AppEngPlugin.INSTANCE);
@@ -65,13 +68,22 @@ public class ProxyCommon {
     }
 
     public void registerCorePlugins(IRegistrar registrar) {
+        registerCorePlugin(CorePlugin.INSTANCE);
+        registerCorePlugin(FMPPlugin.INSTANCE);
+        registerCorePlugin(VanillaPlugin.INSTANCE);
     }
 
     public void registerModPlugins(IRegistrar registrar) {
+        for (IWailaPlugin plugin : corePlugins)
+            registerPluginInRegistrar(registrar, plugin);
         for (IWailaPlugin plugin : plugins)
-            if (plugin.shouldRegister() &&
-                !MinecraftForge.EVENT_BUS.post(new WailaRegisterEvent.Plugin(plugin)))
-                plugin.register(registrar, side);
+            registerPluginInRegistrar(registrar, plugin);
+    }
+
+    private void registerPluginInRegistrar(IRegistrar registrar, IWailaPlugin plugin) {
+        if (plugin.shouldRegister() &&
+            !MinecraftForge.EVENT_BUS.post(new WailaRegisterEvent.Plugin(plugin)))
+            plugin.register(registrar, side);
     }
 
     public void postLoad() {
