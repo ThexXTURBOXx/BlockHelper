@@ -25,6 +25,8 @@ import mcp.mobius.waila.addons.twilightforest.TwilightForestPlugin;
 import mcp.mobius.waila.addons.vanilla.VanillaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.event.WailaRegisterEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ProxyCommon {
 
@@ -67,7 +69,8 @@ public class ProxyCommon {
 
     public void registerModPlugins(IRegistrar registrar) {
         for (IWailaPlugin plugin : plugins)
-            if (plugin.shouldRegister())
+            if (plugin.shouldRegister() &&
+                !MinecraftForge.EVENT_BUS.post(new WailaRegisterEvent.Plugin(plugin)))
                 plugin.register(registrar, side);
     }
 

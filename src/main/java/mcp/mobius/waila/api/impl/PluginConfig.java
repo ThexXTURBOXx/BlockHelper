@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.addons.vanilla.HUDHandlerEntities;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.event.WailaRegisterEvent;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 
 public class PluginConfig implements IPluginConfig {
@@ -59,13 +61,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.get(Constants.CATEGORY_MODULES, key, defValue);
-        if (this.config.hasChanged()) this.config.save();
-
-        if (!this.modules.containsKey(modName))
-            this.addModule(modName);
-
-        this.modules.get(modName).addOption(key, translationKey);
+        this.addConfigInternal(modName, key, translationKey, defValue, false);
     }
 
     public void addSyncedConfig(String modName, String key, String translationKey) {
@@ -74,8 +70,22 @@ public class PluginConfig implements IPluginConfig {
 
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
         this.config.get(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
-        this.addConfig(modName, key, translationKey, defValue);
+        this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
+    }
+
+    private void addConfigInternal(String modName, String key, String translationKey, boolean defValue,
+                                   boolean synced) {
+        WailaRegisterEvent.Config event = new WailaRegisterEvent.Config(modName, key, translationKey, defValue, synced);
+        MinecraftForge.EVENT_BUS.post(event);
+
+        this.config.get(Constants.CATEGORY_MODULES, key, event.getDefaultValue());
+        if (this.config.hasChanged()) this.config.save();
+
+        if (!this.modules.containsKey(modName))
+            this.addModule(modName);
+
+        this.modules.get(modName).addOption(key, translationKey);
     }
 
     @Override
