@@ -66,6 +66,9 @@ public final class CorePlugin implements IWailaPlugin {
             registrar.registerTailProvider(HUDHandlerEntities.INSTANCE, Entity.class);
             registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
+            if (side.isClient())
+                registrar.addConfig("General", "general.invertadvtt", false);
+
             if (mod_BlockHelper.DEV_MODE) {
                 registrar.addConfig("General", "general.dev", false);
 

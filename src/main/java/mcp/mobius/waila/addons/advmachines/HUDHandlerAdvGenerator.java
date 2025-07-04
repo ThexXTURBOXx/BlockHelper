@@ -37,8 +37,8 @@ public final class HUDHandlerAdvGenerator implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = accessor.getNBTData().getInteger("storage");
-            int maxStorage = accessor.getNBTData().getInteger("maxStorage");
+            int storage = accessor.getNBTInteger("storage");
+            int maxStorage = accessor.getNBTInteger("maxStorage");
 
             String storedStr = I18n.translate("hud.msg.stored");
 
@@ -74,7 +74,7 @@ public final class HUDHandlerAdvGenerator implements IDataProvider {
             tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 

@@ -16,6 +16,12 @@ public final class AppEngPlugin implements IWailaPlugin {
     public static Method IMEPowerStorage_currentPower = null;
     public static Method IMEPowerStorage_maxPower = null;
 
+    public static Class<?> TileStorageMonitor = null;
+    public static Method TileStorageMonitor_getItem = null;
+
+    public static Class<?> IAEItemStack = null;
+    public static Method IAEItemStack_getItemStack = null;
+
     private AppEngPlugin() {
     }
 
@@ -48,6 +54,24 @@ public final class AppEngPlugin implements IWailaPlugin {
                 registrar.registerBodyProvider(HUDHandlerMEPowerStorage.INSTANCE, IMEPowerStorage);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading generator hooks.", t);
+        }
+
+        try {
+            TileStorageMonitor = AccessHelper.getClass("appeng.me.tile.TileStorageMonitor");
+            IAEItemStack = AccessHelper.getClass("appeng.api.IAEItemStack");
+            TileStorageMonitor_getItem = AccessHelper.getMethod(TileStorageMonitor, new Class[0],
+                    "getItem");
+            IAEItemStack_getItemStack = AccessHelper.getMethod(IAEItemStack, new Class[0],
+                    "getItemStack");
+
+            registrar.addSyncedConfig("Applied Energistics", "appeng.monitorcontent");
+
+            registrar.registerNBTProvider(HUDAppEngMonitor.INSTANCE, TileStorageMonitor);
+
+            if (side.isClient())
+                registrar.registerBodyProvider(HUDAppEngMonitor.INSTANCE, TileStorageMonitor);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Applied Energistics] Error while loading monitor hooks.", t);
         }
     }
 

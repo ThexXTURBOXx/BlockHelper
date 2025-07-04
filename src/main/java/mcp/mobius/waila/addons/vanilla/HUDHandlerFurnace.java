@@ -34,7 +34,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("vanilla.furnace") && accessor.getBlockID() == Block.furnaceBurning.blockID) {
-            int cookTime = accessor.getNBTData().getShort("CookTime");
+            int cookTime = accessor.getNBTInteger("CookTime");
             NBTTagList tag = accessor.getNBTData().getTagList("Items");
 
             ItemStack[] inv = new ItemStack[3];

@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,8 +39,8 @@ public final class HUDHandlerPamCrops implements IDataProvider {
         try {
             Block b = accessor.getBlock();
             if (BlockPamCrop.isInstance(b))
-                currenttip.set(0,
-                        WHITE + new ItemStack((Integer) BlockPamCrop_getCropItem.invoke(b), 1, 0).getDisplayName());
+                currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
+                        new ItemStack((Integer) BlockPamCrop_getCropItem.invoke(b), 1, 0)));
         } catch (Throwable ignored) {
         }
     }

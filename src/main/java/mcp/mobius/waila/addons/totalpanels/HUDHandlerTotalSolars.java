@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.bc3;
+package mcp.mobius.waila.addons.totalpanels;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerBC3Energy implements IDataProvider {
+public final class HUDHandlerTotalSolars implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerBC3Energy();
+    public static final IDataProvider INSTANCE = new HUDHandlerTotalSolars();
 
-    private HUDHandlerBC3Energy() {
+    private HUDHandlerTotalSolars() {
     }
 
     @Override
@@ -36,16 +36,17 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (!config.get("bcapi.storage")) return;
-        if (!accessor.getNBTData().hasKey("MJEnergy")) return;
-
-        int energy = accessor.getNBTInteger("MJEnergy");
-        int maxEnergy = accessor.getNBTInteger("MJMaxStorage");
         try {
-            if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                String storedStr = I18n.translate("hud.msg.stored");
-                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
-                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
+            int storage = accessor.getNBTInteger("storage");
+            int maxStorage = accessor.getNBTInteger("maxStorage");
+
+            String storedStr = I18n.translate("hud.msg.stored");
+
+            /* EU Storage */
+            if (config.get("totalsolars.storage")) {
+                if (maxStorage > 0)
+                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
+                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -61,24 +62,19 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            Float energy = -1f;
-            Integer maxsto = -1;
-            if (BC3Plugin.TileEngine.isInstance(te)) {
-                Object engine = BC3Plugin.TileEngine_engine.get(te);
-                if (engine != null) {
-                    energy = BC3Plugin.Engine_energy.getFloat(engine);
-                    maxsto = BC3Plugin.Engine_maxEnergy.getInt(engine);
-                }
-            } else if (BC3Plugin.IPowerReceptor.isInstance(te)) {
-                Object prov = BC3Plugin.IPowerReceptor_getPowerProvider.invoke(te);
-                if (prov != null) {
-                    energy = (Float) BC3Plugin.IPowerProvider_getEnergyStored.invoke(prov);
-                    maxsto = (Integer) BC3Plugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
-                }
+            int storage = -1;
+            int maxStorage = -1;
+
+            if (TotalPanelsPlugin.TileEntityPanel.isInstance(te)) {
+                storage = TotalPanelsPlugin.TileEntityPanel_storage.getInt(te);
+                maxStorage = TotalPanelsPlugin.TileEntityPanel_maxStorage.getInt(te);
+            } else if (TotalPanelsPlugin.TileEntityHighPanel.isInstance(te)) {
+                storage = TotalPanelsPlugin.TileEntityHighPanel_storage.getInt(te);
+                maxStorage = TotalPanelsPlugin.TileEntityHighPanel_maxStorage.getInt(te);
             }
 
-            tag.setInteger("MJEnergy", Math.round(energy));
-            tag.setInteger("MJMaxStorage", maxsto);
+            tag.setInteger("storage", storage);
+            tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
