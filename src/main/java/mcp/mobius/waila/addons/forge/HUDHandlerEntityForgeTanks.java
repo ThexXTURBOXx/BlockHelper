@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -46,7 +47,7 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
                 String name = currenttip.get(0);
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
-                        : ("(" + LiquidHelper.getLiquidName(stack) + RESET + WHITE + ")"));
+                        : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"));
                 currenttip.set(0, name);
             }
         }

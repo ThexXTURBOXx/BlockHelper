@@ -92,14 +92,13 @@ public class mod_BlockHelper extends BaseMod {
         // POST INIT
         proxy.prepare();
         proxy.registerCorePlugins(WailaRegistrar.instance());
-        ModIdentification.init();
     }
 
     @Override
     public void modsLoaded() {
         // LOAD COMPLETE
         proxy.registerModPlugins(WailaRegistrar.instance());
-
+        ModIdentification.init();
         proxy.postLoad();
     }
 
