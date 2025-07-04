@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFlowerPot;
@@ -203,7 +204,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
             if (block == flowerPot) {
                 ItemStack flower = BlockFlowerPot.getPlantForMeta(meta);
                 if (flower != null)
-                    currenttip.add(I18n.translate("hud.msg.flower") + ": " + flower.getDisplayName());
+                    currenttip.add(I18n.translate("hud.msg.flower") + ": " +
+                                   DisplayUtil.itemDisplayNameShort(flower));
             }
 
         if (config.get("vanilla.skull"))
