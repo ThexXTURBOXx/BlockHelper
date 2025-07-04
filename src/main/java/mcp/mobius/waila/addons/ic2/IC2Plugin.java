@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class IC2Plugin implements IWailaPlugin {
@@ -28,8 +27,6 @@ public final class IC2Plugin implements IWailaPlugin {
 
     public static Class<?> TileEntityElectricMachine;
     public static Field TileEntityElectricMachine_maxEnergy;
-
-    public static ItemStack ReinforcedDoorStack;
 
     private IC2Plugin() {
     }
@@ -96,11 +93,10 @@ public final class IC2Plugin implements IWailaPlugin {
 
         // load IC2 items for door and upgrades
         try {
-            Class<?> IC2ItemsClass = AccessHelper.getClass("ic2.core.Ic2Items");
-            ReinforcedDoorStack = (ItemStack) AccessHelper.getField(IC2ItemsClass, "reinforcedDoor").get(null);
+            Class<?> BlockIC2Door = AccessHelper.getClass("ic2.core.block.BlockIC2Door");
 
             if (side.isClient())
-                registrar.registerStackProvider(HUDHandlerDoor.INSTANCE, ReinforcedDoorStack.getItem().getClass());
+                registrar.registerStackProvider(HUDHandlerDoor.INSTANCE, BlockIC2Door);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading item hooks.", t);
         }
