@@ -5,12 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.server.NBTBase;
 import net.minecraft.server.NBTCompressedStreamTools;
-import net.minecraft.server.NBTTagByte;
 import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagDouble;
-import net.minecraft.server.NBTTagFloat;
-import net.minecraft.server.NBTTagInt;
-import net.minecraft.server.NBTTagShort;
 
 public final class NBTUtil {
 
@@ -47,15 +42,19 @@ public final class NBTUtil {
 
     public static int getNBTInteger(NBTTagCompound tag, String keyname) {
         NBTBase subtag = tag.get(keyname);
-        if (subtag instanceof NBTTagInt)
-            return tag.getInt(keyname);
-        if (subtag instanceof NBTTagShort)
-            return tag.getShort(keyname);
-        if (subtag instanceof NBTTagByte)
+        if (subtag == null)
+            return 0;
+        if (subtag.getTypeId() == 1)
             return tag.getByte(keyname);
-        if (subtag instanceof NBTTagFloat)
+        if (subtag.getTypeId() == 2)
+            return tag.getShort(keyname);
+        if (subtag.getTypeId() == 3)
+            return tag.getInt(keyname);
+        if (subtag.getTypeId() == 4)
+            return (int) tag.getLong(keyname);
+        if (subtag.getTypeId() == 5)
             return Math.round(tag.getFloat(keyname));
-        if (subtag instanceof NBTTagDouble)
+        if (subtag.getTypeId() == 6)
             return (int) Math.round(tag.getDouble(keyname));
 
         return 0;

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.bc2;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 
@@ -37,7 +38,7 @@ public final class HUDHandlerBC2Energy implements IDataProvider {
             tag.setInt("MJMaxStorage", maxsto);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass());
         }
     }
 
