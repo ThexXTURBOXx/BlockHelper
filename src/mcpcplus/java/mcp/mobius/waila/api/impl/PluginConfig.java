@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.event.WailaEventRegistrar;
+import mcp.mobius.waila.api.event.WailaRegisterEvent;
 import mcp.mobius.waila.utils.Constants;
 
 public class PluginConfig implements IPluginConfig {
@@ -50,6 +52,9 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addSyncedConfig(String modName, String key, boolean defValue) {
+        WailaRegisterEvent.Config event = new WailaRegisterEvent.Config(modName, key, defValue);
+        WailaEventRegistrar.postConfigRegister(event);
+
         this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, defValue);
         this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_SERVER, Constants.SERVER_FREE);
         this.config.save();
@@ -69,6 +74,15 @@ public class PluginConfig implements IPluginConfig {
     public boolean get(String key, boolean defValue) {
         Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, defValue);
         return prop.getBoolean(defValue);
+    }
+
+    @Override
+    public boolean set(String key, boolean value) {
+        Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, value);
+        prop.value = Boolean.toString(value);
+
+        this.config.save();
+        return true;
     }
 
 

@@ -1,0 +1,36 @@
+package mcp.mobius.waila.addons.ic2;
+
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataAccessor;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.TileEntity;
+
+public class HUDHandlerElectricMachine implements IDataProvider {
+
+    public static final IDataProvider INSTANCE = new HUDHandlerElectricMachine();
+
+    private HUDHandlerElectricMachine() {
+    }
+
+    @Override
+    public void appendServerData(TileEntity te, NBTTagCompound tag,
+                                 IServerDataAccessor accessor, IPluginConfig config) {
+        try {
+            if (IC2Plugin.IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
+            if (IC2Plugin.TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
+
+            int maxStorage = -1;
+
+            if (IC2Plugin.TileEntityElectricMachine.isInstance(te)) {
+                maxStorage = IC2Plugin.TileEntityElectricMachine_maxEnergy.getInt(te);
+            }
+
+            tag.setInt("maxStorage", maxStorage);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, te.getClass());
+        }
+    }
+
+}

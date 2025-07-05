@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advsolars;
+package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -7,11 +7,12 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 
-public final class HUDHandlerAdvSolars implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvSolars();
+public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
 
-    private HUDHandlerAdvSolars() {
+    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergyStorage();
+
+    private HUDHandlerIC2IEnergyStorage() {
     }
 
     @Override
@@ -21,14 +22,16 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvSolarsPlugin.TileEntitySolarPanel.isInstance(te)) {
-                storage = AdvSolarsPlugin.TileEntitySolarPanel_storage.getInt(te);
-                maxStorage = AdvSolarsPlugin.TileEntitySolarPanel_maxStorage.getInt(te);
+            if (IC2Plugin.IEnergyStorage.isInstance(te)) {
+                storage = (Integer) IC2Plugin.IEnergyStorage_getStored.invoke(te);
+                maxStorage = (Integer) IC2Plugin.IEnergyStorage_getCapacity.invoke(te);
+            } else if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
+                storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
+                maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
             }
 
             tag.setInt("storage", storage);
             tag.setInt("maxStorage", maxStorage);
-
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass());
         }
