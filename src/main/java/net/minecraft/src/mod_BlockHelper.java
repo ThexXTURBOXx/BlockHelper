@@ -21,6 +21,7 @@ import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -97,7 +98,7 @@ public class mod_BlockHelper extends BaseMod {
     public void modsLoaded() {
         // LOAD COMPLETE
         proxy.registerModPlugins(WailaRegistrar.instance());
-
+        ModIdentification.init();
         proxy.postLoad();
     }
 

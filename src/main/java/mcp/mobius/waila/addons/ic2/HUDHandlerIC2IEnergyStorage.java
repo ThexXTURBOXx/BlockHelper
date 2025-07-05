@@ -16,11 +16,12 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerIC2Generator implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerIC2Generator();
+public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
 
-    private HUDHandlerIC2Generator() {
+    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergyStorage();
+
+    private HUDHandlerIC2IEnergyStorage() {
     }
 
     @Override
@@ -36,28 +37,19 @@ public final class HUDHandlerIC2Generator implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        try {
-            short storage = accessor.getNBTData().getShort("storage");
-            int production = accessor.getNBTData().getInteger("production");
-            short maxStorage = accessor.getNBTData().getShort("maxStorage");
+        if (config.get("ic2.storage"))
+            try {
+                int storage = accessor.getNBTInteger("storage");
+                int maxStorage = accessor.getNBTInteger("maxStorage");
 
-            String storedStr = I18n.translate("hud.msg.stored");
-            String outputStr = I18n.translate("hud.msg.output");
+                String storedStr = I18n.translate("hud.msg.stored");
 
-            /* EU Storage */
-            if (config.get("ic2.storage")) {
                 if (maxStorage > 0)
                     currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
                                    RESET + " / " + WHITE + maxStorage + RESET + " EU");
+            } catch (Throwable t) {
+                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
-
-            if (config.get("ic2.outputeu")) {
-                currenttip.add(outputStr + TAB + ALIGNRIGHT + WHITE + production + RESET + " EU/t");
-            }
-
-        } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
-        }
     }
 
     @Override
@@ -69,22 +61,21 @@ public final class HUDHandlerIC2Generator implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            short storage = -1;
-            int production = -1;
-            short maxStorage = -1;
+            int storage = -1;
+            int maxStorage = -1;
 
-            if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
+            if (IC2Plugin.IEnergyStorage.isInstance(te)) {
+                storage = (Integer) IC2Plugin.IEnergyStorage_getStored.invoke(te);
+                maxStorage = (Integer) IC2Plugin.IEnergyStorage_getCapacity.invoke(te);
+            } else if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
                 storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
-                production = IC2Plugin.TileBaseGenerator_production.getInt(te);
                 maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
             }
 
-            tag.setShort("storage", storage);
-            tag.setInteger("production", production);
-            tag.setShort("maxStorage", maxStorage);
-
+            tag.setInteger("storage", storage);
+            tag.setInteger("maxStorage", maxStorage);
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 
