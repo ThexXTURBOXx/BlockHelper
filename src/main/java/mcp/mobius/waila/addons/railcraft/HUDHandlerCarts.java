@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityMinecart;
 import net.minecraft.src.ItemStack;
@@ -33,7 +34,7 @@ public final class HUDHandlerCarts implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (entity instanceof EntityMinecart) {
-            currenttip.set(0, WHITE + ((EntityMinecart) entity).getCartItem().getDisplayName());
+            currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(((EntityMinecart) entity).getCartItem()));
         }
     }
 

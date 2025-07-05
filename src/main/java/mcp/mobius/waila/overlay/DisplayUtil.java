@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
+import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
@@ -152,8 +153,9 @@ public final class DisplayUtil {
     public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
         List<String> namelist = null;
         try {
-            namelist = (List<String>) itemstack.getTooltip(Minecraft.getMinecraft().thePlayer,
-                    Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+            boolean showAdvTooltip = Minecraft.getMinecraft().gameSettings.advancedItemTooltips;
+            showAdvTooltip = PluginConfig.instance().get("general.invertadvtt", false) != showAdvTooltip;
+            namelist = (List<String>) itemstack.getTooltip(Minecraft.getMinecraft().thePlayer, showAdvTooltip);
         } catch (Throwable ignored) {
         }
 

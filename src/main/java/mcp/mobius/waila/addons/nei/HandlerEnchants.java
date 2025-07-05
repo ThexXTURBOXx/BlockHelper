@@ -5,6 +5,7 @@ import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.forge.IContainerInputHandler;
 import java.util.Map;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
@@ -53,7 +54,7 @@ public final class HandlerEnchants implements IContainerInputHandler {
             Minecraft mc = Minecraft.getMinecraft();
             ScreenEnchants screen = new ScreenEnchants(mc.currentScreen);
             screen.setStack(stackover);
-            screen.setName(stackover.getDisplayName());
+            screen.setName(DisplayUtil.itemDisplayNameShort(stackover));
             screen.setEnchantability(String.valueOf(itemEnchantability));
 
             for (Enchantment enchant : Enchantment.enchantmentsList) {
