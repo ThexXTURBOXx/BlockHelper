@@ -81,7 +81,7 @@ public final class HUDHandlerBC2Energy implements IDataProvider {
             tag.setInteger("MJMaxStorage", maxsto);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 
