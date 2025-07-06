@@ -9,12 +9,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTBase;
-import net.minecraft.src.NBTTagByte;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagDouble;
-import net.minecraft.src.NBTTagFloat;
-import net.minecraft.src.NBTTagInt;
-import net.minecraft.src.NBTTagShort;
 
 public final class NBTUtil {
 
@@ -65,15 +60,19 @@ public final class NBTUtil {
     public static int getNBTInteger(NBTTagCompound tag, String keyname) {
         try {
             NBTBase subtag = ((Map<String, NBTBase>) tagMap.get(tag)).get(keyname);
-            if (subtag instanceof NBTTagInt)
-                return tag.getInteger(keyname);
-            if (subtag instanceof NBTTagShort)
-                return tag.getShort(keyname);
-            if (subtag instanceof NBTTagByte)
+            if (subtag == null)
+                return 0;
+            if (subtag.getType() == 1)
                 return tag.getByte(keyname);
-            if (subtag instanceof NBTTagFloat)
+            if (subtag.getType() == 2)
+                return tag.getShort(keyname);
+            if (subtag.getType() == 3)
+                return tag.getInteger(keyname);
+            if (subtag.getType() == 4)
+                return (int) tag.getLong(keyname);
+            if (subtag.getType() == 5)
                 return Math.round(tag.getFloat(keyname));
-            if (subtag instanceof NBTTagDouble)
+            if (subtag.getType() == 6)
                 return (int) Math.round(tag.getDouble(keyname));
         } catch (Throwable ignored) {
         }
