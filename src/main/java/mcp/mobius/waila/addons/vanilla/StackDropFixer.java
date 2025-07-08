@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.ic2;
+package mcp.mobius.waila.addons.vanilla;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -11,18 +11,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class HUDHandlerDoor implements IDataProvider {
+public class StackDropFixer implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerDoor();
+    public static final IDataProvider INSTANCE = new StackDropFixer();
 
-    private HUDHandlerDoor() {
+    private StackDropFixer() {
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         Block b = accessor.getBlock();
         int id = b.idDropped(0, ConstantRandom.INSTANCE, 0);
-        return id == 0 ? null : new ItemStack(id, 1, b.damageDropped(0));
+        return id == 0 ? null : new ItemStack(id, 1, b.damageDropped(accessor.getMetadata()));
     }
 
     @Override

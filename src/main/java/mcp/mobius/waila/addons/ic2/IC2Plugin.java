@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+import mcp.mobius.waila.addons.vanilla.StackDropFixer;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
@@ -96,7 +97,7 @@ public final class IC2Plugin implements IWailaPlugin {
             Class<?> BlockIC2Door = AccessHelper.getClass("ic2.core.block.BlockIC2Door");
 
             if (side.isClient())
-                registrar.registerStackProvider(HUDHandlerDoor.INSTANCE, BlockIC2Door);
+                registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockIC2Door);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading item hooks.", t);
         }
