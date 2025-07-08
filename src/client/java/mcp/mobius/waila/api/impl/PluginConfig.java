@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import mcp.mobius.waila.addons.vanilla.HUDHandlerEntities;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.event.WailaEventRegistrar;
+import mcp.mobius.waila.api.event.WailaRegisterEvent;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
@@ -58,13 +60,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, defValue);
-        this.config.save();
-
-        if (!this.modules.containsKey(modName))
-            this.addModule(modName);
-
-        this.modules.get(modName).addOption(key, translationKey);
+        this.addConfigInternal(modName, key, translationKey, defValue, false);
     }
 
     public void addSyncedConfig(String modName, String key, String translationKey) {
@@ -72,8 +68,22 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.addConfig(modName, key, translationKey, defValue);
+        this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
+    }
+
+    private void addConfigInternal(String modName, String key, String translationKey, boolean defValue,
+                                   boolean synced) {
+        WailaRegisterEvent.Config event = new WailaRegisterEvent.Config(modName, key, translationKey, defValue, synced);
+        WailaEventRegistrar.postConfigRegister(event);
+
+        this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, event.getDefaultValue());
+        this.config.save();
+
+        if (!this.modules.containsKey(modName))
+            this.addModule(modName);
+
+        this.modules.get(modName).addOption(key, translationKey);
     }
 
     @Override
@@ -91,6 +101,21 @@ public class PluginConfig implements IPluginConfig {
 
         Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, defvalue);
         return prop.getBoolean(defvalue);
+    }
+
+    @Override
+    public boolean set(String key, boolean value) {
+        if (this.syncedConfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent)
+            return false;
+
+        if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
+            return false;
+
+        Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, value);
+        prop.value = Boolean.toString(value);
+
+        this.config.save();
+        return true;
     }
 
     public boolean isSyncedConfig(String key) {
