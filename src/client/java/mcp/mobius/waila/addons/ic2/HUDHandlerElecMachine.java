@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerElectricMachine implements IDataProvider {
+public class HUDHandlerElecMachine implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerElectricMachine();
+    public static final IDataProvider INSTANCE = new HUDHandlerElecMachine();
 
-    private HUDHandlerElectricMachine() {
+    private HUDHandlerElecMachine() {
     }
 
     @Override
@@ -65,8 +65,8 @@ public class HUDHandlerElectricMachine implements IDataProvider {
 
             int maxStorage = -1;
 
-            if (IC2Plugin.TileEntityElectricMachine.isInstance(te)) {
-                maxStorage = IC2Plugin.TileEntityElectricMachine_maxEnergy.getInt(te);
+            if (IC2Plugin.TileEntityElecMachine.isInstance(te)) {
+                maxStorage = IC2Plugin.TileEntityElecMachine_maxEnergy.getInt(te);
             }
 
             tag.setInteger("maxStorage", maxStorage);

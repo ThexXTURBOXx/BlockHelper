@@ -23,8 +23,8 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Field TileBaseGenerator_storage;
     public static Field TileBaseGenerator_maxStorage;
 
-    public static Class<?> TileEntityElectricMachine;
-    public static Field TileEntityElectricMachine_maxEnergy;
+    public static Class<?> TileEntityElecMachine;
+    public static Field TileEntityElecMachine_maxEnergy;
 
     private IC2Plugin() {
     }
@@ -59,37 +59,27 @@ public final class IC2Plugin implements IWailaPlugin {
             TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
             TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
 
-            TileEntityElectricMachine = AccessHelper.getClass("ic2.common.TileEntityElectricMachine");
-            TileEntityElectricMachine_maxEnergy = AccessHelper.getField(TileEntityElectricMachine, "maxEnergy");
+            TileEntityElecMachine = AccessHelper.getClass("ic2.common.TileEntityElecMachine");
+            TileEntityElecMachine_maxEnergy = AccessHelper.getField(TileEntityElecMachine, "maxEnergy");
 
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeumach");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeuother");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
-            registrar.registerNBTProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElectricMachine);
+            registrar.registerNBTProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
 
             if (side.isClient()) {
-                registrar.registerBodyProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElectricMachine);
+                registrar.registerBodyProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
                 registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
                 registrar.registerBodyProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
                 registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
-        }
-
-        // load IC2 items for door and upgrades
-        try {
-            Class<?> BlockIC2Door = AccessHelper.getClass("ic2.common.BlockIC2Door");
-
-            if (side.isClient())
-                registrar.registerStackProvider(HUDHandlerDoor.INSTANCE, BlockIC2Door);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading item hooks.", t);
         }
     }
 

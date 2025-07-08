@@ -23,8 +23,8 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Field TileBaseGenerator_storage;
     public static Field TileBaseGenerator_maxStorage;
 
-    public static Class<?> TileEntityElectricMachine;
-    public static Field TileEntityElectricMachine_maxEnergy;
+    public static Class<?> TileEntityElecMachine;
+    public static Field TileEntityElecMachine_maxEnergy;
 
     private IC2Plugin() {
     }
@@ -59,15 +59,15 @@ public final class IC2Plugin implements IWailaPlugin {
             TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
             TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
 
-            TileEntityElectricMachine = AccessHelper.getClass("ic2.common.TileEntityElectricMachine");
-            TileEntityElectricMachine_maxEnergy = AccessHelper.getField(TileEntityElectricMachine, "maxEnergy");
+            TileEntityElecMachine = AccessHelper.getClass("ic2.common.TileEntityElecMachine");
+            TileEntityElecMachine_maxEnergy = AccessHelper.getField(TileEntityElecMachine, "maxEnergy");
 
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeumach");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeuother");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
-            registrar.registerNBTProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElectricMachine);
+            registrar.registerNBTProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
