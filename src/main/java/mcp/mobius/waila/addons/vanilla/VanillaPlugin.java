@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockNetherStalk;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockStem;
@@ -133,6 +134,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(StackDropFixer.INSTANCE, sapling.getClass());
             registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockStep.class);
             registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockWoodSlab.class);
+            registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockDoor.class);
 
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
