@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -11,10 +12,15 @@ public final class IC2Plugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new IC2Plugin();
 
-    public static Class<?> TileBaseGenerator = null;
-    public static Field TileBaseGenerator_storage = null;
-    public static Field TileBaseGenerator_maxStorage = null;
-    public static Field TileBaseGenerator_production = null;
+    public static Class<?> IEnergySource;
+    public static Method IEnergySource_getOutput;
+
+    public static Class<?> TileBaseGenerator;
+    public static Field TileBaseGenerator_storage;
+    public static Field TileBaseGenerator_maxStorage;
+
+    public static Class<?> TileEntityElecMachine;
+    public static Field TileEntityElecMachine_maxEnergy;
 
     private IC2Plugin() {
     }
@@ -22,7 +28,7 @@ public final class IC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("ic2.core.IC2");
+            AccessHelper.getClass("mod_IC2");
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -35,17 +41,27 @@ public final class IC2Plugin implements IWailaPlugin {
     public void register(IRegistrar registrar) {
         // XXX: We register the Energy interface first
         try {
-            TileBaseGenerator = AccessHelper.getClass("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
+            IEnergySource = AccessHelper.getClass("ic2.IEnergySource");
+            IEnergySource_getOutput = AccessHelper.getMethod(IEnergySource, new Class[0],
+                    "getMaxEnergyOutput");
+
+            TileBaseGenerator = AccessHelper.getClass("ic2.TileEntityBaseGenerator");
             TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
             TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
-            TileBaseGenerator_production = AccessHelper.getField(TileBaseGenerator, "production");
 
-            registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
+            TileEntityElecMachine = AccessHelper.getClass("ic2.TileEntityElecMachine");
+            TileEntityElecMachine_maxEnergy = AccessHelper.getField(TileEntityElecMachine, "maxEnergy");
+
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeumach");
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeuother");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
-            registrar.registerNBTProvider(HUDHandlerIC2Generator.INSTANCE, TileBaseGenerator);
+            registrar.registerNBTProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElecMachine);
+            registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
+            registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading generator hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
         }
     }
 
