@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +33,7 @@ public class WailaTickHandler {
 
     public void onTickInGame(Minecraft mc) {
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
+            ModIdentification.init();
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
             firstTick = false;
