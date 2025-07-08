@@ -1,26 +1,26 @@
-package mcp.mobius.waila.addons.thermalexpansion;
+package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.I18n;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.ConstantRandom;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-public final class HUDHandlerEnergyCell implements IDataProvider {
+public class HUDHandlerDoor implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerEnergyCell();
+    public static final IDataProvider INSTANCE = new HUDHandlerDoor();
 
-    private HUDHandlerEnergyCell() {
+    private HUDHandlerDoor() {
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
-        return null;
+        int id = accessor.getBlock().idDropped(0, ConstantRandom.INSTANCE);
+        return id == 0 ? null : new ItemStack(id);
     }
 
     @Override
@@ -31,13 +31,6 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (!config.get("thermalexpansion.energycell")) return;
-
-        int energyReceive = accessor.getNBTInteger("Recv");
-        int energySend = accessor.getNBTInteger("Send");
-
-        currenttip.add(I18n.translate("hud.msg.in") + "/" + I18n.translate("hud.msg.out") + ": " +
-                       energyReceive + " / " + energySend + " MJ/t");
     }
 
     @Override
@@ -48,14 +41,6 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
-        try {
-            int recv = ThermalExpansionPlugin.TileEnergyCell_Recv.getInt(te);
-            int send = ThermalExpansionPlugin.TileEnergyCell_Send.getInt(te);
-            tag.setInteger("Recv", recv);
-            tag.setInteger("Send", send);
-        } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
-        }
     }
 
 }

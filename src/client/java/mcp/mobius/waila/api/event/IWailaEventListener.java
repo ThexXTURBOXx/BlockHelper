@@ -8,4 +8,8 @@ public interface IWailaEventListener {
 
     void onWailaTooltip(WailaTooltipEvent event);
 
+    void onWailaPluginRegister(WailaRegisterEvent.Plugin event);
+
+    void onWailaConfigRegister(WailaRegisterEvent.Config event);
+
 }

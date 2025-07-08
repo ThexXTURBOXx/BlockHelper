@@ -34,4 +34,17 @@ public final class WailaEventRegistrar {
         }
     }
 
+    public static boolean postPluginRegister(WailaRegisterEvent.Plugin event) {
+        for (IWailaEventListener listener : LISTENERS) {
+            listener.onWailaPluginRegister(event);
+        }
+        return event.isCancelled();
+    }
+
+    public static void postConfigRegister(WailaRegisterEvent.Config event) {
+        for (IWailaEventListener listener : LISTENERS) {
+            listener.onWailaConfigRegister(event);
+        }
+    }
+
 }
