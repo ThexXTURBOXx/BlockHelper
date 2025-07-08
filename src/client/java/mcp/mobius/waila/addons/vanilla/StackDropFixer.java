@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.ic2;
+package mcp.mobius.waila.addons.vanilla;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -7,23 +7,37 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.ConstantRandom;
 import net.minecraft.src.Block;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.mod_BlockHelper;
 
-public class HUDHandlerDoor implements IDataProvider {
+public class StackDropFixer implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerDoor();
+    public static final IDataProvider DEFAULT = new StackDropFixer();
 
-    private HUDHandlerDoor() {
+    private final int metaOverride;
+
+    private StackDropFixer() {
+        this(-1);
+    }
+
+    private StackDropFixer(int metaOverride) {
+        this.metaOverride = metaOverride;
+    }
+
+    public static StackDropFixer withMetaOverride(int metaOverride) {
+        return new StackDropFixer(metaOverride);
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         Block b = accessor.getBlock();
-        int id = b.idDropped(0, ConstantRandom.INSTANCE, 0);
-        return id == 0 ? null : new ItemStack(id, 1, mod_BlockHelper.Accessor.damageDropped(b, 0));
+        int meta = metaOverride < 0 ? accessor.getMetadata() : metaOverride;
+        int id = b.idDropped(meta, ConstantRandom.INSTANCE, 0);
+        return id == 0 || Item.itemsList[id] == null
+                ? null : new ItemStack(id, 1, mod_BlockHelper.Accessor.damageDropped(b, meta));
     }
 
     @Override
