@@ -130,11 +130,11 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, cauldron.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
 
-            registrar.registerStackProvider(StackDropFixer.INSTANCE, anvil.getClass());
-            registrar.registerStackProvider(StackDropFixer.INSTANCE, sapling.getClass());
-            registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockStep.class);
-            registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockWoodSlab.class);
-            registrar.registerStackProvider(StackDropFixer.INSTANCE, BlockDoor.class);
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, anvil.getClass());
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, sapling.getClass());
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockStep.class);
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockWoodSlab.class);
+            registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());

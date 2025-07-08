@@ -13,16 +13,28 @@ import net.minecraft.tileentity.TileEntity;
 
 public class StackDropFixer implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new StackDropFixer();
+    public static final IDataProvider DEFAULT = new StackDropFixer();
+
+    private final int metaOverride;
 
     private StackDropFixer() {
+        this(-1);
+    }
+
+    private StackDropFixer(int metaOverride) {
+        this.metaOverride = metaOverride;
+    }
+
+    public static StackDropFixer withMetaOverride(int metaOverride) {
+        return new StackDropFixer(metaOverride);
     }
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         Block b = accessor.getBlock();
-        int id = b.idDropped(0, ConstantRandom.INSTANCE, 0);
-        return id == 0 ? null : new ItemStack(id, 1, b.damageDropped(accessor.getMetadata()));
+        int meta = metaOverride < 0 ? accessor.getMetadata() : metaOverride;
+        int id = b.idDropped(meta, ConstantRandom.INSTANCE, 0);
+        return id == 0 ? null : new ItemStack(id, 1, b.damageDropped(meta));
     }
 
     @Override
