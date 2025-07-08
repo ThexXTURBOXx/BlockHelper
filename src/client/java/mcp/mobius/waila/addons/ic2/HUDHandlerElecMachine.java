@@ -16,11 +16,11 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerElectricMachine implements IDataProvider {
+public class HUDHandlerElecMachine implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerElectricMachine();
+    public static final IDataProvider INSTANCE = new HUDHandlerElecMachine();
 
-    private HUDHandlerElectricMachine() {
+    private HUDHandlerElecMachine() {
     }
 
     @Override

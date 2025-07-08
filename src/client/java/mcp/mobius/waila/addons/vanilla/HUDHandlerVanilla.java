@@ -11,7 +11,6 @@ import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -78,16 +77,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
 
-        if (block == sapling ||
-            block instanceof BlockStep)
-            return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
-
-        if (block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE), 1,
-                    mod_BlockHelper.Accessor.damageDropped(block, meta));
-
         return null;
-
     }
 
     @Override
