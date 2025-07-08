@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCocoa;
 import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockDoor;
 import net.minecraft.src.BlockNetherStalk;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockStem;
@@ -108,11 +109,13 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, cauldron.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockWoodSlab.class);
+
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, sapling.getClass());
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockStep.class);
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockWoodSlab.class);
+            registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
