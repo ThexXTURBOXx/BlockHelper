@@ -7,11 +7,11 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 
-public class HUDHandlerElectricMachine implements IDataProvider {
+public class HUDHandlerElecMachine implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerElectricMachine();
+    public static final IDataProvider INSTANCE = new HUDHandlerElecMachine();
 
-    private HUDHandlerElectricMachine() {
+    private HUDHandlerElecMachine() {
     }
 
     @Override

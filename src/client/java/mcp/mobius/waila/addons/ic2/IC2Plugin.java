@@ -57,24 +57,15 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
-            registrar.registerNBTProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElecMachine);
+            registrar.registerNBTProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
 
-            registrar.registerBodyProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElecMachine);
+            registrar.registerBodyProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
             registrar.registerBodyProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
-        }
-
-        // load IC2 items for door and upgrades
-        try {
-            Class<?> BlockIC2Door = AccessHelper.getClass("ic2.common.BlockIC2Door");
-
-            registrar.registerStackProvider(HUDHandlerDoor.INSTANCE, BlockIC2Door);
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading item hooks.", t);
         }
     }
 
