@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCrops;
+import net.minecraft.src.BlockDoor;
 import net.minecraft.src.BlockRedstoneOre;
 import net.minecraft.src.BlockSign;
 import net.minecraft.src.Entity;
@@ -74,8 +75,10 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockSign.class);
+
+        registrar.registerStackProvider(StackDropFixer.DEFAULT, sapling.getClass());
+        registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockSign.class);
+        registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
         registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
 

@@ -5,12 +5,10 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
@@ -18,7 +16,6 @@ import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.ItemRecord_recordName;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
@@ -29,7 +26,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.noteBlock;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 
 public final class HUDHandlerVanilla implements IDataProvider {
@@ -65,15 +61,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
 
-        if (block == sapling)
-            return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
-
-        if (block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE), 1,
-                    mod_BlockHelper.Accessor.damageDropped(block, meta));
-
         return null;
-
     }
 
     @Override
