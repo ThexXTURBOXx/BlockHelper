@@ -5,12 +5,10 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -52,11 +50,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == crops)
             return new ItemStack(Item.wheat);
 
-        if (block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE));
-
         return null;
-
     }
 
     @Override
