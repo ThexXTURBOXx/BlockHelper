@@ -10,7 +10,6 @@ import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockRedstoneOre;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemRecord;
@@ -23,7 +22,6 @@ import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.brewingStand;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.endPortal;
@@ -40,7 +38,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.pumpkinStem;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sapling;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
@@ -102,15 +99,6 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (block == log)
             return new ItemStack(block, 1, meta % 4);
-
-        if (block == sapling ||
-            block instanceof BlockStep)
-            return new ItemStack(block, 1, mod_BlockHelper.Accessor.damageDropped(block, meta));
-
-        if (block == brewingStand ||
-            block instanceof BlockSign)
-            return new ItemStack(block.idDropped(meta, ConstantRandom.INSTANCE, 0), 1,
-                    mod_BlockHelper.Accessor.damageDropped(block, meta));
 
         return null;
 

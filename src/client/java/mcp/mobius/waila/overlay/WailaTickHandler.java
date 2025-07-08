@@ -2,6 +2,8 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.event.ClientFirstTickInWorldEvent;
+import mcp.mobius.waila.api.event.WailaEventRegistrar;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.PluginConfig;
@@ -33,9 +35,10 @@ public class WailaTickHandler {
 
     public void onTickInGame(Minecraft mc) {
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
+            ModIdentification.init();
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
-            ModIdentification.init();
+            WailaEventRegistrar.postClientFirstTickInWorld(new ClientFirstTickInWorldEvent(mc));
             firstTick = false;
         }
 
