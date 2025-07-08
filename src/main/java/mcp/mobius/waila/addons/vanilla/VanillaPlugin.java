@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockNetherStalk;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockStem;
@@ -92,6 +93,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
         registrar.addSyncedConfig("VanillaMC", "vanilla.beacon");
+
         if (side.isClient()) {
             registrar.addConfig("VanillaMC", "vanilla.repeaterol");
 
@@ -118,13 +120,15 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, potato.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, anvil.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sapling.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, cauldron.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, bed.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockStep.class);
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockWoodSlab.class);
+
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, anvil.getClass());
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, sapling.getClass());
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockStep.class);
+            registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockWoodSlab.class);
+            registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());

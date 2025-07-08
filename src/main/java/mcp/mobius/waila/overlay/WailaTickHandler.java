@@ -2,12 +2,14 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.event.ClientFirstTickInWorldEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +19,7 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
@@ -32,8 +35,10 @@ public class WailaTickHandler {
 
     public void onTickInGame(Minecraft mc) {
         if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
+            ModIdentification.init();
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
+            MinecraftForge.EVENT_BUS.post(new ClientFirstTickInWorldEvent(mc));
             firstTick = false;
         }
 
