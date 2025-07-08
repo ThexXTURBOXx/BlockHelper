@@ -57,7 +57,7 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
-            registrar.registerNBTProvider(HUDHandlerElectricMachine.INSTANCE, TileEntityElecMachine);
+            registrar.registerNBTProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
