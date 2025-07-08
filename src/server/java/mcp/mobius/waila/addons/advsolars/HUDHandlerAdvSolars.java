@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.advsolars;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
@@ -29,23 +30,7 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
             tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-
-        try {
-            int production = -1;
-            int maxPacketSize = -1;
-
-            if (AdvSolarsPlugin.TileEntityQGenerator.isInstance(te)) {
-                production = AdvSolarsPlugin.TileEntityQGenerator_production.getInt(te);
-                maxPacketSize = AdvSolarsPlugin.TileEntityQGenerator_maxPacketSize.getInt(te);
-            }
-
-            tag.setInteger("production", production);
-            tag.setInteger("maxPacketSize", maxPacketSize);
-
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass());
         }
     }
 
