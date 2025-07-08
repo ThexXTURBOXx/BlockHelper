@@ -12,4 +12,6 @@ public interface IWailaEventListener {
 
     void onWailaConfigRegister(WailaRegisterEvent.Config event);
 
+    void onClientFirstTickInWorld(ClientFirstTickInWorldEvent event);
+
 }

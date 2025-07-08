@@ -47,4 +47,10 @@ public final class WailaEventRegistrar {
         }
     }
 
+    public static void postClientFirstTickInWorld(ClientFirstTickInWorldEvent event) {
+        for (IWailaEventListener listener : LISTENERS) {
+            listener.onClientFirstTickInWorld(event);
+        }
+    }
+
 }
