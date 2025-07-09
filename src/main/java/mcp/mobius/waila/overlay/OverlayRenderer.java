@@ -8,7 +8,6 @@ import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
-import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,7 +20,7 @@ public final class OverlayRenderer {
         throw new UnsupportedOperationException();
     }
 
-    public static void renderOverlay() {
+    public static void renderOverlay(Tooltip tooltip) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
             mc.theWorld == null || // World is loaded
@@ -35,15 +34,15 @@ public final class OverlayRenderer {
             return;
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
-            renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
+            doRenderOverlay(tooltip);
         }
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
-            renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
+            doRenderOverlay(tooltip);
         }
     }
 
-    public static void renderOverlay(Tooltip tooltip) {
+    private static void doRenderOverlay(Tooltip tooltip) {
         Minecraft.getMinecraft().mcProfiler.startSection("Waila Overlay");
         GLState state = new GLState();
 
@@ -74,11 +73,11 @@ public final class OverlayRenderer {
         Minecraft.getMinecraft().mcProfiler.endSection();
     }
 
-    public static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {
+    private static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {
         drawTooltipBox(position.getX(), position.getY(), position.getWidth(), position.getHeight(), bg, grad1, grad2);
     }
 
-    public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
+    private static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
         DisplayUtil.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
@@ -86,7 +85,6 @@ public final class OverlayRenderer {
         DisplayUtil.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
         DisplayUtil.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
-
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
         DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }
