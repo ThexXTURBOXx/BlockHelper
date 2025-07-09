@@ -27,6 +27,8 @@ public class RayTracing {
 
     private static RayTracing _instance;
 
+    private MovingObjectPosition target = null;
+
     private RayTracing() {
         _instance = this;
     }
@@ -35,20 +37,20 @@ public class RayTracing {
         return _instance == null ? new RayTracing() : _instance;
     }
 
-    private MovingObjectPosition target = null;
-    private final Minecraft mc = ModLoader.getMinecraftInstance();
-
     public void fire() {
+        final Minecraft mc = ModLoader.getMinecraftInstance();
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY
             && shouldShowEntity(mc.objectMouseOver.entityHit)) {
             this.target = mc.objectMouseOver;
             return;
         }
-
         EntityLiving viewpoint = mc.renderViewEntity;
         if (viewpoint == null) return;
-
         this.target = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance(), 0);
+    }
+
+    public void clear() {
+        this.target = null;
     }
 
     private static boolean shouldShowEntity(Entity entity) {
@@ -135,7 +137,7 @@ public class RayTracing {
             }
             break;
         case TILE:
-            World world = mc.theWorld;
+            World world = ModLoader.getMinecraftInstance().theWorld;
             int x = this.target.blockX;
             int y = this.target.blockY;
             int z = this.target.blockZ;

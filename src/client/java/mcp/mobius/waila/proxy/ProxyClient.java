@@ -20,6 +20,7 @@ public class ProxyClient extends ProxyCommon {
         super.prepare();
 
         ModLoader.SetInGameHook(mod_BlockHelper.INSTANCE, true, false);
+        ModLoader.SetInGUIHook(mod_BlockHelper.INSTANCE, true, false);
     }
 
     @Override
