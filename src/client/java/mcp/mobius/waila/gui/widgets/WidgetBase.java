@@ -35,6 +35,7 @@ public abstract class WidgetBase implements IWidget {
     protected boolean isRendering = true;
 
     protected float alpha = 1.0f;
+
     public WidgetBase(IWidget parent) {
         this.setParent(parent);
         this.mc = ModLoader.getMinecraftInstance();

@@ -34,6 +34,7 @@ public final class ModIdentification {
         throw new UnsupportedOperationException();
     }
 
+    @SuppressWarnings("unchecked")
     public static void init() {
         try {
             blockIdField = ItemBlock.class.getDeclaredField("a");
