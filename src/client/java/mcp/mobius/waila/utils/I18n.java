@@ -89,7 +89,7 @@ public class I18n {
 
     public void init() {
         try {
-            translateTable = (Properties) ModLoader.getPrivateValue(
+            translateTable = ModLoader.getPrivateValue(
                     StringTranslate.class, StringTranslate.getInstance(), 1);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.throwing("I18n", "init", t);

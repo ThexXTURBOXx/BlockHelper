@@ -44,7 +44,7 @@ public class ConfigKeyHandler {
     }
 
     public void onTickInGame(Minecraft mc) {
-        if (mc.currentScreen != null) return;
+        if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.isPressed())
             mc.displayGuiScreen(new ScreenConfig(null));

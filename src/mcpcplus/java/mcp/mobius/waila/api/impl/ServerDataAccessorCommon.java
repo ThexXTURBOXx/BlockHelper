@@ -37,6 +37,10 @@ public class ServerDataAccessorCommon implements IServerCommonAccessor, IServerD
         this.entity = _entity;
     }
 
+    public void clear() {
+        this.set(null, null, null);
+    }
+
     @Override
     public World getWorld() {
         return this.world;
