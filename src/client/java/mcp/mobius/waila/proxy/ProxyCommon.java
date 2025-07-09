@@ -36,6 +36,9 @@ public class ProxyCommon {
     }
 
     public void prepare() {
+        registerCorePlugin(CorePlugin.INSTANCE);
+        registerCorePlugin(VanillaPlugin.INSTANCE);
+
         registerPlugin(AdvMachinesASPlugin.INSTANCE);
         registerPlugin(AdvSolarsPlugin.INSTANCE);
         registerPlugin(EEPlugin.INSTANCE);
@@ -48,13 +51,11 @@ public class ProxyCommon {
     }
 
     public void registerCorePlugins(IRegistrar registrar) {
-        registerPlugin(CorePlugin.INSTANCE);
-        registerPlugin(VanillaPlugin.INSTANCE);
+        for (IWailaPlugin plugin : corePlugins)
+            registerPluginInRegistrar(registrar, plugin);
     }
 
     public void registerModPlugins(IRegistrar registrar) {
-        for (IWailaPlugin plugin : corePlugins)
-            registerPluginInRegistrar(registrar, plugin);
         for (IWailaPlugin plugin : plugins)
             registerPluginInRegistrar(registrar, plugin);
     }
