@@ -68,18 +68,20 @@ public class PluginConfig implements IPluginConfig {
         this.addSyncedConfig(modName, key, translationKey, Constants.CFG_DEFAULT_VALUE);
     }
 
+    @SuppressWarnings("deprecation")
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.get(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
+        this.config.getOrCreateBooleanProperty(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
         this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
     }
 
+    @SuppressWarnings("deprecation")
     private void addConfigInternal(String modName, String key, String translationKey, boolean defValue,
                                    boolean synced) {
         WailaRegisterEvent.Config event = new WailaRegisterEvent.Config(modName, key, translationKey, defValue, synced);
         MinecraftForge.EVENT_BUS.post(event);
 
-        this.config.get(Constants.CATEGORY_MODULES, key, event.getDefaultValue());
+        this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, event.getDefaultValue());
         this.config.save();
 
         if (!this.modules.containsKey(modName))
@@ -94,6 +96,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean get(String key, boolean defvalue) {
         if (this.syncedConfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
             && !FMLCommonHandler.instance().getEffectiveSide().isServer())
@@ -102,11 +105,12 @@ public class PluginConfig implements IPluginConfig {
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return this.forcedConfigs.get(key);
 
-        Property prop = this.config.get(Constants.CATEGORY_MODULES, key, defvalue);
+        Property prop = this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, defvalue);
         return prop.getBoolean(defvalue);
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean set(String key, boolean value) {
         if (this.syncedConfigs.contains(key) && !mod_BlockHelper.INSTANCE.serverPresent
             && !FMLCommonHandler.instance().getEffectiveSide().isServer())
@@ -115,7 +119,7 @@ public class PluginConfig implements IPluginConfig {
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return false;
 
-        Property prop = this.config.get(Constants.CATEGORY_MODULES, key, value);
+        Property prop = this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, value);
         prop.value = Boolean.toString(value);
 
         this.config.save();
@@ -133,25 +137,27 @@ public class PluginConfig implements IPluginConfig {
 
     /* GENERAL ACCESS METHODS TO GET/SET VALUES IN THE CONFIG FILE */
 
+    @SuppressWarnings("deprecation")
     public boolean get(String category, String key, boolean default_) {
-        Property prop = this.config.get(category, key, default_);
+        Property prop = this.config.getOrCreateBooleanProperty(category, key, default_);
         return prop.getBoolean(default_);
     }
 
+    @SuppressWarnings("deprecation")
     public void setConfig(String category, String key, boolean state) {
-        String value = String.valueOf(state);
-        this.config.get(category, key, value, Property.Type.BOOLEAN).value = value;
+        this.config.getOrCreateBooleanProperty(category, key, state).value = String.valueOf(state);
         this.config.save();
     }
 
+    @SuppressWarnings("deprecation")
     public int get(String category, String key, int default_) {
-        Property prop = this.config.get(category, key, default_);
+        Property prop = this.config.getOrCreateIntProperty(category, key, default_);
         return prop.getInt();
     }
 
+    @SuppressWarnings("deprecation")
     public void setConfig(String category, String key, int state) {
-        String value = String.valueOf(state);
-        this.config.get(category, key, value, Property.Type.INTEGER).value = value;
+        this.config.getOrCreateIntProperty(category, key, state).value = String.valueOf(state);
         this.config.save();
     }
 
@@ -198,13 +204,17 @@ public class PluginConfig implements IPluginConfig {
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
 
-        this.config.addCustomCategoryComment(Constants.CATEGORY_MODULES,
-                "Those are the config keys defined in modules.\n" +
-                "Server side, it is used to enforce keys client side using the next section.");
-        this.config.addCustomCategoryComment(Constants.CATEGORY_SERVER,
-                "Any key set to true here will ensure that the client is using the configuration set in the 'module' " +
-                "section above.\n" +
-                "This is useful for enforcing false to 'cheating' keys like silverfish.");
+        try {
+            // Older Forge versions does not have this method
+            this.config.addCustomCategoryComment(Constants.CATEGORY_MODULES,
+                    "Those are the config keys defined in modules.\n" +
+                    "Server side, it is used to enforce keys client side using the next section.");
+            this.config.addCustomCategoryComment(Constants.CATEGORY_SERVER,
+                    "Any key set to true here will ensure that the client is using the configuration set in " +
+                    "the 'module' section above.\n" +
+                    "This is useful for enforcing false to 'cheating' keys like silverfish.");
+        } catch (Throwable ignored) {
+        }
 
         this.config.save();
     }

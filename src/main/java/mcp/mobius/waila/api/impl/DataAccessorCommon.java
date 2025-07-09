@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.WailaDirection;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -15,7 +16,6 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEntityAccessor {
 
@@ -219,8 +219,8 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
     }
 
     @Override
-    public ForgeDirection getSide() {
-        return ForgeDirection.getOrientation(this.getPosition().sideHit);
+    public WailaDirection getSide() {
+        return WailaDirection.getOrientation(this.getPosition().sideHit);
     }
 
     @Override
