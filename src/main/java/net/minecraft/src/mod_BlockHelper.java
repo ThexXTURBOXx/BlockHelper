@@ -2,9 +2,11 @@ package net.minecraft.src;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import java.io.File;
 import java.util.logging.Logger;
@@ -21,7 +23,6 @@ import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -41,8 +42,6 @@ public class mod_BlockHelper extends BaseMod {
     @SidedProxy(clientSide = PACKAGE + "proxy.ProxyClient", serverSide = PACKAGE + "proxy.ProxyServer")
     public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
-    public static WailaTickHandler TICK_HANDLER;
-    public static ConfigKeyHandler CONFIG_KEY_HANDLER;
 
     static {
         LOG.setParent(FMLLog.getLogger());
@@ -83,9 +82,12 @@ public class mod_BlockHelper extends BaseMod {
         MinecraftForge.EVENT_BUS.register(new NEIOverlayRenderer());
 
         // INIT
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-            CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
-            TICK_HANDLER = new WailaTickHandler();
+        Side side = FMLCommonHandler.instance().getEffectiveSide();
+        if (side.isClient()) {
+            WailaTickHandler tickHandler = new WailaTickHandler();
+            MinecraftForge.EVENT_BUS.register(tickHandler);
+            TickRegistry.registerTickHandler(new ConfigKeyHandler(this), side);
+            TickRegistry.registerTickHandler(tickHandler, side);
         }
 
         // POST INIT
@@ -99,14 +101,6 @@ public class mod_BlockHelper extends BaseMod {
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
-    }
-
-    @Override
-    public boolean onTickInGame(float time, Minecraft mc) {
-        if (mc.theWorld == null || mc.thePlayer == null) return true;
-        CONFIG_KEY_HANDLER.onTickInGame(mc);
-        TICK_HANDLER.onTickInGame(mc);
-        return true;
     }
 
     public static class Accessor {
