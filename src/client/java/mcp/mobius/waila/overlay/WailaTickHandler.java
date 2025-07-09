@@ -39,12 +39,11 @@ public class WailaTickHandler {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
 
-        if (this.lastWorld != world) {
-            this.lastWorld = world;
-            resetAll();
-        }
+        resetAllWhenNeeded(mc);
 
-        if (firstTick && world != null && player != null) {
+        if (world == null || player == null) return;
+
+        if (firstTick) {
             ModIdentification.init();
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
@@ -118,6 +117,14 @@ public class WailaTickHandler {
         }
 
         OverlayRenderer.renderOverlay(tooltip);
+    }
+
+    private void resetAllWhenNeeded(Minecraft mc) {
+        World world = mc.theWorld;
+        if (this.lastWorld != world) {
+            this.lastWorld = world;
+            resetAll();
+        }
     }
 
     private void resetAll() {
