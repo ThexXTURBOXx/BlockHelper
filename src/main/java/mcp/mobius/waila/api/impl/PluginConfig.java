@@ -161,6 +161,10 @@ public class PluginConfig implements IPluginConfig {
         return get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
     }
 
+    public boolean showIcon() {
+        return get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWICON, true);
+    }
+
 
 
     /* Default config loading */
@@ -174,6 +178,7 @@ public class PluginConfig implements IPluginConfig {
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
+        get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWICON, true);
 
         OverlayConfig.posX = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000);
         OverlayConfig.posY = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100);
