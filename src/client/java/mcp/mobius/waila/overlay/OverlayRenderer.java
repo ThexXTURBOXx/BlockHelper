@@ -12,7 +12,6 @@ import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
@@ -23,7 +22,7 @@ public final class OverlayRenderer {
         throw new UnsupportedOperationException();
     }
 
-    public static void renderOverlay() {
+    public static void renderOverlay(Tooltip tooltip) {
         Minecraft mc = ModLoader.getMinecraftInstance();
         if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
             mc.theWorld == null || // World is loaded
@@ -34,16 +33,18 @@ public final class OverlayRenderer {
             RayTracing.instance().getTarget() == null) // Raytrace found a target
             return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
-            renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.TILE &&
+            RayTracing.instance().getTargetStack() != null) {
+            doRenderOverlay(tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
-            renderOverlay(mod_BlockHelper.TICK_HANDLER.tooltip);
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.ENTITY &&
+            PluginConfig.instance().get("general.showents")) {
+            doRenderOverlay(tooltip);
         }
     }
 
-    public static void renderOverlay(Tooltip tooltip) {
+    private static void doRenderOverlay(Tooltip tooltip) {
         GLState state = new GLState();
 
         draw:
@@ -72,11 +73,11 @@ public final class OverlayRenderer {
         state.reset();
     }
 
-    public static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {
+    private static void drawTooltipBox(Rectangle position, int bg, int grad1, int grad2) {
         drawTooltipBox(position.getX(), position.getY(), position.getWidth(), position.getHeight(), bg, grad1, grad2);
     }
 
-    public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
+    private static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
         DisplayUtil.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
@@ -84,7 +85,6 @@ public final class OverlayRenderer {
         DisplayUtil.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
         DisplayUtil.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
-
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
         DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }

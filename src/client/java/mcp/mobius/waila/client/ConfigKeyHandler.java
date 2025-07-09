@@ -43,7 +43,7 @@ public class ConfigKeyHandler {
 
         BlockHelperKeyBinding.onTick();
 
-        if (mc.currentScreen != null) return;
+        if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.isClicked())
             mc.displayGuiScreen(new ScreenConfig(null));

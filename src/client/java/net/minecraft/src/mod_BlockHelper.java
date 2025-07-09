@@ -8,7 +8,6 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.client.ConfigKeyHandler;
-import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
@@ -33,8 +32,8 @@ public class mod_BlockHelper extends BaseMod {
     public static mod_BlockHelper INSTANCE;
     public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
-    public static WailaTickHandler TICK_HANDLER;
-    public static ConfigKeyHandler CONFIG_KEY_HANDLER;
+    private WailaTickHandler tickHandler;
+    private ConfigKeyHandler configKeyHandler;
 
     static {
         ConsoleHandler ch = new ConsoleHandler();
@@ -71,8 +70,8 @@ public class mod_BlockHelper extends BaseMod {
         OverlayConfig.updateColors();
 
         // INIT
-        CONFIG_KEY_HANDLER = new ConfigKeyHandler();
-        TICK_HANDLER = new WailaTickHandler();
+        configKeyHandler = new ConfigKeyHandler();
+        tickHandler = new WailaTickHandler();
 
         // POST INIT
         proxy.prepare();
@@ -86,13 +85,8 @@ public class mod_BlockHelper extends BaseMod {
 
     @Override
     public void OSDHook(Minecraft mc, boolean guiOpen) {
-        if (mc.theWorld != null && mc.thePlayer != null) {
-            CONFIG_KEY_HANDLER.onTickInGame(mc);
-            TICK_HANDLER.onTickInGame(mc);
-        }
-
-        if (serverPresent && mc.theWorld == null)
-            Packet0x00ServerPing.resetClient();
+        configKeyHandler.onTickInGame(mc);
+        tickHandler.onTickInGame(mc);
     }
 
     /*@Override
