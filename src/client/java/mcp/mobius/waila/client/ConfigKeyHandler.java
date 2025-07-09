@@ -47,7 +47,7 @@ public class ConfigKeyHandler {
     public void onTickInGame(Minecraft mc) {
         BlockHelperKeyBinding.onTick();
 
-        if (mc.currentScreen != null) return;
+        if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.isClicked())
             mc.displayGuiScreen(new ScreenConfig(null));

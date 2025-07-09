@@ -9,7 +9,6 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -73,7 +72,7 @@ public final class ModIdentification {
 
         try {
             baseModLoop:
-            for (BaseMod mod : (List<BaseMod>) ModLoader.getLoadedMods()) {
+            for (BaseMod mod : ModLoader.getLoadedMods()) {
                 try {
                     String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
                             .getLocation().toURI());

@@ -45,32 +45,49 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
         this.player = _player;
         this.mop = _mop;
 
-        if (this.mop.typeOfHit == EnumMovingObjectType.TILE) {
-            this.blockID = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
-            this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
-            this.block = Block.blocksList[this.blockID];
-            this.tileEntity = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+        if (this.mop == null) {
+            this.renderingvec = null;
+            this.block = null;
+            this.blockID = 0;
+            this.metadata = 0;
+            this.tileEntity = null;
             this.entity = null;
-            try {
-                this.stack = new ItemStack(this.block, 1, this.metadata);
-            } catch (Throwable ignored) {
+            this.remoteNbt = new NBTTagCompound();
+            this.timeLastUpdate = System.currentTimeMillis();
+            this.partialFrame = 0;
+            this.stack = null;
+        } else {
+            if (this.mop.typeOfHit == EnumMovingObjectType.TILE) {
+                this.blockID = world.getBlockId(this.mop.blockX, this.mop.blockY, this.mop.blockZ);
+                this.metadata = world.getBlockMetadata(this.mop.blockX, this.mop.blockY, this.mop.blockZ);
+                this.block = Block.blocksList[this.blockID];
+                this.tileEntity = world.getBlockTileEntity(this.mop.blockX, this.mop.blockY, this.mop.blockZ);
+                this.entity = null;
+                try {
+                    this.stack = new ItemStack(this.block, 1, this.metadata);
+                } catch (Throwable ignored) {
+                }
+            } else if (this.mop.typeOfHit == EnumMovingObjectType.ENTITY) {
+                this.block = null;
+                this.metadata = -1;
+                this.tileEntity = null;
+                this.stack = null;
+                this.entity = this.mop.entityHit;
             }
 
-        } else if (this.mop.typeOfHit == EnumMovingObjectType.ENTITY) {
-            this.block = null;
-            this.metadata = -1;
-            this.tileEntity = null;
-            this.stack = null;
-            this.entity = _mop.entityHit;
+            if (viewEntity != null) {
+                double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
+                double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
+                double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
+                this.renderingvec = Vec3D.createVectorHelper(
+                        this.mop.blockX - px, this.mop.blockY - py, this.mop.blockZ - pz);
+                this.partialFrame = partialTicks;
+            }
         }
+    }
 
-        if (viewEntity != null) {
-            double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
-            double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
-            double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
-            this.renderingvec = Vec3D.createVectorHelper(_mop.blockX - px, _mop.blockY - py, _mop.blockZ - pz);
-            this.partialFrame = partialTicks;
-        }
+    public void clear() {
+        this.set(null, null, null);
     }
 
     @Override
