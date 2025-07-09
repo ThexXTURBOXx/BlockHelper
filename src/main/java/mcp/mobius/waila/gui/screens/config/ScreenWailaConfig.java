@@ -42,7 +42,7 @@ public class ScreenWailaConfig extends ScreenBase {
                         Constants.CFG_WAILA_SHIFTENTS, false, "screen.button.no", "screen.button.yes"),
                 "choice.shifttoggledents");
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_SHOWICON, true, "screen.button.no", "screen.button.yes"),
+                        Constants.CFG_WAILA_SHOWICON, true, "screen.button.hidden", "screen.button.visible"),
                 "choice.showicon");
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_UPDATE_CHECK, true, "screen.button.no", "screen.button.yes"),
