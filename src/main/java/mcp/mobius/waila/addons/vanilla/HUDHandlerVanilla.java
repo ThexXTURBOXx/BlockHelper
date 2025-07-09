@@ -10,8 +10,6 @@ import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFlowerPot;
 import net.minecraft.src.BlockRedstoneOre;
-import net.minecraft.src.BlockStep;
-import net.minecraft.src.BlockWoodSlab;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemRecord;
 import net.minecraft.src.ItemStack;
