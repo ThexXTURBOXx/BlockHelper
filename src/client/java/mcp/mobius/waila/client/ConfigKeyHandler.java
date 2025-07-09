@@ -30,7 +30,7 @@ public class ConfigKeyHandler {
     }
 
     public void onTickInGame(Minecraft mc) {
-        if (mc.currentScreen != null) return;
+        if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.func_35962_c())
             mc.displayGuiScreen(new ScreenConfig(null));
