@@ -11,19 +11,11 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
-import net.minecraft.src.ModLoader;
 
 public class ProxyClient extends ProxyCommon {
 
     public ProxyClient() {
         super(Side.CLIENT);
-    }
-
-    @Override
-    public void prepare() {
-        super.prepare();
-
-        ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
     }
 
     @Override
