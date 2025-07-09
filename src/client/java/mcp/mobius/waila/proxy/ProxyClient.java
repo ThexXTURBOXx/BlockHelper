@@ -22,6 +22,7 @@ public class ProxyClient extends ProxyCommon {
         super.prepare();
 
         ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
+        ModLoader.setInGUIHook(mod_BlockHelper.INSTANCE, true, false);
     }
 
     @Override
