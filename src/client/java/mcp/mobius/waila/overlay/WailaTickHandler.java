@@ -37,16 +37,20 @@ public class WailaTickHandler {
     private World lastWorld = null;
 
     public void onTickInGame(Minecraft mc) {
-        if (firstTick && mc.theWorld != null && mc.thePlayer != null) {
+        World world = mc.theWorld;
+        EntityPlayer player = mc.thePlayer;
+
+        resetAllWhenNeeded(mc);
+
+        if (world == null || player == null) return;
+
+        if (firstTick) {
             ModIdentification.init();
             FixDetector.detectFixes(mc);
             mod_BlockHelper.UPDATER.notifyUpdater(mc);
             WailaEventRegistrar.postClientFirstTickInWorld(new ClientFirstTickInWorldEvent(mc));
             firstTick = false;
         }
-
-        World world = mc.theWorld;
-        EntityPlayer player = mc.thePlayer;
 
         if (!mc.isMultiplayerWorld())
             mod_BlockHelper.INSTANCE.serverPresent = true;
@@ -117,6 +121,10 @@ public class WailaTickHandler {
     }
 
     public void onTickInGUI(Minecraft mc, GuiScreen gui) {
+        resetAllWhenNeeded(mc);
+    }
+
+    private void resetAllWhenNeeded(Minecraft mc) {
         World world = mc.theWorld;
         if (this.lastWorld != world) {
             this.lastWorld = world;
