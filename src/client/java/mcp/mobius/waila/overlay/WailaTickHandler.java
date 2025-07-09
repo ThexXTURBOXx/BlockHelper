@@ -62,6 +62,8 @@ public class WailaTickHandler implements ITickHandler {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
 
+        if (world == null || player == null) return;
+
         if (firstTick) {
             ModIdentification.init();
             FixDetector.detectFixes(mc);
