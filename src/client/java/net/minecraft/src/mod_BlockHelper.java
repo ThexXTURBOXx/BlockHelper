@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import forge.Configuration;
 import forge.MinecraftForge;
 import forge.MinecraftForgeClient;
@@ -36,8 +37,6 @@ public class mod_BlockHelper extends NetworkMod {
     public static mod_BlockHelper INSTANCE;
     public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
-    public static WailaTickHandler TICK_HANDLER;
-    public static ConfigKeyHandler CONFIG_KEY_HANDLER;
 
     static {
         LOG.setParent(ModLoader.getLogger());
@@ -76,8 +75,8 @@ public class mod_BlockHelper extends NetworkMod {
         // INIT
         MinecraftForgeClient.registerRenderLastHandler(new DecoratorRenderer());
         MinecraftForgeClient.registerRenderLastHandler(new NEIOverlayRenderer());
-        CONFIG_KEY_HANDLER = new ConfigKeyHandler(this);
-        TICK_HANDLER = new WailaTickHandler();
+        FMLCommonHandler.instance().registerTickHandler(new ConfigKeyHandler(this));
+        FMLCommonHandler.instance().registerTickHandler(new WailaTickHandler());
         MinecraftForge.registerConnectionHandler(new WailaConnectionHandler());
 
         // POST INIT
@@ -91,14 +90,6 @@ public class mod_BlockHelper extends NetworkMod {
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
-    }
-
-    @Override
-    public boolean onTickInGame(float time, Minecraft mc) {
-        if (mc.theWorld == null || mc.thePlayer == null) return true;
-        CONFIG_KEY_HANDLER.onTickInGame(mc);
-        TICK_HANDLER.onTickInGame(mc);
-        return true;
     }
 
     public static class Accessor {

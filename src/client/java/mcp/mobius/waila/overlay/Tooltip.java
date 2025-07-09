@@ -108,6 +108,8 @@ public class Tooltip {
 
         this.stack = stack;
 
+        if (hasIcon) hasIcon = PluginConfig.instance().showIcon();
+
         columnsWidth.add(0);        // Small init of the arrays to have at least one element
         columnsPos.add(0);
 

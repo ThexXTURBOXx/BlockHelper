@@ -16,20 +16,16 @@ public final class OverlayConfig {
     public static float scale;
 
     public static void updateColors() {
-        OverlayConfig.alpha = (int) (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                Constants.CFG_WAILA_ALPHA, 0) / 100.0f * 256) << 24;
-        OverlayConfig.bgcolor =
-                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_BGCOLOR, 0);
-        OverlayConfig.gradient1 =
-                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_GRADIENT1, 0);
-        OverlayConfig.gradient2 =
-                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_GRADIENT2, 0);
-        OverlayConfig.fontcolor =
-                OverlayConfig.alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_FONTCOLOR, 0);
+        alpha = (int) (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_ALPHA, 0) / 100.0f * 255f) << 24;
+        bgcolor = alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_BGCOLOR, 0);
+        gradient1 = alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_GRADIENT1, 0);
+        gradient2 = alpha + PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_GRADIENT2, 0);
+        fontcolor = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                Constants.CFG_WAILA_FONTCOLOR, 0);
     }
 
     private OverlayConfig() {
