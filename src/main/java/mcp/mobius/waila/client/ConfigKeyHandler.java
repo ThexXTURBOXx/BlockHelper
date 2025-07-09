@@ -1,6 +1,9 @@
 package mcp.mobius.waila.client;
 
+import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.TickType;
+import java.util.EnumSet;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
@@ -16,7 +19,7 @@ import org.lwjgl.input.Keyboard;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class ConfigKeyHandler {
+public class ConfigKeyHandler implements ITickHandler {
 
     public final KeyBinding keyCfg;
     public final KeyBinding keyShow;
@@ -37,8 +40,14 @@ public class ConfigKeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
     }
 
-    public void onTickInGame(Minecraft mc) {
-        if (mc.currentScreen != null) return;
+    @Override
+    public void tickStart(EnumSet<TickType> enumSet, Object... objects) {
+    }
+
+    @Override
+    public void tickEnd(EnumSet<TickType> enumSet, Object... objects) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.isPressed())
             mc.displayGuiScreen(new ScreenConfig(null));
@@ -80,6 +89,16 @@ public class ConfigKeyHandler {
                 }
             }
         }
+    }
+
+    @Override
+    public EnumSet<TickType> ticks() {
+        return EnumSet.of(TickType.CLIENT);
+    }
+
+    @Override
+    public String getLabel() {
+        return mod_BlockHelper.MOD_ID + ":ConfigKeyHandler";
     }
 
 }
