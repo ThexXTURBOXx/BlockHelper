@@ -11,10 +11,8 @@ on:
 env:
   MOD_VERSION: ${{ inputs.mod_version }}
   GAME_VERSIONS_CF: |
-    1.3.1
     1.3.2
   GAME_VERSIONS_MR: |
-    1.3.1
     1.3.2
   LOADERS_CF: |
     fabric
