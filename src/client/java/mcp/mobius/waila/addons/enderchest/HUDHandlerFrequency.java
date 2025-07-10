@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.enderstorage;
+package mcp.mobius.waila.addons.enderchest;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -34,10 +34,10 @@ public final class HUDHandlerFrequency implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("enderstorage.colors")) {
             try {
-                int freq = EnderStoragePlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
-                int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
-                int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
-                int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
+                int freq = EnderChestPlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
+                int freqLeft = (Integer) EnderChestPlugin.GetColourFromFreq.invoke(null, freq, 0);
+                int freqCenter = (Integer) EnderChestPlugin.GetColourFromFreq.invoke(null, freq, 1);
+                int freqRight = (Integer) EnderChestPlugin.GetColourFromFreq.invoke(null, freq, 2);
 
                 currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqLeft)) + "/" +
                                I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
