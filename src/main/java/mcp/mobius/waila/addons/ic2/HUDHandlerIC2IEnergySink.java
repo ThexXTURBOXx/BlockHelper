@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySink;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySink_getInput;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -60,8 +62,8 @@ public class HUDHandlerIC2IEnergySink implements IDataProvider {
         try {
             int in = -1;
 
-            if (IC2Plugin.IEnergySink.isInstance(te)) {
-                in = (Integer) IC2Plugin.IEnergySink_getInput.invoke(te);
+            if (IEnergySink.isInstance(te)) {
+                in = (Integer) IEnergySink_getInput.invoke(te);
             }
 
             tag.setInteger("maxInput", in);
