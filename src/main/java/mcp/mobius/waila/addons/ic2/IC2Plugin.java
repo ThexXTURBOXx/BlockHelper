@@ -28,6 +28,9 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Class<?> TileEntityElectricMachine;
     public static Field TileEntityElectricMachine_maxEnergy;
 
+    public static Class<?> TileEntityMatter;
+    public static Method TileEntityMatter_getProgressAsString;
+
     private IC2Plugin() {
     }
 
@@ -89,6 +92,20 @@ public final class IC2Plugin implements IWailaPlugin {
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
+        }
+
+        try {
+            TileEntityMatter = AccessHelper.getClass("ic2.core.block.machine.tileentity.TileEntityMatter");
+            TileEntityMatter_getProgressAsString = AccessHelper.getMethod(TileEntityMatter, new Class[0],
+                    "getProgressAsString");
+
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.mattergen");
+
+            registrar.registerNBTProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
+
+            registrar.registerBodyProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading matter gen hooks.", t);
         }
     }
 
