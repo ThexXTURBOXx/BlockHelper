@@ -11,18 +11,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySource;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySource_getOutput;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter_getProgressAsString;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
-import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerIC2IEnergySource implements IDataProvider {
+public class HUDHandlerMatterGen implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergySource();
+    public static final IDataProvider INSTANCE = new HUDHandlerMatterGen();
 
-    private HUDHandlerIC2IEnergySource() {
+    private HUDHandlerMatterGen() {
     }
 
     @Override
@@ -38,14 +37,15 @@ public class HUDHandlerIC2IEnergySource implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("ic2.outputeu"))
+        if (config.get("ic2.mattergen"))
             try {
-                int out = accessor.getNBTInteger("maxOutput");
+                String matterProgress = accessor.getNBTData().getString("matterProgress");
 
-                String outputStr = I18n.translate("hud.msg.output");
+                String progressStr = I18n.translate("hud.msg.progress");
 
-                if (out > 0)
-                    currenttip.add(outputStr + TAB + ALIGNRIGHT + WHITE + out + RESET + " EU/t");
+                if (matterProgress != null && !matterProgress.isEmpty()) {
+                    currenttip.add(progressStr + TAB + ALIGNRIGHT + WHITE + matterProgress);
+                }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
@@ -60,15 +60,16 @@ public class HUDHandlerIC2IEnergySource implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int out = -1;
+            String matterProgress = null;
 
-            if (IEnergySource.isInstance(te)) {
-                out = (Integer) IEnergySource_getOutput.invoke(te);
+            if (TileEntityMatter.isInstance(te)) {
+                matterProgress = (String) TileEntityMatter_getProgressAsString.invoke(te);
             }
 
-            tag.setInteger("maxOutput", out);
+            if (matterProgress != null)
+                tag.setString("matterProgress", matterProgress);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
+            WailaExceptionHandler.handleErr(t, te.getClass(), null);
         }
     }
 
