@@ -107,7 +107,9 @@ public final class IC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
 
-            registrar.registerBodyProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
+            if (side.isClient()) {
+                registrar.registerBodyProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
+            }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading matter gen hooks.", t);
         }
@@ -119,11 +121,13 @@ public final class IC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-            registrar.registerStackProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+            if (side.isClient()) {
+                registrar.registerStackProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-            registrar.registerHeadProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+                registrar.registerHeadProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-            registrar.registerBodyProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+                registrar.registerBodyProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+            }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading TNT hooks.", t);
         }
