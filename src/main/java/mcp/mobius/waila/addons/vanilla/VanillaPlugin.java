@@ -17,6 +17,7 @@ import net.minecraft.src.BlockStep;
 import net.minecraft.src.BlockWoodSlab;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
 import net.minecraft.src.TileEntitySkull;
@@ -70,8 +71,11 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
 
-        if (side.isClient())
+        if (side.isClient()) {
+            registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, EntityTNTPrimed.class);
+
             registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        }
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
 
