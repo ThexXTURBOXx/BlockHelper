@@ -11,6 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergyStorage;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityElecMachine;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityElecMachine_maxEnergy;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -60,13 +64,13 @@ public class HUDHandlerElecMachine implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            if (IC2Plugin.IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
-            if (IC2Plugin.TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
+            if (IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
+            if (TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
 
             int maxStorage = -1;
 
-            if (IC2Plugin.TileEntityElecMachine.isInstance(te)) {
-                maxStorage = IC2Plugin.TileEntityElecMachine_maxEnergy.getInt(te);
+            if (TileEntityElecMachine.isInstance(te)) {
+                maxStorage = TileEntityElecMachine_maxEnergy.getInt(te);
             }
 
             tag.setInteger("maxStorage", maxStorage);
