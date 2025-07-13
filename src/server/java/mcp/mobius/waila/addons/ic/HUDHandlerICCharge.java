@@ -1,5 +1,6 @@
-package mcp.mobius.waila.addons.ic2;
+package mcp.mobius.waila.addons.ic;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
@@ -7,24 +8,24 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-public class HUDHandlerIC2IEnergySource implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergySource();
+public class HUDHandlerICCharge implements IDataProvider {
 
-    private HUDHandlerIC2IEnergySource() {
+    private final Field currCharge;
+    private final Field maxCharge;
+
+    public HUDHandlerICCharge(Field currCharge, Field maxCharge) {
+        this.currCharge = currCharge;
+        this.maxCharge = maxCharge;
     }
 
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int out = -1;
-
-            if (IC2Plugin.IEnergySource.isInstance(te)) {
-                out = (Integer) IC2Plugin.IEnergySource_getOutput.invoke(te);
-            }
-
-            tag.setInteger("maxOutput", out);
+            tag.setInteger("storage", currCharge.getInt(te));
+            if (maxCharge != null)
+                tag.setInteger("maxStorage", maxCharge.getInt(te));
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass());
         }
