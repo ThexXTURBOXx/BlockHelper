@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -70,6 +71,27 @@ public final class ICPlugin implements IWailaPlugin {
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft] Error while loading energy hooks.", t);
+        }
+
+        try {
+            String[] tntClasses = new String[]{
+                    "net.minecraft.server.EntityItntPrimed",
+                    "net.minecraft.server.EntityNtntPrimed"
+            };
+            for (String tntClass : tntClasses) {
+                try {
+                    Class<?> clazz = AccessHelper.getClass(tntClass);
+
+                    Field fuse = AccessHelper.getDeclaredField(clazz, "fuse");
+
+                    IEntityProvider provider = new HUDHandlerICtntPrimed(fuse);
+
+                    registrar.registerNBTProvider(provider, clazz);
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft] Error while loading TNT hooks.", t);
         }
 
         try {
