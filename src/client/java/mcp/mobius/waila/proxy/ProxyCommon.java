@@ -10,6 +10,7 @@ import mcp.mobius.waila.addons.ee.EEPlugin;
 import mcp.mobius.waila.addons.ee2.EE2Plugin;
 import mcp.mobius.waila.addons.ee3.EE3Plugin;
 import mcp.mobius.waila.addons.florasoma.FloraSomaPlugin;
+import mcp.mobius.waila.addons.ic.ICPlugin;
 import mcp.mobius.waila.addons.ic2.IC2Plugin;
 import mcp.mobius.waila.addons.redpower2.RedPower2Plugin;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin;
@@ -46,6 +47,7 @@ public class ProxyCommon {
         registerPlugin(EE2Plugin.INSTANCE);
         registerPlugin(EE3Plugin.INSTANCE);
         registerPlugin(FloraSomaPlugin.INSTANCE);
+        registerPlugin(ICPlugin.INSTANCE);
         registerPlugin(IC2Plugin.INSTANCE);
         registerPlugin(RedPower2Plugin.INSTANCE);
         registerPlugin(ThermalExpansionPlugin.INSTANCE);

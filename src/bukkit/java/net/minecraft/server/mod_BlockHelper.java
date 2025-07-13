@@ -108,6 +108,10 @@ public class mod_BlockHelper extends BaseModMp {
             return null;
         }
 
+        public static TileEntity getBlockEntity(BlockContainer b) {
+            return b.a_();
+        }
+
     }
 
     /**

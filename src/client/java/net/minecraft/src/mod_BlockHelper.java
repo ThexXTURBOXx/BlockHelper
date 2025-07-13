@@ -158,6 +158,10 @@ public class mod_BlockHelper extends BaseModMp {
             return b.getHardness();
         }
 
+        public static TileEntity getBlockEntity(BlockContainer b) {
+            return b.getBlockEntity();
+        }
+
     }
 
     /**
