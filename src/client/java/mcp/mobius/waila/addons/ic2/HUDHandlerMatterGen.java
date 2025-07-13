@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.enderstorage;
+package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -7,16 +7,21 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.BlockCloth;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-public final class HUDHandlerFrequency implements IDataProvider {
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter_getProgressAsString;
+import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.TAB;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-    public static final IDataProvider INSTANCE = new HUDHandlerFrequency();
+public class HUDHandlerMatterGen implements IDataProvider {
 
-    private HUDHandlerFrequency() {
+    public static final IDataProvider INSTANCE = new HUDHandlerMatterGen();
+
+    private HUDHandlerMatterGen() {
     }
 
     @Override
@@ -32,20 +37,18 @@ public final class HUDHandlerFrequency implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("enderstorage.colors")) {
+        if (config.get("ic2.mattergen"))
             try {
-                int freq = EnderStoragePlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
-                int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
-                int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
-                int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
+                String matterProgress = accessor.getNBTData().getString("matterProgress");
 
-                currenttip.add(I18n.color(BlockCloth.func_21035_d(freqLeft)) + "/" +
-                               I18n.color(BlockCloth.func_21035_d(freqCenter)) + "/" +
-                               I18n.color(BlockCloth.func_21035_d(freqRight)));
+                String progressStr = I18n.translate("hud.msg.progress");
+
+                if (matterProgress != null && !matterProgress.isEmpty()) {
+                    currenttip.add(progressStr + TAB + ALIGNRIGHT + WHITE + matterProgress);
+                }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
-        }
     }
 
     @Override
@@ -56,6 +59,18 @@ public final class HUDHandlerFrequency implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
+        try {
+            String matterProgress = null;
+
+            if (TileEntityMatter.isInstance(te)) {
+                matterProgress = (String) TileEntityMatter_getProgressAsString.invoke(te);
+            }
+
+            if (matterProgress != null)
+                tag.setString("matterProgress", matterProgress);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, te.getClass(), null);
+        }
     }
 
 }
