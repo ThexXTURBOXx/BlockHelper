@@ -37,7 +37,9 @@ public final class AccessHelper {
     public static Constructor<?> getDeclaredConstructor(Class<?> clazz, Class<?>... parameterTypes)
             throws NoSuchMethodException {
         try {
-            return clazz.getDeclaredConstructor(parameterTypes);
+            Constructor<?> constructor = clazz.getDeclaredConstructor(parameterTypes);
+            constructor.setAccessible(true);
+            return constructor;
         } catch (Throwable ignored) {
         }
         throw new NoSuchMethodException(clazz.getName() + ".<init>(" + parameterTypes.length + " params)");
@@ -54,7 +56,9 @@ public final class AccessHelper {
     public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes)
             throws NoSuchMethodException {
         try {
-            return clazz.getConstructor(parameterTypes);
+            Constructor<?> constructor = clazz.getConstructor(parameterTypes);
+            constructor.setAccessible(true);
+            return constructor;
         } catch (Throwable ignored) {
         }
         throw new NoSuchMethodException(clazz.getName() + ".<init>(" + parameterTypes.length + " params)");
@@ -96,7 +100,9 @@ public final class AccessHelper {
             throws NoSuchMethodException {
         for (String methodName : methodNames) {
             try {
-                return clazz.getMethod(methodName, parameterTypes);
+                Method m = clazz.getMethod(methodName, parameterTypes);
+                m.setAccessible(true);
+                return m;
             } catch (Throwable ignored) {
             }
         }
@@ -135,7 +141,9 @@ public final class AccessHelper {
     public static Field getField(Class<?> clazz, String... fieldNames) throws NoSuchFieldException {
         for (String fieldName : fieldNames) {
             try {
-                return clazz.getField(fieldName);
+                Field f = clazz.getField(fieldName);
+                f.setAccessible(true);
+                return f;
             } catch (Throwable ignored) {
             }
         }

@@ -11,6 +11,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_maxStorage;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_storage;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -64,9 +67,9 @@ public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
-                storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
-                maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
+            if (TileBaseGenerator.isInstance(te)) {
+                storage = TileBaseGenerator_storage.getInt(te);
+                maxStorage = TileBaseGenerator_maxStorage.getInt(te);
             }
 
             tag.setInteger("storage", storage);
