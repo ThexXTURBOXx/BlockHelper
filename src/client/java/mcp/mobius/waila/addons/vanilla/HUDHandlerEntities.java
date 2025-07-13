@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.src.Block;
 import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityAnimal;
@@ -40,6 +41,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        if (accessor.getEntity() instanceof EntityTNTPrimed)
+            return new ItemStack(Block.tnt);
         return null;
     }
 

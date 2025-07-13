@@ -7,6 +7,9 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySource;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergySource_getOutput;
+
 public class HUDHandlerIC2IEnergySource implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergySource();
@@ -20,8 +23,8 @@ public class HUDHandlerIC2IEnergySource implements IDataProvider {
         try {
             int out = -1;
 
-            if (IC2Plugin.IEnergySource.isInstance(te)) {
-                out = (Integer) IC2Plugin.IEnergySource_getOutput.invoke(te);
+            if (IEnergySource.isInstance(te)) {
+                out = (Integer) IEnergySource_getOutput.invoke(te);
             }
 
             tag.setInteger("maxOutput", out);
