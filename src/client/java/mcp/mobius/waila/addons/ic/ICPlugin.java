@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
+import net.minecraft.src.Block;
 import net.minecraft.src.BlockContainer;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -71,6 +74,37 @@ public final class ICPlugin implements IWailaPlugin {
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft] Error while loading energy hooks.", t);
+        }
+
+        try {
+            String[] tntClasses = new String[]{
+                    "EntityItntPrimed",
+                    "EntityNtntPrimed"
+            };
+            Block[] tntBlocks = new Block[]{
+                    (Block) AccessHelper.getField(mod_IndustrialCraft, "blockItnt").get(null),
+                    (Block) AccessHelper.getField(mod_IndustrialCraft, "blockNtnt").get(null)
+            };
+            for (int i = 0; i < tntClasses.length; ++i) {
+                try {
+                    Class<?> clazz = AccessHelper.getClass(tntClasses[i]);
+
+                    Field fuse = AccessHelper.getDeclaredField(clazz, "a");
+
+                    IEntityProvider provider = new HUDHandlerICtntPrimed(fuse, new ItemStack(tntBlocks[i]));
+
+                    registrar.registerNBTProvider(provider, clazz);
+
+                    registrar.registerStackProvider(provider, clazz);
+
+                    registrar.registerHeadProvider(provider, clazz);
+
+                    registrar.registerBodyProvider(provider, clazz);
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft] Error while loading TNT hooks.", t);
         }
     }
 
