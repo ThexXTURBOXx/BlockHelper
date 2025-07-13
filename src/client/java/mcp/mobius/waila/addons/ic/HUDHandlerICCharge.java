@@ -1,5 +1,6 @@
-package mcp.mobius.waila.addons.ic2;
+package mcp.mobius.waila.addons.ic;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -16,11 +17,15 @@ import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerIC2IEnergySource implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergySource();
+public class HUDHandlerICCharge implements IDataProvider {
 
-    private HUDHandlerIC2IEnergySource() {
+    private final Field currCharge;
+    private final Field maxCharge;
+
+    public HUDHandlerICCharge(Field currCharge, Field maxCharge) {
+        this.currCharge = currCharge;
+        this.maxCharge = maxCharge;
     }
 
     @Override
@@ -36,14 +41,15 @@ public class HUDHandlerIC2IEnergySource implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("ic2.outputeu"))
+        if (config.get("ic.storage"))
             try {
-                int out = accessor.getNBTInteger("maxOutput");
+                int storage = accessor.getNBTInteger("storage");
+                int maxStorage = accessor.getNBTInteger("maxStorage");
 
-                String outputStr = I18n.translate("hud.msg.output");
+                String storedStr = I18n.translate("hud.msg.stored");
 
-                if (out > 0)
-                    currenttip.add(outputStr + TAB + ALIGNRIGHT + WHITE + out + RESET + " EU/t");
+                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
+                               (maxStorage > 0 ? RESET + " / " + WHITE + maxStorage : "") + RESET + " EU");
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
@@ -58,13 +64,9 @@ public class HUDHandlerIC2IEnergySource implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int out = -1;
-
-            if (IC2Plugin.IEnergySource.isInstance(te)) {
-                out = (Integer) IC2Plugin.IEnergySource_getOutput.invoke(te);
-            }
-
-            tag.setInteger("maxOutput", out);
+            tag.setInteger("storage", currCharge.getInt(te));
+            if (maxCharge != null)
+                tag.setInteger("maxStorage", maxCharge.getInt(te));
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
