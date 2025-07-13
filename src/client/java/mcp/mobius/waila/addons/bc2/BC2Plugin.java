@@ -71,7 +71,7 @@ public final class BC2Plugin implements IWailaPlugin {
         }
 
         try {
-            ILiquidContainer = AccessHelper.getClass("buildcraft.api.ILiquidContainer");
+            ILiquidContainer = AccessHelper.getClass("buildcraft.core.ILiquidContainer");
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
