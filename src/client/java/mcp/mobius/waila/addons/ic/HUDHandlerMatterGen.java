@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.ic2;
+package mcp.mobius.waila.addons.ic;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -11,20 +11,18 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_maxStorage;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_storage;
+import static mcp.mobius.waila.addons.ic.ICPlugin.TileEntityMatterGen;
+import static mcp.mobius.waila.addons.ic.ICPlugin.TileEntityMatterGen_matterCost;
+import static mcp.mobius.waila.addons.ic.ICPlugin.TileEntityMatterGen_matterGeneration;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
-import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
+public class HUDHandlerMatterGen implements IDataProvider {
 
-public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
+    public static final IDataProvider INSTANCE = new HUDHandlerMatterGen();
 
-    public static final IDataProvider INSTANCE = new HUDHandlerIC2IEnergyStorage();
-
-    private HUDHandlerIC2IEnergyStorage() {
+    private HUDHandlerMatterGen() {
     }
 
     @Override
@@ -40,16 +38,17 @@ public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("ic2.storage"))
+        if (config.get("ic.mattergen"))
             try {
-                int storage = accessor.getNBTInteger("storage");
-                int maxStorage = accessor.getNBTInteger("maxStorage");
+                int matterGeneration = accessor.getNBTInteger("matterGeneration");
+                int matterCost = accessor.getNBTInteger("matterCost");
 
-                String storedStr = I18n.translate("hud.msg.stored");
+                String progressStr = I18n.translate("hud.msg.progress");
 
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
+                if (matterCost > 0) {
+                    int p = (int) (100f * matterGeneration / matterCost);
+                    currenttip.add(progressStr + TAB + ALIGNRIGHT + WHITE + Math.min(p, 100) + "%");
+                }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
@@ -64,18 +63,18 @@ public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int storage = -1;
-            int maxStorage = -1;
+            int matterGeneration = -1;
+            int matterCost = -1;
 
-            if (TileBaseGenerator.isInstance(te)) {
-                storage = TileBaseGenerator_storage.getInt(te);
-                maxStorage = TileBaseGenerator_maxStorage.getInt(te);
+            if (TileEntityMatterGen.isInstance(te)) {
+                matterGeneration = TileEntityMatterGen_matterGeneration.getInt(te);
+                matterCost = TileEntityMatterGen_matterCost.getInt(te);
             }
 
-            tag.setInteger("storage", storage);
-            tag.setInteger("maxStorage", maxStorage);
+            tag.setInteger("matterGeneration", matterGeneration);
+            tag.setInteger("matterCost", matterCost);
         } catch (Throwable t) {
-            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
+            WailaExceptionHandler.handleErr(t, te.getClass(), null);
         }
     }
 

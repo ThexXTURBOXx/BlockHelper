@@ -11,6 +11,7 @@ import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.TileEntityFurnace;
 
 public final class VanillaPlugin implements IWailaPlugin {
@@ -48,6 +49,8 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
+
+        registrar.registerStackProvider(HUDHandlerEntities.INSTANCE, EntityTNTPrimed.class);
 
         registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
