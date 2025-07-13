@@ -47,10 +47,13 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), null);
             }
         }
-        int id = EntityList.getEntityID(accessor.getEntity());
-        EntityEggInfo info = (EntityEggInfo) EntityList.entityEggs.get(id);
-        if (info != null)
-            return new ItemStack(Item.monsterPlacer, 1, info.spawnedID);
+        try {
+            int id = EntityList.getEntityID(accessor.getEntity());
+            EntityEggInfo info = (EntityEggInfo) EntityList.entityEggs.get(id);
+            if (info != null)
+                return new ItemStack(Item.monsterPlacer, 1, info.spawnedID);
+        } catch (Throwable ignored) {
+        }
         return null;
     }
 

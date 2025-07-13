@@ -22,6 +22,12 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Class<?> TileEntityElecMachine;
     public static Field TileEntityElecMachine_maxEnergy;
 
+    public static Class<?> TileEntityMatter;
+    public static Method TileEntityMatter_getProgressAsString;
+
+    public static Class<?> EntityIC2Explosive;
+    public static Field EntityIC2Explosive_fuse;
+
     private IC2Plugin() {
     }
 
@@ -62,6 +68,27 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
+        }
+
+        try {
+            TileEntityMatter = AccessHelper.getClass("ic2.common.TileEntityMatter");
+            TileEntityMatter_getProgressAsString = AccessHelper.getMethod(TileEntityMatter, new Class[0],
+                    "getProgressAsString");
+
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.mattergen");
+
+            registrar.registerNBTProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading matter gen hooks.", t);
+        }
+
+        try {
+            EntityIC2Explosive = AccessHelper.getClass("ic2.common.EntityIC2Explosive");
+            EntityIC2Explosive_fuse = AccessHelper.getField(EntityIC2Explosive, "fuse");
+
+            registrar.registerNBTProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading TNT hooks.", t);
         }
     }
 
