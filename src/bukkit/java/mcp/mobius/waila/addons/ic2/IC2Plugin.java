@@ -12,6 +12,8 @@ public final class IC2Plugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new IC2Plugin();
 
+    public static boolean isIC2Mp = false;
+
     public static Class<?> IEnergySource;
     public static Method IEnergySource_getOutput;
 
@@ -34,28 +36,39 @@ public final class IC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
+            AccessHelper.getClass("net.minecraft.server.mod_IC2Mp");
+            isIC2Mp = true;
+            mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mp Mod found.");
+            return true;
+        } catch (Throwable ignored) {
+        }
+        try {
             AccessHelper.getClass("net.minecraft.server.mod_IC2");
+            isIC2Mp = false;
             mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod found.");
             return true;
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod not found.");
+        } catch (Throwable ignored) {
         }
+        mod_BlockHelper.LOG.log(Level.INFO, "[IndustrialCraft 2] Mod not found.");
         return false;
     }
 
     @Override
     public void register(IRegistrar registrar) {
+        String apiPkg = "net.minecraft.server.ic2." + (isIC2Mp ? "api." : "");
+        String commonPkg = "net.minecraft.server.ic2." + (isIC2Mp ? "common." : "");
+
         // XXX: We register the Energy interface first
         try {
-            IEnergySource = AccessHelper.getClass("net.minecraft.server.ic2.api.IEnergySource");
+            IEnergySource = AccessHelper.getClass(apiPkg + "IEnergySource");
             IEnergySource_getOutput = AccessHelper.getMethod(IEnergySource, new Class[0],
                     "getMaxEnergyOutput");
 
-            TileBaseGenerator = AccessHelper.getClass("net.minecraft.server.ic2.common.TileEntityBaseGenerator");
+            TileBaseGenerator = AccessHelper.getClass(commonPkg + "TileEntityBaseGenerator");
             TileBaseGenerator_storage = AccessHelper.getField(TileBaseGenerator, "storage");
             TileBaseGenerator_maxStorage = AccessHelper.getField(TileBaseGenerator, "maxStorage");
 
-            TileEntityElecMachine = AccessHelper.getClass("net.minecraft.server.ic2.common.TileEntityElecMachine");
+            TileEntityElecMachine = AccessHelper.getClass(commonPkg + "TileEntityElecMachine");
             TileEntityElecMachine_maxEnergy = AccessHelper.getField(TileEntityElecMachine, "maxEnergy");
 
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeumach");
@@ -71,7 +84,7 @@ public final class IC2Plugin implements IWailaPlugin {
         }
 
         try {
-            TileEntityMatter = AccessHelper.getClass("ic2.common.TileEntityMatter");
+            TileEntityMatter = AccessHelper.getClass(commonPkg + "TileEntityMatter");
             TileEntityMatter_getProgressAsString = AccessHelper.getMethod(TileEntityMatter, new Class[0],
                     "getProgressAsString");
 
@@ -83,7 +96,7 @@ public final class IC2Plugin implements IWailaPlugin {
         }
 
         try {
-            EntityIC2Explosive = AccessHelper.getClass("ic2.common.EntityIC2Explosive");
+            EntityIC2Explosive = AccessHelper.getClass(commonPkg + "EntityIC2Explosive");
             EntityIC2Explosive_fuse = AccessHelper.getField(EntityIC2Explosive, "fuse");
 
             registrar.registerNBTProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
