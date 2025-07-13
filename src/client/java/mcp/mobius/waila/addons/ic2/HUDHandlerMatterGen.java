@@ -11,20 +11,17 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergyStorage;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityElecMachine;
-import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityElecMachine_maxEnergy;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileEntityMatter_getProgressAsString;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
-import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class HUDHandlerElecMachine implements IDataProvider {
+public class HUDHandlerMatterGen implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerElecMachine();
+    public static final IDataProvider INSTANCE = new HUDHandlerMatterGen();
 
-    private HUDHandlerElecMachine() {
+    private HUDHandlerMatterGen() {
     }
 
     @Override
@@ -40,16 +37,15 @@ public class HUDHandlerElecMachine implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("ic2.storage"))
+        if (config.get("ic2.mattergen"))
             try {
-                int storage = accessor.getNBTInteger("energy");
-                int maxStorage = accessor.getNBTInteger("maxStorage");
+                String matterProgress = accessor.getNBTData().getString("matterProgress");
 
-                String storedStr = I18n.translate("hud.msg.stored");
+                String progressStr = I18n.translate("hud.msg.progress");
 
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
+                if (matterProgress != null && !matterProgress.isEmpty()) {
+                    currenttip.add(progressStr + TAB + ALIGNRIGHT + WHITE + matterProgress);
+                }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
@@ -64,16 +60,14 @@ public class HUDHandlerElecMachine implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            if (IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
-            if (TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
+            String matterProgress = null;
 
-            int maxStorage = -1;
-
-            if (TileEntityElecMachine.isInstance(te)) {
-                maxStorage = TileEntityElecMachine_maxEnergy.getInt(te);
+            if (TileEntityMatter.isInstance(te)) {
+                matterProgress = (String) TileEntityMatter_getProgressAsString.invoke(te);
             }
 
-            tag.setInteger("maxStorage", maxStorage);
+            if (matterProgress != null)
+                tag.setString("matterProgress", matterProgress);
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, te.getClass(), null);
         }

@@ -11,6 +11,12 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergyStorage;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergyStorage_getCapacity;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.IEnergyStorage_getStored;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_maxStorage;
+import static mcp.mobius.waila.addons.ic2.IC2Plugin.TileBaseGenerator_storage;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -64,12 +70,12 @@ public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (IC2Plugin.IEnergyStorage.isInstance(te)) {
-                storage = (Integer) IC2Plugin.IEnergyStorage_getStored.invoke(te);
-                maxStorage = (Integer) IC2Plugin.IEnergyStorage_getCapacity.invoke(te);
-            } else if (IC2Plugin.TileBaseGenerator.isInstance(te)) {
-                storage = IC2Plugin.TileBaseGenerator_storage.getShort(te);
-                maxStorage = IC2Plugin.TileBaseGenerator_maxStorage.getShort(te);
+            if (IEnergyStorage.isInstance(te)) {
+                storage = (Integer) IEnergyStorage_getStored.invoke(te);
+                maxStorage = (Integer) IEnergyStorage_getCapacity.invoke(te);
+            } else if (TileBaseGenerator.isInstance(te)) {
+                storage = TileBaseGenerator_storage.getInt(te);
+                maxStorage = TileBaseGenerator_maxStorage.getInt(te);
             }
 
             tag.setInteger("storage", storage);
