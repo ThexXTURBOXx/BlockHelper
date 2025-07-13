@@ -126,6 +126,10 @@ public class mod_BlockHelper extends BaseMod {
             return b.blockHardness;
         }
 
+        public static TileEntity getBlockEntity(BlockContainer b) {
+            return b.getBlockEntity();
+        }
+
     }
 
     /**

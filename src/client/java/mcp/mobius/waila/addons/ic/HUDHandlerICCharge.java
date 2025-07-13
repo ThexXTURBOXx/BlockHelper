@@ -1,5 +1,6 @@
-package mcp.mobius.waila.addons.enderstorage;
+package mcp.mobius.waila.addons.ic;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -7,16 +8,24 @@ import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.BlockCloth;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-public final class HUDHandlerFrequency implements IDataProvider {
+import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.RESET;
+import static mcp.mobius.waila.api.SpecialChars.TAB;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-    public static final IDataProvider INSTANCE = new HUDHandlerFrequency();
 
-    private HUDHandlerFrequency() {
+public class HUDHandlerICCharge implements IDataProvider {
+
+    private final Field currCharge;
+    private final Field maxCharge;
+
+    public HUDHandlerICCharge(Field currCharge, Field maxCharge) {
+        this.currCharge = currCharge;
+        this.maxCharge = maxCharge;
     }
 
     @Override
@@ -32,20 +41,18 @@ public final class HUDHandlerFrequency implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("enderstorage.colors")) {
+        if (config.get("ic.storage"))
             try {
-                int freq = EnderStoragePlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
-                int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
-                int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
-                int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
+                int storage = accessor.getNBTInteger("storage");
+                int maxStorage = accessor.getNBTInteger("maxStorage");
 
-                currenttip.add(I18n.color(BlockCloth.func_21035_d(freqLeft)) + "/" +
-                               I18n.color(BlockCloth.func_21035_d(freqCenter)) + "/" +
-                               I18n.color(BlockCloth.func_21035_d(freqRight)));
+                String storedStr = I18n.translate("hud.msg.stored");
+
+                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
+                               (maxStorage > 0 ? RESET + " / " + WHITE + maxStorage : "") + RESET + " EU");
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
             }
-        }
     }
 
     @Override
@@ -56,6 +63,13 @@ public final class HUDHandlerFrequency implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
+        try {
+            tag.setInteger("storage", currCharge.getInt(te));
+            if (maxCharge != null)
+                tag.setInteger("maxStorage", maxCharge.getInt(te));
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
+        }
     }
 
 }
