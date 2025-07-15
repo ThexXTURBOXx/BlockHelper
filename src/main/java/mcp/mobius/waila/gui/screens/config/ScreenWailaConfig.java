@@ -7,6 +7,7 @@ import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
+import mcp.mobius.waila.gui.widgets.buttons.ButtonIntegerConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
@@ -53,6 +54,10 @@ public class ScreenWailaConfig extends ScreenBase {
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL,
                         Constants.CFG_WAILA_HIDE_IN_DEBUG, true, "screen.button.no", "screen.button.yes"),
                 "choice.hideindebug");
+        buttonContainer.addButton(new ButtonIntegerConfig(this.getRoot(), Configuration.CATEGORY_GENERAL,
+                        Constants.CFG_WAILA_ICON_ALIGN, 1,
+                        "screen.button.top", "screen.button.center", "screen.button.bottom"),
+                "choice.iconalign");
 
         this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));
         this.getRoot().getWidget("LayoutConfigPos").setGeometry(
