@@ -195,6 +195,9 @@ public class PluginConfig implements IPluginConfig {
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
+        int iconAlign = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ICON_ALIGN, 1);
+        if (iconAlign < 0 || iconAlign > 2)
+            setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ICON_ALIGN, 1);
 
         this.config.addCustomCategoryComment(Constants.CATEGORY_MODULES,
                 "Those are the config keys defined in modules.\n" +
