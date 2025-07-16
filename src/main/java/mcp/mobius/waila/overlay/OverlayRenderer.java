@@ -60,9 +60,16 @@ public final class OverlayRenderer {
 
             tooltip.drawAll();
 
-            if (tooltip.hasItem())
-                DisplayUtil.renderStack(position.getX() + 5, position.getY() + position.getHeight() / 2 - 8,
-                        tooltip.stack);
+            if (tooltip.hasItem()) {
+                int align = PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                        Constants.CFG_WAILA_ICON_ALIGN, 1);
+
+                int y = position.getY() + (align == 0 ? 5
+                        : align == 2 ? position.getHeight() - 19
+                        : position.getHeight() / 2 - 8);
+
+                DisplayUtil.renderStack(position.getX() + 5, y, tooltip.stack);
+            }
 
             WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
             MinecraftForge.EVENT_BUS.post(postEvent);
