@@ -17,6 +17,7 @@ import mcp.mobius.waila.addons.fmp.FMPPlugin;
 import mcp.mobius.waila.addons.forge.ForgePlugin;
 import mcp.mobius.waila.addons.harvestcraft.HarvestcraftPlugin;
 import mcp.mobius.waila.addons.ic2.IC2Plugin;
+import mcp.mobius.waila.addons.meteors.MeteorsPlugin;
 import mcp.mobius.waila.addons.natura.NaturaPlugin;
 import mcp.mobius.waila.addons.projectzulu.ProjectZuluPlugin;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
@@ -65,6 +66,7 @@ public class ProxyCommon {
         registerPlugin(EnderStoragePlugin.INSTANCE);
         registerPlugin(HarvestcraftPlugin.INSTANCE);
         registerPlugin(IC2Plugin.INSTANCE);
+        registerPlugin(MeteorsPlugin.INSTANCE);
         registerPlugin(NaturaPlugin.INSTANCE);
         registerPlugin(ProjectZuluPlugin.INSTANCE);
         registerPlugin(RailcraftPlugin.INSTANCE);
