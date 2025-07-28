@@ -22,7 +22,7 @@ The source code for older versions (0.x and 1.x), has moved [here](https://githu
 
 ## Installation
 
-### ModLoaderMP (<=1.2.3) / Forge (all versions)
+### Forge (all versions) / ModLoaderMP (≤ 1.2.3)
 
 #### Client
 
@@ -51,7 +51,9 @@ In all newer versions, it is sufficient to just copy the jar file into the `mods
 Drop the mod into the `mods` folder and install [Apron](https://github.com/BetterThanUpdates/Apron) or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3)
 or [Fabricated Forge](https://github.com/arthurbambou/Fabricated-Legacy-Forge) (for 1.3.2+).
 
-## Mod Compatibility
+## Features
+
+### Mod Compatibility
 
 Next to Vanilla blocks, integration modules for the following mods are in place (list updated only irregularly!):
 - Advanced Machines
@@ -86,26 +88,55 @@ Some of these mods still host downloads to this day.
 If you cannot find downloads for some of these,
 chances are that they are still downloadable via [MCModArchive](https://mcmodarchive.femtopedia.de/).
 
+### API
+
+Block Helper features WAILA's API (with minimal changes) from version 2.x onwards.
+Since there are many resources online on how to use the API, I will keep this as simple as possible here and just list a few "good" examples:
+- [Block Helper's own plugins](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2/src/main/java/mcp/mobius/waila/addons)
+- [BlockHelperAddons](https://github.com/VintageModsReforged/BlockHelperAddons)
+
+Just try to follow these examples and you will succeed. To safely register your plugin, use the code snippet from the
+JavaDoc of the `mod_BlockHelper#registerPlugin` function.
+
+### Other features
+
+Yes, Block Helper has a few additional features and integrations you probably have not seen before :)  
+On the Modrinth and CurseForge page, there are a few images of most of these features in action!  
+_Please note that not every feature is available for every Minecraft version due to modding limitations._
+
+#### NEI/AMI/HMI integration
+
+- Two new keybinds (default: <kbd>NUM3</kbd> and <kbd>NUM4</kbd>), which show all the recipes for or using the
+  block currently looked at
+- Show the mod an item is from in the item's tooltip \[this also works without NEI/AMI/HMI in Apron\]
+- Another keybind specific for NEI (default: <kbd>I</kbd>), which shows all the applicable enchantments for the
+  currently highlighted item in the inventory
+
+#### World Overlays
+
+Just like NEI in MC 1.4.7 and onwards, Block Helper features a light level overlay and chunk border overlay. The default
+keybinds for these are <kbd>F7</kbd> and <kbd>F9</kbd>, respectively.
+
 ## Source Code
 
-BlockHelper is being developed for:<br>
-[b1.1_01/b1.1_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.1_02)<br>
-[b1.2_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.2_02)<br>
-[b1.3_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.3_01)<br>
-[b1.4_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.4_01)<br>
-[b1.5/b1.5_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.5_01)<br>
-[b1.6.5/b1.6.6](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.6.6)<br>
-[b1.7-b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)<br>
-[b1.8/b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)<br>
-[b1.9p5](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.9p5)<br>
-[1.0/1.0.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.0)<br>
-[1.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.1)<br>
-[1.2.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.3)<br>
-[1.2.4/1.2.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.5)<br>
-[1.3.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.3.2)<br>
-[1.4](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4)<br>
-[1.4.1/1.4.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.2)<br>
-[1.4.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.3)<br>
-[1.4.4/1.4.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.5)<br>
-[1.4.6/1.4.7](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.7)<br>
-[1.5.x](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2)<br>
+Block Helper is being developed for:
+- [b1.1_01/b1.1_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.1_02)
+- [b1.2_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.2_02)
+- [b1.3_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.3_01)
+- [b1.4_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.4_01)
+- [b1.5/b1.5_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.5_01)
+- [b1.6.5/b1.6.6](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.6.6)
+- [b1.7-b1.7.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.7.3)
+- [b1.8/b1.8.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.8.1)
+- [b1.9p5](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.9p5)
+- [1.0/1.0.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.0)
+- [1.1](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.1)
+- [1.2.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.3)
+- [1.2.4/1.2.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.2.5)
+- [1.3.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.3.2)
+- [1.4](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4)
+- [1.4.1/1.4.2](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.2)
+- [1.4.3](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.3)
+- [1.4.4/1.4.5](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.5)
+- [1.4.6/1.4.7](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.4.7)
+- [1.5.x](https://github.com/ThexXTURBOXx/BlockHelper/tree/1.5.2)
