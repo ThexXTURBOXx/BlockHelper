@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -149,11 +148,11 @@ public class I18n {
                 p = p.substring(0, url.getPath().lastIndexOf('!'));
             }
             if (p.startsWith("file:")) {
-                p = p.substring(6);
+                p = p.substring(5);
             }
             return new File(URLDecoder.decode(p, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
     }
 
