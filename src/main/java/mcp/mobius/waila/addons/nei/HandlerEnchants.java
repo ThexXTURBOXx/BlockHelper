@@ -3,11 +3,14 @@ package mcp.mobius.waila.addons.nei;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.forge.IContainerInputHandler;
+import java.lang.reflect.Method;
 import java.util.Map;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
@@ -24,6 +27,17 @@ import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 public final class HandlerEnchants implements IContainerInputHandler {
 
     public static final IContainerInputHandler INSTANCE = new HandlerEnchants();
+
+    private static final Method canApplyAtEnchantingTable;
+
+    static {
+        try {
+            canApplyAtEnchantingTable = AccessHelper.getMethod(Enchantment.class, new Class[]{ItemStack.class},
+                    "canApplyAtEnchantingTable", "func_92037_a", "func_92089_a", "a");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+    }
 
     private HandlerEnchants() {
     }
@@ -72,7 +86,15 @@ public final class HandlerEnchants implements IContainerInputHandler {
                 if (enchant == null) {
                     continue;
                 }
-                if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Item.book) {
+
+                boolean canApplyAtET = false;
+                try {
+                    canApplyAtET = (Boolean) canApplyAtEnchantingTable.invoke(enchant, stackover);
+                } catch (Throwable t) {
+                    WailaExceptionHandler.handleErr(t, enchant.getClass(), null);
+                }
+
+                if (canApplyAtET || stackover.getItem() == Item.book) {
 
                     if (stackover.isItemEnchanted()) {
                         Map<Integer, Integer> stackenchants =
