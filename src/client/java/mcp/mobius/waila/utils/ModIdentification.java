@@ -14,9 +14,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.BaseMod;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
@@ -61,7 +63,23 @@ public final class ModIdentification {
                 }
             }
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t);
+            try {
+                baseModLoop:
+                for (BaseMod mod : ModLoader.getLoadedMods()) {
+                    try {
+                        String uri = formatURI(mod.getClass().getProtectionDomain().getCodeSource()
+                                .getLocation().toURI());
+                        for (ModInfo info : modInfos)
+                            if (info.uri.equals(uri))
+                                continue baseModLoop;
+                        modInfos.add(new ModInfo(uri, formatModName(mod.getName())));
+                    } catch (Throwable t1) {
+                        mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t1);
+                    }
+                }
+            } catch (Throwable t1) {
+                mod_BlockHelper.LOG.log(Level.WARNING, "ModIdentification#init", t1);
+            }
         }
     }
 

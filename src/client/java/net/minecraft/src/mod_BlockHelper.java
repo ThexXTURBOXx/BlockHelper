@@ -1,12 +1,12 @@
 package net.minecraft.src;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import forge.Configuration;
+import forge.ForgeHooksClient;
 import forge.MinecraftForge;
-import forge.MinecraftForgeClient;
 import forge.NetworkMod;
 import java.io.File;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
@@ -21,6 +21,7 @@ import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 import net.minecraft.client.Minecraft;
 
 public class mod_BlockHelper extends NetworkMod {
@@ -37,9 +38,15 @@ public class mod_BlockHelper extends NetworkMod {
     public static mod_BlockHelper INSTANCE;
     public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
+    private WailaTickHandler tickHandler;
+    private ConfigKeyHandler configKeyHandler;
 
     static {
         LOG.setParent(ModLoader.getLogger());
+        ConsoleHandler ch = new ConsoleHandler();
+        LOG.setUseParentHandlers(false);
+        LOG.addHandler(ch);
+        ch.setFormatter(new FMLLikeLogFormatter());
     }
 
     public boolean serverPresent = false;
@@ -73,10 +80,10 @@ public class mod_BlockHelper extends NetworkMod {
         OverlayConfig.updateColors();
 
         // INIT
-        MinecraftForgeClient.registerRenderLastHandler(new DecoratorRenderer());
-        MinecraftForgeClient.registerRenderLastHandler(new NEIOverlayRenderer());
-        FMLCommonHandler.instance().registerTickHandler(new ConfigKeyHandler(this));
-        FMLCommonHandler.instance().registerTickHandler(new WailaTickHandler());
+        ForgeHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
+        ForgeHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
+        configKeyHandler = new ConfigKeyHandler(this);
+        tickHandler = new WailaTickHandler();
         MinecraftForge.registerConnectionHandler(new WailaConnectionHandler());
 
         // POST INIT
@@ -90,6 +97,21 @@ public class mod_BlockHelper extends NetworkMod {
         proxy.registerModPlugins(WailaRegistrar.instance());
 
         proxy.postLoad();
+    }
+
+    @Override
+    public boolean onTickInGame(float time, Minecraft mc) {
+        configKeyHandler.onTickInGame(mc);
+        tickHandler.onTickInGame(mc);
+
+        return true;
+    }
+
+    @Override
+    public boolean onTickInGUI(float tick, Minecraft mc, GuiScreen gui) {
+        tickHandler.onTickInGUI(mc, gui);
+
+        return true;
     }
 
     public static class Accessor {

@@ -1,10 +1,6 @@
 package mcp.mobius.waila.client;
 
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.TickType;
 import forge.Configuration;
-import java.util.EnumSet;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
@@ -20,7 +16,7 @@ import org.lwjgl.input.Keyboard;
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public class ConfigKeyHandler implements ITickHandler {
+public class ConfigKeyHandler {
 
     public final KeyBinding keyCfg;
     public final KeyBinding keyShow;
@@ -47,13 +43,7 @@ public class ConfigKeyHandler implements ITickHandler {
                 new KeyBinding(Constants.BIND_WAILA_CBOVERLAY, Keyboard.KEY_F9), false);
     }
 
-    @Override
-    public void tickStart(EnumSet<TickType> enumSet, Object... objects) {
-    }
-
-    @Override
-    public void tickEnd(EnumSet<TickType> enumSet, Object... objects) {
-        Minecraft mc = ModLoader.getMinecraftInstance();
+    public void onTickInGame(Minecraft mc) {
         if (mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) return;
 
         if (keyCfg.isPressed())
@@ -80,7 +70,7 @@ public class ConfigKeyHandler implements ITickHandler {
         }
 
         if (keyRecipe.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
+            if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(true);
                 } catch (Throwable ignored) {
@@ -89,7 +79,7 @@ public class ConfigKeyHandler implements ITickHandler {
         }
 
         if (keyUsage.isPressed()) {
-            if (Loader.isModLoaded("mod_NotEnoughItems")) {
+            if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
                 try {
                     NEIHandler.openRecipeGUI(false);
                 } catch (Throwable ignored) {
@@ -104,16 +94,6 @@ public class ConfigKeyHandler implements ITickHandler {
         if (keyCBOverlay.isPressed()) {
             NEIOverlayRenderer.renderChunkBounds = (NEIOverlayRenderer.renderChunkBounds + 1) % 3;
         }
-    }
-
-    @Override
-    public EnumSet<TickType> ticks() {
-        return EnumSet.of(TickType.GAME);
-    }
-
-    @Override
-    public String getLabel() {
-        return mod_BlockHelper.MOD_ID + ":ConfigKeyHandler";
     }
 
 }

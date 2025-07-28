@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.weeeflowers;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -30,9 +29,7 @@ public final class WeeeFlowersPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         // Yes, this is more than just ugly... But Pam's code here is more than just ugly as well...
         try {
             for (Field f : PamWeeeFlowers.getFields()) {

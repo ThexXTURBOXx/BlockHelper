@@ -1,6 +1,5 @@
 package mcp.mobius.waila.proxy;
 
-import cpw.mods.fml.common.Side;
 import java.util.ArrayList;
 import java.util.List;
 import mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin;
@@ -18,12 +17,10 @@ import mcp.mobius.waila.api.event.WailaRegisterEvent;
 
 public class ProxyCommon {
 
-    private final Side side;
     private final List<IWailaPlugin> corePlugins = new ArrayList<IWailaPlugin>();
     private final List<IWailaPlugin> plugins = new ArrayList<IWailaPlugin>();
 
-    public ProxyCommon(Side side) {
-        this.side = side;
+    public ProxyCommon() {
     }
 
     // Do NOT use this outside of BlockHelper!
@@ -60,7 +57,7 @@ public class ProxyCommon {
     private void registerPluginInRegistrar(IRegistrar registrar, IWailaPlugin plugin) {
         if (plugin.shouldRegister() &&
             !WailaEventRegistrar.postPluginRegister(new WailaRegisterEvent.Plugin(plugin)))
-            plugin.register(registrar, side);
+            plugin.register(registrar);
     }
 
     public void postLoad() {

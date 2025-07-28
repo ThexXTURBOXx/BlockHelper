@@ -19,7 +19,6 @@ public class WailaConnectionHandler implements IConnectionHandler {
 
     @Override
     public void onDisconnect(NetworkManager network, String message, Object[] args) {
-        Packet0x00ServerPing.resetClient();
     }
 
 }

@@ -1,9 +1,6 @@
 package mcp.mobius.waila.overlay;
 
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
 import forge.Configuration;
-import java.util.EnumSet;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.ClientFirstTickInWorldEvent;
@@ -12,6 +9,7 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.TipList;
+import mcp.mobius.waila.network.Packet0x00ServerPing;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
 import mcp.mobius.waila.utils.ModIdentification;
@@ -19,15 +17,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
+import net.minecraft.src.GuiScreen;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
 
 import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
-public class WailaTickHandler implements ITickHandler {
+public class WailaTickHandler {
 
     private Tooltip tooltip;
     private final MetaDataProvider handler = new MetaDataProvider();
@@ -38,29 +36,11 @@ public class WailaTickHandler implements ITickHandler {
     private boolean firstTick = true;
     private World lastWorld = null;
 
-    @Override
-    public void tickStart(EnumSet<TickType> enumSet, Object... objects) {
-    }
-
-    @Override
-    public void tickEnd(EnumSet<TickType> enumSet, Object... objects) {
-        World world = ModLoader.getMinecraftInstance().theWorld;
-        if (this.lastWorld != world) {
-            this.lastWorld = world;
-            resetAll();
-        }
-
-        if (enumSet.contains(TickType.RENDER))
-            OverlayRenderer.renderOverlay(tooltip);
-
-        if (enumSet.contains(TickType.GAME))
-            clientTick();
-    }
-
-    private void clientTick() {
-        Minecraft mc = ModLoader.getMinecraftInstance();
+    public void onTickInGame(Minecraft mc) {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
+
+        resetAllWhenNeeded(mc);
 
         if (world == null || player == null) return;
 
@@ -136,22 +116,27 @@ public class WailaTickHandler implements ITickHandler {
                 this.tooltip = new Tooltip(this.currenttip, RayTracing.instance().getTargetStack());
             }
         }
+
+        OverlayRenderer.renderOverlay(tooltip);
     }
 
-    @Override
-    public EnumSet<TickType> ticks() {
-        return EnumSet.of(TickType.GAME, TickType.RENDER);
+    public void onTickInGUI(Minecraft mc, GuiScreen gui) {
+        resetAllWhenNeeded(mc);
     }
 
-    @Override
-    public String getLabel() {
-        return mod_BlockHelper.MOD_ID + ":WailaTickHandler";
+    private void resetAllWhenNeeded(Minecraft mc) {
+        World world = mc.theWorld;
+        if (this.lastWorld != world) {
+            this.lastWorld = world;
+            resetAll();
+        }
     }
 
     private void resetAll() {
         this.tooltip = null;
         RayTracing.instance().clear();
         DataAccessorCommon.INSTANCE.clear();
+        Packet0x00ServerPing.resetClient();
     }
 
 }

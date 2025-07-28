@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.advsolars;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -32,7 +31,7 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         try {
             TileEntitySolarPanel = AccessHelper.getClass("advsolar.TileEntitySolarPanel");
             TileEntitySolarPanel_storage = AccessHelper.getField(TileEntitySolarPanel, "storage");

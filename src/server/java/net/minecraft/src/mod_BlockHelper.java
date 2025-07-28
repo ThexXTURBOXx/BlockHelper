@@ -6,6 +6,7 @@ import forge.MinecraftForge;
 import forge.NetworkMod;
 import java.io.File;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
@@ -15,6 +16,7 @@ import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.proxy.ProxyServer;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
+import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 
 public class mod_BlockHelper extends NetworkMod {
 
@@ -31,6 +33,10 @@ public class mod_BlockHelper extends NetworkMod {
 
     static {
         LOG.setParent(ModLoader.getLogger());
+        ConsoleHandler ch = new ConsoleHandler();
+        LOG.setUseParentHandlers(false);
+        LOG.addHandler(ch);
+        ch.setFormatter(new FMLLikeLogFormatter());
     }
 
     public static String getModId() {

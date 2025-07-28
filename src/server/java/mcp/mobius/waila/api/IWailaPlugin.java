@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api;
 
-import cpw.mods.fml.common.Side;
 import net.minecraft.src.mod_BlockHelper;
 
 /**
@@ -9,7 +8,7 @@ import net.minecraft.src.mod_BlockHelper;
  * For more info, see {@link mod_BlockHelper#registerPlugin(IWailaPlugin)}.</br>
  * The following call order is guaranteed:
  * {@link #shouldRegister()} => if it returns {@code true}:
- * {@link #register(IRegistrar, Side)}.
+ * {@link #register(IRegistrar)}.
  */
 public interface IWailaPlugin {
 
@@ -28,8 +27,7 @@ public interface IWailaPlugin {
      * tooltip modifiers, etc.). There is (usually) no harm in registering those on both sides, though!
      *
      * @param registrar An instance of {@link IRegistrar} to register your providers with.
-     * @param side      The side that the plugin is registered on currently.
      */
-    void register(IRegistrar registrar, Side side);
+    void register(IRegistrar registrar);
 
 }

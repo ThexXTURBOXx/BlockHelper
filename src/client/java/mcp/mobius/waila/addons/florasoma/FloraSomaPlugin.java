@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.florasoma;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
@@ -38,9 +37,7 @@ public final class FloraSomaPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             FloraCropBlock = AccessHelper.getClass("florasoma.crops.blocks.FloraCropBlock");
             FloraCropBlock_getCropItem = AccessHelper.getDeclaredMethod(FloraCropBlock, new Class[]{int.class},

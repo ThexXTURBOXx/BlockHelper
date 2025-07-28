@@ -1,7 +1,5 @@
 package mcp.mobius.waila.proxy;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.nei.NEIHandler;
 import mcp.mobius.waila.api.IRegistrar;
@@ -10,12 +8,21 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 public class ProxyClient extends ProxyCommon {
 
     public ProxyClient() {
-        super(Side.CLIENT);
+        super();
+    }
+
+    @Override
+    public void prepare() {
+        super.prepare();
+
+        ModLoader.setInGameHook(mod_BlockHelper.INSTANCE, true, false);
+        ModLoader.setInGUIHook(mod_BlockHelper.INSTANCE, true, false);
     }
 
     @Override
@@ -33,7 +40,7 @@ public class ProxyClient extends ProxyCommon {
     public void postLoad() {
         super.postLoad();
 
-        if (Loader.isModLoaded("mod_NotEnoughItems")) {
+        if (ModLoader.isModLoaded("mod_NotEnoughItems")) {
             try {
                 NEIHandler.register();
                 mod_BlockHelper.LOG.info("[NEI] Successfully registered NEI hooks!");

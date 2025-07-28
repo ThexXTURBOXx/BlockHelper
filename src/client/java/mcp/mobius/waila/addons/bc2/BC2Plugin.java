@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.bc2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -46,7 +45,7 @@ public final class BC2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         try {
             TileEngine = AccessHelper.getClass("buildcraft.energy.TileEngine");
             TileEngine_engine = AccessHelper.getField(TileEngine, "engine");
@@ -66,8 +65,7 @@ public final class BC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
 
-            if (side.isClient())
-                registrar.registerBodyProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
+            registrar.registerBodyProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Energy hooks.", t);
         }
@@ -81,15 +79,13 @@ public final class BC2Plugin implements IWailaPlugin {
             registrar.registerNBTProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
             registrar.registerNBTProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
 
-            if (side.isClient()) {
-                registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-                registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
-                registrar.registerHeadProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
+            registrar.registerHeadProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
 
-                registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-                registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
-                registrar.registerBodyProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
-            }
+            registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, BlockCauldron.class);
+            registrar.registerBodyProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Tank hooks.", t);
         }

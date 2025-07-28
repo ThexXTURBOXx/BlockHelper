@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.redpower2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -97,9 +96,7 @@ public final class RedPower2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             RedPowerBase_blockMicro = AccessHelper.getField(RedPowerBase, "blockMicro");
 

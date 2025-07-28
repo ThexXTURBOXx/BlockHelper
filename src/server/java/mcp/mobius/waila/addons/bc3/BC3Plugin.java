@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.bc3;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -53,7 +52,7 @@ public final class BC3Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         try {
             TileEngine = AccessHelper.getClass("buildcraft.energy.TileEngine");
             TileEngine_engine = AccessHelper.getField(TileEngine, "engine");

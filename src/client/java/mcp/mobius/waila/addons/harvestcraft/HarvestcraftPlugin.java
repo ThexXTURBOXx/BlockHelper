@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
-import cpw.mods.fml.common.Side;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -28,9 +27,7 @@ public final class HarvestcraftPlugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             registrar.registerStackProvider(HUDHandlerPamCrops.INSTANCE, Block.class);
         } catch (Throwable t) {

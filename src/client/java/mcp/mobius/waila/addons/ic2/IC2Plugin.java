@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.ic2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -49,7 +48,7 @@ public final class IC2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
+    public void register(IRegistrar registrar) {
         // XXX: We register the Energy interface first
         try {
             IEnergyStorage = AccessHelper.getClass("ic2.api.IEnergyStorage");
@@ -79,12 +78,10 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
 
-            if (side.isClient()) {
-                registrar.registerBodyProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
-                registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
-                registrar.registerBodyProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
-                registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
-            }
+            registrar.registerBodyProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
+            registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
+            registrar.registerBodyProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
+            registrar.registerBodyProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
         }
@@ -98,9 +95,7 @@ public final class IC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
 
-            if (side.isClient()) {
-                registrar.registerBodyProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
-            }
+            registrar.registerBodyProvider(HUDHandlerMatterGen.INSTANCE, TileEntityMatter);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading matter gen hooks.", t);
         }
@@ -112,13 +107,11 @@ public final class IC2Plugin implements IWailaPlugin {
 
             registrar.registerNBTProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-            if (side.isClient()) {
-                registrar.registerStackProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+            registrar.registerStackProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-                registrar.registerHeadProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
+            registrar.registerHeadProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
 
-                registrar.registerBodyProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
-            }
+            registrar.registerBodyProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading TNT hooks.", t);
         }

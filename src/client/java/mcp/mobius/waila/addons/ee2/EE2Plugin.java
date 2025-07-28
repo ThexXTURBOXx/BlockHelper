@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.ee2;
 
-import cpw.mods.fml.common.Side;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
@@ -32,9 +31,7 @@ public final class EE2Plugin implements IWailaPlugin {
     }
 
     @Override
-    public void register(IRegistrar registrar, Side side) {
-        if (!side.isClient()) return;
-
+    public void register(IRegistrar registrar) {
         try {
             Class<?> EEMaps = AccessHelper.getClass("ee.EEMaps");
             EEMaps_getEMC = AccessHelper.getMethod(EEMaps, new Class[]{ItemStack.class}, "getEMC");
