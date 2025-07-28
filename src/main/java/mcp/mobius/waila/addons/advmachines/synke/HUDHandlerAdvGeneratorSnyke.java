@@ -74,7 +74,7 @@ public final class HUDHandlerAdvGeneratorSnyke implements IDataProvider {
             tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
     }
 
