@@ -104,7 +104,8 @@ public final class ICPlugin implements IWailaPlugin {
                     registrar.registerHeadProvider(provider, clazz);
 
                     registrar.registerBodyProvider(provider, clazz);
-                } catch (Throwable ignored) {
+                } catch (Throwable t) {
+                    mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft] Error while loading TNT hooks.", t);
                 }
             }
         } catch (Throwable t) {
