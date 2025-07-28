@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +28,7 @@ public final class HUDHandlerWeeeCrops implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        currenttip.set(0, WHITE + getFlowerCropItem(accessor).getDisplayName());
+        currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(getFlowerCropItem(accessor)));
     }
 
     @Override
