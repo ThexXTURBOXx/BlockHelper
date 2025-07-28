@@ -2,6 +2,7 @@ package net.minecraft.server;
 
 import java.io.File;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.PluginConfig;
@@ -12,6 +13,7 @@ import mcp.mobius.waila.proxy.ProxyCommon;
 import mcp.mobius.waila.proxy.ProxyServer;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.config.Configuration;
+import mcp.mobius.waila.utils.log.FMLLikeLogFormatter;
 
 public class mod_BlockHelper extends BaseModMp {
 
@@ -28,6 +30,10 @@ public class mod_BlockHelper extends BaseModMp {
 
     static {
         LOG.setParent(ModLoader.getLogger());
+        ConsoleHandler ch = new ConsoleHandler();
+        LOG.setUseParentHandlers(false);
+        LOG.addHandler(ch);
+        ch.setFormatter(new FMLLikeLogFormatter());
     }
 
     public static String getModId() {
