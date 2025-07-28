@@ -12,6 +12,7 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.ModIdentification;
 import mcp.mobius.waila.utils.SpawnUtil;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.ItemStack;
@@ -100,7 +101,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                     currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress);
                 }
             } catch (Throwable t) {
-                throw new RuntimeException(t);
+                WailaExceptionHandler.handleErr(t, "curBlockDamageMP", currenttip);
             }
         }
     }
