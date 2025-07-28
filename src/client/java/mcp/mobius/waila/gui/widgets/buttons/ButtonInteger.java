@@ -34,6 +34,9 @@ public class ButtonInteger extends ButtonBase {
         if (event.button == 0)
             ++this.state;
 
+        if (this.state < 0)
+            this.state = 0;
+
         if (this.state >= this.nStates)
             this.state = 0;
 
