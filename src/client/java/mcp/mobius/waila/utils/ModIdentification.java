@@ -35,23 +35,10 @@ public final class ModIdentification {
 
     public static void init() {
         try {
-            blockIdField = ItemBlock.class.getDeclaredField("a");
+            blockIdField = AccessHelper.getDeclaredField(ItemBlock.class, "a", "field_330_a", "field_2216", "blockID");
         } catch (Throwable t) {
-            try {
-                blockIdField = ItemBlock.class.getDeclaredField("field_330_a");
-            } catch (Throwable t1) {
-                try {
-                    blockIdField = ItemBlock.class.getDeclaredField("field_2216");
-                } catch (Throwable t2) {
-                    try {
-                        blockIdField = ItemBlock.class.getDeclaredField("blockID");
-                    } catch (Throwable t3) {
-                        throw new RuntimeException(t3);
-                    }
-                }
-            }
+            throw new RuntimeException(t);
         }
-        blockIdField.setAccessible(true);
 
         modInfos = new HashSet<ModInfo>();
         String minecraftUri = new File("bin/minecraft.jar").getAbsoluteFile().toString();
