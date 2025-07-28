@@ -10,14 +10,14 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraftforge.common.ConfigCategory;
+import net.minecraftforge.common.Property;
 
 public class Packet0x00ServerPing implements IWailaPacket {
 
     Map<String, Boolean> forcedKeys = new HashMap<String, Boolean>();
 
     public Packet0x00ServerPing() {
-        ConfigCategory serverForcingCfg = PluginConfig.instance().config.getCategory(Constants.CATEGORY_SERVER);
+        Map<String, Property> serverForcingCfg = PluginConfig.instance().config.categories.get(Constants.CATEGORY_SERVER);
 
         for (String key : serverForcingCfg.keySet())
             if (serverForcingCfg.get(key).getBoolean(false))

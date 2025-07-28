@@ -20,32 +20,45 @@ public final class ModIdentification {
 
     public static Map<String, String> modSource = new HashMap<String, String>();
     public static Map<Integer, String> itemMap = new HashMap<Integer, String>();
+    private static boolean useOldIdentifier = false;
 
     private ModIdentification() {
         throw new UnsupportedOperationException();
     }
 
     public static void init() {
-        NBTTagList itemDataList = new NBTTagList();
-        GameData.writeItemData(itemDataList);
+        try {
+            NBTTagList itemDataList = new NBTTagList();
+            GameData.writeItemData(itemDataList);
 
-        for (int i = 0; i < itemDataList.tagCount(); i++) {
-            ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
-            itemMap.put(itemData.getItemId(), itemData.getModId());
+            for (int i = 0; i < itemDataList.tagCount(); i++) {
+                ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
+                itemMap.put(itemData.getItemId(), itemData.getModId());
+            }
+
+            for (ModContainer mod : Loader.instance().getModList())
+                modSource.put(mod.getSource().getName(), formatModName(mod.getName()));
+
+            modSource.put("minecraft.jar", "Minecraft");
+            modSource.put("Forge", "Minecraft");
+            modSource.put("Forge Mod Loader", "Minecraft");
+            modSource.put("Minecraft Forge", "Minecraft");
+            modSource.put("Minecraft Coder Pack", "Minecraft");
+            modSource.put("Mod Coder Pack", "Minecraft");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "Cannot load ModIdentifier. Either you are running an old " +
+                                                   "version of Forge or MC 1.4.4 or something else happened. Loading " +
+                                                   "fallback mod identifier...", t);
+            useOldIdentifier = true;
+
+            ModIdentificationOld.init();
         }
-
-        for (ModContainer mod : Loader.instance().getModList())
-            modSource.put(mod.getSource().getName(), formatModName(mod.getName()));
-
-        modSource.put("minecraft.jar", "Minecraft");
-        modSource.put("Forge", "Minecraft");
-        modSource.put("Forge Mod Loader", "Minecraft");
-        modSource.put("Minecraft Forge", "Minecraft");
-        modSource.put("Minecraft Coder Pack", "Minecraft");
-        modSource.put("Mod Coder Pack", "Minecraft");
     }
 
     public static String nameFromObject(Object obj) {
+        if (useOldIdentifier)
+            return ModIdentificationOld.identifyMod(obj);
+
         String objPath = obj.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
 
         try {
@@ -70,6 +83,9 @@ public final class ModIdentification {
     }
 
     public static String nameFromStack(ItemStack stack) {
+        if (useOldIdentifier)
+            return ModIdentificationOld.identifyMod(stack);
+
         try {
             String modID = itemMap.get(stack.itemID);
             ModContainer mod = modID == null ? null : ModIdentification.findModContainer(modID);
