@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -104,7 +105,7 @@ public final class HUDHandlerRP2 implements IDataProvider {
                     return is.get(0);
             }
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }
         return null;
     }
