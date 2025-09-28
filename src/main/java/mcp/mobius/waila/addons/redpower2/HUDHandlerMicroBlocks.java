@@ -38,11 +38,11 @@ import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_Cente
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_ConSides;
 import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_Metadata;
 
-public final class HUDHandlerRP2 implements IDataProvider {
+public final class HUDHandlerMicroBlocks implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerRP2();
+    public static final IDataProvider INSTANCE = new HUDHandlerMicroBlocks();
 
-    private HUDHandlerRP2() {
+    private HUDHandlerMicroBlocks() {
     }
 
     @Override
