@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.redpower2;
+package mcp.mobius.waila.addons.redpower;
 
 import java.util.ArrayList;
 import mcp.mobius.waila.api.IDataAccessor;
@@ -16,31 +16,31 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.CoreLib_getTileEntity;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.CoreLib_retraceBlock;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.CoverLib_convertCoverPlate;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.RedPowerBase_blockMicro;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileCoverable;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileCoverable_getCover;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileCoverable_getCoverMask;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileExtended_getBlockID;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileExtended_getExtendedID;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic_Cover;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileLogic_Rotation;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileMultipart;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileMultipart_addHarvestContents;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileTube;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_CenterPost;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_ConSides;
-import static mcp.mobius.waila.addons.redpower2.RedPower2Plugin.TileWiring_Metadata;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoreLib_getTileEntity;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoreLib_retraceBlock;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoverLib_convertCoverPlate;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.RedPowerBase_blockMicro;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCover;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCoverMask;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileExtended_getBlockID;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileExtended_getExtendedID;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_Cover;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_Rotation;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileMultipart;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileMultipart_addHarvestContents;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileTube;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_CenterPost;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_ConSides;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_Metadata;
 
-public final class HUDHandlerRP2 implements IDataProvider {
+public final class HUDHandlerMicroBlocks implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerRP2();
+    public static final IDataProvider INSTANCE = new HUDHandlerMicroBlocks();
 
-    private HUDHandlerRP2() {
+    private HUDHandlerMicroBlocks() {
     }
 
     @Override

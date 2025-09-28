@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.redpower2;
+package mcp.mobius.waila.addons.redpower;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,9 +12,9 @@ import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
 
-public final class RedPower2Plugin implements IWailaPlugin {
+public final class RedPowerPlugin implements IWailaPlugin {
 
-    public static final IWailaPlugin INSTANCE = new RedPower2Plugin();
+    public static final IWailaPlugin INSTANCE = new RedPowerPlugin();
 
     public static Class<?> RedPowerBase = null;
     public static Field RedPowerBase_blockMicro = null;
@@ -54,7 +54,7 @@ public final class RedPower2Plugin implements IWailaPlugin {
     public static Field TileWiring_CenterPost = null;
     public static Field TileWiring_Metadata = null;
 
-    private RedPower2Plugin() {
+    private RedPowerPlugin() {
     }
 
     @Override
@@ -62,31 +62,31 @@ public final class RedPower2Plugin implements IWailaPlugin {
         try {
             AccessHelper.getClass("mod_RedPowerCore");
             RedPowerBase = AccessHelper.getClass("RedPowerBase");
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Mod core found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Mod core found.");
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Mod core not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Mod core not found.");
             return false;
         }
 
         try {
             mod_RedPowerLogic = AccessHelper.getClass("mod_RedPowerLogic");
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Logic module found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Logic module found.");
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Logic module not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Logic module not found.");
         }
 
         try {
             mod_RedPowerMachine = AccessHelper.getClass("mod_RedPowerMachine");
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Machine module found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Machine module found.");
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Machine module not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Machine module not found.");
         }
 
         try {
             mod_RedPowerWiring = AccessHelper.getClass("mod_RedPowerWiring");
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Wiring module found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Wiring module found.");
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Wiring module not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Wiring module not found.");
         }
 
         return true;
@@ -138,9 +138,9 @@ public final class RedPower2Plugin implements IWailaPlugin {
                 TileWiring_Metadata = AccessHelper.getField(TileWiring, "Metadata");
             }
 
-            registrar.registerStackProvider(HUDHandlerRP2.INSTANCE, TileExtended);
+            registrar.registerStackProvider(HUDHandlerMicroBlocks.INSTANCE, TileExtended);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower 2] Error while loading microblock hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower] Error while loading microblock hooks.", t);
         }
     }
 
