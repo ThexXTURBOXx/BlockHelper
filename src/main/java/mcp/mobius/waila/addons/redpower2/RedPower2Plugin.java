@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -25,6 +26,9 @@ public final class RedPower2Plugin implements IWailaPlugin {
     public static Class<?> RedPowerMachine = null;
 
     public static Class<?> RedPowerWiring = null;
+
+    public static Class<?> RedPowerWorld = null;
+    public static Field RedPowerWorld_itemSeeds = null;
 
     public static Class<?> CoreLib = null;
     public static Method CoreLib_retraceBlock = null;
@@ -55,6 +59,8 @@ public final class RedPower2Plugin implements IWailaPlugin {
     public static Field TileWiring_ConSides = null;
     public static Field TileWiring_CenterPost = null;
     public static Field TileWiring_Metadata = null;
+
+    public static Class<?> BlockCustomCrops = null;
 
     private RedPower2Plugin() {
     }
@@ -89,6 +95,13 @@ public final class RedPower2Plugin implements IWailaPlugin {
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Wiring module found.");
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] Wiring module not found.");
+        }
+
+        try {
+            RedPowerWorld = AccessHelper.getClass("com.eloraam.redpower.RedPowerWorld");
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] World module found.");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower 2] World module not found.");
         }
 
         return true;
@@ -144,9 +157,23 @@ public final class RedPower2Plugin implements IWailaPlugin {
                 TileWiring_Metadata = AccessHelper.getField(TileWiring, "Metadata");
             }
 
-            registrar.registerStackProvider(HUDHandlerRP2.INSTANCE, TileExtended);
+            registrar.registerStackProvider(HUDHandlerMicroBlocks.INSTANCE, TileExtended);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower 2] Error while loading microblock hooks.", t);
+        }
+
+        try {
+            if (RedPowerWorld != null) {
+                RedPowerWorld_itemSeeds = AccessHelper.getField(RedPowerWorld, "itemSeeds");
+
+                BlockCustomCrops = AccessHelper.getClass("com.eloraam.redpower.world.BlockCustomCrops");
+
+                registrar.registerStackProvider(HUDHandlerCrops.INSTANCE, BlockCustomCrops);
+
+                registrar.registerCropProvider(new DefaultCropProvider(4, 5), BlockCustomCrops);
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower 2] Error while loading crop hooks.", t);
         }
     }
 
