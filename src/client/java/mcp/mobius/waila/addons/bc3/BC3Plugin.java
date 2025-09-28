@@ -37,6 +37,12 @@ public final class BC3Plugin implements IWailaPlugin {
     public static Method LiquidStack_loadLiquidStackFromNBT = null;
     public static Field LiquidStack_amount = null;
 
+    public static Class<?> TileGenericPipe = null;
+    public static Field TileGenericPipe_pipe = null;
+
+    public static Class<?> Pipe = null;
+    public static Field Pipe_itemID = null;
+
     private BC3Plugin() {
     }
 
@@ -105,6 +111,18 @@ public final class BC3Plugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ITankContainer);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Tank hooks.", t);
+        }
+
+        try {
+            TileGenericPipe = AccessHelper.getClass("buildcraft.transport.TileGenericPipe");
+            TileGenericPipe_pipe = AccessHelper.getField(TileGenericPipe, "pipe");
+
+            Pipe = AccessHelper.getClass("buildcraft.transport.Pipe");
+            Pipe_itemID = AccessHelper.getField(Pipe, "itemID");
+
+            registrar.registerStackProvider(HUDHandlerBC3Pipes.INSTANCE, TileGenericPipe);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Pipe hooks.", t);
         }
     }
 

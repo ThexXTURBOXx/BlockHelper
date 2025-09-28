@@ -32,6 +32,11 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Field EntityIC2Explosive_fuse;
     public static Field EntityIC2Explosive_renderBlock;
 
+    public static Class<?> TileEntityCable;
+
+    public static Class<?> Ic2Items;
+    public static Field Ic2Items_copperCableItem;
+
     private IC2Plugin() {
     }
 
@@ -114,6 +119,17 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerIC2Explosive.INSTANCE, EntityIC2Explosive);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading TNT hooks.", t);
+        }
+
+        try {
+            TileEntityCable = AccessHelper.getClass("ic2.common.TileEntityCable");
+
+            Ic2Items = AccessHelper.getClass("ic2.common.Ic2Items");
+            Ic2Items_copperCableItem = AccessHelper.getField(Ic2Items, "copperCableItem");
+
+            registrar.registerStackProvider(HUDHandlerIC2Cable.INSTANCE, TileEntityCable);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading cable hooks.", t);
         }
     }
 
