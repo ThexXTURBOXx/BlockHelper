@@ -29,6 +29,12 @@ public final class BC2Plugin implements IWailaPlugin {
 
     public static Class<?> ILiquidContainer = null;
 
+    public static Class<?> TileGenericPipe = null;
+    public static Field TileGenericPipe_pipe = null;
+
+    public static Class<?> Pipe = null;
+    public static Field Pipe_itemID = null;
+
     private BC2Plugin() {
     }
 
@@ -88,6 +94,18 @@ public final class BC2Plugin implements IWailaPlugin {
             registrar.registerBodyProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Tank hooks.", t);
+        }
+
+        try {
+            TileGenericPipe = AccessHelper.getClass("buildcraft.transport.TileGenericPipe");
+            TileGenericPipe_pipe = AccessHelper.getField(TileGenericPipe, "pipe");
+
+            Pipe = AccessHelper.getClass("buildcraft.transport.Pipe");
+            Pipe_itemID = AccessHelper.getField(Pipe, "itemID");
+
+            registrar.registerStackProvider(HUDHandlerBC2Pipes.INSTANCE, TileGenericPipe);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Pipe hooks.", t);
         }
     }
 
