@@ -41,16 +41,32 @@ public final class HUDHandlerCrops implements IDataProvider {
         Block block = accessor.getBlock();
 
         if (config.get("general.showcrop")) {
-            ICropProvider provider = getProvider(block, accessor.getBlockID());
+            ICropProvider provider = getProvider(block, accessor);
             if (provider != null)
                 currenttip.addAll(provider.getGrowthDetails(itemStack, accessor, config));
         }
     }
 
-    private ICropProvider getProvider(Block b, int id) {
-        Class<?> providerClass = Block.class;
+    private ICropProvider getProvider(Block b, IDataAccessor accessor) {
         ICropProvider provider = null;
+
+        // Since TEs are usually more specific, they take precedence here
+        if (registrar.hasCropProvider(accessor.getTileEntity())) {
+            Class<?> providerClass = TileEntity.class;
+            for (Class<?> clazz : registrar.cropProviders.keySet()) {
+                if (clazz.isInstance(accessor.getTileEntity()) && providerClass.isAssignableFrom(clazz)) {
+                    List<ICropProvider> providers = registrar.cropProviders.get(clazz);
+                    if (!providers.isEmpty()) {
+                        provider = registrar.cropProviders.get(clazz).get(0);
+                        providerClass = clazz;
+                    }
+                }
+            }
+            if (provider != null) return provider;
+        }
+
         if (registrar.hasCropProvider(b)) {
+            Class<?> providerClass = Block.class;
             for (Class<?> clazz : registrar.cropProviders.keySet()) {
                 if (clazz.isInstance(b) && providerClass.isAssignableFrom(clazz)) {
                     List<ICropProvider> providers = registrar.cropProviders.get(clazz);
@@ -60,15 +76,15 @@ public final class HUDHandlerCrops implements IDataProvider {
                     }
                 }
             }
+            if (provider != null) return provider;
         }
-        if (provider != null) return provider;
 
         try {
             for (Method method : b.getClass().getDeclaredMethods()) {
                 String name = method.getName();
                 if (name.equals("getGrowthRate") ||
                     name.equals("getGrowthModifier")) {
-                    provider = new DefaultCropProvider(tryGetMaxStage(b, id));
+                    provider = new DefaultCropProvider(tryGetMaxStage(b, accessor.getBlockID()));
                     registrar.registerCropProvider(provider, b.getClass());
                 }
             }
