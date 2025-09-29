@@ -37,6 +37,17 @@ public final class IC2Plugin implements IWailaPlugin {
     public static Class<?> Ic2Items;
     public static Field Ic2Items_copperCableItem;
 
+    public static Class<?> TECrop;
+
+    public static Class<?> TileEntityCrop;
+    public static Field TileEntityCrop_id;
+    public static Method TileEntityCrop_crop;
+
+    public static Class<?> CropCard;
+    public static Method CropCard_canBeHarvested;
+    public static Method CropCard_getGain;
+    public static Method CropCard_name;
+
     private IC2Plugin() {
     }
 
@@ -130,6 +141,27 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerIC2Cable.INSTANCE, TileEntityCable);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading cable hooks.", t);
+        }
+
+        try {
+            TECrop = AccessHelper.getClass("ic2.api.TECrop");
+
+            TileEntityCrop = AccessHelper.getClass("ic2.common.TileEntityCrop");
+            TileEntityCrop_id = AccessHelper.getField(TileEntityCrop, "id");
+            TileEntityCrop_crop = AccessHelper.getMethod(TileEntityCrop, new Class[0], "crop");
+
+            CropCard = AccessHelper.getClass("ic2.api.CropCard");
+            CropCard_canBeHarvested = AccessHelper.getMethod(CropCard, new Class[]{TECrop}, "canBeHarvested");
+            CropCard_getGain = AccessHelper.getMethod(CropCard, new Class[]{TECrop}, "getGain");
+            CropCard_name = AccessHelper.getMethod(CropCard, new Class[0], "name");
+
+            registrar.addConfig("IndustrialCraft2", "ic2.crop");
+
+            registrar.registerBodyProvider(HUDHandlerIC2Crop.DATA_PROVIDER, TileEntityCrop);
+
+            registrar.registerCropProvider(HUDHandlerIC2Crop.CROP_PROVIDER, TileEntityCrop);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading crop hooks.", t);
         }
     }
 
