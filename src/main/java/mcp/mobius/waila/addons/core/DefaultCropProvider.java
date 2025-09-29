@@ -28,6 +28,10 @@ public class DefaultCropProvider implements ICropProvider {
         this.ripeStage = ripeStage;
     }
 
+    public boolean shouldHandle(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
+        return true;
+    }
+
     public int getCurrentStage(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
         return accessor.getMetadata() - minStage;
     }
@@ -56,6 +60,8 @@ public class DefaultCropProvider implements ICropProvider {
     @Override
     public List<String> getGrowthDetails(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config) {
         List<String> ret = new ArrayList<String>();
+        if (!shouldHandle(itemStack, accessor, config)) return ret;
+
         int currentStage = getCurrentStage(itemStack, accessor, config);
         Integer ripeStage = getRipeStage(itemStack, accessor, config);
 
