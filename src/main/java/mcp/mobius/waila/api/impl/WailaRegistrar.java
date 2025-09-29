@@ -385,7 +385,7 @@ public class WailaRegistrar implements IRegistrar {
         return hasProviders(name, this.FMPClassDecorators);
     }
 
-    public boolean hasCropProvider(Block block) {
+    public boolean hasCropProvider(Object block) {
         return hasProviders(block, this.cropProviders);
     }
 
