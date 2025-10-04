@@ -19,11 +19,15 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public class ConfigKeyHandler {
 
+    public static boolean showAdvancedBody = false;
+    public static int advancedBodyKey = 0;
+
     public final BlockHelperKeyBinding keyCfg;
     public final BlockHelperKeyBinding keyShow;
     public final BlockHelperKeyBinding keyLiquid;
     public final BlockHelperKeyBinding keyRecipe;
     public final BlockHelperKeyBinding keyUsage;
+    public final BlockHelperKeyBinding keyShowAdvanced;
     public final BlockHelperKeyBinding keyLLOverlay;
     public final BlockHelperKeyBinding keyCBOverlay;
 
@@ -38,6 +42,8 @@ public class ConfigKeyHandler {
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
         ModLoader.RegisterKey(mod, keyUsage =
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
+        ModLoader.RegisterKey(mod, keyShowAdvanced =
+                new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW_ADVANCED, Keyboard.KEY_LCONTROL), true);
         ModLoader.RegisterKey(mod, keyLLOverlay =
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_LLOVERLAY, Keyboard.KEY_F7), false);
         ModLoader.RegisterKey(mod, keyCBOverlay =
@@ -117,6 +123,9 @@ public class ConfigKeyHandler {
                 }
             }
         }
+
+        showAdvancedBody = keyShowAdvanced.isPressed();
+        advancedBodyKey = keyShowAdvanced.keyCode;
 
         if (keyLLOverlay.isClicked()) {
             try {
