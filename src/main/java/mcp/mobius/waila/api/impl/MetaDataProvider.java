@@ -3,16 +3,22 @@ package mcp.mobius.waila.api.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import mcp.mobius.waila.api.IAdvDataProvider;
+import mcp.mobius.waila.api.IAdvEntityProvider;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.client.ConfigKeyHandler;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.network.Packet0x01TileRequest;
 import mcp.mobius.waila.network.Packet0x02EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,15 +96,37 @@ public class MetaDataProvider {
                     }
             }
 
-        if (tooltipPosition == TooltipPosition.BODY)
+        if (tooltipPosition == TooltipPosition.BODY) {
+            final boolean showAdvancedBody = ConfigKeyHandler.showAdvancedBody;
+            boolean hasAdvancedBodyAvailable = false;
+
             for (List<IDataProvider> providersList : bodyBlockProviders.values()) {
                 for (IDataProvider dataProvider : providersList)
                     try {
                         dataProvider.modifyBody(itemStack, currenttip, accessor, PluginConfig.instance());
+
+                        if (dataProvider instanceof IAdvDataProvider) {
+                            IAdvDataProvider advDataProvider = (IAdvDataProvider) dataProvider;
+                            if (advDataProvider.hasAdvancedBody(itemStack, accessor, PluginConfig.instance())) {
+                                hasAdvancedBodyAvailable = true;
+
+                                if (showAdvancedBody) {
+                                    advDataProvider.modifyAdvancedBody(itemStack, currenttip, accessor,
+                                            PluginConfig.instance());
+                                }
+                            }
+                        }
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
+
+            if (hasAdvancedBodyAvailable && !showAdvancedBody) {
+                String keyName = GameSettings.getKeyDisplayString(ConfigKeyHandler.advancedBodyKey);
+                currenttip.add(SpecialChars.ITALIC + I18n.translate("hud.msg.holdkeymoreinfo", keyName));
+            }
+        }
+
         if (tooltipPosition == TooltipPosition.FOOTER)
             for (List<IDataProvider> providersList : tailBlockProviders.values()) {
                 for (IDataProvider dataProvider : providersList)
@@ -155,15 +183,36 @@ public class MetaDataProvider {
                     }
             }
 
-        if (tooltipPosition == TooltipPosition.BODY)
+        if (tooltipPosition == TooltipPosition.BODY) {
+            final boolean showAdvancedBody = ConfigKeyHandler.showAdvancedBody;
+            boolean hasAdvancedBodyAvailable = false;
+
             for (List<IEntityProvider> providersList : bodyEntityProviders.values()) {
                 for (IEntityProvider dataProvider : providersList)
                     try {
                         dataProvider.modifyBody(entity, currenttip, accessor, PluginConfig.instance());
+
+                        if (dataProvider instanceof IAdvEntityProvider) {
+                            IAdvEntityProvider advDataProvider = (IAdvEntityProvider) dataProvider;
+                            if (advDataProvider.hasAdvancedBody(entity, accessor, PluginConfig.instance())) {
+                                hasAdvancedBodyAvailable = true;
+
+                                if (showAdvancedBody) {
+                                    advDataProvider.modifyAdvancedBody(entity, currenttip, accessor,
+                                            PluginConfig.instance());
+                                }
+                            }
+                        }
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
             }
+
+            if (hasAdvancedBodyAvailable && !showAdvancedBody) {
+                String keyName = GameSettings.getKeyDisplayString(ConfigKeyHandler.advancedBodyKey);
+                currenttip.add(SpecialChars.ITALIC + I18n.translate("hud.msg.holdkeymoreinfo", keyName));
+            }
+        }
 
         if (tooltipPosition == TooltipPosition.FOOTER)
             for (List<IEntityProvider> providersList : tailEntityProviders.values()) {

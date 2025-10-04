@@ -21,11 +21,15 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public class ConfigKeyHandler implements ITickHandler {
 
+    public static boolean showAdvancedBody = false;
+    public static int advancedBodyKey = 0;
+
     public final KeyBinding keyCfg;
     public final KeyBinding keyShow;
     public final KeyBinding keyLiquid;
     public final KeyBinding keyRecipe;
     public final KeyBinding keyUsage;
+    public final KeyBinding keyShowAdvanced;
 
     public ConfigKeyHandler(mod_BlockHelper mod) {
         ModLoader.registerKey(mod, keyCfg =
@@ -38,6 +42,8 @@ public class ConfigKeyHandler implements ITickHandler {
                 new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3), false);
         ModLoader.registerKey(mod, keyUsage =
                 new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4), false);
+        ModLoader.registerKey(mod, keyShowAdvanced =
+                new KeyBinding(Constants.BIND_WAILA_SHOW_ADVANCED, Keyboard.KEY_LCONTROL), true);
     }
 
     @Override
@@ -89,6 +95,9 @@ public class ConfigKeyHandler implements ITickHandler {
                 }
             }
         }
+
+        showAdvancedBody = keyShowAdvanced.pressed;
+        advancedBodyKey = keyShowAdvanced.keyCode;
     }
 
     @Override
