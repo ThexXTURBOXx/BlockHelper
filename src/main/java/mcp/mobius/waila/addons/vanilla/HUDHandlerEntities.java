@@ -15,12 +15,14 @@ import net.minecraft.src.EntityAgeable;
 import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityOcelot;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.EntityTameable;
 import net.minecraft.src.EntityVillager;
 import net.minecraft.src.EntityWolf;
 import net.minecraft.src.EntityZombie;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
@@ -45,6 +47,15 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
         if (accessor.getEntity() instanceof EntityTNTPrimed)
             return new ItemStack(Block.tnt);
+        if (accessor.getEntity() instanceof EntityPlayer) {
+            ItemStack skull = new ItemStack(Item.skull, 1, 3);
+            String playerName = ((EntityPlayer) accessor.getEntity()).username;
+            if (playerName != null && !playerName.isEmpty()) {
+                skull.setTagCompound(new NBTTagCompound());
+                skull.getTagCompound().setString("SkullOwner", playerName);
+            }
+            return skull;
+        }
         return null;
     }
 
