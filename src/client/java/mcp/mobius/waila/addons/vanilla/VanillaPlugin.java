@@ -13,7 +13,6 @@ import net.minecraft.src.BlockStep;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityTNTPrimed;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
 
 public final class VanillaPlugin implements IWailaPlugin {

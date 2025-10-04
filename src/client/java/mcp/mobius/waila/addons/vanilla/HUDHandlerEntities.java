@@ -6,8 +6,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
-import mcp.mobius.waila.utils.StringUtils;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
