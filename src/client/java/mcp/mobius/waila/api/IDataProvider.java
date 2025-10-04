@@ -8,7 +8,8 @@ import net.minecraft.src.TileEntity;
  * Callback class interface used to provide Block/TileEntity tooltip information to Waila.</br>
  * All methods in this interface shouldn't be called by the implementing mod. An instance of the class is to be
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
- * (cf. {@link IRegistrar} documentation for more information).
+ * (cf. {@link IRegistrar} documentation for more information).<br/>
+ * If you want slightly more possibilities, use the UNSTABLE (!!!) {@link IDataProvider} interface.
  */
 public interface IDataProvider {
 
