@@ -21,6 +21,8 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -45,6 +47,15 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
         if (accessor.getEntity() instanceof EntityTNTPrimed)
             return new ItemStack(Block.tnt);
+        if (accessor.getEntity() instanceof EntityPlayer) {
+            ItemStack skull = new ItemStack(Item.skull, 1, 3);
+            String playerName = ((EntityPlayer) accessor.getEntity()).username;
+            if (playerName != null && !playerName.isEmpty()) {
+                skull.setTagCompound(new NBTTagCompound());
+                skull.getTagCompound().setString("SkullOwner", playerName);
+            }
+            return skull;
+        }
         return null;
     }
 
