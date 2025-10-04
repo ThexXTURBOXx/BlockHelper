@@ -4,6 +4,7 @@ public final class Constants {
 
     public static final String BIND_WAILA_CFG = "waila.keybind.wailaconfig";
     public static final String BIND_WAILA_SHOW = "waila.keybind.wailadisplay";
+    public static final String BIND_WAILA_SHOW_ADVANCED = "waila.keybind.showadvanced";
     public static final String BIND_WAILA_LIQUID = "waila.keybind.liquid";
 
     public static final boolean CFG_DEFAULT_VALUE = true;
