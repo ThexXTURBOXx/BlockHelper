@@ -20,9 +20,13 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public class ConfigKeyHandler implements ITickHandler {
 
+    public static boolean showAdvancedBody = false;
+    public static int advancedBodyKey = 0;
+
     public final KeyBinding keyCfg;
     public final KeyBinding keyShow;
     public final KeyBinding keyLiquid;
+    public final KeyBinding keyShowAdvanced;
     public final KeyBinding keyLLOverlay;
     public final KeyBinding keyCBOverlay;
 
@@ -33,6 +37,8 @@ public class ConfigKeyHandler implements ITickHandler {
                 new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
         ModLoader.registerKey(mod, keyLiquid =
                 new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
+        ModLoader.registerKey(mod, keyShowAdvanced =
+                new KeyBinding(Constants.BIND_WAILA_SHOW_ADVANCED, Keyboard.KEY_LCONTROL), true);
         ModLoader.registerKey(mod, keyLLOverlay =
                 new KeyBinding(Constants.BIND_WAILA_LLOVERLAY, Keyboard.KEY_F7), false);
         ModLoader.registerKey(mod, keyCBOverlay =
@@ -70,6 +76,9 @@ public class ConfigKeyHandler implements ITickHandler {
             mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
                     status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
         }
+
+        showAdvancedBody = keyShowAdvanced.pressed;
+        advancedBodyKey = keyShowAdvanced.keyCode;
 
         if (keyLLOverlay.isPressed()) {
             NEIOverlayRenderer.renderMobSpawnOverlay = !NEIOverlayRenderer.renderMobSpawnOverlay;
