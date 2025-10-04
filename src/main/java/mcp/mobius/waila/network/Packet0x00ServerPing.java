@@ -17,7 +17,8 @@ public class Packet0x00ServerPing implements IWailaPacket {
     Map<String, Boolean> forcedKeys = new HashMap<String, Boolean>();
 
     public Packet0x00ServerPing() {
-        Map<String, Property> serverForcingCfg = PluginConfig.instance().config.categories.get(Constants.CATEGORY_SERVER);
+        Map<String, Property> serverForcingCfg =
+                PluginConfig.instance().config.categories.get(Constants.CATEGORY_SERVER);
 
         for (String key : serverForcingCfg.keySet())
             if (serverForcingCfg.get(key).getBoolean(false))
