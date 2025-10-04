@@ -13,6 +13,7 @@ import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntitySheep;
 import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.EntityVillager;
@@ -22,6 +23,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.isWheat;
+import static mcp.mobius.waila.api.SpecialChars.WHITE;
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public final class HUDHandlerEntities implements IEntityProvider {
@@ -49,6 +51,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
+        if (entity instanceof EntityPlayer)
+            currenttip.set(0, WHITE + ((EntityPlayer) entity).username);
     }
 
     @Override
