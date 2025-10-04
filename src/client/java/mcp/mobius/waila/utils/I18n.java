@@ -17,6 +17,7 @@ import net.minecraft.src.ItemDye;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.StatCollector;
 import net.minecraft.src.mod_BlockHelper;
+import org.lwjgl.input.Keyboard;
 
 public class I18n {
 
@@ -25,6 +26,10 @@ public class I18n {
 
     public I18n(String prefix) {
         this.prefix = prefix;
+    }
+
+    public static String getKeyDisplayString(int keyCode) {
+        return keyCode < 0 ? translate("key.mouseButton", keyCode + 101) : Keyboard.getKeyName(keyCode);
     }
 
     public static String color(int dyeColorId) {
