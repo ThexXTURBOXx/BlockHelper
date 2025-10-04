@@ -15,9 +15,13 @@ import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public class ConfigKeyHandler {
 
+    public static boolean showAdvancedBody = false;
+    public static int advancedBodyKey = 0;
+
     public final BlockHelperKeyBinding keyCfg;
     public final BlockHelperKeyBinding keyShow;
     public final BlockHelperKeyBinding keyLiquid;
+    public final BlockHelperKeyBinding keyShowAdvanced;
 
     public ConfigKeyHandler(mod_BlockHelper mod) {
         ModLoader.RegisterKey(mod, keyCfg =
@@ -26,6 +30,8 @@ public class ConfigKeyHandler {
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1), false);
         ModLoader.RegisterKey(mod, keyLiquid =
                 new BlockHelperKeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2), false);
+        ModLoader.RegisterKey(mod, keyShowAdvanced =
+                new BlockHelperKeyBinding(Constants.BIND_WAILA_SHOW_ADVANCED, Keyboard.KEY_LCONTROL), true);
     }
 
     public void onTickInGame(Minecraft mc) {
@@ -55,6 +61,9 @@ public class ConfigKeyHandler {
             mc.thePlayer.addChatMessage(WHITE + ITALIC + I18n.translate(
                     status ? "client.msg.liquid_now_hidden" : "client.msg.liquid_now_shown"));
         }
+
+        showAdvancedBody = keyShowAdvanced.isPressed();
+        advancedBodyKey = keyShowAdvanced.keyCode;
     }
 
 }
