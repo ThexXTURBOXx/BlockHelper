@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.StringUtils;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
@@ -66,6 +67,16 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
             currenttip.add(color + entityName);
             return;
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            String entityName = entity.getClass().getSimpleName();
+            entityName = entityName.replaceFirst("Entity", "");
+            if (!entityName.isEmpty()) {
+                currenttip.add(color + StringUtils.firstCharacterUppercase(entityName));
+                return;
+            }
         } catch (Throwable ignored) {
         }
 
