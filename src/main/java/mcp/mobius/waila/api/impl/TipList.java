@@ -97,8 +97,11 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
         
         // Check for null to avoid NPE
         if (tagSet != null) {
-            for (T s : tagSet)
-                ret.append(s.toString()).append(",");
+            for (T s : tagSet) {
+                // Check for null tags to prevent NPE
+                if (s != null)
+                    ret.append(s.toString()).append(",");
+            }
         }
 
         // Use deleteCharAt instead of creating a new StringBuilder
