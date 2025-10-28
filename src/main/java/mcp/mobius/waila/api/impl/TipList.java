@@ -99,8 +99,9 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
         if (tagSet != null) {
             for (T s : tagSet) {
                 // Check for null tags to prevent NPE
-                if (s != null)
+                if (s != null) {
                     ret.append(s.toString()).append(",");
+                }
             }
         }
 
