@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -92,8 +93,13 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public String getTagsAsString(E e) {
         StringBuilder ret = new StringBuilder();
-        for (T s : tags.get(e))
-            ret.append(s.toString()).append(",");
+        Set<T> tagSet = tags.get(e);
+        
+        // Check for null to avoid NPE
+        if (tagSet != null) {
+            for (T s : tagSet)
+                ret.append(s.toString()).append(",");
+        }
 
         // Use deleteCharAt instead of creating a new StringBuilder
         if (ret.length() > 0)
@@ -145,7 +151,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public boolean retainAll(Collection<?> c) {
         // Use iterator to safely remove elements during iteration
-        java.util.Iterator<E> iterator = tags.keySet().iterator();
+        Iterator<E> iterator = tags.keySet().iterator();
         while (iterator.hasNext()) {
             E e = iterator.next();
             if (!c.contains(e))
