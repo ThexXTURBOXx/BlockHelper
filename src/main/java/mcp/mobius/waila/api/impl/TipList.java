@@ -95,8 +95,9 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
         for (T s : tags.get(e))
             ret.append(s.toString()).append(",");
 
+        // Use deleteCharAt instead of creating a new StringBuilder
         if (ret.length() > 0)
-            ret = new StringBuilder(ret.substring(0, ret.length() - 1));
+            ret.deleteCharAt(ret.length() - 1);
 
         return ret.toString();
     }
@@ -143,9 +144,13 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        for (E e : tags.keySet())
+        // Use iterator to safely remove elements during iteration
+        java.util.Iterator<E> iterator = tags.keySet().iterator();
+        while (iterator.hasNext()) {
+            E e = iterator.next();
             if (!c.contains(e))
-                tags.remove(e);
+                iterator.remove();
+        }
 
         return super.retainAll(c);
     }
