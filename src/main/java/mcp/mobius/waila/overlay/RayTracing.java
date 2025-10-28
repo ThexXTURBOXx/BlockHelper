@@ -28,6 +28,17 @@ import net.minecraftforge.common.IShearable;
 public class RayTracing {
 
     private static RayTracing _instance;
+    
+    // Static comparator to avoid creating new instances on each sort
+    private static final Comparator<ItemStack> DAMAGE_COMPARATOR = new Comparator<ItemStack>() {
+        @Override
+        public int compare(ItemStack stack0, ItemStack stack1) {
+            return stack1.getItemDamage() - stack0.getItemDamage();
+        }
+    };
+    
+    // Reuse empty list to avoid creating new instances
+    private static final List<ItemStack> EMPTY_ITEMSTACK_LIST = Collections.emptyList();
 
     private MovingObjectPosition target = null;
 
@@ -93,12 +104,8 @@ public class RayTracing {
 
         if (items.isEmpty()) return null;
 
-        Collections.sort(items, new Comparator<ItemStack>() {
-            @Override
-            public int compare(ItemStack stack0, ItemStack stack1) {
-                return stack1.getItemDamage() - stack0.getItemDamage();
-            }
-        });
+        // Use static comparator instead of creating new instance each time
+        Collections.sort(items, DAMAGE_COMPARATOR);
 
         return items.get(0);
     }
@@ -135,7 +142,7 @@ public class RayTracing {
                                 PluginConfig.instance());
                         if (providerStack != null) {
                             if (providerStack.getItem() == null)
-                                return new ArrayList<ItemStack>();
+                                return EMPTY_ITEMSTACK_LIST;
                             items.add(providerStack);
                         }
                     }
@@ -160,7 +167,7 @@ public class RayTracing {
                                 PluginConfig.instance());
                         if (providerStack != null) {
                             if (providerStack.getItem() == null)
-                                return new ArrayList<ItemStack>();
+                                return EMPTY_ITEMSTACK_LIST;
                             items.add(providerStack);
                         }
                     }
@@ -177,7 +184,7 @@ public class RayTracing {
                         if (providerStack != null) {
 
                             if (providerStack.getItem() == null)
-                                return new ArrayList<ItemStack>();
+                                return EMPTY_ITEMSTACK_LIST;
 
                             items.add(providerStack);
                         }

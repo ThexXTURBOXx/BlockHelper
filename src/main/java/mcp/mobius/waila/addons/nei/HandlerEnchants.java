@@ -77,12 +77,14 @@ public final class HandlerEnchants implements IContainerInputHandler {
                     if (stackover.isItemEnchanted()) {
                         Map<Integer, Integer> stackenchants =
                                 (Map<Integer, Integer>) EnchantmentHelper.getEnchantments(stackover);
-                        for (Integer id : stackenchants.keySet()) {
+                        // Use entrySet() instead of keySet() to avoid double lookup
+                        for (Map.Entry<Integer, Integer> entry : stackenchants.entrySet()) {
+                            Integer id = entry.getKey();
                             if (!enchant.canApplyTogether(Enchantment.enchantmentsList[id]))
                                 isCompatible = false;
                             if (id == enchant.effectId) {
                                 isApplied = true;
-                                level = stackenchants.get(id);
+                                level = entry.getValue();
                             }
                         }
                     }

@@ -20,6 +20,7 @@ public final class ModIdentification {
 
     public static Map<String, String> modSource = new HashMap<String, String>();
     public static Map<Integer, String> itemMap = new HashMap<Integer, String>();
+    private static Map<String, ModContainer> modContainerCache = new HashMap<String, ModContainer>();
 
     private ModIdentification() {
         throw new UnsupportedOperationException();
@@ -34,8 +35,11 @@ public final class ModIdentification {
             itemMap.put(itemData.getItemId(), itemData.getModId());
         }
 
-        for (ModContainer mod : Loader.instance().getModList())
+        // Build mod container cache and modSource map at the same time
+        for (ModContainer mod : Loader.instance().getModList()) {
             modSource.put(mod.getSource().getName(), formatModName(mod.getName()));
+            modContainerCache.put(mod.getModId(), mod);
+        }
 
         modSource.put("minecraft.jar", "Minecraft");
         modSource.put("Forge", "Minecraft");
@@ -54,12 +58,14 @@ public final class ModIdentification {
             mod_BlockHelper.LOG.log(Level.WARNING, "nameFromObject", e);
         }
 
+        // Use entrySet() instead of keySet() to avoid double lookup
         String modName = null;
-        for (String s : modSource.keySet())
-            if (objPath.contains(s)) {
-                modName = modSource.get(s);
+        for (Map.Entry<String, String> entry : modSource.entrySet()) {
+            if (objPath.contains(entry.getKey())) {
+                modName = entry.getValue();
                 break;
             }
+        }
 
         if (modName == null)
             modName = "<" + I18n.translate("hud.msg.unknown") + ">";
@@ -81,11 +87,8 @@ public final class ModIdentification {
     }
 
     public static ModContainer findModContainer(String modID) {
-        for (ModContainer mc : Loader.instance().getModList())
-            if (mc != null && modID.equals(mc.getModId()))
-                return mc;
-
-        return null;
+        // Use cached lookup instead of linear search
+        return modContainerCache.get(modID);
     }
 
     private static String formatModName(String name) {

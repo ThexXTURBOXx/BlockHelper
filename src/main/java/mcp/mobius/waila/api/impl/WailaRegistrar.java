@@ -304,9 +304,10 @@ public class WailaRegistrar implements IRegistrar {
         Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
 
         int index = 0;
-        for (Class<?> clazz : target.keySet()) {
-            if (clazz.isInstance(obj))
-                returnList.put(index, target.get(clazz));
+        // Use entrySet() instead of keySet() to avoid double lookup
+        for (Map.Entry<Class<? extends V>, List<T>> entry : target.entrySet()) {
+            if (entry.getKey().isInstance(obj))
+                returnList.put(index, entry.getValue());
             ++index;
         }
 
@@ -390,6 +391,7 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {
+        // Use keySet() directly here since we only check the key, no value lookup needed
         for (Class<?> clazz : target.keySet())
             if (clazz.isInstance(obj))
                 return true;

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.core;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -53,11 +54,13 @@ public final class HUDHandlerCrops implements IDataProvider {
         // Since TEs are usually more specific, they take precedence here
         if (registrar.hasCropProvider(accessor.getTileEntity())) {
             Class<?> providerClass = TileEntity.class;
-            for (Class<?> clazz : registrar.cropProviders.keySet()) {
+            // Use entrySet() to avoid multiple lookups
+            for (Map.Entry<Class<?>, List<ICropProvider>> entry : registrar.cropProviders.entrySet()) {
+                Class<?> clazz = entry.getKey();
                 if (clazz.isInstance(accessor.getTileEntity()) && providerClass.isAssignableFrom(clazz)) {
-                    List<ICropProvider> providers = registrar.cropProviders.get(clazz);
+                    List<ICropProvider> providers = entry.getValue();
                     if (!providers.isEmpty()) {
-                        provider = registrar.cropProviders.get(clazz).get(0);
+                        provider = providers.get(0);
                         providerClass = clazz;
                     }
                 }
@@ -67,11 +70,13 @@ public final class HUDHandlerCrops implements IDataProvider {
 
         if (registrar.hasCropProvider(b)) {
             Class<?> providerClass = Block.class;
-            for (Class<?> clazz : registrar.cropProviders.keySet()) {
+            // Use entrySet() to avoid multiple lookups
+            for (Map.Entry<Class<?>, List<ICropProvider>> entry : registrar.cropProviders.entrySet()) {
+                Class<?> clazz = entry.getKey();
                 if (clazz.isInstance(b) && providerClass.isAssignableFrom(clazz)) {
-                    List<ICropProvider> providers = registrar.cropProviders.get(clazz);
+                    List<ICropProvider> providers = entry.getValue();
                     if (!providers.isEmpty()) {
-                        provider = registrar.cropProviders.get(clazz).get(0);
+                        provider = providers.get(0);
                         providerClass = clazz;
                     }
                 }

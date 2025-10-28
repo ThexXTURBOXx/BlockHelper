@@ -19,17 +19,19 @@ public class Packet0x00ServerPing implements IWailaPacket {
     public Packet0x00ServerPing() {
         ConfigCategory serverForcingCfg = PluginConfig.instance().config.getCategory(Constants.CATEGORY_SERVER);
 
-        for (String key : serverForcingCfg.keySet())
-            if (serverForcingCfg.get(key).getBoolean(false))
-                forcedKeys.put(key, PluginConfig.instance().get(key));
+        // Use entrySet() instead of keySet() to avoid double lookup
+        for (Map.Entry<String, ?> entry : serverForcingCfg.entrySet())
+            if (serverForcingCfg.get(entry.getKey()).getBoolean(false))
+                forcedKeys.put(entry.getKey(), PluginConfig.instance().get(entry.getKey()));
     }
 
     @Override
     public void encode(DataOutputStream target) throws Exception {
         target.writeShort(this.forcedKeys.size());
-        for (String key : forcedKeys.keySet()) {
-            Packet.writeString(key, target);
-            target.writeBoolean(this.forcedKeys.get(key));
+        // Use entrySet() instead of keySet() to avoid double lookup
+        for (Map.Entry<String, Boolean> entry : forcedKeys.entrySet()) {
+            Packet.writeString(entry.getKey(), target);
+            target.writeBoolean(entry.getValue());
         }
     }
 

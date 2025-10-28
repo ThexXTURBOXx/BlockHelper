@@ -49,9 +49,11 @@ public final class LiquidHelper {
 
     public static String getLiquidName(LiquidStack liquidStack) {
         Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
-        for (String name : map.keySet()) {
+        // Use entrySet() instead of keySet() to avoid double lookup
+        for (Map.Entry<String, LiquidStack> entry : map.entrySet()) {
+            String name = entry.getKey();
             if (name == null) continue;
-            LiquidStack stack = map.get(name);
+            LiquidStack stack = entry.getValue();
             if (stack != null && stack.isLiquidEqual(liquidStack)) {
                 return StringUtils.firstCharacterUppercase(name);
             }
