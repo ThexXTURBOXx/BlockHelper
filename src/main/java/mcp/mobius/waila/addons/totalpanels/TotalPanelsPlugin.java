@@ -48,6 +48,9 @@ public class TotalPanelsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Total Solar Panels", "totalsolars.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Total Solar Panels", "totalsolars.energybars");
+
             registrar.registerNBTProvider(HUDHandlerTotalSolars.INSTANCE, TileEntityPanel);
             registrar.registerNBTProvider(HUDHandlerTotalSolars.INSTANCE, TileEntityHighPanel);
 

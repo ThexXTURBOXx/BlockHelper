@@ -5,7 +5,9 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.NumberFormatter;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,17 +38,24 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
+        if (!config.get("appeng.storage")) return;
+        if (!accessor.getNBTData().hasKey("AEMaxStorage")) return;
+        if (!accessor.getNBTData().hasKey("AEStorage")) return;
+
+        int maxEnergy = accessor.getNBTInteger("AEMaxStorage");
+        int energy = Math.min(accessor.getNBTInteger("AEStorage"), maxEnergy);
         try {
-            int storage = accessor.getNBTInteger("AEStorage");
-            int maxStorage = accessor.getNBTInteger("AEMaxStorage");
-
-            String storedStr = I18n.translate("hud.msg.stored");
-
-            /* AE Storage */
-            if (config.get("appeng.storage")) {
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " AE");
+            if (maxEnergy > 0 && currenttip.getEntries("AEEnergyStorage").isEmpty()) {
+                if (config.get("appeng.energybars")) {
+                    currenttip.add(
+                            SpecialChars.getRenderString("waila.energy", energy + "", maxEnergy + "", "AE"),
+                            "AEEnergyStorage");
+                } else {
+                    currenttip.add(I18n.translate("hud.msg.stored") + TAB + ALIGNRIGHT +
+                                   WHITE + NumberFormatter.format(energy) + RESET + " / " +
+                                   WHITE + NumberFormatter.format(maxEnergy) + RESET + " AE",
+                            "AEEnergyStorage");
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -62,16 +71,16 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            float storage = -1;
-            float maxStorage = -1;
+            float energy = -1;
+            float maxEnergy = -1;
 
             if (AppEngPlugin.IMEPowerStorage.isInstance(te)) {
-                storage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_currentPower.invoke(te);
-                maxStorage = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
+                energy = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_currentPower.invoke(te);
+                maxEnergy = (float) (double) (Double) AppEngPlugin.IMEPowerStorage_maxPower.invoke(te);
             }
 
-            tag.setInteger("AEStorage", Math.round(storage));
-            tag.setInteger("AEMaxStorage", Math.round(maxStorage));
+            tag.setInteger("AEStorage", Math.round(energy));
+            tag.setInteger("AEMaxStorage", Math.round(maxEnergy));
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
         }

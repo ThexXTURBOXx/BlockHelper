@@ -37,6 +37,8 @@ public class PluginConfig implements IPluginConfig {
     public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
     public Configuration config = null;
 
+    public String liquidUnit;
+
     public ConfigModule addModule(String modName) {
         return this.addModule(modName, new ConfigModule(modName));
     }
@@ -177,6 +179,7 @@ public class PluginConfig implements IPluginConfig {
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWICON, true);
+        liquidUnit = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUIDUNIT, "mB").getString();
 
         OverlayConfig.posX = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000);
         OverlayConfig.posY = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100);

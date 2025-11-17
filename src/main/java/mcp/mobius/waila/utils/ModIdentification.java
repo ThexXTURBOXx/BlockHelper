@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
+import static mcp.mobius.waila.api.SpecialChars.MISFORMATTED_PAR;
 
 public final class ModIdentification {
 
@@ -91,7 +92,7 @@ public final class ModIdentification {
     private static String formatModName(String name) {
         return name == null ? "Minecraft" :
                 name.replaceFirst("^mod_", "")
-                        .replaceAll("\u00C2\u00A7.", "")
+                        .replaceAll(MISFORMATTED_PAR + ".", "")
                         .replaceAll(MCStyle + ".", "");
     }
 

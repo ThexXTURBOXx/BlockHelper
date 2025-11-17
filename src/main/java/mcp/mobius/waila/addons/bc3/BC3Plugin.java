@@ -58,6 +58,9 @@ public final class BC3Plugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Buildcraft", "bcapi.energybars");
+
             registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
 
             if (side.isClient())
