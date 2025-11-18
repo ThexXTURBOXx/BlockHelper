@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.utils.ConstantRandom;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -96,6 +97,10 @@ public class RayTracing {
         Collections.sort(items, new Comparator<ItemStack>() {
             @Override
             public int compare(ItemStack stack0, ItemStack stack1) {
+                boolean valid0 = !DisplayUtil.itemDisplayNameShortUnformatted(stack0).equals(DisplayUtil.UNNAMED);
+                boolean valid1 = !DisplayUtil.itemDisplayNameShortUnformatted(stack1).equals(DisplayUtil.UNNAMED);
+                if (valid0 != valid1)
+                    return valid0 ? -1 : 1;
                 return stack1.getItemDamage() - stack0.getItemDamage();
             }
         });
@@ -148,6 +153,7 @@ public class RayTracing {
             int y = this.target.blockY;
             int z = this.target.blockZ;
             int blockID = world.getBlockId(x, y, z);
+            int meta = world.getBlockMetadata(x, y, z);
             Block mouseoverBlock = Block.blocksList[blockID];
             TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
             if (mouseoverBlock == null) return items;
@@ -170,26 +176,23 @@ public class RayTracing {
             if (tileEntity != null && WailaRegistrar.instance().hasStackProviders(tileEntity)) {
                 for (List<IDataProvider> providersList :
                         WailaRegistrar.instance().getStackProviders(tileEntity).values()) {
-
                     for (IDataProvider provider : providersList) {
                         ItemStack providerStack = provider.getStack(DataAccessorCommon.INSTANCE,
                                 PluginConfig.instance());
                         if (providerStack != null) {
-
                             if (providerStack.getItem() == null)
                                 return new ArrayList<ItemStack>();
-
                             items.add(providerStack);
                         }
                     }
                 }
             }
 
-            if (!items.isEmpty()) return items;
+            if (listValid(items)) return items;
 
             if (world.getBlockTileEntity(x, y, z) == null) {
                 try {
-                    ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
+                    ItemStack block = new ItemStack(mouseoverBlock, 1, meta);
 
                     if (block.getItem() != null)
                         items.add(block);
@@ -198,12 +201,11 @@ public class RayTracing {
                     //else
                     //	items.add(new ItemStack(Item.getItemFromBlock(mouseoverBlock)));
 
-
                 } catch (Throwable ignored) {
                 }
             }
 
-            if (!items.isEmpty()) return items;
+            if (listValid(items)) return items;
 
             try {
                 ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, x, y, z);
@@ -212,12 +214,12 @@ public class RayTracing {
             } catch (Throwable ignored) {
             }
 
-            if (!items.isEmpty()) return items;
+            if (listValid(items)) return items;
 
             /*
             try
             {
-                items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
+                items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, meta, 0));
             }
             catch(Exception e){}
 
@@ -232,12 +234,26 @@ public class RayTracing {
                 }
             }
 
-            if (items.isEmpty())
-                items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
+            if (listValid(items)) return items;
+
+            ItemStack fallback = new ItemStack(mouseoverBlock.idDropped(meta, ConstantRandom.INSTANCE, blockID),
+                    1, mouseoverBlock.damageDropped(meta));
+            if (fallback.getItem() != null)
+                items.add(fallback);
+
             break;
         }
 
         return items;
+    }
+
+    private static boolean listValid(List<ItemStack> list) {
+        for (ItemStack stack : list) {
+            if (stack == null) continue;
+            String name = DisplayUtil.itemDisplayNameShortUnformatted(stack);
+            if (!name.equals(DisplayUtil.UNNAMED)) return true;
+        }
+        return false;
     }
 
 }
