@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.forge;
 
+import mcp.mobius.waila.addons.forge.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -36,14 +37,11 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get("forge.tanktype")) {
-            NBTTagCompound compound = accessor.getNBTData();
-            LiquidStack stack = compound.hasKey("liquidstack")
-                    ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                    : null;
-            int capacity = accessor.getNBTInteger("liquidcapacity");
+        if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
+            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
-            if (capacity > 0) {
+            if (data.getCapacity() > 0) {
+                LiquidStack stack = data.getLiquidStack();
                 String name = currenttip.get(0);
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
@@ -57,15 +55,9 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
     public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (config.get("forge.tankamount")) {
-            NBTTagCompound compound = accessor.getNBTData();
-            LiquidStack stack = compound.hasKey("liquidstack")
-                    ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                    : null;
-            int liquidAmount = stack != null ? stack.amount : 0;
-            int capacity = accessor.getNBTInteger("liquidcapacity");
-
-            if (capacity > 0)
-                currenttip.add(liquidAmount + "/" + capacity + " mB");
+            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
+            String tip = LiquidHelper.getLiquidTooltip(data, config.get("forge.liquidbars"));
+            if (tip != null) currenttip.add(tip);
         }
     }
 
