@@ -9,6 +9,7 @@ import mcp.mobius.waila.utils.NumberFormatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
@@ -57,10 +58,21 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
         Minecraft mc = Minecraft.getMinecraft();
         if (!isEmpty) {
             LiquidStack stack = LiquidDictionary.getLiquid(liquidName, (int) amount);
+            String textureSheet = stack.getTextureSheet();
             Icon icon = stack.getRenderingIcon();
-            if (icon == null) icon = LiquidDictionary.getLiquid("Water", 1).getRenderingIcon();
+            if (icon == null) {
+                ItemStack is = stack.asItemStack();
+                if (is != null) {
+                    textureSheet = is.getItemSpriteNumber() == 0 ? "/terrain.png" : "/gui/items.png";
+                    icon = stack.asItemStack().getIconIndex();
+                }
+            }
+            if (icon == null) {
+                textureSheet = stack.getTextureSheet();
+                icon = LiquidDictionary.getLiquid("Water", 1).getRenderingIcon();
+            }
 
-            mc.renderEngine.bindTexture(stack.getTextureSheet());
+            mc.renderEngine.bindTexture(textureSheet);
 
             bindColor(liquidName);
 
