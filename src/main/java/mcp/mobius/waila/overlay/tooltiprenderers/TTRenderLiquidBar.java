@@ -95,7 +95,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             DisplayUtil.drawRectIntern(tessellator, x + 1, y, 0, maxStringW - 2, height - 1, 0, 0, 1, 1);
             tessellator.draw();
         } else {
-            Gui.drawRect(x + 1, y, maxStringW - 1, height - 1, 0x1A575656);
+            Gui.drawRect(x + 1, y, x + maxStringW - 1, y + height - 1, 0x1A575656);
         }
 
         DisplayUtil.drawThickBeveledBox(x, y, x + maxStringW, y + height, 1, 0xFF505050, 0xFF505050, -1);
