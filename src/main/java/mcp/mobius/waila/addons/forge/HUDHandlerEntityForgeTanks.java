@@ -37,7 +37,7 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get("forge.tanktype")) {
+        if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
             LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
             if (data.getCapacity() > 0) {

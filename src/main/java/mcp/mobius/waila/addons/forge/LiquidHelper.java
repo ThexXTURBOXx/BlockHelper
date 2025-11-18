@@ -8,8 +8,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
-import mcp.mobius.waila.utils.I18n;
-import mcp.mobius.waila.utils.StringUtils;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
@@ -52,17 +50,6 @@ public final class LiquidHelper {
                     "[Forge] Unhandled exception trying to access a tank for display!\n", t);
         }
         return null;
-    }
-
-    public static String getLiquidName(LiquidStack liquidStack) {
-        Map<String, LiquidStack> map = LiquidDictionary.getLiquids();
-        for (String name : map.keySet()) {
-            if (name == null) continue;
-            LiquidStack stack = map.get(name);
-            if (stack != null && stack.isLiquidEqual(liquidStack))
-                return StringUtils.firstCharacterUppercase(name);
-        }
-        return I18n.translate("hud.msg.unknown");
     }
 
     public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) {
