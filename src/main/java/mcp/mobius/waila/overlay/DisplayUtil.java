@@ -31,6 +31,8 @@ import static mcp.mobius.waila.api.SpecialChars.patternWaila;
 
 public final class DisplayUtil {
 
+    public static final String UNNAMED = "Unnamed";
+
     private static final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
     private static final RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     private static final RenderItem renderItem = new RenderItem();
@@ -173,22 +175,23 @@ public final class DisplayUtil {
 
     @SuppressWarnings("unchecked")
     public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
-        List<String> namelist = null;
+        List<String> namelist = new ArrayList<String>();
         try {
             boolean showAdvTooltip = Minecraft.getMinecraft().gameSettings.advancedItemTooltips;
             showAdvTooltip = PluginConfig.instance().get("general.invertadvtt", false) != showAdvTooltip;
-            namelist = (List<String>) itemstack.getTooltip(Minecraft.getMinecraft().thePlayer, showAdvTooltip);
+            for (String line : (List<String>) itemstack.getTooltip(Minecraft.getMinecraft().thePlayer,
+                    showAdvTooltip)) {
+                if (line == null) continue;
+                namelist.add(line.trim());
+            }
         } catch (Throwable ignored) {
         }
 
-        if (namelist == null)
-            namelist = new ArrayList<String>();
-
         if (namelist.isEmpty())
-            namelist.add("Unnamed");
+            namelist.add(UNNAMED);
 
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
-            namelist.set(0, "Unnamed");
+            namelist.set(0, UNNAMED);
 
         return namelist;
     }
