@@ -32,7 +32,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("forge.tanktype")) {
+        if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
             LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
             if (data.getCapacity() > 0) {
