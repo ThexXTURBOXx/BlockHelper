@@ -2,8 +2,15 @@ package mcp.mobius.waila.addons.forge;
 
 import java.util.Map;
 import java.util.logging.Level;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.overlay.DisplayUtil;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
@@ -56,6 +63,84 @@ public final class LiquidHelper {
                 return StringUtils.firstCharacterUppercase(name);
         }
         return I18n.translate("hud.msg.unknown");
+    }
+
+    public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) {
+        NBTTagCompound compound = accessor.getNBTData();
+        LiquidStack stack = compound.hasKey("liquidstack")
+                ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+                : null;
+        int capacity = accessor.getNBTInteger("liquidcapacity");
+        return new LiquidData(stack, capacity);
+    }
+
+    public static LiquidData getLiquidData(IDataAccessor accessor, IPluginConfig config) {
+        LiquidStack stack = null;
+        int capacity = 0;
+
+        if (accessor.getTileEntity() instanceof ITankContainer) {
+            NBTTagCompound compound = accessor.getNBTData();
+            stack = compound.hasKey("liquidstack")
+                    ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+                    : null;
+            capacity = accessor.getNBTInteger("liquidcapacity");
+        } else if (accessor.getBlock() == Block.cauldron) {
+            int meta = accessor.getMetadata();
+            stack = meta == 0 ? null : new LiquidStack(Block.waterStill, Math.min(4, meta) * 250);
+            capacity = 1000;
+        }
+
+        return new LiquidData(stack, capacity);
+    }
+
+    public static String getLiquidTooltip(LiquidData data, boolean bar) {
+        if (data.getCapacity() > 0) {
+            LiquidStack stack = data.getLiquidStack();
+            if (stack != null && stack.amount > 0) {
+                return bar
+                        ? SpecialChars.getRenderString("waila.liquid",
+                        findLiquidName(stack),
+                        DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
+                        stack.amount, data.getCapacity())
+                        : (stack.amount + "/" + data.getCapacity() + " mB");
+            } else {
+                return bar
+                        ? SpecialChars.getRenderString("waila.liquid",
+                        TTRenderLiquidBar.EMPTY_LIQUID, TTRenderLiquidBar.EMPTY_LIQUID, 0, data.getCapacity())
+                        : null;
+            }
+        }
+        return null;
+    }
+
+    public static String findLiquidName(LiquidStack reference) {
+        if (reference == null) return null;
+        Map<String, LiquidStack> liquids = LiquidDictionary.getLiquids();
+        for (Map.Entry<String, LiquidStack> e : liquids.entrySet()) {
+            LiquidStack stack = e.getValue();
+            if (stack != null && stack.isLiquidEqual(reference)) return e.getKey();
+        }
+        return null;
+    }
+
+    public static class LiquidData {
+
+        private final LiquidStack liquidStack;
+        private final int capacity;
+
+        public LiquidData(LiquidStack stack, int capacity) {
+            this.liquidStack = stack;
+            this.capacity = capacity;
+        }
+
+        public LiquidStack getLiquidStack() {
+            return liquidStack;
+        }
+
+        public int getCapacity() {
+            return capacity;
+        }
+
     }
 
 }

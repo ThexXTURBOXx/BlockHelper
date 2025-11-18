@@ -44,6 +44,9 @@ public final class AppEngPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Applied Energistics", "appeng.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Applied Energistics", "appeng.energybars");
+
             registrar.registerNBTProvider(HUDHandlerMEPowerStorage.INSTANCE, TilePoweredBase);
 
             if (side.isClient())

@@ -40,6 +40,9 @@ public final class AdvSolarsPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Solar Panels", "advsolars.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Advanced Solar Panels", "advsolars.energybars");
+
             registrar.registerNBTProvider(HUDHandlerAdvSolars.INSTANCE, TileEntitySolarPanel);
 
             if (side.isClient())

@@ -26,6 +26,9 @@ public final class ForgePlugin implements IWailaPlugin {
             registrar.addSyncedConfig("Forge", "forge.tankamount");
             registrar.addSyncedConfig("Forge", "forge.tanktype");
 
+            if (side.isClient())
+                registrar.addConfig("Forge", "forge.liquidbars");
+
             registrar.registerNBTProvider(HUDHandlerForgeTanks.INSTANCE, ITankContainer.class);
             registrar.registerNBTProvider(HUDHandlerEntityForgeTanks.INSTANCE, ITankContainer.class);
 
