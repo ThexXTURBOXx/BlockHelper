@@ -71,7 +71,7 @@ public final class LiquidHelper {
             capacity = accessor.getNBTInteger("liquidcapacity");
         } else if (accessor.getBlock() == Block.cauldron) {
             int meta = accessor.getMetadata();
-            stack = meta == 0 ? null : new LiquidStack(Block.waterStill, Math.min(4, meta) * 250);
+            stack = new LiquidStack(Block.waterStill, (int) Math.round(Math.min(3, meta) * 333.3));
             capacity = 1000;
         }
 
