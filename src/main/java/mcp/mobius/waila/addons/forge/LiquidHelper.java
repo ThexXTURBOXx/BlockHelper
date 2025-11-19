@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
-import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
 
 public final class LiquidHelper {
@@ -85,14 +84,15 @@ public final class LiquidHelper {
             if (stack != null && stack.amount > 0) {
                 return bar
                         ? SpecialChars.getRenderString("waila.liquid",
-                        LiquidDictionary.findLiquidName(stack),
+                        stack.itemID, stack.itemMeta,
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
                         stack.amount, data.getCapacity())
                         : (stack.amount + "/" + data.getCapacity() + " mB");
             } else {
                 return bar
                         ? SpecialChars.getRenderString("waila.liquid",
-                        TTRenderLiquidBar.EMPTY_LIQUID, TTRenderLiquidBar.EMPTY_LIQUID, 0, data.getCapacity())
+                        TTRenderLiquidBar.EMPTY_LIQUID, 0,
+                        "", 0, data.getCapacity())
                         : null;
             }
         }

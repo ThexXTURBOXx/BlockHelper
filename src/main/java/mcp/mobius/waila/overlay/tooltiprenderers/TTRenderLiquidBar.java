@@ -18,29 +18,29 @@ import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for fancy liquid bars.
- * Syntax: {waila.liquid, liquidName, localizedName, amount, capacity}
+ * Syntax: {waila.liquid, liquidId, liquidMeta, localizedName, amount, capacity}
  */
 public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
-    public static final String EMPTY_LIQUID = "EMPTYLIQUID";
+    public static final int EMPTY_LIQUID = -1;
     public static final String GRADIENT_TEXTURE = "/assets/waila/textures/gradient.png";
 
     private static final int height = 12;
 
     private int maxStringW;
 
-    public void bindColor(String liquidName) {
+    public void bindColor(LiquidStack liquidStack) {
         GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     @Override
     public Dimension getSize(String[] params, ICommonAccessor accessor) {
-        boolean isEmpty = (params[0].equals(EMPTY_LIQUID) && params[1].equals(EMPTY_LIQUID));
+        boolean isEmpty = Integer.parseInt(params[0]) == EMPTY_LIQUID;
         int displayWidth = DisplayUtil.getDisplayWidth(
                 buildDisplayText(
-                        isEmpty ? 0 : Double.parseDouble(params[2]),
-                        Double.parseDouble(params[3]),
-                        params[1],
+                        isEmpty ? 0 : Double.parseDouble(params[3]),
+                        Double.parseDouble(params[4]),
+                        params[2],
                         isEmpty));
 
         return new Dimension(displayWidth + 4, height);
@@ -48,33 +48,35 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
     @Override
     public void draw(String[] params, ICommonAccessor accessor, int x, int y) {
-        String liquidName = params[0];
-        String localizedName = params[1];
-        double amount = Double.parseDouble(params[2]);
-        double capacity = Double.parseDouble(params[3]);
+        int liquidId = Integer.parseInt(params[0]);
+        int liquidMeta = Integer.parseInt(params[1]);
+        String localizedName = params[2];
+        double amount = Double.parseDouble(params[3]);
+        double capacity = Double.parseDouble(params[4]);
         Tessellator tessellator = Tessellator.instance;
-        boolean isEmpty = liquidName.equals(EMPTY_LIQUID) && localizedName.equals(EMPTY_LIQUID);
+        boolean isEmpty = liquidId == EMPTY_LIQUID;
 
         Minecraft mc = Minecraft.getMinecraft();
         if (!isEmpty) {
-            LiquidStack stack = LiquidDictionary.getLiquid(liquidName, (int) amount);
-            String textureSheet = stack.getTextureSheet();
-            Icon icon = stack.getRenderingIcon();
+            LiquidStack stack = new LiquidStack(liquidId, (int) amount, liquidMeta);
+            LiquidStack canon = stack.canonical();
+            String textureSheet = canon.getTextureSheet();
+            Icon icon = canon.getRenderingIcon();
             if (icon == null) {
-                ItemStack is = stack.asItemStack();
+                ItemStack is = canon.asItemStack();
                 if (is != null) {
                     textureSheet = is.getItemSpriteNumber() == 0 ? "/terrain.png" : "/gui/items.png";
-                    icon = stack.asItemStack().getIconIndex();
+                    icon = canon.asItemStack().getIconIndex();
                 }
             }
             if (icon == null) {
-                textureSheet = stack.getTextureSheet();
+                textureSheet = canon.getTextureSheet();
                 icon = LiquidDictionary.getLiquid("Water", 1).getRenderingIcon();
             }
 
             mc.renderEngine.bindTexture(textureSheet);
 
-            bindColor(liquidName);
+            bindColor(stack);
 
             tessellator.startDrawingQuads();
             // Intentionally draw 2 pixels taller than needed than cover with the border to
