@@ -40,6 +40,9 @@ public final class AdvMachinesSnykePlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Machines Snyke", "advmachines.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Advanced Machines Snyke", "advmachines.energybars");
+
             registrar.registerNBTProvider(HUDHandlerAdvGeneratorSnyke.INSTANCE, TileAdvMachine);
 
             if (side.isClient())
