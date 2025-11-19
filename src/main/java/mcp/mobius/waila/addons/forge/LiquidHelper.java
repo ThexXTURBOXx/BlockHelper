@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.forge;
 
-import java.util.Map;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
@@ -14,7 +13,6 @@ import net.minecraft.src.mod_BlockHelper;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
-import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.liquids.LiquidStack;
 
 public final class LiquidHelper {
@@ -86,26 +84,17 @@ public final class LiquidHelper {
             if (stack != null && stack.amount > 0) {
                 return bar
                         ? SpecialChars.getRenderString("waila.liquid",
-                        findLiquidName(stack),
+                        stack.itemID, stack.itemMeta,
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
                         stack.amount, data.getCapacity())
                         : (stack.amount + "/" + data.getCapacity() + " mB");
             } else {
                 return bar
                         ? SpecialChars.getRenderString("waila.liquid",
-                        TTRenderLiquidBar.EMPTY_LIQUID, TTRenderLiquidBar.EMPTY_LIQUID, 0, data.getCapacity())
+                        TTRenderLiquidBar.EMPTY_LIQUID, 0,
+                        "", 0, data.getCapacity())
                         : null;
             }
-        }
-        return null;
-    }
-
-    public static String findLiquidName(LiquidStack reference) {
-        if (reference == null) return null;
-        Map<String, LiquidStack> liquids = LiquidDictionary.getLiquids();
-        for (Map.Entry<String, LiquidStack> e : liquids.entrySet()) {
-            LiquidStack stack = e.getValue();
-            if (stack != null && stack.isLiquidEqual(reference)) return e.getKey();
         }
         return null;
     }
