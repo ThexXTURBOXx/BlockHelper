@@ -11,7 +11,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
-import net.minecraft.src.mod_BlockHelper;
+import net.minecraft.src.mod_BlockHelper.Accessor;
 
 public class StackDropFixer implements IDataProvider {
 
@@ -37,7 +37,7 @@ public class StackDropFixer implements IDataProvider {
         int meta = metaOverride < 0 ? accessor.getMetadata() : metaOverride;
         int id = b.idDropped(meta, ConstantRandom.INSTANCE, 0);
         return id == 0 || Item.itemsList[id] == null
-                ? null : new ItemStack(id, 1, mod_BlockHelper.Accessor.damageDropped(b, meta));
+                ? null : new ItemStack(id, 1, Accessor.damageDropped(b, meta));
     }
 
     @Override

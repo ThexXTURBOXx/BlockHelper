@@ -30,6 +30,8 @@ import static mcp.mobius.waila.api.SpecialChars.patternWaila;
 
 public final class DisplayUtil {
 
+    public static final String UNNAMED = "Unnamed";
+
     private static final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
     private static final RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     private static final RenderItem renderItem = new RenderItem();
@@ -172,20 +174,20 @@ public final class DisplayUtil {
 
     @SuppressWarnings("unchecked")
     public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
-        List<String> namelist = null;
+        List<String> namelist = new ArrayList<String>();
         try {
-            namelist = (List<String>) itemstack.getItemNameandInformation();
+            for (String line : (List<String>) itemstack.getItemNameandInformation()) {
+                if (line == null) continue;
+                namelist.add(line.trim());
+            }
         } catch (Throwable ignored) {
         }
 
-        if (namelist == null)
-            namelist = new ArrayList<String>();
-
         if (namelist.isEmpty())
-            namelist.add("Unnamed");
+            namelist.add(UNNAMED);
 
         if (namelist.get(0) == null || namelist.get(0).isEmpty())
-            namelist.set(0, "Unnamed");
+            namelist.set(0, UNNAMED);
 
         return namelist;
     }
