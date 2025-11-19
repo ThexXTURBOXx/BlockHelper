@@ -1,16 +1,13 @@
 package mcp.mobius.waila.addons.bc3;
 
 import cpw.mods.fml.common.Side;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.src.Block;
 import net.minecraft.src.BlockCauldron;
-import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class BC3Plugin implements IWailaPlugin {
@@ -32,11 +29,6 @@ public final class BC3Plugin implements IWailaPlugin {
     public static Method IPowerProvider_getMaxEnergyStored = null;
 
     public static Class<?> ITankContainer = null;
-
-    public static Class<?> LiquidStack = null;
-    public static Constructor<?> LiquidStack_init = null;
-    public static Method LiquidStack_loadLiquidStackFromNBT = null;
-    public static Field LiquidStack_amount = null;
 
     private BC3Plugin() {
     }
@@ -75,6 +67,9 @@ public final class BC3Plugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
+            if (side.isClient())
+                registrar.addConfig("Buildcraft", "bcapi.energybars");
+
             registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
 
             if (side.isClient())
@@ -86,14 +81,11 @@ public final class BC3Plugin implements IWailaPlugin {
         try {
             ITankContainer = AccessHelper.getClass("buildcraft.api.liquids.ITankContainer");
 
-            LiquidStack = AccessHelper.getClass("buildcraft.api.liquids.LiquidStack");
-            LiquidStack_init = AccessHelper.getConstructor(LiquidStack, Block.class, int.class);
-            LiquidStack_loadLiquidStackFromNBT = AccessHelper.getMethod(LiquidStack, new Class[]{NBTTagCompound.class},
-                    "loadLiquidStackFromNBT");
-            LiquidStack_amount = AccessHelper.getField(LiquidStack, "amount");
-
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
+
+            if (side.isClient())
+                registrar.addConfig("Buildcraft", "bc.liquidbars");
 
             registrar.registerNBTProvider(HUDHandlerBC3Tanks.INSTANCE, ITankContainer);
             registrar.registerNBTProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ITankContainer);
