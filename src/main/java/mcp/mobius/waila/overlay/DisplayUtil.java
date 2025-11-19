@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
+import net.minecraft.src.Gui;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.RenderEngine;
 import net.minecraft.src.RenderHelper;
@@ -22,6 +23,7 @@ import org.lwjgl.util.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.MCStyle;
+import static mcp.mobius.waila.api.SpecialChars.WailaRendererComma;
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
 import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
 import static mcp.mobius.waila.api.SpecialChars.patternRender;
@@ -50,7 +52,8 @@ public final class DisplayUtil {
         while (renderMatcher.find()) {
             ITooltipRenderer renderer = WailaRegistrar.instance().getTooltipRenderer(renderMatcher.group(1));
             if (renderer != null)
-                width += renderer.getSize(renderMatcher.group(2).split(","), DataAccessorCommon.INSTANCE).getWidth();
+                width += renderer.getSize(renderMatcher.group(2).split(WailaRendererComma),
+                        DataAccessorCommon.INSTANCE).getWidth();
         }
 
         Matcher iconMatcher = patternIcon.matcher(s);
@@ -142,6 +145,25 @@ public final class DisplayUtil {
         tessellator.addVertexWithUV(x + w, y, zLevel, (u + tw) * f, (v) * f1);
         tessellator.addVertexWithUV(x, y, zLevel, (u) * f, (v) * f1);
         tessellator.draw();
+    }
+
+    public static void drawRectIntern(Tessellator tessellator, double x, double y, double z,
+                                      double width, double height, double minU, double minV, double maxU, double maxV) {
+        tessellator.addVertexWithUV(x, y + height, z, minU, maxV);
+        tessellator.addVertexWithUV(x + width, y + height, z, maxU, maxV);
+        tessellator.addVertexWithUV(x + width, y, z, maxU, minV);
+        tessellator.addVertexWithUV(x, y, z, minU, minV);
+    }
+
+    public static void drawThickBeveledBox(int x1, int y1, int x2, int y2, int thickness, int topleftcolor,
+                                           int botrightcolor, int fillcolor) {
+        if (fillcolor != -1) {
+            Gui.drawRect(x1 + 1, y1 + 1, x2 - 1, y2 - 1, fillcolor);
+        }
+        Gui.drawRect(x1, y1, x2 - 1, y1 + thickness, topleftcolor);
+        Gui.drawRect(x1, y1, x1 + thickness, y2 - 1, topleftcolor);
+        Gui.drawRect(x2 - thickness, y1, x2, y2 - 1, botrightcolor);
+        Gui.drawRect(x1, y2 - thickness, x2, y2, botrightcolor);
     }
 
     public static void drawString(String text, int x, int y, int colour, boolean shadow) {
