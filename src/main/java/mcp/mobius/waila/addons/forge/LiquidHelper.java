@@ -81,7 +81,7 @@ public final class LiquidHelper {
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
         if (data.getCapacity() > 0) {
             LiquidStack stack = data.getLiquidStack();
-            if (stack != null && stack.amount > 0) {
+            if (stack != null) {
                 return bar
                         ? SpecialChars.getRenderString("waila.liquid",
                         stack.itemID, stack.itemMeta,
