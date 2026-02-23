@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.util.MathHelper;
@@ -37,8 +38,6 @@ public class TTRenderHealth implements ITooltipRenderer {
         int offsetY = y;
 
         for (int iheart = 1; iheart <= nhearts; iheart++) {
-
-
             if (iheart <= MathHelper.floor_float(health)) {
                 DisplayUtil.renderIcon(offsetX, offsetY, 8, 8, IconUI.HEART);
                 offsetX += 8;
@@ -58,8 +57,12 @@ public class TTRenderHealth implements ITooltipRenderer {
                 offsetY += 10;
                 offsetX = x;
             }
-
         }
+    }
+
+    public static String create(float heartsPerLine, float healthHearts, float maxhpHearts) {
+        return SpecialChars.getRenderString("waila.health",
+                heartsPerLine, healthHearts, maxhpHearts);
     }
 
 }
