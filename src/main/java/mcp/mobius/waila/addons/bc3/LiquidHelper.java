@@ -1,23 +1,29 @@
 package mcp.mobius.waila.addons.bc3;
 
-import buildcraft.api.liquids.ILiquidTank;
-import buildcraft.api.liquids.ITankContainer;
-import buildcraft.api.liquids.LiquidDictionary;
-import buildcraft.api.liquids.LiquidStack;
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.mod_BlockHelper;
+
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getCapacity;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getLiquid;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer_getTanks;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidDictionary_liquids;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_amount;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_isLiquidEqual;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemID;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemMeta;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_loadLiquidStackFromNBT;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_writeToNBT;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.newLiquidStack;
 
 public final class LiquidHelper {
 
@@ -25,71 +31,79 @@ public final class LiquidHelper {
         throw new UnsupportedOperationException();
     }
 
-    public static void writeToNBT(Object container, NBTTagCompound tag) {
-        ILiquidTank tank = getTank((ITankContainer) container);
-        LiquidStack stack = tank != null ? tank.getLiquid() : null;
-        int capacity = tank != null ? tank.getCapacity() : 0;
+    /**
+     * We assume {@code container} to be some tank container.
+     */
+    public static void writeToNBT(Object container, NBTTagCompound tag) throws Throwable {
+        Object tank = getTank(container);
 
-        if (stack != null) {
-            NBTTagCompound stackNBT = new NBTTagCompound();
-            stack.writeToNBT(stackNBT);
-            tag.setCompoundTag("liquidstack", stackNBT);
+        if (ILiquidTank != null && (tank == null || ILiquidTank.isInstance(tank))) {
+            Object stack = tank != null ? ILiquidTank_getLiquid.invoke(tank) : null;
+            int capacity = tank != null ? (Integer) ILiquidTank_getCapacity.invoke(tank) : 0;
+
+            if (stack != null) {
+                NBTTagCompound stackNBT = new NBTTagCompound();
+                LiquidStack_writeToNBT.invoke(stack, stackNBT);
+                tag.setCompoundTag("liquidstack", stackNBT);
+            }
+            tag.setInteger("liquidcapacity", capacity);
         }
-        tag.setInteger("liquidcapacity", capacity);
     }
 
-    public static ILiquidTank getTank(ITankContainer container) {
-        try {
-            ILiquidTank[] tanks = container.getTanks();
+    /**
+     * We assume {@code container} to be some tank container.
+     * Returns some liquid tank instance.
+     */
+    public static Object getTank(Object container) throws Throwable {
+        if (ITankContainer != null && ITankContainer.isInstance(container)) {
+            Object[] tanks = (Object[]) ITankContainer_getTanks.invoke(container);
             if (tanks != null && tanks.length > 0 && tanks[0] != null)
                 return tanks[0];
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.SEVERE,
-                    "[BC3] Unhandled exception trying to access a tank for display!\n", t);
         }
         return null;
     }
 
-    public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) {
+    public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) throws Throwable {
         NBTTagCompound compound = accessor.getNBTData();
-        LiquidStack stack = compound.hasKey("liquidstack")
-                ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+        Object stack = compound.hasKey("liquidstack")
+                ? LiquidStack_loadLiquidStackFromNBT.invoke(null, compound.getCompoundTag("liquidstack"))
                 : null;
         int capacity = accessor.getNBTInteger("liquidcapacity");
         int id = TTRenderLiquidBar.EMPTY_LIQUID;
         int amount = 0;
         int meta = 0;
         if (stack != null) {
-            id = stack.itemID;
-            amount = stack.amount;
-            meta = stack.itemMeta;
+            id = LiquidStack_itemID.getInt(stack);
+            amount = LiquidStack_amount.getInt(stack);
+            meta = LiquidStack_itemMeta.getInt(stack);
         }
         return new LiquidData(id, amount, meta, capacity);
     }
 
-    public static LiquidData getLiquidData(IDataAccessor accessor, IPluginConfig config) {
-        LiquidStack stack = null;
-        int capacity = 0;
+    public static LiquidData getLiquidData(IDataAccessor accessor, IPluginConfig config) throws Throwable {
+        Object stack;
+        int capacity;
 
-        if (accessor.getTileEntity() instanceof ITankContainer) {
+        if (accessor.getBlock() == Block.cauldron) {
+            int meta = accessor.getMetadata();
+            stack = newLiquidStack.newInstance(Block.waterStill.blockID,
+                    (int) Math.round(Math.min(3, meta) * 333.3), 0);
+            capacity = 1000;
+        } else {
             NBTTagCompound compound = accessor.getNBTData();
             stack = compound.hasKey("liquidstack")
-                    ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
+                    ? LiquidStack_loadLiquidStackFromNBT.invoke(null, compound.getCompoundTag("liquidstack"))
                     : null;
             capacity = accessor.getNBTInteger("liquidcapacity");
-        } else if (accessor.getBlock() == Block.cauldron) {
-            int meta = accessor.getMetadata();
-            stack = new LiquidStack(Block.waterStill, (int) Math.round(Math.min(3, meta) * 333.3));
-            capacity = 1000;
         }
 
         int id = TTRenderLiquidBar.EMPTY_LIQUID;
         int amount = 0;
         int meta = 0;
         if (stack != null) {
-            id = stack.itemID;
-            amount = stack.amount;
-            meta = stack.itemMeta;
+            id = LiquidStack_itemID.getInt(stack);
+            amount = LiquidStack_amount.getInt(stack);
+            meta = LiquidStack_itemMeta.getInt(stack);
         }
 
         return new LiquidData(id, amount, meta, capacity);
@@ -97,18 +111,16 @@ public final class LiquidHelper {
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
         if (data.getCapacity() > 0) {
-            if (data.id != TTRenderLiquidBar.EMPTY_LIQUID) {
+            if (data.getId() != TTRenderLiquidBar.EMPTY_LIQUID) {
                 return bar
                         ? TTRenderLiquidBar.create(data)
-                        : (data.amount + "/" + data.getCapacity() + " mB");
+                        : (data.getAmount() + "/" + data.getCapacity() + " mB");
             } else {
                 return bar ? TTRenderLiquidBar.createEmpty(data.getCapacity()) : null;
             }
         }
         return null;
     }
-
-    private static Field liquids = null;
 
     @SuppressWarnings("unchecked")
     public static String findLiquidName(LiquidData liquidData) {
@@ -118,19 +130,20 @@ public final class LiquidHelper {
         } catch (Throwable ignored) {
         }
 
-        try {
-            if (liquids == null)
-                liquids = AccessHelper.getDeclaredField(LiquidDictionary.class, "liquids");
-            LiquidStack liquidStack = new LiquidStack(liquidData.id, liquidData.amount, liquidData.meta);
-            for (String name : ((Map<String, LiquidStack>) liquids.get(null)).keySet()) {
-                try {
-                    LiquidStack stackOfList = (LiquidStack) liquids.get(name);
-                    if (liquidStack.isLiquidEqual(stackOfList))
-                        return name;
-                } catch (Throwable ignored) {
+        if (LiquidDictionary_liquids != null) {
+            try {
+                Object liquidStack = newLiquidStack.newInstance(liquidData.getId(),
+                        liquidData.getAmount(), liquidData.getMeta());
+                for (Map.Entry<String, Object> e :
+                        ((Map<String, Object>) LiquidDictionary_liquids.get(null)).entrySet()) {
+                    try {
+                        if ((Boolean) LiquidStack_isLiquidEqual.invoke(liquidStack, e.getValue()))
+                            return e.getKey();
+                    } catch (Throwable ignored) {
+                    }
                 }
+            } catch (Throwable ignored) {
             }
-        } catch (Throwable ignored) {
         }
 
         return I18n.translate("hud.msg.unknown");

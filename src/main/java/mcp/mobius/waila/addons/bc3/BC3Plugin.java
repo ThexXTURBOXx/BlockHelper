@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.bc3;
 
 import cpw.mods.fml.common.Side;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -8,6 +9,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.BlockCauldron;
+import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class BC3Plugin implements IWailaPlugin {
@@ -29,6 +31,23 @@ public final class BC3Plugin implements IWailaPlugin {
     public static Method IPowerProvider_getMaxEnergyStored = null;
 
     public static Class<?> ITankContainer = null;
+    public static Method ITankContainer_getTanks = null;
+
+    public static Class<?> ILiquidTank = null;
+    public static Method ILiquidTank_getLiquid = null;
+    public static Method ILiquidTank_getCapacity = null;
+
+    public static Class<?> LiquidStack = null;
+    public static Constructor<?> newLiquidStack = null;
+    public static Method LiquidStack_isLiquidEqual = null;
+    public static Method LiquidStack_writeToNBT = null;
+    public static Method LiquidStack_loadLiquidStackFromNBT = null;
+    public static Field LiquidStack_itemID = null;
+    public static Field LiquidStack_amount = null;
+    public static Field LiquidStack_itemMeta = null;
+
+    public static Class<?> LiquidDictionary = null;
+    public static Field LiquidDictionary_liquids = null;
 
     private BC3Plugin() {
     }
@@ -80,6 +99,26 @@ public final class BC3Plugin implements IWailaPlugin {
 
         try {
             ITankContainer = AccessHelper.getClass("buildcraft.api.liquids.ITankContainer");
+            ITankContainer_getTanks = AccessHelper.getMethod(ITankContainer, new Class[0], "getTanks");
+
+            ILiquidTank = AccessHelper.getClass("buildcraft.api.liquids.ILiquidTank");
+            ILiquidTank_getLiquid = AccessHelper.getMethod(ILiquidTank, new Class[0], "getLiquid");
+            ILiquidTank_getCapacity = AccessHelper.getMethod(ILiquidTank, new Class[0], "getCapacity");
+
+            LiquidStack = AccessHelper.getClass("buildcraft.api.liquids.LiquidStack");
+            newLiquidStack = AccessHelper.getConstructor(LiquidStack, int.class, int.class, int.class);
+            LiquidStack_isLiquidEqual = AccessHelper.getMethod(LiquidStack, new Class[]{LiquidStack},
+                    "isLiquidEqual");
+            LiquidStack_writeToNBT = AccessHelper.getMethod(LiquidStack, new Class[]{NBTTagCompound.class},
+                    "writeToNBT");
+            LiquidStack_loadLiquidStackFromNBT = AccessHelper.getMethod(LiquidStack, new Class[]{NBTTagCompound.class},
+                    "loadLiquidStackFromNBT");
+            LiquidStack_itemID = AccessHelper.getField(LiquidStack, "itemID");
+            LiquidStack_amount = AccessHelper.getField(LiquidStack, "amount");
+            LiquidStack_itemMeta = AccessHelper.getField(LiquidStack, "itemMeta");
+
+            LiquidDictionary = AccessHelper.getClass("buildcraft.api.liquids.LiquidDictionary");
+            LiquidDictionary_liquids = AccessHelper.getDeclaredField(LiquidDictionary, "liquids");
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
