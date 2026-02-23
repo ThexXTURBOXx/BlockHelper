@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
@@ -145,6 +146,24 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     @Override
     public int getMaxLineWidth() {
         return maxStringW;
+    }
+
+    public static String create(int liquidId, int liquidMeta, String localizedName,
+                                int amount, int capacity) {
+        return SpecialChars.getRenderString("waila.liquid",
+                liquidId, liquidMeta, localizedName, amount, capacity);
+    }
+
+    public static String create(LiquidStack stack, int capacity) {
+        return stack == null
+                ? createEmpty(capacity)
+                : create(stack.itemID, stack.itemMeta,
+                DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
+                stack.amount, capacity);
+    }
+
+    public static String createEmpty(int capacity) {
+        return create(TTRenderLiquidBar.EMPTY_LIQUID, 0, "", 0, capacity);
     }
 
 }

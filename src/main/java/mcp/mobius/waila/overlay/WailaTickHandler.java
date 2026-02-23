@@ -52,14 +52,16 @@ public class WailaTickHandler implements ITickHandler {
     }
 
     private void clientTick() {
-        Minecraft mc = Minecraft.getMinecraft();
-        World world = mc.theWorld;
-        EntityPlayer player = mc.thePlayer;
-
-        if (world == null || player == null) {
+        if (OverlayRenderer.shouldHideOverlay()) {
             resetAll();
             return;
         }
+
+        Minecraft mc = Minecraft.getMinecraft();
+        World world = mc.theWorld;
+        EntityPlayer player = mc.thePlayer;
+        RayTracing.instance().fire();
+        MovingObjectPosition target = RayTracing.instance().getTarget();
 
         if (firstTick) {
             ModIdentification.init();
@@ -68,9 +70,6 @@ public class WailaTickHandler implements ITickHandler {
             MinecraftForge.EVENT_BUS.post(new ClientFirstTickInWorldEvent(mc));
             firstTick = false;
         }
-
-        RayTracing.instance().fire();
-        MovingObjectPosition target = RayTracing.instance().getTarget();
 
         if (target != null && target.typeOfHit == EnumMovingObjectType.TILE) {
             DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;

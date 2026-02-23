@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.NumberFormatter;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -47,9 +47,7 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
         try {
             if (maxEnergy > 0 && currenttip.getEntries("AEEnergyStorage").isEmpty()) {
                 if (config.get("appeng.energybars")) {
-                    currenttip.add(
-                            SpecialChars.getRenderString("waila.energy", energy + "", maxEnergy + "", "AE"),
-                            "AEEnergyStorage");
+                    currenttip.add(TTRenderEnergyBar.createAE(energy, maxEnergy), "AEEnergyStorage");
                 } else {
                     currenttip.add(I18n.translate("hud.msg.stored") + TAB + ALIGNRIGHT +
                                    WHITE + NumberFormatter.format(energy) + RESET + " / " +

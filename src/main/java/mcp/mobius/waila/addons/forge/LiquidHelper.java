@@ -1,13 +1,10 @@
 package mcp.mobius.waila.addons.forge;
 
-import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.SpecialChars;
-import mcp.mobius.waila.mod_BlockHelper;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
@@ -24,7 +21,7 @@ public final class LiquidHelper {
     }
 
     public static void writeToNBT(ITankContainer container, NBTTagCompound tag) {
-        ILiquidTank tank = LiquidHelper.getTank(container);
+        ILiquidTank tank = getTank(container);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int capacity = tank != null ? tank.getCapacity() : 0;
 
@@ -44,8 +41,7 @@ public final class LiquidHelper {
                     return tanks[0];
             }
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.SEVERE,
-                    "[Forge] Unhandled exception trying to access a tank for display!\n", t);
+            WailaExceptionHandler.handleErr(t, "[Forge] Error trying to access a tank for display!", null);
         }
         return null;
     }
@@ -83,17 +79,10 @@ public final class LiquidHelper {
             LiquidStack stack = data.getLiquidStack();
             if (stack != null) {
                 return bar
-                        ? SpecialChars.getRenderString("waila.liquid",
-                        stack.itemID, stack.itemMeta,
-                        DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
-                        stack.amount, data.getCapacity())
+                        ? TTRenderLiquidBar.create(stack, data.getCapacity())
                         : (stack.amount + "/" + data.getCapacity() + " mB");
             } else {
-                return bar
-                        ? SpecialChars.getRenderString("waila.liquid",
-                        TTRenderLiquidBar.EMPTY_LIQUID, 0,
-                        "", 0, data.getCapacity())
-                        : null;
+                return bar ? TTRenderLiquidBar.createEmpty(data.getCapacity()) : null;
             }
         }
         return null;

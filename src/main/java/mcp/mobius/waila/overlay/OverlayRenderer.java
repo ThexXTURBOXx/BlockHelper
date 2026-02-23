@@ -20,19 +20,23 @@ public final class OverlayRenderer {
         throw new UnsupportedOperationException();
     }
 
+    public static boolean shouldHideOverlay() {
+        final Minecraft mc = Minecraft.getMinecraft();
+        return mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // Open screen (except chat)
+               mc.theWorld == null || // No world is loaded
+               mc.thePlayer == null || // Player is not loaded
+               !Minecraft.isGuiEnabled() || // Cinema mode
+               (mc.gameSettings.showDebugInfo // Together with next two lines: handle F3 screen
+                && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                       Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
+               (mc.gameSettings.keyBindPlayerList.pressed // Together with next two lines: player list is shown
+                && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1
+                    || mc.theWorld.getScoreboard().func_96539_a(0) != null)) ||
+               !PluginConfig.instance().showTooltip(); // Tooltip is disabled in config
+    }
+
     public static void renderOverlay(Tooltip tooltip) {
-        Minecraft mc = Minecraft.getMinecraft();
-        if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
-            mc.theWorld == null || // World is loaded
-            !Minecraft.isGuiEnabled() || // Not in cinema mode
-            (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
-             && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
-            (mc.gameSettings.keyBindPlayerList.pressed // Together with next two lines: player list is not shown
-             && (!mc.isIntegratedServerRunning() || mc.thePlayer.sendQueue.playerInfoList.size() > 1
-                 || mc.theWorld.getScoreboard().func_96539_a(0) != null)) ||
-            !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
-            RayTracing.instance().getTarget() == null) // Raytrace found a target
-            return;
+        if (shouldHideOverlay() || RayTracing.instance().getTarget() == null) return;
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             doRenderOverlay(tooltip);
