@@ -24,6 +24,7 @@ public final class OverlayRenderer {
         final Minecraft mc = Minecraft.getMinecraft();
         return mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // Open screen (except chat)
                mc.theWorld == null || // No world is loaded
+               mc.thePlayer == null || // Player is not loaded
                !Minecraft.isGuiEnabled() || // Cinema mode
                (mc.gameSettings.showDebugInfo // Together with next two lines: handle F3 screen
                 && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,

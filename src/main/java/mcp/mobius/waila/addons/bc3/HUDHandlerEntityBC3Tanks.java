@@ -75,7 +75,11 @@ public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
     @Override
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
-        LiquidHelper.writeToNBT(ent, tag);
+        try {
+            LiquidHelper.writeToNBT(ent, tag);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), null);
+        }
     }
 
 }
