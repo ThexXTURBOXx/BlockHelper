@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.NumberFormatter;
 import net.minecraft.client.Minecraft;
@@ -89,6 +90,23 @@ public class TTRenderEnergyBar implements IVariableWidthTooltipRenderer {
     @Override
     public int getMaxLineWidth() {
         return maxStringW;
+    }
+
+    public static String create(int amount, int capacity, String unit) {
+        return SpecialChars.getRenderString("waila.energy",
+                amount, capacity, unit);
+    }
+
+    public static String createAE(int amount, int capacity) {
+        return create(amount, capacity, "AE");
+    }
+
+    public static String createEU(int amount, int capacity) {
+        return create(amount, capacity, "EU");
+    }
+
+    public static String createMJ(int amount, int capacity) {
+        return create(amount, capacity, "MJ");
     }
 
 }

@@ -85,7 +85,7 @@ public final class BC3Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
 
             if (side.isClient())
-                registrar.addConfig("Buildcraft", "bc.liquidbars");
+                registrar.addConfig("Buildcraft", "bcapi.liquidbars");
 
             registrar.registerNBTProvider(HUDHandlerBC3Tanks.INSTANCE, ITankContainer);
             registrar.registerNBTProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ITankContainer);
