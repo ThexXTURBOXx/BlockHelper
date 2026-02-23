@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import org.lwjgl.util.Dimension;
@@ -30,6 +31,11 @@ public class TTRenderString implements ITooltipRenderer {
             ret.append(params[i]);
         }
         return ret.toString();
+    }
+
+    public static String create(String data) {
+        return SpecialChars.getRenderString("waila.string",
+                data);
     }
 
 }
