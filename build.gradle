@@ -105,13 +105,6 @@ unimined.minecraft(sourceSets.server) {
 dependencies {
     clientModImplementation(":CodeChickenCore-Client 0.5.5")
     clientModImplementation(":NotEnoughItems-Client 1.2.2.4-MODIFIED")
-    clientModImplementation(":buildcraft-client-A-core-2.2.14-MODIFIED")
-    clientModImplementation(":buildcraft-client-3.1.6.102")
-
-    serverModImplementation(":buildcraft-server-A-core-2.2.14-MODIFIED")
-    serverModImplementation(":buildcraft-server-3.1.6.102")
 
     mcpcplusImplementation(":craftbukkit-1.2.5-R5.0-MCPC-SNAPSHOT-183")
-    mcpcplusImplementation(":buildcraft-2.2.14-mcpc1.2.5-r9-MODIFIED")
-    mcpcplusImplementation(":buildcraft-bukkit-3.1.6.25-r3")
 }

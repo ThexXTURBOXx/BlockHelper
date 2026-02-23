@@ -5,12 +5,24 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.NumberFormatter;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_energy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_maxEnergy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getMaxEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor_getPowerProvider;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.PowerProvider_energyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.PowerProvider_maxEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine_engine;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -37,15 +49,21 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (!config.get("bcapi.storage")) return;
+        if (!accessor.getNBTData().hasKey("MJMaxStorage")) return;
         if (!accessor.getNBTData().hasKey("MJEnergy")) return;
 
-        int energy = accessor.getNBTInteger("MJEnergy");
         int maxEnergy = accessor.getNBTInteger("MJMaxStorage");
+        int energy = Math.min(accessor.getNBTInteger("MJEnergy"), maxEnergy);
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                String storedStr = I18n.translate("hud.msg.stored");
-                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
-                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
+                if (config.get("bcapi.energybars")) {
+                    currenttip.add(TTRenderEnergyBar.createMJ(energy, maxEnergy), "MJEnergyStorage");
+                } else {
+                    currenttip.add(I18n.translate("hud.msg.stored") + TAB + ALIGNRIGHT +
+                                   WHITE + NumberFormatter.format(energy) + RESET + " / " +
+                                   WHITE + NumberFormatter.format(maxEnergy) + RESET + " MJ",
+                            "MJEnergyStorage");
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -63,22 +81,28 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
         try {
             Float energy = -1f;
             Integer maxsto = -1;
-            if (BC3Plugin.TileEngine.isInstance(te)) {
-                Object engine = BC3Plugin.TileEngine_engine.get(te);
+            if (TileEngine.isInstance(te)) {
+                Object engine = TileEngine_engine.get(te);
                 if (engine != null) {
-                    energy = BC3Plugin.Engine_energy.getFloat(engine);
-                    maxsto = BC3Plugin.Engine_maxEnergy.getInt(engine);
+                    energy = Engine_energy.getFloat(engine);
+                    maxsto = Engine_maxEnergy.getInt(engine);
                 }
-            } else if (BC3Plugin.IPowerReceptor.isInstance(te)) {
-                Object prov = BC3Plugin.IPowerReceptor_getPowerProvider.invoke(te);
+            } else if (IPowerReceptor.isInstance(te)) {
+                Object prov = IPowerReceptor_getPowerProvider.invoke(te);
                 if (prov != null) {
-                    energy = (Float) BC3Plugin.IPowerProvider_getEnergyStored.invoke(prov);
-                    maxsto = (Integer) BC3Plugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
+                    energy = IPowerProvider_getEnergyStored != null
+                            ? (Float) IPowerProvider_getEnergyStored.invoke(prov)
+                            : PowerProvider_energyStored.getFloat(prov);
+                    maxsto = IPowerProvider_getMaxEnergyStored != null
+                            ? (Integer) IPowerProvider_getMaxEnergyStored.invoke(prov)
+                            : PowerProvider_maxEnergyStored.getInt(prov);
                 }
             }
 
-            tag.setInteger("MJEnergy", Math.round(energy));
-            tag.setInteger("MJMaxStorage", maxsto);
+            if (energy != null && maxsto != null) {
+                tag.setInteger("MJEnergy", Math.round(energy));
+                tag.setInteger("MJMaxStorage", maxsto);
+            }
 
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);

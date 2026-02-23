@@ -4,13 +4,11 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
+import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.TileEntity;
 
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_energy;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_maxEnergy;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getEnergyStored;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getMaxEnergyStored;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor_getPowerProvider;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.PowerProvider_energyStored;
@@ -40,18 +38,14 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
             } else if (IPowerReceptor.isInstance(te)) {
                 Object prov = IPowerReceptor_getPowerProvider.invoke(te);
                 if (prov != null) {
-                    energy = IPowerProvider_getEnergyStored != null
-                            ? (Float) IPowerProvider_getEnergyStored.invoke(prov)
-                            : PowerProvider_energyStored.getFloat(prov);
-                    maxsto = IPowerProvider_getMaxEnergyStored != null
-                            ? (Integer) IPowerProvider_getMaxEnergyStored.invoke(prov)
-                            : PowerProvider_maxEnergyStored.getInt(prov);
+                    energy = PowerProvider_energyStored.getFloat(prov);
+                    maxsto = PowerProvider_maxEnergyStored.getInt(prov);
                 }
             }
 
             if (energy != null && maxsto != null) {
-                tag.setInteger("MJEnergy", Math.round(energy));
-                tag.setInteger("MJMaxStorage", maxsto);
+                tag.setInt("MJEnergy", Math.round(energy));
+                tag.setInt("MJMaxStorage", maxsto);
             }
 
         } catch (Throwable t) {

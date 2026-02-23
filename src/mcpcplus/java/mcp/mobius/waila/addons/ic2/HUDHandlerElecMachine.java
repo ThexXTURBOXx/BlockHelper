@@ -23,8 +23,8 @@ public class HUDHandlerElecMachine implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            if (IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
-            if (TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
+            if (IEnergyStorage != null && IEnergyStorage.isInstance(te)) return; // skip, handled elsewhere
+            if (TileBaseGenerator != null && TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
 
             int maxStorage = -1;
 

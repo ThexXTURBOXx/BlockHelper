@@ -49,13 +49,25 @@ public final class IC2Plugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         // XXX: We register the Energy interface first
+
+        boolean storageRegistered = false;
+
         try {
+            // We do this one in an extra block as it is not available in early IC² versions for 1.2.4/5...
             IEnergyStorage = AccessHelper.getClass("ic2.api.IEnergyStorage");
             IEnergyStorage_getStored = AccessHelper.getMethod(IEnergyStorage, new Class[0],
                     "getStored");
             IEnergyStorage_getCapacity = AccessHelper.getMethod(IEnergyStorage, new Class[0],
                     "getCapacity");
 
+            registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
+
+            storageRegistered = true;
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.FINE, "[IndustrialCraft 2] Skipping registration of IEnergyStorage.", t);
+        }
+
+        try {
             IEnergySource = AccessHelper.getClass("ic2.api.IEnergySource");
             IEnergySource_getOutput = AccessHelper.getMethod(IEnergySource, new Class[0],
                     "getMaxEnergyOutput");
@@ -70,14 +82,18 @@ public final class IC2Plugin implements IWailaPlugin {
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeumach");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.inputeuother");
             registrar.addSyncedConfig("IndustrialCraft2", "ic2.outputeu");
-            registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
 
             registrar.registerNBTProvider(HUDHandlerElecMachine.INSTANCE, TileEntityElecMachine);
-            registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, IEnergyStorage);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergySource.INSTANCE, IEnergySource);
             registrar.registerNBTProvider(HUDHandlerIC2IEnergyStorage.INSTANCE, TileBaseGenerator);
+
+            storageRegistered = true;
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading energy API hooks.", t);
+        }
+
+        if (storageRegistered) {
+            registrar.addSyncedConfig("IndustrialCraft2", "ic2.storage");
         }
 
         try {

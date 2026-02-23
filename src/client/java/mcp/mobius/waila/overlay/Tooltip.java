@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
 import mcp.mobius.waila.api.event.WailaEventRegistrar;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -25,6 +26,7 @@ import org.lwjgl.util.Rectangle;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNCENTER;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.WailaRendererComma;
 import static mcp.mobius.waila.api.SpecialChars.patternIcon;
 import static mcp.mobius.waila.api.SpecialChars.patternLineSplit;
 import static mcp.mobius.waila.api.SpecialChars.patternRender;
@@ -110,10 +112,11 @@ public class Tooltip {
 
         if (hasIcon) hasIcon = PluginConfig.instance().showIcon();
 
-        columnsWidth.add(0);        // Small init of the arrays to have at least one element
+        columnsWidth.add(0); // Small init of the arrays to have at least one element
         columnsPos.add(0);
 
         for (String s : textData) {
+            if (s == null) s = "";
 
             List<String> line = new ArrayList<String>(Arrays.asList(patternTab.split(s)));
             List<Integer> size = new ArrayList<Integer>();
@@ -160,19 +163,18 @@ public class Tooltip {
 
     private void computeRenderables() {
         int offsetY = 0;
-        for (List<String> line : lines) {                // We check all the lines, one by one
-            int maxHeight = 0;                                // Maximum height of this line
+        for (List<String> line : lines) {              // We check all the lines, one by one
+            int maxHeight = 0;                         // Maximum height of this line
             for (int c = 0; c < line.size(); c++) {    // We check all the columns for this line
-                offsetX = columnsPos.get(c);            // We move the "cursor" to the current column
+                offsetX = columnsPos.get(c);           // We move the "cursor" to the current column
                 String currentLine = line.get(c);
                 Matcher lineMatcher = patternLineSplit.matcher(currentLine);
 
                 while (lineMatcher.find()) {
                     String cs = lineMatcher.group();
                     Renderable renderable = null;
-                    Matcher renderMatcher = patternRender.matcher(cs);    //We keep a matcher here to be able to
-                    // check if we have a Renderer. Might be better to do a startWith + full matcher init after the
-                    // check
+                    Matcher renderMatcher = patternRender.matcher(cs); // We keep a matcher here to be able to check
+                    // if we have a Renderer. Might be better to do a startWith + full matcher init after the check
                     Matcher iconMatcher = patternIcon.matcher(cs);
 
                     if (renderMatcher.find()) {
@@ -181,7 +183,11 @@ public class Tooltip {
                         ITooltipRenderer renderer = WailaRegistrar.instance().getTooltipRenderer(renderName);
                         if (renderer != null) {
                             renderable = new Renderable(renderer, new Point(offsetX, offsetY),
-                                    renderMatcher.group(2).split(","));
+                                    renderMatcher.group(2).split(WailaRendererComma));
+                            if (renderer instanceof IVariableWidthTooltipRenderer) {
+                                IVariableWidthTooltipRenderer ivwtr = (IVariableWidthTooltipRenderer) renderer;
+                                ivwtr.setMaxLineWidth(maxStringW);
+                            }
                             this.elements2nd.add(renderable);
                         }
                     } else if (iconMatcher.find()) {
@@ -201,8 +207,9 @@ public class Tooltip {
                     }
 
                     if (renderable != null) {
-                        offsetX += renderable.getSize(accessor).getWidth();
-                        maxHeight = Math.max(maxHeight, renderable.getSize(accessor).getHeight() + 2);
+                        Dimension dim = renderable.getSize(accessor);
+                        offsetX += dim.getWidth();
+                        maxHeight = Math.max(maxHeight, dim.getHeight() + 2);
                     }
                 }
             }

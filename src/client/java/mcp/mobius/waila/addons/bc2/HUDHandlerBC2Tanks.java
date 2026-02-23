@@ -1,18 +1,18 @@
 package mcp.mobius.waila.addons.bc2;
 
+import mcp.mobius.waila.addons.bc2.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.bc2.BC2Plugin.ILiquidContainer;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -32,23 +32,14 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            if (config.get("bc.tanktype")) {
-                int liquidId = 0;
-                int capacity = 0;
+            if (config.get("bc.tanktype") && !config.get("bcapi.liquidbars")) {
+                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
-                if (ILiquidContainer.isInstance(accessor.getTileEntity())) {
-                    liquidId = accessor.getNBTInteger("liquidtype");
-                    capacity = accessor.getNBTInteger("liquidcapacity");
-                } else if (accessor.getBlock() == Block.cauldron) {
-                    liquidId = Block.waterStill.blockID;
-                    capacity = 1000;
-                }
-
-                if (capacity > 0) {
+                if (data.getCapacity() > 0) {
                     String name = currenttip.get(0);
-                    name += " " + (liquidId == 0
+                    name += " " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
                             ? I18n.translate("hud.msg.empty")
-                            : ("(" + LiquidHelper.getLiquidName(liquidId) + RESET + WHITE + ")"));
+                            : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"));
                     currenttip.set(0, name);
                 }
             }
@@ -62,19 +53,9 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             if (config.get("bc.tankamount")) {
-                int liquidAmount = 0;
-                int capacity = 0;
-
-                if (ILiquidContainer.isInstance(accessor.getTileEntity())) {
-                    liquidAmount = accessor.getNBTInteger("liquidamt");
-                    capacity = accessor.getNBTInteger("liquidcapacity");
-                } else if (accessor.getBlock() == Block.cauldron) {
-                    liquidAmount = Math.min(4, accessor.getMetadata()) * 250;
-                    capacity = 1000;
-                }
-
-                if (capacity > 0)
-                    currenttip.add(liquidAmount + "/" + capacity + " mB");
+                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
+                if (tip != null) currenttip.add(tip);
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
@@ -89,7 +70,11 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
-        LiquidHelper.writeToNBT(te, tag);
+        try {
+            LiquidHelper.writeToNBT(te, tag);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
+        }
     }
 
 }

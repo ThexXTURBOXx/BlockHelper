@@ -5,7 +5,9 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.NumberFormatter;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -37,15 +39,21 @@ public final class HUDHandlerBC2Energy implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (!config.get("bcapi.storage")) return;
+        if (!accessor.getNBTData().hasKey("MJMaxStorage")) return;
         if (!accessor.getNBTData().hasKey("MJEnergy")) return;
 
-        int energy = accessor.getNBTInteger("MJEnergy");
         int maxEnergy = accessor.getNBTInteger("MJMaxStorage");
+        int energy = Math.min(accessor.getNBTInteger("MJEnergy"), maxEnergy);
         try {
             if (maxEnergy > 0 && currenttip.getEntries("MJEnergyStorage").isEmpty()) {
-                String storedStr = I18n.translate("hud.msg.stored");
-                currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(energy, maxEnergy) +
-                               RESET + " / " + WHITE + maxEnergy + RESET + " MJ", "MJEnergyStorage");
+                if (config.get("bcapi.energybars")) {
+                    currenttip.add(TTRenderEnergyBar.createMJ(energy, maxEnergy), "MJEnergyStorage");
+                } else {
+                    currenttip.add(I18n.translate("hud.msg.stored") + TAB + ALIGNRIGHT +
+                                   WHITE + NumberFormatter.format(energy) + RESET + " / " +
+                                   WHITE + NumberFormatter.format(maxEnergy) + RESET + " MJ",
+                            "MJEnergyStorage");
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);

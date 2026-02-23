@@ -1,17 +1,17 @@
-package mcp.mobius.waila.addons.bc2;
+package mcp.mobius.waila.addons.bc3;
 
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.src.Entity;
-import net.minecraft.src.NBTTagCompound;
+import net.minecraft.server.Entity;
+import net.minecraft.server.NBTTagCompound;
 
-public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
+public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
 
-    public static final IEntityProvider INSTANCE = new HUDHandlerEntityBC2Tanks();
+    public static final IEntityProvider INSTANCE = new HUDHandlerEntityBC3Tanks();
 
-    private HUDHandlerEntityBC2Tanks() {
+    private HUDHandlerEntityBC3Tanks() {
     }
 
     @Override

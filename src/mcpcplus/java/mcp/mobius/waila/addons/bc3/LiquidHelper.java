@@ -1,23 +1,15 @@
 package mcp.mobius.waila.addons.bc3;
 
-import net.minecraft.src.NBTTagCompound;
+import net.minecraft.server.NBTTagCompound;
 
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidContainer;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidContainer_getLiquidId;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidContainer_getLiquidQuantity;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidContainer_getLiquidSlots;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getCapacity;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getLiquid;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer_getTanks;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidSlot;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidSlot_getCapacity;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidSlot_getLiquidId;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidSlot_getLiquidQty;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_amount;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemID;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemMeta;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.newLiquidSlot;
 
 public final class LiquidHelper {
@@ -32,22 +24,6 @@ public final class LiquidHelper {
     public static void writeToNBT(Object container, NBTTagCompound tag) throws Throwable {
         Object tank = getTank(container);
 
-        if (ILiquidTank != null && (tank == null || ILiquidTank.isInstance(tank))) {
-            Object stack = tank != null ? ILiquidTank_getLiquid.invoke(tank) : null;
-            short id = stack != null ? (short) LiquidStack_itemID.getInt(stack) : 0;
-            int capacity = tank != null ? (Integer) ILiquidTank_getCapacity.invoke(tank) : 0;
-
-            if (stack != null && id != 0) {
-                NBTTagCompound stackNBT = new NBTTagCompound();
-                stackNBT.setShort("Id", id);
-                stackNBT.setInteger("Amount", LiquidStack_amount.getInt(stack));
-                stackNBT.setShort("Meta", (short) LiquidStack_itemMeta.getInt(stack));
-                tag.setCompoundTag("liquidstack", stackNBT);
-            }
-            tag.setInteger("liquidcapacity", capacity);
-            return;
-        }
-
         if (LiquidSlot != null && (tank == null || LiquidSlot.isInstance(tank))) {
             short id = tank != null ? (short) (int) (Integer) LiquidSlot_getLiquidId.invoke(tank) : 0;
             int capacity = tank != null ? (Integer) LiquidSlot_getCapacity.invoke(tank) : 0;
@@ -55,11 +31,11 @@ public final class LiquidHelper {
             if (tank != null && id != 0) {
                 NBTTagCompound stackNBT = new NBTTagCompound();
                 stackNBT.setShort("Id", id);
-                stackNBT.setInteger("Amount", (Integer) LiquidSlot_getLiquidQty.invoke(tank));
+                stackNBT.setInt("Amount", (Integer) LiquidSlot_getLiquidQty.invoke(tank));
                 stackNBT.setShort("Meta", (short) 0);
-                tag.setCompoundTag("liquidstack", stackNBT);
+                tag.set("liquidstack", stackNBT);
             }
-            tag.setInteger("liquidcapacity", capacity);
+            tag.setInt("liquidcapacity", capacity);
             return;
         }
     }
@@ -69,12 +45,6 @@ public final class LiquidHelper {
      * Returns some liquid tank instance.
      */
     public static Object getTank(Object container) throws Throwable {
-        if (ITankContainer != null && ITankContainer.isInstance(container)) {
-            Object[] tanks = (Object[]) ITankContainer_getTanks.invoke(container);
-            if (tanks != null && tanks.length > 0 && tanks[0] != null)
-                return tanks[0];
-        }
-
         if (ILiquidContainer != null && ILiquidContainer.isInstance(container)) {
             Object[] slots = (Object[]) ILiquidContainer_getLiquidSlots.invoke(container);
             if (slots != null && slots.length > 0 && slots[0] != null)
