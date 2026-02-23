@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -27,7 +26,7 @@ public final class LiquidHelper {
     }
 
     public static void writeToNBT(Object container, NBTTagCompound tag) {
-        ILiquidTank tank = LiquidHelper.getTank((ITankContainer) container);
+        ILiquidTank tank = getTank((ITankContainer) container);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int capacity = tank != null ? tank.getCapacity() : 0;
 
@@ -100,17 +99,10 @@ public final class LiquidHelper {
         if (data.getCapacity() > 0) {
             if (data.id != TTRenderLiquidBar.EMPTY_LIQUID) {
                 return bar
-                        ? SpecialChars.getRenderString("waila.liquid",
-                        data.id, data.meta,
-                        findLiquidName(data),
-                        data.amount, data.getCapacity())
+                        ? TTRenderLiquidBar.create(data)
                         : (data.amount + "/" + data.getCapacity() + " mB");
             } else {
-                return bar
-                        ? SpecialChars.getRenderString("waila.liquid",
-                        TTRenderLiquidBar.EMPTY_LIQUID, 0,
-                        "", 0, data.getCapacity())
-                        : null;
+                return bar ? TTRenderLiquidBar.createEmpty(data.getCapacity()) : null;
             }
         }
         return null;

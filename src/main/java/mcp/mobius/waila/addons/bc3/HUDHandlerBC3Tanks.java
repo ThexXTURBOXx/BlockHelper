@@ -32,7 +32,7 @@ public final class HUDHandlerBC3Tanks implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         try {
-            if (config.get("bc.tanktype") && !config.get("bc.liquidbars")) {
+            if (config.get("bc.tanktype") && !config.get("bcapi.liquidbars")) {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
                 if (data.getCapacity() > 0) {
@@ -54,7 +54,7 @@ public final class HUDHandlerBC3Tanks implements IDataProvider {
         try {
             if (config.get("bc.tankamount")) {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bc.liquidbars"));
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
                 if (tip != null) currenttip.add(tip);
             }
         } catch (Throwable t) {

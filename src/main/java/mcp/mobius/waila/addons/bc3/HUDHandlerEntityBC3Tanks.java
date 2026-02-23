@@ -37,7 +37,7 @@ public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         try {
-            if (config.get("bc.tanktype") && !config.get("bc.liquidbars")) {
+            if (config.get("bc.tanktype") && !config.get("bcapi.liquidbars")) {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
                 if (data.getCapacity() > 0) {
@@ -59,7 +59,7 @@ public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
         try {
             if (config.get("bc.tankamount")) {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bc.liquidbars"));
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
                 if (tip != null) currenttip.add(tip);
             }
         } catch (Throwable t) {
