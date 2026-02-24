@@ -5,6 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin;
 import mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin;
 import mcp.mobius.waila.addons.bc2.BC2Plugin;
+import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.core.CorePlugin;
 import mcp.mobius.waila.addons.ee.EEPlugin;
 import mcp.mobius.waila.addons.ee2.EE2Plugin;
@@ -58,6 +59,7 @@ public class ProxyCommon {
         registerPlugin(ThermalExpansionPlugin.INSTANCE);
         registerPlugin(WeeeFlowersPlugin.INSTANCE);
         registerPlugin(BC2Plugin.INSTANCE);
+        registerPlugin(BC3Plugin.INSTANCE);
     }
 
     public void registerCorePlugins(IRegistrar registrar) {

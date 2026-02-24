@@ -5,7 +5,8 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTBase;
@@ -46,21 +47,13 @@ public final class HUDHandlerFurnace implements IDataProvider {
                 inv[subtag.getByte("Slot")] = stack;
             }
 
-            String renderStr = (inv[0] == null ? "" : getItemRenderString(inv[0]))
-                               + (inv[1] == null ? "" : getItemRenderString(inv[1]))
-                               + SpecialChars.getRenderString("waila.progress", cookTime, 200)
-                               + getItemRenderString(inv[2]);
+            String renderStr = (inv[0] == null ? "" : TTRenderStack.create(inv[0]))
+                               + (inv[1] == null ? "" : TTRenderStack.create(inv[1]))
+                               + TTRenderProgressBar.create(cookTime, 200)
+                               + TTRenderStack.create(inv[2]);
 
             currenttip.add(renderStr);
         }
-    }
-
-    private static String getItemRenderString(ItemStack stack) {
-        boolean empty = stack == null;
-        String id = (empty ? 0 : stack.getItem().shiftedIndex) + "";
-        return SpecialChars.getRenderString("waila.stack",
-                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage(),
-                !empty && stack.func_40711_u());
     }
 
     @Override

@@ -28,6 +28,15 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Field PowerProvider_maxEnergyStored = null;
 
     public static Class<?> ILiquidContainer = null;
+    public static Method ILiquidContainer_getLiquidSlots = null;
+    public static Method ILiquidContainer_getLiquidId = null;
+    public static Method ILiquidContainer_getLiquidQuantity = null;
+    public static Method ILiquidContainer_getCapacity = null;
+
+    public static Class<?> LiquidSlot = null;
+    public static Method LiquidSlot_getLiquidId = null;
+    public static Method LiquidSlot_getLiquidQty = null;
+    public static Method LiquidSlot_getCapacity = null;
 
     public static Class<?> TileGenericPipe = null;
     public static Field TileGenericPipe_pipe = null;
@@ -41,7 +50,9 @@ public final class BC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("mod_BuildCraftCore");
+            Class<?> mod_BuildCraftCore = AccessHelper.getClass("mod_BuildCraftCore");
+            String version = (String) AccessHelper.getMethod(mod_BuildCraftCore, new Class[0], "version").invoke(null);
+            if (!version.startsWith("2")) throw new Exception("This is not BC2!");
             mod_BlockHelper.LOG.log(Level.INFO, "[BC2] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -69,6 +80,8 @@ public final class BC2Plugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
+            registrar.addConfig("Buildcraft", "bcapi.energybars");
+
             registrar.registerNBTProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
 
             registrar.registerBodyProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
@@ -78,9 +91,25 @@ public final class BC2Plugin implements IWailaPlugin {
 
         try {
             ILiquidContainer = AccessHelper.getClass("buildcraft.api.ILiquidContainer");
+            try {
+                ILiquidContainer_getLiquidSlots = AccessHelper.getMethod(ILiquidContainer, new Class[0],
+                        "getLiquidSlots");
+
+                LiquidSlot = AccessHelper.getClass("buildcraft.api.LiquidSlot");
+                LiquidSlot_getLiquidId = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidId");
+                LiquidSlot_getLiquidQty = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidQty");
+                LiquidSlot_getCapacity = AccessHelper.getMethod(LiquidSlot, new Class[0], "getCapacity");
+            } catch (Throwable ignored) {
+            }
+            ILiquidContainer_getLiquidId = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getLiquidId");
+            ILiquidContainer_getLiquidQuantity = AccessHelper.getMethod(ILiquidContainer, new Class[0],
+                    "getLiquidQuantity");
+            ILiquidContainer_getCapacity = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getCapacity");
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
+
+            registrar.addConfig("Buildcraft", "bcapi.liquidbars");
 
             registrar.registerNBTProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
             registrar.registerNBTProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
