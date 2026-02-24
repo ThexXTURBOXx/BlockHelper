@@ -21,16 +21,20 @@ public final class OverlayRenderer {
         throw new UnsupportedOperationException();
     }
 
+    public static boolean shouldHideOverlay() {
+        final Minecraft mc = ModLoader.getMinecraftInstance();
+        return mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // Open screen (except chat)
+               mc.theWorld == null || // No world is loaded
+               mc.thePlayer == null || // Player is not loaded
+               !Minecraft.func_22006_t() || // Cinema mode
+               (mc.gameSettings.showDebugInfo // Together with next two lines: handle F3 screen
+                && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
+                       Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
+               !PluginConfig.instance().showTooltip(); // Tooltip is disabled in config
+    }
+
     public static void renderOverlay(Tooltip tooltip) {
-        Minecraft mc = ModLoader.getMinecraftInstance();
-        if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // No open screen, except chat
-            mc.theWorld == null || // World is loaded
-            !Minecraft.func_22006_t() || // Not in cinema mode
-            (mc.gameSettings.showDebugInfo // Together with next line: handle F3 screen
-             && PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true)) ||
-            !PluginConfig.instance().showTooltip() || // Tooltip is enabled in config
-            RayTracing.instance().getTarget() == null) // Raytrace found a target
-            return;
+        if (shouldHideOverlay() || RayTracing.instance().getTarget() == null) return;
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             doRenderOverlay(tooltip);
