@@ -107,11 +107,8 @@ dependencies {
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
     clientModImplementation(":CodeChickenCore-Client 0.5.0")
     clientModImplementation(":NotEnoughItems-Client 1.2.0")
-    clientModImplementation(":buildcraft-client-A-core-2.2.13")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.2.13")
 
     mcpcplusImplementation(":craftbukkit-1.2.3-R0.3-MCPC-SNAPSHOT-56")
-    mcpcplusImplementation(":buildcraft-2.2.13-mcpc1.2.3-r8")
 }

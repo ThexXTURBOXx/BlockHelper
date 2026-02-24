@@ -5,7 +5,9 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
 import mcp.mobius.waila.utils.I18n;
+import mcp.mobius.waila.utils.NumberFormatter;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -39,19 +41,26 @@ public class HUDHandlerElecMachine implements IDataProvider {
     @Override
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        if (config.get("ic2.storage"))
-            try {
-                int storage = accessor.getNBTInteger("energy");
-                int maxStorage = accessor.getNBTInteger("maxStorage");
+        if (!config.get("ic2.storage")) return;
+        if (!accessor.getNBTData().hasKey("maxStorage")) return;
+        if (!accessor.getNBTData().hasKey("energy")) return;
 
-                String storedStr = I18n.translate("hud.msg.stored");
-
-                if (maxStorage > 0)
-                    currenttip.add(storedStr + TAB + ALIGNRIGHT + WHITE + Math.min(storage, maxStorage) +
-                                   RESET + " / " + WHITE + maxStorage + RESET + " EU");
-            } catch (Throwable t) {
-                WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
+        int maxEnergy = accessor.getNBTInteger("maxStorage");
+        int energy = Math.min(accessor.getNBTInteger("energy"), maxEnergy);
+        try {
+            if (maxEnergy > 0 && currenttip.getEntries("EUEnergyStorage").isEmpty()) {
+                if (config.get("ic2.energybars")) {
+                    currenttip.add(TTRenderEnergyBar.createEU(energy, maxEnergy), "EUEnergyStorage");
+                } else {
+                    currenttip.add(I18n.translate("hud.msg.stored") + TAB + ALIGNRIGHT +
+                                   WHITE + NumberFormatter.format(energy) + RESET + " / " +
+                                   WHITE + NumberFormatter.format(maxEnergy) + RESET + " EU",
+                            "EUEnergyStorage");
+                }
             }
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class HUDHandlerElecMachine implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            if (TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
+            if (TileBaseGenerator != null && TileBaseGenerator.isInstance(te)) return; // skip, handled elsewhere
 
             int maxStorage = -1;
 
