@@ -1,6 +1,6 @@
-package mcp.mobius.waila.addons.bc2;
+package mcp.mobius.waila.addons.bc3;
 
-import mcp.mobius.waila.addons.bc2.LiquidHelper.LiquidData;
+import mcp.mobius.waila.addons.bc3.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -16,11 +16,11 @@ import net.minecraft.src.NBTTagCompound;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
+public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
 
-    public static final IEntityProvider INSTANCE = new HUDHandlerEntityBC2Tanks();
+    public static final IEntityProvider INSTANCE = new HUDHandlerEntityBC3Tanks();
 
-    private HUDHandlerEntityBC2Tanks() {
+    private HUDHandlerEntityBC3Tanks() {
     }
 
     @Override

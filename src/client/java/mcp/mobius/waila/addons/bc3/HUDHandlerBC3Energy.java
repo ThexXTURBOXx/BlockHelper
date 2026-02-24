@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.bc2;
+package mcp.mobius.waila.addons.bc3;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -13,16 +13,24 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_energy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_maxEnergy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor_getPowerProvider;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.PowerProvider_energyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.PowerProvider_maxEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine_engine;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerBC2Energy implements IDataProvider {
+public final class HUDHandlerBC3Energy implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerBC2Energy();
+    public static final IDataProvider INSTANCE = new HUDHandlerBC3Energy();
 
-    private HUDHandlerBC2Energy() {
+    private HUDHandlerBC3Energy() {
     }
 
     @Override
@@ -69,24 +77,26 @@ public final class HUDHandlerBC2Energy implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int energy = -1;
-            int maxsto = -1;
-            if (BC2Plugin.TileEngine.isInstance(te)) {
-                Object engine = BC2Plugin.TileEngine_engine.get(te);
+            Float energy = -1f;
+            Integer maxsto = -1;
+            if (TileEngine.isInstance(te)) {
+                Object engine = TileEngine_engine.get(te);
                 if (engine != null) {
-                    energy = BC2Plugin.Engine_energy.getInt(engine);
-                    maxsto = BC2Plugin.Engine_maxEnergy.getInt(engine);
+                    energy = Engine_energy.getFloat(engine);
+                    maxsto = Engine_maxEnergy.getInt(engine);
                 }
-            } else if (BC2Plugin.IPowerReceptor.isInstance(te)) {
-                Object prov = BC2Plugin.IPowerReceptor_getPowerProvider.invoke(te);
+            } else if (IPowerReceptor.isInstance(te)) {
+                Object prov = IPowerReceptor_getPowerProvider.invoke(te);
                 if (prov != null) {
-                    energy = BC2Plugin.PowerProvider_energyStored.getInt(prov);
-                    maxsto = BC2Plugin.PowerProvider_maxEnergyStored.getInt(prov);
+                    energy = PowerProvider_energyStored.getFloat(prov);
+                    maxsto = PowerProvider_maxEnergyStored.getInt(prov);
                 }
             }
 
-            tag.setInteger("MJEnergy", energy);
-            tag.setInteger("MJMaxStorage", maxsto);
+            if (energy != null && maxsto != null) {
+                tag.setInteger("MJEnergy", Math.round(energy));
+                tag.setInteger("MJMaxStorage", maxsto);
+            }
 
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.bc2;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.Entity;
 import net.minecraft.server.NBTTagCompound;
 
@@ -16,7 +17,11 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
     @Override
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
-        LiquidHelper.writeToNBT(ent, tag);
+        try {
+            LiquidHelper.writeToNBT(ent, tag);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass());
+        }
     }
 
 }

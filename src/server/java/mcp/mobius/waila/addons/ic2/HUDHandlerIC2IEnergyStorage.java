@@ -26,7 +26,7 @@ public class HUDHandlerIC2IEnergyStorage implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (TileBaseGenerator.isInstance(te)) {
+            if (TileBaseGenerator != null && TileBaseGenerator.isInstance(te)) {
                 storage = TileBaseGenerator_storage.getShort(te);
                 maxStorage = TileBaseGenerator_maxStorage.getShort(te);
             }

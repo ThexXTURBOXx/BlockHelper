@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.StringUtils;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -23,8 +24,8 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.isWheat;
+import static mcp.mobius.waila.api.SpecialChars.HEART;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
-import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public final class HUDHandlerEntities implements IEntityProvider {
 
@@ -69,9 +70,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 float maxhpHearts = maxhp / 2.0f;
 
                 if (maxhp > maxhpfortext)
-                    currenttip.add(String.format("%.0f \u2764 / %.0f \u2764", health, maxhp));
+                    currenttip.add(String.format("%.0f " + HEART + " / %.0f " + HEART, health, maxhp));
                 else
-                    currenttip.add(getRenderString("waila.health", nhearts, healthHearts, maxhpHearts));
+                    currenttip.add(TTRenderHealth.create(nhearts, healthHearts, maxhpHearts));
             }
 
         if (config.get("vanilla.breed"))
