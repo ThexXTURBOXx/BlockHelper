@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.src.ModLoader;
 import org.lwjgl.util.Dimension;
@@ -29,7 +30,11 @@ public class TTRenderProgressBar implements ITooltipRenderer {
 
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 16, 28, 16, 28, 16);
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 0, progress + 1, 16, progress + 1, 16);
+    }
 
+    public static String create(int cur, int max) {
+        return SpecialChars.getRenderString("waila.progress",
+                cur, max);
     }
 
 }
