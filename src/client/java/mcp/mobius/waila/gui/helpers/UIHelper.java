@@ -59,6 +59,29 @@ public class UIHelper {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    public static void drawRect(int maxx, int maxy, int minx, int miny, int zlevel, int color) {
+        float alpha = (float) (color >> 24 & 255) / 255.0F;
+        float red = (float) (color >> 16 & 255) / 255.0F;
+        float green = (float) (color >> 8 & 255) / 255.0F;
+        float blue = (float) (color & 255) / 255.0F;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(red, green, blue, alpha);
+
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertex(maxx, miny, zlevel);
+        tessellator.addVertex(minx, miny, zlevel);
+        tessellator.addVertex(minx, maxy, zlevel);
+        tessellator.addVertex(maxx, maxy, zlevel);
+        tessellator.draw();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
     public static void drawBillboard(Vec3D pos, float offX, float offY, float offZ, double x1, double y1, double x2,
                                      double y2, int r, int g, int b, int a, double partialFrame) {
         UIHelper.drawBillboard((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ,

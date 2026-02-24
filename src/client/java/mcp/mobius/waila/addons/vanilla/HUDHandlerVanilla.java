@@ -34,14 +34,27 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.web;
+import static mcp.mobius.waila.api.SpecialChars.FLAT;
+import static mcp.mobius.waila.api.SpecialChars.SHARP;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
 public final class HUDHandlerVanilla implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerVanilla();
 
-    private static final String[] NOTES = {"F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B",
-            "C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F"};
+    private static final String[] NOTES = {
+            "F" + SHARP + "/G" + FLAT,
+            "G",
+            "G" + SHARP + "/A" + FLAT,
+            "A",
+            "A" + SHARP + "/B" + FLAT,
+            "B",
+            "C",
+            "C" + SHARP + "/D" + FLAT,
+            "D",
+            "D" + SHARP + "/E" + FLAT,
+            "E",
+            "F"};
 
     private HUDHandlerVanilla() {
     }
