@@ -1,10 +1,12 @@
 package mcp.mobius.waila.addons.bc2;
 
+import mcp.mobius.waila.addons.bc2.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Entity;
@@ -35,15 +37,14 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         try {
-            if (config.get("bc.tanktype")) {
-                int liquidId = accessor.getNBTInteger("liquidtype");
-                int capacity = accessor.getNBTInteger("liquidcapacity");
+            if (config.get("bc.tanktype") && !config.get("bcapi.liquidbars")) {
+                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
-                if (capacity > 0) {
+                if (data.getCapacity() > 0) {
                     String name = currenttip.get(0);
-                    name += " " + (liquidId == 0
+                    name += " " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
                             ? I18n.translate("hud.msg.empty")
-                            : ("(" + LiquidHelper.getLiquidName(liquidId) + RESET + WHITE + ")"));
+                            : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"));
                     currenttip.set(0, name);
                 }
             }
@@ -57,11 +58,9 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
                            IEntityAccessor accessor, IPluginConfig config) {
         try {
             if (config.get("bc.tankamount")) {
-                int liquidAmount = accessor.getNBTInteger("liquidamt");
-                int capacity = accessor.getNBTInteger("liquidcapacity");
-
-                if (capacity > 0)
-                    currenttip.add(liquidAmount + "/" + capacity + " mB");
+                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
+                if (tip != null) currenttip.add(tip);
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), currenttip);
@@ -76,7 +75,11 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
     @Override
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
-        LiquidHelper.writeToNBT(ent, tag);
+        try {
+            LiquidHelper.writeToNBT(ent, tag);
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, accessor.getEntity().getClass(), null);
+        }
     }
 
 }

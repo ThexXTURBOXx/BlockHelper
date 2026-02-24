@@ -39,6 +39,8 @@ public final class AdvMachinesASPlugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Advanced Machines AS", "advmachines.storage");
 
+            registrar.addConfig("Advanced Machines AS", "advmachines.energybars");
+
             registrar.registerNBTProvider(HUDHandlerAdvGeneratorAS.INSTANCE, TileEntityBaseMachine);
 
             registrar.registerBodyProvider(HUDHandlerAdvGeneratorAS.INSTANCE, TileEntityBaseMachine);

@@ -27,6 +27,11 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Field PowerProvider_maxEnergyStored = null;
 
     public static Class<?> ILiquidContainer = null;
+    public static Method ILiquidContainer_getLiquidQuantity = null;
+    public static Method ILiquidContainer_getCapacity = null;
+
+    public static Class<?> BuildCraftEnergy = null;
+    public static Field BuildCraftEnergy_oilStill = null;
 
     private BC2Plugin() {
     }
@@ -68,7 +73,16 @@ public final class BC2Plugin implements IWailaPlugin {
         }
 
         try {
-            ILiquidContainer = AccessHelper.getClass("buildcraft.api.ILiquidContainer");
+            ILiquidContainer = AccessHelper.getClass("buildcraft.core.ILiquidContainer");
+            ILiquidContainer_getLiquidQuantity = AccessHelper.getMethod(ILiquidContainer, new Class[0],
+                    "getLiquidQuantity");
+            ILiquidContainer_getCapacity = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getCapacity");
+
+            try {
+                BuildCraftEnergy = AccessHelper.getClass("net.minecraft.server.BuildCraftEnergy");
+                BuildCraftEnergy_oilStill = AccessHelper.getField(BuildCraftEnergy, "oilStill", "oilMoving");
+            } catch (Throwable ignored) {
+            }
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");

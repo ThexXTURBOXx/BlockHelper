@@ -109,12 +109,9 @@ dependencies {
     clientJarMod "risugami:modloader:${project.mc_version}"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
     clientJarMod ":reforged-client-1.0.3"
-    clientModImplementation(":buildcraft-client-A-core-2.1.1")
     clientModImplementation(":FabricStubs-v1")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.1.1")
 
     bukkitImplementation(":craftbukkit-1060-6f67ce03005ab3f51cb0f6401c5bd8a1996497f0-MODIFIED")
-    bukkitImplementation(":BuildCraft_bukkitbuild_6-MODIFIED")
 }

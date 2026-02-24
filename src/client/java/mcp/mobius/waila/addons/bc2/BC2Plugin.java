@@ -27,6 +27,11 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Field PowerProvider_maxEnergyStored = null;
 
     public static Class<?> ILiquidContainer = null;
+    public static Method ILiquidContainer_getLiquidQuantity = null;
+    public static Method ILiquidContainer_getCapacity = null;
+
+    public static Class<?> BuildCraftEnergy = null;
+    public static Field BuildCraftEnergy_oilStill = null;
 
     private BC2Plugin() {
     }
@@ -34,7 +39,9 @@ public final class BC2Plugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("mod_BuildCraftCore");
+            Class<?> mod_BuildCraftCore = AccessHelper.getClass("mod_BuildCraftCore");
+            String version = (String) AccessHelper.getMethod(mod_BuildCraftCore, new Class[0], "version").invoke(null);
+            if (!version.startsWith("2")) throw new Exception("This is not BC2!");
             mod_BlockHelper.LOG.log(Level.INFO, "[BC2] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -63,6 +70,8 @@ public final class BC2Plugin implements IWailaPlugin {
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
+            registrar.addConfig("Buildcraft", "bcapi.energybars");
+
             registrar.registerNBTProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
 
             registrar.registerBodyProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
@@ -72,9 +81,20 @@ public final class BC2Plugin implements IWailaPlugin {
 
         try {
             ILiquidContainer = AccessHelper.getClass("buildcraft.core.ILiquidContainer");
+            ILiquidContainer_getLiquidQuantity = AccessHelper.getMethod(ILiquidContainer, new Class[0],
+                    "getLiquidQuantity");
+            ILiquidContainer_getCapacity = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getCapacity");
+
+            try {
+                BuildCraftEnergy = AccessHelper.getClass("BuildCraftEnergy");
+                BuildCraftEnergy_oilStill = AccessHelper.getField(BuildCraftEnergy, "oilStill", "oilMoving");
+            } catch (Throwable ignored) {
+            }
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
+
+            registrar.addConfig("Buildcraft", "bcapi.liquidbars");
 
             registrar.registerNBTProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
             registrar.registerNBTProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
