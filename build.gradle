@@ -105,12 +105,8 @@ unimined.minecraft(sourceSets.server) {
 dependencies {
     clientJarMod "risugami:modloader:${project.mc_version}"
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
-    clientModImplementation(":buildcraft-client-A-core-2.2.5")
-    clientModImplementation(":buildcraft-client-A-core-3.0.1")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
-    serverModImplementation(":buildcraft-server-A-core-2.2.5")
 
     mcpcplusImplementation(":craftbukkit-0.0.1-SNAPSHOT_v4")
-    mcpcplusImplementation(":buildcraft-2.2.5-b1337-r11")
 }

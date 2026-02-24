@@ -1,5 +1,6 @@
-package mcp.mobius.waila.addons.bc2;
+package mcp.mobius.waila.addons.bc3;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -8,9 +9,9 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.mod_BlockHelper;
 
-public final class BC2Plugin implements IWailaPlugin {
+public final class BC3Plugin implements IWailaPlugin {
 
-    public static final IWailaPlugin INSTANCE = new BC2Plugin();
+    public static final IWailaPlugin INSTANCE = new BC3Plugin();
 
     public static Class<?> TileEngine = null;
     public static Field TileEngine_engine = null;
@@ -22,7 +23,7 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Class<?> IPowerReceptor = null;
     public static Method IPowerReceptor_getPowerProvider = null;
 
-    public static Class<?> PowerProvider = null;
+    public static Class<?> IPowerProvider = null;
     public static Field PowerProvider_energyStored = null;
     public static Field PowerProvider_maxEnergyStored = null;
 
@@ -30,9 +31,9 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Method ILiquidContainer_getLiquidSlots = null;
     public static Method ILiquidContainer_getLiquidId = null;
     public static Method ILiquidContainer_getLiquidQuantity = null;
-    public static Method ILiquidContainer_getCapacity = null;
 
     public static Class<?> LiquidSlot = null;
+    public static Constructor<?> newLiquidSlot = null;
     public static Method LiquidSlot_getLiquidId = null;
     public static Method LiquidSlot_getLiquidQty = null;
     public static Method LiquidSlot_getCapacity = null;
@@ -43,7 +44,7 @@ public final class BC2Plugin implements IWailaPlugin {
     public static Class<?> Pipe = null;
     public static Field Pipe_itemID = null;
 
-    private BC2Plugin() {
+    private BC3Plugin() {
     }
 
     @Override
@@ -51,11 +52,11 @@ public final class BC2Plugin implements IWailaPlugin {
         try {
             Class<?> mod_BuildCraftCore = AccessHelper.getClass("mod_BuildCraftCore");
             String version = (String) AccessHelper.getMethod(mod_BuildCraftCore, new Class[0], "version").invoke(null);
-            if (!version.startsWith("2")) throw new Exception("This is not BC2!");
-            mod_BlockHelper.LOG.log(Level.INFO, "[BC2] Mod found.");
+            if (!version.startsWith("3")) throw new Exception("This is not BC3!");
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC3] Mod found.");
             return true;
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[BC2] Mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[BC3] Mod not found.");
         }
         return false;
     }
@@ -70,58 +71,56 @@ public final class BC2Plugin implements IWailaPlugin {
             Engine_energy = AccessHelper.getField(Engine, "energy");
             Engine_maxEnergy = AccessHelper.getField(Engine, "maxEnergy");
 
-            IPowerReceptor = AccessHelper.getClass("buildcraft.api.IPowerReceptor");
+            IPowerReceptor = AccessHelper.getClass("buildcraft.api.power.IPowerReceptor",
+                    "buildcraft.api.IPowerReceptor");
             IPowerReceptor_getPowerProvider = AccessHelper.getMethod(IPowerReceptor, new Class[0],
                     "getPowerProvider");
 
-            PowerProvider = AccessHelper.getClass("buildcraft.api.PowerProvider");
-            PowerProvider_energyStored = AccessHelper.getField(PowerProvider, "energyStored");
-            PowerProvider_maxEnergyStored = AccessHelper.getField(PowerProvider, "maxEnergyStored");
+            IPowerProvider = AccessHelper.getClass("buildcraft.api.power.IPowerProvider",
+                    "buildcraft.api.PowerProvider");
+            PowerProvider_energyStored = AccessHelper.getField(IPowerProvider, "energyStored");
+            PowerProvider_maxEnergyStored = AccessHelper.getField(IPowerProvider, "maxEnergyStored");
 
             registrar.addSyncedConfig("Buildcraft", "bcapi.storage");
 
             registrar.addConfig("Buildcraft", "bcapi.energybars");
 
-            registrar.registerNBTProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
+            registrar.registerNBTProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
 
-            registrar.registerBodyProvider(HUDHandlerBC2Energy.INSTANCE, IPowerReceptor);
+            registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Energy hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Energy hooks.", t);
         }
 
         try {
-            ILiquidContainer = AccessHelper.getClass("buildcraft.api.ILiquidContainer",
-                    "buildcraft.core.ILiquidContainer");
-            try {
-                ILiquidContainer_getLiquidSlots = AccessHelper.getMethod(ILiquidContainer, new Class[0],
-                        "getLiquidSlots");
-
-                LiquidSlot = AccessHelper.getClass("buildcraft.api.LiquidSlot");
-                LiquidSlot_getLiquidId = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidId");
-                LiquidSlot_getLiquidQty = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidQty");
-                LiquidSlot_getCapacity = AccessHelper.getMethod(LiquidSlot, new Class[0], "getCapacity");
-            } catch (Throwable ignored) {
-            }
+            ILiquidContainer = AccessHelper.getClass("buildcraft.api.ILiquidContainer");
+            ILiquidContainer_getLiquidSlots = AccessHelper.getMethod(ILiquidContainer, new Class[0],
+                    "getLiquidSlots", "getContents");
             ILiquidContainer_getLiquidId = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getLiquidId");
             ILiquidContainer_getLiquidQuantity = AccessHelper.getMethod(ILiquidContainer, new Class[0],
                     "getLiquidQuantity");
-            ILiquidContainer_getCapacity = AccessHelper.getMethod(ILiquidContainer, new Class[0], "getCapacity");
+
+            LiquidSlot = AccessHelper.getClass("buildcraft.api.LiquidSlot");
+            newLiquidSlot = AccessHelper.getConstructor(LiquidSlot, int.class, int.class, int.class);
+            LiquidSlot_getLiquidId = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidId");
+            LiquidSlot_getLiquidQty = AccessHelper.getMethod(LiquidSlot, new Class[0], "getLiquidQty");
+            LiquidSlot_getCapacity = AccessHelper.getMethod(LiquidSlot, new Class[0], "getCapacity");
+
+            registrar.registerNBTProvider(HUDHandlerBC3Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerNBTProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ILiquidContainer);
+
+            registrar.registerHeadProvider(HUDHandlerBC3Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerHeadProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ILiquidContainer);
+
+            registrar.registerBodyProvider(HUDHandlerBC3Tanks.INSTANCE, ILiquidContainer);
+            registrar.registerBodyProvider(HUDHandlerEntityBC3Tanks.INSTANCE, ILiquidContainer);
 
             registrar.addSyncedConfig("Buildcraft", "bc.tankamount");
             registrar.addSyncedConfig("Buildcraft", "bc.tanktype");
 
             registrar.addConfig("Buildcraft", "bcapi.liquidbars");
-
-            registrar.registerNBTProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-            registrar.registerNBTProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
-
-            registrar.registerHeadProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-            registrar.registerHeadProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
-
-            registrar.registerBodyProvider(HUDHandlerBC2Tanks.INSTANCE, ILiquidContainer);
-            registrar.registerBodyProvider(HUDHandlerEntityBC2Tanks.INSTANCE, ILiquidContainer);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Tank hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Tank hooks.", t);
         }
 
         try {
@@ -131,9 +130,9 @@ public final class BC2Plugin implements IWailaPlugin {
             Pipe = AccessHelper.getClass("buildcraft.transport.Pipe");
             Pipe_itemID = AccessHelper.getField(Pipe, "itemID");
 
-            registrar.registerStackProvider(HUDHandlerBC2Pipes.INSTANCE, TileGenericPipe);
+            registrar.registerStackProvider(HUDHandlerBC3Pipes.INSTANCE, TileGenericPipe);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC2] Error while loading Pipe hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Pipe hooks.", t);
         }
     }
 
