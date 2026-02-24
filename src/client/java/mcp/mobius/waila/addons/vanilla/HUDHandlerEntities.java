@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCloth;
@@ -17,7 +18,6 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
-import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public final class HUDHandlerEntities implements IEntityProvider {
 
@@ -62,7 +62,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 if (health > maxhpfortext)
                     currenttip.add(String.format("%.0f \u2764", health));
                 else
-                    currenttip.add(getRenderString("waila.health", nhearts, healthHearts, healthHearts));
+                    currenttip.add(TTRenderHealth.create(nhearts, healthHearts, healthHearts));
             }
 
         if (config.get("vanilla.sheep"))

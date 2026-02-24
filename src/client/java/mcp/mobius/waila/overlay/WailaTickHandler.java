@@ -36,12 +36,14 @@ public class WailaTickHandler {
     private World lastWorld = null;
 
     public void onTickInGame(Minecraft mc) {
-        World world = mc.theWorld;
-        EntityPlayer player = mc.thePlayer;
-
         resetAllWhenNeeded(mc);
 
-        if (world == null || player == null) return;
+        if (OverlayRenderer.shouldHideOverlay()) return;
+
+        World world = mc.theWorld;
+        EntityPlayer player = mc.thePlayer;
+        RayTracing.instance().fire();
+        MovingObjectPosition target = RayTracing.instance().getTarget();
 
         if (firstTick) {
             ModIdentification.init();
@@ -53,9 +55,6 @@ public class WailaTickHandler {
 
         if (!mc.isMultiplayerWorld())
             mod_BlockHelper.INSTANCE.serverPresent = true;
-
-        RayTracing.instance().fire();
-        MovingObjectPosition target = RayTracing.instance().getTarget();
 
         if (target != null && target.typeOfHit == EnumMovingObjectType.TILE) {
             DataAccessorCommon accessor = DataAccessorCommon.INSTANCE;

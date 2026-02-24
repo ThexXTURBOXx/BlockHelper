@@ -14,16 +14,18 @@ public final class AccessHelper {
     /**
      * Returns the searched {@link Class}.
      *
-     * @param clazz The fully-qualified class name to search for.
-     * @return The searched {@link Class}.
+     * @param classes A list of fully-qualified class names to search for.
+     * @return The searched {@link Class} - the first one that matched.
      * @throws ClassNotFoundException The {@link Class} could not be found.
      */
-    public static Class<?> getClass(String clazz) throws ClassNotFoundException {
-        try {
-            return Class.forName(clazz);
-        } catch (Throwable ignored) {
+    public static Class<?> getClass(String... classes) throws ClassNotFoundException {
+        for (String c : classes) {
+            try {
+                return Class.forName(c);
+            } catch (Throwable ignored) {
+            }
         }
-        throw new ClassNotFoundException(clazz);
+        throw new ClassNotFoundException(Arrays.toString(classes));
     }
 
     /**
