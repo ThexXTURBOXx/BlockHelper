@@ -1,8 +1,10 @@
 package mcp.mobius.waila.proxy;
 
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
@@ -22,6 +24,8 @@ public class ProxyClient extends ProxyCommon {
         registrar.registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
         registrar.registerTooltipRenderer("waila.stack", new TTRenderStack());
         registrar.registerTooltipRenderer("waila.string", new TTRenderString());
+        registrar.registerTooltipRenderer("waila.liquid", new TTRenderLiquidBar());
+        registrar.registerTooltipRenderer("waila.energy", new TTRenderEnergyBar());
     }
 
 }
