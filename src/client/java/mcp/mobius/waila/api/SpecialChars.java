@@ -42,6 +42,7 @@ public final class SpecialChars {
     public static final String WailaStyle = "\u00A4";
     public static final String WailaIcon = "\u00A5";
     public static final String WailaRenderer = "\u00A6";
+    public static final String WailaRendererComma = "\u0082";
     public static final String TAB = WailaStyle + WailaStyle + "a";
     public static final String ALIGNRIGHT = WailaStyle + WailaStyle + "b";
     public static final String ALIGNCENTER = WailaStyle + WailaStyle + "c";
@@ -50,14 +51,22 @@ public final class SpecialChars {
     /* WAILA RECOGNITION PATTERNS */
     public static final Pattern patternMinecraft = Pattern.compile("(?i)" + MCStyle + "[0-9A-FK-OR]");
     public static final Pattern patternWaila = Pattern.compile("(?i)" + WailaStyle + "(..)");
-    public static final Pattern patternRender = Pattern.compile("(?i)" + RENDER + "\\{([^,}]*),?([^}]*)}");
+    public static final Pattern patternRender = Pattern.compile(
+            "(?i)" + RENDER + "\\{([^" + WailaRendererComma + "}]*)" + WailaRendererComma + "?([^}]*)}");
     public static final Pattern patternTab = Pattern.compile("(?i)" + TAB);
     public static final Pattern patternRight = Pattern.compile("(?i)" + ALIGNRIGHT);
     public static final Pattern patternCenter = Pattern.compile("(?i)" + ALIGNCENTER);
     public static final Pattern patternIcon = Pattern.compile("(?i)" + WailaStyle + WailaIcon + "([0-9a-z])");
     public static final Pattern patternLineSplit =
             Pattern.compile("(?i)" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon +
-                            "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)}|[^" + WailaStyle + "]+");
+                            "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^" + WailaRendererComma +
+                            "}]*)" + WailaRendererComma + "?([^}]*)}|[^" + WailaStyle + "]+");
+
+    /* OTHER */
+    public static final String MISFORMATTED_PAR = "\u00C2\u00A7";
+    public static final String HEART = "\u2764";
+    public static final String SHARP = "\u266F";
+    public static final String FLAT = "\u266D";
 
     /**
      * Helper method to get a proper RENDER string. Just put the name of the renderer and the params in, and it will
@@ -70,7 +79,7 @@ public final class SpecialChars {
     public static String getRenderString(String name, Object... params) {
         StringBuilder result = new StringBuilder(RENDER + "{" + name);
         for (Object o : params)
-            result.append(",").append(o);
+            result.append(WailaRendererComma).append(o);
         result.append("}");
         return result.toString();
     }

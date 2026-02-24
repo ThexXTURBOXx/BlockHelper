@@ -2,21 +2,29 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Dimension;
 
 /**
  * Custom renderer for item stacks.
- * Syntax: {waila.stack, type, id, amount, meta}
+ * Syntax: {waila.stack, type, id, amount, meta, w, h}
  */
 public class TTRenderStack implements ITooltipRenderer {
 
+    private static final int DEFAULT_W = 18;
+    private static final int DEFAULT_H = 18;
+
     @Override
     public Dimension getSize(String[] params, ICommonAccessor accessor) {
-        return new Dimension(18, 18);
+        int w = params.length > 5 ? Integer.parseInt(params[4]) : DEFAULT_W;
+        int h = params.length > 5 ? Integer.parseInt(params[5]) : DEFAULT_H;
+        return new Dimension(w, h);
     }
 
     @Override
@@ -25,6 +33,8 @@ public class TTRenderStack implements ITooltipRenderer {
         int id = Integer.parseInt(params[1]);
         int amount = Integer.parseInt(params[2]);
         int meta = Integer.parseInt(params[3]);
+        int w = params.length > 5 ? Integer.parseInt(params[4]) : DEFAULT_W;
+        int h = params.length > 5 ? Integer.parseInt(params[5]) : DEFAULT_H;
 
         ItemStack stack = null;
         if (id > 0) {
@@ -34,7 +44,29 @@ public class TTRenderStack implements ITooltipRenderer {
                 stack = new ItemStack(Item.itemsList[id], amount, meta);
         }
 
-        DisplayUtil.renderStack(x, y, stack);
+        if (w != DEFAULT_W || h != DEFAULT_H) {
+            GL11.glPushMatrix();
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GL11.glScaled((double) w / DEFAULT_W, (double) h / DEFAULT_H, 1.0f);
+
+            DisplayUtil.renderStack(0, 0, stack);
+
+            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            GL11.glPopMatrix();
+        } else {
+            DisplayUtil.renderStack(x, y, stack);
+        }
+    }
+
+    public static String create(ItemStack stack, int w, int h) {
+        boolean empty = stack == null;
+        int id = empty ? 0 : stack.getItem().shiftedIndex;
+        return SpecialChars.getRenderString("waila.stack",
+                1, id, empty ? 1 : stack.stackSize, empty ? 0 : stack.getItemDamage(), w, h);
+    }
+
+    public static String create(ItemStack stack) {
+        return create(stack, DEFAULT_W, DEFAULT_H);
     }
 
 }

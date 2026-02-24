@@ -43,6 +43,8 @@ public final class ICPlugin implements IWailaPlugin {
         try {
             registrar.addSyncedConfig("IndustrialCraft", "ic.storage");
 
+            registrar.addConfig("IndustrialCraft", "ic.energybars");
+
             Set<Class<?>> registeredTEs = new HashSet<Class<?>>();
             for (Field f : mod_IndustrialCraft.getFields()) {
                 if (!Modifier.isStatic(f.getModifiers())) continue;
