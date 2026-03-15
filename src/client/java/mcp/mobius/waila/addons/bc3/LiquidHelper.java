@@ -217,7 +217,7 @@ public final class LiquidHelper {
         }
 
         public ItemStack asItemStack() {
-            return new ItemStack(id, amount, meta);
+            return new ItemStack(id, 1, meta);
         }
 
     }
