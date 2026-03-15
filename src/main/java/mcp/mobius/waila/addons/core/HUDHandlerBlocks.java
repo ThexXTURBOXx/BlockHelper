@@ -22,6 +22,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 
+import static mcp.mobius.waila.addons.core.CorePlugin.curBlockDamageMP;
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.DRED;
 import static mcp.mobius.waila.api.SpecialChars.GREEN;
@@ -95,7 +96,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
 
         if (config.get("general.break")) {
             try {
-                float curBlockDamage = CorePlugin.curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
+                float curBlockDamage = curBlockDamageMP.getFloat(Minecraft.getMinecraft().playerController);
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
                     currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress);
