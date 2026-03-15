@@ -7,6 +7,10 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntity;
 
+import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine;
+import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_energy;
+import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy;
+
 public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
@@ -21,9 +25,9 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvMachinesASPlugin.TileEntityBaseMachine.isInstance(te)) {
-                storage = AdvMachinesASPlugin.TileEntityBaseMachine_energy.getInt(te);
-                maxStorage = AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy.getInt(te);
+            if (TileEntityBaseMachine.isInstance(te)) {
+                storage = TileEntityBaseMachine_energy.getInt(te);
+                maxStorage = TileEntityBaseMachine_maxEnergy.getInt(te);
             }
 
             tag.setInt("storage", storage);

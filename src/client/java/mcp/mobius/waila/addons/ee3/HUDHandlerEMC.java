@@ -11,6 +11,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.EMCList_emcMap;
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.EMCValue_getCostEMC;
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.mod_EE3_emcList;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
@@ -38,9 +41,9 @@ public final class HUDHandlerEMC implements IDataProvider {
         try {
             /* EMC */
             if (config.get("ee3.emc")) {
-                Object emcList = EE3Plugin.mod_EE3_emcList.get(null);
+                Object emcList = mod_EE3_emcList.get(null);
                 Map<Integer, Map<Integer, Object>> emcMap = (Map<Integer, Map<Integer, Object>>)
-                        EE3Plugin.EMCList_emcMap.get(emcList);
+                        EMCList_emcMap.get(emcList);
                 if (emcMap != null) {
                     Map<Integer, Object> metaMap = emcMap.get(itemStack.itemID);
                     if (metaMap != null) {
@@ -52,7 +55,7 @@ public final class HUDHandlerEMC implements IDataProvider {
                         }
                         if (value != null)
                             currenttip.add(YELLOW + "EMC: " + GRAY +
-                                           EE3Plugin.EMCValue_getCostEMC.invoke(value) + (qm ? "?" : ""));
+                                           EMCValue_getCostEMC.invoke(value) + (qm ? "?" : ""));
                     }
                 }
             }
