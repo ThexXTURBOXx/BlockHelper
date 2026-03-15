@@ -10,6 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.EMCEntry_getCost;
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.EMCRegistry_getEMCValue;
+import static mcp.mobius.waila.addons.ee3.EE3Plugin.EMCRegistry_instance;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
@@ -36,12 +39,12 @@ public final class HUDHandlerEMC implements IDataProvider {
         try {
             /* EMC */
             if (config.get("ee3.emc")) {
-                Object registry = EE3Plugin.EMCRegistry_instance.invoke(null);
+                Object registry = EMCRegistry_instance.invoke(null);
                 if (registry != null) {
-                    Object entry = EE3Plugin.EMCRegistry_getEMCValue.invoke(registry,
+                    Object entry = EMCRegistry_getEMCValue.invoke(registry,
                             accessor.getBlockID(), accessor.getMetadata());
                     if (entry != null)
-                        currenttip.add(YELLOW + "EMC: " + GRAY + EE3Plugin.EMCEntry_getCost.invoke(entry));
+                        currenttip.add(YELLOW + "EMC: " + GRAY + EMCEntry_getCost.invoke(entry));
                 }
             }
         } catch (Throwable t) {
