@@ -12,6 +12,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.enderstorage.EnderStoragePlugin.GetColourFromFreq;
+import static mcp.mobius.waila.addons.enderstorage.EnderStoragePlugin.TileEnderChest_freq;
+
 public final class HUDHandlerFrequency implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerFrequency();
@@ -34,10 +37,10 @@ public final class HUDHandlerFrequency implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("enderstorage.colors")) {
             try {
-                int freq = EnderStoragePlugin.TileEnderChest_freq.getInt(accessor.getTileEntity());
-                int freqLeft = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 0);
-                int freqCenter = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 1);
-                int freqRight = (Integer) EnderStoragePlugin.GetColourFromFreq.invoke(null, freq, 2);
+                int freq = TileEnderChest_freq.getInt(accessor.getTileEntity());
+                int freqLeft = (Integer) GetColourFromFreq.invoke(null, freq, 0);
+                int freqCenter = (Integer) GetColourFromFreq.invoke(null, freq, 1);
+                int freqRight = (Integer) GetColourFromFreq.invoke(null, freq, 2);
 
                 currenttip.add(I18n.color(BlockCloth.getBlockFromDye(freqLeft)) + "/" +
                                I18n.color(BlockCloth.getBlockFromDye(freqCenter)) + "/" +
