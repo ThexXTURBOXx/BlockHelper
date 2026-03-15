@@ -13,6 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityHighPanel;
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityHighPanel_maxStorage;
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityHighPanel_storage;
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityPanel;
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityPanel_maxStorage;
+import static mcp.mobius.waila.addons.totalpanels.TotalPanelsPlugin.TileEntityPanel_storage;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -72,12 +78,12 @@ public final class HUDHandlerTotalSolars implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (TotalPanelsPlugin.TileEntityPanel.isInstance(te)) {
-                storage = TotalPanelsPlugin.TileEntityPanel_storage.getInt(te);
-                maxStorage = TotalPanelsPlugin.TileEntityPanel_maxStorage.getInt(te);
-            } else if (TotalPanelsPlugin.TileEntityHighPanel.isInstance(te)) {
-                storage = TotalPanelsPlugin.TileEntityHighPanel_storage.getInt(te);
-                maxStorage = TotalPanelsPlugin.TileEntityHighPanel_maxStorage.getInt(te);
+            if (TileEntityPanel.isInstance(te)) {
+                storage = TileEntityPanel_storage.getInt(te);
+                maxStorage = TileEntityPanel_maxStorage.getInt(te);
+            } else if (TileEntityHighPanel.isInstance(te)) {
+                storage = TileEntityHighPanel_storage.getInt(te);
+                maxStorage = TileEntityHighPanel_maxStorage.getInt(te);
             }
 
             tag.setInteger("storage", storage);

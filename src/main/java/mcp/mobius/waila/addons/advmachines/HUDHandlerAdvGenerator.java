@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator;
+import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage;
+import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator_stored;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -72,9 +75,9 @@ public final class HUDHandlerAdvGenerator implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvMachinesPlugin.TileAM2BaseGenerator.isInstance(te)) {
-                storage = AdvMachinesPlugin.TileAM2BaseGenerator_stored.getInt(te);
-                maxStorage = AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage.getInt(null);
+            if (TileAM2BaseGenerator.isInstance(te)) {
+                storage = TileAM2BaseGenerator_stored.getInt(te);
+                maxStorage = TileAM2BaseGenerator_maxStorage.getInt(null);
             }
 
             tag.setInteger("storage", storage);

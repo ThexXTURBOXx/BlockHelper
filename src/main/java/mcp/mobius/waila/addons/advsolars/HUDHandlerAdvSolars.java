@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin.TileEntitySolarPanel;
+import static mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin.TileEntitySolarPanel_maxStorage;
+import static mcp.mobius.waila.addons.advsolars.AdvSolarsPlugin.TileEntitySolarPanel_storage;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -72,9 +75,9 @@ public final class HUDHandlerAdvSolars implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvSolarsPlugin.TileEntitySolarPanel.isInstance(te)) {
-                storage = AdvSolarsPlugin.TileEntitySolarPanel_storage.getInt(te);
-                maxStorage = AdvSolarsPlugin.TileEntitySolarPanel_maxStorage.getInt(te);
+            if (TileEntitySolarPanel.isInstance(te)) {
+                storage = TileEntitySolarPanel_storage.getInt(te);
+                maxStorage = TileEntitySolarPanel_maxStorage.getInt(te);
             }
 
             tag.setInteger("storage", storage);

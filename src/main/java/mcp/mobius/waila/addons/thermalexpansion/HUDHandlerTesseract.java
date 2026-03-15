@@ -10,6 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin.TileTesseractEnergy;
+import static mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin.TileTesseractItem;
+import static mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin.TileTesseractLiquid;
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.GREEN;
@@ -45,11 +48,11 @@ public final class HUDHandlerTesseract implements IDataProvider {
             String recv = I18n.translate("hud.msg.recv") + ": ";
 
             String type;
-            if (ThermalExpansionPlugin.TileTesseractItem.isInstance(te))
+            if (TileTesseractItem.isInstance(te))
                 type = GREEN + I18n.translate("hud.msg.item") + " ";
-            else if (ThermalExpansionPlugin.TileTesseractLiquid.isInstance(te))
+            else if (TileTesseractLiquid.isInstance(te))
                 type = BLUE + I18n.translate("hud.msg.fluid") + " ";
-            else if (ThermalExpansionPlugin.TileTesseractEnergy.isInstance(te))
+            else if (TileTesseractEnergy.isInstance(te))
                 type = RED + I18n.translate("hud.msg.energ") + " ";
             else
                 type = GRAY + "<" + I18n.translate("hud.msg.unknown") + ">";
