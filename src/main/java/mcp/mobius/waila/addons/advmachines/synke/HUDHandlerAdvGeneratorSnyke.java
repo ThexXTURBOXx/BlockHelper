@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine;
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine_energy;
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine_maxEnergy;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -72,9 +75,9 @@ public final class HUDHandlerAdvGeneratorSnyke implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (AdvMachinesSnykePlugin.TileAdvMachine.isInstance(te)) {
-                storage = AdvMachinesSnykePlugin.TileAdvMachine_energy.getInt(te);
-                maxStorage = AdvMachinesSnykePlugin.TileAdvMachine_maxEnergy.getInt(null);
+            if (TileAdvMachine.isInstance(te)) {
+                storage = TileAdvMachine_energy.getInt(te);
+                maxStorage = TileAdvMachine_maxEnergy.getInt(null);
             }
 
             tag.setInteger("storage", storage);

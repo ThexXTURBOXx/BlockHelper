@@ -13,6 +13,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_energy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.Engine_maxEnergy;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerProvider_getMaxEnergyStored;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.IPowerReceptor_getPowerProvider;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine;
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.TileEngine_engine;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -71,17 +79,17 @@ public final class HUDHandlerBC3Energy implements IDataProvider {
         try {
             Float energy = -1f;
             Integer maxsto = -1;
-            if (BC3Plugin.TileEngine.isInstance(te)) {
-                Object engine = BC3Plugin.TileEngine_engine.get(te);
+            if (TileEngine.isInstance(te)) {
+                Object engine = TileEngine_engine.get(te);
                 if (engine != null) {
-                    energy = BC3Plugin.Engine_energy.getFloat(engine);
-                    maxsto = BC3Plugin.Engine_maxEnergy.getInt(engine);
+                    energy = Engine_energy.getFloat(engine);
+                    maxsto = Engine_maxEnergy.getInt(engine);
                 }
-            } else if (BC3Plugin.IPowerReceptor.isInstance(te)) {
-                Object prov = BC3Plugin.IPowerReceptor_getPowerProvider.invoke(te);
+            } else if (IPowerReceptor.isInstance(te)) {
+                Object prov = IPowerReceptor_getPowerProvider.invoke(te);
                 if (prov != null) {
-                    energy = (Float) BC3Plugin.IPowerProvider_getEnergyStored.invoke(prov);
-                    maxsto = (Integer) BC3Plugin.IPowerProvider_getMaxEnergyStored.invoke(prov);
+                    energy = (Float) IPowerProvider_getEnergyStored.invoke(prov);
+                    maxsto = (Integer) IPowerProvider_getMaxEnergyStored.invoke(prov);
                 }
             }
 

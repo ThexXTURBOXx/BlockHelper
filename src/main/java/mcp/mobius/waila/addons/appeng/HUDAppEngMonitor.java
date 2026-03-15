@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.appeng.AppEngPlugin.TileStorageMonitor;
+import static mcp.mobius.waila.addons.appeng.AppEngPlugin.TileStorageMonitor_getItem;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -57,8 +59,8 @@ public class HUDAppEngMonitor implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            if (AppEngPlugin.TileStorageMonitor.isInstance(te)) {
-                ItemStack stack = (ItemStack) AppEngPlugin.TileStorageMonitor_getItem.invoke(te);
+            if (TileStorageMonitor.isInstance(te)) {
+                ItemStack stack = (ItemStack) TileStorageMonitor_getItem.invoke(te);
                 if (stack != null) {
                     NBTTagCompound stackTag = new NBTTagCompound();
                     stack.writeToNBT(stackTag);

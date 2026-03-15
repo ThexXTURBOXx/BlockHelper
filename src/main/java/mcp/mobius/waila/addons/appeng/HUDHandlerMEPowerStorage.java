@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.appeng.AppEngPlugin.TilePoweredBase;
+import static mcp.mobius.waila.addons.appeng.AppEngPlugin.TilePoweredBase_maxStoredPower;
+import static mcp.mobius.waila.addons.appeng.AppEngPlugin.TilePoweredBase_storedPower;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
@@ -72,9 +75,9 @@ public final class HUDHandlerMEPowerStorage implements IDataProvider {
             float energy = -1;
             float maxEnergy = -1;
 
-            if (AppEngPlugin.TilePoweredBase.isInstance(te)) {
-                energy = AppEngPlugin.TilePoweredBase_storedPower.getFloat(te);
-                maxEnergy = AppEngPlugin.TilePoweredBase_maxStoredPower.getFloat(te);
+            if (TilePoweredBase.isInstance(te)) {
+                energy = TilePoweredBase_storedPower.getFloat(te);
+                maxEnergy = TilePoweredBase_maxStoredPower.getFloat(te);
             }
 
             tag.setInteger("AEStorage", Math.round(energy));

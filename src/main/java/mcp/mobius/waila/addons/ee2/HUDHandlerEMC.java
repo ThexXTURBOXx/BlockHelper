@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import static mcp.mobius.waila.addons.ee2.EE2Plugin.EEMaps_getEMC;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
@@ -36,7 +37,7 @@ public final class HUDHandlerEMC implements IDataProvider {
         try {
             /* EMC */
             if (config.get("ee2.emc")) {
-                int emc = (Integer) EE2Plugin.EEMaps_getEMC.invoke(null, itemStack);
+                int emc = (Integer) EEMaps_getEMC.invoke(null, itemStack);
                 if (emc > 0)
                     currenttip.add(YELLOW + "EMC: " + GRAY + emc);
             }
