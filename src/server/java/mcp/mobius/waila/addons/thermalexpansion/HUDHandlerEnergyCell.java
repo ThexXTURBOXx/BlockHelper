@@ -7,6 +7,9 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin.TileEnergyCell_Recv;
+import static mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionPlugin.TileEnergyCell_Send;
+
 public final class HUDHandlerEnergyCell implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerEnergyCell();
@@ -18,8 +21,8 @@ public final class HUDHandlerEnergyCell implements IDataProvider {
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
         try {
-            int recv = ThermalExpansionPlugin.TileEnergyCell_Recv.getInt(te);
-            int send = ThermalExpansionPlugin.TileEnergyCell_Send.getInt(te);
+            int recv = TileEnergyCell_Recv.getInt(te);
+            int send = TileEnergyCell_Send.getInt(te);
             tag.setInteger("Recv", recv);
             tag.setInteger("Send", send);
         } catch (Throwable t) {
