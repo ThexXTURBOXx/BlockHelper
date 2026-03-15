@@ -48,8 +48,8 @@ In all newer versions, it is sufficient to just copy the jar file into the `mods
 
 ### Fabric
 
-Drop the mod into the `mods` folder and install [Apron](https://github.com/BetterThanUpdates/Apron) or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3)
-or [Fabricated Forge](https://github.com/arthurbambou/Fabricated-Legacy-Forge) (for 1.3.2+).
+Drop the mod into the `mods` folder and install [Apron](https://modrinth.com/mod/apron) or [BetaLoader](https://github.com/paulevsGitch/BetaLoader) (for b1.7.3)
+or [Fabricated Forge](https://modrinth.com/mod/fabricated-forge) (for 1.3.2+).
 
 ## Features
 
