@@ -10,6 +10,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
+import static mcp.mobius.waila.addons.ee.EEPlugin.mod_EE_getDamagedAlchemicalValue;
 import static mcp.mobius.waila.api.SpecialChars.GRAY;
 import static mcp.mobius.waila.api.SpecialChars.YELLOW;
 
@@ -36,7 +37,7 @@ public final class HUDHandlerEMC implements IDataProvider {
         try {
             /* EMC */
             if (config.get("ee2.emc")) {
-                Integer emc = (Integer) EEPlugin.mod_EE_getDamagedAlchemicalValue.invoke(null,
+                Integer emc = (Integer) mod_EE_getDamagedAlchemicalValue.invoke(null,
                         itemStack.itemID, itemStack.getItemDamage());
                 if (emc != null && emc > 0)
                     currenttip.add(YELLOW + "EMC: " + GRAY + emc);
