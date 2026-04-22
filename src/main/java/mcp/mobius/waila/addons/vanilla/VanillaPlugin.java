@@ -102,6 +102,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.addConfig("VanillaMC", "vanilla.redstone");
             registrar.addConfig("VanillaMC", "vanilla.silverfish");
 
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
