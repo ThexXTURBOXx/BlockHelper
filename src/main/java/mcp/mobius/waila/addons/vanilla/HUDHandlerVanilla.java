@@ -25,6 +25,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.beacon;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.bed;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.carrot;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.cauldron;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.chestTrapped;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
@@ -91,6 +92,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
             default:
                 return new ItemStack(Block.stone);
             }
+
+        if (block == chestTrapped && config.get("vanilla.trappedchest"))
+            return new ItemStack(Block.chest);
 
         if (block == redstone)
             return new ItemStack(Item.redstone);

@@ -41,6 +41,7 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
     static Block silverfish = Block.silverfish;
+    static Block chestTrapped = Block.chestTrapped;
     static Block leaves = Block.leaves;
     static Block log = Block.wood;
     static Block quartz = Block.blockNetherQuartz;
@@ -117,11 +118,13 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.addConfig("VanillaMC", "vanilla.comparator");
             registrar.addConfig("VanillaMC", "vanilla.redstone");
             registrar.addConfig("VanillaMC", "vanilla.silverfish");
+            registrar.addConfig("VanillaMC", "vanilla.trappedchest");
             registrar.addConfig("VanillaMC", "vanilla.flowerpot");
             registrar.addConfig("VanillaMC", "vanilla.skull");
 
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, chestTrapped.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
