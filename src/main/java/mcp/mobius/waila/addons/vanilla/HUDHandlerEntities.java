@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
@@ -154,6 +155,13 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                I18n.color(BlockCloth.getDyeFromBlock(accessor.getNBTInteger("Color"))));
             }
 
+        if (config.get("vanilla.chicken"))
+            if (entity instanceof EntityChicken) {
+                String eggSeconds = String.format("%.2f", accessor.getNBTInteger("NextEgg") / 20f);
+                currenttip.add(I18n.translate("hud.msg.next_egg") + ": " +
+                               I18n.translate("hud.msg.seconds_format", eggSeconds));
+            }
+
         if (config.get("vanilla.villager")) {
             int conversionTime;
             if (entity instanceof EntityZombie &&
@@ -215,6 +223,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                  IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent instanceof EntityLiving)
             tag.setInteger("MaxHealth", ((EntityLiving) ent).getMaxHealth());
+
+        if (ent instanceof EntityChicken)
+            tag.setInteger("NextEgg", ((EntityChicken) ent).timeUntilNextEgg);
     }
 
 }
