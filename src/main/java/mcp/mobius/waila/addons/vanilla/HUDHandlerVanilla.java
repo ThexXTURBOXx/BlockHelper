@@ -142,8 +142,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
 
         /* Mob spawner handler */
-        if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.get(
-                "vanilla.spawntype")) {
+        if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
+            && config.get("vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).func_98049_a().getEntityNameToSpawn();
             currenttip.set(0, name + " (" + mobname + ")");
