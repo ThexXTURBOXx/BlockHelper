@@ -87,14 +87,13 @@ public class MetaDataProvider {
 
         /* Apply all collected providers */
         if (tooltipPosition == TooltipPosition.HEADER)
-            for (List<IDataProvider> providersList : headBlockProviders.values()) {
+            for (List<IDataProvider> providersList : headBlockProviders.values())
                 for (IDataProvider dataProvider : providersList)
                     try {
                         dataProvider.modifyHead(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
-            }
 
         if (tooltipPosition == TooltipPosition.BODY) {
             final boolean showAdvancedBody = ConfigKeyHandler.showAdvancedBody;
@@ -128,14 +127,13 @@ public class MetaDataProvider {
         }
 
         if (tooltipPosition == TooltipPosition.FOOTER)
-            for (List<IDataProvider> providersList : tailBlockProviders.values()) {
+            for (List<IDataProvider> providersList : tailBlockProviders.values())
                 for (IDataProvider dataProvider : providersList)
                     try {
                         dataProvider.modifyTail(itemStack, currenttip, accessor, PluginConfig.instance());
                     } catch (Throwable t) {
                         WailaExceptionHandler.handleErr(t, dataProvider.getClass(), currenttip);
                     }
-            }
     }
 
     public void handleEntityTextData(Entity entity, DataAccessorCommon accessor,
