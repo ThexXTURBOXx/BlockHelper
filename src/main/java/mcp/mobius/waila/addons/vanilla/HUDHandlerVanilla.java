@@ -74,6 +74,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
         int meta = accessor.getMetadata();
 
+        if (block == mobSpawner)
+            return new ItemStack(block);
+
         if (block == silverfish && config.get("vanilla.silverfish"))
             switch (meta) {
             case 1:
