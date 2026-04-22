@@ -45,6 +45,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block bed = Block.bed;
     static Block pistonExtension = Block.pistonExtension;
     static Block pistonMoving = Block.pistonMoving;
+    static Block stoneSingleSlab = Block.stoneSingleSlab;
+    static Block stoneDoubleSlab = Block.stoneDoubleSlab;
 
     private VanillaPlugin() {
     }
@@ -128,6 +130,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, endPortal.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonExtension.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pistonMoving.getClass());
+            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, stoneSingleSlab.getClass());
 
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, lever.getClass());
             registrar.registerBodyProvider(HUDHandlerVanilla.INSTANCE, repeaterIdle.getClass());
