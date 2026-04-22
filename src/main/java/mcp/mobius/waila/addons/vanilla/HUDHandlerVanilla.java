@@ -46,6 +46,8 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.redstone;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterActv;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.repeaterIdle;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneDoubleSlab;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneSingleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.api.SpecialChars.FLAT;
 import static mcp.mobius.waila.api.SpecialChars.SHARP;
@@ -166,6 +168,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (block == pistonMoving)
             currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
+
+        if ((block == stoneSingleSlab || block == stoneDoubleSlab) && (accessor.getMetadata() & 7) == 2)
+            currenttip.set(0, WHITE + I18n.translate("tile.petrifiedOakSlab.name"));
     }
 
     @Override
