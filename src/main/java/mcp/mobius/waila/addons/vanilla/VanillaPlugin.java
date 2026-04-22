@@ -41,7 +41,7 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
     static Block silverfish = Block.silverfish;
-    static Block leave = Block.leaves;
+    static Block leaves = Block.leaves;
     static Block log = Block.wood;
     static Block quartz = Block.blockNetherQuartz;
     static Block anvil = Block.anvil;
@@ -132,7 +132,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, carrot.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, potato.getClass());
-            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
+            registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leaves.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, quartz.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, flowerPot.getClass());
