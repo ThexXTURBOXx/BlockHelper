@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.weeeflowers;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -28,7 +29,8 @@ public final class HUDHandlerWeeeCrops implements IDataProvider {
     @Override
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
-        currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(getFlowerCropItem(accessor)));
+        currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(getFlowerCropItem(accessor)),
+                HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.ic2;
 
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -54,7 +55,8 @@ public class HUDHandlerIC2Explosive implements IEntityProvider {
                 Block renderBlock = (Block) EntityIC2Explosive_renderBlock.get(entity);
                 if (renderBlock == null) return;
 
-                currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(new ItemStack(renderBlock)));
+                currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(new ItemStack(renderBlock)),
+                        HUDHandlerEntities.ENTITY_NAME_TAG);
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, entity.getClass(), currenttip);
             }

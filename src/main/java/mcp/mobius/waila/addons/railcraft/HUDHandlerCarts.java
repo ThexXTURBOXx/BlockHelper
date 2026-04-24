@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.railcraft;
 
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -33,9 +34,9 @@ public final class HUDHandlerCarts implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        if (entity instanceof EntityMinecart) {
-            currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(((EntityMinecart) entity).getCartItem()));
-        }
+        if (entity instanceof EntityMinecart)
+            currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(((EntityMinecart) entity).getCartItem()),
+                    HUDHandlerEntities.ENTITY_NAME_TAG);
     }
 
     @Override
