@@ -20,6 +20,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
         if (!tags.containsKey(e))
             tags.put(e, new HashSet<T>());
         tags.get(e).add(tag);
+
         return super.add(e);
     }
 
@@ -30,6 +31,46 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
         tags.get(e).addAll(taglst);
 
         return super.add(e);
+    }
+
+    @Override
+    public void add(int index, E e, T tag) {
+        if (!tags.containsKey(e))
+            tags.put(e, new HashSet<T>());
+        tags.get(e).add(tag);
+
+        super.add(index, e);
+    }
+
+    @Override
+    public void add(int index, E e, Collection<? extends T> taglst) {
+        if (!tags.containsKey(e))
+            tags.put(e, new HashSet<T>());
+        tags.get(e).addAll(taglst);
+
+        super.add(index, e);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c, T tag) {
+        for (E e : c) {
+            if (!tags.containsKey(e))
+                tags.put(e, new HashSet<T>());
+            tags.get(e).add(tag);
+        }
+
+        return super.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c, Collection<? extends T> taglst) {
+        for (E e : c) {
+            if (!tags.containsKey(e))
+                tags.put(e, new HashSet<T>());
+            tags.get(e).addAll(taglst);
+        }
+
+        return super.addAll(c);
     }
 
     @Override
@@ -99,6 +140,55 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
             ret = new StringBuilder(ret.substring(0, ret.length() - 1));
 
         return ret.toString();
+    }
+
+    @Override
+    public boolean containsTag(T tag) {
+        for (Set<T> tags : this.tags.values())
+            if (tags.contains(tag)) return true;
+        return false;
+    }
+
+    @Override
+    public int indexOfTag(T tag) {
+        for (int i = 0; i < size(); ++i) {
+            Set<T> tags = getTags(i);
+            if (tags != null && tags.contains(tag))
+                return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOfTag(T tag) {
+        for (int i = size() - 1; i >= 0; --i) {
+            Set<T> tags = getTags(i);
+            if (tags != null && tags.contains(tag))
+                return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public E replaceFirstTagEntry(E newEntry, T tag) {
+        int idx = indexOfTag(tag);
+        E old = null;
+        if (idx >= 0) {
+            old = remove(idx);
+            add(idx, newEntry, tag);
+        }
+        return old;
+    }
+
+    @Override
+    public E replaceLastTagEntry(E newEntry, T tag) {
+        int idx = lastIndexOfTag(tag);
+        E old = null;
+        if (idx >= 0) {
+            old = remove(idx);
+            add(idx, newEntry, tag);
+        }
+        return old;
     }
 
     @Override
