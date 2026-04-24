@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.florasoma;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -44,9 +45,10 @@ public final class HUDHandlerFloraSomaCrops implements IDataProvider {
             Block b = accessor.getBlock();
             if (FloraCropBlock.isInstance(b)) {
                 int meta = accessor.getMetadata();
-                currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                        new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
-                                Accessor.damageDropped(b, meta))));
+                currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(
+                                new ItemStack((Integer) FloraCropBlock_getCropItem.invoke(b, meta), 1,
+                                        Accessor.damageDropped(b, meta))),
+                        HUDHandlerBlocks.BLOCK_NAME_TAG);
             }
         } catch (Throwable ignored) {
         }
