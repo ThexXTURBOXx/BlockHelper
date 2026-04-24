@@ -43,6 +43,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.silverfish;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.tallGrass;
 import static mcp.mobius.waila.api.SpecialChars.FLAT;
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.SHARP;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -72,15 +73,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
         int meta = accessor.getMetadata();
 
-        if (block == silverfish && config.get("vanilla.silverfish"))
-            switch (meta) {
-            case 1:
-                return new ItemStack(Block.cobblestone);
-            case 2:
-                return new ItemStack(Block.stoneBrick);
-            default:
-                return new ItemStack(Block.stone);
-            }
+        if (block == silverfish && !config.get("vanilla.silverfish"))
+            return new ItemStack(meta == 1 ? Block.cobblestone : meta == 2 ? Block.stoneBrick : Block.stone);
 
         if (block == redstone)
             return new ItemStack(Item.redstone);
@@ -125,12 +119,20 @@ public final class HUDHandlerVanilla implements IDataProvider {
         Block block = accessor.getBlock();
         int meta = accessor.getMetadata();
 
-        if (block == silverfish && config.get("vanilla.silverfish"))
-            currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
-                            meta == 1 ? "tile.monsterStoneEgg.cobble.name"
-                                    : meta == 2 ? "tile.monsterStoneEgg.brick.name"
-                                      : "tile.monsterStoneEgg.stone.name"),
-                    HUDHandlerBlocks.BLOCK_NAME_TAG);
+        if (block == silverfish) {
+            if (config.get("vanilla.silverfish")) {
+                currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
+                                meta == 1 ? "tile.monsterStoneEgg.cobble.name"
+                                        : meta == 2 ? "tile.monsterStoneEgg.brick.name"
+                                          : "tile.monsterStoneEgg.stone.name"),
+                        HUDHandlerBlocks.BLOCK_NAME_TAG);
+            } else {
+                int newId = meta == 1 ? Block.cobblestone.blockID
+                        : meta == 2 ? Block.stoneBrick.blockID
+                          : Block.stone.blockID;
+                currenttip.replaceFirstTagEntry(ITALIC + "ID " + newId + ":0", HUDHandlerBlocks.BLOCK_ID_TAG);
+            }
+        }
 
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
