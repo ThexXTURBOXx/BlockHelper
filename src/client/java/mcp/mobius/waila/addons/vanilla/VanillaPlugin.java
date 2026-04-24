@@ -26,9 +26,6 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block lever = Block.lever;
     static Block redstone = Block.redstoneWire;
     static Block jukebox = Block.jukebox;
-    static Block leave = Block.leaves;
-    static Block log = Block.wood;
-    static Block sapling = Block.sapling;
     static Block sugarCane = Block.reed;
 
     static Field ItemRecord_recordName;
@@ -77,10 +74,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockRedstoneOre.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, sugarCane.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, crops.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, leave.getClass());
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, log.getClass());
 
-        registrar.registerStackProvider(StackDropFixer.DEFAULT, sapling.getClass());
         registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockSign.class);
         registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
