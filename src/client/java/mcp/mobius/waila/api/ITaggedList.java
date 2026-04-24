@@ -10,6 +10,14 @@ public interface ITaggedList<E, T> extends List<E> {
 
     boolean add(E e, Collection<? extends T> taglst);
 
+    void add(int index, E e, T tag);
+
+    void add(int index, E e, Collection<? extends T> taglst);
+
+    boolean addAll(Collection<? extends E> c, T tag);
+
+    boolean addAll(Collection<? extends E> c, Collection<? extends T> taglst);
+
     Set<T> getTags(E e);
 
     Set<T> getTags(int index);
@@ -27,5 +35,15 @@ public interface ITaggedList<E, T> extends List<E> {
     void removeEntries(T tag);
 
     String getTagsAsString(E e);
+
+    boolean containsTag(T tag);
+
+    int indexOfTag(T tag);
+
+    int lastIndexOfTag(T tag);
+
+    E replaceFirstTagEntry(E newEntry, T tag);
+
+    E replaceLastTagEntry(E newEntry, T tag);
 
 }
