@@ -91,6 +91,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             }, BlockCocoa.class);
         }
 
+        registrar.addSyncedConfig("VanillaMC", "vanilla.silverfish");
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
 
@@ -103,7 +104,6 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.addConfig("VanillaMC", "vanilla.leverstate");
             registrar.addConfig("VanillaMC", "vanilla.repeater");
             registrar.addConfig("VanillaMC", "vanilla.redstone");
-            registrar.addConfig("VanillaMC", "vanilla.silverfish");
 
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
@@ -125,6 +125,7 @@ public final class VanillaPlugin implements IWailaPlugin {
             registrar.registerStackProvider(StackDropFixer.DEFAULT, BlockWoodSlab.class);
             registrar.registerStackProvider(StackDropFixer.withMetaOverride(0), BlockDoor.class);
 
+            registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, mobSpawner.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, melonStem.getClass());
             registrar.registerHeadProvider(HUDHandlerVanilla.INSTANCE, pumpkinStem.getClass());

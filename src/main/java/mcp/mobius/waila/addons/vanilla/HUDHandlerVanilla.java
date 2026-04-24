@@ -40,6 +40,7 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneDoubleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneSingleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.api.SpecialChars.FLAT;
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.SHARP;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -72,15 +73,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == mobSpawner)
             return new ItemStack(block);
 
-        if (block == silverfish && config.get("vanilla.silverfish"))
-            switch (meta) {
-            case 1:
-                return new ItemStack(Block.cobblestone);
-            case 2:
-                return new ItemStack(Block.stoneBrick);
-            default:
-                return new ItemStack(Block.stone);
-            }
+        if (block == silverfish && !config.get("vanilla.silverfish"))
+            return new ItemStack(meta == 1 ? Block.cobblestone : meta == 2 ? Block.stoneBrick : Block.stone);
 
         if (block == redstone)
             return new ItemStack(Item.redstone);
@@ -123,6 +117,14 @@ public final class HUDHandlerVanilla implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
+        int meta = accessor.getMetadata();
+
+        if (block == silverfish && !config.get("vanilla.silverfish")) {
+            int newId = meta == 1 ? Block.cobblestone.blockID
+                    : meta == 2 ? Block.stoneBrick.blockID
+                      : Block.stone.blockID;
+            currenttip.replaceFirstTagEntry(ITALIC + "ID " + newId + ":0", HUDHandlerBlocks.BLOCK_ID_TAG);
+        }
 
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
