@@ -73,6 +73,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addSyncedConfig("VanillaMC", "vanilla.breed");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tame");
         registrar.addSyncedConfig("VanillaMC", "vanilla.sheep");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.chicken");
         registrar.addSyncedConfig("VanillaMC", "vanilla.villager");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
