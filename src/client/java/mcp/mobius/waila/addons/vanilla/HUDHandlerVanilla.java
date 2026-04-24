@@ -20,7 +20,7 @@ import net.minecraft.src.TileEntityMobSpawner;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.ItemRecord_recordName;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.crops;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.jukebox;
-import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leave;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.leaves;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.lever;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.log;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.mobSpawner;
@@ -68,7 +68,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == crops)
             return new ItemStack(Item.wheat);
 
-        if (block == leave && (meta > 3))
+        if (block == leaves && (meta > 3))
             return new ItemStack(block, 1, meta - 4);
 
         if (block == log)
