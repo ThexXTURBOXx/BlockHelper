@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.forge;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.addons.forge.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -41,7 +42,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
                         : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"));
-                currenttip.set(0, name);
+                currenttip.replaceFirstTagEntry(name, HUDHandlerBlocks.BLOCK_NAME_TAG);
             }
         }
     }

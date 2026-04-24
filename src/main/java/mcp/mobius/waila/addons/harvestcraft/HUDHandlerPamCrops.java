@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.harvestcraft;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -39,8 +40,9 @@ public final class HUDHandlerPamCrops implements IDataProvider {
         try {
             Block b = accessor.getBlock();
             if (BlockPamCrop.isInstance(b))
-                currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                        new ItemStack((Integer) BlockPamCrop_getCropItem.invoke(b), 1, 0)));
+                currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(
+                                new ItemStack((Integer) BlockPamCrop_getCropItem.invoke(b), 1, 0)),
+                        HUDHandlerBlocks.BLOCK_NAME_TAG);
         } catch (Throwable ignored) {
         }
     }
