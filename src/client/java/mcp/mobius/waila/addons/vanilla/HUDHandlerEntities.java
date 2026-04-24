@@ -44,7 +44,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (entity instanceof EntityPlayer)
-            currenttip.set(0, WHITE + ((EntityPlayer) entity).field_771_i);
+            currenttip.replaceFirstTagEntry(WHITE + ((EntityPlayer) entity).field_771_i,
+                    mcp.mobius.waila.addons.core.HUDHandlerEntities.ENTITY_NAME_TAG);
     }
 
     @Override
