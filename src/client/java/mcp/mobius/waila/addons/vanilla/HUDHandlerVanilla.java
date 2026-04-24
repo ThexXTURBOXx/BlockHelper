@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.vanilla;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -96,41 +97,37 @@ public final class HUDHandlerVanilla implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
+        int meta = accessor.getMetadata();
 
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
             && config.get("vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
-            currenttip.set(0, name + " (" + mobname + ")");
+            currenttip.replaceFirstTagEntry(name + " (" + mobname + ")", HUDHandlerBlocks.BLOCK_NAME_TAG);
         }
 
         if (block == pistonExtension)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonExtension.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pistonMoving)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonMoving.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block instanceof BlockStep)
-            currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                    new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
-                            accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())));
+            currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(
+                            new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE), 1,
+                                    accessor.getMetadata() > 3 ? 0 : accessor.getMetadata())),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == tallGrass)
-            switch (accessor.getMetadata()) {
-            case 0:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.shrub.name"));
-                break;
-            case 1:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.grass.name"));
-                break;
-            case 2:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.fern.name"));
-                break;
-            default:
-                currenttip.set(0, WHITE + I18n.translate("tile.tallgrass.name"));
-                break;
-            }
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
+                            meta == 0 ? "tile.tallgrass.shrub.name"
+                                    : meta == 1 ? "tile.tallgrass.grass.name"
+                                      : meta == 2 ? "tile.tallgrass.fern.name"
+                                        : "tile.tallgrass.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 
     @Override
