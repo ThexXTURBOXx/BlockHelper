@@ -38,7 +38,7 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
 
             if (data.getCapacity() > 0) {
                 LiquidStack stack = data.getLiquidStack();
-                String name = currenttip.get(0);
+                String name = currenttip.getFirstEntry(HUDHandlerBlocks.BLOCK_NAME_TAG);
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
                         : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"));

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.forge;
 
-import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.addons.forge.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
@@ -43,11 +43,11 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
 
             if (data.getCapacity() > 0) {
                 LiquidStack stack = data.getLiquidStack();
-                String name = currenttip.get(0);
+                String name = currenttip.getFirstEntry(HUDHandlerEntities.ENTITY_NAME_TAG);
                 name += " " + (stack == null
                         ? I18n.translate("hud.msg.empty")
                         : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"));
-                currenttip.replaceFirstTagEntry(name, HUDHandlerBlocks.BLOCK_NAME_TAG);
+                currenttip.replaceFirstTagEntry(name, HUDHandlerEntities.ENTITY_NAME_TAG);
             }
         }
     }
