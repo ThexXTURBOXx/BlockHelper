@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.vanilla;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -121,47 +122,48 @@ public final class HUDHandlerVanilla implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
+        int meta = accessor.getMetadata();
+
+        if (block == silverfish && config.get("vanilla.silverfish"))
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
+                            meta == 1 ? "tile.monsterStoneEgg.cobble.name"
+                                    : meta == 2 ? "tile.monsterStoneEgg.brick.name"
+                                      : "tile.monsterStoneEgg.stone.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
             && config.get("vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
-            currenttip.set(0, name + " (" + mobname + ")");
+            currenttip.replaceFirstTagEntry(name + " (" + mobname + ")", HUDHandlerBlocks.BLOCK_NAME_TAG);
         }
 
         if (block == melonStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.melonStem.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.melonStem.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pumpkinStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.pumpkinStem.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pumpkinStem.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == endPortal)
-            currenttip.set(0, WHITE + I18n.translate("tile.endPortal.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.endPortal.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pistonExtension)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonExtension.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pistonMoving)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonMoving.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block instanceof BlockStep)
-            currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(
-                    new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE, 0), 1,
-                            mod_BlockHelper.Accessor.damageDropped(block, accessor.getMetadata()))));
-
-        if (block == silverfish && !config.get("vanilla.silverfish"))
-            switch (accessor.getMetadata()) {
-            case 1:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.cobble.name"));
-                break;
-            case 2:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.brick.name"));
-                break;
-            default:
-                currenttip.set(0, WHITE + I18n.translate("tile.monsterStoneEgg.stone.name"));
-                break;
-            }
+            currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(
+                            new ItemStack(block.idDropped(accessor.getMetadata(), ConstantRandom.INSTANCE, 0), 1,
+                                    mod_BlockHelper.Accessor.damageDropped(block, accessor.getMetadata()))),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 
     @Override
