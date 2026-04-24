@@ -22,6 +22,8 @@ public final class HUDHandlerCrops implements IDataProvider {
 
     private final WailaRegistrar registrar = WailaRegistrar.instance();
 
+    public static final String CROP_DETAILS_TAG = "BHCORE_CropDetails";
+
     private HUDHandlerCrops() {
     }
 
@@ -43,7 +45,7 @@ public final class HUDHandlerCrops implements IDataProvider {
         if (config.get("general.showcrop")) {
             ICropProvider provider = getProvider(block, accessor);
             if (provider != null)
-                currenttip.addAll(provider.getGrowthDetails(itemStack, accessor, config));
+                currenttip.addAll(provider.getGrowthDetails(itemStack, accessor, config), CROP_DETAILS_TAG);
         }
     }
 
