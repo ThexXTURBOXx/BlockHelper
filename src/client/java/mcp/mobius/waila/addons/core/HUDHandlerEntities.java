@@ -28,6 +28,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
 
     public static final IEntityProvider INSTANCE = new HUDHandlerEntities();
 
+    public static final String ENTITY_NAME_TAG = "BHCORE_EntityName";
+    public static final String ENTITY_MOD_NAME_TAG = "BHCORE_EntityModName";
+
     private HUDHandlerEntities() {
     }
 
@@ -73,7 +76,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 if (entityName == null || entityName.isEmpty()) break retrieve;
             }
 
-            currenttip.add(color + entityName);
+            currenttip.add(color + entityName, ENTITY_NAME_TAG);
             return;
         } catch (Throwable ignored) {
         }
@@ -82,13 +85,13 @@ public final class HUDHandlerEntities implements IEntityProvider {
             String entityName = entity.getClass().getSimpleName();
             entityName = entityName.replaceFirst("Entity", "");
             if (!entityName.isEmpty()) {
-                currenttip.add(color + StringUtils.firstCharacterUppercase(entityName));
+                currenttip.add(color + StringUtils.firstCharacterUppercase(entityName), ENTITY_NAME_TAG);
                 return;
             }
         } catch (Throwable ignored) {
         }
 
-        currenttip.add(color + I18n.translate("hud.msg.please_report"));
+        currenttip.add(color + I18n.translate("hud.msg.please_report"), ENTITY_NAME_TAG);
     }
 
     @Override
@@ -100,9 +103,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         try {
-            currenttip.add(BLUE + ITALIC + ModIdentification.identifyMod(entity));
+            currenttip.add(BLUE + ITALIC + ModIdentification.identifyMod(entity), ENTITY_MOD_NAME_TAG);
         } catch (Throwable t) {
-            currenttip.add(BLUE + ITALIC + I18n.translate("hud.msg.unknown"));
+            currenttip.add(BLUE + ITALIC + I18n.translate("hud.msg.unknown"), ENTITY_MOD_NAME_TAG);
         }
     }
 

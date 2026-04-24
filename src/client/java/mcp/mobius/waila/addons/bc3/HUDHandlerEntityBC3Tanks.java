@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.bc3;
 
 import mcp.mobius.waila.addons.bc3.LiquidHelper.LiquidData;
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -45,7 +46,7 @@ public final class HUDHandlerEntityBC3Tanks implements IEntityProvider {
                     name += " " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
                             ? I18n.translate("hud.msg.empty")
                             : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"));
-                    currenttip.set(0, name);
+                    currenttip.replaceFirstTagEntry(name, HUDHandlerEntities.ENTITY_NAME_TAG);
                 }
             }
         } catch (Throwable t) {
