@@ -33,6 +33,13 @@ public final class HUDHandlerBlocks implements IDataProvider {
 
     public static final IDataProvider INSTANCE = new HUDHandlerBlocks();
 
+    public static final String BLOCK_NAME_TAG = "BHCORE_BlockName";
+    public static final String BLOCK_ID_TAG = "BHCORE_BlockID";
+    public static final String HARVEST_LEVEL_TAG = "BHCORE_HarvestLevel";
+    public static final String LIGHT_LEVEL_TAG = "BHCORE_LightLevel";
+    public static final String BREAK_PROGRESS_TAG = "BHCORE_BreakProgress";
+    public static final String BLOCK_MOD_NAME_TAG = "BHCORE_BlockModName";
+
     private HUDHandlerBlocks() {
     }
 
@@ -51,14 +58,14 @@ public final class HUDHandlerBlocks implements IDataProvider {
                 name = s;
 
             if (name != null)
-                currenttip.add(name);
+                currenttip.add(name, BLOCK_NAME_TAG);
         } catch (Throwable ignored) {
         }
 
-        if (currenttip.isEmpty())
-            currenttip.add(I18n.translate("hud.msg.please_report"));
+        if (!currenttip.containsTag(BLOCK_NAME_TAG))
+            currenttip.add(I18n.translate("hud.msg.please_report"), BLOCK_NAME_TAG);
         if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true))
-            currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata());
+            currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata(), BLOCK_ID_TAG);
     }
 
     @Override
@@ -82,7 +89,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                     harvest = "hud.msg.not_harvestable";
                 }
             }
-            currenttip.add(I18n.translate(harvest));
+            currenttip.add(I18n.translate(harvest), HARVEST_LEVEL_TAG);
         }
 
         if (config.get("general.lightlevel") &&
@@ -91,7 +98,8 @@ public final class HUDHandlerBlocks implements IDataProvider {
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
-            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")");
+            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")",
+                    LIGHT_LEVEL_TAG);
         }
 
         if (config.get("general.break")) {
@@ -99,7 +107,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                 float curBlockDamage = ModLoader.getMinecraftInstance().renderGlobal.field_1450_i;
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
-                    currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress);
+                    currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress, BREAK_PROGRESS_TAG);
                 }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, "curBlockDamageMP", currenttip);
@@ -114,7 +122,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (modName.isEmpty())
             modName = ModIdentification.identifyMod(accessor.getTileEntity());
         if (!modName.isEmpty())
-            currenttip.add(BLUE + ITALIC + modName);
+            currenttip.add(BLUE + ITALIC + modName, BLOCK_MOD_NAME_TAG);
     }
 
     @Override
