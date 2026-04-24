@@ -10,6 +10,7 @@ import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockCloth;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityChicken;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntitySheep;
@@ -71,6 +72,13 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                I18n.color(BlockCloth.func_21035_d(accessor.getNBTInteger("Color"))));
             }
 
+        if (config.get("vanilla.chicken"))
+            if (entity instanceof EntityChicken) {
+                String eggSeconds = String.format("%.2f", accessor.getNBTInteger("NextEgg") / 20f);
+                currenttip.add(I18n.translate("hud.msg.next_egg") + ": " +
+                               I18n.translate("hud.msg.seconds_format", eggSeconds));
+            }
+
         if (config.get("vanilla.tnt"))
             if (entity instanceof EntityTNTPrimed) {
                 String fuseSeconds = String.format("%.2f", accessor.getNBTInteger("Fuse") / 20f);
@@ -87,6 +95,8 @@ public final class HUDHandlerEntities implements IEntityProvider {
     @Override
     public void appendServerData(Entity ent, NBTTagCompound tag,
                                  IServerEntityAccessor accessor, IPluginConfig config) {
+        if (ent instanceof EntityChicken)
+            tag.setInteger("NextEgg", ((EntityChicken) ent).timeUntilNextEgg);
     }
 
 }
