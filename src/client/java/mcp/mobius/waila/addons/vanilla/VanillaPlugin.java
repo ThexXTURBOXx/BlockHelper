@@ -50,6 +50,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         }
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
+        registrar.addSyncedConfig("VanillaMC", "vanilla.chicken");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");
 
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
