@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.vanilla;
 
+import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -145,26 +146,32 @@ public final class HUDHandlerVanilla implements IDataProvider {
             && config.get("vanilla.spawntype")) {
             String name = currenttip.get(0);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
-            currenttip.set(0, name + " (" + mobname + ")");
+            currenttip.replaceFirstTagEntry(name + " (" + mobname + ")", HUDHandlerBlocks.BLOCK_NAME_TAG);
         }
 
         if (block == melonStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.melonStem.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.melonStem.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pumpkinStem)
-            currenttip.set(0, WHITE + I18n.translate("tile.pumpkinStem.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pumpkinStem.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == endPortal)
-            currenttip.set(0, WHITE + I18n.translate("tile.endPortal.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.endPortal.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pistonExtension)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonExtension.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonExtension.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if (block == pistonMoving)
-            currenttip.set(0, WHITE + I18n.translate("tile.pistonMoving.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.pistonMoving.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
 
         if ((block == stoneSingleSlab || block == stoneDoubleSlab) && (accessor.getMetadata() & 7) == 2)
-            currenttip.set(0, WHITE + I18n.translate("tile.petrifiedOakSlab.name"));
+            currenttip.replaceFirstTagEntry(WHITE + I18n.translate("tile.petrifiedOakSlab.name"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 
     @Override
