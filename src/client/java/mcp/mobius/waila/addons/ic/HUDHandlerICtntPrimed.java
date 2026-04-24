@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.ic;
 
 import java.lang.reflect.Field;
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -38,7 +39,8 @@ public class HUDHandlerICtntPrimed implements IEntityProvider {
     @Override
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
-        currenttip.set(0, WHITE + DisplayUtil.itemDisplayNameShort(renderStack));
+        currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(renderStack),
+                HUDHandlerEntities.ENTITY_NAME_TAG);
     }
 
     @Override
