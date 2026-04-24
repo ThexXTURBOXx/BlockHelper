@@ -77,6 +77,7 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockStem.class);
         registrar.registerCropProvider(new DefaultCropProvider(3), BlockNetherStalk.class);
 
+        registrar.addSyncedConfig("VanillaMC", "vanilla.silverfish");
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");
 
@@ -88,7 +89,6 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.addConfig("VanillaMC", "vanilla.leverstate");
         registrar.addConfig("VanillaMC", "vanilla.repeater");
         registrar.addConfig("VanillaMC", "vanilla.redstone");
-        registrar.addConfig("VanillaMC", "vanilla.silverfish");
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, silverfish.getClass());
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, redstone.getClass());
