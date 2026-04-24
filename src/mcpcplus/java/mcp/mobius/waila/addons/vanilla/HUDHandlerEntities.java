@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import net.minecraft.server.Entity;
+import net.minecraft.server.EntityChicken;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.NBTTagCompound;
 
@@ -19,6 +20,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                  IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent instanceof EntityLiving)
             tag.setInt("MaxHealth", ((EntityLiving) ent).getMaxHealth());
+
+        if (ent instanceof EntityChicken)
+            tag.setInt("NextEgg", ((EntityChicken) ent).j);
     }
 
 }
