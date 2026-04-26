@@ -69,7 +69,7 @@ public final class OverlayRenderer {
 
                 int y = position.getY() + (align == 0 ? 5
                         : align == 2 ? position.getHeight() - 19
-                        : position.getHeight() / 2 - 8);
+                          : position.getHeight() / 2 - 8);
 
                 DisplayUtil.renderStack(position.getX() + 5, y, tooltip.stack);
             }

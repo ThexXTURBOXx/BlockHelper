@@ -63,9 +63,9 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             if (is == null || is.getItem() == null) is = new ItemStack(Block.waterStill);
 
             int index = is.getIconIndex();
-            float minU = (index % 16 * 16 + 0) / 256.0F;
+            float minU = (index % 16 * 16) / 256.0F;
             float maxU = (index % 16 * 16 + 16) / 256.0F;
-            float minV = (index / 16 * 16 + 0) / 256.0F;
+            float minV = (index / 16 * 16) / 256.0F;
             float maxV = (index / 16 * 16 + 16) / 256.0F;
 
             mc.renderEngine.bindTexture(mc.renderEngine.getTexture(is.getItem().getTextureFile()));
