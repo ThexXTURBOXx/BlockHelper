@@ -53,7 +53,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneDoubleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneSingleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.api.SpecialChars.FLAT;
-import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.SHARP;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -151,11 +150,11 @@ public final class HUDHandlerVanilla implements IDataProvider {
             int newId = meta == 1 ? Block.cobblestone.blockID
                     : meta == 2 ? Block.stoneBrick.blockID
                       : Block.stone.blockID;
-            currenttip.replaceFirstTagEntry(ITALIC + "ID " + newId + ":0", HUDHandlerBlocks.BLOCK_ID_TAG);
+            currenttip.replaceFirstTagEntry(HUDHandlerBlocks.formatId(newId, 0), HUDHandlerBlocks.BLOCK_ID_TAG);
         }
 
         if (block == chestTrapped && !config.get("vanilla.trappedchest"))
-            currenttip.replaceFirstTagEntry(ITALIC + "ID " + Block.chest.blockID + ":" + accessor.getMetadata(),
+            currenttip.replaceFirstTagEntry(HUDHandlerBlocks.formatId(Block.chest.blockID, accessor.getMetadata()),
                     HUDHandlerBlocks.BLOCK_ID_TAG);
 
         /* Mob spawner handler */
