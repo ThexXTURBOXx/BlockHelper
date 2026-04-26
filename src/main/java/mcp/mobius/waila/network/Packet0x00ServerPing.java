@@ -21,7 +21,7 @@ public class Packet0x00ServerPing implements IWailaPacket {
                 PluginConfig.instance().config.categories.get(Constants.CATEGORY_SERVER);
 
         for (String key : serverForcingCfg.keySet())
-            if (serverForcingCfg.get(key).getBoolean(false))
+            if (serverForcingCfg.get(key).getBoolean(Constants.SERVER_FREE))
                 forcedKeys.put(key, PluginConfig.instance().get(key));
     }
 

@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.block.Block;
@@ -48,7 +49,6 @@ import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneDoubleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.stoneSingleSlab;
 import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.sugarCane;
 import static mcp.mobius.waila.api.SpecialChars.FLAT;
-import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 import static mcp.mobius.waila.api.SpecialChars.SHARP;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
@@ -140,15 +140,15 @@ public final class HUDHandlerVanilla implements IDataProvider {
             int newId = meta == 1 ? Block.cobblestone.blockID
                     : meta == 2 ? Block.stoneBrick.blockID
                       : Block.stone.blockID;
-            currenttip.replaceFirstTagEntry(ITALIC + "ID " + newId + ":0", HUDHandlerBlocks.BLOCK_ID_TAG);
+            currenttip.replaceFirstTagEntry(HUDHandlerBlocks.formatId(newId, 0), HUDHandlerBlocks.BLOCK_ID_TAG);
         }
 
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
             && config.get("vanilla.spawntype")) {
-            String name = currenttip.getFirstEntry(HUDHandlerBlocks.BLOCK_NAME_TAG);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
-            currenttip.replaceFirstTagEntry(name + " (" + mobname + ")", HUDHandlerBlocks.BLOCK_NAME_TAG);
+            currenttip.replaceFirstTagEntry(new Replacer.Appender(" (" + mobname + ")"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
         }
 
         if (block == melonStem)

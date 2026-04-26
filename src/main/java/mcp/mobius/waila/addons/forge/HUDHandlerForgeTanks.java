@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.item.ItemStack;
@@ -38,11 +39,10 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
 
             if (data.getCapacity() > 0) {
                 LiquidStack stack = data.getLiquidStack();
-                String name = currenttip.getFirstEntry(HUDHandlerBlocks.BLOCK_NAME_TAG);
-                name += " " + (stack == null
-                        ? I18n.translate("hud.msg.empty")
-                        : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"));
-                currenttip.replaceFirstTagEntry(name, HUDHandlerBlocks.BLOCK_NAME_TAG);
+                currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
+                                ? I18n.translate("hud.msg.empty")
+                                : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
+                        HUDHandlerBlocks.BLOCK_NAME_TAG);
             }
         }
     }
