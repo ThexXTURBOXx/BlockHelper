@@ -30,6 +30,8 @@ public interface ITaggedList<E, T> extends List<E> {
 
     void removeTag(int index, T tag);
 
+    E getFirstEntry(T tag);
+
     Set<E> getEntries(T tag);
 
     void removeEntries(T tag);
