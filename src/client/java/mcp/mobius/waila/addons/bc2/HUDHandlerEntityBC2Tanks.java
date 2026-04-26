@@ -42,7 +42,7 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
                 if (data.getCapacity() > 0) {
-                    String name = currenttip.get(0);
+                    String name = currenttip.getFirstEntry(HUDHandlerEntities.ENTITY_NAME_TAG);
                     name += " " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
                             ? I18n.translate("hud.msg.empty")
                             : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"));
