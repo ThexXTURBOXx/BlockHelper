@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.Replacer;
 
 public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
 
@@ -190,12 +191,34 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     }
 
     @Override
+    public E replaceFirstTagEntry(Replacer<E> replacer, T tag) {
+        int idx = indexOfTag(tag);
+        E old = null;
+        if (idx >= 0) {
+            old = remove(idx);
+            add(idx, replacer.replace(old), tag);
+        }
+        return old;
+    }
+
+    @Override
     public E replaceLastTagEntry(E newEntry, T tag) {
         int idx = lastIndexOfTag(tag);
         E old = null;
         if (idx >= 0) {
             old = remove(idx);
             add(idx, newEntry, tag);
+        }
+        return old;
+    }
+
+    @Override
+    public E replaceLastTagEntry(Replacer<E> replacer, T tag) {
+        int idx = lastIndexOfTag(tag);
+        E old = null;
+        if (idx >= 0) {
+            old = remove(idx);
+            add(idx, replacer.replace(old), tag);
         }
         return old;
     }
