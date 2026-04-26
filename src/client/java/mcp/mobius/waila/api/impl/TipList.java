@@ -115,6 +115,15 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     }
 
     @Override
+    public E getFirstEntry(T tag) {
+        for (Entry<E, Set<T>> s : tags.entrySet()) {
+            if (s.getValue().contains(tag))
+                return s.getKey();
+        }
+        return null;
+    }
+
+    @Override
     public Set<E> getEntries(T tag) {
         Set<E> ret = new HashSet<E>();
         for (Entry<E, Set<T>> s : tags.entrySet()) {
