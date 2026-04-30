@@ -46,6 +46,10 @@ public interface ITaggedList<E, T> extends List<E> {
 
     E replaceFirstTagEntry(E newEntry, T tag);
 
+    E replaceFirstTagEntry(Replacer<E> replacer, T tag);
+
     E replaceLastTagEntry(E newEntry, T tag);
+
+    E replaceLastTagEntry(Replacer<E> replacer, T tag);
 
 }

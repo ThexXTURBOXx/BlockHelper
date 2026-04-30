@@ -18,9 +18,7 @@ public final class WailaExceptionHandler {
     }
 
     public static void handleErr(Throwable t, String context) {
-        if (!errs.contains(context)) {
-            errs.add(context);
-
+        if (errs.add(context)) {
             Throwable working = t;
 
             while (working != null) {

@@ -151,6 +151,16 @@ public class PluginConfig implements IPluginConfig {
         this.config.save();
     }
 
+    public String get(String category, String key, String default_) {
+        Property prop = this.config.getOrCreateProperty(key, category, default_);
+        return prop.value;
+    }
+
+    public void setConfig(String category, String key, String state) {
+        this.config.getOrCreateProperty(key, category, state).value = state;
+        this.config.save();
+    }
+
 
     /* Some accessor helpers */
     public boolean showTooltip() {
@@ -175,8 +185,7 @@ public class PluginConfig implements IPluginConfig {
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWICON, true);
-        liquidUnit = config.getOrCreateProperty(
-                Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUIDUNIT, "mB").value;
+        liquidUnit = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUIDUNIT, "mB");
 
         OverlayConfig.posX = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000);
         OverlayConfig.posY = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100);
