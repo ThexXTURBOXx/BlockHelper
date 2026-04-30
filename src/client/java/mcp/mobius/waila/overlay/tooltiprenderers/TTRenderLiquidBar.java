@@ -81,9 +81,9 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             if (is.getItem() == null) is = new ItemStack(Block.waterStill);
 
             int index = is.getIconIndex();
-            float minU = (index % 16 * 16 + 0) / 256.0F;
+            float minU = (index % 16 * 16) / 256.0F;
             float maxU = (index % 16 * 16 + 16) / 256.0F;
-            float minV = (index / 16 * 16 + 0) / 256.0F;
+            float minV = (index / 16 * 16) / 256.0F;
             float maxV = (index / 16 * 16 + 16) / 256.0F;
 
             String tex = is.itemID < 256 ? "/terrain.png" : "/gui/items.png";
@@ -179,8 +179,8 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     public static String create(LiquidData stack) {
         return stack == null ? null :
                 stack.getId() == TTRenderLiquidBar.EMPTY_LIQUID
-                        ? createEmpty(stack.getCapacity())
-                        : create(stack.getId(), 0,
+                ? createEmpty(stack.getCapacity())
+                : create(stack.getId(), 0,
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
                         stack.getAmount(), stack.getCapacity());
     }
