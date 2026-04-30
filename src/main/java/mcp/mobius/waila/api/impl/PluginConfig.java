@@ -72,7 +72,7 @@ public class PluginConfig implements IPluginConfig {
 
     @SuppressWarnings("deprecation")
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.getOrCreateBooleanProperty(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
+        this.config.getOrCreateBooleanProperty(translationKey, Constants.CATEGORY_SERVER, Constants.SERVER_FREE);
         this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
     }
@@ -83,7 +83,7 @@ public class PluginConfig implements IPluginConfig {
         WailaRegisterEvent.Config event = new WailaRegisterEvent.Config(modName, key, translationKey, defValue, synced);
         MinecraftForge.EVENT_BUS.post(event);
 
-        this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, event.getDefaultValue());
+        this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, event.getDefaultValue());
         this.config.save();
 
         if (!this.modules.containsKey(modName))
@@ -107,7 +107,7 @@ public class PluginConfig implements IPluginConfig {
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return this.forcedConfigs.get(key);
 
-        Property prop = this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, defvalue);
+        Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, defvalue);
         return prop.getBoolean(defvalue);
     }
 
@@ -121,7 +121,7 @@ public class PluginConfig implements IPluginConfig {
         if (mod_BlockHelper.INSTANCE.serverPresent && this.forcedConfigs.containsKey(key))
             return false;
 
-        Property prop = this.config.getOrCreateBooleanProperty(Constants.CATEGORY_MODULES, key, value);
+        Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, value);
         prop.value = Boolean.toString(value);
 
         this.config.save();
@@ -141,35 +141,37 @@ public class PluginConfig implements IPluginConfig {
 
     @SuppressWarnings("deprecation")
     public boolean get(String category, String key, boolean default_) {
-        Property prop = this.config.getOrCreateBooleanProperty(category, key, default_);
+        Property prop = this.config.getOrCreateBooleanProperty(key, category, default_);
         return prop.getBoolean(default_);
     }
 
     @SuppressWarnings("deprecation")
     public void setConfig(String category, String key, boolean state) {
-        this.config.getOrCreateBooleanProperty(category, key, state).value = String.valueOf(state);
+        this.config.getOrCreateBooleanProperty(key, category, state).value = String.valueOf(state);
         this.config.save();
     }
 
     @SuppressWarnings("deprecation")
     public int get(String category, String key, int default_) {
-        Property prop = this.config.getOrCreateIntProperty(category, key, default_);
+        Property prop = this.config.getOrCreateIntProperty(key, category, default_);
         return prop.getInt();
     }
 
     @SuppressWarnings("deprecation")
     public void setConfig(String category, String key, int state) {
-        this.config.getOrCreateIntProperty(category, key, state).value = String.valueOf(state);
+        this.config.getOrCreateIntProperty(key, category, state).value = String.valueOf(state);
         this.config.save();
     }
 
+    @SuppressWarnings("deprecation")
     public String get(String category, String key, String default_) {
-        Property prop = this.config.get(category, key, default_);
+        Property prop = this.config.getOrCreateProperty(key, category, default_);
         return prop.value;
     }
 
+    @SuppressWarnings("deprecation")
     public void setConfig(String category, String key, String state) {
-        this.config.get(category, key, state, Property.Type.STRING).value = state;
+        this.config.getOrCreateProperty(key, category, state).value = state;
         this.config.save();
     }
 
@@ -221,7 +223,7 @@ public class PluginConfig implements IPluginConfig {
             setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ICON_ALIGN, 1);
 
         try {
-            // Older Forge versions does not have this method
+            // Older Forge versions do not have this method
             this.config.addCustomCategoryComment(Constants.CATEGORY_MODULES,
                     "Those are the config keys defined in modules.\n" +
                     "Server side, it is used to enforce keys client side using the next section.");

@@ -183,7 +183,7 @@ public final class HUDHandlerEntities implements IEntityProvider {
                 if (profession == null) {
                     String skin = null;
                     try {
-                        // Older Forge versions does not have this method
+                        // Older Forge versions do not have this method
                         skin = VillagerRegistry.getVillagerSkin(professionId, null);
                     } catch (Throwable ignored) {
                     }
