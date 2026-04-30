@@ -64,7 +64,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (!currenttip.containsTag(BLOCK_NAME_TAG))
             currenttip.add(I18n.translate("hud.msg.please_report"), BLOCK_NAME_TAG);
         if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true))
-            currenttip.add(ITALIC + "ID " + accessor.getBlockID() + ":" + accessor.getMetadata(), BLOCK_ID_TAG);
+            currenttip.add(formatId(accessor.getBlockID(), accessor.getMetadata()), BLOCK_ID_TAG);
     }
 
     @Override
@@ -97,8 +97,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
             String skyLight = w.getSavedLightValue(EnumSkyBlock.Sky, x, y + 1, z) + "";
-            currenttip.add(I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")",
-                    LIGHT_LEVEL_TAG);
+            currenttip.add(formatLightLevel(blockLight, skyLight), LIGHT_LEVEL_TAG);
         }
 
         if (config.get("general.break")) {
@@ -106,7 +105,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
                 float curBlockDamage = ModLoader.getMinecraftInstance().renderGlobal.damagePartialTime;
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
-                    currenttip.add(I18n.translate("hud.msg.break_progression") + ": " + progress, BREAK_PROGRESS_TAG);
+                    currenttip.add(formatBreakProgress(progress), BREAK_PROGRESS_TAG);
                 }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, "curBlockDamageMP", currenttip);
@@ -121,7 +120,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (modName.isEmpty())
             modName = ModIdentification.identifyMod(accessor.getTileEntity());
         if (!modName.isEmpty())
-            currenttip.add(BLUE + ITALIC + modName, BLOCK_MOD_NAME_TAG);
+            currenttip.add(formatModName(modName), BLOCK_MOD_NAME_TAG);
     }
 
     @Override
@@ -130,4 +129,21 @@ public final class HUDHandlerBlocks implements IDataProvider {
         if (te != null)
             te.writeToNBT(tag);
     }
+
+    public static String formatId(int blockId, int meta) {
+        return ITALIC + "ID " + blockId + ":" + meta;
+    }
+
+    public static String formatLightLevel(String blockLight, String skyLight) {
+        return I18n.translate("hud.msg.light_level") + ": " + blockLight + YELLOW + " (" + skyLight + ")";
+    }
+
+    public static String formatBreakProgress(String progress) {
+        return I18n.translate("hud.msg.break_progression") + ": " + progress;
+    }
+
+    public static String formatModName(String modName) {
+        return BLUE + ITALIC + modName;
+    }
+
 }

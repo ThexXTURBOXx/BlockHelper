@@ -103,9 +103,9 @@ public final class HUDHandlerEntities implements IEntityProvider {
     public void modifyTail(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         try {
-            currenttip.add(BLUE + ITALIC + ModIdentification.identifyMod(entity), ENTITY_MOD_NAME_TAG);
+            currenttip.add(formatModName(ModIdentification.identifyMod(entity)), ENTITY_MOD_NAME_TAG);
         } catch (Throwable t) {
-            currenttip.add(BLUE + ITALIC + I18n.translate("hud.msg.unknown"), ENTITY_MOD_NAME_TAG);
+            currenttip.add(formatModName(I18n.translate("hud.msg.unknown")), ENTITY_MOD_NAME_TAG);
         }
     }
 
@@ -114,6 +114,10 @@ public final class HUDHandlerEntities implements IEntityProvider {
                                  IServerEntityAccessor accessor, IPluginConfig config) {
         if (ent != null)
             ent.writeToNBT(tag);
+    }
+
+    public static String formatModName(String modName) {
+        return BLUE + ITALIC + modName;
     }
 
 }

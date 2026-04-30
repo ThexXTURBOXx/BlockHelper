@@ -112,6 +112,16 @@ public class PluginConfig implements IPluginConfig {
         this.config.save();
     }
 
+    public String get(String category, String key, String default_) {
+        Property prop = this.config.getOrCreateProperty(key, category, default_);
+        return prop.value;
+    }
+
+    public void setConfig(String category, String key, String state) {
+        this.config.getOrCreateProperty(key, category, state).value = state;
+        this.config.save();
+    }
+
 
 
     /* Default config loading */
