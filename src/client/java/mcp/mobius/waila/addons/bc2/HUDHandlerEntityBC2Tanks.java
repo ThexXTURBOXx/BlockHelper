@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
@@ -42,11 +43,10 @@ public final class HUDHandlerEntityBC2Tanks implements IEntityProvider {
                 LiquidData data = LiquidHelper.getLiquidData(accessor, config);
 
                 if (data.getCapacity() > 0) {
-                    String name = currenttip.getFirstEntry(HUDHandlerEntities.ENTITY_NAME_TAG);
-                    name += " " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
-                            ? I18n.translate("hud.msg.empty")
-                            : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"));
-                    currenttip.replaceFirstTagEntry(name, HUDHandlerEntities.ENTITY_NAME_TAG);
+                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
+                                    ? I18n.translate("hud.msg.empty")
+                                    : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"))),
+                            HUDHandlerEntities.ENTITY_NAME_TAG);
                 }
             }
         } catch (Throwable t) {
