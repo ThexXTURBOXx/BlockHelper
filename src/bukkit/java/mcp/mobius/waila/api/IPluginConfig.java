@@ -12,7 +12,7 @@ public interface IPluginConfig {
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
-     * @return The module names
+     * @return The module names.
      */
     Set<String> getModuleNames();
 
@@ -20,21 +20,21 @@ public interface IPluginConfig {
      * Returns all the currently available options for a given module
      *
      * @param modName Module name
-     * @return The config options
+     * @return The config options.
      */
     Set<String> getKeys(String modName);
 
     /**
-     * Returns the current value of an option (true/false) with a default value if not set.
+     * Returns the current value of an option (true/false) with a given default value if not set.
      *
      * @param key      Option to lookup
-     * @param defValue Default values
-     * @return Value of the option or defValue if not set.
+     * @param defvalue Default values
+     * @return Value of the option or defvalue if not set.
      */
-    boolean get(String key, boolean defValue);
+    boolean get(String key, boolean defvalue);
 
     /**
-     * Returns the current value of an option (true/false) with a default value true if not set
+     * Returns the current value of an option (true/false) with a default value of true if not set.
      *
      * @param key Option to lookup
      * @return Value of the option or true if not set.
@@ -50,7 +50,7 @@ public interface IPluginConfig {
      *
      * @param key   Option to lookup
      * @param value New value for the option
-     * @return true if the value is now definitely set correctly
+     * @return true if the value is now definitely set correctly.
      */
     boolean set(String key, boolean value);
 

@@ -111,8 +111,8 @@ public final class ModIdentification {
     private static String formatModName(String name) {
         return name == null ? "Minecraft" :
                 name.replaceFirst("^mod_", "")
-                        .replaceAll(MISFORMATTED_PAR + ".", "")
-                        .replaceAll(MCStyle + ".", "");
+                .replaceAll(MISFORMATTED_PAR + ".", "")
+                .replaceAll(MCStyle + ".", "");
     }
 
     private static String formatURI(URI uri) {
