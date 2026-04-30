@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.Block;
@@ -87,9 +88,9 @@ public final class HUDHandlerVanilla implements IDataProvider {
         /* Mob spawner handler */
         if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner
             && config.get("vanilla.spawntype")) {
-            String name = currenttip.getFirstEntry(HUDHandlerBlocks.BLOCK_NAME_TAG);
             String mobname = ((TileEntityMobSpawner) accessor.getTileEntity()).getMobID();
-            currenttip.replaceFirstTagEntry(name + " (" + mobname + ")", HUDHandlerBlocks.BLOCK_NAME_TAG);
+            currenttip.replaceFirstTagEntry(new Replacer.Appender(" (" + mobname + ")"),
+                    HUDHandlerBlocks.BLOCK_NAME_TAG);
         }
     }
 
