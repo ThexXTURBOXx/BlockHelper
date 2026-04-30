@@ -13,7 +13,7 @@ public interface IPluginConfig {
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
-     * @return The module names
+     * @return The module names.
      */
     Set<String> getModuleNames();
 
@@ -21,12 +21,12 @@ public interface IPluginConfig {
      * Returns all the currently available options for a given module
      *
      * @param modName Module name
-     * @return The config options
+     * @return The config options.
      */
     Map<String, String> getKeys(String modName);
 
     /**
-     * Returns the current value of an option (true/false) with a default value if not set.
+     * Returns the current value of an option (true/false) with a given default value if not set.
      *
      * @param key      Option to lookup
      * @param defvalue Default values
@@ -35,7 +35,7 @@ public interface IPluginConfig {
     boolean get(String key, boolean defvalue);
 
     /**
-     * Returns the current value of an option (true/false) with a default value true if not set
+     * Returns the current value of an option (true/false) with a default value of true if not set.
      *
      * @param key Option to lookup
      * @return Value of the option or true if not set.
@@ -53,7 +53,7 @@ public interface IPluginConfig {
      * @param value New value for the option
      * @return true if the value is now definitely set correctly. If false, then
      *         we are on the client and the config is either forced or it is a
-     *         synced config and we do not know whether it is forced (yet)
+     *         synced config and we do not know whether it is forced (yet).
      */
     boolean set(String key, boolean value);
 
