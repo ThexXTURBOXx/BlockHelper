@@ -40,8 +40,8 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
             if (data.getCapacity() > 0) {
                 LiquidStack stack = data.getLiquidStack();
                 currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
-                        ? I18n.translate("hud.msg.empty")
-                        : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
+                                ? I18n.translate("hud.msg.empty")
+                                : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
                         HUDHandlerBlocks.BLOCK_NAME_TAG);
             }
         }

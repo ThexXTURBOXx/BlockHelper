@@ -45,7 +45,8 @@ public final class HUDHandlerNaturaCrops implements IDataProvider {
             if (CropBlock.isInstance(b)) {
                 int meta = accessor.getMetadata();
                 currenttip.replaceFirstTagEntry(WHITE + DisplayUtil.itemDisplayNameShort(
-                        new ItemStack((Integer) CropBlock_getCropItem.invoke(b, meta), 1, b.damageDropped(meta))),
+                                new ItemStack((Integer) CropBlock_getCropItem.invoke(b, meta), 1,
+                                        b.damageDropped(meta))),
                         HUDHandlerBlocks.BLOCK_NAME_TAG);
             }
         } catch (Throwable ignored) {

@@ -45,8 +45,8 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
             if (data.getCapacity() > 0) {
                 LiquidStack stack = data.getLiquidStack();
                 currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
-                        ? I18n.translate("hud.msg.empty")
-                        : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
+                                ? I18n.translate("hud.msg.empty")
+                                : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
                         HUDHandlerEntities.ENTITY_NAME_TAG);
             }
         }
