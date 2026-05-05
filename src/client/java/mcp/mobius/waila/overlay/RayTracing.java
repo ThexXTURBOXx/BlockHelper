@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
@@ -84,9 +85,14 @@ public class RayTracing {
     }
 
     public ItemStack getIdentifierStack() {
-        List<ItemStack> items = this.getIdentifierItems();
+        List<ItemStack> items = null;
+        try {
+            items = this.getIdentifierItems();
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, "RayTracing#getIdentifierStack", null);
+        }
 
-        if (items.isEmpty()) return null;
+        if (items == null || items.isEmpty()) return null;
 
         Collections.sort(items, new Comparator<ItemStack>() {
             @Override
