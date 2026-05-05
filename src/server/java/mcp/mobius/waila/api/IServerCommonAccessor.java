@@ -13,4 +13,6 @@ public interface IServerCommonAccessor {
 
     EntityPlayerMP getPlayer();
 
+    void clear();
+
 }

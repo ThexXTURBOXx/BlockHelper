@@ -122,7 +122,9 @@ public class WailaTickHandler {
         World world = mc.theWorld;
         if (this.lastWorld != world) {
             this.lastWorld = world;
-            resetAll();
+            if (world == null) {
+                resetAll();
+            }
         }
     }
 
