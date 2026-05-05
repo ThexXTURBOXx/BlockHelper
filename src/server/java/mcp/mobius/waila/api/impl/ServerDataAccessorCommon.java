@@ -10,13 +10,13 @@ import net.minecraft.src.World;
 
 public class ServerDataAccessorCommon implements IServerCommonAccessor, IServerDataAccessor, IServerEntityAccessor {
 
+    public static final ServerDataAccessorCommon INSTANCE = new ServerDataAccessorCommon();
+
     public World world;
     public EntityPlayerMP player;
     public TileEntity tileEntity;
     public int x, y, z;
     public Entity entity;
-
-    public static final ServerDataAccessorCommon INSTANCE = new ServerDataAccessorCommon();
 
     public void set(World _world, EntityPlayerMP _player, Entity _entity) {
         this.set(_world, _player, null, 0, 0, 0, _entity);
@@ -37,6 +37,7 @@ public class ServerDataAccessorCommon implements IServerCommonAccessor, IServerD
         this.entity = _entity;
     }
 
+    @Override
     public void clear() {
         this.set(null, null, null);
     }
