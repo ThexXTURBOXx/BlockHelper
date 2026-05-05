@@ -10,17 +10,20 @@ public class LabelFixedFont extends WidgetBase {
 
     protected String text = "";
     protected int color;
+    protected boolean shadow;
 
     public LabelFixedFont(IWidget parent, String text) {
         super(parent);
         this.setText(text);
         this.color = 0xFFFFFF;
+        this.shadow = false;
     }
 
     public LabelFixedFont(IWidget parent, String text, int color) {
         super(parent);
         this.setText(text);
         this.color = color;
+        this.shadow = false;
     }
 
     @Override
@@ -39,6 +42,10 @@ public class LabelFixedFont extends WidgetBase {
         this.color = color;
     }
 
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
+    }
+
     private void updateGeometry() {
         if (this.geom == null)
             this.geom = new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY);
@@ -50,7 +57,8 @@ public class LabelFixedFont extends WidgetBase {
     @Override
     public void draw(Point pos) {
         GLState state = new GLState();
-        this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
+        if (this.shadow) this.mc.fontRenderer.drawStringWithShadow(this.text, pos.getX(), pos.getY(), this.color);
+        else this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
         state.reset();
     }
 }
