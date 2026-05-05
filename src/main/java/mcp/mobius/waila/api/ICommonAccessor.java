@@ -29,4 +29,6 @@ public interface ICommonAccessor {
 
     double getPartialFrame();
 
+    void clear();
+
 }

@@ -71,7 +71,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.get(Constants.CATEGORY_SERVER, translationKey, Constants.SERVER_FREE);
+        this.config.get(Constants.CATEGORY_SERVER, key, Constants.SERVER_FREE);
         this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
     }
