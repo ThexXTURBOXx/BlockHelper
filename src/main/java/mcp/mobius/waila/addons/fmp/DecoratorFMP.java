@@ -37,6 +37,7 @@ public final class DecoratorFMP implements IBlockDecorator {
                         provider.decorateBlock(itemStack, DataAccessorFMP.INSTANCE, config);
             }
         }
+        DataAccessorFMP.INSTANCE.clear();
     }
 
 }

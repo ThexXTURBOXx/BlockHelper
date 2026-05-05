@@ -11,18 +11,16 @@ import net.minecraft.world.World;
 
 public class DataAccessorFMP implements IFMPAccessor {
 
+    public static final DataAccessorFMP INSTANCE = new DataAccessorFMP();
+
     public String id;
     public World world;
     public EntityPlayer player;
     public MovingObjectPosition mop;
-    public Vec3 renderingvec = null;
-    public TileEntity entity;
-    public NBTTagCompound partialNBT = null;
-    public NBTTagCompound remoteNBT = null;
-    public long timeLastUpdate = System.currentTimeMillis();
+    public Vec3 renderingvec;
+    public TileEntity tileEntity;
+    public NBTTagCompound partialNBT;
     public double partialFrame;
-
-    public static final DataAccessorFMP INSTANCE = new DataAccessorFMP();
 
     public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, NBTTagCompound _partialNBT,
                     String id) {
@@ -34,11 +32,16 @@ public class DataAccessorFMP implements IFMPAccessor {
         this.world = _world;
         this.player = _player;
         this.mop = _mop;
-        this.entity = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+        this.tileEntity = _mop == null ? null : world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
         this.partialNBT = _partialNBT;
         this.id = id;
         this.renderingvec = renderVec;
         this.partialFrame = partialTicks;
+    }
+
+    @Override
+    public void clear() {
+        this.set(null, null, null, null, null);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class DataAccessorFMP implements IFMPAccessor {
 
     @Override
     public TileEntity getTileEntity() {
-        return this.entity;
+        return this.tileEntity;
     }
 
     @Override
@@ -68,13 +71,9 @@ public class DataAccessorFMP implements IFMPAccessor {
 
     @Override
     public NBTTagCompound getFullNBTData() {
-        if (this.entity == null) return null;
-
-        if (this.isTagCorrect(this.remoteNBT))
-            return this.remoteNBT;
-
+        if (this.tileEntity == null) return null;
         NBTTagCompound tag = new NBTTagCompound();
-        this.entity.writeToNBT(tag);
+        this.tileEntity.writeToNBT(tag);
         return tag;
     }
 
@@ -101,24 +100,6 @@ public class DataAccessorFMP implements IFMPAccessor {
     @Override
     public String getID() {
         return this.id;
-    }
-
-    private boolean isTagCorrect(NBTTagCompound tag) {
-        if (tag == null) {
-            this.timeLastUpdate = System.currentTimeMillis() - 250;
-            return false;
-        }
-
-        int x = tag.getInteger("x");
-        int y = tag.getInteger("y");
-        int z = tag.getInteger("z");
-
-        if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
-            return true;
-        else {
-            this.timeLastUpdate = System.currentTimeMillis() - 250;
-            return false;
-        }
     }
 
 }

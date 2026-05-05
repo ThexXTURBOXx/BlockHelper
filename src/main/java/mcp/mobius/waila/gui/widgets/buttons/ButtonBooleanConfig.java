@@ -2,9 +2,7 @@ package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.events.MouseEvent;
-import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.util.Point;
 
 public class ButtonBooleanConfig extends ButtonBoolean {
@@ -35,23 +33,18 @@ public class ButtonBooleanConfig extends ButtonBoolean {
 
     @Override
     public void onMouseClick(MouseEvent event) {
-        if (!PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
+        if (!this.isForcedConfig())
             super.onMouseClick(event);
-        PluginConfig.instance().setConfig(this.category, this.configKey, this.state);
     }
 
     @Override
     public void draw(Point pos) {
-        if (!PluginConfig.instance().forcedConfigs.containsKey(this.configKey))
-            super.draw(pos);
-        else {
-            GLState state = new GLState();
-            int texOffset = -1;
-            this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
-            UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(),
-                    this.getSize().getY(), 0, 66 + texOffset * 20, 200, 20);
-            state.reset();
-        }
+        this.setEnabled(!this.isForcedConfig());
+        super.draw(pos);
+    }
+
+    public boolean isForcedConfig() {
+        return PluginConfig.instance().forcedConfigs.containsKey(this.configKey);
     }
 
 }

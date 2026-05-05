@@ -48,6 +48,7 @@ public final class HUDHandlerFMP implements IDataProvider {
                 }
             }
         }
+        DataAccessorFMP.INSTANCE.clear();
     }
 
     @Override
@@ -71,6 +72,7 @@ public final class HUDHandlerFMP implements IDataProvider {
                 }
             }
         }
+        DataAccessorFMP.INSTANCE.clear();
     }
 
     @Override
@@ -94,6 +96,7 @@ public final class HUDHandlerFMP implements IDataProvider {
                 }
             }
         }
+        DataAccessorFMP.INSTANCE.clear();
     }
 
     @Override
