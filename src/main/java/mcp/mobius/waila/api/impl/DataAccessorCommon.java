@@ -19,10 +19,12 @@ import net.minecraft.src.World;
 
 public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEntityAccessor {
 
+    public static final DataAccessorCommon INSTANCE = new DataAccessorCommon();
+
     public World world;
     public EntityPlayer player;
     public MovingObjectPosition mop;
-    public Vec3 renderingvec = null;
+    public Vec3 renderingvec;
     public Block block;
     public int blockID;
     public int metadata;
@@ -32,8 +34,6 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
     public long timeLastUpdate = System.currentTimeMillis();
     public double partialFrame;
     public ItemStack stack;
-
-    public static final DataAccessorCommon INSTANCE = new DataAccessorCommon();
 
     public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
         this.set(_world, _player, _mop, null, 0.0);
@@ -86,6 +86,7 @@ public class DataAccessorCommon implements ICommonAccessor, IDataAccessor, IEnti
         }
     }
 
+    @Override
     public void clear() {
         this.set(null, null, null);
     }

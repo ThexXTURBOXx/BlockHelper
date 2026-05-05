@@ -72,7 +72,7 @@ public class PluginConfig implements IPluginConfig {
 
     @SuppressWarnings("deprecation")
     public void addSyncedConfig(String modName, String key, String translationKey, boolean defValue) {
-        this.config.getOrCreateBooleanProperty(translationKey, Constants.CATEGORY_SERVER, Constants.SERVER_FREE);
+        this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_SERVER, Constants.SERVER_FREE);
         this.addConfigInternal(modName, key, translationKey, defValue, true);
         this.syncedConfigs.add(key);
     }
