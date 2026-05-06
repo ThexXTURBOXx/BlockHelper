@@ -1,11 +1,11 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
-import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.GLState;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
@@ -58,69 +58,22 @@ public abstract class ButtonBase extends WidgetBase {
     }
 
     protected void drawVanillaButton(int texOffset) {
-        int x = this.getPos().getX();
-        int y = this.getPos().getY();
         int width = this.getSize().getX();
         int height = this.getSize().getY();
+        if (width <= 0 || height <= 0) return;
+
+        int x = this.getPos().getX();
+        int y = this.getPos().getY();
         int v = BUTTON_TEX_V_BASE + texOffset * BUTTON_TEX_V_STEP;
 
         this.mc.renderEngine.bindTexture(WIDGETS_TEXTURE);
-        if (width <= 0 || height <= 0) return;
-
-        int borderX = Math.min(BUTTON_BORDER, width / 2);
-        int borderY = Math.min(BUTTON_BORDER, height / 2);
-        int midW = width - borderX * 2;
-        int midH = height - borderY * 2;
-        int srcMidW = BUTTON_TEX_W - BUTTON_BORDER * 2;
-        int srcMidH = BUTTON_TEX_H - BUTTON_BORDER * 2;
-
-        // Corners
-        UIHelper.drawTexture(x, y, borderX, borderY, BUTTON_TEX_U, v, BUTTON_BORDER, BUTTON_BORDER);
-        UIHelper.drawTexture(x + width - borderX, y,
-                borderX, borderY,
-                BUTTON_TEX_W - BUTTON_BORDER, v,
-                BUTTON_BORDER, BUTTON_BORDER);
-        UIHelper.drawTexture(x, y + height - borderY,
-                borderX, borderY,
-                BUTTON_TEX_U, v + BUTTON_TEX_H - BUTTON_BORDER,
-                BUTTON_BORDER, BUTTON_BORDER);
-        UIHelper.drawTexture(x + width - borderX, y + height - borderY,
-                borderX, borderY,
-                BUTTON_TEX_W - BUTTON_BORDER, v + BUTTON_TEX_H - BUTTON_BORDER,
-                BUTTON_BORDER, BUTTON_BORDER);
-
-        if (midW > 0) {
-            // Top + bottom edges
-            UIHelper.drawTexture(x + borderX, y,
-                    midW, borderY,
-                    BUTTON_BORDER, v,
-                    srcMidW, BUTTON_BORDER);
-            UIHelper.drawTexture(x + borderX,
-                    y + height - borderY,
-                    midW, borderY,
-                    BUTTON_BORDER, v + BUTTON_TEX_H - BUTTON_BORDER,
-                    srcMidW, BUTTON_BORDER);
-        }
-
-        if (midH > 0) {
-            // Left + right edges
-            UIHelper.drawTexture(x, y + borderY,
-                    borderX, midH,
-                    BUTTON_TEX_U, v + BUTTON_BORDER,
-                    BUTTON_BORDER, srcMidH);
-            UIHelper.drawTexture(x + width - borderX, y + borderY,
-                    borderX, midH,
-                    BUTTON_TEX_W - BUTTON_BORDER, v + BUTTON_BORDER,
-                    BUTTON_BORDER, srcMidH);
-        }
-
-        if (midW > 0 && midH > 0) {
-            // Center
-            UIHelper.drawTexture(x + borderX, y + borderY,
-                    midW, midH,
-                    BUTTON_BORDER, v + BUTTON_BORDER,
-                    srcMidW, srcMidH);
-        }
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        DisplayUtil.drawTexturedModalRect(x, y,
+                0, v,
+                width / 2, height);
+        DisplayUtil.drawTexturedModalRect(x + width / 2, y,
+                BUTTON_TEX_W - width / 2, v,
+                width / 2, height);
     }
 
     @Override

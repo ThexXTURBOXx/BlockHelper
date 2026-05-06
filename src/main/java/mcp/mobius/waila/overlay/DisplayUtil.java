@@ -135,6 +135,10 @@ public final class DisplayUtil {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    public static void drawTexturedModalRect(int x, int y, int u, int v, int tw, int th) {
+        drawTexturedModalRect(x, y, u, v, tw, th, tw, th);
+    }
+
     public static void drawTexturedModalRect(int x, int y, int u, int v, int w, int h, int tw, int th) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
