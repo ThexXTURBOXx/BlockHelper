@@ -32,8 +32,10 @@ public class mod_BlockHelper extends BaseMod {
     public static mod_BlockHelper INSTANCE;
     public static ProxyCommon proxy;
     public static boolean DEV_MODE = false;
+    public static Minecraft minecraft;
     private WailaTickHandler tickHandler;
     private ConfigKeyHandler configKeyHandler;
+    private boolean firstTick = true;
 
     static {
         ConsoleHandler ch = new ConsoleHandler();
@@ -52,11 +54,8 @@ public class mod_BlockHelper extends BaseMod {
         return VERSION;
     }
 
-    @Override
     public void ModsLoaded() {
         // LOAD COMPLETE
-        super.ModsLoaded();
-
         INSTANCE = this;
         proxy = new ProxyClient();
 
@@ -84,7 +83,13 @@ public class mod_BlockHelper extends BaseMod {
     }
 
     @Override
-    public void OSDHook(Minecraft mc, boolean guiOpen) {
+    public void OSDHook(Minecraft mc) {
+        if (firstTick) {
+            minecraft = mc;
+            ModsLoaded();
+            firstTick = false;
+        }
+
         configKeyHandler.onTickInGame(mc);
         tickHandler.onTickInGame(mc);
     }

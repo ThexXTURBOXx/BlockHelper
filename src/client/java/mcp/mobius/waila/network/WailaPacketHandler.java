@@ -3,7 +3,6 @@ package mcp.mobius.waila.network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
 public class WailaPacketHandler {
@@ -38,7 +37,7 @@ public class WailaPacketHandler {
         if (channel.equals(mod_BlockHelper.CHANNEL))
             packet.handleClient();
         else if (channel.equals(mod_BlockHelper.CHANNEL_SSP))
-            packet.handleServer(ModLoader.getMinecraftInstance().thePlayer);
+            packet.handleServer(mod_BlockHelper.minecraft.thePlayer);
     }
 
     public static byte getHeader(DataInputStream inputStream) {
@@ -114,7 +113,7 @@ public class WailaPacketHandler {
     }
 
     public static void sendPacketToServer(IWailaPacket packet) {
-        /*if (ModLoader.getMinecraftInstance().theWorld.multiplayerWorld)
+        /*if (mod_BlockHelper.minecraft.theWorld.multiplayerWorld)
             ModLoader.SendPacket(mod_BlockHelper.INSTANCE, wrapMLPacket(packet));
         else*/
         WailaPacketHandler.INSTANCE.handlePacket(mod_BlockHelper.CHANNEL_SSP, packet);

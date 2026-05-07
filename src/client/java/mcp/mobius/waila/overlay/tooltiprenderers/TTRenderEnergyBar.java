@@ -6,8 +6,8 @@ import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.NumberFormatter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.Tessellator;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 
@@ -41,7 +41,7 @@ public class TTRenderEnergyBar implements IVariableWidthTooltipRenderer {
         String unit = params[2];
         Tessellator tessellator = Tessellator.instance;
 
-        Minecraft mc = ModLoader.getMinecraftInstance();
+        Minecraft mc = mod_BlockHelper.minecraft;
         mc.renderEngine.bindTexture(mc.renderEngine.getTexture(BAR_TEXTURE));
 
         GL11.glColor4f(1F, 1F, 1F, 1F);

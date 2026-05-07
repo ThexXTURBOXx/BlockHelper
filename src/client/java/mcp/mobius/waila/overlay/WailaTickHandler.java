@@ -73,7 +73,7 @@ public class WailaTickHandler {
                 handler.handleBlockTextData(targetStack, accessor, currenttipTail, TooltipPosition.FOOTER);
 
                 if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_SHIFTBLOCK, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
+                        Constants.CFG_WAILA_SHIFTBLOCK, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().func_381_o()) {
                     currenttipBody.clear();
                     currenttipBody.add(ITALIC + "Press shift for more data");
                 }
@@ -102,7 +102,7 @@ public class WailaTickHandler {
                 handler.handleEntityTextData(targetEnt, accessor, currenttipTail, TooltipPosition.FOOTER);
 
                 if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL,
-                        Constants.CFG_WAILA_SHIFTENTS, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().isSneaking()) {
+                        Constants.CFG_WAILA_SHIFTENTS, false) && !currenttipBody.isEmpty() && !accessor.getPlayer().func_381_o()) {
                     currenttipBody.clear();
                     currenttipBody.add(ITALIC + "Press shift for more data");
                 }

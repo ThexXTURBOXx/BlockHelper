@@ -13,12 +13,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.RenderEngine;
 import net.minecraft.src.RenderHelper;
 import net.minecraft.src.RenderItem;
 import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
@@ -34,8 +34,8 @@ import static mcp.mobius.waila.api.SpecialChars.patternWaila;
 
 public final class DisplayUtil {
 
-    private static final FontRenderer fontRenderer = ModLoader.getMinecraftInstance().fontRenderer;
-    private static final RenderEngine renderEngine = ModLoader.getMinecraftInstance().renderEngine;
+    private static final FontRenderer fontRenderer = mod_BlockHelper.minecraft.fontRenderer;
+    private static final RenderEngine renderEngine = mod_BlockHelper.minecraft.renderEngine;
     private static final RenderItem renderItem = new RenderItem();
 
     private DisplayUtil() {
@@ -64,7 +64,7 @@ public final class DisplayUtil {
     }
 
     public static Dimension displaySize() {
-        Minecraft mc = ModLoader.getMinecraftInstance();
+        Minecraft mc = mod_BlockHelper.minecraft;
         ScaledResolution res = new ScaledResolution(mc.displayWidth, mc.displayHeight);
         return new Dimension(res.getScaledWidth(), res.getScaledHeight());
     }
@@ -175,15 +175,14 @@ public final class DisplayUtil {
         else fontRenderer.drawString(text, x, y, colour);
     }
 
-    @SuppressWarnings("unchecked")
     public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
         List<String> namelist = new ArrayList<String>();
-        try {
+        /*TODO: try {
             String name = I18n.translate(itemstack.getItem().func_20009_a() + ".name");
             if (name != null && !name.isEmpty())
                 namelist.add(name);
         } catch (Throwable ignored) {
-        }
+        }*/
 
         if (namelist.isEmpty())
             namelist.add("Unnamed");
@@ -215,8 +214,8 @@ public final class DisplayUtil {
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         if (icon == null) return;
 
-        ModLoader.getMinecraftInstance().renderEngine.bindTexture(
-                ModLoader.getMinecraftInstance().renderEngine.getTexture(icon.texture));
+        mod_BlockHelper.minecraft.renderEngine.bindTexture(
+                mod_BlockHelper.minecraft.renderEngine.getTexture(icon.texture));
 
         if (icon.bu != -1)
             DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);

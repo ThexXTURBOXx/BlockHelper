@@ -11,8 +11,8 @@ import mcp.mobius.waila.utils.NumberFormatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.Tessellator;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 
@@ -56,7 +56,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
         Tessellator tessellator = Tessellator.instance;
         boolean isEmpty = liquidId == EMPTY_LIQUID;
 
-        Minecraft mc = ModLoader.getMinecraftInstance();
+        Minecraft mc = mod_BlockHelper.minecraft;
         if (!isEmpty) {
             ItemStack is = new ItemStack(liquidId, (int) amount, liquidMeta);
             if (is.getItem() == null) is = new ItemStack(Block.waterStill);

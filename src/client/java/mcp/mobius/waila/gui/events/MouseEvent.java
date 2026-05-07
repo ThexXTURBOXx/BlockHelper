@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.events;
 
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Mouse;
 
 public class MouseEvent {
@@ -25,7 +25,7 @@ public class MouseEvent {
         this.srcwidget = widget;
         this.timestamp = System.currentTimeMillis();
 
-        this.mc = ModLoader.getMinecraftInstance();
+        this.mc = mod_BlockHelper.minecraft;
 
         this.x = (double) Mouse.getEventX() * (double) this.srcwidget.getSize().getX() / (double) this.mc.displayWidth;
         this.y = (double) this.srcwidget.getSize().getY() -

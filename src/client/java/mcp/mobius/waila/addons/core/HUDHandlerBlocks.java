@@ -17,10 +17,10 @@ import net.minecraft.src.Block;
 import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_BlockHelper;
 import net.minecraft.src.mod_BlockHelper.Accessor;
 
 import static mcp.mobius.waila.api.SpecialChars.BLUE;
@@ -93,7 +93,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         }
 
         if (config.get("general.lightlevel") &&
-            (!w.isBlockOpaqueCube(x, y + 1, z) || w.func_20084_d(x, y + 1, z))) {
+            (!w.isBlockOpaqueCube(x, y + 1, z) || w.getBlockId(x, y + 1, z) == 0)) {
             int blockLightLevel = w.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z);
             byte spawnMode = SpawnUtil.getSpawnMode(w, x, y + 1, z);
             String blockLight = (spawnMode == 0 ? GREEN : (spawnMode == 1 ? YELLOW : DRED)) + blockLightLevel;
@@ -103,7 +103,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
 
         if (config.get("general.break")) {
             try {
-                float curBlockDamage = ModLoader.getMinecraftInstance().renderGlobal.field_1450_i;
+                float curBlockDamage = mod_BlockHelper.minecraft.field_6323_f.field_1450_i;
                 if (curBlockDamage > 0) {
                     String progress = MathHelper.floor_float(100 * curBlockDamage) + "%";
                     currenttip.add(formatBreakProgress(progress), BREAK_PROGRESS_TAG);

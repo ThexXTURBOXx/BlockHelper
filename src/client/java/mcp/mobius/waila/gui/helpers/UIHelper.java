@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.helpers;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.FontRenderer;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.Vec3D;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 
 public class UIHelper {
@@ -91,7 +91,7 @@ public class UIHelper {
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ,
                                      double x1, double y1, double x2, double y2, int r, int g, int b, int a,
                                      double partialFrame) {
-        EntityLiving player = ModLoader.getMinecraftInstance().thePlayer;
+        EntityLiving player = mod_BlockHelper.minecraft.thePlayer;
         float playerViewY =
                 player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float) partialFrame;
         float playerViewX =
@@ -137,7 +137,7 @@ public class UIHelper {
 
     public static void drawBillboardText(String text, float posX, float posY, float posZ,
                                          float offX, float offY, float offZ, double partialFrame) {
-        EntityLiving player = ModLoader.getMinecraftInstance().thePlayer;
+        EntityLiving player = mod_BlockHelper.minecraft.thePlayer;
         float playerViewY =
                 player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float) partialFrame;
         float playerViewX =
@@ -157,7 +157,7 @@ public class UIHelper {
 
         if (text.isEmpty()) return;
 
-        FontRenderer fontrenderer = ModLoader.getMinecraftInstance().fontRenderer;
+        FontRenderer fontrenderer = mod_BlockHelper.minecraft.fontRenderer;
 
         float f = 1.6F;
         float f1 = 0.016666668F * f;

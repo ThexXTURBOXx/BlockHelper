@@ -10,9 +10,9 @@ import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.utils.GLState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.RenderEngine;
 import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
@@ -38,7 +38,7 @@ public abstract class WidgetBase implements IWidget {
 
     public WidgetBase(IWidget parent) {
         this.setParent(parent);
-        this.mc = ModLoader.getMinecraftInstance();
+        this.mc = mod_BlockHelper.minecraft;
         this.rez = new ScaledResolution(mc.displayWidth, mc.displayHeight);
         this.renderEngine = this.mc.renderEngine;
         this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));

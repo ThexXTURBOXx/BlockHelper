@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.util.Dimension;
 
 /**
@@ -25,8 +25,8 @@ public class TTRenderProgressBar implements ITooltipRenderer {
 
         int progress = (currentValue * 28) / maxValue;
 
-        ModLoader.getMinecraftInstance().renderEngine.bindTexture(
-                ModLoader.getMinecraftInstance().renderEngine.getTexture("/assets/waila/textures/sprites.png"));
+        mod_BlockHelper.minecraft.renderEngine.bindTexture(
+                mod_BlockHelper.minecraft.renderEngine.getTexture("/assets/waila/textures/sprites.png"));
 
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 16, 28, 16, 28, 16);
         DisplayUtil.drawTexturedModalRect(x + 4, y, 4, 0, progress + 1, 16, progress + 1, 16);

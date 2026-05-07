@@ -11,7 +11,7 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiChat;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
@@ -23,7 +23,7 @@ public final class OverlayRenderer {
     }
 
     public static boolean shouldHideOverlay() {
-        final Minecraft mc = ModLoader.getMinecraftInstance();
+        final Minecraft mc = mod_BlockHelper.minecraft;
         return mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) || // Open screen (except chat)
                mc.theWorld == null || // No world is loaded
                mc.thePlayer == null || // Player is not loaded

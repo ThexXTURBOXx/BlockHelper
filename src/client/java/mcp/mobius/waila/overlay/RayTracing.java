@@ -18,11 +18,11 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_BlockHelper;
 
 public class RayTracing {
 
@@ -39,7 +39,7 @@ public class RayTracing {
     }
 
     public void fire() {
-        final Minecraft mc = ModLoader.getMinecraftInstance();
+        final Minecraft mc = mod_BlockHelper.minecraft;
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectType.ENTITY
             && shouldShowEntity(mc.objectMouseOver.entityHit)) {
             this.target = mc.objectMouseOver;
@@ -47,7 +47,7 @@ public class RayTracing {
         }
         EntityLiving viewpoint = mc.thePlayer;
         if (viewpoint == null) return;
-        this.target = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance(), 0);
+        this.target = this.rayTrace(viewpoint, mc.field_6327_b.getBlockReachDistance(), 0);
     }
 
     public void clear() {
@@ -77,9 +77,9 @@ public class RayTracing {
 
         //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false))
         if (PluginConfig.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, false))
-            return entity.worldObj.rayTraceBlocks_do(vec3, vec32, true);
+            return entity.worldObj.rayTraceBlocks(vec3, vec32, true);
         else
-            return entity.worldObj.rayTraceBlocks_do(vec3, vec32, false);
+            return entity.worldObj.rayTraceBlocks(vec3, vec32, false);
     }
 
     public ItemStack getIdentifierStack() {
@@ -142,7 +142,7 @@ public class RayTracing {
             }
             break;
         case MovingObjectType.TILE:
-            World world = ModLoader.getMinecraftInstance().theWorld;
+            World world = mod_BlockHelper.minecraft.theWorld;
             int x = this.target.blockX;
             int y = this.target.blockY;
             int z = this.target.blockZ;

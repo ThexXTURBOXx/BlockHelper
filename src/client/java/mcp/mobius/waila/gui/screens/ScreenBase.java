@@ -6,7 +6,7 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.widgets.LayoutCanvas;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Mouse;
 
 public abstract class ScreenBase extends GuiScreen {
@@ -17,7 +17,7 @@ public abstract class ScreenBase extends GuiScreen {
 
     public ScreenBase(GuiScreen parent) {
         this.parent = parent;
-        this.mc = ModLoader.getMinecraftInstance();
+        this.mc = mod_BlockHelper.minecraft;
         this.widgets = new HashMap<String, IWidget>();
 
         this.addWidget("canvas", new LayoutCanvas());
