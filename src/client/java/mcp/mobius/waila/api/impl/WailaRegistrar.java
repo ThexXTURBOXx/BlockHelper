@@ -2,13 +2,16 @@ package mcp.mobius.waila.api.impl;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
+import mcp.mobius.waila.api.INameResolver;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.utils.Constants;
@@ -19,6 +22,9 @@ import net.minecraft.src.mod_BlockHelper;
 public class WailaRegistrar implements IRegistrar {
 
     private static WailaRegistrar instance = null;
+
+    public final Set<INameResolver> nameResolvers =
+            new LinkedHashSet<INameResolver>();
 
     public final Map<Class<?>, List<IDataProvider>> headBlockProviders =
             new LinkedHashMap<Class<?>, List<IDataProvider>>();
@@ -104,6 +110,11 @@ public class WailaRegistrar implements IRegistrar {
 
 
     /* REGISTRATION METHODS */
+    @Override
+    public void registerNameResolver(INameResolver nameResolver) {
+        this.nameResolvers.add(nameResolver);
+    }
+
     @Override
     public void registerHeadProvider(IDataProvider dataProvider, Class<?> block) {
         this.registerProvider(dataProvider, block, this.headBlockProviders);
@@ -195,6 +206,10 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     /* PROVIDER GETTERS */
+
+    public Set<INameResolver> getNameResolvers() {
+        return this.nameResolvers;
+    }
 
     public Map<Integer, List<IDataProvider>> getHeadProviders(Object block) {
         return getProviders(block, this.headBlockProviders);

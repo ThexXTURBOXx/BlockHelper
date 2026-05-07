@@ -3,11 +3,11 @@ package mcp.mobius.waila.overlay;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import mcp.mobius.waila.api.INameResolver;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.gui.helpers.UIHelper;
-import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -177,12 +177,17 @@ public final class DisplayUtil {
 
     public static List<String> itemDisplayNameMultilineUnformatted(ItemStack itemstack) {
         List<String> namelist = new ArrayList<String>();
-        /*TODO: try {
-            String name = I18n.translate(itemstack.getItem().func_20009_a() + ".name");
+        try {
+            String name = null;
+            for (INameResolver resolver : WailaRegistrar.instance().getNameResolvers()) {
+                name = resolver.getName(itemstack);
+                if (name != null) break;
+            }
+
             if (name != null && !name.isEmpty())
                 namelist.add(name);
         } catch (Throwable ignored) {
-        }*/
+        }
 
         if (namelist.isEmpty())
             namelist.add("Unnamed");

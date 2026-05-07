@@ -46,6 +46,8 @@ public final class VanillaPlugin implements IWailaPlugin {
             throw new RuntimeException(t);
         }
 
+        registrar.registerNameResolver(VanillaNameResolver.INSTANCE);
+
         registrar.addSyncedConfig("VanillaMC", "vanilla.showhp");
         registrar.addSyncedConfig("VanillaMC", "vanilla.chicken");
         registrar.addSyncedConfig("VanillaMC", "vanilla.tnt");

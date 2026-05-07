@@ -61,6 +61,7 @@ public class mod_BlockHelper extends BaseMod {
 
         // PRE INIT
         I18n.INSTANCE.addDefaultLangFromHost(mod_BlockHelper.class, "/assets/waila/lang");
+        I18n.INSTANCE.addDefaultLangFromHost(mod_BlockHelper.class, "/assets/waila/mc_lang");
 
         new Thread(UPDATER, "Block Helper Version Check").start();
 

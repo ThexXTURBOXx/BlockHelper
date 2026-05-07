@@ -54,7 +54,7 @@ public final class HUDHandlerBlocks implements IDataProvider {
         try {
             String s = DisplayUtil.itemDisplayNameShort(itemStack);
             String name = null;
-            if (s != null && !s.endsWith("Unnamed"))
+            if (s != null/* && !s.endsWith("Unnamed")*/) // Not in alpha!
                 name = s;
 
             if (name != null)

@@ -33,6 +33,8 @@ public interface IRegistrar {
 
     void addSyncedConfig(String modName, String keyName, boolean defValue);
 
+    void registerNameResolver(INameResolver nameResolver);
+
     /* Register a stack overrider for the given blockID */
     void registerStackProvider(IDataProvider dataProvider, Class<?> block);
 
