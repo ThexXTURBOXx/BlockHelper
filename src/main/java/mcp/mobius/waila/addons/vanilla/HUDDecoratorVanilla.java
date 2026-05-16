@@ -4,9 +4,14 @@ import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.gui.helpers.UIHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
+
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorAct;
+import static mcp.mobius.waila.addons.vanilla.VanillaPlugin.comparatorIdl;
 
 public final class HUDDecoratorVanilla implements IBlockDecorator {
 
@@ -20,25 +25,30 @@ public final class HUDDecoratorVanilla implements IBlockDecorator {
         if (config.get("vanilla.repeaterol")) {
             Tessellator tessellator = Tessellator.instance;
 
-            // UIHelper.drawBillboardText(DisplayUtil.itemDisplayNameShort(itemStack), accessor.getRenderingPosition(),
-            // 0.5F, 1.5F, 0.5F, accessor.getPartialFrame());
-            int dir = BlockDirectional.getDirection(accessor.getMetadata());
-            UIHelper.drawFloatingText(dir == 0 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            Block block = accessor.getBlock();
+            int meta = accessor.getMetadata();
+            int dir = BlockDirectional.getDirection(meta);
+            String side = (block == comparatorIdl) || (block == comparatorAct)
+                    ? (meta & 4) != 0 ? "SUB" : "CMP"
+                    : "LOCK";
+            Vec3 renderPos = accessor.getRenderingPosition();
+
+            UIHelper.drawFloatingText(dir % 2 == 1 ? side : dir == 0 ? "OUT" : "IN", renderPos,
                     0.5F, 0.2F, -0.2F, 90F, 0F, 0F);
-            UIHelper.drawFloatingText(dir == 3 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 0 ? side : dir == 3 ? "OUT" : "IN", renderPos,
                     -0.2F, 0.2F, 0.5F, 90F, 90F, 0F);
-            UIHelper.drawFloatingText(dir == 1 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 0 ? side : dir == 1 ? "OUT" : "IN", renderPos,
                     1.2F, 0.2F, 0.5F, 90F, -90F, 0F);
-            UIHelper.drawFloatingText(dir == 2 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 1 ? side : dir == 2 ? "OUT" : "IN", renderPos,
                     0.5F, 0.2F, 1.2F, 90F, -180F, 0F);
 
             final double yOff = 0.2;
             final double xzOff = 0.1;
             final double xzDelta = 1 + 2 * xzOff;
 
-            double x = accessor.getRenderingPosition().xCoord - xzOff;
-            double y = accessor.getRenderingPosition().yCoord - xzOff;
-            double z = accessor.getRenderingPosition().zCoord - xzOff;
+            double x = renderPos.xCoord - xzOff;
+            double y = renderPos.yCoord - xzOff;
+            double z = renderPos.zCoord - xzOff;
 
             tessellator.startDrawingQuads();
 
