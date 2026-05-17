@@ -25,7 +25,7 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
             {1, 2, 2, 2} /* Buffer       */,
             {3, 4, 2, 5} /* Multiplexer  */,
             {1, 0, 2, 0} /* Repeater     */,
-            {1, 2, 2, 2} /* Timer        */,
+            {6, 2, 2, 2} /* Timer        */,
             {7, 2, 8, 2} /* Counter      */,
             {2, 2, 2, 2} /* Sequencer    */,
             {1, 0, 2, 0} /* PulseFormer  */,
@@ -56,9 +56,9 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
 
         int side = accessor.getNBTInteger("side"); // Side on block
         int front = accessor.getNBTInteger("front"); // Orientation
-        if (side == 6 || front == 6) return;
         int type = accessor.getNBTInteger("type");
-        if (type < 0 || type >= IOARRAY.length) type = 0;
+        if (side < 0 || front < 0 || side >= 6 || front >= 6 ||
+            type < 0 || type >= IOARRAY.length) return;
 
         Vec3 renderPos = accessor.getRenderingPosition();
         double x = renderPos.xCoord;
@@ -70,7 +70,7 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
         String[] IOStr = new String[4];
         int rot = LABEL_ROT_MAT[side][front];
         for (int i = 0; i < 4; i++) {
-            IOStr[i] = IONAMES[IOARRAY[type][(i - rot + 4) % 4]];
+            IOStr[i] = IONAMES[IOARRAY[type][(i - rot + 16) % 4]];
         }
 
         switch (orient) {
@@ -80,9 +80,9 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
             UIHelper.drawFloatingText(IOStr[2], renderPos, 0.5F, 0.2F, -0.4F, 90F, 180F, 0F);
             UIHelper.drawFloatingText(IOStr[3], renderPos, 1.4F, 0.2F, 0.5F, 90F, 90F, 0F);
 
-            UIHelper.drawRectangle(x - 0.1, y + 0.1, z, x, y + 0.1, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x - 0.1, y + 0.1, z + 0.1, x, y + 0.1, z + 0.35, 255, 255, 255, 150);
             UIHelper.drawRectangle(x - 0.1, y + 0.1, z + 0.65, x, y + 0.1, z + 1.0, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 1.0, y + 0.1, z, x + 1.1, y + 0.1, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 1.0, y + 0.1, z + 0.1, x + 1.1, y + 0.1, z + 0.35, 255, 255, 255, 150);
             UIHelper.drawRectangle(x + 1.0, y + 0.1, z + 0.65, x + 1.1, y + 0.1, z + 1.0, 255, 255, 255, 150);
 
             UIHelper.drawRectangle(x - 0.1, y + 0.1, z - 0.1, x + 0.35, y + 0.1, z + 0.1, 255, 255, 255, 150);
@@ -91,21 +91,21 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
             UIHelper.drawRectangle(x + 0.65, y + 0.1, z + 1.0, x + 1.1, y + 0.1, z + 1.1, 255, 255, 255, 150);
             break;
 
-        case EAST:
-            UIHelper.drawFloatingText(IOStr[0], renderPos, 0.8F, 0.5F, 1.4F, 0F, 90F, 90F);
-            UIHelper.drawFloatingText(IOStr[1], renderPos, 0.8F, -0.4F, 0.5F, 0F, 90F, 180F);
-            UIHelper.drawFloatingText(IOStr[2], renderPos, 0.8F, 0.5F, -0.4F, 0F, 90F, 270F);
-            UIHelper.drawFloatingText(IOStr[3], renderPos, 0.8F, 1.4F, 0.5F, 0F, 90F, 0F);
+        case UP:
+            UIHelper.drawFloatingText(IOStr[0], renderPos, 0.5F, 0.8F, 1.4F, 270F, 180F, 0F);
+            UIHelper.drawFloatingText(IOStr[1], renderPos, 1.4F, 0.8F, 0.5F, 270F, 270F, 0F);
+            UIHelper.drawFloatingText(IOStr[2], renderPos, 0.5F, 0.8F, -0.4F, 270F, 0F, 0F);
+            UIHelper.drawFloatingText(IOStr[3], renderPos, -0.4F, 0.8F, 0.5F, 270F, 90F, 0F);
 
-            UIHelper.drawRectangleEW(x + 0.9, y, z - 0.1, x + 0.9, y + 0.35, z, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y + 0.65, z - 0.1, x + 0.9, y + 1.0, z, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y, z + 1.0, x + 0.9, y + 0.35, z + 1.1, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y + 0.65, z + 1.0, x + 0.9, y + 1.0, z + 1.1, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x, y + 0.9, z + 0.1, x - 0.1, y + 0.9, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x, y + 0.9, z + 0.65, x - 0.1, y + 0.9, z + 1.0, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 1.1, y + 0.9, z + 0.1, x + 1.0, y + 0.9, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 1.1, y + 0.9, z + 0.65, x + 1.0, y + 0.9, z + 1.0, 255, 255, 255, 150);
 
-            UIHelper.drawRectangleEW(x + 0.9, y - 0.1, z - 0.1, x + 0.9, y, z + 0.35, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y - 0.1, z + 0.65, x + 0.9, y, z + 1.1, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y + 1.0, z - 0.1, x + 0.9, y + 1.1, z + 0.35, 255, 255, 255, 150);
-            UIHelper.drawRectangleEW(x + 0.9, y + 1.0, z + 0.65, x + 0.9, y + 1.1, z + 1.1, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 0.35, y + 0.9, z - 0.1, x - 0.1, y + 0.9, z + 0.1, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 1.1, y + 0.9, z - 0.1, x + 0.65, y + 0.9, z + 0.1, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 0.35, y + 0.9, z + 1.0, x - 0.1, y + 0.9, z + 1.1, 255, 255, 255, 150);
+            UIHelper.drawRectangle(x + 1.1, y + 0.9, z + 1.0, x + 0.65, y + 0.9, z + 1.1, 255, 255, 255, 150);
             break;
 
         case NORTH:
@@ -142,23 +142,6 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
             UIHelper.drawRectangle(x + 1.1, y + 1.0, z + 0.9, x + 0.65, y + 1.1, z + 0.9, 255, 255, 255, 150);
             break;
 
-        case UP:
-            UIHelper.drawFloatingText(IOStr[0], renderPos, 0.5F, 0.8F, 1.4F, 270F, 180F, 0F);
-            UIHelper.drawFloatingText(IOStr[1], renderPos, 1.4F, 0.8F, 0.5F, 270F, 270F, 0F);
-            UIHelper.drawFloatingText(IOStr[2], renderPos, 0.5F, 0.8F, -0.4F, 270F, 0F, 0F);
-            UIHelper.drawFloatingText(IOStr[3], renderPos, -0.4F, 0.8F, 0.5F, 270F, 90F, 0F);
-
-            UIHelper.drawRectangle(x, y + 0.9, z, x - 0.1, y + 0.9, z + 0.35, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x, y + 0.9, z + 0.65, x - 0.1, y + 0.9, z + 1.0, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 1.1, y + 0.9, z, x + 1.0, y + 0.9, z + 0.35, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 1.1, y + 0.9, z + 0.65, x + 1.0, y + 0.9, z + 1.0, 255, 255, 255, 150);
-
-            UIHelper.drawRectangle(x + 0.35, y + 0.9, z - 0.1, x - 0.1, y + 0.9, z + 0.1, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 1.1, y + 0.9, z - 0.1, x + 0.65, y + 0.9, z + 0.1, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 0.35, y + 0.9, z + 1.0, x - 0.1, y + 0.9, z + 1.1, 255, 255, 255, 150);
-            UIHelper.drawRectangle(x + 1.1, y + 0.9, z + 1.0, x + 0.65, y + 0.9, z + 1.1, 255, 255, 255, 150);
-            break;
-
         case WEST:
             UIHelper.drawFloatingText(IOStr[0], renderPos, 0.2F, 0.5F, 1.4F, 180F, 90F, 90F);
             UIHelper.drawFloatingText(IOStr[1], renderPos, 0.2F, 1.4F, 0.5F, 180F, 90F, 180F);
@@ -174,6 +157,23 @@ public final class HUDDecoratorGateLogic implements IBlockDecorator {
             UIHelper.drawRectangleEW(x + 0.1, y, z + 0.65, x + 0.1, y - 0.1, z + 1.1, 255, 255, 255, 150);
             UIHelper.drawRectangleEW(x + 0.1, y + 1.1, z - 0.1, x + 0.1, y + 1.0, z + 0.35, 255, 255, 255, 150);
             UIHelper.drawRectangleEW(x + 0.1, y + 1.1, z + 0.65, x + 0.1, y + 1.0, z + 1.1, 255, 255, 255, 150);
+            break;
+
+        case EAST:
+            UIHelper.drawFloatingText(IOStr[0], renderPos, 0.8F, 0.5F, 1.4F, 0F, 90F, 90F);
+            UIHelper.drawFloatingText(IOStr[1], renderPos, 0.8F, -0.4F, 0.5F, 0F, 90F, 180F);
+            UIHelper.drawFloatingText(IOStr[2], renderPos, 0.8F, 0.5F, -0.4F, 0F, 90F, 270F);
+            UIHelper.drawFloatingText(IOStr[3], renderPos, 0.8F, 1.4F, 0.5F, 0F, 90F, 0F);
+
+            UIHelper.drawRectangleEW(x + 0.9, y, z - 0.1, x + 0.9, y + 0.35, z, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y + 0.65, z - 0.1, x + 0.9, y + 1.0, z, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y, z + 1.0, x + 0.9, y + 0.35, z + 1.1, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y + 0.65, z + 1.0, x + 0.9, y + 1.0, z + 1.1, 255, 255, 255, 150);
+
+            UIHelper.drawRectangleEW(x + 0.9, y - 0.1, z - 0.1, x + 0.9, y, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y - 0.1, z + 0.65, x + 0.9, y, z + 1.1, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y + 1.0, z - 0.1, x + 0.9, y + 1.1, z + 0.35, 255, 255, 255, 150);
+            UIHelper.drawRectangleEW(x + 0.9, y + 1.0, z + 0.65, x + 0.9, y + 1.1, z + 1.1, 255, 255, 255, 150);
             break;
 
         default:
