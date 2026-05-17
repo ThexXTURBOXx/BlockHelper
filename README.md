@@ -120,6 +120,7 @@ keybinds for these are <kbd>F7</kbd> and <kbd>F9</kbd>, respectively.
 ## Source Code
 
 Block Helper is being developed for:
+- [a1.2.6](https://github.com/ThexXTURBOXx/BlockHelper/tree/a1.2.6)
 - [b1.1_01/b1.1_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.1_02)
 - [b1.2_02](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.2_02)
 - [b1.3_01](https://github.com/ThexXTURBOXx/BlockHelper/tree/b1.3_01)
