@@ -3,11 +3,23 @@ package mcp.mobius.waila.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Map;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public final class NBTUtil {
+
+    private static final Field tagMap;
+
+    static {
+        try {
+            tagMap = AccessHelper.getDeclaredField(NBTTagCompound.class, "tagMap", "field_74784_a", "a");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+    }
 
     private NBTUtil() {
         throw new UnsupportedOperationException();
@@ -58,6 +70,23 @@ public final class NBTUtil {
             return (int) Math.round(tag.getDouble(keyname));
 
         return 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String toString(NBTBase nbt) {
+        try {
+            if (nbt instanceof NBTTagCompound) {
+                NBTTagCompound tag = (NBTTagCompound) nbt;
+                StringBuilder sb = new StringBuilder(tag.getName() + ":[");
+                for (String key : ((Map<String, ?>) tagMap.get(tag)).keySet()) {
+                    sb.append(key).append(":").append(toString(tag.getTag(key))).append(",");
+                }
+                return sb + "]";
+            }
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, "NBTUtil#toString", null);
+        }
+        return nbt.toString();
     }
 
 }
