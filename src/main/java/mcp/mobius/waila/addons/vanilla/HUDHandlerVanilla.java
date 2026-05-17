@@ -193,13 +193,15 @@ public final class HUDHandlerVanilla implements IDataProvider {
             if ((block == repeaterIdle) || (block == repeaterActv)) {
                 int tick = ((meta & 0xc) >> 2) + 1;
                 if (tick == 1)
-                    currenttip.add(I18n.translate("hud.msg.delay") + ": 1 tick");
+                    currenttip.add(I18n.translate("hud.msg.delay") + ": " +
+                                   I18n.translate("hud.msg.tick"));
                 else
-                    currenttip.add(I18n.translate("hud.msg.delay") + ": " + tick + " ticks");
+                    currenttip.add(I18n.translate("hud.msg.delay") + ": " +
+                                   I18n.translate("hud.msg.ticks_format", tick));
             }
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
-                currenttip.add(I18n.translate("hud.msg.power") + ": " + meta);
+                currenttip.add(I18n.translate("hud.msg.power") + ": " + meta, "strength");
             }
 
         if (config.get("vanilla.jukebox"))

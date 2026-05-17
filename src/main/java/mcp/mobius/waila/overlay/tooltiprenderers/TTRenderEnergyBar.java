@@ -52,7 +52,7 @@ public class TTRenderEnergyBar implements IVariableWidthTooltipRenderer {
                     0.0, 0.0, 0.5, 1.0);
         }
 
-        double i = (double) (maxStringW - 2) * amount / capacity;
+        double i = (double) (maxStringW - 2) * ((double) amount / Math.max(capacity, amount));
         int drawnRects = 0;
         for (; i > width; i -= width) {
             DisplayUtil.drawRectIntern(tessellator, x + 1 + (drawnRects * width), y, 0, width, height,
