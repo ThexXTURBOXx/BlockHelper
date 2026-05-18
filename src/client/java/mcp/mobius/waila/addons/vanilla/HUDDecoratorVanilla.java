@@ -7,6 +7,7 @@ import mcp.mobius.waila.gui.helpers.UIHelper;
 import net.minecraft.src.BlockDirectional;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Tessellator;
+import net.minecraft.src.Vec3D;
 
 public final class HUDDecoratorVanilla implements IBlockDecorator {
 
@@ -20,25 +21,26 @@ public final class HUDDecoratorVanilla implements IBlockDecorator {
         if (config.get("vanilla.repeaterol")) {
             Tessellator tessellator = Tessellator.instance;
 
-            // UIHelper.drawBillboardText(DisplayUtil.itemDisplayNameShort(itemStack), accessor.getRenderingPosition(),
-            // 0.5F, 1.5F, 0.5F, accessor.getPartialFrame());
-            int dir = BlockDirectional.getDirection(accessor.getMetadata());
-            UIHelper.drawFloatingText(dir == 0 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            int meta = accessor.getMetadata();
+            int dir = BlockDirectional.getDirection(meta);
+            Vec3D renderPos = accessor.getRenderingPosition();
+
+            UIHelper.drawFloatingText(dir % 2 == 1 ? "" : dir == 0 ? "OUT" : "IN", renderPos,
                     0.5F, 0.2F, -0.2F, 90F, 0F, 0F);
-            UIHelper.drawFloatingText(dir == 3 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 0 ? "" : dir == 3 ? "OUT" : "IN", renderPos,
                     -0.2F, 0.2F, 0.5F, 90F, 90F, 0F);
-            UIHelper.drawFloatingText(dir == 1 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 0 ? "" : dir == 1 ? "OUT" : "IN", renderPos,
                     1.2F, 0.2F, 0.5F, 90F, -90F, 0F);
-            UIHelper.drawFloatingText(dir == 2 ? "OUT" : "IN", accessor.getRenderingPosition(),
+            UIHelper.drawFloatingText(dir % 2 == 1 ? "" : dir == 2 ? "OUT" : "IN", renderPos,
                     0.5F, 0.2F, 1.2F, 90F, -180F, 0F);
 
             final double yOff = 0.2;
             final double xzOff = 0.1;
             final double xzDelta = 1 + 2 * xzOff;
 
-            double x = accessor.getRenderingPosition().xCoord - xzOff;
-            double y = accessor.getRenderingPosition().yCoord - xzOff;
-            double z = accessor.getRenderingPosition().zCoord - xzOff;
+            double x = renderPos.xCoord - xzOff;
+            double y = renderPos.yCoord - xzOff;
+            double z = renderPos.zCoord - xzOff;
 
             tessellator.startDrawingQuads();
 

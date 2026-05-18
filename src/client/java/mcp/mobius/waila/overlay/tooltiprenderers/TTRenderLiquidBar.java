@@ -76,7 +76,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             tessellator.startDrawingQuads();
             // Intentionally draw 2 pixels taller than needed than cover with the border to
             // make the texture more visible
-            int i = (int) ((double) (maxStringW - 2) * amount / capacity);
+            int i = (int) ((double) (maxStringW - 2) * amount / Math.max(capacity, amount));
             int j = 0;
             for (; i > height; i = i - height) {
                 DisplayUtil.drawRectIntern(tessellator, x + 1 + (j * height), y, 0, height, height,

@@ -3,39 +3,51 @@ package mcp.mobius.waila.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Map;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTBase;
 import net.minecraft.src.NBTTagCompound;
 
 public final class NBTUtil {
 
+    private static final Field tagMap;
+
+    static {
+        try {
+            tagMap = AccessHelper.getDeclaredField(NBTTagCompound.class, "tagMap", "field_1094_a", "a");
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+    }
+
     private NBTUtil() {
         throw new UnsupportedOperationException();
     }
 
-    public static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, DataOutputStream par1DataOutputStream) throws IOException {
-        if (par0NBTTagCompound == null) {
-            par1DataOutputStream.writeShort(-1);
+    public static void writeNBTTagCompound(NBTTagCompound nbt, DataOutputStream target) throws IOException {
+        if (nbt == null) {
+            target.writeInt(-1);
         } else {
-            byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
+            byte[] abyte = CompressedStreamTools.compress(nbt);
 
             if (abyte.length > 32000)
-                par1DataOutputStream.writeShort(-1);
+                target.writeInt(-1);
             else {
-                par1DataOutputStream.writeShort((short) abyte.length);
-                par1DataOutputStream.write(abyte);
+                target.writeInt(abyte.length);
+                target.write(abyte);
             }
         }
     }
 
-    public static NBTTagCompound readNBTTagCompound(DataInputStream par0DataInputStream) throws IOException {
-        short short1 = par0DataInputStream.readShort();
+    public static NBTTagCompound readNBTTagCompound(DataInputStream dat) throws IOException {
+        int val = dat.readInt();
 
-        if (short1 < 0) {
+        if (val < 0) {
             return null;
         } else {
-            byte[] abyte = new byte[short1];
-            par0DataInputStream.readFully(abyte);
+            byte[] abyte = new byte[val];
+            dat.readFully(abyte);
             return CompressedStreamTools.decompress(abyte);
         }
     }
@@ -58,6 +70,23 @@ public final class NBTUtil {
             return (int) Math.round(tag.getDouble(keyname));
 
         return 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String toString(NBTBase nbt) {
+        try {
+            if (nbt instanceof NBTTagCompound) {
+                NBTTagCompound tag = (NBTTagCompound) nbt;
+                StringBuilder sb = new StringBuilder(tag.getName() + ":[");
+                for (String key : ((Map<String, ?>) tagMap.get(tag)).keySet()) {
+                    sb.append(key).append(":").append(toString(tag.getTag(key))).append(",");
+                }
+                return sb + "]";
+            }
+        } catch (Throwable t) {
+            WailaExceptionHandler.handleErr(t, "NBTUtil#toString");
+        }
+        return nbt.toString();
     }
 
 }
