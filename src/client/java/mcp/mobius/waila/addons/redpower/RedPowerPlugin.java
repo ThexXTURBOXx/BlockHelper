@@ -2,57 +2,51 @@ package mcp.mobius.waila.addons.redpower;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.World;
 import net.minecraft.src.mod_BlockHelper;
 
 public final class RedPowerPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new RedPowerPlugin();
 
-    public static Class<?> RedPowerBase = null;
-    public static Field RedPowerBase_blockMicro = null;
+    static Class<?> mod_RedPowerLogic = null;
 
-    public static Class<?> mod_RedPowerLogic = null;
+    static Class<?> mod_RedPowerWiring = null;
 
-    public static Class<?> mod_RedPowerMachine = null;
+    static Class<?> RedPowerWiring = null;
+    static Field RedPowerWiring_blockWiring = null;
 
-    public static Class<?> mod_RedPowerWiring = null;
+    static Class<?> CoverLib = null;
+    static Method CoverLib_convertCoverPlate = null;
 
-    public static Class<?> CoreLib = null;
-    public static Method CoreLib_retraceBlock = null;
-    public static Method CoreLib_getTileEntity = null;
+    static Class<?> TileCoverable = null;
+    static Method TileCoverable_getCover = null;
+    static Method TileCoverable_getCoverMask = null;
 
-    public static Class<?> CoverLib = null;
-    public static Method CoverLib_convertCoverPlate = null;
+    static Class<?> TileExtended = null;
+    static Method TileExtended_getExtendedID = null;
 
-    public static Class<?> TileCoverable = null;
-    public static Method TileCoverable_getCover = null;
-    public static Method TileCoverable_getCoverMask = null;
+    static Class<?> BlockMultipart = null;
 
-    public static Class<?> TileExtended = null;
-    public static Method TileExtended_getBlockID = null;
-    public static Method TileExtended_getExtendedID = null;
+    static Class<?> TileLogic = null;
+    static Field TileLogic_Rotation = null;
+    static Method TileLogic_getBlockID = null;
 
-    public static Class<?> TileMultipart = null;
-    public static Method TileMultipart_addHarvestContents = null;
+    static Class<?> TileWiring = null;
+    static Field TileWiring_ConSides = null;
+    static Field TileWiring_CenterPost = null;
+    static Field TileWiring_Metadata = null;
 
-    public static Class<?> TileLogic = null;
-    public static Field TileLogic_Rotation = null;
-    public static Field TileLogic_Cover = null;
+    static Class<?> BlockLogic = null;
 
-    public static Class<?> TileTube = null;
+    static Class<?> TileRedwire = null;
 
-    public static Class<?> TileWiring = null;
-    public static Field TileWiring_ConSides = null;
-    public static Field TileWiring_CenterPost = null;
-    public static Field TileWiring_Metadata = null;
+    static Class<?> TileInsulatedWire = null;
+
+    static Class<?> TileCable = null;
 
     private RedPowerPlugin() {
     }
@@ -61,7 +55,6 @@ public final class RedPowerPlugin implements IWailaPlugin {
     public boolean shouldRegister() {
         try {
             AccessHelper.getClass("mod_RedPowerCore");
-            RedPowerBase = AccessHelper.getClass("RedPowerBase");
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Mod core found.");
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Mod core not found.");
@@ -76,14 +69,8 @@ public final class RedPowerPlugin implements IWailaPlugin {
         }
 
         try {
-            mod_RedPowerMachine = AccessHelper.getClass("mod_RedPowerMachine");
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Machine module found.");
-        } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Machine module not found.");
-        }
-
-        try {
             mod_RedPowerWiring = AccessHelper.getClass("mod_RedPowerWiring");
+            RedPowerWiring = AccessHelper.getClass("RedPowerWiring");
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Wiring module found.");
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.INFO, "[RedPower] Wiring module not found.");
@@ -95,16 +82,6 @@ public final class RedPowerPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         try {
-            RedPowerBase_blockMicro = AccessHelper.getField(RedPowerBase, "blockMicro");
-
-            CoreLib = AccessHelper.getClass("eloraam.core.CoreLib");
-            CoreLib_retraceBlock = AccessHelper.getMethod(CoreLib,
-                    new Class[]{World.class, EntityPlayer.class, int.class, int.class, int.class},
-                    "retraceBlock");
-            CoreLib_getTileEntity = AccessHelper.getMethod(CoreLib,
-                    new Class[]{IBlockAccess.class, int.class, int.class, int.class, Class.class},
-                    "getTileEntity");
-
             CoverLib = AccessHelper.getClass("eloraam.core.CoverLib");
             CoverLib_convertCoverPlate = AccessHelper.getMethod(CoverLib, new Class[]{int.class, int.class},
                     "convertCoverPlate");
@@ -114,24 +91,19 @@ public final class RedPowerPlugin implements IWailaPlugin {
             TileCoverable_getCoverMask = AccessHelper.getMethod(TileCoverable, new Class[0], "getCoverMask");
 
             TileExtended = AccessHelper.getClass("eloraam.core.TileExtended");
-            TileExtended_getBlockID = AccessHelper.getMethod(TileExtended, new Class[0], "getBlockID");
             TileExtended_getExtendedID = AccessHelper.getMethod(TileExtended, new Class[0], "getExtendedID");
 
-            TileMultipart = AccessHelper.getClass("eloraam.core.TileMultipart");
-            TileMultipart_addHarvestContents = AccessHelper.getMethod(TileMultipart, new Class[]{ArrayList.class},
-                    "addHarvestContents");
+            BlockMultipart = AccessHelper.getClass("eloraam.core.BlockMultipart");
 
             if (mod_RedPowerLogic != null) {
-                TileLogic = AccessHelper.getClass("eloraam.logic.TileLogic");
+                TileLogic = AccessHelper.getClass("eloraam.intred.TileLogic");
                 TileLogic_Rotation = AccessHelper.getField(TileLogic, "Rotation");
-                TileLogic_Cover = AccessHelper.getField(TileLogic, "Cover");
-            }
-
-            if (mod_RedPowerMachine != null) {
-                TileTube = AccessHelper.getClass("eloraam.machine.TileTube");
+                TileLogic_getBlockID = AccessHelper.getMethod(TileLogic, new Class[0], "getBlockID");
             }
 
             if (mod_RedPowerWiring != null) {
+                RedPowerWiring_blockWiring = AccessHelper.getField(RedPowerWiring, "blockWiring");
+
                 TileWiring = AccessHelper.getClass("eloraam.wiring.TileWiring");
                 TileWiring_ConSides = AccessHelper.getField(TileWiring, "ConSides");
                 TileWiring_CenterPost = AccessHelper.getField(TileWiring, "CenterPost");
@@ -141,6 +113,37 @@ public final class RedPowerPlugin implements IWailaPlugin {
             registrar.registerStackProvider(HUDHandlerMicroBlocks.INSTANCE, TileExtended);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower] Error while loading microblock hooks.", t);
+        }
+
+        try {
+            if (mod_RedPowerLogic != null) {
+                BlockLogic = AccessHelper.getClass("eloraam.intred.BlockLogic");
+
+                registrar.addConfig("RedPower", "pr.showio");
+                registrar.addConfig("RedPower", "pr.showdata");
+
+                registrar.registerDecorator(HUDDecoratorGateLogic.INSTANCE, BlockLogic);
+
+                registrar.registerBodyProvider(HUDHandlerGateLogic.INSTANCE, BlockLogic);
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower] Error while loading gate hooks.", t);
+        }
+
+        try {
+            if (mod_RedPowerWiring != null) {
+                TileRedwire = AccessHelper.getClass("eloraam.wiring.TileRedwire");
+                TileInsulatedWire = AccessHelper.getClass("eloraam.wiring.TileInsulatedWire");
+                TileCable = AccessHelper.getClass("eloraam.wiring.TileCable");
+
+                registrar.addConfig("RedPower", "pr.showsignal");
+
+                registrar.registerBodyProvider(HUDHandlerWires.INSTANCE, TileRedwire);
+                registrar.registerBodyProvider(HUDHandlerWires.INSTANCE, TileInsulatedWire);
+                registrar.registerBodyProvider(HUDHandlerWires.INSTANCE, TileCable);
+            }
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[RedPower] Error while loading wire hooks.", t);
         }
     }
 

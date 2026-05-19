@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.redpower;
 
-import java.util.ArrayList;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -14,23 +13,19 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
+import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
 
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoreLib_getTileEntity;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoreLib_retraceBlock;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.BlockMultipart;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.CoverLib_convertCoverPlate;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.RedPowerBase_blockMicro;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.RedPowerWiring_blockWiring;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCover;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCoverMask;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileExtended_getBlockID;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_getBlockID;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileExtended_getExtendedID;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_Cover;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_Rotation;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileMultipart;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileMultipart_addHarvestContents;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileTube;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_CenterPost;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_ConSides;
@@ -48,58 +43,37 @@ public final class HUDHandlerMicroBlocks implements IDataProvider {
         World w = accessor.getWorld();
         EntityPlayer p = accessor.getPlayer();
         MovingObjectPosition mop = accessor.getPosition();
-        TileEntity te = accessor.getTileEntity();
+        Block b = accessor.getBlock();
+        TileEntity tl = accessor.getTileEntity();
 
         try {
-            if (TileCoverable.isInstance(te)) {
-                MovingObjectPosition pos = (MovingObjectPosition) CoreLib_retraceBlock.invoke(null,
-                        w, p, mop.blockX, mop.blockY, mop.blockZ);
+            if (TileCoverable.isInstance(tl) && BlockMultipart.isInstance(b)) {
+                MovingObjectPosition pos = retraceBlock(w, p, mop.blockX, mop.blockY, mop.blockZ, b);
                 if (pos != null && pos.typeOfHit == EnumMovingObjectType.TILE) {
-                    TileEntity tl = (TileEntity) CoreLib_getTileEntity.invoke(null,
-                            w, mop.blockX, mop.blockY, mop.blockZ, TileCoverable);
-                    if (tl != null) {
-                        Block bm = (Block) RedPowerBase_blockMicro.get(null);
-                        if (TileLogic != null && TileLogic.isInstance(tl)) {
-                            if (pos.subHit == TileLogic_Rotation.getInt(tl) >> 2) {
-                                if (TileLogic_Cover.getInt(tl) != 255) {
-                                    return new ItemStack((Integer) TileExtended_getBlockID.invoke(tl), 1,
-                                            (Integer) TileExtended_getExtendedID.invoke(tl));
-                                } else {
-                                    ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-                                    TileMultipart_addHarvestContents.invoke(tl, stacks);
-                                    if (!stacks.isEmpty())
-                                        return stacks.get(0);
-                                }
-                            }
-                            return getCover(tl, pos.subHit);
-                        } else if (TileTube != null && TileTube.isInstance(tl)) {
-                            if (pos.subHit == 29)
-                                return new ItemStack(bm.blockID, 1,
-                                        (Integer) TileExtended_getExtendedID.invoke(tl) << 8);
-                            return getCover(tl, pos.subHit);
-                        } else if (TileWiring != null && TileWiring.isInstance(tl)) {
-                            if (pos.subHit == 29 && (TileWiring_ConSides.getInt(tl) & 64) > 0) {
-                                int td = 16384 + TileWiring_CenterPost.getShort(tl);
-                                int extId = (Integer) TileExtended_getExtendedID.invoke(tl);
-                                if (extId == 3) td += 256;
-                                if (extId == 5) td += 512;
-                                return new ItemStack(bm.blockID, 1, td);
-                            } else {
-                                if ((TileWiring_ConSides.getInt(tl) & 1 << pos.subHit) <= 0)
-                                    return getCover(tl, pos.subHit);
-                                return new ItemStack(bm.blockID, 1,
-                                        (Integer) TileExtended_getExtendedID.invoke(tl) * 256 + TileWiring_Metadata.getInt(tl));
-                            }
-                        } else {
-                            return getCover(tl, pos.subHit);
+                    if (TileLogic != null && TileLogic.isInstance(tl)) {
+                        if (pos.subHit == TileLogic_Rotation.getInt(tl) >> 2) {
+                            return new ItemStack((Integer) TileLogic_getBlockID.invoke(tl), 1,
+                                    (Integer) TileExtended_getExtendedID.invoke(tl));
                         }
+                        return getCover(tl, pos.subHit);
+                    } else if (TileWiring != null && TileWiring.isInstance(tl)) {
+                        if (pos.subHit == 26 && (TileWiring_ConSides.getInt(tl) & 64) > 0) {
+                            int td = 8192 + TileWiring_CenterPost.getShort(tl);
+                            int extId = (Integer) TileExtended_getExtendedID.invoke(tl);
+                            if (extId == 3) td += 256;
+                            Block bm = (Block) RedPowerWiring_blockWiring.get(null);
+                            return new ItemStack(bm.blockID, 1, td);
+                        } else {
+                            if ((TileWiring_ConSides.getInt(tl) & 1 << pos.subHit) <= 0)
+                                return getCover(tl, pos.subHit);
+                            Block bm = (Block) RedPowerWiring_blockWiring.get(null);
+                            return new ItemStack(bm.blockID, 1,
+                                    (Integer) TileExtended_getExtendedID.invoke(tl) * 256 + TileWiring_Metadata.getInt(tl));
+                        }
+                    } else {
+                        return getCover(tl, pos.subHit);
                     }
                 }
-            } else if (TileMultipart.isInstance(te)) {
-                ArrayList<ItemStack> is = new ArrayList<ItemStack>();
-                TileMultipart_addHarvestContents.invoke(te, is);
-                if (!is.isEmpty())
-                    return is.get(0);
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), null);
@@ -125,6 +99,15 @@ public final class HUDHandlerMicroBlocks implements IDataProvider {
     @Override
     public void appendServerData(TileEntity te, NBTTagCompound tag,
                                  IServerDataAccessor accessor, IPluginConfig config) {
+    }
+
+    // Copied from BlockMultipart#harvestBlock
+    // Assume: bm instanceof BlockMultipart
+    private static MovingObjectPosition retraceBlock(World world, EntityPlayer player, int x, int y, int z, Block bm) {
+        Vec3D org = Vec3D.createVector(player.posX, player.posY + 1.62D - (double) player.yOffset, player.posZ);
+        Vec3D vec = player.getLook(1.0F);
+        Vec3D end = org.addVector(vec.xCoord * 5.0D, vec.yCoord * 5.0D, vec.zCoord * 5.0D);
+        return bm.collisionRayTrace(world, x, y, z, org, end);
     }
 
     // Copied from TileCoverable#onHarvestPart
