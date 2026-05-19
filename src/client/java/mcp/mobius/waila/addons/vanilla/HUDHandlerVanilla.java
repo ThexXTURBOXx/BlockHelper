@@ -98,7 +98,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
 
         if (config.get("vanilla.redstone"))
             if (block == redstone) {
-                currenttip.add(I18n.translate("hud.msg.power") + ": " + meta);
+                currenttip.add(I18n.translate("hud.msg.power") + ": " + meta, "strength");
             }
 
         if (config.get("vanilla.jukebox"))
