@@ -1,7 +1,9 @@
 package net.minecraft.src;
 
 import forge.ForgeHooksClient;
+import forge.IRenderWorldLastHandler;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -16,6 +18,7 @@ import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
@@ -75,8 +78,10 @@ public class mod_BlockHelper extends BaseModMp {
 
         // INIT
         try {
-            ForgeHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());
-            ForgeHooksClient.renderWorldLastHandlers.add(new NEIOverlayRenderer());
+            Field f = AccessHelper.getDeclaredField(ForgeHooksClient.class, "renderWorldLastHandlers");
+            List<IRenderWorldLastHandler> renderWorldLastHandlers = (List<IRenderWorldLastHandler>) f.get(null);
+            renderWorldLastHandlers.add(new DecoratorRenderer());
+            renderWorldLastHandlers.add(new NEIOverlayRenderer());
         } catch (Throwable t) {
             LOG.info("Forge not detected. Overlays and decorators will not work.");
         }
