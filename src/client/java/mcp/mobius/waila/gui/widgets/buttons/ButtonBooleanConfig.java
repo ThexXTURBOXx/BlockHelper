@@ -33,8 +33,10 @@ public class ButtonBooleanConfig extends ButtonBoolean {
 
     @Override
     public void onMouseClick(MouseEvent event) {
-        if (!this.isForcedConfig())
+        if (!this.isForcedConfig()) {
             super.onMouseClick(event);
+            PluginConfig.instance().setConfig(this.category, this.configKey, this.state);
+        }
     }
 
     @Override
