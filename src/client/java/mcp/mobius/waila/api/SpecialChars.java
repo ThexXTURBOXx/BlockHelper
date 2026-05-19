@@ -67,6 +67,8 @@ public final class SpecialChars {
     public static final String HEART = "\u2764";
     public static final String SHARP = "\u266F";
     public static final String FLAT = "\u266D";
+    public static final String GEQ = "\u2265";
+    public static final String LEQ = "\u2264";
 
     /**
      * Helper method to get a proper RENDER string. Just put the name of the renderer and the params in, and it will
