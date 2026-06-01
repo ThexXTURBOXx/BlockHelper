@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines;
+package mcp.mobius.waila.addons.advmachines.immibis;
 
 import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
@@ -8,25 +8,25 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.utils.AccessHelper;
 
-public final class AdvMachinesPlugin implements IWailaPlugin {
+public final class AdvMachinesImmibisPlugin implements IWailaPlugin {
 
-    public static final IWailaPlugin INSTANCE = new AdvMachinesPlugin();
+    public static final IWailaPlugin INSTANCE = new AdvMachinesImmibisPlugin();
 
     public static Class<?> TileAM2BaseGenerator = null;
     public static Field TileAM2BaseGenerator_stored = null;
     public static Field TileAM2BaseGenerator_maxStorage = null;
 
-    private AdvMachinesPlugin() {
+    private AdvMachinesImmibisPlugin() {
     }
 
     @Override
     public boolean shouldRegister() {
         try {
             AccessHelper.getClass("mods.immibis.am2.AdvancedMachines");
-            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines Immibis] Mod found.");
             return true;
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines] Mod not found.");
+            mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines Immibis] Mod not found.");
         }
         return false;
     }
@@ -38,17 +38,17 @@ public final class AdvMachinesPlugin implements IWailaPlugin {
             TileAM2BaseGenerator_stored = AccessHelper.getDeclaredField(TileAM2BaseGenerator, "storedEnergy");
             TileAM2BaseGenerator_maxStorage = AccessHelper.getDeclaredField(TileAM2BaseGenerator, "MAX_STORAGE");
 
-            registrar.addSyncedConfig("Advanced Machines", "advmachines.storage");
+            registrar.addSyncedConfig("Advanced Machines Immibis", "advmachines.storage");
 
             if (side.isClient())
-                registrar.addConfig("Advanced Machines", "advmachines.energybars");
+                registrar.addConfig("Advanced Machines Immibis", "advmachines.energybars");
 
             registrar.registerNBTProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
 
             if (side.isClient())
                 registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines] Error while loading generator hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines Immibis] Error while loading generator hooks.", t);
         }
     }
 

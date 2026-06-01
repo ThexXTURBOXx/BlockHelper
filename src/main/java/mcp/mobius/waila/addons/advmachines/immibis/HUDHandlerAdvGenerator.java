@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines;
+package mcp.mobius.waila.addons.advmachines.immibis;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator;
-import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator_maxStorage;
-import static mcp.mobius.waila.addons.advmachines.AdvMachinesPlugin.TileAM2BaseGenerator_stored;
+import static mcp.mobius.waila.addons.advmachines.immibis.AdvMachinesImmibisPlugin.TileAM2BaseGenerator;
+import static mcp.mobius.waila.addons.advmachines.immibis.AdvMachinesImmibisPlugin.TileAM2BaseGenerator_maxStorage;
+import static mcp.mobius.waila.addons.advmachines.immibis.AdvMachinesImmibisPlugin.TileAM2BaseGenerator_stored;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
