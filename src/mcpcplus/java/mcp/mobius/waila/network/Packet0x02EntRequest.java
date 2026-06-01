@@ -16,7 +16,7 @@ import net.minecraft.server.mod_BlockHelper;
 
 public class Packet0x02EntRequest implements IWailaPacket {
 
-    public int id;
+    private int id;
 
     public Packet0x02EntRequest() {
     }
@@ -44,7 +44,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
         World world = sender.world;
         if (world == null) return;
         Entity entity = mod_BlockHelper.Accessor.getEntityByID(world, id);
-        if (entity == null) return;
+        if (entity == null || sender.i(entity) > MAX_REACH_SQ) return;
 
         try {
             NBTTagCompound tag = new NBTTagCompound();

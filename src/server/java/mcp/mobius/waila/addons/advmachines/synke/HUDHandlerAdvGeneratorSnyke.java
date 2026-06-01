@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines.as;
+package mcp.mobius.waila.addons.advmachines.synke;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -7,15 +7,15 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_energy;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy;
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine;
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine_energy;
+import static mcp.mobius.waila.addons.advmachines.synke.AdvMachinesSnykePlugin.TileAdvMachine_maxEnergy;
 
-public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
+public final class HUDHandlerAdvGeneratorSnyke implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorSnyke();
 
-    private HUDHandlerAdvGeneratorAS() {
+    private HUDHandlerAdvGeneratorSnyke() {
     }
 
     @Override
@@ -25,9 +25,9 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
             int storage = -1;
             int maxStorage = -1;
 
-            if (TileEntityBaseMachine.isInstance(te)) {
-                storage = TileEntityBaseMachine_energy.getInt(te);
-                maxStorage = TileEntityBaseMachine_maxEnergy.getInt(te);
+            if (TileAdvMachine.isInstance(te)) {
+                storage = TileAdvMachine_energy.getInt(te);
+                maxStorage = TileAdvMachine_maxEnergy.getInt(null);
             }
 
             tag.setInteger("storage", storage);

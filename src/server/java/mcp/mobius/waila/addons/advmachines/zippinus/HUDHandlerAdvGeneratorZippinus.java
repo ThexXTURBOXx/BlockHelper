@@ -1,21 +1,21 @@
-package mcp.mobius.waila.addons.advmachines.as;
+package mcp.mobius.waila.addons.advmachines.zippinus;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.TileEntity;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_energy;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine_energy;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine_maxEnergy;
 
-public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
+public final class HUDHandlerAdvGeneratorZippinus implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorZippinus();
 
-    private HUDHandlerAdvGeneratorAS() {
+    private HUDHandlerAdvGeneratorZippinus() {
     }
 
     @Override
@@ -30,8 +30,8 @@ public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
                 maxStorage = TileEntityBaseMachine_maxEnergy.getInt(te);
             }
 
-            tag.setInt("storage", storage);
-            tag.setInt("maxStorage", maxStorage);
+            tag.setInteger("storage", storage);
+            tag.setInteger("maxStorage", maxStorage);
 
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass());

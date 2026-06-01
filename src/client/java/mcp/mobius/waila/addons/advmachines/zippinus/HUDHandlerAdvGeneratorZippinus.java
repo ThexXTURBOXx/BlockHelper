@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.advmachines.as;
+package mcp.mobius.waila.addons.advmachines.zippinus;
 
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
@@ -13,19 +13,19 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_energy;
-import static mcp.mobius.waila.addons.advmachines.as.AdvMachinesASPlugin.TileEntityBaseMachine_maxEnergy;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine_energy;
+import static mcp.mobius.waila.addons.advmachines.zippinus.AdvMachinesZippinusPlugin.TileEntityBaseMachine_maxEnergy;
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.TAB;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
 
-public final class HUDHandlerAdvGeneratorAS implements IDataProvider {
+public final class HUDHandlerAdvGeneratorZippinus implements IDataProvider {
 
-    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorAS();
+    public static final IDataProvider INSTANCE = new HUDHandlerAdvGeneratorZippinus();
 
-    private HUDHandlerAdvGeneratorAS() {
+    private HUDHandlerAdvGeneratorZippinus() {
     }
 
     @Override
