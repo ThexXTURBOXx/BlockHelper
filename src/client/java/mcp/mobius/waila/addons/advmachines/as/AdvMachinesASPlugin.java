@@ -21,7 +21,7 @@ public final class AdvMachinesASPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            AccessHelper.getClass("ic2.advancedmachines.common.AdvancedMachines");
+            AccessHelper.getClass("mod_IC2AdvancedMachines");
             mod_BlockHelper.LOG.log(Level.INFO, "[AdvancedMachines AS] Mod found.");
             return true;
         } catch (Throwable t) {
@@ -33,7 +33,7 @@ public final class AdvMachinesASPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         try {
-            TileEntityBaseMachine = AccessHelper.getClass("ic2.advancedmachines.common.TileEntityBaseMachine");
+            TileEntityBaseMachine = AccessHelper.getClass("ic2.advancedmachines.TileEntityBaseMachine");
             TileEntityBaseMachine_energy = AccessHelper.getField(TileEntityBaseMachine, "energy");
             TileEntityBaseMachine_maxEnergy = AccessHelper.getField(TileEntityBaseMachine, "maxEnergy");
 
