@@ -11,6 +11,7 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import mcp.mobius.waila.utils.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiChat;
+import net.minecraft.src.RenderEngine;
 import net.minecraft.src.mod_BlockHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -37,8 +38,11 @@ public final class OverlayRenderer {
     public static void renderOverlay(Tooltip tooltip) {
         if (shouldHideOverlay() || RayTracing.instance().getTarget() == null) return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.TILE &&
-            RayTracing.instance().getTargetStack() != null) {
+        // Mipmaps cause issues with blending, apparently - disable them temporarily
+        boolean mipmaps = RenderEngine.useMipmaps;
+        RenderEngine.useMipmaps = false;
+
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             doRenderOverlay(tooltip);
         }
 
@@ -46,6 +50,8 @@ public final class OverlayRenderer {
             PluginConfig.instance().get("general.showents")) {
             doRenderOverlay(tooltip);
         }
+
+        RenderEngine.useMipmaps = mipmaps;
     }
 
     private static void doRenderOverlay(Tooltip tooltip) {
