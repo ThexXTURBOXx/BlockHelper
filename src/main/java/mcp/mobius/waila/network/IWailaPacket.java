@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 
 public interface IWailaPacket {
 
+    int MAX_REACH_SQ = 36;
+
     void encode(DataOutputStream target) throws Exception;
 
     void decode(DataInputStream dat);
