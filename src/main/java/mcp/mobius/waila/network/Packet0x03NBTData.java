@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Packet0x03NBTData implements IWailaPacket {
 
-    NBTTagCompound tag;
+    private NBTTagCompound tag;
 
     public Packet0x03NBTData() {
     }
