@@ -16,9 +16,9 @@ import net.minecraft.server.World;
 
 public class Packet0x01TileRequest implements IWailaPacket {
 
-    public int posX;
-    public int posY;
-    public int posZ;
+    private int posX;
+    private int posY;
+    private int posZ;
 
     public Packet0x01TileRequest() {
     }
@@ -50,7 +50,7 @@ public class Packet0x01TileRequest implements IWailaPacket {
     @Override
     public void handleServer(EntityPlayer sender) {
         World world = sender.world;
-        if (world == null) return;
+        if (world == null || sender.e((double) posX, posY, posZ) > MAX_REACH_SQ) return;
         TileEntity entity = world.getTileEntity(posX, posY, posZ);
         Block block = Block.byId[world.getTypeId(posX, posY, posZ)];
         if (entity == null) return;
