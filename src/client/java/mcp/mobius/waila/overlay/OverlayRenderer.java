@@ -13,6 +13,7 @@ import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.RenderEngine;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
@@ -37,8 +38,11 @@ public final class OverlayRenderer {
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        Minecraft mc = ModLoader.getMinecraftInstance();
         if (shouldHideOverlay() || RayTracing.instance().getTarget() == null) return;
+
+        // Mipmaps cause issues with blending, apparently - disable them temporarily
+        boolean mipmaps = RenderEngine.useMipmaps;
+        RenderEngine.useMipmaps = false;
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             doRenderOverlay(tooltip);
@@ -47,6 +51,8 @@ public final class OverlayRenderer {
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
             doRenderOverlay(tooltip);
         }
+
+        RenderEngine.useMipmaps = mipmaps;
     }
 
     private static void doRenderOverlay(Tooltip tooltip) {
