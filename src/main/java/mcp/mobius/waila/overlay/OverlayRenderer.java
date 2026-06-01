@@ -1,20 +1,34 @@
 package mcp.mobius.waila.overlay;
 
+import java.lang.reflect.Field;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.GLState;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GuiChat;
+import net.minecraft.src.RenderEngine;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
 public final class OverlayRenderer {
+
+    private static final Field useMipmaps;
+
+    static {
+        Field useMipmapsTemp = null;
+        try {
+            useMipmapsTemp = AccessHelper.getField(RenderEngine.class, "useMipmaps");
+        } catch (Throwable ignored) {
+        }
+        useMipmaps = useMipmapsTemp;
+    }
 
     private OverlayRenderer() {
         throw new UnsupportedOperationException();
@@ -37,12 +51,29 @@ public final class OverlayRenderer {
     public static void renderOverlay(Tooltip tooltip) {
         if (shouldHideOverlay() || RayTracing.instance().getTarget() == null) return;
 
+        // Mipmaps cause issues with blending, apparently - disable them temporarily
+        boolean mipmaps = false;
+        if (useMipmaps != null) {
+            try {
+                mipmaps = useMipmaps.getBoolean(null);
+                useMipmaps.set(null, false);
+            } catch (Throwable ignored) {
+            }
+        }
+
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null) {
             doRenderOverlay(tooltip);
         }
 
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY && PluginConfig.instance().get("general.showents")) {
             doRenderOverlay(tooltip);
+        }
+
+        if (useMipmaps != null) {
+            try {
+                useMipmaps.set(null, mipmaps);
+            } catch (Throwable ignored) {
+            }
         }
     }
 

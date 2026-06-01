@@ -16,7 +16,7 @@ import net.minecraft.src.WorldServer;
 
 public class Packet0x02EntRequest implements IWailaPacket {
 
-    public int id;
+    private int id;
 
     public Packet0x02EntRequest() {
     }
@@ -50,7 +50,7 @@ public class Packet0x02EntRequest implements IWailaPacket {
         WorldServer world = player.getServerForPlayer();
         if (world == null) return;
         Entity entity = world.getEntityByID(id);
-        if (entity == null) return;
+        if (entity == null || player.getDistanceSqToEntity(entity) > MAX_REACH_SQ) return;
 
         try {
             NBTTagCompound tag = new NBTTagCompound();

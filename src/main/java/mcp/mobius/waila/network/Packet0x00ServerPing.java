@@ -14,7 +14,7 @@ import net.minecraftforge.common.Property;
 
 public class Packet0x00ServerPing implements IWailaPacket {
 
-    Map<String, Boolean> forcedKeys = new HashMap<String, Boolean>();
+    private Map<String, Boolean> forcedKeys = new HashMap<String, Boolean>();
 
     public Packet0x00ServerPing() {
         Map<String, Property> serverForcingCfg =
