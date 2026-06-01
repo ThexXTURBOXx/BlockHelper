@@ -27,10 +27,6 @@ public abstract class WidgetBase implements IWidget {
     protected RenderEngine renderEngine;
     protected ScaledResolution rez;
 
-    protected boolean hasBlending;
-    protected boolean hasLight;
-    protected int boundTexIndex;
-
     protected boolean isRendering = true;
 
     protected float alpha = 1.0f;
