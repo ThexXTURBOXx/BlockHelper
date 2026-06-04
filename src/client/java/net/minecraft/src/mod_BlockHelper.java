@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.proxy.ProxyClient;
 import mcp.mobius.waila.proxy.ProxyCommon;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.BlockHelperUpdater;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.config.Configuration;
@@ -84,15 +86,32 @@ public class mod_BlockHelper extends BaseMod {
     }
 
     @Override
+    public void RegisterTileEntity() {
+        if (firstTick) {
+            try {
+                Field mc = AccessHelper.getDeclaredField(ItemRenderer.class, "a", "mc");
+                bootstrap((Minecraft) mc.get(RenderManager.instance.field_4236_f));
+            } catch (Throwable ignored) {
+                LOG.warning("Couldn't initialize early. Will defer to later.");
+            }
+        }
+
+        super.RegisterTileEntity();
+    }
+
+    @Override
     public void OSDHook(Minecraft mc) {
+        bootstrap(mc);
+        configKeyHandler.onTickInGame(mc);
+        tickHandler.onTickInGame(mc);
+    }
+
+    private void bootstrap(Minecraft mc) {
         if (firstTick) {
             minecraft = mc;
             ModsLoaded();
             firstTick = false;
         }
-
-        configKeyHandler.onTickInGame(mc);
-        tickHandler.onTickInGame(mc);
     }
 
     /*@Override
