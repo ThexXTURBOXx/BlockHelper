@@ -15,8 +15,7 @@ public class BlockHelperUpdater implements Runnable {
     private static final String JSON_URL = "https://raw.githubusercontent.com/"
                                            + "ThexXTURBOXx/UpdateJSONs/master/block-helper.csv";
 
-    public boolean notify = false;
-    private Status status = Status.NOT_STARTED;
+    private volatile Status status = Status.NOT_STARTED;
     private String latestVersion = "";
 
     /**
