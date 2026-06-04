@@ -17,7 +17,7 @@ public class BlockHelperUpdater implements Runnable {
                                            + "ThexXTURBOXx/UpdateJSONs/master/block-helper.csv";
 
     public boolean notify = false;
-    private Status status = Status.NOT_STARTED;
+    private volatile Status status = Status.NOT_STARTED;
     private String latestVersion = "";
 
     /**
