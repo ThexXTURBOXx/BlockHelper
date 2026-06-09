@@ -1,12 +1,12 @@
 package mcp.mobius.waila.addons.forge;
 
 import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
-import mcp.mobius.waila.addons.forge.LiquidHelper.LiquidData;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;
@@ -35,14 +35,16 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     public void modifyHead(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
-            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-
-            if (data.getCapacity() > 0) {
-                LiquidStack stack = data.getLiquidStack();
-                currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
-                                ? I18n.translate("hud.msg.empty")
-                                : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
-                        HUDHandlerBlocks.BLOCK_NAME_TAG);
+            for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                if (data != null && data.getCapacity() > 0) {
+                    LiquidStack stack = data.getLiquidStack();
+                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
+                                    ? I18n.translate("hud.msg.empty")
+                                    : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) +
+                                       RESET + WHITE + ")"))),
+                            HUDHandlerBlocks.BLOCK_NAME_TAG);
+                    break;
+                }
             }
         }
     }
@@ -51,9 +53,10 @@ public final class HUDHandlerForgeTanks implements IDataProvider {
     public void modifyBody(ItemStack itemStack, ITaggedList<String, String> currenttip,
                            IDataAccessor accessor, IPluginConfig config) {
         if (config.get("forge.tankamount")) {
-            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-            String tip = LiquidHelper.getLiquidTooltip(data, config.get("forge.liquidbars"));
-            if (tip != null) currenttip.add(tip);
+            for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("forge.liquidbars"));
+                if (tip != null) currenttip.add(tip);
+            }
         }
     }
 

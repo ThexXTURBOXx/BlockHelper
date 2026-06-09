@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+import mcp.mobius.waila.addons.forge.UniDirectionalTankFixer;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
@@ -167,6 +168,13 @@ public final class IC2Plugin implements IWailaPlugin {
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while loading crop hooks.", t);
+        }
+
+        try {
+            registrar.registerTankProvider(UniDirectionalTankFixer.DEFAULT,
+                    AccessHelper.getClass("ic2.core.block.generator.tileentity.TileEntityGeoGenerator"));
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[IndustrialCraft 2] Error while fixing GeoGen tanks.", t);
         }
     }
 

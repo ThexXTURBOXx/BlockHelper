@@ -4,10 +4,12 @@ import cpw.mods.fml.relauncher.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+import mcp.mobius.waila.addons.forge.UniDirectionalTankFixer;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.mod_BlockHelper;
+import net.minecraftforge.common.ForgeDirection;
 
 public final class BC3Plugin implements IWailaPlugin {
 
@@ -15,11 +17,14 @@ public final class BC3Plugin implements IWailaPlugin {
 
     public static Class<?> TileEngine = null;
     public static Field TileEngine_engine = null;
+
     public static Class<?> Engine = null;
     public static Field Engine_energy = null;
     public static Field Engine_maxEnergy = null;
+
     public static Class<?> IPowerReceptor = null;
     public static Method IPowerReceptor_getPowerProvider = null;
+
     public static Class<?> IPowerProvider = null;
     public static Method IPowerProvider_getEnergyStored = null;
     public static Method IPowerProvider_getMaxEnergyStored = null;
@@ -67,6 +72,21 @@ public final class BC3Plugin implements IWailaPlugin {
                 registrar.registerBodyProvider(HUDHandlerBC3Energy.INSTANCE, IPowerReceptor);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Energy hooks.", t);
+        }
+
+        try {
+            registrar.registerTankProvider(UniDirectionalTankFixer.withDirectionOverride(ForgeDirection.UNKNOWN),
+                    AccessHelper.getClass("buildcraft.factory.TileTank"));
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing tanks.", t);
+        }
+
+        try {
+            registrar.registerTankProvider(UniDirectionalTankFixer.withDirectionOverrideSingleTank(
+                            ForgeDirection.UNKNOWN, ForgeDirection.UNKNOWN.ordinal()),
+                    AccessHelper.getClass("buildcraft.transport.TileGenericPipe"));
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing pipe tanks.", t);
         }
     }
 

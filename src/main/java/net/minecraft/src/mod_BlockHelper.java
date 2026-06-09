@@ -70,11 +70,11 @@ public class mod_BlockHelper extends BaseMod {
         I18n.INSTANCE.addLangDirFromHost(mod_BlockHelper.class, "/assets/waila/lang");
         LanguageRegistry.reloadLanguageTable();
 
-        new Thread(UPDATER, "Block Helper Version Check").start();
-
         Configuration cfg = new Configuration(new File((File) FMLInjectionData.data()[6], "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
+
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
 
