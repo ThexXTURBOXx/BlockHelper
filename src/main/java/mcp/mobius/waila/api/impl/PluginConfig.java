@@ -204,7 +204,7 @@ public class PluginConfig implements IPluginConfig {
         HUDHandlerEntities.nhearts = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20);
         HUDHandlerEntities.maxhpfortext = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40);
 
-        mod_BlockHelper.UPDATER.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
+        mod_BlockHelper.UPDATER.check = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
