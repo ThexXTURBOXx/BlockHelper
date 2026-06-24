@@ -53,7 +53,7 @@ public final class HUDHandlerCrops implements IDataProvider {
         ICropProvider provider = null;
 
         // Since TEs are usually more specific, they take precedence here
-        if (registrar.hasCropProvider(accessor.getTileEntity())) {
+        if (registrar.hasCropProviders(accessor.getTileEntity())) {
             Class<?> providerClass = TileEntity.class;
             for (Class<?> clazz : registrar.cropProviders.keySet()) {
                 if (clazz.isInstance(accessor.getTileEntity()) && providerClass.isAssignableFrom(clazz)) {
@@ -67,7 +67,7 @@ public final class HUDHandlerCrops implements IDataProvider {
             if (provider != null) return provider;
         }
 
-        if (registrar.hasCropProvider(b)) {
+        if (registrar.hasCropProviders(b)) {
             Class<?> providerClass = Block.class;
             for (Class<?> clazz : registrar.cropProviders.keySet()) {
                 if (clazz.isInstance(b) && providerClass.isAssignableFrom(clazz)) {

@@ -204,7 +204,7 @@ public class WailaRegistrar implements IRegistrar {
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
         if (clazz == null || dataProvider == null)
             throw new RuntimeException(String.format(
-                    "Trying to register a null provider or null block! Please check the stacktrace to know what " +
+                    "Trying to register a null provider or null object! Please check the stacktrace to know what " +
                     "was the original registration method. [Provider: %s, Target: %s]",
                     dataProvider == null ? "null" : dataProvider.getClass().getName(), clazz));
 
@@ -213,7 +213,7 @@ public class WailaRegistrar implements IRegistrar {
 
         List<T> providers = target.get(clazz);
         if (!providers.contains(dataProvider))
-            target.get(clazz).add(dataProvider);
+            providers.add(dataProvider);
     }
 
     @Override
@@ -377,15 +377,15 @@ public class WailaRegistrar implements IRegistrar {
         return hasProviders(name, this.tailFMPProviders);
     }
 
-    public boolean hasBlockDecorator(Block block) {
+    public boolean hasBlockDecorators(Block block) {
         return hasProviders(block, this.blockClassDecorators);
     }
 
-    public boolean hasFMPDecorator(String name) {
+    public boolean hasFMPDecorators(String name) {
         return hasProviders(name, this.FMPClassDecorators);
     }
 
-    public boolean hasCropProvider(Object block) {
+    public boolean hasCropProviders(Object block) {
         return hasProviders(block, this.cropProviders);
     }
 

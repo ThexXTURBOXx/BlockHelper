@@ -15,11 +15,14 @@ public final class BC3Plugin implements IWailaPlugin {
 
     public static Class<?> TileEngine = null;
     public static Field TileEngine_engine = null;
+
     public static Class<?> Engine = null;
     public static Field Engine_energy = null;
     public static Field Engine_maxEnergy = null;
+
     public static Class<?> IPowerReceptor = null;
     public static Method IPowerReceptor_getPowerProvider = null;
+
     public static Class<?> IPowerProvider = null;
     public static Method IPowerProvider_getEnergyStored = null;
     public static Method IPowerProvider_getMaxEnergyStored = null;

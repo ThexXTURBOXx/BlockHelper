@@ -37,6 +37,7 @@ public interface ICropProvider {
      * @param itemStack Current block scanned, in ItemStack form.
      * @param accessor  Contains most of the relevant information about the current environment.
      * @param config    Current configuration of Waila.
+     * @return The current growth details for the tooltip.
      */
     List<String> getGrowthDetails(ItemStack itemStack, IDataAccessor accessor, IPluginConfig config);
 

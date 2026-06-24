@@ -28,7 +28,7 @@ public final class DecoratorFMP implements IBlockDecorator {
             NBTTagCompound subtag = (NBTTagCompound) subtagBase;
             String id = subtag.getString("id");
 
-            if (WailaRegistrar.instance().hasFMPDecorator(id)) {
+            if (WailaRegistrar.instance().hasFMPDecorators(id)) {
                 DataAccessorFMP.INSTANCE.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(),
                         subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame());
 
