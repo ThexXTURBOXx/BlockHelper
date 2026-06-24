@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
+import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,13 +25,7 @@ public final class LiquidHelper {
         ILiquidTank tank = getTank(container);
         LiquidStack stack = tank != null ? tank.getLiquid() : null;
         int capacity = tank != null ? tank.getCapacity() : 0;
-
-        if (stack != null) {
-            NBTTagCompound stackNBT = new NBTTagCompound();
-            stack.writeToNBT(stackNBT);
-            tag.setCompoundTag("liquidstack", stackNBT);
-        }
-        tag.setInteger("liquidcapacity", capacity);
+        new LiquidData(stack, capacity).writeToNBT(tag);
     }
 
     public static ILiquidTank getTank(ITankContainer container) {
@@ -47,31 +42,19 @@ public final class LiquidHelper {
     }
 
     public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) {
-        NBTTagCompound compound = accessor.getNBTData();
-        LiquidStack stack = compound.hasKey("liquidstack")
-                ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                : null;
-        int capacity = accessor.getNBTInteger("liquidcapacity");
-        return new LiquidData(stack, capacity);
+        return LiquidData.readFromNBT(accessor.getNBTData());
     }
 
     public static LiquidData getLiquidData(IDataAccessor accessor, IPluginConfig config) {
-        LiquidStack stack = null;
-        int capacity = 0;
-
         if (accessor.getTileEntity() instanceof ITankContainer) {
-            NBTTagCompound compound = accessor.getNBTData();
-            stack = compound.hasKey("liquidstack")
-                    ? LiquidStack.loadLiquidStackFromNBT(compound.getCompoundTag("liquidstack"))
-                    : null;
-            capacity = accessor.getNBTInteger("liquidcapacity");
+            return LiquidData.readFromNBT(accessor.getNBTData());
         } else if (accessor.getBlock() == Block.cauldron) {
             int meta = accessor.getMetadata();
-            stack = new LiquidStack(Block.waterStill, (int) Math.round(Math.min(3, meta) * 333.3));
-            capacity = 1000;
+            LiquidStack stack = new LiquidStack(Block.waterStill, (int) Math.round(Math.min(3, meta) * 333.3));
+            return new LiquidData(stack, 1000);
         }
 
-        return new LiquidData(stack, capacity);
+        return new LiquidData(null, 0);
     }
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
@@ -104,6 +87,23 @@ public final class LiquidHelper {
 
         public int getCapacity() {
             return capacity;
+        }
+
+        public static LiquidData readFromNBT(NBTTagCompound tag) {
+            LiquidStack stack = tag.hasKey("liquidstack")
+                    ? LiquidStack.loadLiquidStackFromNBT(tag.getCompoundTag("liquidstack"))
+                    : null;
+            int capacity = NBTUtil.getNBTInteger(tag, "liquidcapacity");
+            return new LiquidData(stack, capacity);
+        }
+
+        public void writeToNBT(NBTTagCompound tag) {
+            if (liquidStack != null) {
+                NBTTagCompound stackNBT = new NBTTagCompound();
+                liquidStack.writeToNBT(stackNBT);
+                tag.setCompoundTag("liquidstack", stackNBT);
+            }
+            tag.setInteger("liquidcapacity", capacity);
         }
 
     }
