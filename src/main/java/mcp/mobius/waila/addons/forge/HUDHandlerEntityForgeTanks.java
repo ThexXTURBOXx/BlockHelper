@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.forge;
 
 import mcp.mobius.waila.addons.core.HUDHandlerEntities;
-import mcp.mobius.waila.addons.forge.LiquidHelper.LiquidData;
+import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -40,14 +40,16 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
     public void modifyHead(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
-            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-
-            if (data.getCapacity() > 0) {
-                LiquidStack stack = data.getLiquidStack();
-                currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
-                                ? I18n.translate("hud.msg.empty")
-                                : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) + RESET + WHITE + ")"))),
-                        HUDHandlerEntities.ENTITY_NAME_TAG);
+            for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                if (data != null && data.getCapacity() > 0) {
+                    LiquidStack stack = data.getLiquidStack();
+                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
+                                    ? I18n.translate("hud.msg.empty")
+                                    : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) +
+                                       RESET + WHITE + ")"))),
+                            HUDHandlerEntities.ENTITY_NAME_TAG);
+                    break;
+                }
             }
         }
     }
@@ -56,9 +58,10 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
     public void modifyBody(Entity entity, ITaggedList<String, String> currenttip,
                            IEntityAccessor accessor, IPluginConfig config) {
         if (config.get("forge.tankamount")) {
-            LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-            String tip = LiquidHelper.getLiquidTooltip(data, config.get("forge.liquidbars"));
-            if (tip != null) currenttip.add(tip);
+            for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                String tip = LiquidHelper.getLiquidTooltip(data, config.get("forge.liquidbars"));
+                if (tip != null) currenttip.add(tip);
+            }
         }
     }
 

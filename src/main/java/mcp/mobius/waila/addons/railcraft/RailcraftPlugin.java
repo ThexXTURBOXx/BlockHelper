@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.railcraft;
 
 import cpw.mods.fml.relauncher.Side;
+import java.lang.reflect.Field;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -11,6 +12,9 @@ import net.minecraft.entity.item.EntityMinecart;
 public final class RailcraftPlugin implements IWailaPlugin {
 
     public static final IWailaPlugin INSTANCE = new RailcraftPlugin();
+
+    public static Class<?> TankWrapper;
+    public static Field TankWrapper_tank;
 
     private RailcraftPlugin() {
     }
@@ -34,6 +38,13 @@ public final class RailcraftPlugin implements IWailaPlugin {
                 registrar.registerHeadProvider(HUDHandlerCarts.INSTANCE, EntityMinecart.class);
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[Railcraft] Error while loading cart hooks.", t);
+        }
+
+        try {
+            TankWrapper = AccessHelper.getClass("mods.railcraft.common.liquids.TankWrapper");
+            TankWrapper_tank = AccessHelper.getDeclaredField(TankWrapper, "tank");
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Railcraft] Error while loading tank wrapper hooks.", t);
         }
     }
 

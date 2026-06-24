@@ -74,6 +74,9 @@ public interface IRegistrar {
     /* Register a crop info provider for the given block */
     void registerCropProvider(ICropProvider cropProvider, Class<?> block);
 
+    /* Register a tank info provider for the given object */
+    void registerTankProvider(ITankProvider tankProvider, Class<?> object);
+
     void registerTooltipRenderer(String name, ITooltipRenderer renderer);
 
 }
