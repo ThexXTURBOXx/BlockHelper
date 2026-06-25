@@ -14,6 +14,7 @@ import mcp.mobius.waila.mod_BlockHelper;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.FixDetector;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
@@ -207,6 +208,7 @@ public class PluginConfig implements IPluginConfig {
         mod_BlockHelper.UPDATER.check = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
         FixDetector.notify = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FIXER_NOTIFY, true);
         mod_BlockHelper.DEV_MODE = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_DEV_MODE, false);
+        WailaExceptionHandler.printAll = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_PRINT_ALL_ERRS, false);
         get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDE_IN_DEBUG, true);
         int iconAlign = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ICON_ALIGN, 1);
         if (iconAlign < 0 || iconAlign > 2)
