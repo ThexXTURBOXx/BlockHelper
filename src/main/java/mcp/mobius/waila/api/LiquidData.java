@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.addons.forge.LiquidHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.liquids.LiquidStack;

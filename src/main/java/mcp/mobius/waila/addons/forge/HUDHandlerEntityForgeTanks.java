@@ -1,12 +1,12 @@
 package mcp.mobius.waila.addons.forge;
 
 import mcp.mobius.waila.addons.core.HUDHandlerEntities;
-import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerEntityAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.I18n;

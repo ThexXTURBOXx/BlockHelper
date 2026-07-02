@@ -48,7 +48,8 @@ public final class AdvMachinesImmibisPlugin implements IWailaPlugin {
             if (side.isClient())
                 registrar.registerBodyProvider(HUDHandlerAdvGenerator.INSTANCE, TileAM2BaseGenerator);
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[Advanced Machines Immibis] Error while loading generator hooks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING,
+                    "[Advanced Machines Immibis] Error while loading generator hooks.", t);
         }
     }
 
