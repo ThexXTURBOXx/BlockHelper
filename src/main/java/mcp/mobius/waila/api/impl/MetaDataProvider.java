@@ -27,8 +27,7 @@ public class MetaDataProvider {
 
     private final Map<Integer, List<IDataProvider>> headBlockProviders = new TreeMap<Integer,
             List<IDataProvider>>();
-    private final Map<Integer, List<IDataProvider>> bodyBlockProviders = new TreeMap<Integer,
-            List<IDataProvider>>();
+    private final Map<Integer, List<IDataProvider>> bodyBlockProviders = new TreeMap<Integer, List<IDataProvider>>();
     private final Map<Integer, List<IDataProvider>> tailBlockProviders = new TreeMap<Integer,
             List<IDataProvider>>();
 
