@@ -36,10 +36,11 @@ public class UniDirectionalTankFixer implements ITankProvider {
 
     @Override
     public List<ILiquidTank> getTanks(ITankContainer container, IServerCommonAccessor accessor, IPluginConfig config) {
-        if (extractSingleTank != null) {
-            return Collections.singletonList(container.getTanks(directionOverride)[extractSingleTank]);
-        }
-        return Arrays.asList(container.getTanks(directionOverride));
+        ILiquidTank[] tanks = container.getTanks(directionOverride);
+        if (tanks == null || tanks.length == 0) return Collections.emptyList();
+        if (extractSingleTank == null) return Arrays.asList(tanks);
+        if (tanks.length <= extractSingleTank) return Collections.emptyList();
+        return Collections.singletonList(tanks[extractSingleTank]);
     }
 
 }
