@@ -35,14 +35,14 @@ public final class QuarryPlusPlugin implements IWailaPlugin {
             registrar.registerTankProvider(UniDirectionalTankFixer.withDirectionOverride(ForgeDirection.UNKNOWN),
                     AccessHelper.getClass("com.yogpc.qp.tile.TileRefinery"));
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing refinery tanks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[QuarryPlus] Error while fixing refinery tanks.", t);
         }
 
         try {
             // This is so badly coded... I don't even know how to make this mess work...
             registrar.registerTankProvider(TankRemover.INSTANCE, AccessHelper.getClass("com.yogpc.qp.tile.TilePump"));
         } catch (Throwable t) {
-            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing pump tanks.", t);
+            mod_BlockHelper.LOG.log(Level.WARNING, "[QuarryPlus] Error while fixing pump tanks.", t);
         }
     }
 
