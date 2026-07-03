@@ -9,8 +9,8 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.BlockCauldron;
-import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.mod_BlockHelper;
+import net.minecraftforge.common.ForgeDirection;
 
 public final class BC3Plugin implements IWailaPlugin {
 
@@ -40,8 +40,6 @@ public final class BC3Plugin implements IWailaPlugin {
     public static Class<?> LiquidStack = null;
     public static Constructor<?> newLiquidStack = null;
     public static Method LiquidStack_isLiquidEqual = null;
-    public static Method LiquidStack_writeToNBT = null;
-    public static Method LiquidStack_loadLiquidStackFromNBT = null;
     public static Field LiquidStack_itemID = null;
     public static Field LiquidStack_amount = null;
     public static Field LiquidStack_itemMeta = null;
@@ -109,10 +107,6 @@ public final class BC3Plugin implements IWailaPlugin {
             newLiquidStack = AccessHelper.getConstructor(LiquidStack, int.class, int.class, int.class);
             LiquidStack_isLiquidEqual = AccessHelper.getMethod(LiquidStack, new Class[]{LiquidStack},
                     "isLiquidEqual");
-            LiquidStack_writeToNBT = AccessHelper.getMethod(LiquidStack, new Class[]{NBTTagCompound.class},
-                    "writeToNBT");
-            LiquidStack_loadLiquidStackFromNBT = AccessHelper.getMethod(LiquidStack, new Class[]{NBTTagCompound.class},
-                    "loadLiquidStackFromNBT");
             LiquidStack_itemID = AccessHelper.getField(LiquidStack, "itemID");
             LiquidStack_amount = AccessHelper.getField(LiquidStack, "amount");
             LiquidStack_itemMeta = AccessHelper.getField(LiquidStack, "itemMeta");
@@ -140,6 +134,13 @@ public final class BC3Plugin implements IWailaPlugin {
             }
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while loading Tank hooks.", t);
+        }
+
+        try {
+            registrar.registerTankProvider(UniDirectionalTankFixer.singleTank(ForgeDirection.UNKNOWN.ordinal()),
+                    AccessHelper.getClass("buildcraft.transport.TileGenericPipe"));
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing pipe tanks.", t);
         }
     }
 
