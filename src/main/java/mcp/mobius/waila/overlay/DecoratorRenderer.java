@@ -37,7 +37,7 @@ public class DecoratorRenderer {
 
         Block block = accessor.getBlock();
 
-        if (!WailaRegistrar.instance().hasBlockDecorator(block)) return;
+        if (!WailaRegistrar.instance().hasBlockDecorators(block)) return;
 
         GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -45,7 +45,7 @@ public class DecoratorRenderer {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);
 
-        if (WailaRegistrar.instance().hasBlockDecorator(block)) {
+        if (WailaRegistrar.instance().hasBlockDecorators(block)) {
             for (List<IBlockDecorator> decoratorsList :
                     WailaRegistrar.instance().getBlockDecorators(block).values()) {
                 for (IBlockDecorator decorator : decoratorsList) {
