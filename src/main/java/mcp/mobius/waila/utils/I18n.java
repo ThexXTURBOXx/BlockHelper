@@ -6,8 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -145,16 +145,23 @@ public class I18n {
     public File hostFile(Class<?> clazz) {
         URL url = clazz.getProtectionDomain().getCodeSource().getLocation();
         try {
-            String p = url.getPath();
-            if (url.getProtocol().equals("jar")) {
-                p = p.substring(0, url.getPath().lastIndexOf('!'));
-            }
-            if (p.startsWith("file:")) {
-                p = p.substring(5);
-            }
-            return new File(URLDecoder.decode(p, "UTF-8"));
+            return new File(url.toURI());
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            String spec = url.toString();
+            while (spec.startsWith("jar:")) {
+                spec = spec.substring(4);
+                int bang = spec.indexOf('!');
+                if (bang >= 0) {
+                    spec = spec.substring(0, bang);
+                }
+            }
+
+            try {
+                return new File(new URI(spec));
+            } catch (Throwable t1) {
+                t1.initCause(t);
+                throw new RuntimeException(t1);
+            }
         }
     }
 

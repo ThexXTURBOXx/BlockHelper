@@ -1,17 +1,28 @@
 package mcp.mobius.waila.addons.bc3;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITankProvider;
+import mcp.mobius.waila.api.LiquidData;
+import mcp.mobius.waila.api.impl.PluginConfig;
+import mcp.mobius.waila.api.impl.ServerDataAccessorCommon;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTBase;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagList;
 
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getCapacity;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getLiquid;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer;
@@ -21,8 +32,6 @@ import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_amount;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_isLiquidEqual;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemID;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_itemMeta;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_loadLiquidStackFromNBT;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_writeToNBT;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.newLiquidStack;
 
 public final class LiquidHelper {
@@ -35,78 +44,84 @@ public final class LiquidHelper {
      * We assume {@code container} to be some tank container.
      */
     public static void writeToNBT(Object container, NBTTagCompound tag) throws Throwable {
-        Object tank = getTank(container);
+        List<Object> tanks = new ArrayList<Object>();
 
-        if (ILiquidTank != null && (tank == null || ILiquidTank.isInstance(tank))) {
-            Object stack = tank != null ? ILiquidTank_getLiquid.invoke(tank) : null;
-            int capacity = tank != null ? (Integer) ILiquidTank_getCapacity.invoke(tank) : 0;
-
-            if (stack != null) {
-                NBTTagCompound stackNBT = new NBTTagCompound();
-                LiquidStack_writeToNBT.invoke(stack, stackNBT);
-                tag.setCompoundTag("liquidstack", stackNBT);
+        if (WailaRegistrar.instance().hasTankProviders(container)) {
+            bigLoop:
+            for (List<ITankProvider> providersList :
+                    WailaRegistrar.instance().getTankProviders(container).values()) {
+                for (ITankProvider provider : providersList) {
+                    List<Object> provided = provider.getTanks(
+                            container, ServerDataAccessorCommon.INSTANCE, PluginConfig.instance());
+                    if (provided == null) {
+                        tanks = null;
+                        break bigLoop;
+                    } else {
+                        tanks.addAll(provided);
+                    }
+                }
             }
-            tag.setInteger("liquidcapacity", capacity);
         }
+
+        if (tanks == null)
+            tanks = new ArrayList<Object>();
+        else if (tanks.isEmpty())
+            tanks.addAll(getTanksNaively(container));
+        NBTTagList tags = new NBTTagList();
+        for (Object tank : tanks) {
+            Object stack = ILiquidTank_getLiquid.invoke(tank);
+            int id = stack != null ? LiquidStack_itemID.getInt(stack) : TTRenderLiquidBar.EMPTY_LIQUID;
+            int amount = stack != null ? LiquidStack_amount.getInt(stack) : 0;
+            int meta = stack != null ? LiquidStack_itemMeta.getInt(stack) : 0;
+            int capacity = (Integer) ILiquidTank_getCapacity.invoke(tank);
+            tags.appendTag(new LiquidData(id, amount, meta, capacity).toNBT());
+        }
+        tag.setTag("WailaTanks", tags);
     }
 
     /**
      * We assume {@code container} to be some tank container.
      * Returns some liquid tank instance.
      */
-    public static Object getTank(Object container) throws Throwable {
-        if (ITankContainer != null && ITankContainer.isInstance(container)) {
-            Object[] tanks = (Object[]) ITankContainer_getTanks.invoke(container);
-            if (tanks != null && tanks.length > 0 && tanks[0] != null)
-                return tanks[0];
+    public static Set<Object> getTanksNaively(Object container) throws Throwable {
+        Set<Object> ret = new LinkedHashSet<Object>();
+        Object[] tanks = (Object[]) ITankContainer_getTanks.invoke(container);
+        if (tanks != null) {
+            for (Object tank : tanks) {
+                if (tank != null) {
+                    ret.add(tank);
+                }
+            }
         }
-        return null;
+        return ret;
     }
 
-    public static LiquidData getLiquidData(IEntityAccessor accessor, IPluginConfig config) throws Throwable {
-        NBTTagCompound compound = accessor.getNBTData();
-        Object stack = compound.hasKey("liquidstack")
-                ? LiquidStack_loadLiquidStackFromNBT.invoke(null, compound.getCompoundTag("liquidstack"))
-                : null;
-        int capacity = accessor.getNBTInteger("liquidcapacity");
-        int id = TTRenderLiquidBar.EMPTY_LIQUID;
-        int amount = 0;
-        int meta = 0;
-        if (stack != null) {
-            id = LiquidStack_itemID.getInt(stack);
-            amount = LiquidStack_amount.getInt(stack);
-            meta = LiquidStack_itemMeta.getInt(stack);
+    public static List<LiquidData> readLiquidData(NBTTagList tags) {
+        List<LiquidData> ret = new ArrayList<LiquidData>(tags.tagCount());
+        for (int i = 0; i < tags.tagCount(); ++i) {
+            NBTBase base = tags.tagAt(i);
+            if (base instanceof NBTTagCompound) {
+                NBTTagCompound tag = (NBTTagCompound) base;
+                ret.add(LiquidData.readFromNBT(tag));
+            }
         }
-        return new LiquidData(id, amount, meta, capacity);
+        return ret;
     }
 
-    public static LiquidData getLiquidData(IDataAccessor accessor, IPluginConfig config) throws Throwable {
-        Object stack;
-        int capacity;
+    public static List<LiquidData> getLiquidData(IEntityAccessor accessor, IPluginConfig config) {
+        return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
+    }
 
-        if (accessor.getBlock() == Block.cauldron) {
+    public static List<LiquidData> getLiquidData(IDataAccessor accessor, IPluginConfig config) throws Throwable {
+        if (ITankContainer.isInstance(accessor.getTileEntity())) {
+            return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
+        } else if (accessor.getBlock() == Block.cauldron) {
             int meta = accessor.getMetadata();
-            stack = newLiquidStack.newInstance(Block.waterStill.blockID,
-                    (int) Math.round(Math.min(3, meta) * 333.3), 0);
-            capacity = 1000;
-        } else {
-            NBTTagCompound compound = accessor.getNBTData();
-            stack = compound.hasKey("liquidstack")
-                    ? LiquidStack_loadLiquidStackFromNBT.invoke(null, compound.getCompoundTag("liquidstack"))
-                    : null;
-            capacity = accessor.getNBTInteger("liquidcapacity");
+            return Collections.singletonList(new LiquidData(Block.waterStill.blockID,
+                    (int) Math.round(Math.min(3, meta) * 333.3), 0, 1000));
         }
 
-        int id = TTRenderLiquidBar.EMPTY_LIQUID;
-        int amount = 0;
-        int meta = 0;
-        if (stack != null) {
-            id = LiquidStack_itemID.getInt(stack);
-            amount = LiquidStack_amount.getInt(stack);
-            meta = LiquidStack_itemMeta.getInt(stack);
-        }
-
-        return new LiquidData(id, amount, meta, capacity);
+        return Collections.singletonList(new LiquidData(TTRenderLiquidBar.EMPTY_LIQUID, 0, 0, 0));
     }
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
@@ -147,42 +162,6 @@ public final class LiquidHelper {
         }
 
         return I18n.translate("hud.msg.unknown");
-    }
-
-    public static class LiquidData {
-
-        private final int id;
-        private final int amount;
-        private final int meta;
-        private final int capacity;
-
-        public LiquidData(int id, int amount, int meta, int capacity) {
-            this.id = id;
-            this.amount = amount;
-            this.meta = meta;
-            this.capacity = capacity;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public int getMeta() {
-            return meta;
-        }
-
-        public int getCapacity() {
-            return capacity;
-        }
-
-        public ItemStack asItemStack() {
-            return new ItemStack(id, 1, meta);
-        }
-
     }
 
 }
