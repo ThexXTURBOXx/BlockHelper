@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
+import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
