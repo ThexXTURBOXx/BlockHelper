@@ -132,7 +132,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
     @Override
     public void setMaxLineWidth(int width) {
-        maxStringW = width + 2;
+        maxStringW = width;
     }
 
     @Override
