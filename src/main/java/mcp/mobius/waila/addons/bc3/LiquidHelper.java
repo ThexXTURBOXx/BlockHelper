@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.bc3;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,9 +24,9 @@ import net.minecraft.src.NBTBase;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 
+import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getCapacity;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ILiquidTank_getLiquid;
-import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.ITankContainer_getTanks;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidDictionary_liquids;
 import static mcp.mobius.waila.addons.bc3.BC3Plugin.LiquidStack_amount;
@@ -44,14 +45,14 @@ public final class LiquidHelper {
      * We assume {@code container} to be some tank container.
      */
     public static void writeToNBT(Object container, NBTTagCompound tag) throws Throwable {
-        List<Object> tanks = new ArrayList<Object>();
+        List<LiquidData> tanks = new ArrayList<LiquidData>();
 
         if (WailaRegistrar.instance().hasTankProviders(container)) {
             bigLoop:
             for (List<ITankProvider> providersList :
                     WailaRegistrar.instance().getTankProviders(container).values()) {
                 for (ITankProvider provider : providersList) {
-                    List<Object> provided = provider.getTanks(
+                    List<LiquidData> provided = provider.getTanks(
                             container, ServerDataAccessorCommon.INSTANCE, PluginConfig.instance());
                     if (provided == null) {
                         tanks = null;
@@ -64,17 +65,12 @@ public final class LiquidHelper {
         }
 
         if (tanks == null)
-            tanks = new ArrayList<Object>();
+            tanks = new ArrayList<LiquidData>();
         else if (tanks.isEmpty())
             tanks.addAll(getTanksNaively(container));
         NBTTagList tags = new NBTTagList();
-        for (Object tank : tanks) {
-            Object stack = ILiquidTank_getLiquid.invoke(tank);
-            int id = stack != null ? LiquidStack_itemID.getInt(stack) : TTRenderLiquidBar.EMPTY_LIQUID;
-            int amount = stack != null ? LiquidStack_amount.getInt(stack) : 0;
-            int meta = stack != null ? LiquidStack_itemMeta.getInt(stack) : 0;
-            int capacity = (Integer) ILiquidTank_getCapacity.invoke(tank);
-            tags.appendTag(new LiquidData(id, amount, meta, capacity).toNBT());
+        for (LiquidData tank : tanks) {
+            if (tank != null) tags.appendTag(tank.toNBT());
         }
         tag.setTag("WailaTanks", tags);
     }
@@ -83,17 +79,37 @@ public final class LiquidHelper {
      * We assume {@code container} to be some tank container.
      * Returns some liquid tank instance.
      */
-    public static Set<Object> getTanksNaively(Object container) throws Throwable {
-        Set<Object> ret = new LinkedHashSet<Object>();
+    public static List<LiquidData> getTanksNaively(Object container) throws Throwable {
+        // First, we collect the tanks...
+        Set<Object> tankObjs = new LinkedHashSet<Object>();
         Object[] tanks = (Object[]) ITankContainer_getTanks.invoke(container);
         if (tanks != null) {
             for (Object tank : tanks) {
                 if (tank != null) {
-                    ret.add(tank);
+                    tankObjs.add(tank);
                 }
             }
         }
+
+        // ...then we "translate" to LiquidData
+        List<LiquidData> ret = new LinkedList<LiquidData>();
+        for (Object tank : tankObjs) {
+            ret.add(toLiquidData(tank));
+        }
         return ret;
+    }
+
+    public static LiquidData toLiquidData(Object tank) throws Throwable {
+        if (tank instanceof LiquidData) return (LiquidData) tank;
+        if (ILiquidTank != null && ILiquidTank.isInstance(tank)) {
+            Object stack = ILiquidTank_getLiquid.invoke(tank);
+            int id = stack != null ? LiquidStack_itemID.getInt(stack) : TTRenderLiquidBar.EMPTY_LIQUID;
+            int amount = stack != null ? LiquidStack_amount.getInt(stack) : 0;
+            int meta = stack != null ? LiquidStack_itemMeta.getInt(stack) : 0;
+            int capacity = (Integer) ILiquidTank_getCapacity.invoke(tank);
+            return new LiquidData(id, amount, meta, capacity);
+        }
+        return null;
     }
 
     public static List<LiquidData> readLiquidData(NBTTagList tags) {
@@ -113,15 +129,13 @@ public final class LiquidHelper {
     }
 
     public static List<LiquidData> getLiquidData(IDataAccessor accessor, IPluginConfig config) throws Throwable {
-        if (ITankContainer.isInstance(accessor.getTileEntity())) {
-            return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
-        } else if (accessor.getBlock() == Block.cauldron) {
+        if (accessor.getBlock() == Block.cauldron) {
             int meta = accessor.getMetadata();
             return Collections.singletonList(new LiquidData(Block.waterStill.blockID,
                     (int) Math.round(Math.min(3, meta) * 333.3), 0, 1000));
         }
 
-        return Collections.singletonList(new LiquidData(TTRenderLiquidBar.EMPTY_LIQUID, 0, 0, 0));
+        return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
     }
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {

@@ -134,7 +134,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
     @Override
     public void setMaxLineWidth(int width) {
-        maxStringW = width + 2;
+        maxStringW = width;
     }
 
     @Override
@@ -151,8 +151,8 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     public static String create(LiquidData stack) {
         return stack == null ? null :
                 stack.getId() == TTRenderLiquidBar.EMPTY_LIQUID
-                ? createEmpty(stack.getCapacity())
-                : create(stack.getId(), stack.getMeta(),
+                        ? createEmpty(stack.getCapacity())
+                        : create(stack.getId(), stack.getMeta(),
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
                         stack.getAmount(), stack.getCapacity());
     }

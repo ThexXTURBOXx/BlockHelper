@@ -76,6 +76,8 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
 
+        registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+
         if (side.isClient())
             registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
