@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.ITankProvider;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.BlockCauldron;
@@ -137,7 +138,7 @@ public final class BC3Plugin implements IWailaPlugin {
         }
 
         try {
-            registrar.registerTankProvider(UniDirectionalTankFixer.singleTank(ForgeDirection.UNKNOWN.ordinal()),
+            registrar.registerTankProvider(ITankProvider.UniDirectionalTankFixer.singleTank(ForgeDirection.UNKNOWN.ordinal()),
                     AccessHelper.getClass("buildcraft.transport.TileGenericPipe"));
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing pipe tanks.", t);

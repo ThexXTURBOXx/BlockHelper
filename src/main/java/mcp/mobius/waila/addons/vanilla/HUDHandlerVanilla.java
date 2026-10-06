@@ -139,7 +139,7 @@ public final class HUDHandlerVanilla implements IDataProvider {
         if (block == silverfish && !config.get("vanilla.silverfish")) {
             int newId = meta == 1 ? Block.cobblestone.blockID
                     : meta == 2 ? Block.stoneBrick.blockID
-                      : Block.stone.blockID;
+                    : Block.stone.blockID;
             currenttip.replaceFirstTagEntry(HUDHandlerBlocks.formatId(newId, 0), HUDHandlerBlocks.BLOCK_ID_TAG);
         }
 
