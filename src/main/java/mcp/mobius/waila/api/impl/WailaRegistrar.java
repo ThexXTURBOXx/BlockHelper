@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.ICropProvider;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
-import mcp.mobius.waila.api.ITankProvider;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.src.Block;
@@ -50,9 +49,6 @@ public class WailaRegistrar implements IRegistrar {
 
     public final Map<Class<?>, List<ICropProvider>> cropProviders =
             new LinkedHashMap<Class<?>, List<ICropProvider>>();
-
-    public final Map<Class<?>, List<ITankProvider>> tankProviders =
-            new LinkedHashMap<Class<?>, List<ITankProvider>>();
 
     public final Map<String, ITooltipRenderer> tooltipRenderers =
             new LinkedHashMap<String, ITooltipRenderer>();
@@ -173,11 +169,6 @@ public class WailaRegistrar implements IRegistrar {
         this.registerProvider(cropProvider, block, this.cropProviders);
     }
 
-    @Override
-    public void registerTankProvider(ITankProvider tankProvider, Class<?> object) {
-        this.registerProvider(tankProvider, object, this.tankProviders);
-    }
-
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
         if (clazz == null || dataProvider == null)
             throw new RuntimeException(String.format(
@@ -257,10 +248,6 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(block, this.cropProviders);
     }
 
-    public Map<Integer, List<ITankProvider>> getTankProviders(Object object) {
-        return getProviders(object, this.tankProviders);
-    }
-
     public ITooltipRenderer getTooltipRenderer(String name) {
         return this.tooltipRenderers.get(name);
     }
@@ -330,10 +317,6 @@ public class WailaRegistrar implements IRegistrar {
 
     public boolean hasCropProviders(Object block) {
         return hasProviders(block, this.cropProviders);
-    }
-
-    public boolean hasTankProviders(Object object) {
-        return hasProviders(object, this.tankProviders);
     }
 
     private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {
