@@ -4,8 +4,8 @@ import cpw.mods.fml.common.Side;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
-import mcp.mobius.waila.addons.forge.UniDirectionalTankFixer;
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.ITankProvider;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.mod_BlockHelper;
@@ -75,14 +75,14 @@ public final class BC3Plugin implements IWailaPlugin {
         }
 
         try {
-            registrar.registerTankProvider(UniDirectionalTankFixer.withDirectionOverride(ForgeDirection.UNKNOWN),
+            registrar.registerTankProvider(ITankProvider.UNIDIRECTIONAL,
                     AccessHelper.getClass("buildcraft.factory.TileTank"));
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing tanks.", t);
         }
 
         try {
-            registrar.registerTankProvider(UniDirectionalTankFixer.withDirectionOverrideSingleTank(
+            registrar.registerTankProvider(ITankProvider.UniDirectionalTankFixer.withDirectionOverrideSingleTank(
                             ForgeDirection.UNKNOWN, ForgeDirection.UNKNOWN.ordinal()),
                     AccessHelper.getClass("buildcraft.transport.TileGenericPipe"));
         } catch (Throwable t) {

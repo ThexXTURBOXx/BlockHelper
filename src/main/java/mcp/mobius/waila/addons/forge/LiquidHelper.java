@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.forge;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
@@ -34,14 +35,14 @@ public final class LiquidHelper {
     }
 
     public static void writeToNBT(ITankContainer container, NBTTagCompound tag) {
-        List<ILiquidTank> tanks = new ArrayList<ILiquidTank>();
+        List<LiquidData> tanks = new ArrayList<LiquidData>();
 
         if (WailaRegistrar.instance().hasTankProviders(container)) {
             bigLoop:
             for (List<ITankProvider> providersList :
                     WailaRegistrar.instance().getTankProviders(container).values()) {
                 for (ITankProvider provider : providersList) {
-                    List<ILiquidTank> provided = provider.getTanks(
+                    List<LiquidData> provided = provider.getTanks(
                             container, ServerDataAccessorCommon.INSTANCE, PluginConfig.instance());
                     if (provided == null) {
                         tanks = null;
@@ -54,18 +55,18 @@ public final class LiquidHelper {
         }
 
         if (tanks == null)
-            tanks = new ArrayList<ILiquidTank>();
+            tanks = new ArrayList<LiquidData>();
         else if (tanks.isEmpty())
             tanks.addAll(getTanksNaively(container));
         NBTTagList tags = new NBTTagList();
-        for (ILiquidTank tank : tanks) {
-            tags.appendTag(new LiquidData(tank.getLiquid(), tank.getCapacity()).toNBT());
-        }
+        for (LiquidData tank : tanks)
+            if (tank != null) tags.appendTag(tank.toNBT());
         tag.setTag("WailaTanks", tags);
     }
 
-    public static Set<ILiquidTank> getTanksNaively(ITankContainer container) {
-        Set<ILiquidTank> ret = new LinkedHashSet<ILiquidTank>();
+    public static List<LiquidData> getTanksNaively(ITankContainer container) {
+        // First, we collect the tanks...
+        Set<ILiquidTank> tankObjs = new LinkedHashSet<ILiquidTank>();
         for (ForgeDirection dir : DIRECTIONS) {
             ILiquidTank[] tanks = container.getTanks(dir);
             if (tanks != null) {
@@ -80,12 +81,24 @@ public final class LiquidHelper {
                             WailaExceptionHandler.handleErr(t, "[Forge] Error trying to access a tank for display!",
                                     null);
                         }
-                        ret.add(tank);
+                        tankObjs.add(tank);
                     }
                 }
             }
         }
+
+        // ...then we "translate" to LiquidData
+        List<LiquidData> ret = new LinkedList<LiquidData>();
+        for (ILiquidTank tank : tankObjs) {
+            ret.add(new LiquidData(tank));
+        }
         return ret;
+    }
+
+    public static LiquidData toLiquidData(Object tank) throws Throwable {
+        if (tank instanceof LiquidData) return (LiquidData) tank;
+        if (tank instanceof ILiquidTank) return new LiquidData((ILiquidTank) tank);
+        return null;
     }
 
     public static List<LiquidData> readLiquidData(NBTTagList tags) {
@@ -105,15 +118,13 @@ public final class LiquidHelper {
     }
 
     public static List<LiquidData> getLiquidData(IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getTileEntity() instanceof ITankContainer) {
-            return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
-        } else if (accessor.getBlock() == Block.cauldron) {
+        if (accessor.getBlock() == Block.cauldron) {
             int meta = accessor.getMetadata();
             LiquidStack stack = new LiquidStack(Block.waterStill, (int) Math.round(Math.min(3, meta) * 333.3));
             return Collections.singletonList(new LiquidData(stack, 1000));
         }
 
-        return Collections.singletonList(new LiquidData(null, 0));
+        return readLiquidData(accessor.getNBTData().getTagList("WailaTanks"));
     }
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
