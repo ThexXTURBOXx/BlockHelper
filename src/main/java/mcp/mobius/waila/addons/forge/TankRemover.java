@@ -4,7 +4,7 @@ import java.util.List;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerCommonAccessor;
 import mcp.mobius.waila.api.ITankProvider;
-import net.minecraftforge.liquids.ILiquidTank;
+import mcp.mobius.waila.api.LiquidData;
 import net.minecraftforge.liquids.ITankContainer;
 
 public class TankRemover implements ITankProvider {
@@ -15,7 +15,7 @@ public class TankRemover implements ITankProvider {
     }
 
     @Override
-    public List<ILiquidTank> getTanks(ITankContainer container, IServerCommonAccessor accessor, IPluginConfig config) {
+    public List<LiquidData> getTanks(ITankContainer container, IServerCommonAccessor accessor, IPluginConfig config) {
         return null;
     }
 

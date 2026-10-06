@@ -2,12 +2,17 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
 
 public class LiquidData {
 
     private final LiquidStack liquidStack;
     private final int capacity;
+
+    public LiquidData(ILiquidTank tank) {
+        this(tank.getLiquid(), tank.getCapacity());
+    }
 
     public LiquidData(LiquidStack stack, int capacity) {
         this.liquidStack = stack;

@@ -1,11 +1,12 @@
 package mcp.mobius.waila.addons.forge;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerCommonAccessor;
 import mcp.mobius.waila.api.ITankProvider;
+import mcp.mobius.waila.api.LiquidData;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -35,12 +36,19 @@ public class UniDirectionalTankFixer implements ITankProvider {
     }
 
     @Override
-    public List<ILiquidTank> getTanks(ITankContainer container, IServerCommonAccessor accessor, IPluginConfig config) {
+    public List<LiquidData> getTanks(ITankContainer container, IServerCommonAccessor accessor, IPluginConfig config) {
         ILiquidTank[] tanks = container.getTanks(directionOverride);
         if (tanks == null || tanks.length == 0) return Collections.emptyList();
-        if (extractSingleTank == null) return Arrays.asList(tanks);
+        if (extractSingleTank == null) {
+            List<LiquidData> ret = new ArrayList<LiquidData>();
+            for (ILiquidTank tank : tanks) {
+                ret.add(new LiquidData(tank));
+            }
+            return ret;
+        }
         if (tanks.length <= extractSingleTank) return Collections.emptyList();
-        return Collections.singletonList(tanks[extractSingleTank]);
+        ILiquidTank tank = tanks[extractSingleTank];
+        return Collections.singletonList(new LiquidData(tank));
     }
 
 }
