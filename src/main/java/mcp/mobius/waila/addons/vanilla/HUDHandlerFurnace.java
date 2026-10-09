@@ -47,7 +47,7 @@ public final class HUDHandlerFurnace implements IDataProvider {
             int maxFuelTime = accessor.getNBTInteger("MaxFuel");
             // MaxFuel can be 0 when fuel is empty upon world load. This yields weird behavior here.
             // This new behavior is not much better, but at least prevents division by zero and other issues.
-            if (maxFuelTime == 0) maxFuelTime = fuelTime;
+            if (maxFuelTime <= 0) maxFuelTime = fuelTime;
 
             double smeltProgress = (double) smeltTime / 200;
             double fuelProgress = (double) fuelTime / maxFuelTime;

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.forge;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import mcp.mobius.waila.addons.railcraft.RailcraftPlugin;
@@ -63,7 +64,7 @@ public final class LiquidHelper {
         tag.setTag("WailaTanks", tags);
     }
 
-    public static Set<LiquidData> getTanksNaively(ITankContainer container) {
+    public static List<LiquidData> getTanksNaively(ITankContainer container) {
         // First, we collect the tanks...
         Set<ILiquidTank> tankObjs = new LinkedHashSet<ILiquidTank>();
         for (ForgeDirection dir : DIRECTIONS) {
@@ -87,7 +88,7 @@ public final class LiquidHelper {
         }
 
         // ...then we "translate" to LiquidData
-        Set<LiquidData> ret = new LinkedHashSet<LiquidData>();
+        List<LiquidData> ret = new LinkedList<LiquidData>();
         for (ILiquidTank tank : tankObjs) {
             ret.add(new LiquidData(tank));
         }
