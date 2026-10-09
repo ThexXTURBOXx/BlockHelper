@@ -118,12 +118,12 @@ public final class HUDHandlerVanilla implements IDataProvider {
                 currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
                                 meta == 1 ? "tile.monsterStoneEgg.cobble.name"
                                         : meta == 2 ? "tile.monsterStoneEgg.brick.name"
-                                          : "tile.monsterStoneEgg.stone.name"),
+                                        : "tile.monsterStoneEgg.stone.name"),
                         HUDHandlerBlocks.BLOCK_NAME_TAG);
             } else {
                 int newId = meta == 1 ? Block.cobblestone.blockID
                         : meta == 2 ? Block.field_35285_bn.blockID
-                          : Block.stone.blockID;
+                        : Block.stone.blockID;
                 currenttip.replaceFirstTagEntry(HUDHandlerBlocks.formatId(newId, 0), HUDHandlerBlocks.BLOCK_ID_TAG);
             }
         }
@@ -162,8 +162,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
                             meta == 0 ? "tile.tallgrass.shrub.name"
                                     : meta == 1 ? "tile.tallgrass.grass.name"
-                                      : meta == 2 ? "tile.tallgrass.fern.name"
-                                        : "tile.tallgrass.name"),
+                                    : meta == 2 ? "tile.tallgrass.fern.name"
+                                    : "tile.tallgrass.name"),
                     HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 
