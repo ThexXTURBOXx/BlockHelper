@@ -27,4 +27,7 @@ public interface IRegistrar {
     /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
     void registerNBTProvider(IEntityProvider dataProvider, Class<?> entity);
 
+    /* Register a tank info provider for the given object */
+    void registerTankProvider(ITankProvider tankProvider, Class<?> object);
+
 }
