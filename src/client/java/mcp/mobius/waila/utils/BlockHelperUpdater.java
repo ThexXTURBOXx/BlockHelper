@@ -16,7 +16,7 @@ public class BlockHelperUpdater implements Runnable {
     private static final String JSON_URL = "https://raw.githubusercontent.com/"
                                            + "ThexXTURBOXx/UpdateJSONs/master/block-helper.csv";
 
-    public boolean notify = false;
+    public boolean check = false;
     private volatile Status status = Status.NOT_STARTED;
     private String latestVersion = "";
 
@@ -25,6 +25,8 @@ public class BlockHelperUpdater implements Runnable {
      */
     @Override
     public void run() {
+        if (!check) return;
+
         try {
             // Fix older versions of Java
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
@@ -78,7 +80,8 @@ public class BlockHelperUpdater implements Runnable {
     }
 
     public void notifyUpdater(Minecraft mc) {
-        if (!notify) return;
+        if (!check) return;
+
         if (status == Status.ERRORED)
             mc.thePlayer.addChatMessage(I18n.translate("waila.update_check_failed_chat",
                     mod_BlockHelper.NAME));

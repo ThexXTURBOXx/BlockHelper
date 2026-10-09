@@ -1,12 +1,12 @@
 package mcp.mobius.waila.addons.bc2;
 
-import mcp.mobius.waila.addons.bc2.LiquidHelper.LiquidData;
 import mcp.mobius.waila.addons.core.HUDHandlerBlocks;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataAccessor;
 import mcp.mobius.waila.api.ITaggedList;
+import mcp.mobius.waila.api.LiquidData;
 import mcp.mobius.waila.api.Replacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.I18n;
@@ -35,13 +35,14 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             if (config.get("bc.tanktype") && !config.get("bcapi.liquidbars")) {
-                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-
-                if (data.getCapacity() > 0) {
-                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
-                                    ? I18n.translate("hud.msg.empty")
-                                    : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"))),
-                            HUDHandlerBlocks.BLOCK_NAME_TAG);
+                for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                    if (data != null && data.getCapacity() > 0) {
+                        currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID
+                                        ? I18n.translate("hud.msg.empty")
+                                        : ("(" + LiquidHelper.findLiquidName(data) + RESET + WHITE + ")"))),
+                                HUDHandlerBlocks.BLOCK_NAME_TAG);
+                        break;
+                    }
                 }
             }
         } catch (Throwable t) {
@@ -54,9 +55,10 @@ public final class HUDHandlerBC2Tanks implements IDataProvider {
                            IDataAccessor accessor, IPluginConfig config) {
         try {
             if (config.get("bc.tankamount")) {
-                LiquidData data = LiquidHelper.getLiquidData(accessor, config);
-                String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
-                if (tip != null) currenttip.add(tip);
+                for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
+                    String tip = LiquidHelper.getLiquidTooltip(data, config.get("bcapi.liquidbars"));
+                    if (tip != null) currenttip.add(tip);
+                }
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, accessor.getTileEntity().getClass(), currenttip);

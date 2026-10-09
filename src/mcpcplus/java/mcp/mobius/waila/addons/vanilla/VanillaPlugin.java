@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import net.minecraft.server.EntityLiving;
+import net.minecraft.server.TileEntityFurnace;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
@@ -29,6 +30,9 @@ public final class VanillaPlugin implements IWailaPlugin {
         registrar.registerNBTProvider(HUDHandlerEntities.INSTANCE, EntityLiving.class);
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
+
+        registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+
         registrar.addSyncedConfig("VanillaMC", "vanilla.silverfish");
         registrar.addSyncedConfig("VanillaMC", "vanilla.jukebox");
         registrar.addSyncedConfig("VanillaMC", "vanilla.noteblock");

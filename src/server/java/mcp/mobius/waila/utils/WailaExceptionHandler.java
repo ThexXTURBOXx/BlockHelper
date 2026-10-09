@@ -7,21 +7,26 @@ import net.minecraft.src.mod_BlockHelper;
 
 public final class WailaExceptionHandler {
 
+    public static boolean printAll = false;
+
+    private static final Set<String> errs = new HashSet<String>();
+
     private WailaExceptionHandler() {
         throw new UnsupportedOperationException();
     }
-
-    private static final Set<String> errs = new HashSet<String>();
 
     public static void handleErr(Throwable t, Class<?> context) {
         handleErr(t, context.getName());
     }
 
     public static void handleErr(Throwable t, String context) {
-        if (errs.add(context)) {
-            Throwable working = t;
+        if (printAll || errs.add(context)) {
+            //Throwable working = t;
 
-            while (working != null) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "Caught unhandled exception [" + context + "]: ", t);
+
+            // I want the full details
+            /*while (working != null) {
                 if (working != t) {
                     mod_BlockHelper.LOG.log(Level.WARNING, "Caused by: " + working);
                 }
@@ -33,9 +38,7 @@ public final class WailaExceptionHandler {
                 }
 
                 working = working.getCause();
-            }
-
-            mod_BlockHelper.LOG.log(Level.WARNING, "Caught unhandled exception: [" + context + "] " + t);
+            }*/
         }
     }
 

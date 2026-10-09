@@ -44,9 +44,7 @@ tasks.register('mcpcplusJar', Jar) {
     from sourceSets.mcpcplus.output
     archiveClassifier.set('mcpcplus')
 }
-artifacts {
-    archives mcpcplusJar
-}
+assemble.dependsOn(mcpcplusJar)
 
 unimined.minecraft(sourceSets.client) {
     version project.mc_version

@@ -59,11 +59,11 @@ public class mod_BlockHelper extends NetworkMod {
         proxy = new ProxyServer();
 
         // PRE INIT
-        new Thread(UPDATER, "Block Helper Version Check").start();
-
         Configuration cfg = new Configuration(new File(FMLCommonHandler.instance().getMinecraftRootDirectory(),
                 "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
+
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         // INIT
         MinecraftForge.registerConnectionHandler(new WailaConnectionHandler());

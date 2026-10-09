@@ -73,11 +73,11 @@ public class mod_BlockHelper extends NetworkMod {
         // PRE INIT
         I18n.INSTANCE.addLangDirFromHost(mod_BlockHelper.class, "/assets/waila/lang");
 
-        new Thread(UPDATER, "Block Helper Version Check").start();
-
         Configuration cfg = new Configuration(new File(Minecraft.getMinecraftDir(), "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
+
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         // INIT
         ForgeHooksClient.renderWorldLastHandlers.add(new DecoratorRenderer());

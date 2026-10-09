@@ -10,6 +10,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.event.WailaEventRegistrar;
 import mcp.mobius.waila.api.event.WailaRegisterEvent;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.src.mod_BlockHelper;
 
 public class PluginConfig implements IPluginConfig {
 
@@ -80,6 +82,9 @@ public class PluginConfig implements IPluginConfig {
     public boolean set(String key, boolean value) {
         Property prop = this.config.getOrCreateBooleanProperty(key, Constants.CATEGORY_MODULES, value);
         prop.value = Boolean.toString(value);
+
+        mod_BlockHelper.UPDATER.check = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_UPDATE_CHECK, true);
+        WailaExceptionHandler.printAll = get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_PRINT_ALL_ERRS, false);
 
         this.config.save();
         return true;
