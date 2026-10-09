@@ -56,8 +56,6 @@ public class mod_BlockHelper extends BaseModMp {
         proxy = new ProxyServer();
 
         // PRE INIT
-        new Thread(UPDATER, "Block Helper Version Check").start();
-
         File cfgdir;
         try {
             String supdir = ModLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -68,6 +66,8 @@ public class mod_BlockHelper extends BaseModMp {
         }
         Configuration cfg = new Configuration(new File(cfgdir, "BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
+
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         // INIT
 
