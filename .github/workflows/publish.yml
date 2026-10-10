@@ -16,7 +16,7 @@ env:
     1.1
   LOADERS_CF: |
     forge
-    risugamis-modloader
+    risugami's modloader
   LOADERS_MR: |
     forge
     modloader
