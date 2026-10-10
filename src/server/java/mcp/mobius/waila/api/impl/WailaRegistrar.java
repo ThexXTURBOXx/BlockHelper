@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityProvider;
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.ITankProvider;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.src.Entity;
 
@@ -20,6 +21,9 @@ public class WailaRegistrar implements IRegistrar {
 
     public final Map<Class<?>, List<IEntityProvider>> NBTEntityProviders =
             new LinkedHashMap<Class<?>, List<IEntityProvider>>();
+
+    public final Map<Class<?>, List<ITankProvider>> tankProviders =
+            new LinkedHashMap<Class<?>, List<ITankProvider>>();
 
     private WailaRegistrar() {
         instance = this;
@@ -52,10 +56,15 @@ public class WailaRegistrar implements IRegistrar {
         this.registerProvider(dataProvider, entity, this.NBTEntityProviders);
     }
 
+    @Override
+    public void registerTankProvider(ITankProvider tankProvider, Class<?> object) {
+        this.registerProvider(tankProvider, object, this.tankProviders);
+    }
+
     private <T, V> void registerProvider(T dataProvider, V clazz, Map<V, List<T>> target) {
         if (clazz == null || dataProvider == null)
             throw new RuntimeException(String.format(
-                    "Trying to register a null provider or null block! Please check the stacktrace to know what " +
+                    "Trying to register a null provider or null object! Please check the stacktrace to know what " +
                     "was the original registration method. [Provider: %s, Target: %s]",
                     dataProvider == null ? "null" : dataProvider.getClass().getName(), clazz));
 
@@ -64,7 +73,7 @@ public class WailaRegistrar implements IRegistrar {
 
         List<T> providers = target.get(clazz);
         if (!providers.contains(dataProvider))
-            target.get(clazz).add(dataProvider);
+            providers.add(dataProvider);
     }
 
     /* PROVIDER GETTERS */
@@ -74,6 +83,10 @@ public class WailaRegistrar implements IRegistrar {
 
     public Map<Integer, List<IEntityProvider>> getNBTEntityProviders(Object entity) {
         return getProviders(entity, this.NBTEntityProviders);
+    }
+
+    public Map<Integer, List<ITankProvider>> getTankProviders(Object object) {
+        return getProviders(object, this.tankProviders);
     }
 
     private <V, T> Map<Integer, List<T>> getProviders(V obj, Map<Class<? extends V>, List<T>> target) {
@@ -96,6 +109,10 @@ public class WailaRegistrar implements IRegistrar {
 
     public boolean hasNBTEntityProviders(Entity entity) {
         return hasProviders(entity, this.NBTEntityProviders);
+    }
+
+    public boolean hasTankProviders(Object object) {
+        return hasProviders(object, this.tankProviders);
     }
 
     private <V, T> boolean hasProviders(Object obj, Map<Class<? extends V>, List<T>> target) {
