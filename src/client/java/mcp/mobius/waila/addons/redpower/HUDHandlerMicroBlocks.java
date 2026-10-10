@@ -22,10 +22,10 @@ import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.RedPowerWiring_blo
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCover;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileCoverable_getCoverMask;
-import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_getBlockID;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileExtended_getExtendedID;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_Rotation;
+import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileLogic_getBlockID;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_CenterPost;
 import static mcp.mobius.waila.addons.redpower.RedPowerPlugin.TileWiring_ConSides;
