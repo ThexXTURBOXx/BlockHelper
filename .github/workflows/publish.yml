@@ -16,7 +16,7 @@ env:
     b1.6.5
     b1.6.6
   LOADERS_CF: |
-    risugamis-modloader
+    risugami's modloader
   LOADERS_MR: |
     modloader
   MC_VERSION: 'b1.6.6'
