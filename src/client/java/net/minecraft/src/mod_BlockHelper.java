@@ -65,11 +65,11 @@ public class mod_BlockHelper extends BaseMod {
         I18n.INSTANCE.addDefaultLangFromHost(mod_BlockHelper.class, "/assets/waila/lang");
         I18n.INSTANCE.addDefaultLangFromHost(mod_BlockHelper.class, "/assets/waila/mc_lang");
 
-        new Thread(UPDATER, "Block Helper Version Check").start();
-
         Configuration cfg = new Configuration(new File(Minecraft.getMinecraftDir(), "config/BlockHelper.cfg"));
         PluginConfig.instance().loadDefaultConfig(cfg);
         OverlayConfig.updateColors();
+
+        new Thread(UPDATER, "Block Helper Version Check").start();
 
         // INIT
         configKeyHandler = new ConfigKeyHandler();

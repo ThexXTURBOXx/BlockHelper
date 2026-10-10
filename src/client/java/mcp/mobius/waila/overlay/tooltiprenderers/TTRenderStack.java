@@ -22,19 +22,21 @@ public class TTRenderStack implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(String[] params, ICommonAccessor accessor) {
-        int w = params.length > 5 ? Integer.parseInt(params[4]) : DEFAULT_W;
-        int h = params.length > 5 ? Integer.parseInt(params[5]) : DEFAULT_H;
+        int w = params.length > 4 ? Integer.parseInt(params[4]) : DEFAULT_W;
+        int h = params.length > 5 ? Integer.parseInt(params[5]) :
+                params.length > 4 ? w : DEFAULT_H;
         return new Dimension(w, h);
     }
 
     @Override
     public void draw(String[] params, ICommonAccessor accessor, int x, int y) {
-        int type = Integer.parseInt(params[0]); //0 for block, 1 for item
+        int type = Integer.parseInt(params[0]); // 0 for block, 1 for item
         int id = Integer.parseInt(params[1]);
-        int amount = Integer.parseInt(params[2]);
-        int meta = Integer.parseInt(params[3]);
-        int w = params.length > 5 ? Integer.parseInt(params[4]) : DEFAULT_W;
-        int h = params.length > 5 ? Integer.parseInt(params[5]) : DEFAULT_H;
+        int amount = params.length > 2 ? Integer.parseInt(params[2]) : 1;
+        int meta = params.length > 3 ? Integer.parseInt(params[3]) : 0;
+        int w = params.length > 4 ? Integer.parseInt(params[4]) : DEFAULT_W;
+        int h = params.length > 5 ? Integer.parseInt(params[5]) :
+                params.length > 4 ? w : DEFAULT_H;
 
         ItemStack stack = null;
         if (id > 0) {
@@ -45,11 +47,14 @@ public class TTRenderStack implements ITooltipRenderer {
         }
 
         if (w != DEFAULT_W || h != DEFAULT_H) {
+            double scaleW = (double) w / DEFAULT_W;
+            double scaleH = (double) h / DEFAULT_H;
+
             GL11.glPushMatrix();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glScaled((double) w / DEFAULT_W, (double) h / DEFAULT_H, 1.0f);
+            GL11.glScaled(scaleW, scaleH, 1.0f);
 
-            DisplayUtil.renderStack(0, 0, stack);
+            DisplayUtil.renderStack((int) (x / scaleW), (int) (y / scaleH), stack);
 
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             GL11.glPopMatrix();

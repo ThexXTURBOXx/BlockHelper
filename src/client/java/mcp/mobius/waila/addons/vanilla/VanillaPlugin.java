@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.vanilla;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
 import mcp.mobius.waila.addons.core.DefaultCropProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -16,6 +17,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemRecord;
 import net.minecraft.src.TileEntityFurnace;
+import net.minecraft.src.mod_BlockHelper;
 
 public final class VanillaPlugin implements IWailaPlugin {
 
@@ -29,6 +31,8 @@ public final class VanillaPlugin implements IWailaPlugin {
     static Block sugarCane = Block.reed;
 
     static Field ItemRecord_recordName;
+
+    static Field TileFurnace_currentItemBurnTime;
 
     private VanillaPlugin() {
     }
@@ -60,9 +64,18 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
 
-        registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
+        try {
+            TileFurnace_currentItemBurnTime = AccessHelper.getDeclaredField(TileEntityFurnace.class,
+                    "currentItemBurnTime", "c");
 
-        registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+            registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
+
+            registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+
+            registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+        } catch (Throwable t) {
+            mod_BlockHelper.LOG.log(Level.WARNING, "[Vanilla] Error while loading Furnace hooks.", t);
+        }
 
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockCrops.class);
 
