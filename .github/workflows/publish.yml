@@ -42,7 +42,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: 'jdkfile'
-          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          jdk-file: ${{ runner.temp }}/java_package.tar.gz
           java-version: '1.6'
           architecture: x64
           mvn-toolchain-vendor: 'Oracle'
