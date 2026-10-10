@@ -99,7 +99,7 @@ jobs:
           changelog: |
             Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
           loaders: ${{ env.LOADERS_MR }}
-          environments: client | server
+          environment: client | server
           game-versions: ${{ env.GAME_VERSIONS_MR }}
           game-version-filter: any
           java: |
@@ -121,7 +121,7 @@ jobs:
           changelog: |
             Full changelog can be found on [GitHub](https://github.com/ThexXTURBOXx/BlockHelper/releases)
           loaders: ${{ env.LOADERS_CF }}
-          environments: client | server
+          environment: client | server
           game-versions: ${{ env.GAME_VERSIONS_CF }}
           game-version-filter: any
           java: |
