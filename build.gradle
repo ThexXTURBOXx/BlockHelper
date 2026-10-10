@@ -44,9 +44,7 @@ tasks.register('bukkitJar', Jar) {
     from sourceSets.bukkit.output
     archiveClassifier.set('bukkit')
 }
-artifacts {
-    archives bukkitJar
-}
+assemble.dependsOn(bukkitJar)
 
 unimined.minecraft(sourceSets.client) {
     version project.mc_version

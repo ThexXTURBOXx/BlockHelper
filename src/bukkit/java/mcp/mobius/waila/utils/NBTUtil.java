@@ -10,6 +10,7 @@ import java.util.Map;
 import net.minecraft.server.CompressedStreamTools;
 import net.minecraft.server.NBTBase;
 import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.NBTTagList;
 
 public final class NBTUtil {
 
@@ -85,16 +86,30 @@ public final class NBTUtil {
         try {
             if (nbt instanceof NBTTagCompound) {
                 NBTTagCompound tag = (NBTTagCompound) nbt;
-                StringBuilder sb = new StringBuilder(tag.b() + ":[");
+                StringBuilder sb = new StringBuilder("{");
+                boolean first = true;
                 for (Map.Entry<String, NBTBase> e : ((Map<String, NBTBase>) tagMap.get(tag)).entrySet()) {
-                    sb.append(e.getKey()).append(":").append(toString(e.getValue())).append(",");
+                    if (first) first = false;
+                    else sb.append(",");
+                    sb.append(e.getKey()).append(":").append(toString(e.getValue()));
+                }
+                return sb + "}";
+            }
+            if (nbt instanceof NBTTagList) {
+                NBTTagList list = (NBTTagList) nbt;
+                StringBuilder sb = new StringBuilder("[");
+                boolean first = true;
+                for (int i = 0; i < list.c(); ++i) {
+                    if (first) first = false;
+                    else sb.append(",");
+                    sb.append(toString(list.a(i)));
                 }
                 return sb + "]";
             }
         } catch (Throwable t) {
             WailaExceptionHandler.handleErr(t, "NBTUtil#toString");
         }
-        return nbt.toString();
+        return String.valueOf(nbt);
     }
 
 }

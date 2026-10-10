@@ -116,8 +116,8 @@ public final class HUDHandlerVanilla implements IDataProvider {
             currenttip.replaceFirstTagEntry(WHITE + I18n.translate(
                             meta == 0 ? "tile.tallgrass.shrub.name"
                                     : meta == 1 ? "tile.tallgrass.grass.name"
-                                      : meta == 2 ? "tile.tallgrass.fern.name"
-                                        : "tile.tallgrass.name"),
+                                    : meta == 2 ? "tile.tallgrass.fern.name"
+                                    : "tile.tallgrass.name"),
                     HUDHandlerBlocks.BLOCK_NAME_TAG);
     }
 

@@ -60,6 +60,8 @@ public final class VanillaPlugin implements IWailaPlugin {
 
         registrar.addSyncedConfig("VanillaMC", "vanilla.furnace");
 
+        registrar.registerNBTProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+
         registrar.registerBodyProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
 
         registrar.registerCropProvider(new DefaultCropProvider(7), BlockCrops.class);
