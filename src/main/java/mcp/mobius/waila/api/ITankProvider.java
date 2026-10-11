@@ -138,7 +138,7 @@ public interface ITankProvider {
         public List<LiquidData> getTanks(Object container, IServerCommonAccessor accessor, IPluginConfig config) {
             try {
                 if (BC3Plugin.ITankContainer != null && BC3Plugin.ITankContainer_getTanks != null &&
-                    BC3Plugin.ITankContainer.isInstance(BC3Plugin.ITankContainer)) {
+                    BC3Plugin.ITankContainer.isInstance(container)) {
                     Object[] tanks = (Object[]) BC3Plugin.ITankContainer_getTanks.invoke(container);
                     if (tanks == null || tanks.length == 0) return Collections.emptyList();
                     if (tanks.length <= extractSingleTank) return Collections.emptyList();
