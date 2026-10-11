@@ -27,14 +27,29 @@ public class LiquidData {
         return capacity;
     }
 
+    public LiquidData add(LiquidData that) {
+        if (!isSameLiquid(that)) return null;
+
+        LiquidStack thisStack = getLiquidStack();
+        LiquidStack thatStack = that.getLiquidStack();
+        if (thisStack == null) return new LiquidData(null, getCapacity() + that.getCapacity());
+
+        LiquidStack copy = thisStack.copy();
+        copy.amount += thatStack.amount;
+        return new LiquidData(copy, getCapacity() + that.getCapacity());
+    }
+
+    public boolean isSameLiquid(LiquidData that) {
+        LiquidStack thisStack = getLiquidStack();
+        LiquidStack thatStack = that.getLiquidStack();
+        return thisStack == thatStack || (thisStack != null && thisStack.isLiquidEqual(thatStack));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof LiquidData)) return false;
         LiquidData that = (LiquidData) o;
-        LiquidStack thisStack = getLiquidStack();
-        LiquidStack thatStack = that.getLiquidStack();
-        return getCapacity() == that.getCapacity() &&
-               (thisStack == thatStack || (thisStack != null && thisStack.equals(thatStack)));
+        return getCapacity() == that.getCapacity() && isSameLiquid(that);
     }
 
     @Override
