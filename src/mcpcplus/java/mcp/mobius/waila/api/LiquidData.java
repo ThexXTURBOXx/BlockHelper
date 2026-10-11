@@ -40,12 +40,21 @@ public class LiquidData {
         return new ItemStack(id, 1, meta);
     }
 
+    public LiquidData add(LiquidData that) {
+        if (!isSameLiquid(that)) return null;
+        return new LiquidData(getId(), getAmount() + that.getAmount(), getMeta(),
+                getCapacity() + that.getCapacity());
+    }
+
+    public boolean isSameLiquid(LiquidData that) {
+        return getId() == that.getId() && getMeta() == that.getMeta();
+    }
+
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof LiquidData)) return false;
-        LiquidData that = (LiquidData) object;
-        return getId() == that.getId() && getAmount() == that.getAmount() &&
-               getMeta() == that.getMeta() && getCapacity() == that.getCapacity();
+    public boolean equals(Object o) {
+        if (!(o instanceof LiquidData)) return false;
+        LiquidData that = (LiquidData) o;
+        return getCapacity() == that.getCapacity() && isSameLiquid(that);
     }
 
     @Override
