@@ -11,7 +11,6 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.BlockCauldron;
 import net.minecraft.src.mod_BlockHelper;
-import net.minecraftforge.common.ForgeDirection;
 
 public final class BC3Plugin implements IWailaPlugin {
 
@@ -138,7 +137,7 @@ public final class BC3Plugin implements IWailaPlugin {
         }
 
         try {
-            registrar.registerTankProvider(ITankProvider.UniDirectionalTankFixer.singleTank(ForgeDirection.UNKNOWN.ordinal()),
+            registrar.registerTankProvider(ITankProvider.CONTRACTING_ACCUMULATOR,
                     AccessHelper.getClass("buildcraft.transport.TileGenericPipe"));
         } catch (Throwable t) {
             mod_BlockHelper.LOG.log(Level.WARNING, "[BC3] Error while fixing pipe tanks.", t);
