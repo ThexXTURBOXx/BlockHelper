@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import forge.ForgeHooksClient;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
 import mcp.mobius.waila.api.LiquidData;
@@ -18,13 +17,14 @@ import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 
+import static mcp.mobius.waila.api.LiquidData.EMPTY_LIQUID;
+
 /**
  * Custom renderer for fancy liquid bars.
  * Syntax: {waila.liquid, liquidId, liquidMeta, localizedName, amount, capacity}
  */
 public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
-    public static final int EMPTY_LIQUID = -1;
     public static final String GRADIENT_TEXTURE = "/assets/waila/textures/gradient.png";
 
     private static final int height = 12;
@@ -70,12 +70,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             float minV = (index / 16 * 16) / 256.0F;
             float maxV = (index / 16 * 16 + 16) / 256.0F;
 
-            String tex = is.itemID < 256 ? "/terrain.png" : "/gui/items.png";
-            try {
-                tex = ForgeHooksClient.getTexture(is.itemID < 256 ? "/terrain.png" : "/gui/items.png", is.getItem());
-            } catch (Throwable ignored) {
-            }
-            mc.renderEngine.bindTexture(mc.renderEngine.getTexture(tex));
+            mc.renderEngine.bindTexture(mc.renderEngine.getTexture(DisplayUtil.getTextureFile(is)));
 
             bindColor(data);
 
@@ -157,7 +152,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
     public static String create(LiquidData stack) {
         return stack == null ? null :
-                stack.getId() == TTRenderLiquidBar.EMPTY_LIQUID
+                stack.isEmpty()
                         ? createEmpty(stack.getCapacity())
                         : create(stack.getId(), stack.getMeta(),
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
@@ -165,7 +160,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     }
 
     public static String createEmpty(int capacity) {
-        return create(TTRenderLiquidBar.EMPTY_LIQUID, 0, "", 0, capacity);
+        return create(EMPTY_LIQUID, 0, "", 0, capacity);
     }
 
 }
