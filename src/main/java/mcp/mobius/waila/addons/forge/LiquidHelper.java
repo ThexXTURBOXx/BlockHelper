@@ -129,8 +129,8 @@ public final class LiquidHelper {
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
         if (data.getCapacity() > 0) {
-            LiquidStack stack = data.getLiquidStack();
-            if (stack != null) {
+            if (!data.isEmpty()) {
+                LiquidStack stack = data.getLiquidStack();
                 return bar
                         ? TTRenderLiquidBar.create(stack, data.getCapacity())
                         : (stack.amount + "/" + data.getCapacity() + " mB");

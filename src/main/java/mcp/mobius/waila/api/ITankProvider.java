@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import mcp.mobius.waila.addons.forge.LiquidHelper;
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.ITankContainer;
@@ -83,8 +82,7 @@ public interface ITankProvider {
             int emptyCapacity = 0;
             for (LiquidData data : LiquidHelper.getTanksNaively(container)) {
                 if (data != null) {
-                    if (data.getLiquidStack() == null ||
-                        data.getLiquidStack().itemID == TTRenderLiquidBar.EMPTY_LIQUID) {
+                    if (data.isEmpty()) {
                         emptyCapacity += data.getCapacity();
                         continue;
                     }
