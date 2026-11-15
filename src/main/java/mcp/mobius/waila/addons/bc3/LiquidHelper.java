@@ -103,7 +103,7 @@ public final class LiquidHelper {
         if (tank instanceof LiquidData) return (LiquidData) tank;
         if (ILiquidTank != null && ILiquidTank.isInstance(tank)) {
             Object stack = ILiquidTank_getLiquid.invoke(tank);
-            int id = stack != null ? LiquidStack_itemID.getInt(stack) : TTRenderLiquidBar.EMPTY_LIQUID;
+            int id = stack != null ? LiquidStack_itemID.getInt(stack) : LiquidData.EMPTY_LIQUID;
             int amount = stack != null ? LiquidStack_amount.getInt(stack) : 0;
             int meta = stack != null ? LiquidStack_itemMeta.getInt(stack) : 0;
             int capacity = (Integer) ILiquidTank_getCapacity.invoke(tank);
@@ -140,7 +140,7 @@ public final class LiquidHelper {
 
     public static String getLiquidTooltip(LiquidData data, boolean bar) {
         if (data.getCapacity() > 0) {
-            if (data.getId() != TTRenderLiquidBar.EMPTY_LIQUID) {
+            if (!data.isEmpty()) {
                 return bar
                         ? TTRenderLiquidBar.create(data)
                         : (data.getAmount() + "/" + data.getCapacity() + " mB");
