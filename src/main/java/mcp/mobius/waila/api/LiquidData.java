@@ -1,11 +1,14 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.utils.NBTUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
 
 public class LiquidData {
+
+    public static final int EMPTY_LIQUID = -1;
 
     private final LiquidStack liquidStack;
     private final int capacity;
@@ -37,6 +40,14 @@ public class LiquidData {
         LiquidStack copy = thisStack.copy();
         copy.amount += thatStack.amount;
         return new LiquidData(copy, getCapacity() + that.getCapacity());
+    }
+
+    public ItemStack getItemStack() {
+        return isEmpty() ? null : getLiquidStack().asItemStack();
+    }
+
+    public boolean isEmpty() {
+        return getLiquidStack() == null || getLiquidStack().itemID == EMPTY_LIQUID;
     }
 
     public boolean isSameLiquid(LiquidData that) {

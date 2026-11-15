@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.liquids.ITankContainer;
-import net.minecraftforge.liquids.LiquidStack;
 
 import static mcp.mobius.waila.api.SpecialChars.RESET;
 import static mcp.mobius.waila.api.SpecialChars.WHITE;
@@ -42,10 +41,9 @@ public final class HUDHandlerEntityForgeTanks implements IEntityProvider {
         if (config.get("forge.tanktype") && !config.get("forge.liquidbars")) {
             for (LiquidData data : LiquidHelper.getLiquidData(accessor, config)) {
                 if (data != null && data.getCapacity() > 0) {
-                    LiquidStack stack = data.getLiquidStack();
-                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (stack == null
+                    currenttip.replaceFirstTagEntry(new Replacer.Appender(" " + (data.isEmpty()
                                     ? I18n.translate("hud.msg.empty")
-                                    : ("(" + DisplayUtil.itemDisplayNameShort(stack.asItemStack()) +
+                                    : ("(" + DisplayUtil.itemDisplayNameShort(data.getItemStack()) +
                                        RESET + WHITE + ")"))),
                             HUDHandlerEntities.ENTITY_NAME_TAG);
                     break;
