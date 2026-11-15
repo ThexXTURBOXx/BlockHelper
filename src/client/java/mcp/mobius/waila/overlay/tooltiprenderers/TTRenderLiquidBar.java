@@ -1,6 +1,5 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import java.lang.reflect.Method;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IVariableWidthTooltipRenderer;
 import mcp.mobius.waila.api.LiquidData;
@@ -8,17 +7,17 @@ import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.PluginConfig;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.I18n;
 import mcp.mobius.waila.utils.NumberFormatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
+
+import static mcp.mobius.waila.api.LiquidData.EMPTY_LIQUID;
 
 /**
  * Custom renderer for fancy liquid bars.
@@ -26,27 +25,11 @@ import org.lwjgl.util.Dimension;
  */
 public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
-    public static final int EMPTY_LIQUID = -1;
     public static final String GRADIENT_TEXTURE = "/assets/waila/textures/gradient.png";
 
     private static final int height = 12;
 
     private int maxStringW;
-
-    private static final boolean LOADED_FORGE_HOOKS;
-    private static Class<?> ITextureProvider;
-    private static Method ITextureProvider_getTextureFile;
-
-    static {
-        boolean loaded = false;
-        try {
-            ITextureProvider = AccessHelper.getClass("forge.ITextureProvider");
-            ITextureProvider_getTextureFile = AccessHelper.getMethod(ITextureProvider, new Class[0], "getTextureFile");
-            loaded = true;
-        } catch (Throwable ignored) {
-        }
-        LOADED_FORGE_HOOKS = loaded;
-    }
 
     public void bindColor(LiquidData liquidData) {
         GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -87,17 +70,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
             float minV = (index / 16 * 16) / 256.0F;
             float maxV = (index / 16 * 16 + 16) / 256.0F;
 
-            String tex = is.itemID < 256 ? "/terrain.png" : "/gui/items.png";
-            if (LOADED_FORGE_HOOKS) {
-                try {
-                    Item item = is.getItem();
-                    if (ITextureProvider.isInstance(item)) {
-                        tex = (String) ITextureProvider_getTextureFile.invoke(item);
-                    }
-                } catch (Throwable ignored) {
-                }
-            }
-            mc.renderEngine.bindTexture(mc.renderEngine.getTexture(tex));
+            mc.renderEngine.bindTexture(mc.renderEngine.getTexture(DisplayUtil.getTextureFile(is)));
 
             bindColor(data);
 
@@ -179,7 +152,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
     public static String create(LiquidData stack) {
         return stack == null ? null :
-                stack.getId() == TTRenderLiquidBar.EMPTY_LIQUID
+                stack.isEmpty()
                         ? createEmpty(stack.getCapacity())
                         : create(stack.getId(), stack.getMeta(),
                         DisplayUtil.itemDisplayNameShort(stack.asItemStack()),
@@ -187,7 +160,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     }
 
     public static String createEmpty(int capacity) {
-        return create(TTRenderLiquidBar.EMPTY_LIQUID, 0, "", 0, capacity);
+        return create(EMPTY_LIQUID, 0, "", 0, capacity);
     }
 
 }
