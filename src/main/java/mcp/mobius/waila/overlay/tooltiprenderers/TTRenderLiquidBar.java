@@ -17,13 +17,14 @@ import net.minecraftforge.liquids.LiquidStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 
+import static mcp.mobius.waila.api.LiquidData.EMPTY_LIQUID;
+
 /**
  * Custom renderer for fancy liquid bars.
  * Syntax: {waila.liquid, liquidId, liquidMeta, localizedName, amount, capacity}
  */
 public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
 
-    public static final int EMPTY_LIQUID = -1;
     public static final String GRADIENT_TEXTURE = "/assets/waila/textures/gradient.png";
 
     private static final int height = 12;
@@ -163,7 +164,7 @@ public class TTRenderLiquidBar implements IVariableWidthTooltipRenderer {
     }
 
     public static String createEmpty(int capacity) {
-        return create(TTRenderLiquidBar.EMPTY_LIQUID, 0, "", 0, capacity);
+        return create(EMPTY_LIQUID, 0, "", 0, capacity);
     }
 
 }
