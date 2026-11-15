@@ -79,7 +79,7 @@ public interface ITankProvider {
                 int emptyCapacity = 0;
                 for (LiquidData data : LiquidHelper.getTanksNaively(container)) {
                     if (data != null) {
-                        if (data.getId() == LiquidData.EMPTY_LIQUID) {
+                        if (data.isEmpty()) {
                             emptyCapacity += data.getCapacity();
                             continue;
                         }

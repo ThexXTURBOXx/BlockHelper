@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import mcp.mobius.waila.addons.bc3.BC3Plugin;
 import mcp.mobius.waila.addons.bc3.LiquidHelper;
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 
 public interface ITankProvider {
@@ -80,7 +79,7 @@ public interface ITankProvider {
                 int emptyCapacity = 0;
                 for (LiquidData data : LiquidHelper.getTanksNaively(container)) {
                     if (data != null) {
-                        if (data.getId() == TTRenderLiquidBar.EMPTY_LIQUID) {
+                        if (data.isEmpty()) {
                             emptyCapacity += data.getCapacity();
                             continue;
                         }
@@ -107,10 +106,10 @@ public interface ITankProvider {
                         ret.set(0, new LiquidData(old.getId(), old.getAmount(), old.getMeta(),
                                 old.getCapacity() + emptyCapacity));
                     } else {
-                        ret.add(new LiquidData(TTRenderLiquidBar.EMPTY_LIQUID, 0, 0, emptyCapacity));
+                        ret.add(new LiquidData(LiquidData.EMPTY_LIQUID, 0, 0, emptyCapacity));
                     }
                 } else {
-                    ret.add(new LiquidData(TTRenderLiquidBar.EMPTY_LIQUID, 0, 0, emptyCapacity));
+                    ret.add(new LiquidData(LiquidData.EMPTY_LIQUID, 0, 0, emptyCapacity));
                 }
             } catch (Throwable t) {
                 WailaExceptionHandler.handleErr(t, container.getClass(), null);
