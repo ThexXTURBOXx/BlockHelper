@@ -1,11 +1,12 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 public class LiquidData {
+
+    public static final int EMPTY_LIQUID = -1;
 
     private final int id;
     private final int amount;
@@ -45,6 +46,10 @@ public class LiquidData {
                 getCapacity() + that.getCapacity());
     }
 
+    public boolean isEmpty() {
+        return getId() == EMPTY_LIQUID;
+    }
+
     public boolean isSameLiquid(LiquidData that) {
         return getId() == that.getId() && getMeta() == that.getMeta();
     }
@@ -65,7 +70,7 @@ public class LiquidData {
     }
 
     public static LiquidData readFromNBT(NBTTagCompound tag) {
-        int id = TTRenderLiquidBar.EMPTY_LIQUID, amount = 0, meta = 0;
+        int id = EMPTY_LIQUID, amount = 0, meta = 0;
         if (tag.hasKey("liquidstack")) {
             NBTTagCompound stackNBT = tag.getCompoundTag("liquidstack");
             id = stackNBT.getShort("Id");

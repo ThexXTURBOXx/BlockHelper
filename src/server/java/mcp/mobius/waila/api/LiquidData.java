@@ -46,6 +46,10 @@ public class LiquidData {
                 getCapacity() + that.getCapacity());
     }
 
+    public boolean isEmpty() {
+        return getId() == EMPTY_LIQUID;
+    }
+
     public boolean isSameLiquid(LiquidData that) {
         return getId() == that.getId() && getMeta() == that.getMeta();
     }
