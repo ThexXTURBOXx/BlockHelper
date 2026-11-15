@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import forge.ForgeHooksClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,8 +9,11 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.Block;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.RenderEngine;
@@ -230,6 +234,17 @@ public final class DisplayUtil {
         int b = (int) (b1 + (b2 - b1) * ratio);
 
         return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    public static String getTextureFile(ItemStack stack) {
+        String tex = stack.itemID < 256 ? "/terrain.png" : "/gui/items.png";
+        Item item = stack.getItem();
+        if (item instanceof ItemBlock) {
+            Block block = Block.blocksList[((ItemBlock) item).getBlockID()];
+            tex = ForgeHooksClient.getTexture(tex, block);
+        }
+        tex = ForgeHooksClient.getTexture(tex, item);
+        return tex;
     }
 
 }
