@@ -23,7 +23,7 @@ public final class ProjectRedPlugin implements IWailaPlugin {
     @Override
     public boolean shouldRegister() {
         try {
-            Class.forName("mrtjp.projectred.ProjectRed");
+            AccessHelper.getClass("mrtjp.projectred.ProjectRed");
             mod_BlockHelper.LOG.log(Level.INFO, "[ProjectRed] Mod found.");
             return true;
         } catch (Throwable t) {
