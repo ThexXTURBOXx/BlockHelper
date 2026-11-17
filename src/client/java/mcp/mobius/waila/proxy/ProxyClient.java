@@ -11,6 +11,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderLiquidBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
+import mcp.mobius.waila.utils.AccessHelper;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_BlockHelper;
 
@@ -47,7 +48,7 @@ public class ProxyClient extends ProxyCommon {
         super.postLoad();
 
         try {
-            Class.forName("io.github.betterthanupdates.apron.stapi.blockhelper.TooltipRegistrar");
+            AccessHelper.getClass("io.github.betterthanupdates.apron.stapi.blockhelper.TooltipRegistrar");
             try {
                 ApronHandler.register();
                 mod_BlockHelper.LOG.info("[Apron] Successfully registered Apron hooks!");
