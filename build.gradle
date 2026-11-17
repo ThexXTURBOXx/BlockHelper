@@ -108,6 +108,7 @@ dependencies {
     clientJarMod "modloadermp:modloadermp:${project.mc_version}:client"
     clientJarMod ":reforged-client-1.0.3"
     clientModImplementation(":FabricStubs-v1")
+    clientModImplementation(":Nilb173Fix-1.0-api")
 
     serverJarMod "modloadermp:modloadermp:${project.mc_version}:server"
 

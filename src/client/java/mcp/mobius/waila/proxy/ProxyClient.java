@@ -2,6 +2,7 @@ package mcp.mobius.waila.proxy;
 
 import java.util.logging.Level;
 import mcp.mobius.waila.addons.apron.ApronHandler;
+import mcp.mobius.waila.addons.nilfix.NilFixHandler;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderEnergyBar;
@@ -55,6 +56,19 @@ public class ProxyClient extends ProxyCommon {
             } catch (Throwable t) {
                 mod_BlockHelper.LOG.log(Level.WARNING,
                         "[Apron] Failed to hook into Apron properly. Mod names not shown in item tooltips.", t);
+            }
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            AccessHelper.getClass("de.femtopedia.nilb173fix.api.TooltipAPI");
+            AccessHelper.getClass("de.femtopedia.nilb173fix.api.TooltipHandler");
+            try {
+                NilFixHandler.register();
+                mod_BlockHelper.LOG.info("[NilFix] Successfully registered NilFix hooks!");
+            } catch (Throwable t) {
+                mod_BlockHelper.LOG.log(Level.WARNING,
+                        "[NilFix] Failed to hook into NilFix properly. Mod names not shown in item tooltips.", t);
             }
         } catch (Throwable ignored) {
         }
